@@ -2,7 +2,7 @@ FROM node:20.11.0-alpine3.19 AS base
 
 WORKDIR /usr/src/app
 
-COPY ./package-lock.json ./apps/vite-client/package.json ./
+COPY ./package-lock.json ./apps/remix/package.json ./
 
 FROM base as dev
 
@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 
 USER node
 
-COPY --chown=node:node ./apps/vite-client ./
+COPY --chown=node:node ./apps/remix ./
 
 CMD ["npm", "run", "dev"]
 
@@ -32,6 +32,6 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 
 USER node
 
-COPY --chown=node:node ./apps/vite-client ./
+COPY --chown=node:node ./apps/remix ./
 
 CMD ["npm", "run", "build"]
