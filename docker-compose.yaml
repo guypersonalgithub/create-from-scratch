@@ -10,8 +10,11 @@ services:
     init: true
     volumes:
       - type: bind
-        source: ./apps/vite-client
+        source: ./apps/vite-client/
         target: /usr/src/app/
+      - type: bind
+        source: ./packages/
+        target: /usr/src/app/packages/
       - type: volume
         target: /usr/src/app/node_modules 
       - type: bind
@@ -34,8 +37,11 @@ services:
     init: true
     volumes: 
       - type: bind
-        source: ./apps/remix
+        source: ./apps/remix/
         target: /usr/src/app/
+      - type: bind
+        source: ./packages/
+        target: /usr/src/app/packages/
       - type: volume
         target: /usr/src/app/node_modules 
     networks: 

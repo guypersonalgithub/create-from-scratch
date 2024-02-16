@@ -1,4 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
+import { testing } from "@packages/test";
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,6 +9,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const response = testing();
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
@@ -36,6 +39,7 @@ export default function Index() {
           </a>
         </li>
       </ul>
+      <div>Received from another package: {response}</div>
     </div>
   );
 }

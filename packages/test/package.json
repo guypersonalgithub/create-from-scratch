@@ -1,0 +1,13 @@
+{
+  "name": "@packages/test",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc -b .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "main": "./src/index.ts"
+}
