@@ -1,4 +1,4 @@
-const getCommandFlags = () => {
+export const getCommandFlags = () => {
   const { argv } = process;
   const flags = argv.slice(2);
 
@@ -15,8 +15,4 @@ const getCommandFlags = () => {
   }
 
   return flagMap;
-};
-
-module.exports = {
-  getCommandFlags,
 };

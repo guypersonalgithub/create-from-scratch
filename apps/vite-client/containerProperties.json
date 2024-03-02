@@ -1,0 +1,12 @@
+{
+  "environment": [],
+  "volumes": [
+    {
+      "type": "bind",
+      "source": "./apps/vite-client/vite.config.ts",
+      "target": "/usr/src/app/vite.config.ts"
+    }
+  ],
+  "networks": ["frontend"],
+  "ports": ["5173:5173"]
+}

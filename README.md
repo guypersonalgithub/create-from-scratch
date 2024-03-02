@@ -43,6 +43,7 @@ https://docs.docker.com/engine/reference/builder has all Dockerfile commands lis
 - watch "docker ps" - Will work like regular docker ps but will refresh the data of the listed containers.
 - docker volume inspect [volume_name] - To look at the details of the written [volume_name].
 - docker volume ls - Will list all Docker volumes available on the machine, including annonymous volumes that are created and managed by Docker.
+- docker exec -it [container_id] sh - Will let the current terminal connect into the docker container's shell command. Pressing CTRL + D is used to exit it.
 
 ## Flags:
 

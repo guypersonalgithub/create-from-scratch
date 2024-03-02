@@ -1,4 +1,29 @@
-services: 
+services:
+  remix:
+    image: remix:latest
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=1000
+    build:
+      dockerfile: ./docker/Dockerfile.remix
+      context: ./
+      target: dev
+    init: true
+    volumes:
+      - type: bind
+        source: ./apps/remix/
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/test
+        target: /usr/src/app/packages/test
+    networks:
+      - frontend
+    ports:
+      - '3000:3000'
+      - '3001:3001'
   vite-client:
     image: vite-client:latest
     environment:
@@ -12,42 +37,18 @@ services:
       - type: bind
         source: ./apps/vite-client/
         target: /usr/src/app/
-      - type: bind
-        source: ./packages/
-        target: /usr/src/app/packages/
       - type: volume
-        target: /usr/src/app/node_modules 
+        target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/test
+        target: /usr/src/app/packages/test
       - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:
       - frontend
     ports:
-      - 5173:5173
-  remix:
-    image: remix:latest
-    environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true
-      - CHOKIDAR_INTERVAL=1000
-    build:
-      dockerfile: ./docker/Dockerfile.remix
-      context: ./
-      target: dev
-    init: true
-    volumes: 
-      - type: bind
-        source: ./apps/remix/
-        target: /usr/src/app/
-      - type: bind
-        source: ./packages/
-        target: /usr/src/app/packages/
-      - type: volume
-        target: /usr/src/app/node_modules 
-    networks: 
-      - frontend
-    ports: 
-      - 3000:3000
-      - 3001:3001
+      - '5173:5173'
 networks:
   frontend:
+    name: frontend
