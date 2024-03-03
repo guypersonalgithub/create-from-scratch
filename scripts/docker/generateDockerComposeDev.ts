@@ -12,6 +12,9 @@ const generateDockerComposeDev = () => {
       frontend: {
         name: "frontend",
       },
+      backend: {
+        name: "backend",
+      },
     },
   };
 

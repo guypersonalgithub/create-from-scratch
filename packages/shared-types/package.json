@@ -1,5 +1,5 @@
 {
-  "name": "@packages/test",
+  "name": "@packages/shared-types",
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",

@@ -1,0 +1,6 @@
+{
+  "environment": ["CHOKIDAR_INTERVAL=1000"],
+  "volumes": [],
+  "networks": ["backend"],
+  "ports": ["3002:3002"]
+}

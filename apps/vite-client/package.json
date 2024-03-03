@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@packages/test": "*"
+    "@packages/test": "*",
+    "@packages/shared-types": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

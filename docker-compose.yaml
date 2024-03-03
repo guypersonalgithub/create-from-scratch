@@ -1,4 +1,30 @@
 services:
+  express-backend:
+    image: express-backend:latest
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_INTERVAL=1000
+    build:
+      dockerfile: ./docker/Dockerfile.express-backend
+      context: ./
+      target: dev
+    init: true
+    volumes:
+      - type: bind
+        source: ./apps/express-backend/
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/test
+        target: /usr/src/app/packages/test
+      - type: bind
+        source: ./packages/shared-types
+        target: /usr/src/app/packages/shared-types
+    networks:
+      - backend
+    ports:
+      - '3002:3002'
   remix:
     image: remix:latest
     environment:
@@ -28,6 +54,7 @@ services:
     image: vite-client:latest
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_INTERVAL=1000
     build:
       dockerfile: ./docker/Dockerfile.vite-client
       context: ./
@@ -43,6 +70,9 @@ services:
         source: ./packages/test
         target: /usr/src/app/packages/test
       - type: bind
+        source: ./packages/shared-types
+        target: /usr/src/app/packages/shared-types
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:
@@ -52,3 +82,5 @@ services:
 networks:
   frontend:
     name: frontend
+  backend:
+    name: backend

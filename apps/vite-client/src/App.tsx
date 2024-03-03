@@ -3,9 +3,11 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { testing } from "@packages/test";
+import { useRequestExample } from "./hooks";
 
 function App() {
   const [count, setCount] = useState(0);
+  useRequestExample();
 
   const response = testing();
 
