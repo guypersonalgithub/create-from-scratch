@@ -16,15 +16,39 @@ services:
       - type: volume
         target: /usr/src/app/node_modules
       - type: bind
-        source: ./packages/test
-        target: /usr/src/app/packages/test
-      - type: bind
         source: ./packages/shared-types
         target: /usr/src/app/packages/shared-types
+      - type: bind
+        source: ./packages/test
+        target: /usr/src/app/packages/test
     networks:
       - backend
     ports:
       - '3002:3002'
+  next:
+    image: next:latest
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - WATCHPACK_INTERVAL=1000
+    build:
+      dockerfile: ./docker/Dockerfile.next
+      context: ./
+      target: dev
+    init: true
+    volumes:
+      - type: bind
+        source: ./apps/next/
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/test
+        target: /usr/src/app/packages/test
+    networks:
+      - frontend
+    ports:
+      - '3003:3003'
   remix:
     image: remix:latest
     environment:

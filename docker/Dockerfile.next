@@ -1,0 +1,37 @@
+FROM node:20.11.0-alpine3.19 AS base
+
+WORKDIR /usr/src/app
+
+COPY ./package-lock.json ./apps/next/package.json ./
+
+FROM base as dev
+
+WORKDIR /usr/src/app
+
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm i
+
+USER node
+
+COPY --chown=node:node ./apps/next ./
+
+CMD ["npm", "run", "dev"]
+
+
+
+FROM base as production
+
+WORKDIR /usr/src/app
+
+ENV NODE_ENV production
+
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm ci --only=production
+
+USER node
+
+COPY --chown=node:node ./apps/next ./
+
+CMD ["npm", "run", "build"]
