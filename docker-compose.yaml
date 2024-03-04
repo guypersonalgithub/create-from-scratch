@@ -21,6 +21,9 @@ services:
       - type: bind
         source: ./packages/test
         target: /usr/src/app/packages/test
+      - type: bind
+        source: ./packages/test-dependency
+        target: /usr/src/app/packages/test-dependency
     networks:
       - backend
     ports:
@@ -45,6 +48,9 @@ services:
       - type: bind
         source: ./packages/test
         target: /usr/src/app/packages/test
+      - type: bind
+        source: ./packages/test-dependency
+        target: /usr/src/app/packages/test-dependency
     networks:
       - frontend
     ports:
@@ -69,6 +75,9 @@ services:
       - type: bind
         source: ./packages/test
         target: /usr/src/app/packages/test
+      - type: bind
+        source: ./packages/test-dependency
+        target: /usr/src/app/packages/test-dependency
     networks:
       - frontend
     ports:
@@ -93,6 +102,9 @@ services:
       - type: bind
         source: ./packages/test
         target: /usr/src/app/packages/test
+      - type: bind
+        source: ./packages/test-dependency
+        target: /usr/src/app/packages/test-dependency
       - type: bind
         source: ./packages/shared-types
         target: /usr/src/app/packages/shared-types

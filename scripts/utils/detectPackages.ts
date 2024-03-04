@@ -4,9 +4,13 @@ import { getPrivatePackageDependencies } from "./getPrivatePackageDependencies";
 
 type detectPackagesArgs = {
   workspace?: string;
+  existingPrivatePackages?: string[];
 };
 
-export const detectPackages = ({ workspace }: detectPackagesArgs) => {
+export const detectPackages = ({
+  workspace,
+  existingPrivatePackages = [],
+}: detectPackagesArgs) => {
   let workSpace;
 
   if (!workspace) {
@@ -16,7 +20,7 @@ export const detectPackages = ({ workspace }: detectPackagesArgs) => {
     workSpace = workspace;
   }
 
-  const file = fs.readFileSync(`../${workSpace}/package.json`, {
+  const file = fs.readFileSync(`${workSpace}/package.json`, {
     encoding: "utf8",
     flag: "r",
   });
@@ -24,7 +28,7 @@ export const detectPackages = ({ workspace }: detectPackagesArgs) => {
   const parsedFile = JSON.parse(file);
 
   const localPackage = "@packages";
-  const privatePackages: string[] = [];
+  const privatePackages: string[] = existingPrivatePackages;
   const { dependencies, devDependencies } = parsedFile;
 
   getPrivatePackageDependencies({

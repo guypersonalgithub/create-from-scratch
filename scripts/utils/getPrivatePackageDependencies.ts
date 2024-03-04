@@ -1,3 +1,5 @@
+import { detectPackages } from "./detectPackages";
+
 type getPrivatePackageDependenciesArgs = {
   dependencies: Record<string, string>;
   privatePackages: string[];
@@ -13,6 +15,10 @@ export const getPrivatePackageDependencies = ({
     if (dependency.includes(localPackage)) {
       const dependencyFolder = dependency.replace(`${localPackage}/`, "");
       privatePackages.push(`packages/${dependencyFolder}`);
+      detectPackages({
+        workspace: `../../packages/${dependencyFolder}`,
+        existingPrivatePackages: privatePackages,
+      });
     }
   }
 };

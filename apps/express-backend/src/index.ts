@@ -13,11 +13,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
-  console.log(`Welcome ${testing()}`);
-
   const data: ReturnedData = {
     prop1: "test",
-    prop2: 1,
+    prop2: testing(),
   };
 
   res.send(data);
@@ -25,5 +23,4 @@ app.get("/", (req, res) => {
 
 app.listen(3002, () => {
   console.log("Listening on port 3002");
-  testing();
 });

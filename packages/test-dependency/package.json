@@ -1,13 +1,10 @@
 {
-  "name": "@packages/test",
+  "name": "@packages/test-dependency",
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/test-dependency": "*"
   },
   "author": "",
   "license": "ISC",

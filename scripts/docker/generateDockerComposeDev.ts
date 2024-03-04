@@ -22,7 +22,7 @@ const generateDockerComposeDev = () => {
 
   workspaces.forEach((workspace: string) => {
     const workspacePackages = detectPackages({
-      workspace: `../apps/${workspace}`,
+      workspace: `../../apps/${workspace}`,
     });
 
     const workspaceContainerProperties = fs.readFileSync(

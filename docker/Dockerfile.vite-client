@@ -8,13 +8,15 @@ FROM base as dev
 
 WORKDIR /usr/src/app
 
-RUN --mount=type=cache,target=/usr/src/app/.npm \
-    npm set cache /usr/src/app/.npm && \
+RUN --mount=type=cache,target=/usr/src/app/.npm \ 
+    npm set cache /usr/src/app/.npm && \ 
     npm i
 
 USER node
 
-COPY --chown=node:node ./apps/vite-client ./packages ./
+COPY --chown=node:node ./apps/vite-client ./
+
+COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/
 
 CMD ["npm", "run", "dev"]
 
@@ -26,12 +28,14 @@ WORKDIR /usr/src/app
 
 ENV NODE_ENV production
 
-RUN --mount=type=cache,target=/usr/src/app/.npm \
-    npm set cache /usr/src/app/.npm && \
+RUN --mount=type=cache,target=/usr/src/app/.npm \ 
+    npm set cache /usr/src/app/.npm && \ 
     npm ci --only=production
 
 USER node
 
 COPY --chown=node:node ./apps/vite-client ./
+
+COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/
 
 CMD ["npm", "run", "build"]
