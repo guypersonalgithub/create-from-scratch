@@ -3,10 +3,10 @@
   "volumes": [
     {
       "type": "bind",
-      "source": "./apps/vite-client/vite.config.ts",
+      "source": "./apps/vue/vite.config.ts",
       "target": "/usr/src/app/vite.config.ts"
     }
   ],
   "networks": ["frontend"],
-  "ports": ["5173:5173"]
+  "ports": ["3004:3004"]
 }

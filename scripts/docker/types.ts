@@ -9,6 +9,7 @@ type DockerService = {
   image: string;
   environment: string[];
   build: { dockerfile: string; context: string; target: string };
+  profiles: string[];
   init: boolean;
   volumes: DockerVolume[];
   networks: string[];

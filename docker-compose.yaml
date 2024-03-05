@@ -8,6 +8,8 @@ services:
       dockerfile: ./docker/Dockerfile.express-backend
       context: ./
       target: dev
+    profiles:
+      - express-backend
     init: true
     volumes:
       - type: bind
@@ -38,6 +40,8 @@ services:
       dockerfile: ./docker/Dockerfile.next
       context: ./
       target: dev
+    profiles:
+      - next
     init: true
     volumes:
       - type: bind
@@ -65,6 +69,8 @@ services:
       dockerfile: ./docker/Dockerfile.remix
       context: ./
       target: dev
+    profiles:
+      - remix
     init: true
     volumes:
       - type: bind
@@ -92,6 +98,8 @@ services:
       dockerfile: ./docker/Dockerfile.vite-client
       context: ./
       target: dev
+    profiles:
+      - vite-client
     init: true
     volumes:
       - type: bind
@@ -115,6 +123,30 @@ services:
       - frontend
     ports:
       - '5173:5173'
+  vue:
+    image: vue:latest
+    environment:
+      - NODE_ENV=development
+    build:
+      dockerfile: ./docker/Dockerfile.vue
+      context: ./
+      target: dev
+    profiles:
+      - vue
+    init: true
+    volumes:
+      - type: bind
+        source: ./apps/vue/
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+      - type: bind
+        source: ./apps/vue/vite.config.ts
+        target: /usr/src/app/vite.config.ts
+    networks:
+      - frontend
+    ports:
+      - '3004:3004'
 networks:
   frontend:
     name: frontend

@@ -46,6 +46,7 @@ const generateDockerComposeDev = () => {
         context: "./",
         target: "dev",
       },
+      profiles: [workspace],
       init: true,
       volumes: [
         {

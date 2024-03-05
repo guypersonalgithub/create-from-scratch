@@ -30,7 +30,9 @@ const generateDockerfileDev = () => {
       `RUN --mount=type=cache,target=/usr/src/app/.npm \\ \n    npm set cache /usr/src/app/.npm && \\ \n    npm i`,
       "USER node",
       `COPY --chown=node:node ./apps/${workspace} ./`,
-      `COPY --chown=node:node ${workspacePackagesString} ./packages/`,
+      workspacePackages.length > 0
+        ? `COPY --chown=node:node ${workspacePackagesString} ./packages/`
+        : null,
       `CMD ["npm", "run", "dev"]`,
     ];
 
@@ -41,17 +43,19 @@ const generateDockerfileDev = () => {
       `RUN --mount=type=cache,target=/usr/src/app/.npm \\ \n    npm set cache /usr/src/app/.npm && \\ \n    npm ci --only=production`,
       "USER node",
       `COPY --chown=node:node ./apps/${workspace} ./`,
-      `COPY --chown=node:node ${workspacePackagesString} ./packages/`,
+      workspacePackages.length > 0
+        ? `COPY --chown=node:node ${workspacePackagesString} ./packages/`
+        : null,
       `CMD ["npm", "run", "build"]`,
     ];
 
     const completeDockerfileCommands =
       dockerfileCommandsBase.join(lineSeparator) +
       lineSeparator +
-      dockerfileCommandsDev.join(lineSeparator) +
+      dockerfileCommandsDev.filter((command) => command).join(lineSeparator) +
       lineSeparator +
       lineSeparator +
-      dockerfileCommandsProd.join(lineSeparator);
+      dockerfileCommandsProd.filter((command) => command).join(lineSeparator);
 
     fs.writeFileSync(
       `../../docker/Dockerfile.${workspace}`,
