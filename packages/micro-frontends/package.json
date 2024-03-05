@@ -1,0 +1,12 @@
+{
+  "name": "@packages/micro-frontends",
+  "version": "1.0.0",
+  "description": "",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts"
+}

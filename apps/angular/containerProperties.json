@@ -1,0 +1,6 @@
+{
+  "environment": [],
+  "volumes": [],
+  "networks": ["frontend"],
+  "ports": ["3005:3005"]
+}

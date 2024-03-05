@@ -1,4 +1,25 @@
 services:
+  angular:
+    image: angular:latest
+    environment:
+      - NODE_ENV=development
+    build:
+      dockerfile: ./docker/Dockerfile.angular
+      context: ./
+      target: dev
+    profiles:
+      - angular
+    init: true
+    volumes:
+      - type: bind
+        source: ./apps/angular/
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+    networks:
+      - frontend
+    ports:
+      - '3005:3005'
   express-backend:
     image: express-backend:latest
     environment:
@@ -93,7 +114,6 @@ services:
     image: vite-client:latest
     environment:
       - NODE_ENV=development
-      - CHOKIDAR_INTERVAL=1000
     build:
       dockerfile: ./docker/Dockerfile.vite-client
       context: ./
@@ -116,6 +136,9 @@ services:
       - type: bind
         source: ./packages/shared-types
         target: /usr/src/app/packages/shared-types
+      - type: bind
+        source: ./packages/micro-frontends
+        target: /usr/src/app/packages/micro-frontends
       - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
@@ -140,6 +163,9 @@ services:
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/micro-frontends
+        target: /usr/src/app/packages/micro-frontends
       - type: bind
         source: ./apps/vue/vite.config.ts
         target: /usr/src/app/vite.config.ts
