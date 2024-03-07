@@ -2,7 +2,7 @@ FROM node:20.11.0-alpine3.19 AS base
 
 WORKDIR /usr/src/app
 
-COPY ./package-lock.json ./apps/angular/package.json ./
+COPY ./package-lock.json ./apps/vite-micro/package.json ./
 
 FROM base as dev
 
@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 
 USER node
 
-COPY --chown=node:node ./apps/angular ./
+COPY --chown=node:node ./apps/vite-micro ./
 
 COPY --chown=node:node ./packages/micro-frontends ./packages/
 
@@ -34,7 +34,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 
 USER node
 
-COPY --chown=node:node ./apps/angular ./
+COPY --chown=node:node ./apps/vite-micro ./
 
 COPY --chown=node:node ./packages/micro-frontends ./packages/
 

@@ -16,6 +16,9 @@ services:
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/micro-frontends
+        target: /usr/src/app/packages/micro-frontends
     networks:
       - frontend
     ports:
@@ -146,6 +149,33 @@ services:
       - frontend
     ports:
       - '5173:5173'
+  vite-micro:
+    image: vite-micro:latest
+    environment:
+      - NODE_ENV=development
+    build:
+      dockerfile: ./docker/Dockerfile.vite-micro
+      context: ./
+      target: dev
+    profiles:
+      - vite-micro
+    init: true
+    volumes:
+      - type: bind
+        source: ./apps/vite-micro/
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/micro-frontends
+        target: /usr/src/app/packages/micro-frontends
+      - type: bind
+        source: ./apps/vite-client/vite.config.ts
+        target: /usr/src/app/vite.config.ts
+    networks:
+      - frontend
+    ports:
+      - '5174:5174'
   vue:
     image: vue:latest
     environment:

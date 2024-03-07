@@ -1,16 +1,44 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import { microFrontend } from '@packages/micro-frontends'
+import { postMessageFlow, postMessageUtils } from '@packages/micro-frontends'
+
+let parentMessage = ref('')
+
+const whitelist = ['http://localhost:5173']
+const messageCallback = (event) => {
+  const { origin, data } = event
+
+  if (origin === 'http://localhost:5173') {
+    return (parentMessage.value = `Received from parent: ${data}`)
+  }
+}
+
+const { initializePostMessageListener, closePostMessageListener } = postMessageFlow({
+  whitelist,
+  messageCallback
+})
+
+const { messageParent } = postMessageUtils()
 
 onMounted(() => {
-  microFrontend()
+  initializePostMessageListener()
 })
+
+onUnmounted(() => {
+  closePostMessageListener()
+})
+
+const callParent = () => {
+  messageParent({ message: 'hello', src: 'http://localhost:5173' })
+}
 </script>
 
 <template>
   <header>
+    {{ parentMessage }}
+    <button @click="callParent">Call parent</button>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
