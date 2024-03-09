@@ -4,11 +4,14 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/*",
+    "clis",
+    "scripts"
   ],
   "scripts": {
-    "detect": "cd scripts && node detectPackages",
-    "postinstall": "cd scripts/docker && ts-node generateDockerComposeDev && ts-node generateDockerfileDev"
+    "postinstall": "npm link ./clis && auto-generate --docker-compose-dev --dockerfile",
+    "view-global-npm-installs": "npm ls -g --depth=0",
+    "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

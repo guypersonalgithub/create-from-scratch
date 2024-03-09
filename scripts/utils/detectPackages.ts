@@ -1,29 +1,24 @@
 import fs from "fs";
-import { getCommandFlags } from "./getCommandFlags";
 import { getPrivatePackageDependencies } from "./getPrivatePackageDependencies";
 
 type detectPackagesArgs = {
   workspace?: string;
   existingPrivatePackages?: string[];
+  projectAbsolutePath: string;
 };
 
 export const detectPackages = ({
   workspace,
   existingPrivatePackages = [],
+  projectAbsolutePath,
 }: detectPackagesArgs) => {
-  let workSpace;
-
-  if (!workspace) {
-    const flagMap = getCommandFlags();
-    workSpace = flagMap.get("workspace");
-  } else {
-    workSpace = workspace;
-  }
-
-  const file = fs.readFileSync(`${workSpace}/package.json`, {
-    encoding: "utf8",
-    flag: "r",
-  });
+  const file = fs.readFileSync(
+    `${projectAbsolutePath}/${workspace}/package.json`,
+    {
+      encoding: "utf8",
+      flag: "r",
+    }
+  );
 
   const parsedFile = JSON.parse(file);
 
@@ -35,11 +30,13 @@ export const detectPackages = ({
     dependencies,
     privatePackages,
     localPackage,
+    projectAbsolutePath,
   });
   getPrivatePackageDependencies({
     dependencies: devDependencies,
     privatePackages,
     localPackage,
+    projectAbsolutePath,
   });
 
   return privatePackages;

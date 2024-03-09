@@ -3,12 +3,12 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { testing } from "@packages/test";
-// import { useRequestExample } from "./hooks";
+import { useRequestExample } from "./hooks";
 import { PostMessage } from "./PostMessage";
 
 function App() {
   const [count, setCount] = useState(0);
-  // useRequestExample();
+  useRequestExample();
 
   const response = testing();
 

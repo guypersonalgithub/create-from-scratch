@@ -1,17 +1,22 @@
 import fs from "fs";
 import { detectPackages } from "../utils/detectPackages";
+import { getProjectAbsolutePath } from "../utils";
 
 const lineSeparator = "\n\n";
 
-const generateDockerfileDev = () => {
+export const generateDockerfileDev = () => {
   // Currently this script has both dev and prod commands, later on they will be separated into different files.
   console.log("Generating new Dockerfiles for each workspace");
 
-  const workspaces = fs.readdirSync("../../apps");
+  const projectAbsolutePath = getProjectAbsolutePath();
+  const folderPath = `${projectAbsolutePath}/apps`;
+
+  const workspaces = fs.readdirSync(folderPath);
 
   workspaces.forEach((workspace: string) => {
     const workspacePackages = detectPackages({
-      workspace: `../../apps/${workspace}`,
+      workspace: `apps/${workspace}`,
+      projectAbsolutePath,
     });
 
     const workspacePackagesString = workspacePackages
@@ -58,10 +63,8 @@ const generateDockerfileDev = () => {
       dockerfileCommandsProd.filter((command) => command).join(lineSeparator);
 
     fs.writeFileSync(
-      `../../docker/Dockerfile.${workspace}`,
+      `${projectAbsolutePath}/docker/Dockerfile.${workspace}`,
       completeDockerfileCommands
     );
   });
 };
-
-generateDockerfileDev();

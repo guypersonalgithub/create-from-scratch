@@ -2,8 +2,9 @@ import fs from "fs";
 import jsYaml from "js-yaml";
 import { detectPackages } from "../utils/detectPackages";
 import { dockerComposeData, workspaceContainerProperties } from "./types";
+import { getProjectAbsolutePath } from "../utils";
 
-const generateDockerComposeDev = () => {
+export const generateDockerComposeDev = () => {
   console.log("Generating new docker compose file");
 
   const dockerComposeData: dockerComposeData = {
@@ -18,15 +19,20 @@ const generateDockerComposeDev = () => {
     },
   };
 
-  const workspaces = fs.readdirSync("../../apps");
+  const projectAbsolutePath = getProjectAbsolutePath();
+
+  const folderPath = `${projectAbsolutePath}/apps`;
+
+  const workspaces = fs.readdirSync(folderPath);
 
   workspaces.forEach((workspace: string) => {
     const workspacePackages = detectPackages({
-      workspace: `../../apps/${workspace}`,
+      workspace: `apps/${workspace}`,
+      projectAbsolutePath,
     });
 
     const workspaceContainerProperties = fs.readFileSync(
-      `../../apps/${workspace}/containerProperties.json`,
+      `${folderPath}/${workspace}/containerProperties.json`,
       {
         encoding: "utf8",
         flag: "r",
@@ -73,7 +79,5 @@ const generateDockerComposeDev = () => {
   });
 
   const yamlFormat = jsYaml.dump(dockerComposeData);
-  fs.writeFileSync("../../docker-compose.yaml", yamlFormat);
+  fs.writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
 };
-
-generateDockerComposeDev();

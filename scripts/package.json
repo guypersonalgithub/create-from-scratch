@@ -1,0 +1,12 @@
+{
+  "name": "utility-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "index.ts"
+}
