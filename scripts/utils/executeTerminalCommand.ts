@@ -11,7 +11,7 @@ export const executeTerminalCommand = ({
     const output = execSync(command, {
       encoding: "utf8",
       stdio: "inherit",
-    }).toString();
+    });
     return output;
   } catch (error) {
     const isError = error instanceof Error;
