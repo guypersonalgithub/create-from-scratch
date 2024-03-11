@@ -10,8 +10,8 @@ const entryPoint = () => {
     );
   }
 
-  commands.forEach((command) => {
-    cliOptions({ command });
+  commands.forEach(async (command) => {
+    await cliOptions({ command });
   });
 };
 

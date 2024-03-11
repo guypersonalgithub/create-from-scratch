@@ -19,6 +19,8 @@ export const generateDockerComposeDev = () => {
     },
   };
 
+  const profiles = new Set<string>();
+
   const projectAbsolutePath = getProjectAbsolutePath();
 
   const folderPath = `${projectAbsolutePath}/apps`;
@@ -76,8 +78,14 @@ export const generateDockerComposeDev = () => {
       networks,
       ports,
     };
+
+    profiles.add(workspace);
   });
 
   const yamlFormat = jsYaml.dump(dockerComposeData);
   fs.writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
+  fs.writeFileSync(
+    `${projectAbsolutePath}/profiles.json`,
+    JSON.stringify([...profiles], null, 2)
+  );
 };
