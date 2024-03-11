@@ -16,7 +16,7 @@ USER node
 
 COPY --chown=node:node ./apps/vite-client ./
 
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/
+COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/get-fps ./packages/
 
 CMD ["npm", "run", "dev"]
 
@@ -36,6 +36,6 @@ USER node
 
 COPY --chown=node:node ./apps/vite-client ./
 
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/
+COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/get-fps ./packages/
 
 CMD ["npm", "run", "build"]

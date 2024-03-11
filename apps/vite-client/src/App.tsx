@@ -5,10 +5,12 @@ import "./App.css";
 import { testing } from "@packages/test";
 import { useRequestExample } from "./hooks";
 import { PostMessage } from "./PostMessage";
+import { useFPS } from "@packages/get-fps";
 
 function App() {
   const [count, setCount] = useState(0);
   useRequestExample();
+  const fps = useFPS();
 
   const response = testing();
 
@@ -33,6 +35,7 @@ function App() {
         </p>
       </div>
       <div className="card">Received from another package: {response}</div>
+      <div className="card">{fps.FPS}</div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
