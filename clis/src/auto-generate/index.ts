@@ -1,7 +1,7 @@
 import { getCommandFlags } from "utility-scripts";
 import { cliOptions } from "./commandFunctions/cliOptions";
 
-const entryPoint = () => {
+const entryPoint = async () => {
   const commands = getCommandFlags();
 
   if (commands.length === 0) {
@@ -10,10 +10,12 @@ const entryPoint = () => {
     );
   }
 
-  commands.forEach(async (command) => {
+  for await (const command of commands) {
     await cliOptions({ command });
-  });
+  }
 };
 
-entryPoint();
-process.exit();
+(async () => {
+  await entryPoint();
+  process.exit();
+})();

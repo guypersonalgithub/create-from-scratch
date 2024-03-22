@@ -28,7 +28,7 @@ export const runDockerContainersByProfile = async ({
     return;
   }
 
-  const completeCommand = `${command} up -d`;
+  const completeCommand = `${command} up -d --build`;
 
   await executeTerminalCommand({ command: completeCommand });
 };
