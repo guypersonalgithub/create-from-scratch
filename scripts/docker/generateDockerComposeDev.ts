@@ -9,6 +9,11 @@ export const generateDockerComposeDev = () => {
 
   const dockerComposeData: dockerComposeData = {
     services: {},
+    volumes: {
+      pgdata: {
+        external: false,
+      },
+    },
     networks: {
       frontend: {
         name: "frontend",
@@ -23,6 +28,28 @@ export const generateDockerComposeDev = () => {
 
   const projectAbsolutePath = getProjectAbsolutePath();
 
+  appWorkspaces({ projectAbsolutePath, dockerComposeData, profiles });
+  containers({ projectAbsolutePath, dockerComposeData, profiles });
+
+  const yamlFormat = jsYaml.dump(dockerComposeData);
+  fs.writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
+  fs.writeFileSync(
+    `${projectAbsolutePath}/profiles.json`,
+    JSON.stringify([...profiles], null, 2)
+  );
+};
+
+type AppWorkspacesArgs = {
+  projectAbsolutePath: string;
+  dockerComposeData: dockerComposeData;
+  profiles: Set<string>;
+};
+
+const appWorkspaces = ({
+  projectAbsolutePath,
+  dockerComposeData,
+  profiles,
+}: AppWorkspacesArgs) => {
   const folderPath = `${projectAbsolutePath}/apps`;
 
   const workspaces = fs.readdirSync(folderPath);
@@ -44,7 +71,8 @@ export const generateDockerComposeDev = () => {
     const parsedProperties = JSON.parse(
       workspaceContainerProperties
     ) as workspaceContainerProperties;
-    const { environment, volumes, networks, ports } = parsedProperties;
+    const { environment, volumes, networks, ports, dependsOn } =
+      parsedProperties;
 
     dockerComposeData.services[workspace] = {
       image: `${workspace}:latest`,
@@ -56,6 +84,7 @@ export const generateDockerComposeDev = () => {
       },
       profiles: [workspace],
       init: true,
+      restart: "unless-stopped",
       volumes: [
         {
           type: "bind",
@@ -77,15 +106,74 @@ export const generateDockerComposeDev = () => {
       ],
       networks,
       ports,
+      depends_on: dependsOn,
     };
 
     profiles.add(workspace);
   });
+};
 
-  const yamlFormat = jsYaml.dump(dockerComposeData);
-  fs.writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
-  fs.writeFileSync(
-    `${projectAbsolutePath}/profiles.json`,
-    JSON.stringify([...profiles], null, 2)
-  );
+type ContainersArgs = {
+  projectAbsolutePath: string;
+  dockerComposeData: dockerComposeData;
+  profiles: Set<string>;
+};
+
+const containers = ({
+  projectAbsolutePath,
+  dockerComposeData,
+  profiles,
+}: ContainersArgs) => {
+  const folderPath = `${projectAbsolutePath}/containers`;
+
+  const nonWorkspaceContainers = fs.readdirSync(folderPath);
+
+  const additionalProfiles: Record<string, Set<string>> = {};
+
+  for (const workspace in dockerComposeData.services) {
+    const workspaceData = dockerComposeData.services[workspace];
+    const { profiles, depends_on } = workspaceData;
+
+    depends_on?.forEach((dependsOn) => {
+      if (!additionalProfiles[dependsOn]) {
+        additionalProfiles[dependsOn] = new Set();
+      }
+
+      profiles.forEach((profile) => {
+        additionalProfiles[dependsOn].add(profile);
+      });
+    });
+  }
+
+  nonWorkspaceContainers.forEach((nonWorkspaceContainer: string) => {
+    const workspaceContainerProperties = fs.readFileSync(
+      `${folderPath}/${nonWorkspaceContainer}/containerProperties.json`,
+      {
+        encoding: "utf8",
+        flag: "r",
+      }
+    );
+
+    const parsedProperties = JSON.parse(
+      workspaceContainerProperties
+    ) as workspaceContainerProperties;
+
+    const { image, environment, volumes, networks, ports } = parsedProperties;
+
+    const additionalProfilesForContainer =
+      additionalProfiles[nonWorkspaceContainer] ?? [];
+
+    dockerComposeData.services[nonWorkspaceContainer] = {
+      image,
+      environment,
+      profiles: [nonWorkspaceContainer, ...additionalProfilesForContainer],
+      init: true,
+      restart: "unless-stopped",
+      volumes,
+      networks,
+      ports,
+    };
+
+    profiles.add(nonWorkspaceContainer);
+  });
 };

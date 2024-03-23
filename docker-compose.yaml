@@ -10,6 +10,7 @@ services:
     profiles:
       - angular
     init: true
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./apps/angular/
@@ -35,6 +36,7 @@ services:
     profiles:
       - express-backend
     init: true
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./apps/express-backend/
@@ -54,6 +56,8 @@ services:
       - backend
     ports:
       - '3002:3002'
+    depends_on:
+      - postgresql
   next:
     image: next:latest
     environment:
@@ -67,6 +71,7 @@ services:
     profiles:
       - next
     init: true
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./apps/next/
@@ -96,6 +101,7 @@ services:
     profiles:
       - remix
     init: true
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./apps/remix/
@@ -124,6 +130,7 @@ services:
     profiles:
       - vite-client
     init: true
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./apps/vite-client/
@@ -163,6 +170,7 @@ services:
     profiles:
       - vite-micro
     init: true
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./apps/vite-micro/
@@ -190,6 +198,7 @@ services:
     profiles:
       - vue
     init: true
+    restart: unless-stopped
     volumes:
       - type: bind
         source: ./apps/vue/
@@ -206,6 +215,26 @@ services:
       - frontend
     ports:
       - '3004:3004'
+  postgresql:
+    image: postgres:16.2-alpine3.19
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    profiles:
+      - postgresql
+      - express-backend
+    init: true
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
+    ports:
+      - '5432:5432'
+volumes:
+  pgdata:
+    external: false
 networks:
   frontend:
     name: frontend
