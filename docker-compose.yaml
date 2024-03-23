@@ -29,6 +29,9 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_INTERVAL=1000
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     build:
       dockerfile: ./docker/Dockerfile.express-backend
       context: ./
@@ -52,6 +55,9 @@ services:
       - type: bind
         source: ./packages/test-dependency
         target: /usr/src/app/packages/test-dependency
+      - type: bind
+        source: ./packages/postgresql
+        target: /usr/src/app/packages/postgresql
     networks:
       - backend
     ports:

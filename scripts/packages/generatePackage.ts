@@ -10,11 +10,17 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
 
   const projectAbsolutePath = getProjectAbsolutePath();
   const folderPath = `${projectAbsolutePath}/packages/${packageName}`;
+  const packageSrc = `${folderPath}/src`;
+  const packagePackageJson = `${folderPath}/package.json`;
+  const packageTSConfig = `${folderPath}/tsconfig.json`;
+  const packageIndex = `${folderPath}/src/index.ts`;
 
   mkdirSync(folderPath);
-  mkdirSync(`${folderPath}/src`);
+  console.log(`Created ${folderPath}`);
+  mkdirSync(packageSrc);
+  console.log(`Created ${packageSrc}`);
   writeFileSync(
-    `${folderPath}/package.json`,
+    packagePackageJson,
     JSON.stringify(
       {
         name: `@packages/${packageName}`,
@@ -32,8 +38,9 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
       2
     )
   );
+  console.log(`Created ${packagePackageJson}`);
   writeFileSync(
-    `${folderPath}/tsconfig.json`,
+    packageTSConfig,
     JSON.stringify(
       {
         compilerOptions: {
@@ -54,5 +61,7 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
       2
     )
   );
-  writeFileSync(`${folderPath}/src/index.ts`, "");
+  console.log(`Created ${packageTSConfig}`);
+  writeFileSync(packageIndex, "");
+  console.log(`Created ${packageIndex}`);
 };
