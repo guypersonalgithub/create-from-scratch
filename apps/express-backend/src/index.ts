@@ -2,7 +2,11 @@ import express from "express";
 import cors from "cors";
 import { testing } from "@packages/test";
 import { ReturnedData } from "@packages/shared-types";
-import { getDateTime, initializePool } from "@packages/postgresql";
+import {
+  createTables,
+  getAllPublicTablesList,
+  initializePool,
+} from "@packages/express-postgres-db";
 
 const app = express();
 
@@ -24,7 +28,15 @@ app.get("/", (req, res) => {
 
 app.listen(3002, async () => {
   console.log("Listening on port 3002");
-  const client = initializePool();
-  const time = await getDateTime({ pool: client });
-  console.log(time);
+
+  const host = "postgresql";
+  const port = 5432;
+  const user = process.env.POSTGRES_USER ?? "";
+  const password = process.env.POSTGRES_PASSWORD ?? "";
+  const database = process.env.POSTGRES_DB ?? "";
+
+  const pool = initializePool({ host, port, user, password, database });
+  await createTables({ pool });
+  const res = await getAllPublicTablesList({ pool });
+  console.log(res);
 });

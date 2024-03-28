@@ -1,12 +1,16 @@
 import {
   Command,
+  detectPackage,
   generateDockerComposeDev,
   generateDockerfileDev,
   generatePackage,
+  generatePostgresDBTypes,
   getAvailableDockerProfiles,
+  insertPackageTypes,
   runDockerContainersByProfile,
 } from "utility-scripts";
 import { supportedCommands } from "./supportedCommands";
+import { loadEnvVariables } from "utility-scripts/utils/envVariables";
 
 type CliOptionsArgs = {
   command: Command;
@@ -67,6 +71,27 @@ Common commands:
       }
 
       await runDockerContainersByProfile({ profiles: value });
+      break;
+    }
+    case `--${supportedCommands["generate-postgres-types"]}`: {
+      loadEnvVariables();
+
+      const host = "localhost";
+      const port = 5432;
+      const user = process.env.POSTGRES_USER ?? "";
+      const password = process.env.POSTGRES_PASSWORD ?? "";
+      const database = process.env.POSTGRES_DB ?? "";
+      const packageName = "postgresql-types";
+      const dbTypes = await generatePostgresDBTypes({
+        host,
+        port,
+        user,
+        password,
+        database,
+        packageName,
+      });
+      detectPackage({ packageName });
+      insertPackageTypes({ packageName, dbTypes });
       break;
     }
     default: {

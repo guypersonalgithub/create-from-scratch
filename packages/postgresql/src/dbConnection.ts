@@ -1,12 +1,20 @@
 import { Client, Pool } from "pg";
 
-const host = "postgresql";
-const port = 5432;
-const user = process.env.POSTGRES_USER;
-const password = process.env.POSTGRES_PASSWORD;
-const database = process.env.POSTGRES_DB;
+type InitializationProperties = {
+  host: string;
+  port: number;
+  user: string;
+  password: string;
+  database: string;
+};
 
-export const initializeClient = () => {
+export const initializeClient = ({
+  host,
+  port,
+  user,
+  password,
+  database,
+}: InitializationProperties) => {
   const client = new Client({
     host,
     port,
@@ -18,7 +26,13 @@ export const initializeClient = () => {
   return client;
 };
 
-export const initializePool = () => {
+export const initializePool = ({
+  host,
+  port,
+  user,
+  password,
+  database,
+}: InitializationProperties) => {
   const pool = new Pool({
     host,
     port,

@@ -4,4 +4,5 @@ export const supportedCommands = {
   dockerfile: "dockerfile",
   package: "package",
   container: "container",
+  "generate-postgres-types": "generate-postgres-types",
 };

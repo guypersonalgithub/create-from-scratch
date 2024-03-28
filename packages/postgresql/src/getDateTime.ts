@@ -15,5 +15,3 @@ export const getDateTime = async ({ pool }: GetDateTimeArgs) => {
     client.release();
   }
 };
-
-// SELECT table_name FROM information_schema.tables WHERE table_schema='public'

@@ -15,7 +15,7 @@ export const detectPackages = ({
   const file = fs.readFileSync(
     `${projectAbsolutePath}/${workspace}/package.json`,
     {
-      encoding: "utf8",
+      encoding: "utf-8",
       flag: "r",
     }
   );

@@ -56,6 +56,9 @@ services:
         source: ./packages/test-dependency
         target: /usr/src/app/packages/test-dependency
       - type: bind
+        source: ./packages/express-postgres-db
+        target: /usr/src/app/packages/express-postgres-db
+      - type: bind
         source: ./packages/postgresql
         target: /usr/src/app/packages/postgresql
     networks:

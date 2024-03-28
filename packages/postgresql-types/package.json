@@ -1,15 +1,12 @@
 {
-  "name": "utility-scripts",
+  "name": "@packages/postgresql-types",
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
   "scripts": {
     "build": "tsc -b ."
   },
-  "dependencies": {
-    "@packages/postgresql": "*"
-  },
   "author": "",
   "license": "ISC",
-  "main": "index.ts"
+  "main": "./src/index.ts"
 }

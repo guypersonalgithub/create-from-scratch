@@ -16,7 +16,7 @@ USER node
 
 COPY --chown=node:node ./apps/express-backend ./
 
-COPY --chown=node:node ./packages/shared-types ./packages/test ./packages/test-dependency ./packages/postgresql ./packages/
+COPY --chown=node:node ./packages/shared-types ./packages/test ./packages/test-dependency ./packages/express-postgres-db ./packages/postgresql ./packages/
 
 CMD ["npm", "run", "dev"]
 
@@ -36,6 +36,6 @@ USER node
 
 COPY --chown=node:node ./apps/express-backend ./
 
-COPY --chown=node:node ./packages/shared-types ./packages/test ./packages/test-dependency ./packages/postgresql ./packages/
+COPY --chown=node:node ./packages/shared-types ./packages/test ./packages/test-dependency ./packages/express-postgres-db ./packages/postgresql ./packages/
 
 CMD ["npm", "run", "build"]
