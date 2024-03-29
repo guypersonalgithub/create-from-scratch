@@ -1,10 +1,10 @@
 [
   "angular",
   "express-backend",
+  "express-backend-postgresql",
   "next",
   "remix",
   "vite-client",
   "vite-micro",
-  "vue",
-  "postgresql"
+  "vue"
 ]

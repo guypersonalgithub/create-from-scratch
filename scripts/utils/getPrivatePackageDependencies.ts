@@ -1,4 +1,4 @@
-import { detectPackages } from "./detectPackages";
+import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
 
 type getPrivatePackageDependenciesArgs = {
   dependencies: Record<string, string>;
@@ -17,7 +17,7 @@ export const getPrivatePackageDependencies = ({
     if (dependency.includes(localPackage)) {
       const dependencyFolder = dependency.replace(`${localPackage}/`, "");
       privatePackages.push(`packages/${dependencyFolder}`);
-      detectPackages({
+      detectWorkspacePackages({
         workspace: `packages/${dependencyFolder}`,
         existingPrivatePackages: privatePackages,
         projectAbsolutePath,

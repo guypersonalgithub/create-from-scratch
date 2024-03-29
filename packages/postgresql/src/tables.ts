@@ -32,8 +32,7 @@ export const getAllPublicTablesList = async ({
       const res = await client.query<PostgresTableProperties>(query);
       return res.rows;
     } catch (error) {
-      console.log(error);
-      return [];
+      throw error;
     }
   }
 

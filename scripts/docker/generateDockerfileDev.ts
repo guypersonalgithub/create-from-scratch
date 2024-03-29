@@ -1,5 +1,5 @@
 import fs from "fs";
-import { detectPackages } from "../utils/detectPackages";
+import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
 import { getProjectAbsolutePath } from "../utils";
 
 const lineSeparator = "\n\n";
@@ -14,7 +14,7 @@ export const generateDockerfileDev = () => {
   const workspaces = fs.readdirSync(folderPath);
 
   workspaces.forEach((workspace: string) => {
-    const workspacePackages = detectPackages({
+    const workspacePackages = detectWorkspacePackages({
       workspace: `apps/${workspace}`,
       projectAbsolutePath,
     });

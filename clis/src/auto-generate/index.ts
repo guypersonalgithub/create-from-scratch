@@ -11,7 +11,12 @@ const entryPoint = async () => {
   }
 
   for await (const command of commands) {
-    await cliOptions({ command });
+    try {
+      await cliOptions({ command });
+    } catch (error) {
+      console.log(`The command ${command} has failed.
+      Error: ${error}`);
+    }
   }
 };
 

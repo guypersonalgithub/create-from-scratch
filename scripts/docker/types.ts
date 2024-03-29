@@ -33,9 +33,12 @@ type DockerNetwork = {
   name: string;
 };
 
-export type workspaceContainerProperties = Pick<
-  DockerService,
-  "image" | "environment" | "volumes" | "networks" | "ports"
-> & {
-  dependsOn: Pick<DockerService, "depends_on">["depends_on"];
-};
+export type workspaceContainerProperties = Record<
+  string,
+  Pick<
+    DockerService,
+    "image" | "environment" | "volumes" | "networks" | "ports"
+  > & {
+    dependsOn: Pick<DockerService, "depends_on">["depends_on"];
+  }
+>;

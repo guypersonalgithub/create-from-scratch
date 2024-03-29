@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 app.listen(3002, async () => {
   console.log("Listening on port 3002");
 
-  const host = "postgresql";
+  const host = "express-backend-postgresql";
   const port = 5432;
   const user = process.env.POSTGRES_USER ?? "";
   const password = process.env.POSTGRES_PASSWORD ?? "";

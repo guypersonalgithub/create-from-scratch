@@ -1,4 +1,4 @@
-import { appendFileSync, writeFileSync } from "fs";
+import { appendFileSync, existsSync, readFileSync, writeFileSync } from "fs";
 import { getProjectAbsolutePath } from "../utils";
 
 type InsertPackageTypesArgs = {
@@ -12,6 +12,19 @@ export const insertPackageTypes = ({
 }: InsertPackageTypesArgs) => {
   const absolutePath = getProjectAbsolutePath();
   const srcPath = `${absolutePath}/packages/${packageName}/src`;
-  writeFileSync(`${srcPath}/types.ts`, dbTypes.join("\r\n\r\n"));
-  appendFileSync(`${srcPath}/index.ts`, `export * from "./types";`);
+  const typesPath = `${srcPath}/types.ts`;
+  const typesFileAlreadyExists = existsSync(typesPath);
+  writeFileSync(typesPath, dbTypes.join("\r\n\r\n"));
+  console.log(
+    `${!typesFileAlreadyExists ? "Created" : "Updated"} ${typesPath}`
+  );
+  const indexPath = `${srcPath}/index.ts`;
+  const indexFile = readFileSync(indexPath, "utf-8");
+  const typesExport = `export * from "./types";`;
+  if (indexFile.includes(typesExport)) {
+    return;
+  }
+  const isIndexEmpty = indexFile.length === 0;
+  appendFileSync(indexPath, isIndexEmpty ? typesExport : `\r\n${typesExport}`);
+  console.log(`Updated ${indexPath}`);
 };

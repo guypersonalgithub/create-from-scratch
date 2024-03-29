@@ -1,6 +1,6 @@
-import fs from "fs";
+import { readFileSync, readdirSync, writeFileSync } from "fs";
 import jsYaml from "js-yaml";
-import { detectPackages } from "../utils/detectPackages";
+import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
 import { dockerComposeData, workspaceContainerProperties } from "./types";
 import { getProjectAbsolutePath } from "../utils";
 
@@ -29,11 +29,10 @@ export const generateDockerComposeDev = () => {
   const projectAbsolutePath = getProjectAbsolutePath();
 
   appWorkspaces({ projectAbsolutePath, dockerComposeData, profiles });
-  containers({ projectAbsolutePath, dockerComposeData, profiles });
 
   const yamlFormat = jsYaml.dump(dockerComposeData);
-  fs.writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
-  fs.writeFileSync(
+  writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
+  writeFileSync(
     `${projectAbsolutePath}/profiles.json`,
     JSON.stringify([...profiles], null, 2)
   );
@@ -52,15 +51,15 @@ const appWorkspaces = ({
 }: AppWorkspacesArgs) => {
   const folderPath = `${projectAbsolutePath}/apps`;
 
-  const workspaces = fs.readdirSync(folderPath);
+  const workspaces = readdirSync(folderPath);
 
   workspaces.forEach((workspace: string) => {
-    const workspacePackages = detectPackages({
+    const workspacePackages = detectWorkspacePackages({
       workspace: `apps/${workspace}`,
       projectAbsolutePath,
     });
 
-    const workspaceContainerProperties = fs.readFileSync(
+    const workspaceContainerProperties = readFileSync(
       `${folderPath}/${workspace}/containerProperties.json`,
       {
         encoding: "utf8",
@@ -71,8 +70,8 @@ const appWorkspaces = ({
     const parsedProperties = JSON.parse(
       workspaceContainerProperties
     ) as workspaceContainerProperties;
-    const { environment, volumes, networks, ports, dependsOn } =
-      parsedProperties;
+    const { main, ...others } = parsedProperties;
+    const { environment, volumes, networks, ports, dependsOn } = main;
 
     dockerComposeData.services[workspace] = {
       image: `${workspace}:latest`,
@@ -110,24 +109,29 @@ const appWorkspaces = ({
     };
 
     profiles.add(workspace);
+
+    nonWorkspaceContainers({
+      workspace,
+      nonWorkspaceContainers: others,
+      dockerComposeData,
+      profiles,
+    });
   });
 };
 
-type ContainersArgs = {
-  projectAbsolutePath: string;
+type NonWorkspaceContainersArgs = {
+  workspace: string;
+  nonWorkspaceContainers: workspaceContainerProperties;
   dockerComposeData: dockerComposeData;
   profiles: Set<string>;
 };
 
-const containers = ({
-  projectAbsolutePath,
+const nonWorkspaceContainers = ({
+  workspace,
+  nonWorkspaceContainers,
   dockerComposeData,
   profiles,
-}: ContainersArgs) => {
-  const folderPath = `${projectAbsolutePath}/containers`;
-
-  const nonWorkspaceContainers = fs.readdirSync(folderPath);
-
+}: NonWorkspaceContainersArgs) => {
   const additionalProfiles: Record<string, Set<string>> = {};
 
   for (const workspace in dockerComposeData.services) {
@@ -145,28 +149,16 @@ const containers = ({
     });
   }
 
-  nonWorkspaceContainers.forEach((nonWorkspaceContainer: string) => {
-    const workspaceContainerProperties = fs.readFileSync(
-      `${folderPath}/${nonWorkspaceContainer}/containerProperties.json`,
-      {
-        encoding: "utf8",
-        flag: "r",
-      }
-    );
+  for (const nonWorkspaceContainer in nonWorkspaceContainers) {
+    const properties = nonWorkspaceContainers[nonWorkspaceContainer];
+    const { image, environment, volumes, networks, ports } = properties;
+    const key = `${workspace}-${nonWorkspaceContainer}`;
+    const additionalProfilesForContainer = additionalProfiles[key] ?? [];
 
-    const parsedProperties = JSON.parse(
-      workspaceContainerProperties
-    ) as workspaceContainerProperties;
-
-    const { image, environment, volumes, networks, ports } = parsedProperties;
-
-    const additionalProfilesForContainer =
-      additionalProfiles[nonWorkspaceContainer] ?? [];
-
-    dockerComposeData.services[nonWorkspaceContainer] = {
+    dockerComposeData.services[key] = {
       image,
       environment,
-      profiles: [nonWorkspaceContainer, ...additionalProfilesForContainer],
+      profiles: [key, ...additionalProfilesForContainer],
       init: true,
       restart: "unless-stopped",
       volumes,
@@ -174,6 +166,6 @@ const containers = ({
       ports,
     };
 
-    profiles.add(nonWorkspaceContainer);
-  });
+    profiles.add(key);
+  }
 };

@@ -1,6 +1,8 @@
 {
-  "environment": ["WATCHPACK_POLLING=true", "WATCHPACK_INTERVAL=1000"],
-  "volumes": [],
-  "networks": ["frontend"],
-  "ports": ["3003:3003"]
+  "main": {
+    "environment": ["WATCHPACK_POLLING=true", "WATCHPACK_INTERVAL=1000"],
+    "volumes": [],
+    "networks": ["frontend"],
+    "ports": ["3003:3003"]
+  }
 }

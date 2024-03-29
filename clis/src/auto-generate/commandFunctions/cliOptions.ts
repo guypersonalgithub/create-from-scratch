@@ -1,12 +1,14 @@
 import {
   Command,
   detectPackage,
+  detectPostgresContainersInRepo,
   generateDockerComposeDev,
   generateDockerfileDev,
   generatePackage,
   generatePostgresDBTypes,
   getAvailableDockerProfiles,
   insertPackageTypes,
+  parseEnvironmentString,
   runDockerContainersByProfile,
 } from "utility-scripts";
 import { supportedCommands } from "./supportedCommands";
@@ -38,7 +40,10 @@ Common commands:
       supportedCommands.container
     } [profiles] - Will build images, volumes and containers for the appropriate docker profiles. Available options - ${profiles.join(
         ", "
-      )}`);
+      )}
+    ${
+      supportedCommands["generate-postgres-types"]
+    } - Generates an appropriate types package and file with the tables' columns' types.`);
       break;
     }
     case `--${supportedCommands["docker-compose-dev"]}`: {
@@ -74,24 +79,60 @@ Common commands:
       break;
     }
     case `--${supportedCommands["generate-postgres-types"]}`: {
+      const services = detectPostgresContainersInRepo();
       loadEnvVariables();
 
-      const host = "localhost";
-      const port = 5432;
-      const user = process.env.POSTGRES_USER ?? "";
-      const password = process.env.POSTGRES_PASSWORD ?? "";
-      const database = process.env.POSTGRES_DB ?? "";
-      const packageName = "postgresql-types";
-      const dbTypes = await generatePostgresDBTypes({
-        host,
-        port,
-        user,
-        password,
-        database,
-        packageName,
-      });
-      detectPackage({ packageName });
-      insertPackageTypes({ packageName, dbTypes });
+      const commonPostgresVariables = [
+        "POSTGRES_USER",
+        "POSTGRES_PASSWORD",
+        "POSTGRES_DB",
+      ];
+
+      for await (const service of services) {
+        const { profiles, ports, environment } = service;
+        const mainProfile = profiles?.[0];
+        const portString = ports?.[0]?.split(":")?.[0];
+        if (!portString) {
+          console.error(`Missing port, skipping ${mainProfile}`);
+          continue;
+        }
+
+        const host = "localhost";
+        const port = Number(portString);
+        const [user, password, database] = environment.map((env, index) => {
+          const postgresVariable = commonPostgresVariables[index];
+          const variableString = environment.find((env) =>
+            env.includes(postgresVariable)
+          );
+          if (!variableString) {
+            return;
+          }
+
+          return parseEnvironmentString({ environmentString: variableString });
+        });
+        if (!user || !password || !database) {
+          console.error(
+            `Missing crucial env variable, skipping ${mainProfile}`
+          );
+          continue;
+        }
+
+        const packageName = `${mainProfile}-types`;
+        const dbTypes = await generatePostgresDBTypes({
+          profile: mainProfile,
+          host,
+          port,
+          user,
+          password,
+          database,
+        });
+        if (dbTypes.length === 0) {
+          return;
+        }
+        detectPackage({ packageName });
+        insertPackageTypes({ packageName, dbTypes });
+      }
+
       break;
     }
     default: {

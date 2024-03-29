@@ -1,0 +1,26 @@
+import { readFileSync } from "fs";
+import { getProjectAbsolutePath } from "../utils";
+import jsYaml from "js-yaml";
+import { dockerComposeData } from "../docker";
+
+export const detectPostgresContainersInRepo = () => {
+  const projectAbsolutePath = getProjectAbsolutePath();
+  const dockerCompose = readFileSync(
+    `${projectAbsolutePath}/docker-compose.yaml`,
+    "utf-8"
+  );
+  const convertedDockerCompose = jsYaml.load(
+    dockerCompose
+  ) as dockerComposeData;
+  const { services } = convertedDockerCompose;
+
+  const postgresqlServices: dockerComposeData["services"][number][] = [];
+  for (const service in services) {
+    const serviceData = services[service];
+    if (service.includes("postgresql")) {
+      postgresqlServices.push(serviceData);
+    }
+  }
+
+  return postgresqlServices;
+};

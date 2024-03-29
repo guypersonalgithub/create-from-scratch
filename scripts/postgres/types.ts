@@ -6,21 +6,21 @@ const columnTypeTranslations = {
 };
 
 type GeneratePostgresDBTypesArgs = {
+  profile: string;
   host: string;
   port: number;
   user: string;
   password: string;
   database: string;
-  packageName: string;
 };
 
 export const generatePostgresDBTypes = async ({
+  profile,
   host,
   port,
   user,
   password,
   database,
-  packageName,
 }: GeneratePostgresDBTypesArgs) => {
   const client = initializeClient({ host, port, user, password, database });
   try {
@@ -55,10 +55,9 @@ export const generatePostgresDBTypes = async ({
 
     return types;
   } catch (error) {
-    console.log(error);
     console.error(`It seemes like connecting to the postgresql container failed. 
 Please ensure that the appropriate container is up and running, and that the used connection details are correct.
-If not, use the "auto-generate --container postgresql" command`);
+If the container isn't up, please use the "auto-generate --container ${profile}" command`);
     return [];
   }
 };

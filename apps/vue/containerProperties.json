@@ -1,12 +1,14 @@
 {
-  "environment": [],
-  "volumes": [
-    {
-      "type": "bind",
-      "source": "./apps/vue/vite.config.ts",
-      "target": "/usr/src/app/vite.config.ts"
-    }
-  ],
-  "networks": ["frontend"],
-  "ports": ["3004:3004"]
+  "main": {
+    "environment": [],
+    "volumes": [
+      {
+        "type": "bind",
+        "source": "./apps/vue/vite.config.ts",
+        "target": "/usr/src/app/vite.config.ts"
+      }
+    ],
+    "networks": ["frontend"],
+    "ports": ["3004:3004"]
+  }
 }

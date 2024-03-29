@@ -1,17 +1,17 @@
 import fs from "fs";
-import { getPrivatePackageDependencies } from "./getPrivatePackageDependencies";
+import { getPrivatePackageDependencies } from "../utils/getPrivatePackageDependencies";
 
-type detectPackagesArgs = {
+type detectWorkspacePackagesArgs = {
   workspace?: string;
   existingPrivatePackages?: string[];
   projectAbsolutePath: string;
 };
 
-export const detectPackages = ({
+export const detectWorkspacePackages = ({
   workspace,
   existingPrivatePackages = [],
   projectAbsolutePath,
-}: detectPackagesArgs) => {
+}: detectWorkspacePackagesArgs) => {
   const file = fs.readFileSync(
     `${projectAbsolutePath}/${workspace}/package.json`,
     {

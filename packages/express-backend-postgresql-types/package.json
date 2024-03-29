@@ -1,5 +1,5 @@
 {
-  "name": "@packages/postgresql-types",
+  "name": "@packages/express-backend-postgresql-types",
   "version": "1.0.0",
   "description": "",
   "type": "commonjs",
