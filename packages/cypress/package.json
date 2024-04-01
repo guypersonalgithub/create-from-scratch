@@ -1,0 +1,15 @@
+{
+  "name": "@packages/cypress",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "devDependencies": {
+    "cypress": "^13.7.1"
+  }
+}

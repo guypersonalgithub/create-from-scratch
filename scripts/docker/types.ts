@@ -1,4 +1,4 @@
-export type dockerComposeData = {
+export type DockerComposeData = {
   services: {
     [service: string]: DockerService;
   };
@@ -11,7 +11,7 @@ type DockerService = {
   environment: string[];
   build?: { dockerfile: string; context: string; target: string };
   profiles: string[];
-  init: boolean;
+  init?: boolean;
   restart: string;
   volumes: DockerContainerVolume[];
   networks: string[];
@@ -33,12 +33,23 @@ type DockerNetwork = {
   name: string;
 };
 
-export type workspaceContainerProperties = Record<
+export type WorkspaceContainerProperties = Record<
   string,
   Pick<
     DockerService,
     "image" | "environment" | "volumes" | "networks" | "ports"
   > & {
     dependsOn: Pick<DockerService, "depends_on">["depends_on"];
+    files?: string[];
+    target?: string;
+    dependencies?: string[];
+    devDependencies?: string[];
+    peerDependencies?: string[];
+    scripts?: Record<string, string>;
+    restart?: string;
+    startCommand?: string;
+    skip?: string[];
   }
 >;
+
+export type Profiles = Set<string>;

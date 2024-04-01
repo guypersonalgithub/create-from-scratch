@@ -2,6 +2,7 @@ import {
   Command,
   detectPackage,
   detectPostgresContainersInRepo,
+  executeTerminalCommand,
   generateDockerComposeDev,
   generateDockerfileDev,
   generatePackage,
@@ -68,6 +69,7 @@ Common commands:
 
       const name = value[0];
       generatePackage({ packageName: name });
+      await executeTerminalCommand({ command: "npm i" });
       break;
     }
     case `--${supportedCommands.container}`: {

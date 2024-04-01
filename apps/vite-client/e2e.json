@@ -1,0 +1,10 @@
+{
+  "name": "e2e",
+  "scripts": {
+    "cypress:open": "cypress open --config-file tests/cypress/cypress.config.ts"
+  },
+  "dependencies": {
+    "@packages/cypress": "*",
+    "typescript": "^5.2.2"
+  }
+}

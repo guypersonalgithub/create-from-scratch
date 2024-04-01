@@ -9,6 +9,20 @@
       }
     ],
     "networks": ["frontend"],
-    "ports": ["5173:5173"]
+    "ports": ["5173:5173"],
+    "skip": ["@packages/cypress"]
+  },
+  "e2e": {
+    "environment": ["NODE_ENV=test"],
+    "networks": ["frontend", "backend"],
+    "ports": ["8080:8080"],
+    "dependsOn": ["vite-client", "express-backend"],
+    "files": ["tests/cypress"],
+    "target": "tests",
+    "dependencies": ["@packages/cypress", "typescript"],
+    "scripts": {
+      "cypress:open": "cypress open --config-file tests/cypress/cypress.config.ts"
+    },
+    "startCommand": ["npm", "run", "cypress:open"]
   }
 }

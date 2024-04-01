@@ -6,10 +6,9 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.angular
       context: ./
-      target: dev
+      target: development
     profiles:
       - angular
-    init: true
     restart: unless-stopped
     volumes:
       - type: bind
@@ -35,10 +34,10 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.express-backend
       context: ./
-      target: dev
+      target: development
     profiles:
       - express-backend
-    init: true
+      - vite-client-e2e
     restart: unless-stopped
     volumes:
       - type: bind
@@ -67,23 +66,6 @@ services:
       - '3002:3002'
     depends_on:
       - express-backend-postgresql
-  express-backend-postgresql:
-    image: postgres:16.2-alpine3.19
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    profiles:
-      - express-backend-postgresql
-      - express-backend
-    init: true
-    restart: unless-stopped
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - backend
-    ports:
-      - '5432:5432'
   next:
     image: next:latest
     environment:
@@ -93,10 +75,9 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.next
       context: ./
-      target: dev
+      target: development
     profiles:
       - next
-    init: true
     restart: unless-stopped
     volumes:
       - type: bind
@@ -123,10 +104,9 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.remix
       context: ./
-      target: dev
+      target: development
     profiles:
       - remix
-    init: true
     restart: unless-stopped
     volumes:
       - type: bind
@@ -152,10 +132,10 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.vite-client
       context: ./
-      target: dev
+      target: development
     profiles:
       - vite-client
-    init: true
+      - vite-client-e2e
     restart: unless-stopped
     volumes:
       - type: bind
@@ -179,6 +159,9 @@ services:
         source: ./packages/get-fps
         target: /usr/src/app/packages/get-fps
       - type: bind
+        source: ./packages/cypress
+        target: /usr/src/app/packages/cypress
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:
@@ -192,10 +175,9 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.vite-micro
       context: ./
-      target: dev
+      target: development
     profiles:
       - vite-micro
-    init: true
     restart: unless-stopped
     volumes:
       - type: bind
@@ -220,10 +202,9 @@ services:
     build:
       dockerfile: ./docker/Dockerfile.vue
       context: ./
-      target: dev
+      target: development
     profiles:
       - vue
-    init: true
     restart: unless-stopped
     volumes:
       - type: bind
@@ -241,6 +222,42 @@ services:
       - frontend
     ports:
       - '3004:3004'
+  express-backend-postgresql:
+    image: postgres:16.2-alpine3.19
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    profiles:
+      - express-backend-postgresql
+      - express-backend
+      - vite-client-e2e
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend
+    ports:
+      - '5432:5432'
+  vite-client-e2e:
+    image: vite-client-e2e:latest
+    build:
+      dockerfile: ./docker/Dockerfile.vite-client-e2e
+      context: ./
+      target: development
+    environment:
+      - NODE_ENV=test
+    profiles:
+      - vite-client-e2e
+    restart: unless-stopped
+    networks:
+      - frontend
+      - backend
+    ports:
+      - '8080:8080'
+    depends_on:
+      - vite-client
+      - express-backend
 volumes:
   pgdata:
     external: false

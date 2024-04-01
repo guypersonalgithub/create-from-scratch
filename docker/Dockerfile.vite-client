@@ -4,9 +4,13 @@ WORKDIR /usr/src/app
 
 COPY ./package-lock.json ./apps/vite-client/package.json ./
 
-FROM base as dev
+FROM base as development
 
 WORKDIR /usr/src/app
+
+ENV NODE_ENV development
+
+RUN npm uninstall @packages/cypress
 
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
@@ -27,6 +31,8 @@ FROM base as production
 WORKDIR /usr/src/app
 
 ENV NODE_ENV production
+
+RUN npm uninstall @packages/cypress
 
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 

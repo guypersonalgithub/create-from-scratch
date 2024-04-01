@@ -1,9 +1,9 @@
-import fs from "fs";
+import { readFileSync } from "fs";
 import { getProjectAbsolutePath } from "./getProjectAbsolutePath";
 
 export const getAvailableDockerProfiles = () => {
   const projectAbsolutePath = getProjectAbsolutePath();
-  const profiles = fs.readFileSync(`${projectAbsolutePath}/profiles.json`, {
+  const profiles = readFileSync(`${projectAbsolutePath}/profiles.json`, {
     encoding: "utf8",
     flag: "r",
   });

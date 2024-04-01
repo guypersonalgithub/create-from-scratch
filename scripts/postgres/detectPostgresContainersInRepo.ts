@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { getProjectAbsolutePath } from "../utils";
 import jsYaml from "js-yaml";
-import { dockerComposeData } from "../docker";
+import { DockerComposeData } from "../docker";
 
 export const detectPostgresContainersInRepo = () => {
   const projectAbsolutePath = getProjectAbsolutePath();
@@ -11,10 +11,10 @@ export const detectPostgresContainersInRepo = () => {
   );
   const convertedDockerCompose = jsYaml.load(
     dockerCompose
-  ) as dockerComposeData;
+  ) as DockerComposeData;
   const { services } = convertedDockerCompose;
 
-  const postgresqlServices: dockerComposeData["services"][number][] = [];
+  const postgresqlServices: DockerComposeData["services"][number][] = [];
   for (const service in services) {
     const serviceData = services[service];
     if (service.includes("postgresql")) {

@@ -1,6 +1,8 @@
 import { mkdirSync, writeFileSync } from "fs";
 import { getProjectAbsolutePath } from "../utils";
 
+// TODO: Either solve certain workspaces not working with "module" packages, or allow the ability to control whether package.json is created with type module or commonJS.
+
 type GeneratePackageArgs = {
   packageName: string;
 };
