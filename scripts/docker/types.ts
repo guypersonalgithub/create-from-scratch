@@ -47,7 +47,8 @@ export type WorkspaceContainerProperties = Record<
     peerDependencies?: string[];
     scripts?: Record<string, string>;
     restart?: string;
-    startCommand?: string;
+    startCommandDev?: string[];
+    startCommandProd?: string[];
     skip?: string[];
   }
 >;

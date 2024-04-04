@@ -56,7 +56,7 @@ export const generateNoneWorkspacePackageJsons = ({
     } = containerData;
 
     writeFileSync(
-      `${folderPath}/${workspace}/${container}.json`,
+      `${folderPath}/${workspace}/${container}.container.json`,
       JSON.stringify(
         {
           name: container,

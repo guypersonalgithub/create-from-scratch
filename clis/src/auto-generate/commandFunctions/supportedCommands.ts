@@ -5,4 +5,5 @@ export const supportedCommands = {
   package: "package",
   container: "container",
   "generate-postgres-types": "generate-postgres-types",
+  "get-dependencies": "get-dependencies",
 };

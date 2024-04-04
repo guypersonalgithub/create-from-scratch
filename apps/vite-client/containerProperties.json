@@ -23,6 +23,7 @@
     "scripts": {
       "cypress:open": "cypress open --config-file tests/cypress/cypress.config.ts"
     },
-    "startCommand": ["npm", "run", "cypress:open"]
+    "startCommandDev": ["npm", "run", "cypress:open"],
+    "startCommandProd": ["npm", "run", "cypress:open"]
   }
 }

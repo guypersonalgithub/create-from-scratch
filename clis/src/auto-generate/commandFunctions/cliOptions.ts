@@ -1,5 +1,6 @@
 import {
   Command,
+  detectAllRepositoryDependencies,
   detectPackage,
   detectPostgresContainersInRepo,
   executeTerminalCommand,
@@ -7,13 +8,14 @@ import {
   generateDockerfileDev,
   generatePackage,
   generatePostgresDBTypes,
-  getAvailableDockerProfiles,
   insertPackageTypes,
   parseEnvironmentString,
+  requestUserInput,
   runDockerContainersByProfile,
 } from "utility-scripts";
 import { supportedCommands } from "./supportedCommands";
 import { loadEnvVariables } from "utility-scripts/utils/envVariables";
+import { printHelp } from "./printHelp";
 
 type CliOptionsArgs = {
   command: Command;
@@ -24,27 +26,7 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
 
   switch (key) {
     case `--${supportedCommands.help}`: {
-      const profiles = getAvailableDockerProfiles();
-
-      console.log(`
-Common commands:
-    ${
-      supportedCommands["docker-compose-dev"]
-    } - Generates the docker compose file with the current package.json properties of each workspace and local packages it uses for the dev environment.
-    ${
-      supportedCommands.dockerfile
-    } - Generates different docker files for each and every workspace and local packages it uses.
-    ${
-      supportedCommands.package
-    } [name] - Generates [name] package with a default predefined package template.
-    ${
-      supportedCommands.container
-    } [profiles] - Will build images, volumes and containers for the appropriate docker profiles. Available options - ${profiles.join(
-        ", "
-      )}
-    ${
-      supportedCommands["generate-postgres-types"]
-    } - Generates an appropriate types package and file with the tables' columns' types.`);
+      printHelp();
       break;
     }
     case `--${supportedCommands["docker-compose-dev"]}`: {
@@ -135,6 +117,36 @@ Common commands:
         insertPackageTypes({ packageName, dbTypes });
       }
 
+      break;
+    }
+    case `--${supportedCommands["get-dependencies"]}`: {
+      const dependencies = detectAllRepositoryDependencies();
+      console.log(dependencies);
+
+      const action = await requestUserInput({
+        question: "Would you like to update a package, or do nothing?",
+      });
+
+      if (action === "do nothing" || action !== "update a package") {
+        return;
+      }
+
+      const allPackagesAvailable = Object.keys(dependencies);
+
+      const response = await requestUserInput({
+        question: `Please pick a package from the following list:\r\n ${allPackagesAvailable.join(
+          ",\r\n"
+        )}`,
+      });
+
+      if (!allPackagesAvailable.includes(response)) {
+        console.error("An incorrect package name was typed.");
+        return;
+      }
+
+      const packageOptions = dependencies[response];
+      console.log(packageOptions);
+      console.log("Under development, updating packages will be added soon.");
       break;
     }
     default: {

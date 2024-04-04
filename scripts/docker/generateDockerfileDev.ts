@@ -195,13 +195,34 @@ const generateNonAppsDockerfiles = ({
       continue;
     }
 
-    const containerFileName = `${container}.json`;
+    const containerFileName = `${container}.container.json`;
     const containerJsonExists = folderRootFiles.includes(containerFileName);
     if (!containerJsonExists) {
       continue;
     }
 
-    const { image, files, target } = workspaceContainerProperties[container];
+    const {
+      image,
+      files,
+      target,
+      startCommandDev = [],
+      startCommandProd = [],
+    } = workspaceContainerProperties[container];
+    const formattedDevCommand = startCommandDev.reduce(
+      (str, current, index) => {
+        const isLastIndex = index === startCommandDev.length - 1;
+        return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
+      },
+      "["
+    );
+
+    const formattedProdCommand = startCommandProd.reduce(
+      (str, current, index) => {
+        const isLastIndex = index === startCommandProd.length - 1;
+        return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
+      },
+      "["
+    );
 
     generateDockerfiles({
       projectAbsolutePath,
@@ -211,8 +232,8 @@ const generateNonAppsDockerfiles = ({
       image,
       files,
       target: `./${target}`,
-      devCommand: `["npm", "run", "cypress:open"]`,
-      prodCommand: `["npm", "run", "cypress:open"]`,
+      devCommand: formattedDevCommand,
+      prodCommand: formattedProdCommand,
     });
   }
 };

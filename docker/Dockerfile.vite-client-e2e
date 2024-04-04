@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY ./package-lock.json ./
 
-ADD ./apps/vite-client/e2e.json ./package.json
+ADD ./apps/vite-client/e2e.container.json ./package.json
 
 FROM base as development
 
@@ -22,7 +22,7 @@ COPY --chown=node:node ./apps/vite-client/tests/cypress ./tests
 
 COPY --chown=node:node ./packages/cypress ./packages/
 
-CMD [npm, run, cypress:open]
+CMD ["npm", "run", "cypress:open"]
 
 
 
@@ -42,4 +42,4 @@ COPY --chown=node:node ./apps/vite-client/tests/cypress ./tests
 
 COPY --chown=node:node ./packages/cypress ./packages/
 
-CMD [npm, run, cypress:open]
+CMD ["npm", "run", "cypress:open"]
