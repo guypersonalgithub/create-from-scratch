@@ -1,7 +1,7 @@
 import { readdirSync, writeFileSync } from "fs";
 import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
 import { getProjectAbsolutePath } from "../utils";
-import { getContainerProperties } from "../utils/getContainerProperties";
+import { getContainerProperties } from "./getContainerProperties";
 
 const lineSeparator = "\n\n";
 

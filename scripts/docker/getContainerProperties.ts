@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { WorkspaceContainerProperties } from "../docker";
+import { WorkspaceContainerProperties } from ".";
 
 type GetContainerPropertiesArgs = {
   folderPath: string;

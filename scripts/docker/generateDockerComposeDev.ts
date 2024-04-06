@@ -7,7 +7,7 @@ import {
   WorkspaceContainerProperties,
 } from "./types";
 import { getProjectAbsolutePath } from "../utils";
-import { getContainerProperties } from "../utils/getContainerProperties";
+import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
 
 export const generateDockerComposeDev = () => {

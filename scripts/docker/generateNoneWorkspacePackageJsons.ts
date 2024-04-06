@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from "fs";
-import { getContainerProperties } from "../utils/getContainerProperties";
+import { getContainerProperties } from "./getContainerProperties";
 import { WorkspaceContainerProperties } from "./types";
 
 type GenerateNoneWorkspacePackageJsonsArgs = {
