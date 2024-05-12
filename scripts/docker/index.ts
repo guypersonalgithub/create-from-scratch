@@ -3,3 +3,4 @@ export * from "./generateDockerfileDev";
 export * from "./generateNoneWorkspacePackageJsons";
 export * from "./runDockerContainersByProfile";
 export * from "./types";
+export * from "./getAvailableDockerProfiles";

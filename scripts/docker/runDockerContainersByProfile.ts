@@ -1,5 +1,5 @@
 import { executeTerminalCommand } from "../terminal";
-import { getAvailableDockerProfiles } from "../utils";
+import { getAvailableDockerProfiles } from "./getAvailableDockerProfiles";
 
 type RunDockerContainersByProfileArgs = {
   profiles: string[];

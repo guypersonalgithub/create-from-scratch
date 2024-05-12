@@ -1,4 +1,4 @@
-import { Client, Pool } from "pg";
+import pg from "pg";
 
 type InitializationProperties = {
   host: string;
@@ -15,7 +15,7 @@ export const initializeClient = ({
   password,
   database,
 }: InitializationProperties) => {
-  const client = new Client({
+  const client = new pg.Client({
     host,
     port,
     user,
@@ -33,7 +33,7 @@ export const initializePool = ({
   password,
   database,
 }: InitializationProperties) => {
-  const pool = new Pool({
+  const pool = new pg.Pool({
     host,
     port,
     user,

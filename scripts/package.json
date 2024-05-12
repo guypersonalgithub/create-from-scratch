@@ -2,7 +2,7 @@
   "name": "utility-scripts",
   "version": "1.0.0",
   "description": "",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "build": "tsc -b ."
   },

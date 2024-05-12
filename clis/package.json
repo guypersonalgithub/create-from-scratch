@@ -1,10 +1,10 @@
 {
   "name": "custom-clis",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "scripts": {
-    "build": "tsc -b .",
-    "test": "ts-node ."
+    "build": "tsc -b ."
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,6 @@
     "utility-scripts": "*"
   },
   "bin": {
-    "auto-generate": "./src/index.js"
+    "auto-generate": "index.js"
   }
 }

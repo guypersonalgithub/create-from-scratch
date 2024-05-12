@@ -1,6 +1,7 @@
 {
   "name": "docker",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "workspaces": [
     "apps/*",
@@ -17,6 +18,7 @@
     "@types/js-yaml": "^4.0.9",
     "js-yaml": "^4.1.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.7.2",
     "typescript": "^5.3.3"
   }
 }
