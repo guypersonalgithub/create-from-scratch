@@ -12,6 +12,11 @@ export const generateNoneWorkspacePackageJsons = ({
   workspace,
 }: GenerateNoneWorkspacePackageJsonsArgs) => {
   const containerProperties = getContainerProperties({ folderPath, workspace });
+  if (!containerProperties) {
+    console.error(`Skipping ${workspace} due to missing configurations.`);
+    return;
+  }
+
   const shouldContinue = packageJsonContainerExists({ containerProperties });
   if (!shouldContinue) {
     return;
@@ -20,7 +25,7 @@ export const generateNoneWorkspacePackageJsons = ({
   const workspacePackageJson = readFileSync(
     `${folderPath}/${workspace}/package.json`,
     {
-      encoding: "utf8",
+      encoding: "utf-8",
       flag: "r",
     }
   );

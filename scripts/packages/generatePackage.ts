@@ -1,8 +1,6 @@
 import { mkdirSync, writeFileSync } from "fs";
 import { getProjectAbsolutePath } from "../utils";
 
-// TODO: Either solve certain workspaces not working with "module" packages, or allow the ability to control whether package.json is created with type module or commonJS.
-
 type GeneratePackageArgs = {
   packageName: string;
 };
@@ -21,6 +19,7 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
   console.log(`Created ${folderPath}`);
   mkdirSync(packageSrc);
   console.log(`Created ${packageSrc}`);
+  const baseEntryPoint = "./src/index.ts";
   writeFileSync(
     packagePackageJson,
     JSON.stringify(
@@ -28,13 +27,17 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
         name: `@packages/${packageName}`,
         version: "1.0.0",
         description: "",
-        type: "commonjs",
+        type: "module",
         scripts: {
           build: "tsc -b .",
         },
         author: "",
         license: "ISC",
-        main: "./src/index.ts",
+        main: baseEntryPoint,
+        module: baseEntryPoint,
+        exports: {
+          ".": baseEntryPoint,
+        },
       },
       null,
       2
@@ -47,7 +50,7 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
       {
         compilerOptions: {
           target: "es6",
-          module: "commonjs",
+          module: "ES2020",
           rootDir: "./src",
           moduleResolution: "node",
           outDir: "./dist",

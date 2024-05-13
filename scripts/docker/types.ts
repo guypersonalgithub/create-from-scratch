@@ -12,7 +12,7 @@ type DockerService = {
   build?: { dockerfile: string; context: string; target: string };
   profiles: string[];
   init?: boolean;
-  restart: string;
+  restart?: string;
   volumes: DockerContainerVolume[];
   networks: string[];
   ports: string[];

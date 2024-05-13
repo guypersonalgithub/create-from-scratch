@@ -3,6 +3,8 @@ import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
 import { getProjectAbsolutePath } from "../utils";
 import { getContainerProperties } from "./getContainerProperties";
 
+// TODO: Map dependencies uniquely, to avoid duplicates.
+
 const lineSeparator = "\n\n";
 
 export const generateDockerfileDev = () => {
@@ -18,12 +20,18 @@ export const generateDockerfileDev = () => {
       workspace,
     });
 
+    if (!workspaceContainerProperties) {
+      console.error(`Skipping ${workspace} due to missing configurations.`);
+      return;
+    }
+
     const { main } = workspaceContainerProperties;
-    const { skip } = main;
+    const { image, skip } = main;
 
     generateDockerfiles({
       projectAbsolutePath,
       workspace,
+      image,
       devCommand: `["npm", "run", "dev"]`,
       prodCommand: `["npm", "run", "build"]`,
       skip,
@@ -63,6 +71,11 @@ const generateDockerfiles = ({
     fileName,
   });
 
+  if (!workspacePackages) {
+    console.error(`Skipping ${workspace} due to missing configurations.`);
+    return;
+  }
+
   const localPackagesFormat = "@packages";
   const formattedSkip = skip.map((skip) => {
     if (skip.includes(localPackagesFormat)) {
@@ -72,7 +85,9 @@ const generateDockerfiles = ({
     return skip;
   });
 
-  const workspacePackagesString = workspacePackages
+  const workspacePackagesArray = [...workspacePackages];
+
+  const workspacePackagesString = workspacePackagesArray
     .filter((pack) => !formattedSkip.includes(pack))
     .map((pack) => `./${pack}`)
     .join(" ");
@@ -94,7 +109,7 @@ const generateDockerfiles = ({
     workspace,
     files,
     target,
-    workspacePackages,
+    workspacePackages: workspacePackagesArray,
     workspacePackagesString,
     command: devCommand,
     skip,

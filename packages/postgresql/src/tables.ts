@@ -1,6 +1,4 @@
-import { readFileSync } from "fs";
 import { Client, Pool, PoolClient } from "pg";
-import { baseDockerPathHelper } from "./utils";
 
 type GetAllPublicTablesListArgs =
   | {
@@ -22,12 +20,9 @@ export const getAllPublicTablesList = async ({
   if (client) {
     try {
       await client.connect();
-      const query = readFileSync(
-        `${baseDockerPathHelper}/queries/publicTables.sql`,
-        {
-          encoding: "utf-8",
-        }
-      );
+      const query = `SELECT table_name, column_name, data_type
+      FROM information_schema.columns
+      WHERE table_schema = 'public';`;
 
       const res = await client.query<PostgresTableProperties>(query);
       return res.rows;
@@ -40,12 +35,9 @@ export const getAllPublicTablesList = async ({
 
   try {
     connection = await pool.connect();
-    const query = readFileSync(
-      `${baseDockerPathHelper}/queries/publicTables.sql`,
-      {
-        encoding: "utf-8",
-      }
-    );
+    const query = `SELECT table_name, column_name, data_type
+    FROM information_schema.columns
+    WHERE table_schema = 'public';`;
 
     const res = await connection.query<PostgresTableProperties>(query);
     return res.rows;

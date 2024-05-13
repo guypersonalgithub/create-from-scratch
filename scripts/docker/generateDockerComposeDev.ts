@@ -1,6 +1,6 @@
 import { readdirSync, writeFileSync } from "fs";
 import jsYaml from "js-yaml";
-import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
+import { detectWorkspacePackages } from "../packages";
 import {
   DockerComposeData,
   Profiles,
@@ -9,6 +9,8 @@ import {
 import { getProjectAbsolutePath } from "../utils";
 import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
+
+// TODO: Map dependencies uniquely, to avoid duplicates.
 
 export const generateDockerComposeDev = () => {
   console.log("Generating new docker compose file");
@@ -75,10 +77,20 @@ const appWorkspaces = ({
       projectAbsolutePath,
     });
 
+    if (!workspacePackages) {
+      console.error(`Skipping ${workspace} due to missing configurations.`);
+      return;
+    }
+
     const workspaceContainerProperties = getContainerProperties({
       folderPath,
       workspace,
     });
+
+    if (!workspaceContainerProperties) {
+      console.error(`Skipping ${workspace} due to missing configurations.`);
+      return;
+    }
 
     generateNoneWorkspacePackageJsons({ folderPath, workspace });
 
