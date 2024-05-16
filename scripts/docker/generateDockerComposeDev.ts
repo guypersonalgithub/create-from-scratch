@@ -125,7 +125,7 @@ const appWorkspaces = ({
           type: "volume",
           target: "/usr/src/app/node_modules",
         },
-        ...workspacePackages.map((pack) => {
+        ...[...workspacePackages].map((pack) => {
           return {
             type: "bind",
             source: `./${pack}`,

@@ -32,7 +32,8 @@ const splitToCommands = ({ flags }: SplitToCommandsArgs) => {
 
   for (let i = 0; i < flags.length; i++) {
     const current = flags[i];
-    const isFlag = current.includes("--");
+    const isFlag = current.slice(0, 2) === "--";
+    
     if (!isFlag && commands.length === 0) {
       console.error(
         `Skipped a received unexpected value without flag key - ${current}`
@@ -41,7 +42,8 @@ const splitToCommands = ({ flags }: SplitToCommandsArgs) => {
     }
 
     if (isFlag) {
-      commands.push({ key: current, value: [] });
+      const onlyFlagValue = current.slice(2);
+      commands.push({ key: onlyFlagValue, value: [] });
       continue;
     }
 

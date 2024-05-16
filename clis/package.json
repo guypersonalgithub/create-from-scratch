@@ -10,7 +10,8 @@
   "license": "ISC",
   "main": "./src/index.ts",
   "dependencies": {
-    "utility-scripts": "*"
+    "utility-scripts": "*",
+    "@packages/utils": "*"
   },
   "bin": {
     "auto-generate": "index.js"

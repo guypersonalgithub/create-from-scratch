@@ -60,7 +60,7 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
           skipLibCheck: true,
           declaration: true,
         },
-        include: ["src"],
+        include: ["./src"],
       },
       null,
       2

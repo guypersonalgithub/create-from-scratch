@@ -121,7 +121,7 @@ const generateDockerfiles = ({
     workspace,
     files,
     target,
-    workspacePackages,
+    workspacePackages: workspacePackagesArray,
     workspacePackagesString,
     command: prodCommand,
     skip,

@@ -1,13 +1,35 @@
-import { getCommandFlags } from "utility-scripts";
+import { Option, getCommandFlags, multiOptions } from "utility-scripts";
 import { cliOptions } from "./commandFunctions/cliOptions";
+import { SupportedCommands } from "./commandFunctions/supportedCommands";
 
 const entryPoint = async () => {
   const commands = getCommandFlags();
 
   if (commands.length === 0) {
-    return console.error(
-      "Missing a command flag! Try to add the --help flag to learn more about available options"
-    );
+    const options: Option[] = [];
+
+    for (const command in SupportedCommands) {
+      const value =
+        SupportedCommands[command as keyof typeof SupportedCommands];
+
+      options.push({
+        value,
+        label: value,
+      });
+    }
+
+    const selectedOptions = await multiOptions({
+      options,
+      prefixText: "Please pick the option you'd like to use:\n",
+      suffixText: "\nPress Enter to confirm",
+    });
+
+    selectedOptions.forEach((option) => {
+      commands.push({
+        key: option.value,
+        value: [],
+      });
+    });
   }
 
   for await (const command of commands) {

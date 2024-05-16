@@ -1,9 +1,9 @@
-export const supportedCommands = {
-  help: "help",
-  "docker-compose-dev": "docker-compose-dev",
-  dockerfile: "dockerfile",
-  package: "package",
-  container: "container",
-  "generate-postgres-types": "generate-postgres-types",
-  "get-dependencies": "get-dependencies",
-};
+export enum SupportedCommands {
+  HELP = "help",
+  DOCKER_COMPOSE_DEV = "docker-compose-dev",
+  DOCKERFILE = "dockerfile",
+  PACKAGE = "package",
+  CONTAINER = "container",
+  GENERATE_POSTGRES_TYPES = "generate-postgres-types",
+  GET_DEPENDENCIES = "get-dependencies",
+}
