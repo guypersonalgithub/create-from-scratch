@@ -14,5 +14,9 @@
   },
   "author": "",
   "license": "ISC",
-  "main": "./src/index.ts"
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
 }
