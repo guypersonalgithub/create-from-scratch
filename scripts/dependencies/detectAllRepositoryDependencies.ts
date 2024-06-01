@@ -1,7 +1,8 @@
 import { readFileSync, readdirSync } from "fs";
-import { generateRegexOffPattern, getProjectAbsolutePath } from "../utils";
+import { generateRegexOffPattern } from "../utils";
 import { DependenciesMap } from "./types";
 import { getConfigFileData } from "./getConfigFileData";
+import { getProjectAbsolutePath } from "../paths";
 
 export const detectAllRepositoryDependencies = () => {
   const absolutePath = getProjectAbsolutePath();

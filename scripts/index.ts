@@ -5,3 +5,8 @@ export * from "./utils";
 export * from "./dependencies";
 export * from "./terminal";
 export * from "./githubActions";
+export * from "./vite";
+export * from "./typescript";
+export * from "./prettier";
+export * from "./eslint";
+export * from "./paths";

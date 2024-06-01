@@ -1,4 +1,4 @@
-import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
+import { detectWorkspacePackages } from "./detectWorkspacePackages";
 
 type getPrivatePackageDependenciesArgs = {
   dependencies: Record<string, string>;

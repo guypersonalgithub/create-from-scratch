@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { getProjectAbsolutePath } from "../utils";
+import { getProjectAbsolutePath } from "../paths";
 import jsYaml from "js-yaml";
 import { DockerComposeData } from "../docker";
 

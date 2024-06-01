@@ -6,7 +6,7 @@ import {
   Profiles,
   WorkspaceContainerProperties,
 } from "./types";
-import { getProjectAbsolutePath } from "../utils";
+import { getProjectAbsolutePath } from "../paths";
 import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
 

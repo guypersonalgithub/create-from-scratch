@@ -4,8 +4,8 @@ import {
   generatePostgresDBTypes,
   insertPackageTypes,
   parseEnvironmentString,
+  loadEnvVariables,
 } from "utility-scripts";
-import { loadEnvVariables } from "utility-scripts/utils/envVariables";
 
 export const generatePostgresTypes = async () => {
   const services = detectPostgresContainersInRepo();

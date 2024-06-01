@@ -1,6 +1,6 @@
 import { readdirSync, writeFileSync } from "fs";
 import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
-import { getProjectAbsolutePath } from "../utils";
+import { getProjectAbsolutePath } from "../paths";
 import { getContainerProperties } from "./getContainerProperties";
 
 // TODO: Map dependencies uniquely, to avoid duplicates.

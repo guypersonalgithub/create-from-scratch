@@ -9,8 +9,7 @@ const entryPoint = async () => {
     const options: Option[] = [];
 
     for (const command in SupportedCommands) {
-      const value =
-        SupportedCommands[command as keyof typeof SupportedCommands];
+      const value = SupportedCommands[command as keyof typeof SupportedCommands];
 
       options.push({
         value,

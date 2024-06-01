@@ -6,4 +6,5 @@ export enum SupportedCommands {
   CONTAINER = "container",
   GENERATE_POSTGRES_TYPES = "generate-postgres-types",
   GET_DEPENDENCIES = "get-dependencies",
+  VITE_ALIASES = "vite-aliases",
 }

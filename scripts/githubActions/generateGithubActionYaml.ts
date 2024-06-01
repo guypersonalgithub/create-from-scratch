@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { GithubActionYaml } from "./types";
 import jsYaml from "js-yaml";
-import { getProjectAbsolutePath } from "../utils";
+import { getProjectAbsolutePath } from "../paths";
 import { detectWorkspacePackages } from "../packages";
 
 export const generateGithubActionYaml = async () => {

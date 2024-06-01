@@ -5,6 +5,6 @@
   },
   "dependencies": {
     "@packages/cypress": "*",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.5"
   }
 }

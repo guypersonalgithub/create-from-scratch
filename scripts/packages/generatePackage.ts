@@ -1,5 +1,5 @@
 import { mkdirSync, writeFileSync } from "fs";
-import { getProjectAbsolutePath } from "../utils";
+import { getProjectAbsolutePath } from "../paths";
 
 type GeneratePackageArgs = {
   packageName: string;

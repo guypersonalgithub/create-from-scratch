@@ -2,6 +2,7 @@ import {
   Command,
   generateDockerComposeDev,
   generateDockerfileDev,
+  updateViteConfigLocalDependenciesAliases,
 } from "utility-scripts";
 import { SupportedCommands } from "./supportedCommands";
 import { printHelp } from "./printHelp";
@@ -44,6 +45,10 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.GET_DEPENDENCIES: {
       await pickDependenciesToUpdate();
+      break;
+    }
+    case SupportedCommands.VITE_ALIASES: {
+      await updateViteConfigLocalDependenciesAliases();
       break;
     }
     default: {

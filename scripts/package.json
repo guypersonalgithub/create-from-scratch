@@ -12,9 +12,9 @@
   },
   "author": "",
   "license": "ISC",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
+  "main": "./index.ts",
+  "module": "./index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./index.ts"
   }
 }

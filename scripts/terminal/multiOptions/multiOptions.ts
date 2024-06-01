@@ -84,8 +84,7 @@ export const multiOptions = ({
           sumOfRowsBeforeCurrent += optionRows;
         }
 
-        const amountOfLinesFromBottom =
-          amountOfLines - prefixLines - sumOfRowsBeforeCurrent;
+        const amountOfLinesFromBottom = amountOfLines - prefixLines - sumOfRowsBeforeCurrent;
         clearTerminalLine({
           amountOfLinesFromBottom,
           amountOfLines: rowsPerOption[index],
@@ -99,7 +98,13 @@ export const multiOptions = ({
           cursorIndex,
           isMultiSelect,
         });
-        readline.moveCursor(process.stdout, 0, process.stdout.rows);
+
+        const moveCursorTo =
+          process.stdout.rows - amountOfLinesFromBottom > 0
+            ? amountOfLinesFromBottom - 1 // amountOfLinesFromBottom includes the current option as an additional line, as we substract the sum of rows before the current one.
+            : // However, while moving the cursor, we want it to be exactly on the row of the option that was just changed, so we substract one that represents the current row.
+              process.stdout.rows;
+        readline.moveCursor(process.stdout, 0, moveCursorTo);
       });
     };
 
@@ -124,11 +129,7 @@ export const multiOptions = ({
         } else {
           cursorIndex++;
         }
-      } else if (
-        keyCode === keyInputs.SPACE &&
-        options[cursorIndex] &&
-        isMultiSelect
-      ) {
+      } else if (keyCode === keyInputs.SPACE && options[cursorIndex] && isMultiSelect) {
         const option = options[cursorIndex];
         const isSelected = selectedOptions.includes(option);
         if (isSelected) {

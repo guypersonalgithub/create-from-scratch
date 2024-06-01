@@ -1,5 +1,5 @@
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from "fs";
-import { getProjectAbsolutePath } from "../utils";
+import { getProjectAbsolutePath } from "../paths";
 
 type InsertPackageTypesArgs = {
   packageName: string;

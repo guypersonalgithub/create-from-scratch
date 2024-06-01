@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { getPrivatePackageDependencies } from "../utils";
+import { getPrivatePackageDependencies } from "../packages";
 
 type detectWorkspacePackagesArgs = {
   workspace?: string;
