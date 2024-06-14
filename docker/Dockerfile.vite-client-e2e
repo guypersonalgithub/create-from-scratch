@@ -2,7 +2,7 @@ FROM node:20.11.0-alpine3.19 AS base
 
 WORKDIR /usr/src/app
 
-COPY ./package-lock.json ./
+COPY ./apps/vite-client/package-lock.json ./
 
 ADD ./apps/vite-client/e2e.container.json ./package.json
 

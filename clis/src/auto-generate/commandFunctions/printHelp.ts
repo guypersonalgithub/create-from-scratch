@@ -18,7 +18,7 @@ export const printHelp = () => {
     [SupportedCommands.PACKAGE]:
       "[name] - Generates [name] package with a default predefined package template.",
     [SupportedCommands.CONTAINER]: `[profiles] - Will build images, volumes and containers for the appropriate docker profiles. Available options - ${profiles.join(
-      ", "
+      ", ",
     )}`,
     [SupportedCommands.GENERATE_POSTGRES_TYPES]:
       "Generates an appropriate types package and file with the tables' columns' types.",
@@ -26,11 +26,12 @@ export const printHelp = () => {
       "Generates a list with all dependencies in any package.json in the repository and other json files, based off the configuration file",
     [SupportedCommands.VITE_ALIASES]:
       "Updates for each workspace based off Vite its resolve aliases of local dependencies within its vite config file",
+    [SupportedCommands.PACKAGE_LOCK]:
+      "Generates different package-lock.json files for each workspace",
   };
 
   for (const command in commandDescriptions) {
-    const description =
-      commandDescriptions[command as keyof typeof commandDescriptions];
+    const description = commandDescriptions[command as keyof typeof commandDescriptions];
 
     console.log(`${command} - ${description}`);
   }

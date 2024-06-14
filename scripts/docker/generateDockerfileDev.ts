@@ -97,7 +97,7 @@ const generateDockerfiles = ({
   const dockerfileCommandsBase = [
     `FROM ${image} AS base`,
     "WORKDIR /usr/src/app",
-    `COPY ./package-lock.json ${
+    `COPY ./apps/${workspace}/package-lock.json ${
       !isUniqueFile ? `./apps/${workspace}/package.json ` : ""
     }./`,
     isUniqueFile ? `ADD ./apps/${workspace}/${fileName} ./package.json` : null,
@@ -137,7 +137,7 @@ const generateDockerfiles = ({
 
   writeFileSync(
     `${projectAbsolutePath}/docker/Dockerfile.${container}`,
-    completeDockerfileCommands
+    completeDockerfileCommands,
   );
 };
 
@@ -166,9 +166,7 @@ const generateDockerfileCommandsLayer = ({
 }: GenerateDockerfileCommandsLayer) => {
   const workingFolder = `./apps/${workspace}`;
   const copiedFiles =
-    files.length > 0
-      ? files.map((file) => `${workingFolder}/${file}`).join(", ")
-      : workingFolder;
+    files.length > 0 ? files.map((file) => `${workingFolder}/${file}`).join(", ") : workingFolder;
 
   const dependenciesUninstall = skip.join(" ");
 
@@ -223,21 +221,15 @@ const generateNonAppsDockerfiles = ({
       startCommandDev = [],
       startCommandProd = [],
     } = workspaceContainerProperties[container];
-    const formattedDevCommand = startCommandDev.reduce(
-      (str, current, index) => {
-        const isLastIndex = index === startCommandDev.length - 1;
-        return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
-      },
-      "["
-    );
+    const formattedDevCommand = startCommandDev.reduce((str, current, index) => {
+      const isLastIndex = index === startCommandDev.length - 1;
+      return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
+    }, "[");
 
-    const formattedProdCommand = startCommandProd.reduce(
-      (str, current, index) => {
-        const isLastIndex = index === startCommandProd.length - 1;
-        return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
-      },
-      "["
-    );
+    const formattedProdCommand = startCommandProd.reduce((str, current, index) => {
+      const isLastIndex = index === startCommandProd.length - 1;
+      return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
+    }, "[");
 
     generateDockerfiles({
       projectAbsolutePath,

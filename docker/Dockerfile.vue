@@ -2,7 +2,7 @@ FROM node:20.11.0-alpine3.19 AS base
 
 WORKDIR /usr/src/app
 
-COPY ./package-lock.json ./apps/vue/package.json ./
+COPY ./apps/vue/package-lock.json ./apps/vue/package.json ./
 
 FROM base as development
 

@@ -10,3 +10,4 @@ export * from "./typescript";
 export * from "./prettier";
 export * from "./eslint";
 export * from "./paths";
+export * from "./packageLock";
