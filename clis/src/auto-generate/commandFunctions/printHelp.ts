@@ -28,6 +28,7 @@ export const printHelp = () => {
       "Updates for each workspace based off Vite its resolve aliases of local dependencies within its vite config file",
     [SupportedCommands.PACKAGE_LOCK]:
       "Generates different package-lock.json files for each workspace",
+    [SupportedCommands.CHANGED_FILES]: "Lists all of the files that were changed in the repository",
   };
 
   for (const command in commandDescriptions) {

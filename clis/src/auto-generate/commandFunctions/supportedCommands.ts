@@ -8,4 +8,5 @@ export enum SupportedCommands {
   GET_DEPENDENCIES = "get-dependencies",
   VITE_ALIASES = "vite-aliases",
   PACKAGE_LOCK = "package-lock",
+  CHANGED_FILES = "changed-files",
 }

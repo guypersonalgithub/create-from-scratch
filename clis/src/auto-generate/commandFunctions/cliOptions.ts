@@ -1,5 +1,6 @@
 import {
   Command,
+  detectChangedDependencies,
   generateDockerComposeDev,
   generateDockerfileDev,
   generatePackageLock,
@@ -54,6 +55,11 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.PACKAGE_LOCK: {
       await generatePackageLock();
+      break;
+    }
+    case SupportedCommands.CHANGED_FILES: {
+      const changedDependencies = await detectChangedDependencies();
+      console.log(changedDependencies);
       break;
     }
     default: {

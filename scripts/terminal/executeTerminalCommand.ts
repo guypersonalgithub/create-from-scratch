@@ -1,22 +1,39 @@
-import { execSync, spawn } from "child_process";
+import { exec, execSync, spawn } from "child_process";
 
 type ExecuteTerminalCommandArgs = {
   command: string;
 };
 
-export const executeTerminalCommand = ({
-  command,
-}: ExecuteTerminalCommandArgs) => {
+export const executeTerminalCommand = ({ command }: ExecuteTerminalCommandArgs) => {
   try {
-    execSync(command, {
+    return execSync(command, {
       encoding: "utf-8",
       stdio: "inherit",
     });
   } catch (error) {
     const isError = error instanceof Error;
-    console.error(
-      `Error executing command: ${isError ? error.message : error}`
-    );
+    console.error(`Error executing command: ${isError ? error.message : error}`);
+  }
+};
+
+export const executeTerminalCommandWithResponse = ({
+  command,
+}: ExecuteTerminalCommandArgs): Promise<string | undefined> | undefined => {
+  try {
+    return new Promise((resolve, reject) => {
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          reject(`error: ${error.message}`);
+        } else if (stderr) {
+          reject(`stderr: ${stderr}`);
+        } else {
+          resolve(stdout);
+        }
+      });
+    });
+  } catch (error) {
+    const isError = error instanceof Error;
+    console.error(`Error executing command: ${isError ? error.message : error}`);
   }
 };
 
