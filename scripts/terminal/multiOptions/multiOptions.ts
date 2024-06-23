@@ -108,12 +108,7 @@ export const multiOptions = ({
       });
     };
 
-    displayOptions({});
-
-    // process.stdin.setRawMode(true);
-    // process.stdin.resume();
-
-    process.stdin.on("data", (key) => {
+    const handleKeypress = (key: Buffer) => {
       const keyCode = key.toString("hex");
 
       previousIndex = cursorIndex;
@@ -145,13 +140,19 @@ export const multiOptions = ({
 
         process.stdout.write("\u001b[1A\u001b[K");
         rl.close();
-        // process.stdin.setRawMode(false);
+        process.stdin.setRawMode(false);
         revealTerminalCursor();
+        process.stdin.removeListener("data", handleKeypress);
         resolve(selectedOptions);
         return;
       }
 
       displayOptions({ previousIndex });
-    });
+    };
+
+    displayOptions({});
+
+    process.stdin.on("data", handleKeypress);
+    process.stdin.setRawMode(true);
   });
 };
