@@ -16,7 +16,7 @@ export default defineConfig({
     alias: {
       "packages/micro-frontends": path.resolve(
         "__dirname",
-        "../../packages/packages/micro-frontends/src/index.ts",
+        "../../packages/micro-frontends/src/index.ts",
       ),
     },
   },

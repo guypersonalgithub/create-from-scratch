@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from "fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from "fs";
 import { getProjectAbsolutePath } from "../paths";
 import { detectWorkspacePackages } from "../packages";
 import { executeTerminalCommand } from "../terminal";
@@ -11,7 +11,7 @@ export const generatePackageLock = async () => {
     const packagesFolder = "packages";
     const folderPath = `${projectAbsolutePath}/${workspacesFolder}`;
     const workspaces = readdirSync(folderPath);
-    const [changedPackageJsons] = await Promise.all([detectPackageJsonDependencyChanges()]);
+    const changedPackageJsons = await detectPackageJsonDependencyChanges();
 
     workspaces.forEach(async (workspace) => {
       const workspacePath = `${folderPath}/${workspace}`;

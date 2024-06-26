@@ -1,4 +1,4 @@
-import { Option, getCommandFlags, multiOptions } from "utility-scripts";
+import { Option, getCommandFlags, multiOptions } from "dev-tools";
 import { cliOptions } from "./commandFunctions/cliOptions";
 import { SupportedCommands } from "./commandFunctions/supportedCommands";
 
@@ -35,7 +35,7 @@ const entryPoint = async () => {
     try {
       await cliOptions({ command });
     } catch (error) {
-      console.log(`The command ${command} has failed.
+      console.log(`The command ${command.key} - ${command.value} has failed.
       Error: ${error}`);
     }
   }

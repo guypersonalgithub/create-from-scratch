@@ -13,3 +13,6 @@ export * from "./paths";
 export * from "./packageLock";
 export * from "./git";
 export * from "./fileSystem";
+export * from "./operatingSystem";
+export * from "./globalDependencies";
+export * from "./clis";

@@ -103,10 +103,11 @@ const transformExportDefault = ({
   };
 
   packages.forEach((pack) => {
+    const packageName = pack.split("/")?.[1];
     newExportDefault.resolve.alias[pack] = {
       __expression: {
         callee: "path.resolve",
-        arguments: ["__dirname", `${relativePath}/${pack}/src/index.ts`],
+        arguments: ["__dirname", `${relativePath}/${packageName}/src/index.ts`],
       },
     };
   });

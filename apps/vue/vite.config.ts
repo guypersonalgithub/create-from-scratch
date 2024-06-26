@@ -18,7 +18,7 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
       "packages/micro-frontends": path.resolve(
         "__dirname",
-        "../../packages/packages/micro-frontends/src/index.ts",
+        "../../packages/micro-frontends/src/index.ts",
       ),
     },
   },

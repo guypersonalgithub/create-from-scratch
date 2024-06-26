@@ -11,7 +11,11 @@ export const detectPackageJsonDependencyChanges = async () => {
   }
 
   for (const changedFile of changedFiles) {
-    const { file } = changedFile;
+    const { file, status } = changedFile;
+    if (status === "D") {
+      continue;
+    }
+
     if (!file.includes(packageJsonFile)) {
       continue;
     }

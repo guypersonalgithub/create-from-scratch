@@ -5,17 +5,13 @@ import {
   insertPackageTypes,
   parseEnvironmentString,
   loadEnvVariables,
-} from "utility-scripts";
+} from "dev-tools";
 
 export const generatePostgresTypes = async () => {
   const services = detectPostgresContainersInRepo();
   loadEnvVariables();
 
-  const commonPostgresVariables = [
-    "POSTGRES_USER",
-    "POSTGRES_PASSWORD",
-    "POSTGRES_DB",
-  ];
+  const commonPostgresVariables = ["POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DB"];
 
   for await (const service of services) {
     const { profiles, ports, environment } = service;
@@ -30,9 +26,7 @@ export const generatePostgresTypes = async () => {
     const port = Number(portString);
     const [user, password, database] = environment.map((_, index) => {
       const postgresVariable = commonPostgresVariables[index];
-      const variableString = environment.find((env) =>
-        env.includes(postgresVariable)
-      );
+      const variableString = environment.find((env) => env.includes(postgresVariable));
       if (!variableString) {
         return;
       }

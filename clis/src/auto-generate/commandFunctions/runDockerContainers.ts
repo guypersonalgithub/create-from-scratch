@@ -1,16 +1,10 @@
-import {
-  getAvailableDockerProfiles,
-  multiOptions,
-  runDockerContainersByProfile,
-} from "utility-scripts";
+import { getAvailableDockerProfiles, multiOptions, runDockerContainersByProfile } from "dev-tools";
 
 type RunDockerContainersArgs = {
   pickedContainers: string[];
 };
 
-export const runDockerContainers = async ({
-  pickedContainers,
-}: RunDockerContainersArgs) => {
+export const runDockerContainers = async ({ pickedContainers }: RunDockerContainersArgs) => {
   const containers: string[] = pickedContainers;
 
   if (containers.length === 0) {

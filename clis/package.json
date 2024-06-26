@@ -8,9 +8,8 @@
   },
   "author": "",
   "license": "ISC",
-  "main": "./src/index.ts",
   "dependencies": {
-    "utility-scripts": "*",
+    "dev-tools": "*",
     "@packages/utils": "*"
   },
   "bin": {

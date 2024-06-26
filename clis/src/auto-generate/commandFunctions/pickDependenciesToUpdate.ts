@@ -1,7 +1,4 @@
-import {
-  detectAllRepositoryDependencies,
-  requestUserInput,
-} from "utility-scripts";
+import { detectAllRepositoryDependencies, requestUserInput } from "dev-tools";
 
 export const pickDependenciesToUpdate = async () => {
   const dependencies = detectAllRepositoryDependencies();
@@ -19,7 +16,7 @@ export const pickDependenciesToUpdate = async () => {
 
   const response = await requestUserInput({
     question: `Please pick a package from the following list:\r\n ${allPackagesAvailable.join(
-      ",\r\n"
+      ",\r\n",
     )}`,
   });
 

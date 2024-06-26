@@ -5,7 +5,7 @@ import {
   generateDockerfileDev,
   generatePackageLock,
   updateViteConfigLocalDependenciesAliases,
-} from "utility-scripts";
+} from "dev-tools";
 import { SupportedCommands } from "./supportedCommands";
 import { printHelp } from "./printHelp";
 import { runDockerContainers } from "./runDockerContainers";
