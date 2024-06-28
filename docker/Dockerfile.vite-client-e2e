@@ -6,6 +6,8 @@ COPY ./apps/vite-client/package-lock.json ./
 
 ADD ./apps/vite-client/e2e.container.json ./package.json
 
+
+
 FROM base as development
 
 WORKDIR /usr/src/app
@@ -14,7 +16,7 @@ ENV NODE_ENV development
 
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
-    npm i
+    npm install
 
 USER node
 
@@ -43,3 +45,23 @@ COPY --chown=node:node ./apps/vite-client/tests/cypress ./tests
 COPY --chown=node:node ./packages/cypress ./packages/
 
 CMD ["npm", "run", "cypress:open"]
+
+
+
+FROM base as debugFiles
+
+WORKDIR /usr/src/app
+
+ENV NODE_ENV debugFiles
+
+RUN --mount=type=cache,target=/usr/src/app/.npm \ 
+    npm set cache /usr/src/app/.npm && \ 
+    npm install
+
+USER node
+
+COPY --chown=node:node ./apps/vite-client/tests/cypress ./tests
+
+COPY --chown=node:node ./packages/cypress ./packages/
+
+CMD ["sh", "-c", "while :; do sleep 2073600; done"]

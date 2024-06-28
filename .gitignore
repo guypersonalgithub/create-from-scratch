@@ -5,3 +5,4 @@ dist
 .npm
 .env
 logs
+temp

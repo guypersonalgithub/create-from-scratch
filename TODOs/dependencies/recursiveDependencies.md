@@ -1,0 +1,1 @@
+- Create a function that will map local dependencies and will leave reports for encountered recursive dependencies.

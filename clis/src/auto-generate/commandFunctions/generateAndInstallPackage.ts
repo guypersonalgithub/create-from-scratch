@@ -1,4 +1,10 @@
-import { executeTerminalCommand, generatePackage, getUserInput } from "dev-tools";
+import {
+  detectRepositoryPackageManager,
+  executeTerminalCommand,
+  generatePackage,
+  getPackageManagerInstallCommand,
+  getUserInput,
+} from "dev-tools";
 
 type GenerateAndInstallPackageArgs = {
   value: string[];
@@ -15,12 +21,17 @@ export const generateAndInstallPackage = async ({ value }: GenerateAndInstallPac
     });
   }
 
+  const packageManager = detectRepositoryPackageManager();
+
   if (value.length > 1) {
-    console.error("Received a package name with a space, which is not a format npm supports.");
+    console.error(
+      `Received a package name with a space, which is not a format ${packageManager} supports.`,
+    );
     return;
   }
 
   const name = value[0];
   generatePackage({ packageName: name });
-  await executeTerminalCommand({ command: "npm i" });
+  const command = getPackageManagerInstallCommand({ packageManager });
+  await executeTerminalCommand({ command });
 };

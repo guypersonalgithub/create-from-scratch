@@ -1,0 +1,1 @@
+- Finish the version manager of dependencies through the repository.s

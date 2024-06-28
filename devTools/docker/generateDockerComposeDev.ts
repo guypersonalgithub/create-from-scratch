@@ -10,8 +10,6 @@ import { getProjectAbsolutePath } from "../paths";
 import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
 
-// TODO: Map dependencies uniquely, to avoid duplicates.
-
 export const generateDockerComposeDev = () => {
   console.log("Generating new docker compose file");
 

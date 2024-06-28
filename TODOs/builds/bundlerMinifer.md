@@ -1,0 +1,1 @@
+- Create a method to build and minify workspaces for production.

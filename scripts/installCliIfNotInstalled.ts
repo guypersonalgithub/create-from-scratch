@@ -1,4 +1,9 @@
-import { cliAlreadyInstalled, executeTerminalCommand, getOperatingSystem } from "../devTools";
+import {
+  cliAlreadyInstalled,
+  executeTerminalCommand,
+  getOperatingSystem,
+  getPackageManagerLinkCommand,
+} from "../devTools";
 
 const installAutoGenerateIfNotAlreadyInstalled = async () => {
   const isAlreadyInstalled = await cliAlreadyInstalled({ cliName: "custom-clis" });
@@ -7,7 +12,8 @@ const installAutoGenerateIfNotAlreadyInstalled = async () => {
   }
 
   const operatingSystem = getOperatingSystem();
-  const baseCommand = "npm install -g ./clis";
+  const linkCommand = getPackageManagerLinkCommand();
+  const baseCommand = `${linkCommand} ./clis`;
 
   if (operatingSystem === "windows") {
     executeTerminalCommand({ command: baseCommand });

@@ -4,3 +4,4 @@ export * from "./generateRegexOffPattern";
 export * from "./envVariables";
 export * from "./replaceOrInsertCharactersInRange";
 export * from "./mapFileImports";
+export * from "./sendRequest";

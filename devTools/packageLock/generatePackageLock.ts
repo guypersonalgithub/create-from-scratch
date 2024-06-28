@@ -2,16 +2,25 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from "fs";
 import { getProjectAbsolutePath } from "../paths";
 import { detectWorkspacePackages } from "../packages";
 import { executeTerminalCommand } from "../terminal";
-import { detectPackageJsonDependencyChanges } from "../git";
+import { detectPackageJsonDependencyChanges, updateGitIgnore } from "../git";
+import { getPackageManagerCreateLockfileOnlyCommand } from "../packageManager";
 
 export const generatePackageLock = async () => {
   {
     const projectAbsolutePath = getProjectAbsolutePath();
     const workspacesFolder = "apps";
     const packagesFolder = "packages";
+    const temporaryFolder = "temp";
     const folderPath = `${projectAbsolutePath}/${workspacesFolder}`;
     const workspaces = readdirSync(folderPath);
     const changedPackageJsons = await detectPackageJsonDependencyChanges();
+    updateGitIgnore({ filesToIgnore: [temporaryFolder] });
+
+    const temporaryFolderPath = `${projectAbsolutePath}/${temporaryFolder}`;
+    const folderAlreadyExists = existsSync(temporaryFolderPath);
+    if (!folderAlreadyExists) {
+      mkdirSync(temporaryFolderPath);
+    }
 
     workspaces.forEach(async (workspace) => {
       const workspacePath = `${folderPath}/${workspace}`;
@@ -40,7 +49,7 @@ export const generatePackageLock = async () => {
       }
 
       const workspacePackageLockPath = `${workspacePath}/package-lock.json`;
-      const tempFolder = `${projectAbsolutePath}/temp-${workspace}`;
+      const tempFolder = `${temporaryFolderPath}/temp-${workspace}`;
       const tempFolderPackageLockPath = `${tempFolder}/package-lock.json`;
       const folderAlreadyExists = existsSync(tempFolder);
       if (!folderAlreadyExists) {
@@ -88,8 +97,10 @@ export const generatePackageLock = async () => {
         });
       }
 
+      const generateLockFileCommand = getPackageManagerCreateLockfileOnlyCommand();
+
       await executeTerminalCommand({
-        command: `cd ${tempFolder} && npm i --package-lock-only --ignore-scripts`,
+        command: `cd ${tempFolder} && ${generateLockFileCommand}`,
       });
       copyFileSync(tempFolderPackageLockPath, workspacePackageLockPath);
       rmSync(tempFolder, { recursive: true, force: true });

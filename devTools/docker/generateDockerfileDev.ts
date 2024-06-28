@@ -2,10 +2,15 @@ import { readdirSync, writeFileSync } from "fs";
 import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
 import { getProjectAbsolutePath } from "../paths";
 import { getContainerProperties } from "./getContainerProperties";
-
-// TODO: Map dependencies uniquely, to avoid duplicates.
+import {
+  detectRepositoryPackageManager,
+  getPackageManagerInstallCommand,
+  getPackageManagerProductionInstallCommand,
+  getPackageManagerRunScriptCommand,
+} from "../packageManager";
 
 const lineSeparator = "\n\n";
+const debugFilesCommand = `["sh", "-c", "while :; do sleep 2073600; done"]`;
 
 export const generateDockerfileDev = () => {
   // Currently this script has both dev and prod commands, later on they will be separated into different files.
@@ -14,6 +19,15 @@ export const generateDockerfileDev = () => {
   const projectAbsolutePath = getProjectAbsolutePath();
   const folderPath = `${projectAbsolutePath}/apps`;
   const workspaces = readdirSync(folderPath);
+  const runCommand = getPackageManagerRunScriptCommand();
+  const devCommand = `${runCommand} dev`;
+  const prodCommand = `${runCommand} build`;
+  const formattedDevCommand = convertCommandToDockerCMD({ command: devCommand });
+  const formattedProdCommand = convertCommandToDockerCMD({ command: prodCommand });
+  const packageManager = detectRepositoryPackageManager();
+  const developmentInstallCommand = getPackageManagerInstallCommand({ packageManager });
+  const productionInstallCommand = getPackageManagerProductionInstallCommand({ packageManager });
+
   workspaces.forEach((workspace) => {
     const workspaceContainerProperties = getContainerProperties({
       folderPath,
@@ -32,11 +46,19 @@ export const generateDockerfileDev = () => {
       projectAbsolutePath,
       workspace,
       image,
-      devCommand: `["npm", "run", "dev"]`,
-      prodCommand: `["npm", "run", "build"]`,
+      devCommand: formattedDevCommand,
+      prodCommand: formattedProdCommand,
       skip,
+      developmentInstallCommand,
+      productionInstallCommand,
     });
-    generateNonAppsDockerfiles({ projectAbsolutePath, folderPath, workspace });
+    generateNonAppsDockerfiles({
+      projectAbsolutePath,
+      folderPath,
+      workspace,
+      developmentInstallCommand,
+      productionInstallCommand,
+    });
   });
 };
 
@@ -51,6 +73,8 @@ type GenerateDockerfilesArgs = {
   devCommand: string;
   prodCommand: string;
   skip?: string[];
+  developmentInstallCommand: string;
+  productionInstallCommand: string;
 };
 
 const generateDockerfiles = ({
@@ -64,6 +88,8 @@ const generateDockerfiles = ({
   devCommand,
   prodCommand,
   skip = [],
+  developmentInstallCommand,
+  productionInstallCommand,
 }: GenerateDockerfilesArgs) => {
   const workspacePackages = detectWorkspacePackages({
     workspace: `apps/${workspace}`,
@@ -105,7 +131,7 @@ const generateDockerfiles = ({
 
   const dockerfileCommandsDev = generateDockerfileCommandsLayer({
     nodeEnvironment: "development",
-    dependenciesInstallCommand: "npm i",
+    dependenciesInstallCommand: developmentInstallCommand,
     workspace,
     files,
     target,
@@ -117,7 +143,7 @@ const generateDockerfiles = ({
 
   const dockerfileCommandsProd = generateDockerfileCommandsLayer({
     nodeEnvironment: "production",
-    dependenciesInstallCommand: "npm ci --only=production",
+    dependenciesInstallCommand: productionInstallCommand,
     workspace,
     files,
     target,
@@ -127,13 +153,29 @@ const generateDockerfiles = ({
     skip,
   });
 
+  const dockerfileCommandsDebugFiles = generateDockerfileCommandsLayer({
+    nodeEnvironment: "debugFiles",
+    dependenciesInstallCommand: developmentInstallCommand,
+    workspace,
+    files,
+    target,
+    workspacePackages: workspacePackagesArray,
+    workspacePackagesString,
+    command: debugFilesCommand,
+    skip,
+  });
+
   const completeDockerfileCommands =
     dockerfileCommandsBase.join(lineSeparator) +
+    lineSeparator +
     lineSeparator +
     dockerfileCommandsDev.filter((command) => command).join(lineSeparator) +
     lineSeparator +
     lineSeparator +
-    dockerfileCommandsProd.filter((command) => command).join(lineSeparator);
+    dockerfileCommandsProd.filter((command) => command).join(lineSeparator) +
+    lineSeparator +
+    lineSeparator +
+    dockerfileCommandsDebugFiles.filter((command) => command).join(lineSeparator);
 
   writeFileSync(
     `${projectAbsolutePath}/docker/Dockerfile.${container}`,
@@ -189,12 +231,16 @@ type GenerateNonAppsDockerfilesArgs = {
   projectAbsolutePath: string;
   workspace: string;
   folderPath: string;
+  developmentInstallCommand: string;
+  productionInstallCommand: string;
 };
 
 const generateNonAppsDockerfiles = ({
   projectAbsolutePath,
   workspace,
   folderPath,
+  developmentInstallCommand,
+  productionInstallCommand,
 }: GenerateNonAppsDockerfilesArgs) => {
   const workspaceContainerProperties = getContainerProperties({
     folderPath,
@@ -241,6 +287,23 @@ const generateNonAppsDockerfiles = ({
       target: `./${target}`,
       devCommand: formattedDevCommand,
       prodCommand: formattedProdCommand,
+      developmentInstallCommand,
+      productionInstallCommand,
     });
   }
+};
+
+type ConvertCommandToDockerCMDArgs = {
+  command: string;
+};
+
+const convertCommandToDockerCMD = ({ command }: ConvertCommandToDockerCMDArgs) => {
+  const formattedCommand = command
+    .split(" ")
+    .map((part) => {
+      return `"${part}"`;
+    })
+    .join(", ");
+
+  return `[${formattedCommand}]`;
 };

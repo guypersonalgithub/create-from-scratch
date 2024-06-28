@@ -16,3 +16,4 @@ export * from "./fileSystem";
 export * from "./operatingSystem";
 export * from "./globalDependencies";
 export * from "./clis";
+export * from "./packageManager";

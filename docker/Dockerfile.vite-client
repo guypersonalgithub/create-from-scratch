@@ -4,6 +4,8 @@ WORKDIR /usr/src/app
 
 COPY ./apps/vite-client/package-lock.json ./apps/vite-client/package.json ./
 
+
+
 FROM base as development
 
 WORKDIR /usr/src/app
@@ -14,7 +16,7 @@ RUN npm uninstall @packages/cypress
 
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
-    npm i
+    npm install
 
 USER node
 
@@ -45,3 +47,25 @@ COPY --chown=node:node ./apps/vite-client ./
 COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/get-fps ./packages/
 
 CMD ["npm", "run", "build"]
+
+
+
+FROM base as debugFiles
+
+WORKDIR /usr/src/app
+
+ENV NODE_ENV debugFiles
+
+RUN npm uninstall @packages/cypress
+
+RUN --mount=type=cache,target=/usr/src/app/.npm \ 
+    npm set cache /usr/src/app/.npm && \ 
+    npm install
+
+USER node
+
+COPY --chown=node:node ./apps/vite-client ./
+
+COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/get-fps ./packages/
+
+CMD ["sh", "-c", "while :; do sleep 2073600; done"]
