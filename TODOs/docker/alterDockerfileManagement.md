@@ -1,2 +1,1 @@
 - Add a Dockerfile stage for each container with accurate production stages.
-- Alter the way Dockerfile handles local dependencies.

@@ -1,11 +1,7 @@
 import { readdirSync, writeFileSync } from "fs";
 import jsYaml from "js-yaml";
-import { detectWorkspacePackages } from "../packages";
-import {
-  DockerComposeData,
-  Profiles,
-  WorkspaceContainerProperties,
-} from "./types";
+import { detectUsedLocalPackages } from "../packages";
+import { DockerComposeData, Profiles, WorkspaceContainerProperties } from "./types";
 import { getProjectAbsolutePath } from "../paths";
 import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
@@ -47,10 +43,7 @@ export const generateDockerComposeDev = () => {
 
   const yamlFormat = jsYaml.dump(dockerComposeData);
   writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
-  writeFileSync(
-    `${projectAbsolutePath}/profiles.json`,
-    JSON.stringify([...profiles], null, 2)
-  );
+  writeFileSync(`${projectAbsolutePath}/profiles.json`, JSON.stringify([...profiles], null, 2));
 };
 
 type AppWorkspacesArgs = {
@@ -59,26 +52,17 @@ type AppWorkspacesArgs = {
   profiles: Profiles;
 };
 
-const appWorkspaces = ({
-  projectAbsolutePath,
-  dockerComposeData,
-  profiles,
-}: AppWorkspacesArgs) => {
+const appWorkspaces = ({ projectAbsolutePath, dockerComposeData, profiles }: AppWorkspacesArgs) => {
   const folderPath = `${projectAbsolutePath}/apps`;
 
   const workspaces = readdirSync(folderPath);
   const remainingContainers: WorkspaceContainerProperties = {};
 
   workspaces.forEach((workspace: string) => {
-    const workspacePackages = detectWorkspacePackages({
+    const workspacePackages = detectUsedLocalPackages({
       workspace: `apps/${workspace}`,
       projectAbsolutePath,
     });
-
-    if (!workspacePackages) {
-      console.error(`Skipping ${workspace} due to missing configurations.`);
-      return;
-    }
 
     const workspaceContainerProperties = getContainerProperties({
       folderPath,
@@ -93,14 +77,7 @@ const appWorkspaces = ({
     generateNoneWorkspacePackageJsons({ folderPath, workspace });
 
     const { main, ...nonWorkspaceContainers } = workspaceContainerProperties;
-    const {
-      environment,
-      volumes,
-      networks,
-      ports,
-      dependsOn,
-      restart = "unless-stopped",
-    } = main;
+    const { environment, volumes, networks, ports, dependsOn, restart = "unless-stopped" } = main;
 
     dockerComposeData.services[workspace] = {
       image: `${workspace}:latest`,
@@ -123,11 +100,11 @@ const appWorkspaces = ({
           type: "volume",
           target: "/usr/src/app/node_modules",
         },
-        ...[...workspacePackages].map((pack) => {
+        ...workspacePackages.map((pack) => {
           return {
             type: "bind",
-            source: `./${pack}`,
-            target: `/usr/src/app/${pack}`,
+            source: `./${pack.path}`,
+            target: `/usr/src/app/${pack.path}`,
           };
         }),
         ...volumes,
@@ -192,14 +169,11 @@ const nonWorkspaceContainers = ({
       restart = "unless-stopped",
     } = properties;
 
-    const additionalProfilesForContainer =
-      additionalProfiles[nonWorkspaceContainer] ?? [];
+    const additionalProfilesForContainer = additionalProfiles[nonWorkspaceContainer] ?? [];
 
     // TODO: Avoid coupling dependencies and dockerfile creation for non-workspace containers.
     const hasADockerfile =
-      dependencies.length > 0 ||
-      devDependencies.length > 0 ||
-      peerDependencies.length > 0;
+      dependencies.length > 0 || devDependencies.length > 0 || peerDependencies.length > 0;
 
     dockerComposeData.services[nonWorkspaceContainer] = {
       image: image ?? `${nonWorkspaceContainer}:latest`,

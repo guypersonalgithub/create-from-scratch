@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { GithubActionYaml } from "./types";
 import jsYaml from "js-yaml";
 import { getProjectAbsolutePath } from "../paths";
-import { detectWorkspacePackages } from "../packages";
+import { detectUsedLocalPackages } from "../packages";
 
 export const generateGithubActionYaml = async () => {
   console.log("Generating new github action yaml files");
@@ -13,20 +13,17 @@ export const generateGithubActionYaml = async () => {
 
   workspaces.forEach((workspace) => {
     try {
-      const workspacePackages =
-        detectWorkspacePackages({
-          workspace: `apps/${workspace}`,
-          projectAbsolutePath,
-          fileName: "package.json",
-        }) ?? [];
-
-      const workspacePackagesArray = [...workspacePackages];
+      const workspacePackages = detectUsedLocalPackages({
+        workspace: `apps/${workspace}`,
+        projectAbsolutePath,
+        fileName: "package.json",
+      });
 
       const config = readFileSync(
         `${projectAbsolutePath}/apps/${workspace}/github.cicd.config.json`,
         {
           encoding: "utf-8",
-        }
+        },
       );
 
       const parsedConfig = JSON.parse(config);
@@ -47,8 +44,8 @@ export const generateGithubActionYaml = async () => {
         if (push) {
           (on.push as Record<string, string[]>).paths = [
             "apps/remix/**",
-            ...workspacePackagesArray.map((workspacePackage) => {
-              return `${workspacePackage}/**`;
+            ...workspacePackages.map((workspacePackage) => {
+              return `${workspacePackage.path}/**`;
             }),
           ];
         }
@@ -64,10 +61,8 @@ export const generateGithubActionYaml = async () => {
             }
 
             if (name === dependenciesStep) {
-              workspacePackagesArray.forEach((workspacePackage) => {
-                run.push(
-                  `cp -r ./${workspacePackage} ./full-application/packages`
-                );
+              workspacePackages.forEach((workspacePackage) => {
+                run.push(`cp -r ./${workspacePackage.path} ./full-application/packages`);
               });
             }
 
@@ -84,10 +79,7 @@ export const generateGithubActionYaml = async () => {
 
         const yamlFormat = jsYaml.dump(githubActionYaml);
         const fixedYamlFormat = fixJSYamlInconsistencies({ yamlFormat });
-        writeFileSync(
-          `${projectAbsolutePath}/.github/workflows/${fileName}.yaml`,
-          fixedYamlFormat
-        );
+        writeFileSync(`${projectAbsolutePath}/.github/workflows/${fileName}.yaml`, fixedYamlFormat);
       }
     } catch (error) {}
   });
@@ -97,9 +89,7 @@ type FixJSYamlInconsistenciesArgs = {
   yamlFormat: string;
 };
 
-const fixJSYamlInconsistencies = ({
-  yamlFormat,
-}: FixJSYamlInconsistenciesArgs) => {
+const fixJSYamlInconsistencies = ({ yamlFormat }: FixJSYamlInconsistenciesArgs) => {
   const regexPattern = /\b(run:\s*\|-)/g;
   const fixedYamlFormat = yamlFormat.replace(regexPattern, "run: |");
   const regexPattern2 = /'/g;

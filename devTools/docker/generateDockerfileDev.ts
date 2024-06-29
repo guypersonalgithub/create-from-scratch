@@ -1,5 +1,5 @@
 import { readdirSync, writeFileSync } from "fs";
-import { detectWorkspacePackages } from "../packages/detectWorkspacePackages";
+import { detectUsedLocalPackages } from "../packages/detectUsedLocalPackages";
 import { getProjectAbsolutePath } from "../paths";
 import { getContainerProperties } from "./getContainerProperties";
 import {
@@ -9,7 +9,7 @@ import {
   getPackageManagerRunScriptCommand,
 } from "../packageManager";
 
-const lineSeparator = "\n\n";
+const lineSeparator = "\n";
 const debugFilesCommand = `["sh", "-c", "while :; do sleep 2073600; done"]`;
 
 export const generateDockerfileDev = () => {
@@ -91,90 +91,79 @@ const generateDockerfiles = ({
   developmentInstallCommand,
   productionInstallCommand,
 }: GenerateDockerfilesArgs) => {
-  const workspacePackages = detectWorkspacePackages({
+  const workspacePackages = detectUsedLocalPackages({
     workspace: `apps/${workspace}`,
     projectAbsolutePath,
     fileName,
   });
 
-  if (!workspacePackages) {
-    console.error(`Skipping ${workspace} due to missing configurations.`);
-    return;
-  }
-
-  const localPackagesFormat = "@packages";
-  const formattedSkip = skip.map((skip) => {
-    if (skip.includes(localPackagesFormat)) {
-      return skip.replace(localPackagesFormat, "packages");
-    }
-
-    return skip;
+  const formattedWorkspacePackagesPaths = workspacePackages.map((workspacePackage) => {
+    return workspacePackage.path;
   });
 
-  const workspacePackagesArray = [...workspacePackages];
+  const filteredPackagesArray = workspacePackages.filter((pack) => {
+    return !skip.includes(pack.name);
+  });
 
-  const workspacePackagesString = workspacePackagesArray
-    .filter((pack) => !formattedSkip.includes(pack))
-    .map((pack) => `./${pack}`)
-    .join(" ");
+  const packagesArrayPackageJsons = filteredPackagesArray.map((workspacePackage) => {
+    const workspacePackagePackageJsonPath = `./${workspacePackage.path}/package.json`;
+    return `COPY ${workspacePackagePackageJsonPath} ${workspacePackagePackageJsonPath}`;
+  });
 
   const isUniqueFile = fileName !== "package.json";
 
   const dockerfileCommandsBase = [
     `FROM ${image} AS base`,
     "WORKDIR /usr/src/app",
-    `COPY ./apps/${workspace}/package-lock.json ${
-      !isUniqueFile ? `./apps/${workspace}/package.json ` : ""
-    }./`,
-    isUniqueFile ? `ADD ./apps/${workspace}/${fileName} ./package.json` : null,
+    `COPY ./apps/${workspace}/${isUniqueFile ? fileName : "package.json"} ./package.json`,
+    `COPY ./apps/${workspace}/package-lock.json ./package-lock.json`,
+    `COPY ./apps/${workspace}/package.json ./apps/${workspace}/package.json`,
+    isUniqueFile ? `COPY ./apps/${workspace}/${fileName} ./package.json` : null,
+    ...packagesArrayPackageJsons,
   ].filter((command) => command);
 
   const dockerfileCommandsDev = generateDockerfileCommandsLayer({
-    nodeEnvironment: "development",
+    layerName: "development",
     dependenciesInstallCommand: developmentInstallCommand,
     workspace,
     files,
     target,
-    workspacePackages: workspacePackagesArray,
-    workspacePackagesString,
+    workspacePackages: formattedWorkspacePackagesPaths,
     command: devCommand,
     skip,
   });
 
   const dockerfileCommandsProd = generateDockerfileCommandsLayer({
-    nodeEnvironment: "production",
+    layerName: "production",
     dependenciesInstallCommand: productionInstallCommand,
     workspace,
     files,
     target,
-    workspacePackages: workspacePackagesArray,
-    workspacePackagesString,
+    workspacePackages: formattedWorkspacePackagesPaths,
     command: prodCommand,
     skip,
   });
 
   const dockerfileCommandsDebugFiles = generateDockerfileCommandsLayer({
-    nodeEnvironment: "debugFiles",
+    layerName: "debugFiles",
     dependenciesInstallCommand: developmentInstallCommand,
     workspace,
     files,
     target,
-    workspacePackages: workspacePackagesArray,
-    workspacePackagesString,
+    workspacePackages: formattedWorkspacePackagesPaths,
     command: debugFilesCommand,
     skip,
   });
 
+  const layerSeparator = [lineSeparator, lineSeparator, lineSeparator, lineSeparator].join("");
+
   const completeDockerfileCommands =
     dockerfileCommandsBase.join(lineSeparator) +
-    lineSeparator +
-    lineSeparator +
+    layerSeparator +
     dockerfileCommandsDev.filter((command) => command).join(lineSeparator) +
-    lineSeparator +
-    lineSeparator +
+    layerSeparator +
     dockerfileCommandsProd.filter((command) => command).join(lineSeparator) +
-    lineSeparator +
-    lineSeparator +
+    layerSeparator +
     dockerfileCommandsDebugFiles.filter((command) => command).join(lineSeparator);
 
   writeFileSync(
@@ -184,25 +173,25 @@ const generateDockerfiles = ({
 };
 
 type GenerateDockerfileCommandsLayer = {
-  nodeEnvironment: string;
+  fromLayer?: string;
+  layerName: string;
   dependenciesInstallCommand: string;
   workspace: string;
   files?: string[];
   target?: string;
   workspacePackages: string[];
-  workspacePackagesString: string;
   command: string;
   skip?: string[];
 };
 
 const generateDockerfileCommandsLayer = ({
-  nodeEnvironment,
+  fromLayer = "base",
+  layerName,
   dependenciesInstallCommand,
   workspace,
   files = [],
   target = "./",
   workspacePackages,
-  workspacePackagesString,
   command,
   skip = [],
 }: GenerateDockerfileCommandsLayer) => {
@@ -212,17 +201,20 @@ const generateDockerfileCommandsLayer = ({
 
   const dependenciesUninstall = skip.join(" ");
 
+  const dependencies = workspacePackages.map((workspacePackage) => {
+    const workspacePackagePath = `./${workspacePackage}`;
+    return `COPY ${workspacePackagePath} ${workspacePackagePath}`;
+  });
+
   return [
-    `FROM base as ${nodeEnvironment}`,
+    `FROM ${fromLayer} as ${layerName}`,
     "WORKDIR /usr/src/app",
-    `ENV NODE_ENV ${nodeEnvironment}`,
+    `ENV NODE_ENV ${layerName}`,
     skip.length > 0 ? `RUN npm uninstall ${dependenciesUninstall}` : null,
     `RUN --mount=type=cache,target=/usr/src/app/.npm \\ \n    npm set cache /usr/src/app/.npm && \\ \n    ${dependenciesInstallCommand}`,
     "USER node",
     `COPY --chown=node:node ${copiedFiles} ${target}`,
-    workspacePackages.length > 0
-      ? `COPY --chown=node:node ${workspacePackagesString} ./packages/`
-      : null,
+    ...dependencies,
     `CMD ${command}`,
   ];
 };

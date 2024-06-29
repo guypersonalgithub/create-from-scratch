@@ -1,65 +1,61 @@
 FROM node:20.11.0-alpine3.19 AS base
-
 WORKDIR /usr/src/app
-
-COPY ./apps/express-backend/package-lock.json ./apps/express-backend/package.json ./
+COPY ./apps/express-backend/package.json ./package.json
+COPY ./apps/express-backend/package-lock.json ./package-lock.json
+COPY ./apps/express-backend/package.json ./apps/express-backend/package.json
+COPY ./packages/shared-types/package.json ./packages/shared-types/package.json
+COPY ./packages/test/package.json ./packages/test/package.json
+COPY ./packages/test-dependency/package.json ./packages/test-dependency/package.json
+COPY ./packages/express-postgres-db/package.json ./packages/express-postgres-db/package.json
+COPY ./packages/postgresql/package.json ./packages/postgresql/package.json
 
 
 
 FROM base as development
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV development
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/express-backend ./
-
-COPY --chown=node:node ./packages/shared-types ./packages/test ./packages/test-dependency ./packages/express-postgres-db ./packages/postgresql ./packages/
-
+COPY ./packages/shared-types ./packages/shared-types
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
+COPY ./packages/express-postgres-db ./packages/express-postgres-db
+COPY ./packages/postgresql ./packages/postgresql
 CMD ["npm", "run", "dev"]
 
 
 
 FROM base as production
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV production
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm ci --only=production
-
 USER node
-
 COPY --chown=node:node ./apps/express-backend ./
-
-COPY --chown=node:node ./packages/shared-types ./packages/test ./packages/test-dependency ./packages/express-postgres-db ./packages/postgresql ./packages/
-
+COPY ./packages/shared-types ./packages/shared-types
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
+COPY ./packages/express-postgres-db ./packages/express-postgres-db
+COPY ./packages/postgresql ./packages/postgresql
 CMD ["npm", "run", "build"]
 
 
 
 FROM base as debugFiles
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV debugFiles
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/express-backend ./
-
-COPY --chown=node:node ./packages/shared-types ./packages/test ./packages/test-dependency ./packages/express-postgres-db ./packages/postgresql ./packages/
-
+COPY ./packages/shared-types ./packages/shared-types
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
+COPY ./packages/express-postgres-db ./packages/express-postgres-db
+COPY ./packages/postgresql ./packages/postgresql
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

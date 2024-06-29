@@ -1,65 +1,45 @@
 FROM node:20.11.0-alpine3.19 AS base
-
 WORKDIR /usr/src/app
-
-COPY ./apps/vite-micro/package-lock.json ./apps/vite-micro/package.json ./
+COPY ./apps/vite-micro/package.json ./package.json
+COPY ./apps/vite-micro/package-lock.json ./package-lock.json
+COPY ./apps/vite-micro/package.json ./apps/vite-micro/package.json
+COPY ./packages/micro-frontends/package.json ./packages/micro-frontends/package.json
 
 
 
 FROM base as development
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV development
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/vite-micro ./
-
-COPY --chown=node:node ./packages/micro-frontends ./packages/
-
+COPY ./packages/micro-frontends ./packages/micro-frontends
 CMD ["npm", "run", "dev"]
 
 
 
 FROM base as production
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV production
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm ci --only=production
-
 USER node
-
 COPY --chown=node:node ./apps/vite-micro ./
-
-COPY --chown=node:node ./packages/micro-frontends ./packages/
-
+COPY ./packages/micro-frontends ./packages/micro-frontends
 CMD ["npm", "run", "build"]
 
 
 
 FROM base as debugFiles
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV debugFiles
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/vite-micro ./
-
-COPY --chown=node:node ./packages/micro-frontends ./packages/
-
+COPY ./packages/micro-frontends ./packages/micro-frontends
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

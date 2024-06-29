@@ -1,65 +1,49 @@
 FROM node:20.11.0-alpine3.19 AS base
-
 WORKDIR /usr/src/app
-
-COPY ./apps/remix/package-lock.json ./apps/remix/package.json ./
+COPY ./apps/remix/package.json ./package.json
+COPY ./apps/remix/package-lock.json ./package-lock.json
+COPY ./apps/remix/package.json ./apps/remix/package.json
+COPY ./packages/test/package.json ./packages/test/package.json
+COPY ./packages/test-dependency/package.json ./packages/test-dependency/package.json
 
 
 
 FROM base as development
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV development
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/remix ./
-
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/
-
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
 CMD ["npm", "run", "dev"]
 
 
 
 FROM base as production
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV production
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm ci --only=production
-
 USER node
-
 COPY --chown=node:node ./apps/remix ./
-
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/
-
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
 CMD ["npm", "run", "build"]
 
 
 
 FROM base as debugFiles
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV debugFiles
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/remix ./
-
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/
-
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

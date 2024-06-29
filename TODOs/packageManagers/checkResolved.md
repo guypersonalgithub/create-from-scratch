@@ -1,0 +1,1 @@
+- Check if resolved exists in yarn-lock and pnpm-lock. If not, find replacements for local dependencies' path detection.

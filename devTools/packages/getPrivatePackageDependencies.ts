@@ -1,10 +1,23 @@
-import { detectWorkspacePackages } from "./detectWorkspacePackages";
+import { recursiveLocalPackagesDetection } from "./detectUsedLocalPackages";
 
 type getPrivatePackageDependenciesArgs = {
   dependencies: Record<string, string>;
-  privatePackages: Set<string>;
+  privatePackages: Map<
+    string,
+    {
+      path: string;
+      name: string;
+    }
+  >;
   localPackage: string;
   projectAbsolutePath: string;
+  parsedRootPackageLock: Record<
+    string,
+    {
+      resolved: string;
+      link: boolean;
+    }
+  >;
 };
 
 export const getPrivatePackageDependencies = ({
@@ -12,15 +25,21 @@ export const getPrivatePackageDependencies = ({
   privatePackages,
   localPackage,
   projectAbsolutePath,
+  parsedRootPackageLock,
 }: getPrivatePackageDependenciesArgs) => {
   for (const dependency in dependencies) {
     if (dependency.includes(localPackage)) {
-      const dependencyFolder = dependency.replace(`${localPackage}/`, "");
-      privatePackages.add(`packages/${dependencyFolder}`);
-      detectWorkspacePackages({
-        workspace: `packages/${dependencyFolder}`,
+      const nodeModulesLocalPackage = `node_modules/${dependency}`;
+      const { resolved } = parsedRootPackageLock[nodeModulesLocalPackage];
+      privatePackages.set(dependency, {
+        path: resolved,
+        name: dependency,
+      });
+      recursiveLocalPackagesDetection({
+        workspace: resolved,
         existingPrivatePackages: privatePackages,
         projectAbsolutePath,
+        parsedRootPackageLock,
       });
     }
   }

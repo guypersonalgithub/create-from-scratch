@@ -1,71 +1,67 @@
 FROM node:20.11.0-alpine3.19 AS base
-
 WORKDIR /usr/src/app
-
-COPY ./apps/vite-client/package-lock.json ./apps/vite-client/package.json ./
+COPY ./apps/vite-client/package.json ./package.json
+COPY ./apps/vite-client/package-lock.json ./package-lock.json
+COPY ./apps/vite-client/package.json ./apps/vite-client/package.json
+COPY ./packages/test/package.json ./packages/test/package.json
+COPY ./packages/test-dependency/package.json ./packages/test-dependency/package.json
+COPY ./packages/shared-types/package.json ./packages/shared-types/package.json
+COPY ./packages/micro-frontends/package.json ./packages/micro-frontends/package.json
+COPY ./packages/get-fps/package.json ./packages/get-fps/package.json
 
 
 
 FROM base as development
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV development
-
 RUN npm uninstall @packages/cypress
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/vite-client ./
-
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/get-fps ./packages/
-
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
+COPY ./packages/shared-types ./packages/shared-types
+COPY ./packages/micro-frontends ./packages/micro-frontends
+COPY ./packages/get-fps ./packages/get-fps
+COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "dev"]
 
 
 
 FROM base as production
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV production
-
 RUN npm uninstall @packages/cypress
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm ci --only=production
-
 USER node
-
 COPY --chown=node:node ./apps/vite-client ./
-
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/get-fps ./packages/
-
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
+COPY ./packages/shared-types ./packages/shared-types
+COPY ./packages/micro-frontends ./packages/micro-frontends
+COPY ./packages/get-fps ./packages/get-fps
+COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "build"]
 
 
 
 FROM base as debugFiles
-
 WORKDIR /usr/src/app
-
 ENV NODE_ENV debugFiles
-
 RUN npm uninstall @packages/cypress
-
 RUN --mount=type=cache,target=/usr/src/app/.npm \ 
     npm set cache /usr/src/app/.npm && \ 
     npm install
-
 USER node
-
 COPY --chown=node:node ./apps/vite-client ./
-
-COPY --chown=node:node ./packages/test ./packages/test-dependency ./packages/shared-types ./packages/micro-frontends ./packages/get-fps ./packages/
-
+COPY ./packages/test ./packages/test
+COPY ./packages/test-dependency ./packages/test-dependency
+COPY ./packages/shared-types ./packages/shared-types
+COPY ./packages/micro-frontends ./packages/micro-frontends
+COPY ./packages/get-fps ./packages/get-fps
+COPY ./packages/cypress ./packages/cypress
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

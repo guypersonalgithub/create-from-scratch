@@ -1,6 +1,6 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from "fs";
 import { getProjectAbsolutePath } from "../paths";
-import { detectWorkspacePackages } from "../packages";
+import { detectUsedLocalPackages } from "../packages";
 import { executeTerminalCommand } from "../terminal";
 import { detectPackageJsonDependencyChanges, updateGitIgnore } from "../git";
 import { getPackageManagerCreateLockfileOnlyCommand } from "../packageManager";
@@ -26,15 +26,13 @@ export const generatePackageLock = async () => {
       const workspacePath = `${folderPath}/${workspace}`;
       const workspacePackageJsonPath = `${workspacePath}/package.json`;
 
-      const workspacePackages = detectWorkspacePackages({
+      const workspacePackages = detectUsedLocalPackages({
         workspace: `apps/${workspace}`,
         projectAbsolutePath,
       });
 
-      const localPackages = [...(workspacePackages ?? [])];
-
-      let requiresPackageLockChange = !!localPackages.find((localPackage) => {
-        const relativeLocalPackagePackageJsonPath = `${localPackage}/package.json`;
+      let requiresPackageLockChange = !!workspacePackages.find((workspacePackage) => {
+        const relativeLocalPackagePackageJsonPath = `${workspacePackage.path}/package.json`;
         return changedPackageJsons.has(relativeLocalPackagePackageJsonPath);
       });
 
@@ -76,22 +74,22 @@ export const generatePackageLock = async () => {
 
       copyFileSync(workspacePackageJsonPath, `${tempWorkspaceFolder}/package.json`);
 
-      if (localPackages.length > 0) {
+      if (workspacePackages.length > 0) {
         const tempPackagesFolder = `${tempFolder}/${packagesFolder}`;
         const tempPackagesFolderExists = existsSync(tempPackagesFolder);
         if (!tempPackagesFolderExists) {
           mkdirSync(tempPackagesFolder);
         }
 
-        localPackages.forEach((localPackage) => {
-          const tempLocalPackagePath = `${tempFolder}/${localPackage}`;
+        workspacePackages.forEach((workspacePackage) => {
+          const tempLocalPackagePath = `${tempFolder}/${workspacePackage.path}`;
           const folderExists = existsSync(tempLocalPackagePath);
           if (!folderExists) {
             mkdirSync(tempLocalPackagePath);
           }
 
           copyFileSync(
-            `${projectAbsolutePath}/${localPackage}/package.json`,
+            `${projectAbsolutePath}/${workspacePackage.path}/package.json`,
             `${tempLocalPackagePath}/package.json`,
           );
         });

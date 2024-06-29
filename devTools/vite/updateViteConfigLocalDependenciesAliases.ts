@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { getProjectAbsolutePath, getRelativePath } from "../paths";
-import { detectWorkspacePackages } from "../packages";
+import { detectUsedLocalPackages } from "../packages";
 import ts from "typescript";
 import { addNewImport, extractExportDefault, generateObjectProperties } from "../typescript";
 import { formatCodeWithESLint } from "../eslint";
@@ -18,9 +18,13 @@ export const updateViteConfigLocalDependenciesAliases = async () => {
         flag: "r",
       });
 
-      const workspacePackages = detectWorkspacePackages({
+      const workspacePackages = detectUsedLocalPackages({
         workspace: `apps/${workspace}`,
         projectAbsolutePath,
+      });
+
+      const workspacePackagesPaths = workspacePackages.map((workspacePackage) => {
+        return workspacePackage.path;
       });
 
       let sourceFile = ts.createSourceFile(
@@ -50,7 +54,7 @@ export const updateViteConfigLocalDependenciesAliases = async () => {
       const updatedExportDefault = transformExportDefault({
         sourceFile,
         node: exportDefaultExpression,
-        workspacePackages,
+        workspacePackages: workspacePackagesPaths,
         relativePath,
       });
 
@@ -70,7 +74,7 @@ export const updateViteConfigLocalDependenciesAliases = async () => {
 type TransformExportDefaultArgs = {
   sourceFile: ts.SourceFile;
   node: ts.Node;
-  workspacePackages?: Set<string>;
+  workspacePackages: string[];
   relativePath: string;
 };
 
@@ -82,7 +86,6 @@ const transformExportDefault = ({
 }: TransformExportDefaultArgs) => {
   const exportAssignment = node as ts.ExportAssignment;
   const expression = exportAssignment.expression;
-  const packages = workspacePackages ? [...workspacePackages] : [];
 
   const newExportDefault: {
     resolve: {
@@ -102,7 +105,7 @@ const transformExportDefault = ({
     },
   };
 
-  packages.forEach((pack) => {
+  workspacePackages.forEach((pack) => {
     const packageName = pack.split("/")?.[1];
     newExportDefault.resolve.alias[pack] = {
       __expression: {
