@@ -1,12 +1,13 @@
 import { platform } from "os";
 
-const mainOperatingSystems = {
+export const mainOperatingSystems = {
   win32: "windows",
   linux: "linux",
   drawin: "mac",
 };
 
-export const getOperatingSystem = () => {
-  const os = platform();
-  return mainOperatingSystems[os as keyof typeof mainOperatingSystems];
-};
+export const getOperatingSystem =
+  (): (typeof mainOperatingSystems)[keyof typeof mainOperatingSystems] => {
+    const os = platform();
+    return mainOperatingSystems[os as keyof typeof mainOperatingSystems];
+  };

@@ -5,3 +5,7 @@ export * from "./envVariables";
 export * from "./replaceOrInsertCharactersInRange";
 export * from "./mapFileImports";
 export * from "./sendRequest";
+export * from "./getFile";
+export * from "./openBrowserTab";
+export * from "./delay";
+export * from "./rateLimit";

@@ -33,7 +33,6 @@ export const clearTerminalLine = ({
   amountOfLines,
 }: ClearTerminalLineArgs) => {
   readline.moveCursor(process.stdout, 0, -amountOfLinesFromBottom);
-
   clearTerminalLines({ amountOfLines, skipInitialCursorMovement: true });
 
   // readline.cursorTo(process.stdout, 0);
