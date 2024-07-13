@@ -1,4 +1,4 @@
-import { sendRequest } from "../utils";
+import { sendRequest } from "@packages/utils";
 import { NPMRegistry } from "./types";
 
 type GetLatestPackageRegistryDataArgs = {

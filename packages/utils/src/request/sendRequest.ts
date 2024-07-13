@@ -1,8 +1,9 @@
-type SendRequestArgs = {
+export type SendRequestArgs = {
   url: string;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
   body?: string | URLSearchParams;
   headers?: Record<string, string>;
+  signal?: AbortSignal;
 };
 
 export const sendRequest = async <T>({
@@ -10,9 +11,10 @@ export const sendRequest = async <T>({
   method,
   body,
   headers,
+  signal,
 }: SendRequestArgs): Promise<T> => {
   try {
-    const response = await fetch(url, { method, body, headers });
+    const response = await fetch(url, { method, body, headers, signal });
     const contentType = response.headers.get("content-type");
     if (response.ok) {
       if (contentType && contentType.includes("application/json")) {

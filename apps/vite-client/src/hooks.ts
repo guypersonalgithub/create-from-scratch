@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { fetcher } from "./utils";
+import { sendRequest } from "@packages/utils";
 import { ReturnedData } from "@packages/shared-types";
 
 export const useRequestExample = () => {
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetcher<ReturnedData>({
+      const data = await sendRequest<ReturnedData>({
         url: "http://localhost:3002",
       });
 
