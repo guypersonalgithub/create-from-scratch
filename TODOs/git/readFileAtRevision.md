@@ -1,0 +1,1 @@
+- Ensure that readFileAtRevision with HEAD~1 is the accurate way to detect changes between the current code and the last commit code.

@@ -50,7 +50,7 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
       break;
     }
     case SupportedCommands.VITE_ALIASES: {
-      await updateViteConfigLocalDependenciesAliases();
+      await updateViteConfigLocalDependenciesAliases({ folders: ["apps", "devApps"] });
       break;
     }
     case SupportedCommands.PACKAGE_LOCK: {

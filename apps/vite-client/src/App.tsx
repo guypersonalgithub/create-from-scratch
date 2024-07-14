@@ -7,7 +7,7 @@ import { useRequestExample } from "./hooks";
 import { PostMessage } from "./PostMessage";
 import { useFPS } from "@packages/get-fps";
 import { Table } from "@packages/table";
-import { Tooltip } from "@packages/tooltip";
+import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
 import { AnimationContainer } from "@packages/animation-container";
 
 function App() {
@@ -45,6 +45,7 @@ function App() {
         <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
       </Tooltip>
       <AnimationContainer />
+      <EllipsisTooltip style={{ width: "50px" }}>Testing the ellipsis tooltip</EllipsisTooltip>
       <Table
         columns={[
           {

@@ -5,69 +5,79 @@ import ts from "typescript";
 import { addNewImport, extractExportDefault, generateObjectProperties } from "../typescript";
 import { formatCodeWithESLint } from "../eslint";
 
-export const updateViteConfigLocalDependenciesAliases = async () => {
+type UpdateViteConfigLocalDependenciesAliasesArgs = {
+  folders?: string[];
+};
+
+export const updateViteConfigLocalDependenciesAliases = async (
+  args?: UpdateViteConfigLocalDependenciesAliasesArgs,
+) => {
+  const { folders = ["apps"] } = args ?? {};
   const projectAbsolutePath = getProjectAbsolutePath();
-  const folderPath = `${projectAbsolutePath}/apps`;
-  const workspaces = readdirSync(folderPath);
 
-  for await (const workspace of workspaces) {
-    try {
-      const path = `${folderPath}/${workspace}/vite.config.ts`;
-      const file = readFileSync(path, {
-        encoding: "utf-8",
-        flag: "r",
-      });
+  for await (const folder of folders) {
+    const folderPath = `${projectAbsolutePath}/${folder}`;
+    const workspaces = readdirSync(folderPath);
 
-      const workspacePackages = detectUsedLocalPackages({
-        workspace: `apps/${workspace}`,
-        projectAbsolutePath,
-      });
+    for await (const workspace of workspaces) {
+      try {
+        const path = `${folderPath}/${workspace}/vite.config.ts`;
+        const file = readFileSync(path, {
+          encoding: "utf-8",
+          flag: "r",
+        });
 
-      const workspacePackagesPaths = workspacePackages.map((workspacePackage) => {
-        return workspacePackage.path;
-      });
+        const workspacePackages = detectUsedLocalPackages({
+          workspace: `apps/${workspace}`,
+          projectAbsolutePath,
+        });
 
-      let sourceFile = ts.createSourceFile(
-        path,
-        file,
-        ts.ScriptTarget.Latest,
-        true,
-        ts.ScriptKind.TS,
-      );
+        const workspacePackagesPaths = workspacePackages.map((workspacePackage) => {
+          return workspacePackage.path;
+        });
 
-      sourceFile = addNewImport({
-        node: sourceFile,
-        importedFrom: "path",
-        defaultImport: "path",
-      });
+        let sourceFile = ts.createSourceFile(
+          path,
+          file,
+          ts.ScriptTarget.Latest,
+          true,
+          ts.ScriptKind.TS,
+        );
 
-      const exportDefaultExpression = extractExportDefault({ sourceFile });
-      if (!exportDefaultExpression) {
-        return;
-      }
+        sourceFile = addNewImport({
+          node: sourceFile,
+          importedFrom: "path",
+          defaultImport: "path",
+        });
 
-      const relativePath = getRelativePath({
-        from: `${folderPath}/${workspace}`,
-        to: `${projectAbsolutePath}/packages`,
-      });
+        const exportDefaultExpression = extractExportDefault({ sourceFile });
+        if (!exportDefaultExpression) {
+          return;
+        }
 
-      const updatedExportDefault = transformExportDefault({
-        sourceFile,
-        node: exportDefaultExpression,
-        workspacePackages: workspacePackagesPaths,
-        relativePath,
-      });
+        const relativePath = getRelativePath({
+          from: `${folderPath}/${workspace}`,
+          to: `${projectAbsolutePath}/packages`,
+        });
 
-      const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-      const modifiedCode = printer.printNode(
-        ts.EmitHint.Unspecified,
-        updatedExportDefault,
-        sourceFile,
-      );
+        const updatedExportDefault = transformExportDefault({
+          sourceFile,
+          node: exportDefaultExpression,
+          workspacePackages: workspacePackagesPaths,
+          relativePath,
+        });
 
-      const { output } = await formatCodeWithESLint({ code: modifiedCode });
-      writeFileSync(path, output);
-    } catch (error) {}
+        const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
+        const modifiedCode = printer.printNode(
+          ts.EmitHint.Unspecified,
+          updatedExportDefault,
+          sourceFile,
+        );
+
+        const { output } = await formatCodeWithESLint({ code: modifiedCode });
+        writeFileSync(path, output);
+      } catch (error) {}
+    }
   }
 };
 

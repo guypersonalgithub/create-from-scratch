@@ -1,4 +1,5 @@
 import { ReactNode, useState } from "react";
+import { AnimationContainerWrapper } from "@packages/animation-container";
 import "./styles.css";
 
 type TooltipProps = {
@@ -12,13 +13,17 @@ export const Tooltip = ({ message, children }: TooltipProps) => {
   const hideTooltip = () => setVisible(false);
 
   return (
-    <div style={{ position: "relative" }}>
-      <div className="tooltip-container">
-        <div className="tooltip-target" onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
-          {children}
-        </div>
-        {visible ? <div className="tooltip-box">{message}</div> : null}
+    <div className="tooltip-container">
+      <div onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
+        {children}
       </div>
+      <AnimationContainerWrapper
+        from={{ opacity: 0, visibility: "hidden" }}
+        to={{ opacity: 1, visibility: "visible" }}
+        options={{ duration: 300 }}
+      >
+        {visible ? <div className="tooltip-box">{message}</div> : null}
+      </AnimationContainerWrapper>
     </div>
   );
 };

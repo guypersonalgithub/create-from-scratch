@@ -6,12 +6,16 @@ type ReadFileAtRevisionArgs = {
 };
 
 export const readFileAtRevision = async ({ filePath, revision }: ReadFileAtRevisionArgs) => {
-  const content = await executeTerminalCommandWithResponse({
-    command: `git show ${revision}:${filePath}`,
-  });
+  let content: string | undefined;
+
+  try {
+    content = await executeTerminalCommandWithResponse({
+      command: `git show ${revision}:${filePath}`,
+    });
+  } catch (error) {}
 
   if (!content) {
-    return;
+    return {};
   }
 
   return JSON.parse(content);
