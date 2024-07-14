@@ -28,7 +28,7 @@ export const updateViteConfigLocalDependenciesAliases = async (
         });
 
         const workspacePackages = detectUsedLocalPackages({
-          workspace: `apps/${workspace}`,
+          workspace: `${folder}/${workspace}`,
           projectAbsolutePath,
         });
 
