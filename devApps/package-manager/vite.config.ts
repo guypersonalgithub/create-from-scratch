@@ -6,6 +6,14 @@ import path from "path";
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: {},
+    alias: {
+      "packages/table": path.resolve("__dirname", "../../packages/table/src/index.ts"),
+      "packages/tooltip": path.resolve("__dirname", "../../packages/tooltip/src/index.ts"),
+      "packages/animation-container": path.resolve(
+        "__dirname",
+        "../../packages/animation-container/src/index.ts",
+      ),
+      "packages/utils": path.resolve("__dirname", "../../packages/utils/src/index.ts"),
+    },
   },
 });

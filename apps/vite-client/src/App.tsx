@@ -8,14 +8,25 @@ import { PostMessage } from "./PostMessage";
 import { useFPS } from "@packages/get-fps";
 import { Table } from "@packages/table";
 import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
-import { AnimationContainer } from "@packages/animation-container";
+import { AnimationContainer, AnimationContainerWrapper } from "@packages/animation-container";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [test, setTest] = useState(["test", "test1", "test2"]);
   useRequestExample();
   const fps = useFPS();
 
   const response = testing();
+
+  const switchTest = () => {
+    setTest((previous) => {
+      if (previous.length > 2) {
+        return ["test4"];
+      }
+
+      return ["test", "test1", "test2"];
+    });
+  };
 
   return (
     <div>
@@ -46,6 +57,15 @@ function App() {
       </Tooltip>
       <AnimationContainer />
       <EllipsisTooltip style={{ width: "50px" }}>Testing the ellipsis tooltip</EllipsisTooltip>
+      <button onClick={() => switchTest()}>click</button>
+      <AnimationContainerWrapper
+        from={{ height: "0px", opacity: 0 }}
+        to={{ height: "100px", opacity: 1 }}
+      >
+        {test.map((testChild) => {
+          return <div key={testChild}>{testChild}</div>;
+        })}
+      </AnimationContainerWrapper>
       <Table
         columns={[
           {

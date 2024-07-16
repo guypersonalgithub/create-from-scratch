@@ -29,68 +29,14 @@ const ChildComponent = () => {
   return <div style={{ border: "1px solid red", height: "inherit" }}>1</div>;
 };
 
-type AnimationContainerWrapperProps = {
-  from: Keyframe;
-  to: Keyframe;
-  unMountAnimation?: Keyframe[] | PropertyIndexedKeyframes | null;
-  options?: KeyframeAnimationOptions;
-  children: ReactNode[] | ReactNode;
-};
-
-export const AnimationContainerWrapper = ({
-  children,
-  from,
-  to,
-  options,
-}: AnimationContainerWrapperProps) => {
-  const childrenContent = useRef<ReactNode[]>(Array.isArray(children) ? children : [children]);
-
-  useEffect(() => {
-    if (!Array.isArray(children)) {
-      if (isValidElement(children)) {
-        childrenContent.current = [children];
-      }
-
-      return;
-    }
-
-    childrenContent.current = children.map((child) => {
-      return isValidElement(child) ? child : null;
-    });
-  }, [children]);
-
-  if (!Array.isArray(children)) {
-    const isValid = isValidElement(children);
-    return (
-      <AnimationWrapper show={isValid} from={from} to={to} options={options}>
-        <div key={0} style={{ height: "inherit", width: "inherit" }}>
-          {isValid ? children : childrenContent.current[0]}
-        </div>
-      </AnimationWrapper>
-    );
-  }
-
-  return children.map((child, index) => {
-    const currentChild = childrenContent.current;
-    const isValid = isValidElement(child);
-
-    return (
-      <AnimationWrapper show={isValid} from={{ height: "0px" }} to={{ height: "100px" }}>
-        <div key={index} style={{ height: "inherit", width: "inherit" }}>
-          {isValid ? child : currentChild}
-        </div>
-      </AnimationWrapper>
-    );
-  });
-};
-
-const AnimationWrapper = ({
+export const AnimationWrapper = ({
   show,
   children,
   from = {},
   to = {},
   unMountAnimation,
   options = { duration: 300 },
+  onAnimationEnd,
 }: {
   show: boolean;
   children: ReactNode[] | ReactNode;
@@ -98,14 +44,24 @@ const AnimationWrapper = ({
   to: Keyframe;
   unMountAnimation?: Keyframe[] | PropertyIndexedKeyframes | null;
   options?: KeyframeAnimationOptions;
+  onAnimationEnd?: () => void;
 }) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [removeState, setRemove] = useState(!show);
   const animationRef = useRef<Animation>();
+  const previousAnimationRefs = useRef<Animation[]>([]);
   const initialized = useRef(false);
 
   useEffect(() => {
     const childElement = elementRef.current;
+
+    const setAnimationRef = ({ animation }: { animation: Animation }) => {
+      animationRef.current = animation;
+      previousAnimationRefs.current.forEach((animation) => {
+        animation.cancel();
+      });
+      previousAnimationRefs.current = [];
+    };
 
     if (show) {
       setRemove(false);
@@ -119,7 +75,7 @@ const AnimationWrapper = ({
         ...options,
         fill: "forwards",
       });
-      animationRef.current = animation;
+      setAnimationRef({ animation });
       initialized.current = true;
     } else {
       if (!childElement) {
@@ -127,22 +83,25 @@ const AnimationWrapper = ({
       }
 
       const styles = getElementStyles(childElement, from);
-
       const animation = childElement.animate(unMountAnimation || [styles, from], {
         ...options,
         fill: "forwards",
       });
-      animationRef.current = animation;
+      setAnimationRef({ animation });
       animation.onfinish = () => {
         initialized.current = false;
         setRemove(true);
+        onAnimationEnd?.();
       };
     }
 
     return () => {
       animationRef.current?.pause();
+      if (animationRef.current) {
+        previousAnimationRefs.current.push(animationRef.current);
+      }
     };
-  }, [show, removeState, from, to, options, unMountAnimation]);
+  }, [show, removeState]);
 
   return !removeState && <div ref={elementRef}>{children}</div>;
 };

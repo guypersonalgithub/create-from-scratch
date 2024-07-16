@@ -22,7 +22,11 @@ export const Tooltip = ({ message, children }: TooltipProps) => {
         to={{ opacity: 1, visibility: "visible" }}
         options={{ duration: 300 }}
       >
-        {visible ? <div className="tooltip-box">{message}</div> : null}
+        {visible ? (
+          <div key="tooltip" className="tooltip-box">
+            {message}
+          </div>
+        ) : null}
       </AnimationContainerWrapper>
     </div>
   );

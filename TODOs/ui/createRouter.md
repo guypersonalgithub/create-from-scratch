@@ -1,0 +1,1 @@
+- Create a router component similarly to the one that I developed as Routeria (maybe a new Routeria version instead and move the code to here).
