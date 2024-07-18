@@ -171,6 +171,9 @@ services:
         source: ./packages/utils
         target: /usr/src/app/packages/utils
       - type: bind
+        source: ./packages/router
+        target: /usr/src/app/packages/router
+      - type: bind
         source: ./packages/cypress
         target: /usr/src/app/packages/cypress
       - type: bind

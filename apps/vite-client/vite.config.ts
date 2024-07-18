@@ -35,6 +35,7 @@ export default defineConfig({
         "__dirname",
         "../../packages/animation-container/src/index.ts",
       ),
+      "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
     },
   },
 });
