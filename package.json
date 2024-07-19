@@ -13,6 +13,7 @@
   "scripts": {
     "packagemanager": "npm run --workspace=devApps/package-manager dev",
     "postinstall": "tsx ./scripts/installCliIfNotInstalled.ts && auto-generate --docker-compose-dev --dockerfile --vite-aliases --package-lock",
+    "workspace": "tsx ./scripts/runWorkspace.ts",
     "view-global-npm-installs": "npm ls -g --depth=0",
     "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true"
   },

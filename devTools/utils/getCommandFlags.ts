@@ -33,17 +33,16 @@ const splitToCommands = ({ flags }: SplitToCommandsArgs) => {
   for (let i = 0; i < flags.length; i++) {
     const current = flags[i];
     const isFlag = current.slice(0, 2) === "--";
-    
+    const [key, value] = current.split("=");
+
     if (!isFlag && commands.length === 0) {
-      console.error(
-        `Skipped a received unexpected value without flag key - ${current}`
-      );
+      console.error(`Skipped a received unexpected value without flag key - ${current}`);
       continue;
     }
 
     if (isFlag) {
-      const onlyFlagValue = current.slice(2);
-      commands.push({ key: onlyFlagValue, value: [] });
+      const onlyFlagValue = key.slice(2);
+      commands.push({ key: onlyFlagValue, value: value ? [value] : [] });
       continue;
     }
 

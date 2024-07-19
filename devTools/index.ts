@@ -17,3 +17,4 @@ export * from "./operatingSystem";
 export * from "./globalDependencies";
 export * from "./clis";
 export * from "./packageManager";
+export * from "./ports";

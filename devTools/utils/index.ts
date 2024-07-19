@@ -8,3 +8,4 @@ export * from "./getFile";
 export * from "./openBrowserTab";
 export * from "./delay";
 export * from "./rateLimit";
+export * from "./detectPackageEnvironment";
