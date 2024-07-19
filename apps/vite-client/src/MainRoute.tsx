@@ -48,9 +48,10 @@ export const MainRoute = () => {
       <div className="card">Received from another package: {response}</div>
       <div className="card">{fps.FPS}</div>
       <Tooltip
-        message={
+        content={
           "hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello"
         }
+        offset={-10}
       >
         <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
       </Tooltip>
@@ -74,7 +75,7 @@ export const MainRoute = () => {
             header: "name",
             cell: (data) => {
               return (
-                <Tooltip message={data.name}>
+                <Tooltip content={data.name}>
                   <div>{data.name}</div>
                 </Tooltip>
               );

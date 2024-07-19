@@ -4,13 +4,13 @@ import "./styles.css";
 
 type EllipsisTooltipProps = {
   style?: CSSProperties;
-  message?: ReactNode;
+  content?: ReactNode;
   children: string;
 };
 
-export const EllipsisTooltip = ({ style, children, message = children }: EllipsisTooltipProps) => {
+export const EllipsisTooltip = ({ style, children, content = children }: EllipsisTooltipProps) => {
   return (
-    <Tooltip message={message}>
+    <Tooltip content={content}>
       <div className="ellipsis" style={style}>
         {children}
       </div>

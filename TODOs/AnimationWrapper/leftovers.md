@@ -1,0 +1,2 @@
+- Clean the AnimationWrapper file from unnecessary code.
+- Add an on unmount cleaning behavior in order to clear remaining animations.

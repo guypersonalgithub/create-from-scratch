@@ -1,33 +1,46 @@
-import { ReactNode, useState } from "react";
-import { AnimationContainerWrapper } from "@packages/animation-container";
+import { ReactNode, useRef } from "react";
 import "./styles.css";
+import { hideTooltip, showTooltip } from "./utils";
 
 type TooltipProps = {
-  message: ReactNode;
+  content: ReactNode;
+  disabled?: boolean;
+  offset?: number;
   children: ReactNode;
 };
 
-export const Tooltip = ({ message, children }: TooltipProps) => {
-  const [visible, setVisible] = useState(false);
-  const showTooltip = () => setVisible(true);
-  const hideTooltip = () => setVisible(false);
+export const Tooltip = ({ content, disabled, offset, children }: TooltipProps) => {
+  const isHovered = useRef(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const isDisabled = disabled || !content;
+
+  const show = () => {
+    if (isDisabled) {
+      return;
+    }
+
+    isHovered.current = true;
+
+    showTooltip({
+      id: "tooltip-1",
+      content,
+      ref,
+      offset,
+    });
+  };
+  const hide = () => {
+    if (isDisabled) {
+      return;
+    }
+
+    isHovered.current = false;
+
+    hideTooltip({ id: "tooltip-1" });
+  };
 
   return (
-    <div className="tooltip-container">
-      <div onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
-        {children}
-      </div>
-      <AnimationContainerWrapper
-        from={{ opacity: 0, visibility: "hidden" }}
-        to={{ opacity: 1, visibility: "visible" }}
-        options={{ duration: 300 }}
-      >
-        {visible ? (
-          <div key="tooltip" className="tooltip-box">
-            {message}
-          </div>
-        ) : null}
-      </AnimationContainerWrapper>
+    <div ref={ref} onMouseEnter={show} onMouseLeave={hide}>
+      {children}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { Link, Router, usePath } from "@packages/router";
 import { MainRoute } from "./MainRoute";
 import { NotFound } from "./NotFound";
 import { RouteParam } from "./RouteParam";
+import { TooltipManager } from "@packages/tooltip";
 
 const App = () => {
   const { moveTo } = usePath();
@@ -35,6 +36,7 @@ const App = () => {
           }}
         />
       </div>
+      <TooltipManager />
     </div>
   );
 };
