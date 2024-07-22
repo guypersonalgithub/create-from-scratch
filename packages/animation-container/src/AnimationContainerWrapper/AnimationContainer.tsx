@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, ReactNode, isValidElement } from "react";
+import { useState, useRef, useEffect, ReactNode, MutableRefObject } from "react";
 
 const getElementStyles = (element: Element, stage: Keyframe) => {
   const styles: Keyframe = {};
@@ -10,25 +10,6 @@ const getElementStyles = (element: Element, stage: Keyframe) => {
   return styles;
 };
 
-// TODO: Remove AnimationContainer and ChildComponent as they are no longer needed.
-
-export const AnimationContainer = () => {
-  const [show, setShow] = useState(true);
-
-  return (
-    <div style={{ display: "grid" }}>
-      <button onClick={() => setShow((state) => !state)}>Click me</button>
-      <AnimationWrapper show={show} from={{ height: "0px" }} to={{ height: "100px" }}>
-        <ChildComponent />
-      </AnimationWrapper>
-    </div>
-  );
-};
-
-const ChildComponent = () => {
-  return <div style={{ border: "1px solid red", height: "inherit" }}>1</div>;
-};
-
 export const AnimationWrapper = ({
   show,
   children,
@@ -38,6 +19,8 @@ export const AnimationWrapper = ({
   options = { duration: 300 },
   onAnimationStart,
   onAnimationEnd,
+  animationRef,
+  previousAnimationRefs
 }: {
   show: boolean;
   children: ReactNode[] | ReactNode;
@@ -47,11 +30,13 @@ export const AnimationWrapper = ({
   options?: KeyframeAnimationOptions;
   onAnimationStart?: () => void;
   onAnimationEnd?: () => void;
+  animationRef: MutableRefObject<Animation | undefined>;
+  previousAnimationRefs: MutableRefObject<Animation[]>;
 }) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [removeState, setRemove] = useState(!show);
-  const animationRef = useRef<Animation>();
-  const previousAnimationRefs = useRef<Animation[]>([]);
+  // const animationRef = useRef<Animation>();
+  // const previousAnimationRefs = useRef<Animation[]>([]);
   const initialized = useRef(false);
 
   useEffect(() => {

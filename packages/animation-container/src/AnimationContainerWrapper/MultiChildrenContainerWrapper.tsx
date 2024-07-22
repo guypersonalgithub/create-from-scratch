@@ -1,4 +1,4 @@
-import { isValidElement, ReactNode, useEffect, useRef, useState } from "react";
+import { isValidElement, ReactNode, useEffect, useRef, useState, MutableRefObject } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import {
@@ -6,27 +6,7 @@ import {
   doesKeyAlreadyExistInSet,
   shouldAnimationCatchUp,
 } from "./utils";
-
-// TODO: Move some of these functions to @packages/utils.
-
-type AreArraysEqualArgs = {
-  array1: string[];
-  array2: string[];
-};
-
-const areArraysEqual = ({ array1, array2 }: AreArraysEqualArgs) => {
-  if (array1.length !== array2.length) {
-    return false;
-  }
-
-  for (let i = 0; i < array1.length; i++) {
-    if (array1[i] !== array2[i]) {
-      return false;
-    }
-  }
-
-  return true;
-};
+import { areArraysEqual } from "@packages/utils";
 
 type GetChildKeysArgs = {
   children: ReactNode[];
@@ -47,7 +27,13 @@ export const MultiChildrenContainerWrapper = ({
   from,
   to,
   options,
-}: AnimationContainerWrapperProps & { children: ReactNode[] }) => {
+  animationRef,
+  previousAnimationRefs,
+}: AnimationContainerWrapperProps & {
+  children: ReactNode[];
+  animationRef: MutableRefObject<Animation | undefined>;
+  previousAnimationRefs: MutableRefObject<Animation[]>;
+}) => {
   const [currentChildren, setCurrentChildren] = useState<ReactNode[]>(children);
   const [childKeys, setChildKeys] = useState<Set<string>>(getChildKeys({ children }));
   const currentChildKeys = useRef<Set<string>>(getChildKeys({ children }));
@@ -116,6 +102,8 @@ export const MultiChildrenContainerWrapper = ({
             animationStarted.current = new Set();
           }
         }}
+        animationRef={animationRef}
+        previousAnimationRefs={previousAnimationRefs}
       >
         <div style={{ height: "inherit", width: "inherit" }}>{child}</div>
       </AnimationWrapper>

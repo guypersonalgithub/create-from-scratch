@@ -11,8 +11,8 @@ COPY ./packages/get-fps/package.json ./packages/get-fps/package.json
 COPY ./packages/table/package.json ./packages/table/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
-COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/utils/package.json ./packages/utils/package.json
+COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/router/package.json ./packages/router/package.json
 
 
@@ -34,8 +34,8 @@ COPY ./packages/get-fps ./packages/get-fps
 COPY ./packages/table ./packages/table
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
-COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/utils ./packages/utils
+COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/router ./packages/router
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "dev"]
@@ -59,8 +59,8 @@ COPY ./packages/get-fps ./packages/get-fps
 COPY ./packages/table ./packages/table
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
-COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/utils ./packages/utils
+COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/router ./packages/router
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "build"]
@@ -84,8 +84,8 @@ COPY ./packages/get-fps ./packages/get-fps
 COPY ./packages/table ./packages/table
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
-COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/utils ./packages/utils
+COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/router ./packages/router
 COPY ./packages/cypress ./packages/cypress
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

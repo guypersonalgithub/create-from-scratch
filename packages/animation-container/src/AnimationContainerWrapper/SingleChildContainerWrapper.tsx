@@ -1,4 +1,4 @@
-import { isValidElement, ReactNode, useRef, useState, useEffect } from "react";
+import { isValidElement, ReactNode, useRef, useState, MutableRefObject } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 
@@ -16,7 +16,13 @@ export const SingleChildContainerWrapper = ({
   from,
   to,
   options,
-}: AnimationContainerWrapperProps & { children: ReactNode }) => {
+  animationRef,
+  previousAnimationRefs
+}: AnimationContainerWrapperProps & {
+  children: ReactNode;
+  animationRef: MutableRefObject<Animation | undefined>;
+  previousAnimationRefs: MutableRefObject<Animation[]>;
+}) => {
   const [currentChild, setCurrentChild] = useState<ReactNode>(children);
   const isValid = isValidElement(children);
   const key = isValid ? children.key : null;
@@ -36,6 +42,8 @@ export const SingleChildContainerWrapper = ({
         setCurrentChild(children);
         currentChildKey.current = key;
       }}
+      animationRef={animationRef}
+      previousAnimationRefs={previousAnimationRefs}
     >
       <div style={{ height: "inherit", width: "inherit" }}>{currentChild}</div>
     </AnimationWrapper>

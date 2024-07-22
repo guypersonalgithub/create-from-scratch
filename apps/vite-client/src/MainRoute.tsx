@@ -7,7 +7,7 @@ import { PostMessage } from "./PostMessage";
 import { useFPS } from "@packages/get-fps";
 import { Table } from "@packages/table";
 import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
-import { AnimationContainer, AnimationContainerWrapper } from "@packages/animation-container";
+import { AnimationContainerWrapper } from "@packages/animation-container";
 
 export const MainRoute = () => {
   const [count, setCount] = useState(0);
@@ -55,7 +55,6 @@ export const MainRoute = () => {
       >
         <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
       </Tooltip>
-      <AnimationContainer />
       <EllipsisTooltip style={{ width: "50px" }}>Testing the ellipsis tooltip</EllipsisTooltip>
       <button onClick={() => switchTest()}>click</button>
       <AnimationContainerWrapper
