@@ -15,7 +15,8 @@
     "@packages/table": "*",
     "@packages/tooltip": "*",
     "@packages/animation-container": "*",
-    "@packages/utils": "*"
+    "@packages/utils": "*",
+    "@packages/router": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

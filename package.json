@@ -14,6 +14,7 @@
     "packagemanager": "npm run --workspace=devApps/package-manager dev",
     "postinstall": "tsx ./scripts/installCliIfNotInstalled.ts && auto-generate --docker-compose-dev --dockerfile --vite-aliases --package-lock",
     "workspace": "tsx ./scripts/runWorkspace.ts",
+    "dependensee": "tsx ./scripts/runDependensee.ts",
     "view-global-npm-installs": "npm ls -g --depth=0",
     "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true"
   },
@@ -26,7 +27,6 @@
     "eslint-plugin-prettier": "^5.1.3",
     "js-yaml": "^4.1.0",
     "prettier": "^3.2.5",
-    "ts-node": "^10.9.2",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5"
   }

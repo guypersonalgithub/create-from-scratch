@@ -14,6 +14,7 @@ export default defineConfig({
         "../../packages/animation-container/src/index.ts",
       ),
       "packages/utils": path.resolve("__dirname", "../../packages/utils/src/index.ts"),
+      "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
     },
   },
 });

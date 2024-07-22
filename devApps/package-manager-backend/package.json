@@ -1,5 +1,5 @@
 {
-  "name": "express-backend",
+  "name": "package-manager-backend",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -10,9 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@packages/shared-types": "*",
-    "@packages/test": "*",
-    "@packages/express-postgres-db": "*",
     "cors": "^2.8.5",
     "express": "^4.18.3"
   },

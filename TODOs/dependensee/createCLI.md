@@ -1,0 +1,1 @@
+- Create a dependensee CLI and move the runDependensee script into it.

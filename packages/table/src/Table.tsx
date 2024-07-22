@@ -58,7 +58,7 @@ export const Table = <T extends Record<string, unknown>>({
           );
         })}
       </div>
-      <div style={{ overflow: "scroll", ...rowContainer }}>
+      <div style={{ overflow: "auto", ...rowContainer }}>
         {data.map((row, rowIndex) => (
           <div
             key={rowIndex}

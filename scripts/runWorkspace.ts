@@ -1,19 +1,21 @@
 import { readdirSync } from "fs";
 import {
   detectPackageEnvironment,
-  executeTerminalCommand,
+  ExecuteTerminalCommandWithReadinessCheckArgs,
   findAvailablePortInRange,
-  getCommandFlags,
+  getFlags,
+  getOpenBrowserTabCommand,
   getOperatingSystem,
   getProjectAbsolutePath,
-  openBrowserTab,
+  runSequencedCommands,
 } from "../devTools";
 import { sep } from "path";
 
 const runWorkspace = async () => {
-  const commands = getCommandFlags();
-  const workspace = commands.find((command) => command.key === "workspace");
-  const port = commands.find((command) => command.key === "port");
+  const flags = getFlags();
+  const workspace = flags.find((flag) => flag.key === "workspace");
+  const port = flags.find((flag) => flag.key === "port");
+  const skipPort = flags.find((flag) => flag.key === "skipPort");
 
   if (!workspace) {
     throw "Missing workspace flag!";
@@ -48,24 +50,46 @@ const runWorkspace = async () => {
 
   const portNumber = Number(port?.value?.[0]);
   const operatingSystem = getOperatingSystem();
-  const response = await findAvailablePortInRange({
-    startPort: portNumber,
-    endPort: portNumber + 1000,
-    operatingSystem,
-  });
+  let response: number | null = portNumber;
+  if (!skipPort) {
+    response = await findAvailablePortInRange({
+      startPort: portNumber,
+      endPort: portNumber + 1000,
+      operatingSystem,
+    });
 
-  if (!response) {
-    throw "Failed to find an available port within range.";
+    if (!response) {
+      throw "Failed to find an available port within range.";
+    }
   }
 
   const environment = detectPackageEnvironment({ path: `${path}/package.json` });
 
-  if (environment === "frontend") {
-    openBrowserTab({ url: `http://localhost:${response}`, operatingSystem });
-  }
+  const commands: Omit<
+    ExecuteTerminalCommandWithReadinessCheckArgs,
+    "exitOnFailure" | "readinessCheck"
+  >[] = [
+    {
+      command: `cd ${path} && npm`,
+      args: ["run", "dev", "--", `--port=${response}`],
+      processName: "Run workspace",
+      readinessCheckString: environment === "frontend" ? "ready" : "Listening",
+    },
+  ];
 
-  const command = `cd ${path} && npm run dev -- --port=${response}`;
-  await executeTerminalCommand({ command });
+  if (environment === "frontend") {
+    const command = getOpenBrowserTabCommand({
+      url: `http://localhost:${response}`,
+      operatingSystem,
+    });
+    const splitCommand = command.split(" ");
+    commands.push({
+      command: splitCommand[0],
+      args: splitCommand.slice(1),
+      processName: "Open browser",
+    });
+  }
+  await runSequencedCommands({ commands, exitOnFailure: true });
 };
 
 runWorkspace();

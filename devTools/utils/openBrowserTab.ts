@@ -10,13 +10,21 @@ export const openBrowserTab = ({
   url,
   operatingSystem = getOperatingSystem(),
 }: OpenBrowserTabArgs) => {
+  const command = getOpenBrowserTabCommand({ url, operatingSystem });
+  return executeTerminalCommand({ command });
+};
+
+export const getOpenBrowserTabCommand = ({
+  url,
+  operatingSystem = getOperatingSystem(),
+}: OpenBrowserTabArgs) => {
   if (operatingSystem === mainOperatingSystems.win32) {
-    return executeTerminalCommand({ command: `start ${url}` });
+    return `start ${url}`;
   }
 
   if (operatingSystem === mainOperatingSystems.linux) {
-    return executeTerminalCommand({ command: `xdg-open ${url}` });
+    return `xdg-open ${url}`;
   }
 
-  return executeTerminalCommand({ command: `open ${url}` });
+  return `open ${url}`;
 };

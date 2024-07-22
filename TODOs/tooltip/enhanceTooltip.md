@@ -1,3 +1,4 @@
 - Finish the Ellipsis Tooltip functionality and behavior.
 - Add the ability to select the Tooltip's direction as a prop.
 - Add collision detection with the viewport support.
+- Add a generic random id generator for the tooltip id.

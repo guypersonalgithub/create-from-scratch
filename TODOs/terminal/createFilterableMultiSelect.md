@@ -1,0 +1,1 @@
+- Create a filterable multi select variant in order to allow the terminal multi select to potentially allow a larger amount of options.

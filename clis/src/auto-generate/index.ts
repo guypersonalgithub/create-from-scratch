@@ -1,9 +1,9 @@
-import { Option, getCommandFlags, multiOptions } from "dev-tools";
+import { Option, getFlags, multiOptions } from "dev-tools";
 import { cliOptions } from "./commandFunctions/cliOptions";
 import { SupportedCommands } from "./commandFunctions/supportedCommands";
 
 const entryPoint = async () => {
-  const commands = getCommandFlags();
+  const commands = getFlags();
 
   if (commands.length === 0) {
     const options: Option[] = [];

@@ -1,4 +1,4 @@
-import { exec, execSync, spawn } from "child_process";
+import { ChildProcess, exec, execSync, spawn } from "child_process";
 
 type ExecuteTerminalCommandArgs = {
   command: string;
@@ -91,4 +91,72 @@ export const executeTerminalCommandWithOutput = async ({
   });
 
   return output;
+};
+
+export type ExecuteTerminalCommandWithReadinessCheckArgs = {
+  command: string;
+  args: string[];
+  processName?: string;
+  readinessCheckString?: string;
+  exitOnFailure?: boolean;
+};
+
+export const executeTerminalCommandWithReadinessCheck = ({
+  command,
+  args,
+  processName,
+  readinessCheckString,
+  exitOnFailure,
+}: ExecuteTerminalCommandWithReadinessCheckArgs): Promise<ChildProcess> => {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(command, args, { stdio: ["pipe", "pipe", "pipe"], shell: true });
+
+    proc.stdout.on("data", (data: Buffer) => {
+      const message = data.toString();
+      console.log(processName ? `[${processName}]:\r\n${message}` : message);
+
+      if (checkReadiness({ readinessCheckString, message })) {
+        resolve(proc);
+      }
+    });
+
+    proc.stderr.on("data", (data: Buffer) => {
+      console.error(
+        processName
+          ? `[${processName} ERROR]:\r\n${data.toString()}`
+          : `[ERROR]:\r\n${data.toString()}`,
+      );
+    });
+
+    proc.on("close", (code: number) => {
+      if (code !== 0) {
+        reject(new Error(`Command ${command} ${args.join(" ")} exited with code ${code}`));
+        if (exitOnFailure) {
+          process.exit();
+        }
+      } else {
+        resolve(proc);
+      }
+    });
+
+    proc.on("error", (error: Error) => {
+      reject(error);
+      if (exitOnFailure) {
+        process.exit();
+      }
+    });
+  });
+};
+
+type CheckReadinessArgs = {
+  readinessCheckString?: string;
+  message: string;
+};
+
+const checkReadiness = ({ readinessCheckString, message }: CheckReadinessArgs) => {
+  if (!readinessCheckString) {
+    return false;
+  }
+
+  return message.includes(readinessCheckString);
 };
