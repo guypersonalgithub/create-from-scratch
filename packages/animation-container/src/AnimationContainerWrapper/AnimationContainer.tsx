@@ -36,6 +36,7 @@ export const AnimationWrapper = ({
   to = {},
   unMountAnimation,
   options = { duration: 300 },
+  onAnimationStart,
   onAnimationEnd,
 }: {
   show: boolean;
@@ -44,6 +45,7 @@ export const AnimationWrapper = ({
   to: Keyframe;
   unMountAnimation?: Keyframe[] | PropertyIndexedKeyframes | null;
   options?: KeyframeAnimationOptions;
+  onAnimationStart?: () => void;
   onAnimationEnd?: () => void;
 }) => {
   const elementRef = useRef<HTMLDivElement>(null);
@@ -68,6 +70,8 @@ export const AnimationWrapper = ({
       if (!childElement) {
         return;
       }
+
+      onAnimationStart?.();
 
       const styles = getElementStyles(childElement, to);
 

@@ -1,6 +1,7 @@
-import { ReactNode, useRef } from "react";
+import { ReactNode, useMemo, useRef } from "react";
 import "./styles.css";
 import { hideTooltip, showTooltip } from "./utils";
+import { generateSecureRandomString } from "@packages/randomizer";
 
 type TooltipProps = {
   content: ReactNode;
@@ -13,6 +14,9 @@ export const Tooltip = ({ content, disabled, offset, children }: TooltipProps) =
   const isHovered = useRef(false);
   const ref = useRef<HTMLDivElement>(null);
   const isDisabled = disabled || !content;
+  const id = useMemo(() => {
+    return generateSecureRandomString();
+  }, []);
 
   const show = () => {
     if (isDisabled) {
@@ -22,7 +26,7 @@ export const Tooltip = ({ content, disabled, offset, children }: TooltipProps) =
     isHovered.current = true;
 
     showTooltip({
-      id: "tooltip-1",
+      id,
       content,
       ref,
       offset,
@@ -35,7 +39,7 @@ export const Tooltip = ({ content, disabled, offset, children }: TooltipProps) =
 
     isHovered.current = false;
 
-    hideTooltip({ id: "tooltip-1" });
+    hideTooltip({ id });
   };
 
   return (

@@ -15,6 +15,7 @@ export default defineConfig({
       ),
       "packages/utils": path.resolve("__dirname", "../../packages/utils/src/index.ts"),
       "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
+      "packages/randomizer": path.resolve("__dirname", "../../packages/randomizer/src/index.ts"),
     },
   },
 });

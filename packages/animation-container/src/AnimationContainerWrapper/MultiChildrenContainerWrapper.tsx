@@ -1,26 +1,13 @@
 import { isValidElement, ReactNode, useEffect, useRef, useState } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
+import {
+  checkIfAllPreviousExistInCurrent,
+  doesKeyAlreadyExistInSet,
+  shouldAnimationCatchUp,
+} from "./utils";
 
 // TODO: Move some of these functions to @packages/utils.
-
-type DoesKeyAlreadyExistInSetArgs = {
-  isValid: boolean;
-  currentChildKeys: Set<string | null>;
-  key: string | null;
-};
-
-const doesKeyAlreadyExistInSet = ({
-  isValid,
-  currentChildKeys,
-  key,
-}: DoesKeyAlreadyExistInSetArgs) => {
-  if (!isValid) {
-    return false;
-  }
-
-  return currentChildKeys.has(key);
-};
 
 type AreArraysEqualArgs = {
   array1: string[];
@@ -39,27 +26,6 @@ const areArraysEqual = ({ array1, array2 }: AreArraysEqualArgs) => {
   }
 
   return true;
-};
-
-type CheckIfAllPreviousExistInCurrentArgs = {
-  array1: string[];
-  array2: string[];
-};
-
-const checkIfAllPreviousExistInCurrent = ({
-  array1,
-  array2,
-}: CheckIfAllPreviousExistInCurrentArgs) => {
-  const array2Set = new Set(...[array2]);
-
-  for (let i = 0; i < array1.length; i++) {
-    const current = array1[i];
-    if (!array2Set.has(current)) {
-      return { exist: false, length: false };
-    }
-  }
-
-  return { exist: true, length: array1.length !== array2.length };
 };
 
 type GetChildKeysArgs = {
@@ -85,18 +51,29 @@ export const MultiChildrenContainerWrapper = ({
   const [currentChildren, setCurrentChildren] = useState<ReactNode[]>(children);
   const [childKeys, setChildKeys] = useState<Set<string>>(getChildKeys({ children }));
   const currentChildKeys = useRef<Set<string>>(getChildKeys({ children }));
+  const animationStarted = useRef<Set<string>>(getChildKeys({ children }));
 
   useEffect(() => {
     const previousKeys = [...currentChildKeys.current];
     const updatedKeys = getChildKeys({ children });
     currentChildKeys.current = updatedKeys;
+    const updatedKeysArray = [...updatedKeys];
+    const animationStartedArray = [...animationStarted.current];
 
     const { exist, length } = checkIfAllPreviousExistInCurrent({
       array1: previousKeys,
-      array2: [...updatedKeys],
+      array2: updatedKeysArray,
     });
-    if (exist && length) {
+
+    const shouldCatchUpAndSkipAnimation = shouldAnimationCatchUp({
+      updatedKeys: updatedKeysArray,
+      previousKeys,
+      animationStarted: animationStartedArray,
+    });
+
+    if ((exist && length) || shouldCatchUpAndSkipAnimation) {
       setCurrentChildren(children);
+      animationStarted.current = new Set();
     }
     setChildKeys(updatedKeys);
   }, [children]);
@@ -116,6 +93,13 @@ export const MultiChildrenContainerWrapper = ({
         from={from}
         to={to}
         options={options}
+        onAnimationStart={() => {
+          if (!isValid || !child.key) {
+            return;
+          }
+
+          animationStarted.current.add(child.key);
+        }}
         onAnimationEnd={() => {
           if (!isValid || !child.key) {
             return;
@@ -129,6 +113,7 @@ export const MultiChildrenContainerWrapper = ({
             areArraysEqual({ array1: [...currentChildKeys.current], array2: [...newChildrenKeys] })
           ) {
             setCurrentChildren(children);
+            animationStarted.current = new Set();
           }
         }}
       >

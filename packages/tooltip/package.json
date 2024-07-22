@@ -7,7 +7,8 @@
     "build": "tsc -b ."
   },
   "dependencies": {
-    "@packages/animation-container": "*"
+    "@packages/animation-container": "*",
+    "@packages/randomizer": "*"
   },
   "peerDependencies": {
     "react": "^18.2.0",
