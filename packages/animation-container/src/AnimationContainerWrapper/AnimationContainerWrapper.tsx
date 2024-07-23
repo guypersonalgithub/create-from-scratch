@@ -2,6 +2,7 @@ import { AnimationContainerWrapperProps } from "./types";
 import { SingleChildContainerWrapper } from "./SingleChildContainerWrapper";
 import { MultiChildrenContainerWrapper } from "./MultiChildrenContainerWrapper";
 import { useEffect, useRef } from "react";
+import { useIsDev } from "@packages/is-dev";
 
 export const AnimationContainerWrapper = ({
   children,
@@ -11,9 +12,14 @@ export const AnimationContainerWrapper = ({
 }: AnimationContainerWrapperProps) => {
   const animationRef = useRef<Animation>();
   const previousAnimationRefs = useRef<Animation[]>([]);
+  const { isDev } = useIsDev();
 
   useEffect(() => {
     return () => {
+      if (isDev) {
+        return;
+      }
+
       animationRef.current?.cancel();
       previousAnimationRefs.current.forEach((animationRef) => {
         animationRef.cancel();

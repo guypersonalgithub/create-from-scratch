@@ -1,14 +1,10 @@
 {
-  "name": "@packages/animation-container",
+  "name": "@packages/is-dev",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/utils": "*",
-    "@packages/is-dev": "*"
   },
   "peerDependencies": {
     "react": "^18.2.0",

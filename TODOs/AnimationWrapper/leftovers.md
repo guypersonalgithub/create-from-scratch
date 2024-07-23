@@ -1,1 +1,0 @@
-- Add an isLocal hook to a package, as the initial animation on load gets canceled due to the animation clearing function on unmount and dev mode rendering twice.

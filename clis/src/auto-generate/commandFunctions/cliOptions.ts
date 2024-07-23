@@ -1,5 +1,5 @@
 import {
-  Command,
+  Flag,
   detectChangedDependencies,
   generateDockerComposeDev,
   generateDockerfileDev,
@@ -14,7 +14,7 @@ import { generatePostgresTypes } from "./generatePostgresTypes";
 import { pickDependenciesToUpdate } from "./pickDependenciesToUpdate";
 
 type CliOptionsArgs = {
-  command: Command;
+  command: Flag;
 };
 
 export const cliOptions = async ({ command }: CliOptionsArgs) => {

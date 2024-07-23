@@ -19,3 +19,4 @@ export * from "./clis";
 export * from "./packageManager";
 export * from "./ports";
 export { getFlags } from "@packages/utils";
+export type { Flag } from "@packages/utils";
