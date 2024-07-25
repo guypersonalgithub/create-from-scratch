@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, ReactNode, MutableRefObject } from "react";
+import { useState, useRef, useEffect, ReactNode, MutableRefObject, CSSProperties } from "react";
 
 const getElementStyles = (element: Element, stage: Keyframe) => {
   const styles: Keyframe = {};
@@ -19,8 +19,9 @@ export const AnimationWrapper = ({
   options = { duration: 300 },
   onAnimationStart,
   onAnimationEnd,
-  animationRef,
-  previousAnimationRefs
+  clearAnimationOnExit,
+  animationActive,
+  style,
 }: {
   show: boolean;
   children: ReactNode[] | ReactNode;
@@ -30,14 +31,22 @@ export const AnimationWrapper = ({
   options?: KeyframeAnimationOptions;
   onAnimationStart?: () => void;
   onAnimationEnd?: () => void;
-  animationRef: MutableRefObject<Animation | undefined>;
-  previousAnimationRefs: MutableRefObject<Animation[]>;
+  clearAnimationOnExit: MutableRefObject<(() => void) | undefined>;
+  animationActive?: MutableRefObject<boolean>;
+  style?: CSSProperties;
 }) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [removeState, setRemove] = useState(!show);
-  // const animationRef = useRef<Animation>();
-  // const previousAnimationRefs = useRef<Animation[]>([]);
+  const animationRef = useRef<Animation>();
+  const previousAnimationRefs = useRef<Animation[]>([]);
   const initialized = useRef(false);
+
+  clearAnimationOnExit.current = () => {
+    animationRef.current?.cancel();
+    previousAnimationRefs.current.forEach((animationRef) => {
+      animationRef.cancel();
+    });
+  };
 
   useEffect(() => {
     const childElement = elementRef.current;
@@ -58,6 +67,9 @@ export const AnimationWrapper = ({
 
       onAnimationStart?.();
 
+      if (animationActive) {
+        animationActive.current = true;
+      }
       const styles = getElementStyles(childElement, to);
 
       const animation = childElement.animate([initialized.current ? styles : from, to], {
@@ -81,6 +93,9 @@ export const AnimationWrapper = ({
         initialized.current = false;
         setRemove(true);
         onAnimationEnd?.();
+        if (animationActive) {
+          animationActive.current = false;
+        }
       };
     }
 
@@ -92,5 +107,11 @@ export const AnimationWrapper = ({
     };
   }, [show, removeState]);
 
-  return !removeState && <div ref={elementRef}>{children}</div>;
+  return (
+    !removeState && (
+      <div ref={elementRef} style={style}>
+        {children}
+      </div>
+    )
+  );
 };

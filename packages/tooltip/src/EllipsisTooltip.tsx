@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 import { Tooltip } from "./Tooltip";
 import "./styles.css";
 
@@ -9,9 +9,20 @@ type EllipsisTooltipProps = {
 };
 
 export const EllipsisTooltip = ({ style, children, content = children }: EllipsisTooltipProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   return (
-    <Tooltip content={content}>
-      <div className="ellipsis" style={style}>
+    <Tooltip
+      content={content}
+      isEllipsizedCallback={() => {
+        if (!ref.current) {
+          return false;
+        }
+
+        return ref.current.scrollWidth > ref.current.clientWidth;
+      }}
+    >
+      <div ref={ref} className="ellipsis" style={style}>
         {children}
       </div>
     </Tooltip>

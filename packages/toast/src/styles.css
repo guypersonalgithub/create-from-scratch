@@ -1,0 +1,12 @@
+.moving-div {
+    animation: moveDown 1s forwards;
+  }
+
+  @keyframes moveDown {
+    from {
+      transform: translate(-50%, -100%); /* Start above the viewport */
+    }
+    to {
+      transform: translate(-50%, 0); /* End at the top of the viewport */
+    }
+  }

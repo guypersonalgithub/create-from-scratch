@@ -9,9 +9,9 @@ export const AnimationContainerWrapper = ({
   from,
   to,
   options,
-}: AnimationContainerWrapperProps) => {
-  const animationRef = useRef<Animation>();
-  const previousAnimationRefs = useRef<Animation[]>([]);
+  style,
+}: Omit<AnimationContainerWrapperProps, "clearAnimationOnExit">) => {
+  const clearAnimationOnExitRef = useRef<() => void>();
   const { isDev } = useIsDev();
 
   useEffect(() => {
@@ -20,12 +20,9 @@ export const AnimationContainerWrapper = ({
         return;
       }
 
-      animationRef.current?.cancel();
-      previousAnimationRefs.current.forEach((animationRef) => {
-        animationRef.cancel();
-      });
+      clearAnimationOnExitRef.current?.();
     };
-  }, []);
+  }, [isDev]);
 
   if (!Array.isArray(children)) {
     return (
@@ -33,8 +30,8 @@ export const AnimationContainerWrapper = ({
         from={from}
         to={to}
         options={options}
-        animationRef={animationRef}
-        previousAnimationRefs={previousAnimationRefs}
+        clearAnimationOnExit={clearAnimationOnExitRef}
+        style={style}
       >
         {children}
       </SingleChildContainerWrapper>
@@ -46,8 +43,8 @@ export const AnimationContainerWrapper = ({
       from={from}
       to={to}
       options={options}
-      animationRef={animationRef}
-      previousAnimationRefs={previousAnimationRefs}
+      clearAnimationOnExit={clearAnimationOnExitRef}
+      style={style}
     >
       {children}
     </MultiChildrenContainerWrapper>

@@ -37,6 +37,27 @@ export const checkIfAllPreviousExistInCurrent = ({
   return { exist: true, length: array1.length !== array2.length };
 };
 
+type CheckIfAtleastOneEExistInCurrentArgs = {
+  array1: string[];
+  array2: string[];
+};
+
+export const checkIfAtleastOneExistsInCurrent = ({
+  array1,
+  array2,
+}: CheckIfAtleastOneEExistInCurrentArgs) => {
+  const array2Set = new Set(...[array2]);
+
+  for (let i = 0; i < array1.length; i++) {
+    const current = array1[i];
+    if (array2Set.has(current)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 type ShouldAnimationCatchUpArgs = {
   updatedKeys: string[];
   previousKeys: string[];
@@ -48,11 +69,11 @@ export const shouldAnimationCatchUp = ({
   previousKeys,
   animationStarted,
 }: ShouldAnimationCatchUpArgs) => {
-  const { exist: shouldNotCatchUpOne } = checkIfAllPreviousExistInCurrent({
+  const shouldNotCatchUpOne = checkIfAtleastOneExistsInCurrent({
     array1: updatedKeys,
     array2: animationStarted,
   });
-  const { exist: shouldNotCatchUpTwo } = checkIfAllPreviousExistInCurrent({
+  const shouldNotCatchUpTwo = checkIfAtleastOneExistsInCurrent({
     array1: previousKeys,
     array2: animationStarted,
   });

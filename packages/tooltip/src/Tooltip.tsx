@@ -1,22 +1,35 @@
-import { ReactNode, useMemo, useRef } from "react";
+import { ReactNode, useRef } from "react";
 import "./styles.css";
-import { hideTooltip, showTooltip } from "./utils";
-import { generateSecureRandomString } from "@packages/randomizer";
+import { useControlTooltip } from "./useControlTooltip";
 
 type TooltipProps = {
   content: ReactNode;
   disabled?: boolean;
   offset?: number;
+  isEllipsizedCallback?: () => boolean;
   children: ReactNode;
 };
 
-export const Tooltip = ({ content, disabled, offset, children }: TooltipProps) => {
+export const Tooltip = ({
+  content,
+  disabled,
+  offset,
+  isEllipsizedCallback,
+  children,
+}: TooltipProps) => {
   const isHovered = useRef(false);
   const ref = useRef<HTMLDivElement>(null);
-  const isDisabled = disabled || !content;
-  const id = useMemo(() => {
-    return generateSecureRandomString();
-  }, []);
+  const { showTooltip, hideTooltip } = useControlTooltip();
+
+  const disableTooltipBecauseOfEllipsis = () => {
+    if (!isEllipsizedCallback) {
+      return false;
+    }
+
+    return !isEllipsizedCallback();
+  };
+
+  const isDisabled = disabled || !content || disableTooltipBecauseOfEllipsis();
 
   const show = () => {
     if (isDisabled) {
@@ -26,12 +39,12 @@ export const Tooltip = ({ content, disabled, offset, children }: TooltipProps) =
     isHovered.current = true;
 
     showTooltip({
-      id,
       content,
       ref,
       offset,
     });
   };
+
   const hide = () => {
     if (isDisabled) {
       return;
@@ -39,11 +52,16 @@ export const Tooltip = ({ content, disabled, offset, children }: TooltipProps) =
 
     isHovered.current = false;
 
-    hideTooltip({ id });
+    hideTooltip();
   };
 
   return (
-    <div ref={ref} onMouseEnter={show} onMouseLeave={hide}>
+    <div
+      ref={ref}
+      style={{ width: "fit-content", height: "fit-content" }}
+      onMouseEnter={show}
+      onMouseLeave={hide}
+    >
       {children}
     </div>
   );

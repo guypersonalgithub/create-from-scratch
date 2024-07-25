@@ -17,6 +17,8 @@ export default defineConfig({
       "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
       "packages/randomizer": path.resolve("__dirname", "../../packages/randomizer/src/index.ts"),
       "packages/is-dev": path.resolve("__dirname", "../../packages/is-dev/src/index.ts"),
+      "packages/modal": path.resolve("__dirname", "../../packages/modal/src/index.ts"),
+      "packages/toast": path.resolve("__dirname", "../../packages/toast/src/index.ts"),
     },
   },
 });

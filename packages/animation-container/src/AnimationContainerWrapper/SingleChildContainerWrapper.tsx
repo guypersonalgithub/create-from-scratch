@@ -16,12 +16,10 @@ export const SingleChildContainerWrapper = ({
   from,
   to,
   options,
-  animationRef,
-  previousAnimationRefs
+  clearAnimationOnExit,
+  style,
 }: AnimationContainerWrapperProps & {
   children: ReactNode;
-  animationRef: MutableRefObject<Animation | undefined>;
-  previousAnimationRefs: MutableRefObject<Animation[]>;
 }) => {
   const [currentChild, setCurrentChild] = useState<ReactNode>(children);
   const isValid = isValidElement(children);
@@ -42,8 +40,8 @@ export const SingleChildContainerWrapper = ({
         setCurrentChild(children);
         currentChildKey.current = key;
       }}
-      animationRef={animationRef}
-      previousAnimationRefs={previousAnimationRefs}
+      clearAnimationOnExit={clearAnimationOnExit}
+      style={style}
     >
       <div style={{ height: "inherit", width: "inherit" }}>{currentChild}</div>
     </AnimationWrapper>

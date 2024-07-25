@@ -16,7 +16,9 @@
     "@packages/tooltip": "*",
     "@packages/animation-container": "*",
     "@packages/utils": "*",
-    "@packages/router": "*"
+    "@packages/router": "*",
+    "@packages/modal": "*",
+    "@packages/toast": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { TooltipDisplayProps } from "./types";
-import { AnimationContainerWrapper } from "@packages/animation-container";
-import { AnimationContainerWrapperProps } from "@packages/animation-container/src/AnimationContainerWrapper/types";
+import {
+  AnimationContainerWrapper,
+  AnimationContainerWrapperProps,
+} from "@packages/animation-container";
 
 type TooltipManagerProps = Partial<Pick<AnimationContainerWrapperProps, "from" | "to" | "options">>;
 
@@ -36,13 +38,11 @@ export const TooltipManager = ({ from, to, options }: TooltipManagerProps) => {
 
     window.addEventListener("showTooltip", showTooltip as EventListener);
     window.addEventListener("hideTooltip", hideTooltip as EventListener);
-    // window.addEventListener("scroll", updateTooltipsStyleOnChange);
     window.addEventListener("resize", updateTooltipsStyleOnChange);
 
     return () => {
       window.removeEventListener("showTooltip", showTooltip as EventListener);
       window.removeEventListener("hideTooltip", hideTooltip as EventListener);
-      // window.removeEventListener("scroll", updateTooltipsStyleOnChange);
       window.removeEventListener("resize", updateTooltipsStyleOnChange);
     };
   }, []);

@@ -1,4 +1,4 @@
-import { isValidElement, ReactNode, useEffect, useRef, useState, MutableRefObject } from "react";
+import { isValidElement, ReactNode, useEffect, useRef, useState } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import {
@@ -27,17 +27,16 @@ export const MultiChildrenContainerWrapper = ({
   from,
   to,
   options,
-  animationRef,
-  previousAnimationRefs,
+  clearAnimationOnExit,
+  style,
 }: AnimationContainerWrapperProps & {
   children: ReactNode[];
-  animationRef: MutableRefObject<Animation | undefined>;
-  previousAnimationRefs: MutableRefObject<Animation[]>;
 }) => {
   const [currentChildren, setCurrentChildren] = useState<ReactNode[]>(children);
   const [childKeys, setChildKeys] = useState<Set<string>>(getChildKeys({ children }));
   const currentChildKeys = useRef<Set<string>>(getChildKeys({ children }));
   const animationStarted = useRef<Set<string>>(getChildKeys({ children }));
+  const animationActive = useRef(false);
 
   useEffect(() => {
     const previousKeys = [...currentChildKeys.current];
@@ -57,7 +56,7 @@ export const MultiChildrenContainerWrapper = ({
       animationStarted: animationStartedArray,
     });
 
-    if ((exist && length) || shouldCatchUpAndSkipAnimation) {
+    if ((exist && length) || (shouldCatchUpAndSkipAnimation && animationActive.current)) {
       setCurrentChildren(children);
       animationStarted.current = new Set();
     }
@@ -102,8 +101,9 @@ export const MultiChildrenContainerWrapper = ({
             animationStarted.current = new Set();
           }
         }}
-        animationRef={animationRef}
-        previousAnimationRefs={previousAnimationRefs}
+        clearAnimationOnExit={clearAnimationOnExit}
+        animationActive={animationActive}
+        style={style}
       >
         <div style={{ height: "inherit", width: "inherit" }}>{child}</div>
       </AnimationWrapper>

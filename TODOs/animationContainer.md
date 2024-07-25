@@ -1,0 +1,2 @@
+- Convert clearAnimationOnExit to an array ref and set each animation callbacks based off indexes.
+- Add support to keyframe arrays instead of to and from. Switch the offset of frames when reversing the animation if offset is added.
