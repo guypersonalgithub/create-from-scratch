@@ -13,8 +13,7 @@ const doesKeyAlreadyExist = ({ currentChildKey, key }: DoesKeyAlreadyExistArgs) 
 
 export const SingleChildContainerWrapper = ({
   children,
-  from,
-  to,
+  keyframes,
   options,
   clearAnimationOnExit,
   style,
@@ -33,8 +32,7 @@ export const SingleChildContainerWrapper = ({
   return (
     <AnimationWrapper
       show={keyAlreadyExists}
-      from={from}
-      to={to}
+      keyframes={keyframes}
       options={options}
       onAnimationEnd={() => {
         setCurrentChild(children);

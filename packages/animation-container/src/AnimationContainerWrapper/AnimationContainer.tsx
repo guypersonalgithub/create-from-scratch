@@ -13,8 +13,7 @@ const getElementStyles = (element: Element, stage: Keyframe) => {
 export const AnimationWrapper = ({
   show,
   children,
-  from = {},
-  to = {},
+  keyframes = [],
   unMountAnimation,
   options = { duration: 300 },
   onAnimationStart,
@@ -24,9 +23,8 @@ export const AnimationWrapper = ({
   style,
 }: {
   show: boolean;
-  children: ReactNode[] | ReactNode;
-  from: Keyframe;
-  to: Keyframe;
+  children: ReactNode;
+  keyframes: Keyframe[];
   unMountAnimation?: Keyframe[] | PropertyIndexedKeyframes | null;
   options?: KeyframeAnimationOptions;
   onAnimationStart?: () => void;
@@ -70,12 +68,20 @@ export const AnimationWrapper = ({
       if (animationActive) {
         animationActive.current = true;
       }
-      const styles = getElementStyles(childElement, to);
-
-      const animation = childElement.animate([initialized.current ? styles : from, to], {
-        ...options,
-        fill: "forwards",
-      });
+      const styles = getElementStyles(childElement, keyframes[keyframes.length - 1]);
+      const firstframe = keyframes[0];
+      const animation = childElement.animate(
+        [
+          initialized.current
+            ? { ...styles, offset: firstframe.offset ? firstframe.offset : undefined }
+            : firstframe,
+          ...keyframes.slice(1),
+        ],
+        {
+          ...options,
+          fill: "forwards",
+        },
+      );
       setAnimationRef({ animation });
       initialized.current = true;
     } else {
@@ -83,11 +89,27 @@ export const AnimationWrapper = ({
         return;
       }
 
-      const styles = getElementStyles(childElement, from);
-      const animation = childElement.animate(unMountAnimation || [styles, from], {
-        ...options,
-        fill: "forwards",
-      });
+      const styles = getElementStyles(childElement, keyframes[0]);
+      const reversedKeyframes = keyframes
+        .map((keyframe) => {
+          return {
+            ...keyframe,
+            offset: keyframe.offset ? 1 - keyframe.offset : undefined,
+          };
+        })
+        .reverse();
+      const lastKeyframe = reversedKeyframes[0];
+
+      const animation = childElement.animate(
+        unMountAnimation || [
+          { ...styles, offset: lastKeyframe.offset ? lastKeyframe.offset : undefined },
+          ...reversedKeyframes.slice(1),
+        ],
+        {
+          ...options,
+          fill: "forwards",
+        },
+      );
       setAnimationRef({ animation });
       animation.onfinish = () => {
         initialized.current = false;

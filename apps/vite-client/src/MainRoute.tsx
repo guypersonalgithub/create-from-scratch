@@ -58,8 +58,10 @@ export const MainRoute = () => {
       <EllipsisTooltip style={{ width: "50px" }}>Testing the ellipsis tooltip</EllipsisTooltip>
       <button onClick={() => switchTest()}>click</button>
       <AnimationContainerWrapper
-        from={{ height: "0px", opacity: 0 }}
-        to={{ height: "100px", opacity: 1 }}
+        keyframes={[
+          { height: "0px", opacity: 0 },
+          { height: "100px", opacity: 1 },
+        ]}
       >
         {test.map((testChild) => {
           return <div key={testChild}>{testChild}</div>;

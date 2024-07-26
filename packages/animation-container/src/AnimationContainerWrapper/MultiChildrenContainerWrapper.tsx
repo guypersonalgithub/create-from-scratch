@@ -24,8 +24,7 @@ const getChildKeys = ({ children }: GetChildKeysArgs) => {
 
 export const MultiChildrenContainerWrapper = ({
   children,
-  from,
-  to,
+  keyframes,
   options,
   clearAnimationOnExit,
   style,
@@ -75,8 +74,7 @@ export const MultiChildrenContainerWrapper = ({
       <AnimationWrapper
         key={isValid ? child.key : index}
         show={keyAlreadyExists}
-        from={from}
-        to={to}
+        keyframes={keyframes}
         options={options}
         onAnimationStart={() => {
           if (!isValid || !child.key) {

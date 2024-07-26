@@ -1,33 +1,53 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { TooltipDisplayProps } from "./types";
 import {
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 
-type TooltipManagerProps = Partial<Pick<AnimationContainerWrapperProps, "from" | "to" | "options">>;
+type TooltipManagerProps = Partial<Pick<AnimationContainerWrapperProps, "keyframes" | "options">>;
 
-export const TooltipManager = ({ from, to, options }: TooltipManagerProps) => {
+export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
   const [tooltips, setTooltips] = useState<TooltipDisplayProps[]>([]);
+  const tooltipIds = useRef<Set<string>>(new Set());
   const [disableTooltips, setDisableTooltips] = useState<boolean>(false);
 
   useEffect(() => {
     const showTooltip = (event: CustomEvent<TooltipDisplayProps>) => {
       const { id, content, ref, offset } = event.detail;
+      if (tooltipIds.current.has(id)) {
+        return;
+      }
 
       setTooltips((prev) => [...prev, { id, content, ref, offset }]);
+      tooltipIds.current.add(id);
       setDisableTooltips(false);
     };
 
     const hideTooltip = (event: CustomEvent<TooltipDisplayProps>) => {
       const { id } = event.detail;
+
+      if (!tooltipIds.current.has(id)) {
+        return;
+      }
+
+      tooltipIds.current.delete(id);
       setTooltips((prev) => {
         const tooltipIndex = prev.findIndex((tooltip) => tooltip.id === id);
+        if (tooltipIndex === -1) {
+          return prev;
+        }
+
+        tooltipIds.current = new Set();
         if (tooltipIndex === 0) {
           return [];
         }
 
-        return prev.slice(0, tooltipIndex);
+        const remainingTooltips = prev.slice(0, tooltipIndex);
+        remainingTooltips.forEach((tooltip) => {
+          tooltipIds.current.add(tooltip.id);
+        });
+        return remainingTooltips;
       });
     };
 
@@ -53,8 +73,12 @@ export const TooltipManager = ({ from, to, options }: TooltipManagerProps) => {
 
   return (
     <AnimationContainerWrapper
-      from={from ?? { opacity: 0, visibility: "hidden" }}
-      to={to ?? { opacity: 1, visibility: "visible" }}
+      keyframes={
+        keyframes ?? [
+          { opacity: 0, visibility: "hidden" },
+          { opacity: 1, visibility: "visible" },
+        ]
+      }
       options={options ?? { duration: 300 }}
     >
       {tooltips.map(({ id, content, ref, offset = 0 }) => {

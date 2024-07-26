@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ToastDisplayProps } from "./types";
 import {
   AnimationContainerWrapper,
@@ -6,29 +6,33 @@ import {
 } from "@packages/animation-container";
 import "./styles.css";
 
-type ToastManagerProps = Partial<Pick<AnimationContainerWrapperProps, "from" | "to" | "options">>;
+type ToastManagerProps = Partial<Pick<AnimationContainerWrapperProps, "keyframes" | "options">>;
 
-export const ToastManager = ({ from, to, options }: ToastManagerProps) => {
+export const ToastManager = ({ keyframes, options }: ToastManagerProps) => {
   const [toasts, setToasts] = useState<ToastDisplayProps[]>([]);
-  const [disableToasts, setDisableToasts] = useState<boolean>(false);
+  const toastIds = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const showToast = (event: CustomEvent<ToastDisplayProps>) => {
       const { id, content } = event.detail;
+      if (toastIds.current.has(id)) {
+        return;
+      }
 
       setToasts((prev) => [...prev, { id, content }]);
-      setDisableToasts(false);
+      toastIds.current.add(id);
     };
 
     const hideToast = (event: CustomEvent<ToastDisplayProps>) => {
       const { id } = event.detail;
-      setToasts((prev) => {
-        const toastIndex = prev.findIndex((toast) => toast.id === id);
-        if (toastIndex === 0) {
-          return [];
-        }
 
-        return prev.slice(0, toastIndex);
+      if (!toastIds.current.has(id)) {
+        return;
+      }
+
+      toastIds.current.delete(id);
+      setToasts((prev) => {
+        return prev.filter((toast) => toast.id !== id);
       });
     };
 
@@ -41,18 +45,32 @@ export const ToastManager = ({ from, to, options }: ToastManagerProps) => {
     };
   }, []);
 
-  if (disableToasts) {
-    return null;
-  }
-
-  if (!toasts.length) {
-    return null;
-  }
-
   return (
     <AnimationContainerWrapper
-      from={from ?? { top: "-100px" }}
-      to={to ?? { top: "0px" }}
+      keyframes={
+        keyframes ?? [
+          {
+            transform: "translateY(-100px)",
+            offset: 0,
+          },
+          {
+            transform: "translateY(100px)",
+            offset: 0.3,
+          },
+          {
+            transform: "translateY(300px)",
+            offset: 0.5,
+          },
+          {
+            transform: "translateY(350px)",
+            offset: 0.64,
+          },
+          {
+            transform: "translateY(300px)",
+            offset: 1,
+          },
+        ]
+      }
       options={options ?? { duration: 300 }}
       style={{
         position: "fixed",
@@ -64,8 +82,17 @@ export const ToastManager = ({ from, to, options }: ToastManagerProps) => {
         transform: "translateX(-50%)",
       }}
     >
-      {toasts.map(({ id, content }) => {
-        return <div key={id}>{content}??</div>;
+      {toasts.map(({ id, content }, index) => {
+        return (
+          <div
+            key={id}
+            style={{
+              transform: `translateY(${(index + 1) * 100}px)`,
+            }}
+          >
+            {content}
+          </div>
+        );
       })}
     </AnimationContainerWrapper>
   );

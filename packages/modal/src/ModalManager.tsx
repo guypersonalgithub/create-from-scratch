@@ -1,33 +1,50 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ModalDisplayProps } from "./types";
 import {
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 
-type ModalManagerProps = Partial<Pick<AnimationContainerWrapperProps, "from" | "to" | "options">>;
+type ModalManagerProps = Partial<Pick<AnimationContainerWrapperProps, "keyframes" | "options">>;
 
-export const ModalManager = ({ from, to, options }: ModalManagerProps) => {
+export const ModalManager = ({ keyframes, options }: ModalManagerProps) => {
   const [modals, setModals] = useState<ModalDisplayProps[]>([]);
-  const [disableModals, setDisableModals] = useState<boolean>(false);
+  const modalIds = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const openModal = (event: CustomEvent<ModalDisplayProps>) => {
       const { id, content } = event.detail;
+      if (modalIds.current.has(id)) {
+        return;
+      }
 
       setModals((prev) => [...prev, { id, content }]);
-      setDisableModals(false);
+      modalIds.current.add(id);
     };
 
     const closeModal = (event: CustomEvent<ModalDisplayProps>) => {
       const { id } = event.detail;
+
+      if (!modalIds.current.has(id)) {
+        return;
+      }
+
       setModals((prev) => {
         const modalIndex = prev.findIndex((modal) => modal.id === id);
+        if (modalIndex === -1) {
+          return prev;
+        }
+
+        modalIds.current = new Set();
         if (modalIndex === 0) {
           return [];
         }
 
-        return prev.slice(0, modalIndex);
+        const remainingModals = prev.slice(0, modalIndex);
+        remainingModals.forEach((modal) => {
+          modalIds.current.add(modal.id);
+        });
+        return remainingModals;
       });
     };
 
@@ -40,14 +57,14 @@ export const ModalManager = ({ from, to, options }: ModalManagerProps) => {
     };
   }, []);
 
-  if (disableModals) {
-    return null;
-  }
-
   return (
     <AnimationContainerWrapper
-      from={from ?? { opacity: 0, visibility: "hidden" }}
-      to={to ?? { opacity: 1, visibility: "visible" }}
+      keyframes={
+        keyframes ?? [
+          { opacity: 0, visibility: "hidden" },
+          { opacity: 1, visibility: "visible" },
+        ]
+      }
       options={options ?? { duration: 300 }}
     >
       {modals.map(({ id, content }) => {
@@ -76,11 +93,20 @@ export const ModalManager = ({ from, to, options }: ModalManagerProps) => {
               onClick={() => {
                 setModals((prev) => {
                   const modalIndex = prev.findIndex((modal) => modal.id === id);
+                  if (modalIndex === -1) {
+                    return prev;
+                  }
+
+                  modalIds.current = new Set();
                   if (modalIndex === 0) {
                     return [];
                   }
 
-                  return prev.slice(0, modalIndex);
+                  const remainingModals = prev.slice(0, modalIndex);
+                  remainingModals.forEach((modal) => {
+                    modalIds.current.add(modal.id);
+                  });
+                  return remainingModals;
                 });
               }}
             />

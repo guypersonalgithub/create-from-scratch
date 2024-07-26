@@ -6,8 +6,7 @@ import { useIsDev } from "@packages/is-dev";
 
 export const AnimationContainerWrapper = ({
   children,
-  from,
-  to,
+  keyframes,
   options,
   style,
 }: Omit<AnimationContainerWrapperProps, "clearAnimationOnExit">) => {
@@ -27,8 +26,7 @@ export const AnimationContainerWrapper = ({
   if (!Array.isArray(children)) {
     return (
       <SingleChildContainerWrapper
-        from={from}
-        to={to}
+        keyframes={keyframes}
         options={options}
         clearAnimationOnExit={clearAnimationOnExitRef}
         style={style}
@@ -40,8 +38,7 @@ export const AnimationContainerWrapper = ({
 
   return (
     <MultiChildrenContainerWrapper
-      from={from}
-      to={to}
+      keyframes={keyframes}
       options={options}
       clearAnimationOnExit={clearAnimationOnExitRef}
       style={style}

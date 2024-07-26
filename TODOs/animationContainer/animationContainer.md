@@ -1,0 +1,1 @@
+- Convert clearAnimationOnExit to an array ref and set each animation callbacks based off indexes.

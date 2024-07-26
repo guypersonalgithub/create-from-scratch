@@ -7,6 +7,7 @@ export const MainRoute = () => {
   const { openModal, closeModal } = useControlModal();
   const { openModal: openModal2, closeModal: closeModal2 } = useControlModal();
   const { showToast, hideToast } = useControlToast();
+  const { showToast: showToast2, hideToast: hideToast2 } = useControlToast();
 
   return (
     <div>
@@ -24,7 +25,35 @@ export const MainRoute = () => {
                   border: "1px solid red",
                 }}
               >
-                test123456
+                <button
+                  onClick={() => {
+                    hideToast();
+                  }}
+                >
+                  hide
+                </button>
+                <button
+                  onClick={() => {
+                    showToast2({
+                      content: (
+                        <div
+                          style={{
+                            width: "fit-content",
+                            height: "fit-content",
+                            padding: "20px",
+                            backgroundColor: "ActiveCaption",
+                            borderRadius: "10%",
+                            border: "1px solid red",
+                          }}
+                        >
+                          test
+                        </div>
+                      ),
+                    });
+                  }}
+                >
+                  open
+                </button>
               </div>
             ),
           })
