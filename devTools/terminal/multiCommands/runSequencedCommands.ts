@@ -3,8 +3,10 @@ import {
   ExecuteTerminalCommandWithReadinessCheckArgs,
 } from "../executeTerminalCommand";
 
-type RunSequencedCommandsArgs = {
-  commands: Omit<ExecuteTerminalCommandWithReadinessCheckArgs, "exitOnFailure">[];
+export type RunSequencedCommandsArgs = {
+  commands: (Omit<ExecuteTerminalCommandWithReadinessCheckArgs, "exitOnFailure"> & {
+    updateArgsBasedOffPreviousCommandLogs?: ({ args, logs }: { args: string[]; logs: string[] }) => string[];
+  })[];
   exitOnFailure?: boolean;
 };
 
@@ -13,8 +15,24 @@ export const runSequencedCommands = async ({
   exitOnFailure,
 }: RunSequencedCommandsArgs) => {
   try {
+    let previousLogs: string[] = [];
     for await (const command of commands) {
-      await executeTerminalCommandWithReadinessCheck({ ...command, exitOnFailure });
+      const { args, withLogs, updateArgsBasedOffPreviousCommandLogs } = command;
+      let updatedArgs = args;
+
+      if (updateArgsBasedOffPreviousCommandLogs) {
+        updatedArgs = updateArgsBasedOffPreviousCommandLogs({ args, logs: previousLogs });
+      }
+      
+      const { logs } = await executeTerminalCommandWithReadinessCheck({
+        ...command,
+        args: updatedArgs,
+        exitOnFailure,
+      });
+
+      if (withLogs && logs) {
+        previousLogs = logs;
+      }
     }
   } catch (error) {
     console.error(error);

@@ -7,7 +7,7 @@ loadFlagsIntoEnv();
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:5173"],
+  origin: [`http://localhost:${process.env.FRONT_PORT}`],
   optionsSuccessStatus: 200,
 };
 

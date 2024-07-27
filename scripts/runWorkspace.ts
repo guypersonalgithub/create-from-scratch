@@ -10,12 +10,12 @@ import {
   runSequencedCommands,
 } from "../devTools";
 import { sep } from "path";
+import { convertFlagsArrayToObject } from "../packages/utils/src/flags";
 
 const runWorkspace = async () => {
   const flags = getFlags();
-  const workspace = flags.find((flag) => flag.key === "workspace");
-  const port = flags.find((flag) => flag.key === "port");
-  const skipPort = flags.find((flag) => flag.key === "skipPort");
+  const flagsObject = convertFlagsArrayToObject({ flags });
+  const { workspace, port, skipPort, skipTab, ...rest } = flagsObject;
 
   if (!workspace) {
     throw "Missing workspace flag!";
@@ -42,16 +42,16 @@ const runWorkspace = async () => {
     });
   });
 
-  const path = workspacePaths[workspace.value?.[0]];
+  const path = workspacePaths[workspace];
 
   if (!path) {
     throw `Given workspace isn't supported.`;
   }
 
-  const portNumber = Number(port?.value?.[0]);
+  const portNumber = Number(port);
   const operatingSystem = getOperatingSystem();
   let response: number | null = portNumber;
-  if (!skipPort) {
+  if (skipPort === undefined) {
     response = await findAvailablePortInRange({
       startPort: portNumber,
       endPort: portNumber + 1000,
@@ -65,19 +65,29 @@ const runWorkspace = async () => {
 
   const environment = detectPackageEnvironment({ path: `${path}/package.json` });
 
+  const firstCommand = {
+    command: `cd ${path} && npm`,
+    args: ["run", "dev", "--", `--port=${response}`],
+    processName: "Run workspace",
+    readinessCheckString: environment === "frontend" ? "ready" : "Listening",
+  };
+
+  if (rest) {
+    const additionalFlags: string[] = [];
+    for (const property in rest) {
+      const value = rest[property];
+      additionalFlags.push(`--${property}=${value}`);
+    }
+
+    firstCommand.args.push(...additionalFlags);
+  }
+
   const commands: Omit<
     ExecuteTerminalCommandWithReadinessCheckArgs,
     "exitOnFailure" | "readinessCheck"
-  >[] = [
-    {
-      command: `cd ${path} && npm`,
-      args: ["run", "dev", "--", `--port=${response}`],
-      processName: "Run workspace",
-      readinessCheckString: environment === "frontend" ? "ready" : "Listening",
-    },
-  ];
+  >[] = [firstCommand];
 
-  if (environment === "frontend") {
+  if (environment === "frontend" && skipTab === undefined) {
     const command = getOpenBrowserTabCommand({
       url: `http://localhost:${response}`,
       operatingSystem,

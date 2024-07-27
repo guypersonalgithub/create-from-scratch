@@ -99,6 +99,7 @@ export type ExecuteTerminalCommandWithReadinessCheckArgs = {
   processName?: string;
   readinessCheckString?: string;
   exitOnFailure?: boolean;
+  withLogs?: boolean;
 };
 
 export const executeTerminalCommandWithReadinessCheck = ({
@@ -107,25 +108,36 @@ export const executeTerminalCommandWithReadinessCheck = ({
   processName,
   readinessCheckString,
   exitOnFailure,
-}: ExecuteTerminalCommandWithReadinessCheckArgs): Promise<ChildProcess> => {
+  withLogs,
+}: ExecuteTerminalCommandWithReadinessCheckArgs): Promise<{
+  process: ChildProcess;
+  logs?: string[];
+}> => {
   return new Promise((resolve, reject) => {
     const proc = spawn(command, args, { stdio: ["pipe", "pipe", "pipe"], shell: true });
+    const logs: string[] | undefined = withLogs ? [] : undefined;
 
     proc.stdout.on("data", (data: Buffer) => {
       const message = data.toString();
-      console.log(processName ? `[${processName}]:\r\n${message}` : message);
+      const log = processName ? `[${processName}]:\r\n${message}` : message;
+      console.log(log);
+      if (withLogs) {
+        logs?.push(log);
+      }
 
       if (checkReadiness({ readinessCheckString, message })) {
-        resolve(proc);
+        resolve({ process: proc, logs });
       }
     });
 
     proc.stderr.on("data", (data: Buffer) => {
-      console.error(
-        processName
-          ? `[${processName} ERROR]:\r\n${data.toString()}`
-          : `[ERROR]:\r\n${data.toString()}`,
-      );
+      const errorLog = processName
+        ? `[${processName} ERROR]:\r\n${data.toString()}`
+        : `[ERROR]:\r\n${data.toString()}`;
+      console.error(errorLog);
+      if (withLogs) {
+        logs?.push(errorLog);
+      }
     });
 
     proc.on("close", (code: number) => {
@@ -135,7 +147,7 @@ export const executeTerminalCommandWithReadinessCheck = ({
           process.exit();
         }
       } else {
-        resolve(proc);
+        resolve({ process: proc, logs });
       }
     });
 
