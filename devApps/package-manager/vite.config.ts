@@ -19,6 +19,8 @@ export default defineConfig({
       "packages/is-dev": path.resolve("__dirname", "../../packages/is-dev/src/index.ts"),
       "packages/modal": path.resolve("__dirname", "../../packages/modal/src/index.ts"),
       "packages/toast": path.resolve("__dirname", "../../packages/toast/src/index.ts"),
+      "packages/loading": path.resolve("__dirname", "../../packages/loading/src/index.ts"),
+      "packages/pagination": path.resolve("__dirname", "../../packages/pagination/src/index.ts"),
     },
   },
 });

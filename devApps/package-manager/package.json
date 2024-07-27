@@ -18,7 +18,8 @@
     "@packages/utils": "*",
     "@packages/router": "*",
     "@packages/modal": "*",
-    "@packages/toast": "*"
+    "@packages/toast": "*",
+    "@packages/loading": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

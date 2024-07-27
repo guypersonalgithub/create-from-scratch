@@ -2,12 +2,17 @@ import { Table } from "@packages/table";
 import { Tooltip } from "@packages/tooltip";
 import { useControlModal } from "@packages/modal";
 import { useControlToast } from "@packages/toast";
+import { useQueryParamsState, usePath } from "@packages/router";
+// import { Spinner, Skeleton } from "@packages/loading";
 
 export const MainRoute = () => {
   const { openModal, closeModal } = useControlModal();
   const { openModal: openModal2, closeModal: closeModal2 } = useControlModal();
   const { showToast, hideToast } = useControlToast();
   const { showToast: showToast2, hideToast: hideToast2 } = useControlToast();
+  const queryParams = useQueryParamsState({ specificParams: ["pagination"] });
+  const { moveTo } = usePath();
+  const pagination = Number(queryParams.pagination ?? 1);
 
   return (
     <div>
@@ -152,6 +157,19 @@ export const MainRoute = () => {
             version: "1234dfsfdsfds",
           },
         ]}
+        pagination={{
+          rowsPerPage: 10,
+          paginationProps: {
+            currentPage: pagination,
+            maxPagesToShow: 5,
+            onPageChange: (page) => {
+              moveTo({
+                pathname: window.location.pathname,
+                queryParams: page === 1 ? undefined : { pagination: page },
+              });
+            },
+          },
+        }}
       />
     </div>
   );

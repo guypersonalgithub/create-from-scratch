@@ -1,13 +1,10 @@
 {
-  "name": "@packages/table",
+  "name": "@packages/pagination",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/pagination": "*"
   },
   "peerDependencies": {
     "react": "^18.2.0",

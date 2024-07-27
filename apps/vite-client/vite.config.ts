@@ -38,6 +38,7 @@ export default defineConfig({
       "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
       "packages/randomizer": path.resolve("__dirname", "../../packages/randomizer/src/index.ts"),
       "packages/is-dev": path.resolve("__dirname", "../../packages/is-dev/src/index.ts"),
+      "packages/pagination": path.resolve("__dirname", "../../packages/pagination/src/index.ts"),
     },
   },
 });

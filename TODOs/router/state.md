@@ -1,2 +1,1 @@
-- Add an option for state on query param change.
 - Add an option for state on route param change.
