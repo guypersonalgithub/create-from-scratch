@@ -2,7 +2,7 @@ import { readdirSync, writeFileSync } from "fs";
 import jsYaml from "js-yaml";
 import { detectUsedLocalPackages } from "../packages";
 import { DockerComposeData, Profiles, WorkspaceContainerProperties } from "./types";
-import { getProjectAbsolutePath } from "../paths";
+import { getProjectAbsolutePath } from "@packages/paths";
 import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
 

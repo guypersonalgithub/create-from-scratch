@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { getProjectAbsolutePath } from "../paths";
+import { getProjectAbsolutePath } from "@packages/paths";
 
 export const loadEnvVariables = () => {
   const absolutePath = getProjectAbsolutePath();

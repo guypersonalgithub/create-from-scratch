@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "fs";
 import { listChangedFiles } from "./listChangedFiles";
-import { removeLastPathSegment } from "../paths";
+import { removeLastPathSegment } from "@packages/paths";
 
 export const detectChangedDependencies = async () => {
   const changedDependencies = new Set<string>();

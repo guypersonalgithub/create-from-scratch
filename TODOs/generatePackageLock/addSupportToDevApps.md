@@ -1,0 +1,1 @@
+- Add generatePackageLock support to devapps and other potential folders received as arguments.

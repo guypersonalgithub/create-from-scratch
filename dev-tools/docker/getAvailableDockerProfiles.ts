@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { getProjectAbsolutePath } from "../";
+import { getProjectAbsolutePath } from "@packages/paths";
 
 export const getAvailableDockerProfiles = () => {
   const projectAbsolutePath = getProjectAbsolutePath();

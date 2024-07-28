@@ -8,7 +8,10 @@
   },
   "dependencies": {
     "@packages/postgresql": "*",
-    "@packages/utils": "*"
+    "@packages/utils": "*",
+    "@packages/regex": "*",
+    "@packages/paths": "*",
+    "@packages/files": "*"
   },
   "author": "",
   "license": "ISC",

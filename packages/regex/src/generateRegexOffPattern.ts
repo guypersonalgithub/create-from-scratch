@@ -3,10 +3,7 @@ type GenerateRegexOffPatternArgs = {
   divider: string;
 };
 
-export const generateRegexOffPattern = ({
-  pattern,
-  divider,
-}: GenerateRegexOffPatternArgs) => {
+export const generateRegexOffPattern = ({ pattern, divider }: GenerateRegexOffPatternArgs) => {
   if (!pattern) {
     return;
   }
@@ -22,9 +19,7 @@ export const generateRegexOffPattern = ({
         nextIndex++;
       }
       const escapedDivider = new RegExp(`\\${divider}`, "g");
-      regexStr += `.*${
-        nextChar ? nextChar.replace(escapedDivider, `\\${divider}`) : ""
-      }`;
+      regexStr += `.*${nextChar ? nextChar.replace(escapedDivider, `\\${divider}`) : ""}`;
       i = nextIndex - 1;
     } else if (pattern[i] === "*") {
       // Match any character except divider

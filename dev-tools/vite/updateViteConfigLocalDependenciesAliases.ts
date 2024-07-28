@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync, writeFileSync } from "fs";
-import { getProjectAbsolutePath, getRelativePath } from "../paths";
+import { getProjectAbsolutePath, getRelativePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "../packages";
 import ts from "typescript";
 import { addNewImport, extractExportDefault, generateObjectProperties } from "../typescript";

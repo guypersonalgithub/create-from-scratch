@@ -1,7 +1,8 @@
-import { generateRegexOffPattern, getFile } from "../../utils";
+import { generateRegexOffPattern } from "@packages/regex";
 import { getConfigFileData } from "./getConfigFileData";
-import { getProjectAbsolutePath } from "../../paths";
+import { getProjectAbsolutePath } from "@packages/paths";
 import { iterateOverAllFiles } from "./iterateOverAllFiles";
+import { getFile } from "@packages/files";
 
 export const detectAllRepositoryDependencies = () => {
   const projectAbsolutePath = getProjectAbsolutePath();

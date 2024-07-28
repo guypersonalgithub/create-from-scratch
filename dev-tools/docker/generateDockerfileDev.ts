@@ -1,6 +1,6 @@
 import { readdirSync, writeFileSync } from "fs";
 import { detectUsedLocalPackages } from "../packages/detectUsedLocalPackages";
-import { getProjectAbsolutePath } from "../paths";
+import { getProjectAbsolutePath } from "@packages/paths";
 import { getContainerProperties } from "./getContainerProperties";
 import {
   detectRepositoryPackageManager,

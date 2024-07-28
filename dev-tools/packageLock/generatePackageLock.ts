@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from "fs";
-import { getProjectAbsolutePath } from "../paths";
+import { getProjectAbsolutePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "../packages";
 import { executeTerminalCommand, multiOptions } from "../terminal";
 import { detectPackageJsonDependencyChanges, updateGitIgnore } from "../git";

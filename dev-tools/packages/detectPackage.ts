@@ -1,5 +1,5 @@
 import { existsSync } from "fs";
-import { getProjectAbsolutePath } from "../paths";
+import { getProjectAbsolutePath } from "@packages/paths";
 import { generatePackage } from "./generatePackage";
 
 type DetectPackageArgs = {

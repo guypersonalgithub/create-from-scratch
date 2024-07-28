@@ -1,5 +1,5 @@
 import { join } from "path";
-import { getProjectAbsolutePath } from "../paths";
+import { getProjectAbsolutePath } from "@packages/paths";
 import { existsSync } from "fs";
 import { SupportedPackageManagers } from "./types";
 

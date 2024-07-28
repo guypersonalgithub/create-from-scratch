@@ -1,15 +1,10 @@
 {
-  "name": "@packages/detect-repository-dependencies",
+  "name": "@packages/paths",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/regex": "*",
-    "@packages/paths": "*",
-    "@packages/files": "*"
   },
   "author": "",
   "license": "ISC",
