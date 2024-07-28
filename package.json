@@ -7,12 +7,13 @@
     "apps/*",
     "packages/*",
     "clis",
-    "devApps/*",
-    "devTools"
+    "dev-apps/*",
+    "dev-tools",
+    "dev-packages/*"
   ],
   "scripts": {
-    "packagemanager": "npm run --workspace=devApps/package-manager dev",
-    "postinstall": "tsx ./scripts/installCliIfNotInstalled.ts && auto-generate --docker-compose-dev --dockerfile --vite-aliases --package-lock",
+    "packagemanager": "npm run --workspace=dev-apps/package-manager dev",
+    "postinstall": "tsx ./scripts/installCliIfNotInstalled.ts && auto-generate --docker-compose-dev --dockerfile --vite-aliases --package-lock skip-force-update",
     "workspace": "tsx ./scripts/runWorkspace.ts",
     "dependensee": "tsx ./scripts/runDependensee.ts",
     "view-global-npm-installs": "npm ls -g --depth=0",

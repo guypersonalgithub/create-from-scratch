@@ -3,7 +3,7 @@ import {
   executeTerminalCommand,
   getOperatingSystem,
   getPackageManagerLinkCommand,
-} from "../devTools";
+} from "../dev-tools";
 
 const installAutoGenerateIfNotAlreadyInstalled = async () => {
   const isAlreadyInstalled = await cliAlreadyInstalled({ cliName: "custom-clis" });

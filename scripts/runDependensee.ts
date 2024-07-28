@@ -4,7 +4,7 @@ import {
   getOpenBrowserTabCommand,
   runSequencedCommands,
   RunSequencedCommandsArgs,
-} from "../devTools";
+} from "../dev-tools";
 
 const runDependensee = async () => {
   let frontendPortNumber: number | undefined;

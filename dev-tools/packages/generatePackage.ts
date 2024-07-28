@@ -3,13 +3,14 @@ import { getProjectAbsolutePath } from "../paths";
 
 type GeneratePackageArgs = {
   packageName: string;
+  folder: "packages" | "dev-packages";
 };
 
-export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
+export const generatePackage = ({ packageName, folder }: GeneratePackageArgs) => {
   console.log(`Generating new package:`);
 
   const projectAbsolutePath = getProjectAbsolutePath();
-  const folderPath = `${projectAbsolutePath}/packages/${packageName}`;
+  const folderPath = `${projectAbsolutePath}/${folder}/${packageName}`;
   const packageSrc = `${folderPath}/src`;
   const packagePackageJson = `${folderPath}/package.json`;
   const packageTSConfig = `${folderPath}/tsconfig.json`;
@@ -40,8 +41,8 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
         },
       },
       null,
-      2
-    )
+      2,
+    ),
   );
   console.log(`Created ${packagePackageJson}`);
   writeFileSync(
@@ -63,8 +64,8 @@ export const generatePackage = ({ packageName }: GeneratePackageArgs) => {
         include: ["./src"],
       },
       null,
-      2
-    )
+      2,
+    ),
   );
   console.log(`Created ${packageTSConfig}`);
   writeFileSync(packageIndex, "");

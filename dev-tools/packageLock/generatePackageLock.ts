@@ -1,11 +1,37 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from "fs";
 import { getProjectAbsolutePath } from "../paths";
 import { detectUsedLocalPackages } from "../packages";
-import { executeTerminalCommand } from "../terminal";
+import { executeTerminalCommand, multiOptions } from "../terminal";
 import { detectPackageJsonDependencyChanges, updateGitIgnore } from "../git";
 import { getPackageManagerCreateLockfileOnlyCommand } from "../packageManager";
 
-export const generatePackageLock = async () => {
+type GeneratePackageLockArgs = {
+  value: string[];
+};
+
+export const generatePackageLock = async ({ value }: GeneratePackageLockArgs) => {
+  let forceUpdate = value.length > 0 ? value[0] === "force-update" : false;
+
+  if (value.length === 0) {
+    const selectedOptions = await multiOptions({
+      options: [
+        {
+          value: "forceUpdate",
+          label: "Force update",
+        },
+        {
+          value: "skipForceUpdate",
+          label: "Skip force update",
+        },
+      ],
+      prefixText: "Please pick the option you'd like to use:\n",
+      suffixText: "\nPress Enter to confirm",
+    });
+
+    const pickedOption = selectedOptions[0];
+    forceUpdate = pickedOption.value === "forceUpdate";
+  }
+
   const projectAbsolutePath = getProjectAbsolutePath();
   const workspacesFolder = "apps";
   const packagesFolder = "packages";
@@ -30,10 +56,14 @@ export const generatePackageLock = async () => {
       projectAbsolutePath,
     });
 
-    let requiresPackageLockChange = !!workspacePackages.find((workspacePackage) => {
-      const relativeLocalPackagePackageJsonPath = `${workspacePackage.path}/package.json`;
-      return changedPackageJsons.has(relativeLocalPackagePackageJsonPath);
-    });
+    let requiresPackageLockChange = forceUpdate;
+
+    if (!requiresPackageLockChange) {
+      requiresPackageLockChange = !!workspacePackages.find((workspacePackage) => {
+        const relativeLocalPackagePackageJsonPath = `${workspacePackage.path}/package.json`;
+        return changedPackageJsons.has(relativeLocalPackagePackageJsonPath);
+      });
+    }
 
     if (!requiresPackageLockChange) {
       const relativeWorkspacePackageJsonPath = `${workspacesFolder}/${workspace}/package.json`;

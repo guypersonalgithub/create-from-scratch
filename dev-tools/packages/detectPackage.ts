@@ -9,13 +9,11 @@ type DetectPackageArgs = {
 export const detectPackage = ({ packageName }: DetectPackageArgs) => {
   const absolutePath = getProjectAbsolutePath();
   const packagesFolder = `${absolutePath}/packages`;
-  const doesPackageAlreadyExist = existsSync(
-    `${packagesFolder}/${packageName}`
-  );
+  const doesPackageAlreadyExist = existsSync(`${packagesFolder}/${packageName}`);
 
   if (doesPackageAlreadyExist) {
     return;
   }
 
-  generatePackage({ packageName });
+  generatePackage({ packageName, folder: "packages" });
 };

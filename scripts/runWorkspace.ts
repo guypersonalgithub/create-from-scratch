@@ -8,7 +8,7 @@ import {
   getOperatingSystem,
   getProjectAbsolutePath,
   runSequencedCommands,
-} from "../devTools";
+} from "../dev-tools";
 import { sep } from "path";
 import { convertFlagsArrayToObject } from "../packages/utils/src/flags";
 
@@ -25,7 +25,7 @@ const runWorkspace = async () => {
     throw "Missing port flag!";
   }
 
-  const workspaceFolders = ["apps", "devApps"];
+  const workspaceFolders = ["apps", "dev-apps"];
   const projectAbsolutePath = getProjectAbsolutePath();
   const separator = sep;
 
