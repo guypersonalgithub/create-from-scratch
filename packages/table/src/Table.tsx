@@ -11,7 +11,12 @@ type Column<T> = {
 } & (Size | ClassName);
 
 type TableProps<T> = {
-  data: T[];
+  data?: T[];
+  requestData?: {
+    isLoading: boolean;
+    isError: boolean;
+    amountOfRows?: number;
+  };
   columns: Column<T>[];
   rows?: {
     headerRow?: Size | ClassName;
@@ -35,7 +40,8 @@ type ClassName = {
 };
 
 export const Table = <T extends Record<string, unknown>>({
-  data,
+  data = [],
+  requestData,
   columns,
   rows,
   rowContainer,
@@ -43,18 +49,15 @@ export const Table = <T extends Record<string, unknown>>({
 }: TableProps<T>) => {
   const { headerRow, dataRow } = rows ?? {};
   const { rowsPerPage, paginationProps } = pagination ?? {};
-  const { startingIndex, endingIndex } =
-    rowsPerPage && paginationProps?.currentPage
-      ? calculateCurrentDisplayedRowIndexes({
-          rowsPerPage,
-          currentPage: paginationProps.currentPage,
-        })
-      : {
-          startingIndex: 0,
-          endingIndex: data.length,
-        };
+  const { amountOfRows } = requestData ?? {};
+  const totalAmountOfRows = amountOfRows ?? data.length;
+  const { startingIndex, endingIndex } = calculateCurrentDisplayedRowIndexes({
+    rowsPerPage,
+    currentPage: paginationProps?.currentPage,
+    amountOfRows: totalAmountOfRows,
+  });
   const displayedDataRows = data.slice(startingIndex, endingIndex);
-  const totalPages = rowsPerPage ? Math.ceil(data.length / rowsPerPage) : 0;
+  const totalPages = rowsPerPage ? Math.ceil(totalAmountOfRows / rowsPerPage) : 0;
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { sendRequest } from "@packages/utils";
+import { sendRequest } from "@packages/request";
 import { ReturnedData } from "@packages/shared-types";
 
 export const useRequestExample = () => {

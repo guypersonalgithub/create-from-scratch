@@ -1,26 +1,34 @@
 import { getOperatingSystem, mainOperatingSystems } from "../operatingSystem";
 import { checkPortAvailability } from "./checkPortAvailability";
 
-type FindAvailablePortInRangeArgs = {
+type FindAvailablePortsInRangeArgs = {
   startPort: number;
   endPort: number;
   operatingSystem?: (typeof mainOperatingSystems)[keyof typeof mainOperatingSystems];
+  amountOfPorts?: number;
 };
 
-export const findAvailablePortInRange = async ({
+export const findAvailablePortsInRange = async ({
   startPort,
   endPort,
   operatingSystem = getOperatingSystem(),
-}: FindAvailablePortInRangeArgs) => {
+  amountOfPorts = 1,
+}: FindAvailablePortsInRangeArgs) => {
+  const availablePorts: number[] = [];
 
   for await (const port of Array.from(
     { length: endPort - startPort + 1 },
     (_, i) => startPort + i,
   )) {
-    const isAvailable = await checkPortAvailability({ port, operatingSystem });
-    if (!isAvailable) {
-      return port;
+    const isTaken = await checkPortAvailability({ port, operatingSystem });
+    if (!isTaken) {
+      availablePorts.push(port);
+
+      if (availablePorts.length === amountOfPorts) {
+        break;
+      }
     }
   }
-  return null;
+
+  return availablePorts;
 };

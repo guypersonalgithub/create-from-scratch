@@ -21,7 +21,8 @@
     "@packages/tooltip": "*",
     "@packages/animation-container": "*",
     "@packages/utils": "*",
-    "@packages/router": "*"
+    "@packages/router": "*",
+    "@packages/request": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

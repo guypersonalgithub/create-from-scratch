@@ -1,11 +1,13 @@
 import { Table } from "@packages/table";
-import { Tooltip } from "@packages/tooltip";
+import { EllipsisTooltip } from "@packages/tooltip";
 import { useControlModal } from "@packages/modal";
 import { useControlToast } from "@packages/toast";
 import { useQueryParamsState, usePath } from "@packages/router";
+import { useTempRequest } from "../useTempRequest";
 // import { Spinner, Skeleton } from "@packages/loading";
 
 export const MainRoute = () => {
+  const { data, isLoading, isError } = useTempRequest();
   const { openModal, closeModal } = useControlModal();
   const { openModal: openModal2, closeModal: closeModal2 } = useControlModal();
   const { showToast, hideToast } = useControlToast();
@@ -116,47 +118,22 @@ export const MainRoute = () => {
             header: "name",
             cell: (data) => {
               return (
-                <Tooltip offset={-10} content={data.name}>
-                  <div>{data.name}</div>
-                </Tooltip>
+                <EllipsisTooltip offset={-10} content={data.name}>
+                  {data.name}
+                </EllipsisTooltip>
               );
             },
             size: 50,
           },
-          {
-            header: "version",
-            cell: (data) => {
-              return <div>{data.version}</div>;
-            },
-            size: 100,
-          },
+          // {
+          //   header: "version",
+          //   cell: (data) => {
+          //     return <div>{data.instances?.[0]?.path}</div>;
+          //   },
+          //   size: 100,
+          // },
         ]}
-        data={[
-          {
-            name: "test",
-            version: "123",
-          },
-          {
-            name: "test2",
-            version: "1234dfsfdsfds",
-          },
-          {
-            name: "test2",
-            version: "1234dfsfdsfds",
-          },
-          {
-            name: "test2",
-            version: "1234dfsfdsfds",
-          },
-          {
-            name: "test2",
-            version: "1234dfsfdsfds",
-          },
-          {
-            name: "test2",
-            version: "1234dfsfdsfds",
-          },
-        ]}
+        data={data}
         pagination={{
           rowsPerPage: 10,
           paginationProps: {

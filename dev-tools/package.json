@@ -11,7 +11,8 @@
     "@packages/utils": "*",
     "@packages/regex": "*",
     "@packages/paths": "*",
-    "@packages/files": "*"
+    "@packages/files": "*",
+    "@packages/request": "*"
   },
   "author": "",
   "license": "ISC",

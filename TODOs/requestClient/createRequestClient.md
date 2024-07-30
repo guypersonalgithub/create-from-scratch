@@ -1,0 +1,1 @@
+- Add request client caching, automatic and manual fetching, support aborting, data, loading, error as states, etc.

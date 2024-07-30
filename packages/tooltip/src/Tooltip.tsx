@@ -2,7 +2,7 @@ import { ReactNode, useRef } from "react";
 import "./styles.css";
 import { useControlTooltip } from "./useControlTooltip";
 
-type TooltipProps = {
+export type TooltipProps = {
   content: ReactNode;
   disabled?: boolean;
   offset?: number;
@@ -29,10 +29,10 @@ export const Tooltip = ({
     return !isEllipsizedCallback();
   };
 
-  const isDisabled = disabled || !content || disableTooltipBecauseOfEllipsis();
+  const isDisabled = disabled || !content;
 
   const show = () => {
-    if (isDisabled) {
+    if (isDisabled || disableTooltipBecauseOfEllipsis()) {
       return;
     }
 
@@ -46,7 +46,7 @@ export const Tooltip = ({
   };
 
   const hide = () => {
-    if (isDisabled) {
+    if (isDisabled || disableTooltipBecauseOfEllipsis()) {
       return;
     }
 
@@ -58,7 +58,7 @@ export const Tooltip = ({
   return (
     <div
       ref={ref}
-      style={{ width: "fit-content", height: "fit-content" }}
+      style={{ width: isEllipsizedCallback ? "inherit" : "fit-content", height: "fit-content" }}
       onMouseEnter={show}
       onMouseLeave={hide}
     >

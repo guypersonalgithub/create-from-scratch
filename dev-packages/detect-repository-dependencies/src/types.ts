@@ -1,3 +1,5 @@
+export type { DependenciesMap } from "@packages/detect-repository-dependencies-types";
+
 export type ConfigProperties = {
   include?: string[];
   exclude?: string[];
@@ -5,15 +7,3 @@ export type ConfigProperties = {
   excludeFilesPattern?: string;
   noNesting?: boolean;
 };
-
-export type DependenciesMap = Record<
-  string,
-  Record<
-    string,
-    {
-      version: string;
-      belongsTo: string;
-      dependencyType: string;
-    }
-  >
->;

@@ -21,6 +21,11 @@ export default defineConfig({
       "packages/toast": path.resolve("__dirname", "../../packages/toast/src/index.ts"),
       "packages/loading": path.resolve("__dirname", "../../packages/loading/src/index.ts"),
       "packages/pagination": path.resolve("__dirname", "../../packages/pagination/src/index.ts"),
+      "dev-packages/detect-repository-dependencies-types": path.resolve(
+        "__dirname",
+        "../../packages/detect-repository-dependencies-types/src/index.ts",
+      ),
+      "packages/request": path.resolve("__dirname", "../../packages/request/src/index.ts"),
     },
   },
 });

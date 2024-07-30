@@ -2,7 +2,7 @@ import { readdirSync } from "fs";
 import {
   detectPackageEnvironment,
   ExecuteTerminalCommandWithReadinessCheckArgs,
-  findAvailablePortInRange,
+  findAvailablePortsInRange,
   getFlags,
   getOpenBrowserTabCommand,
   getOperatingSystem,
@@ -15,7 +15,8 @@ import { convertFlagsArrayToObject } from "../packages/utils/src/flags";
 const runWorkspace = async () => {
   const flags = getFlags();
   const flagsObject = convertFlagsArrayToObject({ flags });
-  const { workspace, port, skipPort, skipTab, ...rest } = flagsObject;
+  const { workspace, port, skipPort, skipTab, setEnvVariables, envPrefix, skipEnvPort, ...rest } =
+    flagsObject;
 
   if (!workspace) {
     throw "Missing workspace flag!";
@@ -50,29 +51,42 @@ const runWorkspace = async () => {
 
   const portNumber = Number(port);
   const operatingSystem = getOperatingSystem();
-  let response: number | null = portNumber;
+  let availablePort: number | null = portNumber;
   if (skipPort === undefined) {
-    response = await findAvailablePortInRange({
+    const response = await findAvailablePortsInRange({
       startPort: portNumber,
       endPort: portNumber + 1000,
       operatingSystem,
     });
 
-    if (!response) {
+    if (response.length === 0) {
       throw "Failed to find an available port within range.";
     }
+
+    availablePort = response?.[0];
   }
 
   const environment = detectPackageEnvironment({ path: `${path}/package.json` });
 
   const firstCommand = {
     command: `cd ${path} && npm`,
-    args: ["run", "dev", "--", `--port=${response}`],
+    args: ["run", "dev", "--", `--port=${availablePort}`],
     processName: "Run workspace",
     readinessCheckString: environment === "frontend" ? "ready" : "Listening",
   };
 
-  if (rest) {
+  if (setEnvVariables !== undefined) {
+    const envVariables = { ...(skipEnvPort === undefined ? { port } : {}), ...rest };
+
+    for (const key in envVariables) {
+      const envKey = key.toUpperCase();
+      const value = envVariables[key];
+      const fullKey = envPrefix ? `${envPrefix}_${envKey}` : envKey;
+      process.env[fullKey] = value;
+    }
+  }
+
+  if (rest && setEnvVariables === undefined) {
     const additionalFlags: string[] = [];
     for (const property in rest) {
       const value = rest[property];
@@ -89,7 +103,7 @@ const runWorkspace = async () => {
 
   if (environment === "frontend" && skipTab === undefined) {
     const command = getOpenBrowserTabCommand({
-      url: `http://localhost:${response}`,
+      url: `http://localhost:${availablePort}`,
       operatingSystem,
     });
     const splitCommand = command.split(" ");
