@@ -3,12 +3,25 @@ import { getConfigFileData } from "./getConfigFileData";
 import { getProjectAbsolutePath } from "@packages/paths";
 import { iterateOverAllFiles } from "./iterateOverAllFiles";
 import { getFile } from "@packages/files";
+import { detectRepositoryPackageManager } from "@packages/package-manager";
 
 export const detectAllRepositoryDependencies = () => {
   const projectAbsolutePath = getProjectAbsolutePath();
   const config = getConfigFileData({ projectAbsolutePath });
   const { include, exclude, includeFilesPattern, excludeFilesPattern, noNesting } = config;
 
+  const { lock } = detectRepositoryPackageManager();
+  const lockFile = getFile({ path: `${projectAbsolutePath}/${lock}` });
+  const parsedLockFile = (lockFile ? JSON.parse(lockFile) : { packages: {} }) as {
+    // TODO: Add methods for yarn and pnpm.
+    packages: Record<
+      string,
+      {
+        resolved: string;
+        link: boolean;
+      }
+    >;
+  };
   const gitIgonoreFile = getFile({ path: `${projectAbsolutePath}/.gitignore` }) ?? "";
   const skipFilesAndFolders = gitIgonoreFile.split("\r\n").filter(Boolean);
 
@@ -31,6 +44,7 @@ export const detectAllRepositoryDependencies = () => {
     excludePattern,
     noNesting,
     skipFilesAndFolders,
+    parsedLockFile,
   });
 
   return dependencies;

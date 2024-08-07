@@ -71,7 +71,7 @@ const runWorkspace = async () => {
   const firstCommand = {
     command: `cd ${path} && npm`,
     args: ["run", "dev", "--", `--port=${availablePort}`],
-    processName: "Run workspace",
+    processName: workspace,
     readinessCheckString: environment === "frontend" ? "ready" : "Listening",
   };
 

@@ -5,7 +5,7 @@ import "./styles.css";
 type EllipsisTooltipProps = {
   style?: CSSProperties;
   content?: ReactNode;
-  children: string;
+  children: string | number;
 } & Pick<TooltipProps, "disabled" | "offset">;
 
 export const EllipsisTooltip = ({

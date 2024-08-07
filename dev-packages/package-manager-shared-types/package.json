@@ -1,16 +1,10 @@
 {
-  "name": "@packages/detect-repository-dependencies",
+  "name": "@packages/package-manager-shared-types",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/regex": "*",
-    "@packages/paths": "*",
-    "@packages/files": "*",
-    "@packages/package-manager": "*"
   },
   "devDependencies": {
     "@packages/detect-repository-dependencies-types": "*"

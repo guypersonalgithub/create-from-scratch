@@ -1,27 +1,30 @@
 import { join } from "path";
 import { getProjectAbsolutePath } from "@packages/paths";
 import { existsSync } from "fs";
-import { SupportedPackageManagers } from "./types";
+import { PackageManagerLock, SupportedPackageManagers } from "./types";
 
-export const detectRepositoryPackageManager = (): SupportedPackageManagers => {
+export const detectRepositoryPackageManager = (): {
+  manager: SupportedPackageManagers;
+  lock: PackageManagerLock;
+} => {
   const projectAbsolutePath = getProjectAbsolutePath();
   const packageLockPath = join(projectAbsolutePath, "package-lock.json");
   const packageLockExists = existsSync(packageLockPath);
   if (packageLockExists) {
-    return "npm";
+    return { manager: "npm", lock: "package-lock.json" };
   }
 
   const yarnLockPath = join(projectAbsolutePath, "yarn.lock");
   const yarnLockExists = existsSync(yarnLockPath);
   if (yarnLockExists) {
-    return "yarn";
+    return { manager: "yarn", lock: "yarn.lock" };
   }
 
   const pnpmLockPath = join(projectAbsolutePath, "pnpm-lock.yaml");
   const pnpmLockExists = existsSync(pnpmLockPath);
   if (pnpmLockExists) {
-    return "pnpm";
+    return { manager: "pnpm", lock: "pnpm-lock.yaml" };
   }
 
-  return "npm";
+  return { manager: "npm", lock: "package-lock.json" };
 };

@@ -28,7 +28,7 @@ export const TableCell = <T,>({
       className={className}
       style={{
         textAlign: "left",
-        height: "fit-content",
+        height: "inherit",
         flexGrow: staticColumn ? 0 : 1,
         ...(size ? { width: `${size}px` } : {}),
       }}

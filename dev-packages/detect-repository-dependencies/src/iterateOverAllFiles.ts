@@ -14,6 +14,15 @@ type IterateOverAllFilesArgs = {
   excludePattern?: RegExp;
   noNesting?: boolean;
   skipFilesAndFolders: string[];
+  parsedLockFile: {
+    packages: Record<
+      string,
+      {
+        resolved: string;
+        link: boolean;
+      }
+    >;
+  };
 };
 
 export const iterateOverAllFiles = ({
@@ -27,6 +36,7 @@ export const iterateOverAllFiles = ({
   excludePattern,
   noNesting,
   skipFilesAndFolders,
+  parsedLockFile,
 }: IterateOverAllFilesArgs) => {
   const skippedFolders =
     skipFilesAndFolders.length > 0 ? skipFilesAndFolders : ["node_modules", ".github", ".git"];
@@ -77,6 +87,7 @@ export const iterateOverAllFiles = ({
         excludePattern,
         noNesting,
         skipFilesAndFolders,
+        parsedLockFile,
       });
 
       continue;
@@ -112,6 +123,7 @@ export const iterateOverAllFiles = ({
         dependencies: data,
         dependencyType,
         dependenciesMap,
+        parsedLockFile,
       });
     });
   }

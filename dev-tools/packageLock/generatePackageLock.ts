@@ -3,7 +3,7 @@ import { getProjectAbsolutePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "../packages";
 import { executeTerminalCommand, multiOptions } from "../terminal";
 import { detectPackageJsonDependencyChanges, updateGitIgnore } from "../git";
-import { getPackageManagerCreateLockfileOnlyCommand } from "../packageManager";
+import { getPackageManagerCreateLockfileOnlyCommand } from "@packages/package-manager";
 
 type GeneratePackageLockArgs = {
   value: string[];

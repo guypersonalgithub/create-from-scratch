@@ -26,6 +26,10 @@ export default defineConfig({
         "../../packages/detect-repository-dependencies-types/src/index.ts",
       ),
       "packages/request": path.resolve("__dirname", "../../packages/request/src/index.ts"),
+      "dev-packages/package-manager-shared-types": path.resolve(
+        "__dirname",
+        "../../packages/package-manager-shared-types/src/index.ts",
+      ),
     },
   },
 });

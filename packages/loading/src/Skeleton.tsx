@@ -1,18 +1,23 @@
 import "./styles.css";
 
 type SkeletonProps = {
-  height?: number;
-  width?: number;
+  height?: number | `${number}%`;
+  width?: number | `${number}%`;
   borderRadius?: number;
   backgroundColor?: string;
 };
 
-export const Skeleton = ({ height, width, borderRadius, backgroundColor }: SkeletonProps) => {
+export const Skeleton = ({
+  height = 0,
+  width = 0,
+  borderRadius,
+  backgroundColor,
+}: SkeletonProps) => {
   return (
     <div
       style={{
-        height: `${height}px`,
-        width: `${width}px`,
+        height: typeof height === "string" && height.includes("%") ? height : `${height}px`,
+        width: typeof width === "string" && width.includes("%") ? width : `${width}px`,
         borderRadius: `${borderRadius}px`,
         backgroundColor,
       }}

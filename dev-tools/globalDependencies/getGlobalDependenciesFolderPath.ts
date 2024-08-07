@@ -1,4 +1,4 @@
-import { getPackageManagerGlobalDependenciesFolder } from "../packageManager";
+import { getPackageManagerGlobalDependenciesFolder } from "@packages/package-manager";
 import { executeTerminalCommandWithResponse } from "../terminal";
 
 export const getGlobalDependenciesFolderPath = async () => {

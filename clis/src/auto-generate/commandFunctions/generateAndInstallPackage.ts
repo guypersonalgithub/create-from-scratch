@@ -22,7 +22,7 @@ export const generateAndInstallPackage = async ({ value }: GenerateAndInstallPac
     });
   }
 
-  const packageManager = detectRepositoryPackageManager();
+  const packageManager = detectRepositoryPackageManager().manager;
 
   if (value.length > 1) {
     console.error(

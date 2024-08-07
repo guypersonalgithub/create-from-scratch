@@ -12,7 +12,7 @@ const commandPerPackageManager: Record<SupportedPackageManagers, string> = {
 };
 
 export const getPackageManagerRunScriptCommand = (args?: GetPackageManagerRunScriptCommandArgs) => {
-  const { packageManager } = args ?? { packageManager: detectRepositoryPackageManager() };
+  const { packageManager } = args ?? { packageManager: detectRepositoryPackageManager().manager };
 
   return commandPerPackageManager[packageManager] || commandPerPackageManager.npm;
 };

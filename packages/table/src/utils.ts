@@ -24,3 +24,17 @@ export const calculateCurrentDisplayedRowIndexes = ({
     endingIndex,
   };
 };
+
+type GetDisplayedRowsArgs<T> = CalculateCurrentDisplayedRowIndexesArgs & {
+  data: T[]
+}
+
+export const getDisplayedRows = <T>({ rowsPerPage, currentPage, amountOfRows, data }: GetDisplayedRowsArgs<T>) => {
+  const { startingIndex, endingIndex } = calculateCurrentDisplayedRowIndexes({
+    rowsPerPage,
+    currentPage,
+    amountOfRows,
+  });
+  const displayedDataRows = data.slice(startingIndex, endingIndex);
+  return displayedDataRows;
+}

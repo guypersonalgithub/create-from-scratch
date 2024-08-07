@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode } from "react";
 import { TableHeader } from "./TableHeader";
 import { TableCell } from "./TableCell";
 import { Pagination, PaginationProps } from "@packages/pagination";
-import { calculateCurrentDisplayedRowIndexes } from "./utils";
+import { getDisplayedRows } from "./utils";
 
 type Column<T> = {
   header: ReactNode;
@@ -51,12 +51,12 @@ export const Table = <T extends Record<string, unknown>>({
   const { rowsPerPage, paginationProps } = pagination ?? {};
   const { amountOfRows } = requestData ?? {};
   const totalAmountOfRows = amountOfRows ?? data.length;
-  const { startingIndex, endingIndex } = calculateCurrentDisplayedRowIndexes({
+  const displayedDataRows = getDisplayedRows({
     rowsPerPage,
     currentPage: paginationProps?.currentPage,
     amountOfRows: totalAmountOfRows,
+    data,
   });
-  const displayedDataRows = data.slice(startingIndex, endingIndex);
   const totalPages = rowsPerPage ? Math.ceil(totalAmountOfRows / rowsPerPage) : 0;
 
   return (

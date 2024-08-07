@@ -7,7 +7,7 @@ import {
   getPackageManagerInstallCommand,
   getPackageManagerProductionInstallCommand,
   getPackageManagerRunScriptCommand,
-} from "../packageManager";
+} from "@packages/package-manager";
 
 const lineSeparator = "\n";
 const debugFilesCommand = `["sh", "-c", "while :; do sleep 2073600; done"]`;
@@ -24,7 +24,7 @@ export const generateDockerfileDev = () => {
   const prodCommand = `${runCommand} build`;
   const formattedDevCommand = convertCommandToDockerCMD({ command: devCommand });
   const formattedProdCommand = convertCommandToDockerCMD({ command: prodCommand });
-  const packageManager = detectRepositoryPackageManager();
+  const packageManager = detectRepositoryPackageManager().manager;
   const developmentInstallCommand = getPackageManagerInstallCommand({ packageManager });
   const productionInstallCommand = getPackageManagerProductionInstallCommand({ packageManager });
 

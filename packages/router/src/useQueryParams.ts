@@ -61,7 +61,7 @@ export const useQueryParamsState = (args?: UseQueryParamsStateArgs) => {
   return queryParams;
 };
 
-export const useQueryParams = () => {
+export const getQueryParams = () => {
   return queryParams;
 };
 
