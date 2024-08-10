@@ -16,6 +16,8 @@ COPY ./packages/utils/package.json ./packages/utils/package.json
 COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
 COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/router/package.json ./packages/router/package.json
+COPY ./packages/url/package.json ./packages/url/package.json
+COPY ./packages/environment/package.json ./packages/environment/package.json
 COPY ./packages/request/package.json ./packages/request/package.json
 
 
@@ -42,6 +44,8 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/router ./packages/router
+COPY ./packages/url ./packages/url
+COPY ./packages/environment ./packages/environment
 COPY ./packages/request ./packages/request
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "dev"]
@@ -70,6 +74,8 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/router ./packages/router
+COPY ./packages/url ./packages/url
+COPY ./packages/environment ./packages/environment
 COPY ./packages/request ./packages/request
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "build"]
@@ -98,6 +104,8 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/router ./packages/router
+COPY ./packages/url ./packages/url
+COPY ./packages/environment ./packages/environment
 COPY ./packages/request ./packages/request
 COPY ./packages/cypress ./packages/cypress
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

@@ -30,6 +30,10 @@ export default defineConfig({
         "__dirname",
         "../../packages/package-manager-shared-types/src/index.ts",
       ),
+      "packages/date": path.resolve("__dirname", "../../packages/date/src/index.ts"),
+      "packages/tabs": path.resolve("__dirname", "../../packages/tabs/src/index.ts"),
+      "packages/url": path.resolve("__dirname", "../../packages/url/src/index.ts"),
+      "packages/environment": path.resolve("__dirname", "../../packages/environment/src/index.ts"),
     },
   },
 });

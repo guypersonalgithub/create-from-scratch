@@ -1,25 +1,30 @@
 import { isTheSameURL } from "./utils";
+import { generateURL, FrontendArgs } from "@packages/url";
 
 export const usePath = () => {
   const getPathName = () => {
     return window.location.pathname;
   };
 
-  type MoveToArgs = {
-    pathname: string;
-    queryParams?: Record<string, unknown>;
-  };
+  const moveTo = ({
+    baseURL,
+    pathname,
+    queryParams = {},
+    overrideParams,
+    overrideSpecificParams,
+  }: FrontendArgs) => {
+    const url = generateURL({
+      baseURL,
+      pathname,
+      queryParams,
+      overrideParams,
+      overrideSpecificParams,
+    });
 
-  const moveTo = ({ pathname, queryParams = {} }: MoveToArgs) => {
-    const sameURL = isTheSameURL({ pathname, queryParams });
+    const sameURL = isTheSameURL({ url });
+
     if (sameURL) {
       return;
-    }
-
-    const url = new URL(`${window.location.origin}${pathname}`);
-    for (const param in queryParams) {
-      const paramValue = queryParams[param];
-      url.searchParams.set(param, String(paramValue));
     }
 
     window.history.pushState({ path: pathname }, "", url);

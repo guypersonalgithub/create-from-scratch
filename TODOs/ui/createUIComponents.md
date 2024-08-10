@@ -1,6 +1,4 @@
-- Create a dropdown component.
 - Create a button component.
 - Create an input component.
 - Create a popover component.
-- Create a tabs component.
 - Create a virtual list component.

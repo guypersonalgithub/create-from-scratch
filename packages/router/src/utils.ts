@@ -1,5 +1,5 @@
 import { RouterPaths } from "./types";
-import { areObjectsEqual } from "@packages/utils";
+import { areArraysEqual } from "@packages/utils";
 
 type GrabFirstPathsArgs = {
   currentStage: RouterPaths;
@@ -14,25 +14,90 @@ export const grabFirstPath = ({ currentStage }: GrabFirstPathsArgs) => {
 };
 
 type IsntTheSameURLArgs = {
-  pathname: string;
-  queryParams?: Record<string, unknown>;
+  url: URL;
 };
 
-export const isTheSameURL = ({ pathname, queryParams }: IsntTheSameURLArgs) => {
-  const samePath = pathname === window.location.pathname;
-  const urlParams = getUrlParams();
-  const sameQueryParams = areObjectsEqual({ obj1: queryParams, obj2: urlParams });
-
-  return samePath && sameQueryParams;
+export const isTheSameURL = ({ url }: IsntTheSameURLArgs) => {
+  const url2 = new URL(window.location.href);
+  return areEqualURLs({ url1: url, url2 });
 };
 
-export const getUrlParams = () => {
-  const params = new URLSearchParams(window.location.search);
-  const paramValues: Record<string, string> = {};
+type AreEqualURLsArgs = {
+  url1: URL;
+  url2: URL;
+};
 
-  for (const [key, value] of params.entries()) {
-    paramValues[key] = value;
+export const areEqualURLs = ({ url1, url2 }: AreEqualURLsArgs) => {
+  const urlsAreEqual = url1.host === url2.host && url1.pathname === url2.pathname;
+  const queryParamsAreEqual = areQueryParamsEqual({ url1, url2 });
+
+  return urlsAreEqual && queryParamsAreEqual;
+};
+
+const areQueryParamsEqual = ({ url1, url2 }: AreEqualURLsArgs) => {
+  const params1 = new URLSearchParams(url1.search);
+  const params2 = new URLSearchParams(url2.search);
+
+  const { paramsObject: paramsObject1, length: length1 } = parseURLQueryParams({ params: params1 });
+  const { paramsObject: paramsObject2, length: length2 } = parseURLQueryParams({ params: params2 });
+
+  if (length1 !== length2) {
+    return false;
   }
 
-  return paramValues;
+  for (const property in paramsObject1) {
+    const value1 = paramsObject1[property];
+    const value2 = paramsObject2[property];
+
+    if (Array.isArray(value1) && Array.isArray(value2)) {
+      const areEqual = areArraysEqual({ array1: value1, array2: value2 });
+      if (!areEqual) {
+        return false;
+      }
+
+      continue;
+    }
+
+    if (value1 !== value2) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+type ParseURLQueryParamsArgs = {
+  params: URLSearchParams;
+  specificParams?: string[];
+};
+
+export const parseURLQueryParams = ({ params, specificParams = [] }: ParseURLQueryParamsArgs) => {
+  const paramsObject: Record<string, string | string[]> = {};
+  const pickSpecificParamsOnly = specificParams.length > 0;
+
+  const paramsArray = Array.from(params.entries());
+
+  paramsArray.forEach((param) => {
+    const [key, value] = param;
+
+    if (pickSpecificParamsOnly && !specificParams.includes(key)) {
+      return;
+    }
+
+    if (!paramsObject[key]) {
+      paramsObject[key] = value;
+      return;
+    }
+
+    if (paramsObject[key] && !Array.isArray(paramsObject[key])) {
+      paramsObject[key] = [paramsObject[key] as string];
+    }
+
+    (paramsObject[key] as string[]).push(value);
+  });
+
+  return {
+    paramsObject,
+    length: paramsArray.length,
+  };
 };

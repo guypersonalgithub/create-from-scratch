@@ -1,2 +1,3 @@
 export * from "./filterEnumsType";
-export * from "./MakeOptionalProps";
+export * from "./makeOptionalProps";
+export * from "./atleastOne";

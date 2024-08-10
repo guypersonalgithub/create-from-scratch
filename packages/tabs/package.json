@@ -1,14 +1,10 @@
 {
-  "name": "@packages/router",
+  "name": "@packages/tabs",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/utils": "*",
-    "@packages/url": "*"
   },
   "peerDependencies": {
     "react": "^18.2.0",

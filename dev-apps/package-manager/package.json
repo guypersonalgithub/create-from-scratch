@@ -20,7 +20,9 @@
     "@packages/modal": "*",
     "@packages/toast": "*",
     "@packages/loading": "*",
-    "@packages/request": "*"
+    "@packages/request": "*",
+    "@packages/date": "*",
+    "@packages/tabs": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

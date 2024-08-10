@@ -44,6 +44,8 @@ export default defineConfig({
         "__dirname",
         "../../packages/design-patterns/src/index.ts",
       ),
+      "packages/url": path.resolve("__dirname", "../../packages/url/src/index.ts"),
+      "packages/environment": path.resolve("__dirname", "../../packages/environment/src/index.ts"),
     },
   },
 });

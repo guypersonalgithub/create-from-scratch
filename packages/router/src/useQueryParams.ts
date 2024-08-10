@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { getUrlParams } from "./utils";
-
-let queryParams: Record<string, string | number> = {};
+import { parseURLQueryParams } from "./utils";
 
 type UseQueryParamsStateArgs = {
   specificParams?: string[];
@@ -11,22 +9,10 @@ export const useQueryParamsState = (args?: UseQueryParamsStateArgs) => {
   const { specificParams = [] } = args ?? {};
 
   const getQueryParamValues = useCallback(() => {
-    if (specificParams.length === 0) {
-      return getUrlParams();
-    }
-
     const params = new URLSearchParams(window.location.search);
-    const paramValues: Record<string, string> = {};
 
-    specificParams.forEach((specificParam) => {
-      const paramValue = params.get(specificParam);
-      if (!paramValue) {
-        return;
-      }
-
-      paramValues[specificParam] = paramValue;
-    });
-    return paramValues;
+    const { paramsObject } = parseURLQueryParams({ params, specificParams });
+    return paramsObject;
   }, [specificParams]);
 
   const [queryParams, setQueryParams] = useState(getQueryParamValues());
@@ -62,26 +48,15 @@ export const useQueryParamsState = (args?: UseQueryParamsStateArgs) => {
 };
 
 export const getQueryParams = () => {
+  const queryParams: Record<string, string | number> = {};
+
+  const splittedQueryString = window.location.search.slice(1, window.location.search.length);
+  const queryStringParams = splittedQueryString.split("&").filter(Boolean);
+
+  queryStringParams.forEach((queryParam) => {
+    const variableValueSplit = queryParam.split("=");
+    queryParams[variableValueSplit[0]] = variableValueSplit[1];
+  });
+
   return queryParams;
-};
-
-export const useInnerQueryParams = () => {
-  const setQueryParams = () => {
-    const splittedQueryString = window.location.search.slice(1, window.location.search.length);
-    const queryStringParams = splittedQueryString.split("&");
-
-    queryStringParams.forEach((queryParam) => {
-      const variableValueSplit = queryParam.split("=");
-      queryParams[variableValueSplit[0]] = variableValueSplit[1];
-    });
-  };
-
-  const resetQueryParams = () => {
-    queryParams = {};
-  };
-
-  return {
-    setQueryParams,
-    resetQueryParams,
-  };
 };

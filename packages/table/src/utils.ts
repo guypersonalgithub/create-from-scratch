@@ -26,10 +26,15 @@ export const calculateCurrentDisplayedRowIndexes = ({
 };
 
 type GetDisplayedRowsArgs<T> = CalculateCurrentDisplayedRowIndexesArgs & {
-  data: T[]
-}
+  data: T[];
+};
 
-export const getDisplayedRows = <T>({ rowsPerPage, currentPage, amountOfRows, data }: GetDisplayedRowsArgs<T>) => {
+export const getDisplayedRows = <T>({
+  rowsPerPage,
+  currentPage,
+  amountOfRows,
+  data,
+}: GetDisplayedRowsArgs<T>) => {
   const { startingIndex, endingIndex } = calculateCurrentDisplayedRowIndexes({
     rowsPerPage,
     currentPage,
@@ -37,4 +42,4 @@ export const getDisplayedRows = <T>({ rowsPerPage, currentPage, amountOfRows, da
   });
   const displayedDataRows = data.slice(startingIndex, endingIndex);
   return displayedDataRows;
-}
+};

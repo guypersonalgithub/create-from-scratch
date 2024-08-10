@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useState, isValidElement } from "react";
 import { RouterPathGuard, RouterPaths } from "./types";
 import { useInnerRouteParams } from "./useRouterParams";
-import { useInnerQueryParams } from "./useQueryParams";
 import { grabFirstPath } from "./utils";
 
 type RouterProps = {
@@ -10,13 +9,11 @@ type RouterProps = {
 
 export const Router = ({ paths }: RouterProps) => {
   const { setRouterParams, resetRouterParams } = useInnerRouteParams();
-  const { setQueryParams, resetQueryParams } = useInnerQueryParams();
   const [path, setPath] = useState<`/${string}`>(window.location.pathname as `/${string}`);
 
   useEffect(() => {
     const onLocationChange = () => {
       resetRouterParams();
-      resetQueryParams();
       setPath(window.location.pathname as `/${string}`);
     };
 
@@ -25,10 +22,6 @@ export const Router = ({ paths }: RouterProps) => {
   }, []);
 
   const getCurrentRoute = () => {
-    if (window.location.search) {
-      setQueryParams();
-    }
-
     return (basicPath() || pathBreaker() || paths["404"]) as ReactNode;
   };
 

@@ -183,6 +183,12 @@ services:
         source: ./packages/router
         target: /usr/src/app/packages/router
       - type: bind
+        source: ./packages/url
+        target: /usr/src/app/packages/url
+      - type: bind
+        source: ./packages/environment
+        target: /usr/src/app/packages/environment
+      - type: bind
         source: ./packages/request
         target: /usr/src/app/packages/request
       - type: bind
