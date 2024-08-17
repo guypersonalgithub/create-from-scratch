@@ -6,7 +6,7 @@ type EllipsisTooltipProps = {
   style?: CSSProperties;
   content?: ReactNode;
   children: string | number;
-} & Pick<TooltipProps, "disabled" | "offset">;
+} & Pick<TooltipProps, "disabled" | "offset" | "side">;
 
 export const EllipsisTooltip = ({
   style,
@@ -14,6 +14,7 @@ export const EllipsisTooltip = ({
   content = children,
   disabled,
   offset,
+  side,
 }: EllipsisTooltipProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,10 +25,11 @@ export const EllipsisTooltip = ({
         if (!ref.current) {
           return false;
         }
-        
+
         return ref.current.scrollWidth > ref.current.clientWidth;
       }}
       disabled={disabled}
+      side={side}
       offset={offset}
     >
       <div ref={ref} className="ellipsis" style={style}>

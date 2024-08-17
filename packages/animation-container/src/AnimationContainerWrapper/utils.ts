@@ -81,3 +81,24 @@ export const shouldAnimationCatchUp = ({
   const shouldCatchUpAndSkipAnimation = !shouldNotCatchUpOne && !shouldNotCatchUpTwo;
   return shouldCatchUpAndSkipAnimation;
 };
+
+type DetectStoppedFrameArgs = {
+  animation: Animation;
+  duration: number;
+  keyframesAmount: number;
+};
+
+export const detectStoppedFrame = ({
+  animation,
+  duration,
+  keyframesAmount,
+}: DetectStoppedFrameArgs) => {
+  const currentTime = animation.currentTime as number;
+  if (!currentTime) {
+    return 0;
+  }
+
+  const progress = currentTime / duration;
+  const approximateKeyframeIndex = Math.floor(progress * (keyframesAmount - 1));
+  return approximateKeyframeIndex;
+};

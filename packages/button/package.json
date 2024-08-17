@@ -1,16 +1,10 @@
 {
-  "name": "@packages/tooltip",
+  "name": "@packages/button",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/animation-container": "*",
-    "@packages/randomizer": "*",
-    "@packages/edge-intersection": "*",
-    "@packages/utils": "*"
   },
   "peerDependencies": {
     "react": "^18.2.0",

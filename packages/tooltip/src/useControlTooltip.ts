@@ -7,9 +7,24 @@ export const useControlTooltip = () => {
     return generateSecureRandomString();
   }, []);
 
-  const showTooltip = ({ content, ref, offset }: Omit<TooltipDisplayProps, "id">) => {
+  const showTooltip = ({
+    content,
+    side,
+    ref,
+    offset,
+    intersectionRefs,
+    distanceFromViewport,
+  }: Omit<TooltipDisplayProps, "id">) => {
     const event = new CustomEvent<TooltipDisplayProps>("showTooltip", {
-      detail: { id, content, ref, offset },
+      detail: {
+        id,
+        content,
+        ref,
+        side,
+        offset,
+        intersectionRefs,
+        distanceFromViewport,
+      },
     });
     window.dispatchEvent(event);
   };
@@ -22,6 +37,7 @@ export const useControlTooltip = () => {
   };
 
   return {
+    id,
     showTooltip,
     hideTooltip,
   };

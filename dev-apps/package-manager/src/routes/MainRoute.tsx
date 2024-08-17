@@ -116,9 +116,9 @@ const MainRouteTable = () => {
   const { data, isLoading, isError, fetchMetadata, isLoadingVersions, isErrorVersions } =
     useTempRequest();
   const { moveTo } = usePath();
-  const { pagination, tab} = useQueryParamsState({ specificParams: ["pagination", "tab"] });
+  const { pagination, tab } = useQueryParamsState({ specificParams: ["pagination", "tab"] });
   const paginationValue = Array.isArray(pagination) ? 1 : Number(pagination ?? 1);
-  const tabValue = Array.isArray(tab) ? "all" : tab ?? 'all';
+  const tabValue = Array.isArray(tab) ? "all" : tab ?? "all";
   const rowsPerPage = 10;
 
   if (isLoading) {
@@ -126,16 +126,16 @@ const MainRouteTable = () => {
   }
 
   const getDisplayableData = () => {
-    if (tabValue === 'all') {
+    if (tabValue === "all") {
       return data;
     }
 
-    if (tabValue === 'external') {
-      return data?.filter((row) => !row.isLocal)
+    if (tabValue === "external") {
+      return data?.filter((row) => !row.isLocal);
     }
 
     return data?.filter((row) => row.isLocal);
-  }
+  };
 
   return (
     <>
@@ -171,11 +171,7 @@ const MainRouteTable = () => {
             cell: (data) => {
               const { name } = data;
 
-              return (
-                <EllipsisTooltip offset={-10} content={name}>
-                  {name}
-                </EllipsisTooltip>
-              );
+              return <EllipsisTooltip content={name}>{name}</EllipsisTooltip>;
             },
             size: 100,
           },
@@ -185,11 +181,7 @@ const MainRouteTable = () => {
               const { instances } = data;
               const amount = instances.length;
 
-              return (
-                <EllipsisTooltip offset={-10} content={amount}>
-                  {amount}
-                </EllipsisTooltip>
-              );
+              return <EllipsisTooltip content={amount}>{amount}</EllipsisTooltip>;
             },
             size: 100,
           },
@@ -203,11 +195,7 @@ const MainRouteTable = () => {
               });
               const amount = versionsSet.size;
 
-              return (
-                <EllipsisTooltip offset={-10} content={amount}>
-                  {amount}
-                </EllipsisTooltip>
-              );
+              return <EllipsisTooltip content={amount}>{amount}</EllipsisTooltip>;
             },
             size: 100,
           },
@@ -225,11 +213,7 @@ const MainRouteTable = () => {
                 return <div>---</div>;
               }
 
-              return (
-                <EllipsisTooltip offset={-10} content={version}>
-                  {version}
-                </EllipsisTooltip>
-              );
+              return <EllipsisTooltip content={version}>{version}</EllipsisTooltip>;
             },
             size: 120,
           },
@@ -249,11 +233,7 @@ const MainRouteTable = () => {
 
               const formattedDate = formatDateByLocale({ dateString: date });
 
-              return (
-                <EllipsisTooltip offset={-10} content={formattedDate}>
-                  {formattedDate}
-                </EllipsisTooltip>
-              );
+              return <EllipsisTooltip content={formattedDate}>{formattedDate}</EllipsisTooltip>;
             },
             size: 150,
           },
@@ -279,11 +259,7 @@ const MainRouteTable = () => {
               const isUpdated = versionsSet.has(version) && amount === 1;
               const text = isUpdated ? "Up to date" : "Can upgrade";
 
-              return (
-                <EllipsisTooltip offset={-10} content={text}>
-                  {text}
-                </EllipsisTooltip>
-              );
+              return <EllipsisTooltip content={text}>{text}</EllipsisTooltip>;
             },
             size: 100,
           },

@@ -1,2 +1,0 @@
-- Add the ability to select the Tooltip's direction as a prop.
-- Add collision detection with the viewport support.

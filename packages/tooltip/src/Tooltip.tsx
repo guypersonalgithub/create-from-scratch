@@ -1,11 +1,14 @@
-import { ReactNode, useRef } from "react";
+import { createRef, ReactNode, useRef } from "react";
 import "./styles.css";
 import { useControlTooltip } from "./useControlTooltip";
+import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
+import { TooltipDisplayProps } from "./types";
 
-export type TooltipProps = {
-  content: ReactNode;
+export type TooltipProps = Pick<
+  TooltipDisplayProps,
+  "content" | "offset" | "side" | "distanceFromViewport"
+> & {
   disabled?: boolean;
-  offset?: number;
   isEllipsizedCallback?: () => boolean;
   children: ReactNode;
 };
@@ -13,13 +16,33 @@ export type TooltipProps = {
 export const Tooltip = ({
   content,
   disabled,
+  side,
   offset,
   isEllipsizedCallback,
+  distanceFromViewport,
   children,
 }: TooltipProps) => {
   const isHovered = useRef(false);
   const ref = useRef<HTMLDivElement>(null);
-  const { showTooltip, hideTooltip } = useControlTooltip();
+  const intersectionRefs: EdgeWrapperRefs = {
+    top: createRef(),
+    topLeft: createRef(),
+    topRight: createRef(),
+    left: createRef(),
+    bottom: createRef(),
+    bottomLeft: createRef(),
+    bottomRight: createRef(),
+    right: createRef(),
+    customTop: createRef(),
+    customTopLeft: createRef(),
+    customTopRight: createRef(),
+    customLeft: createRef(),
+    customBottom: createRef(),
+    customBottomLeft: createRef(),
+    customBottomRight: createRef(),
+    customRight: createRef(),
+  };
+  const { id, showTooltip, hideTooltip } = useControlTooltip();
 
   const disableTooltipBecauseOfEllipsis = () => {
     if (!isEllipsizedCallback) {
@@ -41,7 +64,10 @@ export const Tooltip = ({
     showTooltip({
       content,
       ref,
+      side,
       offset,
+      intersectionRefs,
+      distanceFromViewport,
     });
   };
 
@@ -56,13 +82,24 @@ export const Tooltip = ({
   };
 
   return (
-    <div
-      ref={ref}
+    <EdgeIntersection
+      id={id}
+      className="ellipsis"
       style={{ width: isEllipsizedCallback ? "inherit" : "fit-content", height: "fit-content" }}
-      onMouseEnter={show}
-      onMouseLeave={hide}
+      intersectionRefs={intersectionRefs}
+      offset={offset}
     >
-      {children}
-    </div>
+      <div
+        ref={ref}
+        style={{
+          width: isEllipsizedCallback ? "inherit" : "fit-content",
+          height: "fit-content",
+        }}
+        onMouseEnter={show}
+        onMouseLeave={hide}
+      >
+        {children}
+      </div>
+    </EdgeIntersection>
   );
 };

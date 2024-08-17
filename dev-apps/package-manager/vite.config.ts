@@ -34,6 +34,10 @@ export default defineConfig({
       "packages/tabs": path.resolve("__dirname", "../../packages/tabs/src/index.ts"),
       "packages/url": path.resolve("__dirname", "../../packages/url/src/index.ts"),
       "packages/environment": path.resolve("__dirname", "../../packages/environment/src/index.ts"),
+      "packages/edge-intersection": path.resolve(
+        "__dirname",
+        "../../packages/edge-intersection/src/index.ts",
+      ),
     },
   },
 });

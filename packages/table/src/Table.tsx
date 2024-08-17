@@ -22,6 +22,7 @@ type TableProps<T> = {
     headerRow?: Size | ClassName;
     dataRow?: Size | ClassName;
   };
+  headerContainer?: CSSProperties;
   rowContainer?: CSSProperties;
   pagination?: {
     paginationProps: Omit<PaginationProps, "totalPages">;
@@ -44,6 +45,7 @@ export const Table = <T extends Record<string, unknown>>({
   requestData,
   columns,
   rows,
+  headerContainer,
   rowContainer,
   pagination,
 }: TableProps<T>) => {
@@ -61,7 +63,7 @@ export const Table = <T extends Record<string, unknown>>({
 
   return (
     <div>
-      <div style={{ display: "flex", flexFlow: "column", width: "100%" }}>
+      <div style={{ display: "flex", flexFlow: "column", width: "100%", ...headerContainer }}>
         <div
           style={{
             display: "flex",

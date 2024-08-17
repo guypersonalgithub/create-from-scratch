@@ -5,18 +5,20 @@
 
 .tooltip-box {
   position: absolute;
-  bottom: 100%;
+  /* bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%); */
   background-color: #333;
   color: #fff;
-  text-align: center;
   padding: 5px 10px;
   border-radius: 4px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   z-index: 1000;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   background-color: black;
+  word-wrap: break-word;
+  /* overflow-wrap: break-word;
+  white-space: normal; */
 }
 
 .ellipsis {

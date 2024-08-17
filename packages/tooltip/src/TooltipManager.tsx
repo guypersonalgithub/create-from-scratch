@@ -1,27 +1,31 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ReactNode, RefObject, CSSProperties } from "react";
 import { TooltipDisplayProps } from "./types";
 import {
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
+import { capitalizeFirstChar, observeElementsVisibility } from "@packages/utils";
+import { calculateTooltipPosition } from "./utils";
+import type { CustomEdges, Edges } from "@packages/edge-intersection";
 
 type TooltipManagerProps = Partial<Pick<AnimationContainerWrapperProps, "keyframes" | "options">>;
-
 export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
   const [tooltips, setTooltips] = useState<TooltipDisplayProps[]>([]);
   const tooltipIds = useRef<Set<string>>(new Set());
-  const [disableTooltips, setDisableTooltips] = useState<boolean>(false);
 
   useEffect(() => {
     const showTooltip = (event: CustomEvent<TooltipDisplayProps>) => {
-      const { id, content, ref, offset } = event.detail;
+      const { id, content, ref, side, offset, intersectionRefs, distanceFromViewport } =
+        event.detail;
       if (tooltipIds.current.has(id)) {
         return;
       }
 
-      setTooltips((prev) => [...prev, { id, content, ref, offset }]);
+      setTooltips((prev) => [
+        ...prev,
+        { id, content, ref, side, offset, intersectionRefs, distanceFromViewport },
+      ]);
       tooltipIds.current.add(id);
-      setDisableTooltips(false);
     };
 
     const hideTooltip = (event: CustomEvent<TooltipDisplayProps>) => {
@@ -33,17 +37,9 @@ export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
 
       tooltipIds.current.delete(id);
       setTooltips((prev) => {
-        const tooltipIndex = prev.findIndex((tooltip) => tooltip.id === id);
-        if (tooltipIndex === -1) {
-          return prev;
-        }
-
+        const remainingTooltips = prev.filter((tooltip) => tooltip.id !== id);
         tooltipIds.current = new Set();
-        if (tooltipIndex === 0) {
-          return [];
-        }
 
-        const remainingTooltips = prev.slice(0, tooltipIndex);
         remainingTooltips.forEach((tooltip) => {
           tooltipIds.current.add(tooltip.id);
         });
@@ -51,25 +47,14 @@ export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
       });
     };
 
-    const updateTooltipsStyleOnChange = () => {
-      setTooltips([]);
-      setDisableTooltips(true);
-    };
-
     window.addEventListener("showTooltip", showTooltip as EventListener);
     window.addEventListener("hideTooltip", hideTooltip as EventListener);
-    window.addEventListener("resize", updateTooltipsStyleOnChange);
 
     return () => {
       window.removeEventListener("showTooltip", showTooltip as EventListener);
       window.removeEventListener("hideTooltip", hideTooltip as EventListener);
-      window.removeEventListener("resize", updateTooltipsStyleOnChange);
     };
   }, []);
-
-  if (disableTooltips) {
-    return null;
-  }
 
   return (
     <AnimationContainerWrapper
@@ -81,34 +66,145 @@ export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
       }
       options={options ?? { duration: 300 }}
     >
-      {tooltips.map(({ id, content, ref, offset = 0 }) => {
-        const {
-          left = 0,
-          top = 0,
-          right = 0,
-          bottom = 0,
-        } = ref.current?.getBoundingClientRect() ?? {};
-        const style = {
-          top: window.scrollY + (top + bottom) / 2 - 40 + offset,
-          left: window.scrollX + (left + right) / 2,
-        };
-
-        return (
-          <div
-            key={id}
-            className="tooltip-box"
-            style={{
-              ...style,
-              position: "absolute",
-              display: "block",
-              width: "fit-content",
-              height: "fit-content",
-            }}
-          >
-            {content}
-          </div>
-        );
-      })}
+      {tooltips.map(
+        ({
+          id,
+          content,
+          ref,
+          side = "top",
+          offset,
+          intersectionRefs,
+          distanceFromViewport = 0,
+        }) => {
+          return (
+            <TooltipBody
+              key={id}
+              anchorRef={ref}
+              side={side}
+              offset={offset}
+              intersectionRefs={intersectionRefs}
+              distanceFromViewport={distanceFromViewport}
+            >
+              {content}
+            </TooltipBody>
+          );
+        },
+      )}
     </AnimationContainerWrapper>
+  );
+};
+
+type TestProps = Required<
+  Pick<TooltipDisplayProps, "side" | "intersectionRefs" | "distanceFromViewport">
+> &
+  Pick<TooltipDisplayProps, "offset"> & {
+    anchorRef?: RefObject<HTMLDivElement>;
+    children: ReactNode;
+  };
+
+const TooltipBody = ({
+  anchorRef,
+  side,
+  offset,
+  children,
+  intersectionRefs,
+  distanceFromViewport,
+}: TestProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const refKey = (
+      offset?.x ?? offset?.y ? `custom${capitalizeFirstChar({ str: side })}` : side
+    ) as Edges | CustomEdges;
+
+    const updateStyle = () => {
+      if (!ref.current) {
+        return;
+      }
+
+      const shouldReveal = calculateTooltipPosition({
+        side,
+        ref,
+        intersectionRefs,
+        refKey,
+        distanceFromViewport,
+      });
+
+      if (shouldReveal === "display") {
+        ref.current.style.opacity = "1";
+      } else {
+        ref.current.style.opacity = "0";
+      }
+    };
+
+    if (!anchorRef?.current) {
+      return updateStyle();
+    }
+
+    const observer = observeElementsVisibility({
+      elements: Object.values(intersectionRefs)
+        .map((value) => {
+          return value.current;
+        })
+        .filter((element) => element) as HTMLElement[],
+      identificationCallback: (id) => {
+        const [original, position] = id.split("-");
+
+        if (!original || !position) {
+          return false;
+        }
+
+        return position === refKey;
+      },
+      intersectionCallback: () => {
+        if (!ref.current) {
+          return;
+        }
+
+        updateStyle();
+        window.addEventListener("scroll", updateStyle, true);
+        window.addEventListener("resize", updateStyle);
+      },
+      removalCallback: () => {
+        if (!ref.current) {
+          return;
+        }
+
+        window.removeEventListener("scroll", updateStyle, true);
+        window.removeEventListener("resize", updateStyle);
+
+        ref.current.style.opacity = "0";
+      },
+    });
+
+    return () => {
+      window.removeEventListener("scroll", updateStyle, true);
+      window.removeEventListener("resize", updateStyle);
+      observer.disconnect();
+    };
+  }, [intersectionRefs]);
+
+  return (
+    <div
+      ref={ref}
+      className="tooltip-box"
+      style={{
+        position: "fixed",
+        display: "block",
+        width: "fit-content",
+        height: "fit-content",
+        pointerEvents: "none",
+        opacity: 0,
+        clipPath: "unset",
+        left: "-9999px",
+        top: "-9999px",
+      }}
+    >
+      {children}
+    </div>
   );
 };

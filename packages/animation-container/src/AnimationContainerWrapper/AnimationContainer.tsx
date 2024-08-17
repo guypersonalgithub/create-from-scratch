@@ -1,4 +1,18 @@
-import { useState, useRef, useEffect, ReactNode, MutableRefObject, CSSProperties } from "react";
+import { useState, useRef, useEffect, ReactNode, MutableRefObject } from "react";
+import { AnimationContainerWrapperProps } from "./types";
+
+type AnimationWrapperProps = Pick<
+  AnimationContainerWrapperProps,
+  "keyframes" | "unMountAnimation" | "options" | "clearAnimationOnExit" | "style"
+> & {
+  show: boolean;
+  children: ReactNode;
+  keyframes: Keyframe[];
+  options?: KeyframeAnimationOptions;
+  onAnimationStart?: () => void;
+  onAnimationEnd?: () => void;
+  animationActive?: MutableRefObject<boolean>;
+};
 
 const getElementStyles = (element: Element, stage: Keyframe) => {
   const styles: Keyframe = {};
@@ -21,18 +35,7 @@ export const AnimationWrapper = ({
   clearAnimationOnExit,
   animationActive,
   style,
-}: {
-  show: boolean;
-  children: ReactNode;
-  keyframes: Keyframe[];
-  unMountAnimation?: Keyframe[] | PropertyIndexedKeyframes | null;
-  options?: KeyframeAnimationOptions;
-  onAnimationStart?: () => void;
-  onAnimationEnd?: () => void;
-  clearAnimationOnExit: MutableRefObject<(() => void) | undefined>;
-  animationActive?: MutableRefObject<boolean>;
-  style?: CSSProperties;
-}) => {
+}: AnimationWrapperProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [removeState, setRemove] = useState(!show);
   const animationRef = useRef<Animation>();
