@@ -1,10 +1,10 @@
-import { CSSProperties, MutableRefObject, ReactNode } from "react";
+import { CSSProperties, MutableRefObject, ReactElement } from "react";
 
 export type AnimationContainerWrapperProps = {
-  keyframes: Keyframe[];
-  unMountAnimation?: Keyframe[] | PropertyIndexedKeyframes | null;
+  onMount?: Keyframe[];
+  onUnmount?: Keyframe[];
   options?: KeyframeAnimationOptions;
-  children: ReactNode[] | ReactNode;
-  clearAnimationOnExit: MutableRefObject<(() => void) | undefined>;
+  children: ReactElement[] | ReactElement;
+  clearAnimationOnExit: MutableRefObject<(() => void)[]>;
   style?: CSSProperties;
 };

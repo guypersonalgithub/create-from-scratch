@@ -1,1 +1,2 @@
-- Convert clearAnimationOnExit to an array ref and set each animation callbacks based off indexes.
+- Add support on all animation containers and unmount containers for gradual child transitions and full phase transitions (full phase transitions wait for all animations to end and then replace the current children, gradual constantly updates the children based off the children state and removes finished unmounted animations through the regular wrapper).
+- Add support for animations outside of mount/unmount animations.

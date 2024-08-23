@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef, ReactNode, RefObject, CSSProperties } from "react";
+import { useState, useEffect, useRef, ReactNode, RefObject } from "react";
 import { TooltipDisplayProps } from "./types";
 import {
+  AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
@@ -8,8 +9,10 @@ import { capitalizeFirstChar, observeElementsVisibility } from "@packages/utils"
 import { calculateTooltipPosition } from "./utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
 
-type TooltipManagerProps = Partial<Pick<AnimationContainerWrapperProps, "keyframes" | "options">>;
-export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
+type TooltipManagerProps = Partial<
+  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "options">
+>;
+export const TooltipManager = ({ onMount, onUnmount, options }: TooltipManagerProps) => {
   const [tooltips, setTooltips] = useState<TooltipDisplayProps[]>([]);
   const tooltipIds = useRef<Set<string>>(new Set());
 
@@ -57,15 +60,7 @@ export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
   }, []);
 
   return (
-    <AnimationContainerWrapper
-      keyframes={
-        keyframes ?? [
-          { opacity: 0, visibility: "hidden" },
-          { opacity: 1, visibility: "visible" },
-        ]
-      }
-      options={options ?? { duration: 300 }}
-    >
+    <AnimationContainerUnmountWrapper>
       {tooltips.map(
         ({
           id,
@@ -77,20 +72,33 @@ export const TooltipManager = ({ keyframes, options }: TooltipManagerProps) => {
           distanceFromViewport = 0,
         }) => {
           return (
-            <TooltipBody
+            <AnimationContainerWrapper
               key={id}
-              anchorRef={ref}
-              side={side}
-              offset={offset}
-              intersectionRefs={intersectionRefs}
-              distanceFromViewport={distanceFromViewport}
+              onMount={
+                onMount ?? [
+                  { opacity: 0, visibility: "hidden" },
+                  { opacity: 1, visibility: "visible" },
+                ]
+              }
+              onUnmount={onUnmount}
+              options={options ?? { duration: 300 }}
             >
-              {content}
-            </TooltipBody>
+              <TooltipBody
+                key={id}
+                anchorRef={ref}
+                side={side}
+                offset={offset}
+                intersectionRefs={intersectionRefs}
+                distanceFromViewport={distanceFromViewport}
+                transitionDuration={typeof options?.duration === "number" ? options?.duration : 300}
+              >
+                {content}
+              </TooltipBody>
+            </AnimationContainerWrapper>
           );
         },
       )}
-    </AnimationContainerWrapper>
+    </AnimationContainerUnmountWrapper>
   );
 };
 
@@ -99,6 +107,7 @@ type TestProps = Required<
 > &
   Pick<TooltipDisplayProps, "offset"> & {
     anchorRef?: RefObject<HTMLDivElement>;
+    transitionDuration: number;
     children: ReactNode;
   };
 
@@ -109,6 +118,7 @@ const TooltipBody = ({
   children,
   intersectionRefs,
   distanceFromViewport,
+  transitionDuration,
 }: TestProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -188,6 +198,8 @@ const TooltipBody = ({
     };
   }, [intersectionRefs]);
 
+  const duration = transitionDuration / 1000;
+
   return (
     <div
       ref={ref}
@@ -202,6 +214,7 @@ const TooltipBody = ({
         clipPath: "unset",
         left: "-9999px",
         top: "-9999px",
+        transition: `opacity ${duration}s ease, visibility ${duration}s ease`,
       }}
     >
       {children}

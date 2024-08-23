@@ -57,7 +57,7 @@ export const MainRoute = () => {
       <EllipsisTooltip style={{ width: "50px" }}>Testing the ellipsis tooltip</EllipsisTooltip>
       <button onClick={() => switchTest()}>click</button>
       <AnimationContainerWrapper
-        keyframes={[
+        onMount={[
           { height: "0px", opacity: 0 },
           { height: "100px", opacity: 1 },
         ]}

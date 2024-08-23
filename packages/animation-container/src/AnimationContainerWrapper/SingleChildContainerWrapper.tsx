@@ -1,4 +1,4 @@
-import { isValidElement, ReactNode, useRef, useState, MutableRefObject } from "react";
+import { isValidElement, ReactElement, useRef, useState } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 
@@ -13,14 +13,19 @@ const doesKeyAlreadyExist = ({ currentChildKey, key }: DoesKeyAlreadyExistArgs) 
 
 export const SingleChildContainerWrapper = ({
   children,
-  keyframes,
+  onMount,
+  onUnmount,
   options,
   clearAnimationOnExit,
   style,
+  isUnmounted,
+  finishedAnimation,
 }: AnimationContainerWrapperProps & {
-  children: ReactNode;
+  children: ReactElement;
+  isUnmounted: boolean;
+  finishedAnimation?: () => void;
 }) => {
-  const [currentChild, setCurrentChild] = useState<ReactNode>(children);
+  const [currentChild, setCurrentChild] = useState<ReactElement>(children);
   const isValid = isValidElement(children);
   const key = isValid ? children.key : null;
   const currentChildKey = useRef<string | null>(key);
@@ -31,12 +36,15 @@ export const SingleChildContainerWrapper = ({
 
   return (
     <AnimationWrapper
-      show={keyAlreadyExists}
-      keyframes={keyframes}
+      index={0}
+      show={isUnmounted ? false : keyAlreadyExists}
+      onMount={onMount}
+      onUnmount={onUnmount}
       options={options}
       onAnimationEnd={() => {
         setCurrentChild(children);
         currentChildKey.current = key;
+        finishedAnimation?.();
       }}
       clearAnimationOnExit={clearAnimationOnExit}
       style={style}

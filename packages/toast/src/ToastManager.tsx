@@ -6,9 +6,11 @@ import {
 } from "@packages/animation-container";
 import "./styles.css";
 
-type ToastManagerProps = Partial<Pick<AnimationContainerWrapperProps, "keyframes" | "options">>;
+type ToastManagerProps = Partial<
+  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "options">
+>;
 
-export const ToastManager = ({ keyframes, options }: ToastManagerProps) => {
+export const ToastManager = ({ onMount, onUnmount, options }: ToastManagerProps) => {
   const [toasts, setToasts] = useState<ToastDisplayProps[]>([]);
   const toastIds = useRef<Set<string>>(new Set());
 
@@ -47,8 +49,8 @@ export const ToastManager = ({ keyframes, options }: ToastManagerProps) => {
 
   return (
     <AnimationContainerWrapper
-      keyframes={
-        keyframes ?? [
+      onMount={
+        onMount ?? [
           {
             transform: "translateY(-100px)",
             offset: 0,
@@ -71,6 +73,7 @@ export const ToastManager = ({ keyframes, options }: ToastManagerProps) => {
           },
         ]
       }
+      onUnmount={onUnmount}
       options={options ?? { duration: 300 }}
       style={{
         position: "fixed",

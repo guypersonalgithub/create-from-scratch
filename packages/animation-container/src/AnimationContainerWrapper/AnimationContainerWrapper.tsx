@@ -1,16 +1,19 @@
 import { AnimationContainerWrapperProps } from "./types";
 import { SingleChildContainerWrapper } from "./SingleChildContainerWrapper";
 import { MultiChildrenContainerWrapper } from "./MultiChildrenContainerWrapper";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useIsDev } from "@packages/is-dev";
+import { UnmountContext } from "./AnimationContainerUnmountWrapper/unmountContext";
 
 export const AnimationContainerWrapper = ({
   children,
-  keyframes,
+  onMount,
+  onUnmount,
   options,
   style,
 }: Omit<AnimationContainerWrapperProps, "clearAnimationOnExit">) => {
-  const clearAnimationOnExitRef = useRef<() => void>();
+  const wrapper = useContext(UnmountContext);
+  const clearAnimationOnExitRef = useRef<(() => void)[]>([]);
   const { isDev } = useIsDev();
 
   useEffect(() => {
@@ -19,17 +22,22 @@ export const AnimationContainerWrapper = ({
         return;
       }
 
-      clearAnimationOnExitRef.current?.();
+      clearAnimationOnExitRef.current?.forEach((clearCallback) => {
+        clearCallback();
+      });
     };
   }, [isDev]);
 
   if (!Array.isArray(children)) {
     return (
       <SingleChildContainerWrapper
-        keyframes={keyframes}
+        onMount={onMount}
+        onUnmount={onUnmount}
         options={options}
         clearAnimationOnExit={clearAnimationOnExitRef}
         style={style}
+        isUnmounted={!!wrapper?.isUnmounted}
+        finishedAnimation={wrapper?.finishedAnimation}
       >
         {children}
       </SingleChildContainerWrapper>
@@ -38,10 +46,13 @@ export const AnimationContainerWrapper = ({
 
   return (
     <MultiChildrenContainerWrapper
-      keyframes={keyframes}
+      onMount={onMount}
+      onUnmount={onUnmount}
       options={options}
       clearAnimationOnExit={clearAnimationOnExitRef}
       style={style}
+      isUnmounted={!!wrapper?.isUnmounted}
+      finishedAnimation={wrapper?.finishedAnimation}
     >
       {children}
     </MultiChildrenContainerWrapper>

@@ -14,7 +14,7 @@
   border-radius: 4px;
   /* white-space: nowrap; */
   z-index: 1000;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  /* transition: opacity 0.3s ease, visibility 0.3s ease; */
   background-color: black;
   word-wrap: break-word;
   /* overflow-wrap: break-word;

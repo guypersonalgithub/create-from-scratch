@@ -1,35 +1,27 @@
-import { useState, useRef, useEffect, ReactNode, MutableRefObject } from "react";
+import { useState, useRef, useEffect, ReactElement, MutableRefObject } from "react";
 import { AnimationContainerWrapperProps } from "./types";
+import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
 
 type AnimationWrapperProps = Pick<
   AnimationContainerWrapperProps,
-  "keyframes" | "unMountAnimation" | "options" | "clearAnimationOnExit" | "style"
+  "onMount" | "onUnmount" | "options" | "clearAnimationOnExit" | "style"
 > & {
+  index: number;
   show: boolean;
-  children: ReactNode;
-  keyframes: Keyframe[];
+  children: ReactElement;
   options?: KeyframeAnimationOptions;
   onAnimationStart?: () => void;
   onAnimationEnd?: () => void;
   animationActive?: MutableRefObject<boolean>;
 };
 
-const getElementStyles = (element: Element, stage: Keyframe) => {
-  const styles: Keyframe = {};
-  const computedStyle = getComputedStyle(element);
-  for (let property in stage) {
-    styles[property] = computedStyle.getPropertyValue(property);
-  }
-
-  return styles;
-};
-
 export const AnimationWrapper = ({
+  index,
   show,
   children,
-  keyframes = [],
-  unMountAnimation,
-  options = { duration: 300 },
+  onMount = [],
+  onUnmount,
+  options = {},
   onAnimationStart,
   onAnimationEnd,
   clearAnimationOnExit,
@@ -41,8 +33,9 @@ export const AnimationWrapper = ({
   const animationRef = useRef<Animation>();
   const previousAnimationRefs = useRef<Animation[]>([]);
   const initialized = useRef(false);
+  const stoppedFrame = useRef<number>(0);
 
-  clearAnimationOnExit.current = () => {
+  clearAnimationOnExit.current[index] = () => {
     animationRef.current?.cancel();
     previousAnimationRefs.current.forEach((animationRef) => {
       animationRef.cancel();
@@ -51,6 +44,7 @@ export const AnimationWrapper = ({
 
   useEffect(() => {
     const childElement = elementRef.current;
+    const shouldReverseOnUnmount = !onUnmount;
 
     const setAnimationRef = ({ animation }: { animation: Animation }) => {
       animationRef.current = animation;
@@ -71,20 +65,22 @@ export const AnimationWrapper = ({
       if (animationActive) {
         animationActive.current = true;
       }
-      const styles = getElementStyles(childElement, keyframes[keyframes.length - 1]);
-      const firstframe = keyframes[0];
-      const animation = childElement.animate(
-        [
-          initialized.current
-            ? { ...styles, offset: firstframe.offset ? firstframe.offset : undefined }
-            : firstframe,
-          ...keyframes.slice(1),
-        ],
-        {
-          ...options,
-          fill: "forwards",
-        },
-      );
+
+      const currentFrames = shouldReverseOnUnmount
+        ? continueReversedStoppedAnimation({
+            keyframes: onMount,
+            initialized: initialized.current,
+            childElement,
+            stoppedFrame: stoppedFrame.current,
+          })
+        : onMount;
+
+      const animation = childElement.animate(currentFrames, {
+        duration: 300,
+        ...options,
+        fill: "forwards",
+      });
+
       setAnimationRef({ animation });
       initialized.current = true;
     } else {
@@ -92,27 +88,21 @@ export const AnimationWrapper = ({
         return;
       }
 
-      const styles = getElementStyles(childElement, keyframes[0]);
-      const reversedKeyframes = keyframes
-        .map((keyframe) => {
-          return {
-            ...keyframe,
-            offset: keyframe.offset ? 1 - keyframe.offset : undefined,
-          };
-        })
-        .reverse();
-      const lastKeyframe = reversedKeyframes[0];
+      const currentFrames = shouldReverseOnUnmount
+        ? continueReversedStoppedAnimation({
+            keyframes: reverseKeyframes({ keyframes: onMount }),
+            initialized: initialized.current,
+            childElement,
+            stoppedFrame: stoppedFrame.current,
+          })
+        : onUnmount;
 
-      const animation = childElement.animate(
-        unMountAnimation || [
-          { ...styles, offset: lastKeyframe.offset ? lastKeyframe.offset : undefined },
-          ...reversedKeyframes.slice(1),
-        ],
-        {
-          ...options,
-          fill: "forwards",
-        },
-      );
+      const animation = childElement.animate(currentFrames, {
+        duration: 300,
+        ...options,
+        fill: "forwards",
+      });
+
       setAnimationRef({ animation });
       animation.onfinish = () => {
         initialized.current = false;
@@ -128,6 +118,22 @@ export const AnimationWrapper = ({
       animationRef.current?.pause();
       if (animationRef.current) {
         previousAnimationRefs.current.push(animationRef.current);
+      }
+
+      if (animationRef.current && shouldReverseOnUnmount) {
+        const currentFrames = show
+          ? onMount
+          : onUnmount || reverseKeyframes({ keyframes: onMount });
+        const duration = Number(options.duration ?? 300);
+        const currentFramesAmount = currentFrames.length;
+
+        const lastFrame = detectStoppedFrame({
+          animation: animationRef.current,
+          duration,
+          keyframesAmount: currentFramesAmount,
+        });
+
+        stoppedFrame.current = lastFrame === onMount.length - 1 ? 0 : lastFrame;
       }
     };
   }, [show, removeState]);

@@ -1,37 +1,29 @@
-import { isValidElement, ReactNode, useEffect, useRef, useState } from "react";
+import { isValidElement, ReactElement, useEffect, useRef, useState } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import {
   checkIfAllPreviousExistInCurrent,
   doesKeyAlreadyExistInSet,
+  getChildKeys,
   shouldAnimationCatchUp,
 } from "./utils";
 import { areArraysEqual } from "@packages/utils";
 
-type GetChildKeysArgs = {
-  children: ReactNode[];
-};
-
-const getChildKeys = ({ children }: GetChildKeysArgs) => {
-  const keysSet = new Set<string>();
-  children.forEach((child) => {
-    if (isValidElement(child) && child.key) {
-      keysSet.add(child.key);
-    }
-  });
-  return keysSet;
-};
-
 export const MultiChildrenContainerWrapper = ({
   children,
-  keyframes,
+  onMount,
+  onUnmount,
   options,
   clearAnimationOnExit,
   style,
+  isUnmounted,
+  finishedAnimation,
 }: AnimationContainerWrapperProps & {
-  children: ReactNode[];
+  children: ReactElement[];
+  isUnmounted: boolean;
+  finishedAnimation?: () => void;
 }) => {
-  const [currentChildren, setCurrentChildren] = useState<ReactNode[]>(children);
+  const [currentChildren, setCurrentChildren] = useState<ReactElement[]>(children);
   const [childKeys, setChildKeys] = useState<Set<string>>(getChildKeys({ children }));
   const currentChildKeys = useRef<Set<string>>(getChildKeys({ children }));
   const animationStarted = useRef<Set<string>>(getChildKeys({ children }));
@@ -72,9 +64,11 @@ export const MultiChildrenContainerWrapper = ({
 
     return (
       <AnimationWrapper
+        index={index}
         key={isValid ? child.key : index}
-        show={keyAlreadyExists}
-        keyframes={keyframes}
+        show={isUnmounted ? false : keyAlreadyExists}
+        onMount={onMount}
+        onUnmount={onUnmount}
         options={options}
         onAnimationStart={() => {
           if (!isValid || !child.key) {
@@ -90,6 +84,7 @@ export const MultiChildrenContainerWrapper = ({
 
           currentChildKeys.current.delete(child.key);
           const newChildrenKeys = getChildKeys({ children });
+          finishedAnimation?.();
 
           if (
             currentChildKeys.current.size === 0 ||

@@ -5,9 +5,11 @@ import {
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 
-type ModalManagerProps = Partial<Pick<AnimationContainerWrapperProps, "keyframes" | "options">>;
+type ModalManagerProps = Partial<
+  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "options">
+>;
 
-export const ModalManager = ({ keyframes, options }: ModalManagerProps) => {
+export const ModalManager = ({ onMount, onUnmount, options }: ModalManagerProps) => {
   const [modals, setModals] = useState<ModalDisplayProps[]>([]);
   const modalIds = useRef<Set<string>>(new Set());
 
@@ -59,12 +61,13 @@ export const ModalManager = ({ keyframes, options }: ModalManagerProps) => {
 
   return (
     <AnimationContainerWrapper
-      keyframes={
-        keyframes ?? [
+      onMount={
+        onMount ?? [
           { opacity: 0, visibility: "hidden" },
           { opacity: 1, visibility: "visible" },
         ]
       }
+      onUnmount={onUnmount}
       options={options ?? { duration: 300 }}
     >
       {modals.map(({ id, content }) => {
