@@ -60,7 +60,7 @@ export const TooltipManager = ({ onMount, onUnmount, options }: TooltipManagerPr
   }, []);
 
   return (
-    <AnimationContainerUnmountWrapper>
+    <AnimationContainerUnmountWrapper changeMethod="gradual">
       {tooltips.map(
         ({
           id,
@@ -82,6 +82,7 @@ export const TooltipManager = ({ onMount, onUnmount, options }: TooltipManagerPr
               }
               onUnmount={onUnmount}
               options={options ?? { duration: 300 }}
+              changeMethod="fullPhase"
             >
               <TooltipBody
                 key={id}

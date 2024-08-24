@@ -3,17 +3,29 @@ import { AnimationContainerSingleUnmountWrapper } from "./AnimationContainerSing
 import { AnimationContainerMultiUnmountWrapper } from "./AnimationContainerMultiUnmountWrapper";
 
 type AnimationContainerUnmountWrapperProps = {
+  changeMethod: "gradual" | "fullPhase";
   children: ReactElement | ReactElement[];
 };
 
 export const AnimationContainerUnmountWrapper = ({
+  changeMethod,
   children,
 }: AnimationContainerUnmountWrapperProps) => {
+  if (!children) {
+    return null;
+  }
+
   if (!Array.isArray(children)) {
     return (
-      <AnimationContainerSingleUnmountWrapper>{children}</AnimationContainerSingleUnmountWrapper>
+      <AnimationContainerSingleUnmountWrapper changeMethod={changeMethod}>
+        {children}
+      </AnimationContainerSingleUnmountWrapper>
     );
   }
 
-  return <AnimationContainerMultiUnmountWrapper>{children}</AnimationContainerMultiUnmountWrapper>;
+  return (
+    <AnimationContainerMultiUnmountWrapper changeMethod={changeMethod}>
+      {children}
+    </AnimationContainerMultiUnmountWrapper>
+  );
 };

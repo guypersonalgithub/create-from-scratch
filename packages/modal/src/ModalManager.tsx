@@ -69,6 +69,7 @@ export const ModalManager = ({ onMount, onUnmount, options }: ModalManagerProps)
       }
       onUnmount={onUnmount}
       options={options ?? { duration: 300 }}
+      changeMethod="fullPhase"
     >
       {modals.map(({ id, content }) => {
         return (

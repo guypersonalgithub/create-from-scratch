@@ -11,7 +11,10 @@ export const AnimationContainerWrapper = ({
   onUnmount,
   options,
   style,
-}: Omit<AnimationContainerWrapperProps, "clearAnimationOnExit">) => {
+  changeMethod,
+}: Omit<AnimationContainerWrapperProps, "clearAnimationOnExit"> & {
+  changeMethod: "gradual" | "fullPhase";
+}) => {
   const wrapper = useContext(UnmountContext);
   const clearAnimationOnExitRef = useRef<(() => void)[]>([]);
   const { isDev } = useIsDev();
@@ -28,6 +31,10 @@ export const AnimationContainerWrapper = ({
     };
   }, [isDev]);
 
+  if (!children) {
+    return null;
+  }
+
   if (!Array.isArray(children)) {
     return (
       <SingleChildContainerWrapper
@@ -38,6 +45,7 @@ export const AnimationContainerWrapper = ({
         style={style}
         isUnmounted={!!wrapper?.isUnmounted}
         finishedAnimation={wrapper?.finishedAnimation}
+        changeMethod={changeMethod}
       >
         {children}
       </SingleChildContainerWrapper>
@@ -53,6 +61,7 @@ export const AnimationContainerWrapper = ({
       style={style}
       isUnmounted={!!wrapper?.isUnmounted}
       finishedAnimation={wrapper?.finishedAnimation}
+      changeMethod={changeMethod}
     >
       {children}
     </MultiChildrenContainerWrapper>

@@ -84,6 +84,7 @@ export const ToastManager = ({ onMount, onUnmount, options }: ToastManagerProps)
         left: "50%",
         transform: "translateX(-50%)",
       }}
+      changeMethod="fullPhase"
     >
       {toasts.map(({ id, content }, index) => {
         return (

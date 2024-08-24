@@ -1,15 +1,28 @@
-import { isValidElement, ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
-import {
-  checkIfAllPreviousExistInCurrent,
-  doesKeyAlreadyExistInSet,
-  getChildKeys,
-  shouldAnimationCatchUp,
-} from "./utils";
-import { areArraysEqual } from "@packages/utils";
+import { getChildKeys } from "./utils";
+
+type MultiChildrenContainerWrapper = AnimationContainerWrapperProps & {
+  children: ReactElement[];
+  isUnmounted: boolean;
+  finishedAnimation?: () => void;
+  changeMethod: "gradual" | "fullPhase";
+};
 
 export const MultiChildrenContainerWrapper = ({
+  changeMethod,
+  children,
+  ...props
+}: MultiChildrenContainerWrapper) => {
+  if (changeMethod === "fullPhase") {
+    return <FullPhase {...props}>{children}</FullPhase>;
+  }
+
+  return <Gradual {...props}>{children}</Gradual>;
+};
+
+const FullPhase = ({
   children,
   onMount,
   onUnmount,
@@ -18,84 +31,122 @@ export const MultiChildrenContainerWrapper = ({
   style,
   isUnmounted,
   finishedAnimation,
-}: AnimationContainerWrapperProps & {
-  children: ReactElement[];
-  isUnmounted: boolean;
-  finishedAnimation?: () => void;
-}) => {
+}: Omit<MultiChildrenContainerWrapper, "changeMethod">) => {
   const [currentChildren, setCurrentChildren] = useState<ReactElement[]>(children);
-  const [childKeys, setChildKeys] = useState<Set<string>>(getChildKeys({ children }));
+  const [childrenKeys, setChildrenKeys] = useState(getChildKeys({ children }));
   const currentChildKeys = useRef<Set<string>>(getChildKeys({ children }));
-  const animationStarted = useRef<Set<string>>(getChildKeys({ children }));
-  const animationActive = useRef(false);
+  const latestChildrenRef = useRef<ReactElement[]>(children);
 
   useEffect(() => {
-    const previousKeys = [...currentChildKeys.current];
+    latestChildrenRef.current = children;
     const updatedKeys = getChildKeys({ children });
-    currentChildKeys.current = updatedKeys;
-    const updatedKeysArray = [...updatedKeys];
-    const animationStartedArray = [...animationStarted.current];
-
-    const { exist, length } = checkIfAllPreviousExistInCurrent({
-      array1: previousKeys,
-      array2: updatedKeysArray,
-    });
-
-    const shouldCatchUpAndSkipAnimation = shouldAnimationCatchUp({
-      updatedKeys: updatedKeysArray,
-      previousKeys,
-      animationStarted: animationStartedArray,
-    });
-
-    if ((exist && length) || (shouldCatchUpAndSkipAnimation && animationActive.current)) {
-      setCurrentChildren(children);
-      animationStarted.current = new Set();
+    setChildrenKeys(updatedKeys);
+    if (currentChildKeys.current.size > 0) {
+      return;
     }
-    setChildKeys(updatedKeys);
+
+    currentChildKeys.current = updatedKeys;
+    setCurrentChildren(children);
   }, [children]);
 
   return currentChildren.map((child, index) => {
-    const isValid = isValidElement(child);
-    const keyAlreadyExists = doesKeyAlreadyExistInSet({
-      isValid,
-      currentChildKeys: childKeys,
-      key: isValid ? child.key : null,
-    });
+    const keyAlreadyExists = childrenKeys.has(child.key!);
 
     return (
       <AnimationWrapper
         index={index}
-        key={isValid ? child.key : index}
+        key={child.key}
         show={isUnmounted ? false : keyAlreadyExists}
         onMount={onMount}
         onUnmount={onUnmount}
         options={options}
-        onAnimationStart={() => {
-          if (!isValid || !child.key) {
-            return;
-          }
-
-          animationStarted.current.add(child.key);
-        }}
         onAnimationEnd={() => {
-          if (!isValid || !child.key) {
+          currentChildKeys.current.delete(child.key!);
+          if (currentChildKeys.current.size > 0) {
             return;
           }
 
-          currentChildKeys.current.delete(child.key);
-          const newChildrenKeys = getChildKeys({ children });
-          finishedAnimation?.();
-
-          if (
-            currentChildKeys.current.size === 0 ||
-            areArraysEqual({ array1: [...currentChildKeys.current], array2: [...newChildrenKeys] })
-          ) {
-            setCurrentChildren(children);
-            animationStarted.current = new Set();
+          if (isUnmounted) {
+            finishedAnimation?.();
+          } else {
+            const updatedKeys = getChildKeys({
+              children: latestChildrenRef.current,
+            });
+            currentChildKeys.current = updatedKeys;
+            setCurrentChildren(latestChildrenRef.current);
           }
         }}
         clearAnimationOnExit={clearAnimationOnExit}
-        animationActive={animationActive}
+        style={style}
+      >
+        <div style={{ height: "inherit", width: "inherit" }}>{child}</div>
+      </AnimationWrapper>
+    );
+  });
+};
+
+const Gradual = ({
+  children,
+  onMount,
+  onUnmount,
+  options,
+  clearAnimationOnExit,
+  style,
+  isUnmounted,
+  finishedAnimation,
+}: Omit<MultiChildrenContainerWrapper, "changeMethod">) => {
+  const [currentChildren, setCurrentChildren] = useState<ReactElement[]>(children);
+  const [childrenKeys, setChildrenKeys] = useState(getChildKeys({ children }));
+
+  useEffect(() => {
+    const currentChildrenKeys = new Set<string>(children.map((child) => child.key ?? ""));
+    const removedChildren: { element: ReactElement; index: number }[] = [];
+
+    currentChildren.forEach((child, index) => {
+      const stillExists = currentChildrenKeys.has(child.key ?? "");
+      if (!stillExists) {
+        removedChildren.push({ element: child, index });
+      }
+    });
+
+    const updatedChildren = [...children];
+
+    removedChildren.forEach((child) => {
+      const { element, index } = child;
+      updatedChildren.splice(index, 0, element);
+    });
+
+    setCurrentChildren(updatedChildren);
+    setChildrenKeys(getChildKeys({ children }));
+  }, [children]);
+
+  const removeCurrentChild = (child: ReactElement) => {
+    const key = child.key;
+    setCurrentChildren((prev) => {
+      return prev.filter((curr) => {
+        const currKey = curr.key;
+
+        return currKey !== key;
+      });
+    });
+  };
+
+  return currentChildren.map((child, index) => {
+    const keyAlreadyExists = childrenKeys.has(child.key!);
+
+    return (
+      <AnimationWrapper
+        index={index}
+        key={child.key}
+        show={isUnmounted ? false : keyAlreadyExists}
+        onMount={onMount}
+        onUnmount={onUnmount}
+        options={options}
+        onAnimationEnd={() => {
+          removeCurrentChild(child);
+          finishedAnimation?.();
+        }}
+        clearAnimationOnExit={clearAnimationOnExit}
         style={style}
       >
         <div style={{ height: "inherit", width: "inherit" }}>{child}</div>

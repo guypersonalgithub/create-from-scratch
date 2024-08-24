@@ -12,7 +12,6 @@ type AnimationWrapperProps = Pick<
   options?: KeyframeAnimationOptions;
   onAnimationStart?: () => void;
   onAnimationEnd?: () => void;
-  animationActive?: MutableRefObject<boolean>;
 };
 
 export const AnimationWrapper = ({
@@ -25,7 +24,6 @@ export const AnimationWrapper = ({
   onAnimationStart,
   onAnimationEnd,
   clearAnimationOnExit,
-  animationActive,
   style,
 }: AnimationWrapperProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
@@ -61,10 +59,6 @@ export const AnimationWrapper = ({
       }
 
       onAnimationStart?.();
-
-      if (animationActive) {
-        animationActive.current = true;
-      }
 
       const currentFrames = shouldReverseOnUnmount
         ? continueReversedStoppedAnimation({
@@ -108,9 +102,6 @@ export const AnimationWrapper = ({
         initialized.current = false;
         setRemove(true);
         onAnimationEnd?.();
-        if (animationActive) {
-          animationActive.current = false;
-        }
       };
     }
 
