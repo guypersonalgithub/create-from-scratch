@@ -7,10 +7,15 @@ import {
 import "./styles.css";
 
 type ToastManagerProps = Partial<
-  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "options">
+  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">
 >;
 
-export const ToastManager = ({ onMount, onUnmount, options }: ToastManagerProps) => {
+export const ToastManager = ({
+  onMount,
+  onUnmount,
+  mountOptions,
+  unmountOptions,
+}: ToastManagerProps) => {
   const [toasts, setToasts] = useState<ToastDisplayProps[]>([]);
   const toastIds = useRef<Set<string>>(new Set());
 
@@ -74,7 +79,8 @@ export const ToastManager = ({ onMount, onUnmount, options }: ToastManagerProps)
         ]
       }
       onUnmount={onUnmount}
-      options={options ?? { duration: 300 }}
+      mountOptions={mountOptions ?? { duration: 300 }}
+      unmountOptions={unmountOptions}
       style={{
         position: "fixed",
         display: "block",

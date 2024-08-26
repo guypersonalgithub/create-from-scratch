@@ -77,7 +77,7 @@ const Gradual = ({ children }: Pick<AnimationContainerSingleUnmountWrapperProps,
     setChildrenKeys(getChildKeys({ children: [children] }));
   }, [children]);
 
-  const removeCurrentChild = (child: ReactElement) => {
+  const removeCurrentChild = ({ child }: { child: ReactElement }) => {
     const key = child.key;
     setCurrentChildren((prev) => {
       return prev.filter((curr) => {
@@ -101,7 +101,7 @@ const Gradual = ({ children }: Pick<AnimationContainerSingleUnmountWrapperProps,
               return;
             }
 
-            removeCurrentChild(child);
+            removeCurrentChild({ child });
           },
         }}
       >

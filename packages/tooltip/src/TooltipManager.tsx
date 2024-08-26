@@ -10,9 +10,14 @@ import { calculateTooltipPosition } from "./utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
 
 type TooltipManagerProps = Partial<
-  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "options">
+  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">
 >;
-export const TooltipManager = ({ onMount, onUnmount, options }: TooltipManagerProps) => {
+export const TooltipManager = ({
+  onMount,
+  onUnmount,
+  mountOptions,
+  unmountOptions,
+}: TooltipManagerProps) => {
   const [tooltips, setTooltips] = useState<TooltipDisplayProps[]>([]);
   const tooltipIds = useRef<Set<string>>(new Set());
 
@@ -81,7 +86,8 @@ export const TooltipManager = ({ onMount, onUnmount, options }: TooltipManagerPr
                 ]
               }
               onUnmount={onUnmount}
-              options={options ?? { duration: 300 }}
+              mountOptions={mountOptions ?? { duration: 300 }}
+              unmountOptions={unmountOptions}
               changeMethod="fullPhase"
             >
               <TooltipBody
@@ -91,7 +97,9 @@ export const TooltipManager = ({ onMount, onUnmount, options }: TooltipManagerPr
                 offset={offset}
                 intersectionRefs={intersectionRefs}
                 distanceFromViewport={distanceFromViewport}
-                transitionDuration={typeof options?.duration === "number" ? options?.duration : 300}
+                transitionDuration={
+                  typeof mountOptions?.duration === "number" ? mountOptions?.duration : 300
+                }
               >
                 {content}
               </TooltipBody>

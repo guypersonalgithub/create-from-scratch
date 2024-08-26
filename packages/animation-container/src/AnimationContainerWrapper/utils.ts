@@ -68,6 +68,10 @@ export const continueReversedStoppedAnimation = ({
     return keyframes;
   }
 
+  if (!keyframes || keyframes.length === 0) {
+    return [];
+  }
+
   const styles = getElementStyles({
     element: childElement,
     stage: keyframes[stoppedFrame],

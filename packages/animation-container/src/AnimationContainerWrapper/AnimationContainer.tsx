@@ -1,18 +1,15 @@
-import { useState, useRef, useEffect, ReactElement, MutableRefObject } from "react";
+import { useState, useRef, useEffect, ReactElement } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
+import { useAnimation } from "../useAnimation";
 
-type AnimationWrapperProps = Pick<
-  AnimationContainerWrapperProps,
-  "onMount" | "onUnmount" | "options" | "clearAnimationOnExit" | "style"
-> & {
+type AnimationWrapperProps = Omit<AnimationContainerWrapperProps, "children"> & {
   index: number;
   show: boolean;
   children: ReactElement;
-  options?: KeyframeAnimationOptions;
-  onAnimationStart?: () => void;
-  onAnimationEnd?: () => void;
 };
+
+const fallbackDuration = 300;
 
 export const AnimationWrapper = ({
   index,
@@ -20,36 +17,66 @@ export const AnimationWrapper = ({
   children,
   onMount = [],
   onUnmount,
-  options = {},
+  mountOptions = {},
+  unmountOptions = mountOptions,
+  animation,
+  animationOptions = {},
+  onMountAnimationStart,
+  onMountAnimationEnd,
+  onUnmountAnimationStart,
+  onUnmountAnimationEnd,
   onAnimationStart,
   onAnimationEnd,
-  clearAnimationOnExit,
+  clearLifeCycleAnimationOnExitRef,
+  clearAnimationOnExitRef,
   style,
+  disableLifeCycleAnimations,
+  disableAnimation,
 }: AnimationWrapperProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [removeState, setRemove] = useState(!show);
+  const lifeCycleAnimationRef = useRef<Animation>();
+  const previousLifeCycleAnimationRefs = useRef<Animation[]>([]);
   const animationRef = useRef<Animation>();
-  const previousAnimationRefs = useRef<Animation[]>([]);
   const initialized = useRef(false);
   const stoppedFrame = useRef<number>(0);
+  useAnimation({
+    animation,
+    removeState,
+    elementRef,
+    onAnimationStart,
+    onAnimationEnd,
+    fallbackDuration,
+    animationOptions,
+    animationRef,
+    disableAnimation,
+  });
 
-  clearAnimationOnExit.current[index] = () => {
-    animationRef.current?.cancel();
-    previousAnimationRefs.current.forEach((animationRef) => {
-      animationRef.cancel();
+  clearLifeCycleAnimationOnExitRef.current[index] = () => {
+    lifeCycleAnimationRef.current?.cancel();
+    previousLifeCycleAnimationRefs.current.forEach((lifeCycleAnimationRef) => {
+      lifeCycleAnimationRef.cancel();
     });
   };
 
+  clearAnimationOnExitRef.current[index] = () => {
+    animationRef.current?.cancel();
+  };
+
   useEffect(() => {
+    if (disableLifeCycleAnimations) {
+      return;
+    }
+
     const childElement = elementRef.current;
     const shouldReverseOnUnmount = !onUnmount;
 
     const setAnimationRef = ({ animation }: { animation: Animation }) => {
-      animationRef.current = animation;
-      previousAnimationRefs.current.forEach((animation) => {
+      lifeCycleAnimationRef.current = animation;
+      previousLifeCycleAnimationRefs.current.forEach((animation) => {
         animation.cancel();
       });
-      previousAnimationRefs.current = [];
+      previousLifeCycleAnimationRefs.current = [];
     };
 
     if (show) {
@@ -57,8 +84,6 @@ export const AnimationWrapper = ({
       if (!childElement) {
         return;
       }
-
-      onAnimationStart?.();
 
       const currentFrames = shouldReverseOnUnmount
         ? continueReversedStoppedAnimation({
@@ -69,13 +94,18 @@ export const AnimationWrapper = ({
           })
         : onMount;
 
+      onMountAnimationStart?.();
+
       const animation = childElement.animate(currentFrames, {
-        duration: 300,
-        ...options,
+        duration: fallbackDuration,
+        ...mountOptions,
         fill: "forwards",
       });
 
       setAnimationRef({ animation });
+      animation.onfinish = () => {
+        onMountAnimationEnd?.();
+      };
       initialized.current = true;
     } else {
       if (!childElement) {
@@ -91,9 +121,11 @@ export const AnimationWrapper = ({
           })
         : onUnmount;
 
+      onUnmountAnimationStart?.();
+
       const animation = childElement.animate(currentFrames, {
-        duration: 300,
-        ...options,
+        duration: fallbackDuration,
+        ...unmountOptions,
         fill: "forwards",
       });
 
@@ -101,25 +133,25 @@ export const AnimationWrapper = ({
       animation.onfinish = () => {
         initialized.current = false;
         setRemove(true);
-        onAnimationEnd?.();
+        onUnmountAnimationEnd?.();
       };
     }
 
     return () => {
-      animationRef.current?.pause();
-      if (animationRef.current) {
-        previousAnimationRefs.current.push(animationRef.current);
+      lifeCycleAnimationRef.current?.pause();
+      if (lifeCycleAnimationRef.current) {
+        previousLifeCycleAnimationRefs.current.push(lifeCycleAnimationRef.current);
       }
 
-      if (animationRef.current && shouldReverseOnUnmount) {
+      if (lifeCycleAnimationRef.current && shouldReverseOnUnmount) {
         const currentFrames = show
           ? onMount
           : onUnmount || reverseKeyframes({ keyframes: onMount });
-        const duration = Number(options.duration ?? 300);
+        const duration = Number(mountOptions.duration ?? fallbackDuration);
         const currentFramesAmount = currentFrames.length;
 
         const lastFrame = detectStoppedFrame({
-          animation: animationRef.current,
+          animation: lifeCycleAnimationRef.current,
           duration,
           keyframesAmount: currentFramesAmount,
         });
@@ -129,11 +161,13 @@ export const AnimationWrapper = ({
     };
   }, [show, removeState]);
 
+  if (removeState) {
+    return null;
+  }
+
   return (
-    !removeState && (
-      <div ref={elementRef} style={style}>
-        {children}
-      </div>
-    )
+    <div ref={elementRef} style={style}>
+      {children}
+    </div>
   );
 };

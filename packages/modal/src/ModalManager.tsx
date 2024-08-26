@@ -6,10 +6,15 @@ import {
 } from "@packages/animation-container";
 
 type ModalManagerProps = Partial<
-  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "options">
+  Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">
 >;
 
-export const ModalManager = ({ onMount, onUnmount, options }: ModalManagerProps) => {
+export const ModalManager = ({
+  onMount,
+  onUnmount,
+  mountOptions,
+  unmountOptions,
+}: ModalManagerProps) => {
   const [modals, setModals] = useState<ModalDisplayProps[]>([]);
   const modalIds = useRef<Set<string>>(new Set());
 
@@ -68,7 +73,8 @@ export const ModalManager = ({ onMount, onUnmount, options }: ModalManagerProps)
         ]
       }
       onUnmount={onUnmount}
-      options={options ?? { duration: 300 }}
+      mountOptions={mountOptions ?? { duration: 300 }}
+      unmountOptions={unmountOptions}
       changeMethod="fullPhase"
     >
       {modals.map(({ id, content }) => {

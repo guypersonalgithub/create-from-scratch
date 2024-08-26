@@ -147,7 +147,7 @@ const Test = () => {
             <AnimationContainerWrapper
               key={c}
               onMount={[{ opacity: 0 }, { opacity: 1 }]}
-              options={{ duration: (index + 1) * 300 }}
+              mountOptions={{ duration: (index + 1) * 300 }}
               changeMethod="gradual"
             >
               {curr.map((cu) => {

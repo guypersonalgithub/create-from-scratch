@@ -7,15 +7,16 @@ import { UnmountContext } from "./AnimationContainerUnmountWrapper/unmountContex
 
 export const AnimationContainerWrapper = ({
   children,
-  onMount,
-  onUnmount,
-  options,
-  style,
   changeMethod,
-}: Omit<AnimationContainerWrapperProps, "clearAnimationOnExit"> & {
+  ...rest
+}: Omit<
+  AnimationContainerWrapperProps,
+  "clearLifeCycleAnimationOnExitRef" | "clearAnimationOnExitRef"
+> & {
   changeMethod: "gradual" | "fullPhase";
 }) => {
   const wrapper = useContext(UnmountContext);
+  const clearLifeCycleAnimationOnExitRef = useRef<(() => void)[]>([]);
   const clearAnimationOnExitRef = useRef<(() => void)[]>([]);
   const { isDev } = useIsDev();
 
@@ -24,6 +25,10 @@ export const AnimationContainerWrapper = ({
       if (isDev) {
         return;
       }
+
+      clearLifeCycleAnimationOnExitRef.current?.forEach((clearCallback) => {
+        clearCallback();
+      });
 
       clearAnimationOnExitRef.current?.forEach((clearCallback) => {
         clearCallback();
@@ -38,14 +43,12 @@ export const AnimationContainerWrapper = ({
   if (!Array.isArray(children)) {
     return (
       <SingleChildContainerWrapper
-        onMount={onMount}
-        onUnmount={onUnmount}
-        options={options}
-        clearAnimationOnExit={clearAnimationOnExitRef}
-        style={style}
+        clearLifeCycleAnimationOnExitRef={clearLifeCycleAnimationOnExitRef}
+        clearAnimationOnExitRef={clearAnimationOnExitRef}
         isUnmounted={!!wrapper?.isUnmounted}
         finishedAnimation={wrapper?.finishedAnimation}
         changeMethod={changeMethod}
+        {...rest}
       >
         {children}
       </SingleChildContainerWrapper>
@@ -54,14 +57,12 @@ export const AnimationContainerWrapper = ({
 
   return (
     <MultiChildrenContainerWrapper
-      onMount={onMount}
-      onUnmount={onUnmount}
-      options={options}
-      clearAnimationOnExit={clearAnimationOnExitRef}
-      style={style}
+      clearLifeCycleAnimationOnExitRef={clearLifeCycleAnimationOnExitRef}
+      clearAnimationOnExitRef={clearAnimationOnExitRef}
       isUnmounted={!!wrapper?.isUnmounted}
       finishedAnimation={wrapper?.finishedAnimation}
       changeMethod={changeMethod}
+      {...rest}
     >
       {children}
     </MultiChildrenContainerWrapper>

@@ -24,32 +24,32 @@ export const SingleChildContainerWrapper = ({
 
 const FullPhase = ({
   children,
-  onMount,
-  onUnmount,
-  options,
-  clearAnimationOnExit,
-  style,
+  onUnmountAnimationEnd,
   isUnmounted,
   finishedAnimation,
+  ...rest
 }: Omit<SingleChildContainerWrapperProps, "changeMethod">) => {
   const [currentChild, setCurrentChild] = useState<ReactElement>(children);
   const currentChildKey = useRef<string | null>(children.key);
   const keyAlreadyExists = currentChildKey.current === children.key;
 
+  useEffect(() => {
+    if (!rest.onMount && !rest.onUnmount) {
+      setCurrentChild(children);
+    }
+  }, [children]);
+
   return (
     <AnimationWrapper
       index={0}
       show={isUnmounted ? false : keyAlreadyExists}
-      onMount={onMount}
-      onUnmount={onUnmount}
-      options={options}
-      onAnimationEnd={() => {
+      onUnmountAnimationEnd={() => {
         setCurrentChild(children);
         currentChildKey.current = children.key;
         finishedAnimation?.();
+        onUnmountAnimationEnd?.();
       }}
-      clearAnimationOnExit={clearAnimationOnExit}
-      style={style}
+      {...rest}
     >
       <div style={{ height: "inherit", width: "inherit" }}>{currentChild}</div>
     </AnimationWrapper>
@@ -58,13 +58,10 @@ const FullPhase = ({
 
 const Gradual = ({
   children,
-  onMount,
-  onUnmount,
-  options,
-  clearAnimationOnExit,
-  style,
+  onUnmountAnimationEnd,
   isUnmounted,
   finishedAnimation,
+  ...rest
 }: Omit<SingleChildContainerWrapperProps, "changeMethod">) => {
   const [currentChildren, setCurrentChildren] = useState<ReactElement[]>([children]);
   const [childrenKeys, setChildrenKeys] = useState(getChildKeys({ children: [children] }));
@@ -91,7 +88,7 @@ const Gradual = ({
     setChildrenKeys(getChildKeys({ children: [children] }));
   }, [children]);
 
-  const removeCurrentChild = (child: ReactElement) => {
+  const removeCurrentChild = ({ child }: { child: ReactElement }) => {
     const key = child.key;
     setCurrentChildren((prev) => {
       return prev.filter((curr) => {
@@ -110,15 +107,12 @@ const Gradual = ({
         key={child.key}
         index={index}
         show={isUnmounted ? false : keyAlreadyExists}
-        onMount={onMount}
-        onUnmount={onUnmount}
-        options={options}
-        onAnimationEnd={() => {
-          removeCurrentChild(child);
+        onUnmountAnimationEnd={() => {
+          removeCurrentChild({ child });
           finishedAnimation?.();
+          onUnmountAnimationEnd?.();
         }}
-        clearAnimationOnExit={clearAnimationOnExit}
-        style={style}
+        {...rest}
       >
         <div style={{ height: "inherit", width: "inherit" }}>{child}</div>
       </AnimationWrapper>
