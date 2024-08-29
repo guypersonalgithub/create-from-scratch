@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState, isValidElement } from "react";
 import { RouterPathGuard, RouterPaths } from "./types";
 import { useInnerRouteParams } from "./useRouterParams";
 import { grabFirstPath } from "./utils";
+import { RouterContext } from "./routerContext";
 
 type RouterProps = {
   paths: RouterPaths;
@@ -69,5 +70,9 @@ export const Router = ({ paths }: RouterProps) => {
     return isValidElement(currentStage["/"]) ? currentStage["/"] : null;
   };
 
-  return <div>{getCurrentRoute()}</div>;
+  return (
+    <RouterContext.Provider value={true}>
+      <div>{getCurrentRoute()}</div>
+    </RouterContext.Provider>
+  );
 };

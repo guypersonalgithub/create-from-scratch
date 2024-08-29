@@ -1,0 +1,2 @@
+- Improve the VirtualList and VaryingVirtualList components - both in logic and performance/efficiency.
+- Consider adding x axis virtual lists aswell / x axis support to the existing list components (optional).

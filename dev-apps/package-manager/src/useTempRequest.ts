@@ -30,7 +30,7 @@ type AttachMetadataArgs = {
 
 export const useTempRequest = () => {
   const [data, setData] = useState<Data | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [isLoadingVersions, setIsLoadingVersions] = useState(false);
   const [isErrorVersions, setIsErrorVersions] = useState(false);

@@ -152,7 +152,7 @@ const MainRouteTable = () => {
           moveTo({
             pathname: window.location.pathname,
             queryParams: tab === "all" ? undefined : { tab },
-            overrideSpecificParams: ["tab"],
+            overrideSpecificParams: ["tab", "pagination"],
           });
         }}
       />

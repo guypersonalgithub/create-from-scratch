@@ -1,5 +1,9 @@
 - Create a button component.
 - Create an input component.
 - Create a popover component.
-- Create a virtual list component.
 - Create accordion component.
+- Create dropdown component.
+- Create sidebar component.
+- Create a sliding button component.
+- Create a checkbox component.
+- Create a typeahead component.

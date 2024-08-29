@@ -1,8 +1,6 @@
 import { useEffect } from "react";
-import { useRouteParams } from "@packages/router";
 
 export const RouteParam = () => {
-  const params = useRouteParams();
 
   useEffect(() => {
     return () => {

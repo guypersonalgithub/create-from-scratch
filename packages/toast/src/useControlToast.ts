@@ -24,5 +24,6 @@ export const useControlToast = () => {
   return {
     showToast,
     hideToast,
+    id,
   };
 };

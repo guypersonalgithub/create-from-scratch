@@ -6,4 +6,5 @@ export type ConfigProperties = {
   includeFilesPattern?: string;
   excludeFilesPattern?: string;
   noNesting?: boolean;
+  packageIdentifiers?: string[];
 };

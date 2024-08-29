@@ -192,6 +192,9 @@ services:
         source: ./packages/environment
         target: /usr/src/app/packages/environment
       - type: bind
+        source: ./packages/design-patterns
+        target: /usr/src/app/packages/design-patterns
+      - type: bind
         source: ./packages/request
         target: /usr/src/app/packages/request
       - type: bind

@@ -13,6 +13,7 @@ type IterateOverAllFilesArgs = {
   includePattern?: RegExp;
   excludePattern?: RegExp;
   noNesting?: boolean;
+  packageIdentifiers?: string[];
   skipFilesAndFolders: string[];
   parsedLockFile: {
     packages: Record<
@@ -35,6 +36,7 @@ export const iterateOverAllFiles = ({
   includePattern,
   excludePattern,
   noNesting,
+  packageIdentifiers,
   skipFilesAndFolders,
   parsedLockFile,
 }: IterateOverAllFilesArgs) => {
@@ -86,6 +88,7 @@ export const iterateOverAllFiles = ({
         includePattern,
         excludePattern,
         noNesting,
+        packageIdentifiers,
         skipFilesAndFolders,
         parsedLockFile,
       });
@@ -124,6 +127,7 @@ export const iterateOverAllFiles = ({
         dependencyType,
         dependenciesMap,
         parsedLockFile,
+        packageIdentifiers,
       });
     });
   }

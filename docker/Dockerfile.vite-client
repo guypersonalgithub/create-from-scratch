@@ -19,6 +19,7 @@ COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/pack
 COPY ./packages/router/package.json ./packages/router/package.json
 COPY ./packages/url/package.json ./packages/url/package.json
 COPY ./packages/environment/package.json ./packages/environment/package.json
+COPY ./packages/design-patterns/package.json ./packages/design-patterns/package.json
 COPY ./packages/request/package.json ./packages/request/package.json
 
 
@@ -48,6 +49,7 @@ COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
+COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/request ./packages/request
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "dev"]
@@ -79,6 +81,7 @@ COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
+COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/request ./packages/request
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "build"]
@@ -110,6 +113,7 @@ COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
+COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/request ./packages/request
 COPY ./packages/cypress ./packages/cypress
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

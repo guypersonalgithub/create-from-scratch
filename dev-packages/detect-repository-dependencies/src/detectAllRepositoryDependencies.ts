@@ -8,7 +8,14 @@ import { detectRepositoryPackageManager } from "@packages/package-manager";
 export const detectAllRepositoryDependencies = () => {
   const projectAbsolutePath = getProjectAbsolutePath();
   const config = getConfigFileData({ projectAbsolutePath });
-  const { include, exclude, includeFilesPattern, excludeFilesPattern, noNesting } = config;
+  const {
+    include,
+    exclude,
+    includeFilesPattern,
+    excludeFilesPattern,
+    noNesting,
+    packageIdentifiers,
+  } = config;
 
   const { lock } = detectRepositoryPackageManager();
   const lockFile = getFile({ path: `${projectAbsolutePath}/${lock}` });
@@ -43,6 +50,7 @@ export const detectAllRepositoryDependencies = () => {
     includePattern,
     excludePattern,
     noNesting,
+    packageIdentifiers,
     skipFilesAndFolders,
     parsedLockFile,
   });

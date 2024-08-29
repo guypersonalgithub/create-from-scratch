@@ -1,0 +1,3 @@
+- Create a client sided caching management system for requests with the observer class.
+- Improve the observer class.
+- Add dedicated hooks.

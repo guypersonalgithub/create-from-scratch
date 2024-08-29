@@ -1,0 +1,1 @@
+- Support updating vite config on local package uninstall.

@@ -15,6 +15,7 @@ type FillDependenciesMapArgs = {
       }
     >;
   };
+  packageIdentifiers?: string[];
 };
 
 export const fillDependenciesMap = ({
@@ -24,6 +25,7 @@ export const fillDependenciesMap = ({
   dependencyType,
   dependenciesMap,
   parsedLockFile,
+  packageIdentifiers = [],
 }: FillDependenciesMapArgs) => {
   for (const dependency in dependencies) {
     const dependencyVersion = dependencies[dependency];
@@ -34,7 +36,17 @@ export const fillDependenciesMap = ({
       };
     }
 
-    const isLocal = !!parsedLockFile.packages?.[`node_modules/${dependency}`]?.link;
+    const packageLockDependencyData = parsedLockFile.packages?.[`node_modules/${dependency}`];
+    const isLinked = !!packageLockDependencyData?.link;
+    const isIdentifiedAsLocal =
+      packageIdentifiers.length > 0
+        ? !!packageIdentifiers.find(
+            (identifier) =>
+              packageLockDependencyData?.resolved?.includes(identifier) ||
+              dependency.includes(identifier),
+          )
+        : true;
+    const isLocal = isLinked && isIdentifiedAsLocal;
 
     dependenciesMap[dependency].data[fullPathWithFile] = {
       version: dependencyVersion,

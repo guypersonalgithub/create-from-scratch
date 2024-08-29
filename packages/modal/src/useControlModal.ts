@@ -24,5 +24,6 @@ export const useControlModal = () => {
   return {
     openModal,
     closeModal,
+    id,
   };
 };

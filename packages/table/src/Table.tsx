@@ -17,6 +17,7 @@ type TableProps<T> = {
     isError: boolean;
     amountOfRows?: number;
   };
+  onRowClick?: (data: T) => void;
   columns: Column<T>[];
   rows?: {
     headerRow?: Size | ClassName;
@@ -43,6 +44,7 @@ type ClassName = {
 export const Table = <T extends Record<string, unknown>>({
   data = [],
   requestData,
+  onRowClick,
   columns,
   rows,
   headerContainer,
@@ -93,7 +95,9 @@ export const Table = <T extends Record<string, unknown>>({
                 alignItems: "center",
                 width: "100%",
                 height: dataRow?.size ? `${dataRow.size}px` : undefined,
+                cursor: onRowClick ? "pointer" : "default",
               }}
+              onClick={() => onRowClick?.(row)}
               className={dataRow?.className}
             >
               {columns.map((column, colIndex) => {

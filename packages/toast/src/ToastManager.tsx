@@ -90,7 +90,7 @@ export const ToastManager = ({
         left: "50%",
         transform: "translateX(-50%)",
       }}
-      changeMethod="fullPhase"
+      changeMethod="gradual"
     >
       {toasts.map(({ id, content }, index) => {
         return (

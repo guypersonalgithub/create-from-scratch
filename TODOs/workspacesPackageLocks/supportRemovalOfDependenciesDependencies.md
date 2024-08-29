@@ -1,0 +1,1 @@
+- Support forcing an update when the dependencies of the dependencies change.

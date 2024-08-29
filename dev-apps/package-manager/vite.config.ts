@@ -38,6 +38,10 @@ export default defineConfig({
         "__dirname",
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "packages/design-patterns": path.resolve(
+        "__dirname",
+        "../../packages/design-patterns/src/index.ts",
+      ),
     },
   },
 });
