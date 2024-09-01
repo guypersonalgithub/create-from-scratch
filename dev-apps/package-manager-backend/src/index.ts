@@ -87,18 +87,14 @@ app.get("/latest", async (req, res) => {
   }
 });
 
-app.get("/versions", async (req, res) => {
+app.get("/metadata", async (req, res) => {
   try {
-    const { packageNames } = req.query;
-    if (!(Array.isArray(packageNames) && packageNames.every((item) => typeof item === "string"))) {
-      throw new Error("Missing package names!");
+    const { packageName } = req.query;
+    if (!packageName || typeof packageName !== "string") {
+      throw new Error("Incorrect package name!");
     }
 
-    const data = await Promise.all(
-      packageNames.map((packageName) => {
-        return getPackageVersions({ packageName });
-      }),
-    );
+    const data = await getPackageVersions({ packageName });
     res.send({ data });
   } catch (error) {
     console.error(error);

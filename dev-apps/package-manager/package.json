@@ -22,7 +22,9 @@
     "@packages/loading": "*",
     "@packages/request": "*",
     "@packages/date": "*",
-    "@packages/tabs": "*"
+    "@packages/tabs": "*",
+    "@packages/checkbox": "*",
+    "@packages/typeahead": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

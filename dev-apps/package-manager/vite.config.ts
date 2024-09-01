@@ -42,6 +42,13 @@ export default defineConfig({
         "__dirname",
         "../../packages/design-patterns/src/index.ts",
       ),
+      "packages/checkbox": path.resolve("__dirname", "../../packages/checkbox/src/index.ts"),
+      "packages/typeahead": path.resolve("__dirname", "../../packages/typeahead/src/index.ts"),
+      "packages/virtual-list": path.resolve(
+        "__dirname",
+        "../../packages/virtual-list/src/index.ts",
+      ),
+      "packages/input": path.resolve("__dirname", "../../packages/input/src/index.ts"),
     },
   },
 });

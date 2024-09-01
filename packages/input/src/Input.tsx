@@ -1,20 +1,29 @@
-import { ButtonHTMLAttributes, CSSProperties, ReactNode, useState } from "react";
+import { CSSProperties, InputHTMLAttributes, useState } from "react";
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  children: ReactNode;
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  externalState?: {
+    value: string;
+    onChange: (value: string) => void;
+  };
   onFocusCSS?: () => CSSProperties;
   onHoverCSS?: () => CSSProperties;
 };
 
-export const Button = ({ children, onFocusCSS, onHoverCSS, ...rest }: ButtonProps) => {
+export const Input = ({ externalState, onFocusCSS, onHoverCSS, ...rest }: InputProps) => {
+  const [value, setValue] = useState<string>((rest.value as string) ?? "");
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const onFocusStyle: CSSProperties = isFocused && onFocusCSS ? onFocusCSS() : {};
   const onHoverStyle: CSSProperties = isHovered && onHoverCSS ? onHoverCSS() : {};
 
   return (
-    <button
+    <input
       {...rest}
+      value={externalState?.value ?? value}
+      onChange={(e) => {
+        rest.onChange?.(e);
+        (externalState?.onChange ?? setValue)(e.target.value);
+      }}
       onFocus={(e) => {
         rest.onFocus?.(e);
         setIsFocused(true);
@@ -29,8 +38,6 @@ export const Button = ({ children, onFocusCSS, onHoverCSS, ...rest }: ButtonProp
         ...onFocusStyle,
         ...onHoverStyle,
       }}
-    >
-      {children}
-    </button>
+    />
   );
 };

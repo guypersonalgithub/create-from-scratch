@@ -1,12 +1,14 @@
 import { ReactNode, useRef, useState, useEffect, useCallback } from "react";
 
+// TODO: Add support for a single ReactNode child.
+
 type VirtualListProps = {
-  items: ReactNode[];
+  children: ReactNode[];
   itemHeight: number;
   containerHeight: number;
 };
 
-export const VirtualList = ({ items, itemHeight, containerHeight }: VirtualListProps) => {
+export const VirtualList = ({ children, itemHeight, containerHeight }: VirtualListProps) => {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [visibleItems, setVisibleItems] = useState<ReactNode[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,15 +19,15 @@ export const VirtualList = ({ items, itemHeight, containerHeight }: VirtualListP
   const buffer = 20;
 
   const startIndex = Math.max(0, Math.floor(scrollOffset / itemHeight) - buffer);
-  const endIndex = Math.min(items.length - 1, startIndex + visibleItemCount + buffer * 2);
+  const endIndex = Math.min(children.length - 1, startIndex + visibleItemCount + buffer * 2);
 
   const updateVisibleItems = useCallback(() => {
-    setVisibleItems(items.slice(startIndex, endIndex + 1));
-  }, [startIndex, endIndex, items]);
+    setVisibleItems(children.slice(startIndex, endIndex + 1));
+  }, [startIndex, endIndex, children]);
 
   useEffect(() => {
     updateVisibleItems();
-  }, [startIndex, endIndex, items, updateVisibleItems]);
+  }, [startIndex, endIndex, children, updateVisibleItems]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -49,7 +51,7 @@ export const VirtualList = ({ items, itemHeight, containerHeight }: VirtualListP
     };
   }, [updateVisibleItems]);
 
-  const placeholderHeight = Math.max(items.length * itemHeight, containerHeight);
+  const placeholderHeight = Math.max(children.length * itemHeight, containerHeight);
 
   return (
     <div
@@ -66,7 +68,7 @@ export const VirtualList = ({ items, itemHeight, containerHeight }: VirtualListP
           position: "relative",
         }}
       >
-        {visibleItems.map((item, index) => (
+        {visibleItems.map((child, index) => (
           <div
             key={startIndex + index}
             style={{
@@ -76,7 +78,7 @@ export const VirtualList = ({ items, itemHeight, containerHeight }: VirtualListP
               top: `${(startIndex + index) * itemHeight}px`,
             }}
           >
-            {item}
+            {child}
           </div>
         ))}
       </div>

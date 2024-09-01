@@ -1,0 +1,1 @@
+- Add input variants based off the input type.

@@ -1,24 +1,32 @@
 import { useRef, useState, useEffect, ReactNode, CSSProperties } from "react";
 
+// TODO: Add support for a single ReactNode child.
+
 type ItemProps = {
   index: number;
   measure: (index: number, height: number) => void;
+  height: number;
   style: CSSProperties;
   children: ReactNode;
 };
 
 type VirtualListProps = {
-  items: ReactNode[];
+  children: ReactNode[];
   containerHeight: number;
   bufferSize?: number;
+  fallbackHeight?: number;
 };
 
-const Item = ({ index, measure, style, children }: ItemProps) => {
+const Item = ({ index, measure, height, style, children }: ItemProps) => {
   const itemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (itemRef.current) {
       const observer = new ResizeObserver(([entry]) => {
+        if (height === entry.contentRect.height) {
+          return;
+        }
+
         if (entry && entry.contentRect.height) {
           measure(index, entry.contentRect.height);
         }
@@ -40,9 +48,10 @@ const Item = ({ index, measure, style, children }: ItemProps) => {
 };
 
 export const VaryingVirtualList = ({
-  items,
+  children,
   containerHeight,
   bufferSize = 5,
+  fallbackHeight = 100,
 }: VirtualListProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [itemHeights, setItemHeights] = useState<number[]>([]);
@@ -59,23 +68,23 @@ export const VaryingVirtualList = ({
     let end = 0;
 
     let accumulatedHeight = 0;
-    while (start < items.length && accumulatedHeight + itemHeights[start] < scrollOffset) {
+    while (start < children.length && accumulatedHeight + itemHeights[start] < scrollOffset) {
       accumulatedHeight += itemHeights[start];
       start++;
     }
 
     end = start;
     accumulatedHeight = accumulatedHeight + itemHeights[start];
-    while (end < items.length && accumulatedHeight < scrollOffset + containerHeight) {
+    while (end < children.length && accumulatedHeight < scrollOffset + containerHeight) {
       accumulatedHeight += itemHeights[end];
       end++;
     }
 
     start = Math.max(0, start - bufferSize);
-    end = Math.min(items.length - 1, end + bufferSize);
+    end = Math.min(children.length - 1, end + bufferSize);
 
     setVisibleRange({ start, end });
-  }, [scrollOffset, containerHeight, itemHeights, bufferSize, items.length]);
+  }, [scrollOffset, containerHeight, itemHeights, bufferSize, children.length]);
 
   useEffect(() => {
     const currentContainer = containerRef.current;
@@ -98,10 +107,10 @@ export const VaryingVirtualList = ({
   }, []);
 
   useEffect(() => {
-    if (items.length > 0 && itemHeights.length === 0) {
-      setItemHeights(new Array(items.length).fill(100));
+    if (children.length > 0 && itemHeights.length === 0) {
+      setItemHeights(children.map(() => fallbackHeight));
     }
-  }, [items.length]);
+  }, [children.length, fallbackHeight]);
 
   return (
     <div
@@ -110,6 +119,8 @@ export const VaryingVirtualList = ({
         height: `${containerHeight}px`,
         overflowY: "auto",
         position: "relative",
+        opacity: children.length > 0 ? 1 : 0,
+        pointerEvents: children.length > 0 ? "all" : "none",
       }}
     >
       <div
@@ -118,27 +129,33 @@ export const VaryingVirtualList = ({
           position: "relative",
         }}
       >
-        {items.slice(visibleRange.start, visibleRange.end + 1).map((item, index) => (
-          <Item
-            key={visibleRange.start + index}
-            index={visibleRange.start + index}
-            measure={(index, height) => {
-              setItemHeights((prevHeights) => {
-                const newHeights = [...prevHeights];
-                newHeights[index] = height;
-                return newHeights;
-              });
-            }}
-            style={{
-              position: "absolute",
-              top: `${itemHeights.slice(0, visibleRange.start + index).reduce((acc, h) => acc + h, 0)}px`,
-              left: 0,
-              right: 0,
-            }}
-          >
-            {item}
-          </Item>
-        ))}
+        {children.slice(visibleRange.start, visibleRange.end + 1).map((child, index) => {
+          const realIndex = visibleRange.start + index;
+          const top = itemHeights.slice(0, realIndex).reduce((acc, h) => acc + h, 0);
+
+          return (
+            <Item
+              key={realIndex}
+              index={realIndex}
+              measure={(index, height) => {
+                setItemHeights((prevHeights) => {
+                  const newHeights = [...prevHeights];
+                  newHeights[index] = height;
+                  return newHeights;
+                });
+              }}
+              height={itemHeights[realIndex]}
+              style={{
+                position: "absolute",
+                top: `${top}px`,
+                left: 0,
+                right: 0,
+              }}
+            >
+              {child}
+            </Item>
+          );
+        })}
       </div>
     </div>
   );

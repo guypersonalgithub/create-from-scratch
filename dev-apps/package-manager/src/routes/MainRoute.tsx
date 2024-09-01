@@ -280,6 +280,12 @@ const MainRouteTable = () => {
             },
           },
         }}
+        onRowClick={(row) => {
+          moveTo({
+            pathname: `/dependency/${encodeURIComponent(row.name)}`,
+            overrideParams: true,
+          });
+        }}
       />
     </>
   );

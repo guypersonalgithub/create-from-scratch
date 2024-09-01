@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { LatestVersion } from "@packages/detect-repository-dependencies-types";
+import type { LatestVersion, NPMRegistry } from "@packages/detect-repository-dependencies-types";
 import { sendAbortableRequest, sendRequest } from "@packages/request";
 import { getDisplayedRows } from "@packages/table";
 import { getQueryParams } from "@packages/router";
@@ -173,5 +173,52 @@ export const useTempRequest = () => {
     fetchMetadata,
     isLoadingVersions,
     isErrorVersions,
+  };
+};
+
+type UseFetchMetadataProps = {
+  packageName?: string;
+};
+
+export const useFetchMetadata = ({ packageName }: UseFetchMetadataProps) => {
+  const [data, setData] = useState<NPMRegistry | undefined>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    if (data || !packageName) {
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        setIsError(false);
+
+        const { data } = await sendRequest<{ data: NPMRegistry }>({
+          url: `http://localhost:${import.meta.env.VITE_BACK_PORT}/metadata`,
+          params: {
+            packageName,
+          },
+          fallback: {
+            data: {} as NPMRegistry,
+          },
+        });
+
+        setData(data);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [packageName]);
+
+  return {
+    data,
+    isLoading,
+    isError,
   };
 };

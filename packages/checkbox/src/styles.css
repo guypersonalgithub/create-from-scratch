@@ -1,0 +1,77 @@
+.custom-checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding: 4px; /* optional padding for better click target */
+  }
+  
+  .custom-checkbox-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Default unchecked state */
+  .custom-checkbox-mark {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 4px; /* Rounded corners, change to 50% for circular checkboxes */
+    transition: background-color 0.3s, border-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Checked state with a different appearance */
+  .custom-checkbox-input:checked + .custom-checkbox-mark {
+    background-color: #4caf50; /* Change the background color when checked */
+    border-color: #4caf50; /* Optional: match the border to the background */
+  }
+  
+  /* Custom check mark icon (you can use :after for additional designs) */
+  .custom-checkbox-mark::after {
+    content: '';
+    position: absolute;
+    display: none;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+  
+  /* Show check mark when checkbox is checked */
+  .custom-checkbox-input:checked + .custom-checkbox-mark::after {
+    display: block;
+  }
+  
+  /* Optional animation for checked state */
+  .custom-checkbox-input:checked + .custom-checkbox-mark {
+    animation: checkmark-pop 0.3s ease;
+  }
+  
+  @keyframes checkmark-pop {
+    0% {
+      transform: scale(0.8);
+    }
+    70% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Label styles */
+  .custom-checkbox-label {
+    margin-left: 8px;
+    font-size: 14px;
+    color: #333;
+  }
