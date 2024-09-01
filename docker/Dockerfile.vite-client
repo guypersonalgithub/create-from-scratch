@@ -3,8 +3,6 @@ WORKDIR /usr/src/app
 COPY ./apps/vite-client/package.json ./package.json
 COPY ./apps/vite-client/package-lock.json ./package-lock.json
 COPY ./apps/vite-client/package.json ./apps/vite-client/package.json
-COPY ./packages/test/package.json ./packages/test/package.json
-COPY ./packages/test-dependency/package.json ./packages/test-dependency/package.json
 COPY ./packages/shared-types/package.json ./packages/shared-types/package.json
 COPY ./packages/micro-frontends/package.json ./packages/micro-frontends/package.json
 COPY ./packages/get-fps/package.json ./packages/get-fps/package.json
@@ -33,8 +31,6 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 USER node
 COPY --chown=node:node ./apps/vite-client ./
-COPY ./packages/test ./packages/test
-COPY ./packages/test-dependency ./packages/test-dependency
 COPY ./packages/shared-types ./packages/shared-types
 COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/get-fps ./packages/get-fps
@@ -65,8 +61,6 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm ci --only=production
 USER node
 COPY --chown=node:node ./apps/vite-client ./
-COPY ./packages/test ./packages/test
-COPY ./packages/test-dependency ./packages/test-dependency
 COPY ./packages/shared-types ./packages/shared-types
 COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/get-fps ./packages/get-fps
@@ -97,8 +91,6 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 USER node
 COPY --chown=node:node ./apps/vite-client ./
-COPY ./packages/test ./packages/test
-COPY ./packages/test-dependency ./packages/test-dependency
 COPY ./packages/shared-types ./packages/shared-types
 COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/get-fps ./packages/get-fps

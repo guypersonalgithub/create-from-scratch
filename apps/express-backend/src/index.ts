@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import { testing } from "@packages/test";
 import { ReturnedData } from "@packages/shared-types";
 import {
   createTables,
@@ -20,7 +19,7 @@ app.use(cors(corsOptions));
 app.get("/", (req, res) => {
   const data: ReturnedData = {
     prop1: "test",
-    prop2: testing(),
+    prop2: 0,
   };
 
   res.send(data);

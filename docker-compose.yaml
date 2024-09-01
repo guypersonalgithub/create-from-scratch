@@ -49,12 +49,6 @@ services:
         source: ./packages/shared-types
         target: /usr/src/app/packages/shared-types
       - type: bind
-        source: ./packages/test
-        target: /usr/src/app/packages/test
-      - type: bind
-        source: ./packages/test-dependency
-        target: /usr/src/app/packages/test-dependency
-      - type: bind
         source: ./packages/express-postgres-db
         target: /usr/src/app/packages/express-postgres-db
       - type: bind
@@ -85,12 +79,6 @@ services:
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
-      - type: bind
-        source: ./packages/test
-        target: /usr/src/app/packages/test
-      - type: bind
-        source: ./packages/test-dependency
-        target: /usr/src/app/packages/test-dependency
     networks:
       - frontend
     ports:
@@ -114,12 +102,6 @@ services:
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
-      - type: bind
-        source: ./packages/test
-        target: /usr/src/app/packages/test
-      - type: bind
-        source: ./packages/test-dependency
-        target: /usr/src/app/packages/test-dependency
     networks:
       - frontend
     ports:
@@ -143,12 +125,6 @@ services:
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
-      - type: bind
-        source: ./packages/test
-        target: /usr/src/app/packages/test
-      - type: bind
-        source: ./packages/test-dependency
-        target: /usr/src/app/packages/test-dependency
       - type: bind
         source: ./packages/shared-types
         target: /usr/src/app/packages/shared-types

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import { testing } from "@packages/test";
 import { useRequestExample } from "./hooks";
 import { PostMessage } from "./PostMessage";
 import { useFPS } from "@packages/get-fps";
@@ -17,8 +16,6 @@ export const MainRoute = () => {
   const [test, setTest] = useState(["test", "test1", "test2"]);
   useRequestExample();
   const fps = useFPS();
-
-  const response = testing();
 
   const switchTest = () => {
     setTest((previous) => {
@@ -49,7 +46,6 @@ export const MainRoute = () => {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <div className="card">Received from another package: {response}</div>
       <div className="card">{fps.FPS}</div>
       <Tooltip
         content={

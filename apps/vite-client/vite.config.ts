@@ -13,11 +13,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "packages/test": path.resolve("__dirname", "../../packages/test/src/index.ts"),
-      "packages/test-dependency": path.resolve(
-        "__dirname",
-        "../../packages/test-dependency/src/index.ts",
-      ),
       "packages/shared-types": path.resolve(
         "__dirname",
         "../../packages/shared-types/src/index.ts",

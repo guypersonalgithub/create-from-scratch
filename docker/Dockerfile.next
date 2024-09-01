@@ -3,8 +3,6 @@ WORKDIR /usr/src/app
 COPY ./apps/next/package.json ./package.json
 COPY ./apps/next/package-lock.json ./package-lock.json
 COPY ./apps/next/package.json ./apps/next/package.json
-COPY ./packages/test/package.json ./packages/test/package.json
-COPY ./packages/test-dependency/package.json ./packages/test-dependency/package.json
 
 
 
@@ -16,8 +14,6 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 USER node
 COPY --chown=node:node ./apps/next ./
-COPY ./packages/test ./packages/test
-COPY ./packages/test-dependency ./packages/test-dependency
 CMD ["npm", "run", "dev"]
 
 
@@ -30,8 +26,6 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm ci --only=production
 USER node
 COPY --chown=node:node ./apps/next ./
-COPY ./packages/test ./packages/test
-COPY ./packages/test-dependency ./packages/test-dependency
 CMD ["npm", "run", "build"]
 
 
@@ -44,6 +38,4 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 USER node
 COPY --chown=node:node ./apps/next ./
-COPY ./packages/test ./packages/test
-COPY ./packages/test-dependency ./packages/test-dependency
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]
