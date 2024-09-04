@@ -5,8 +5,8 @@ type ShouldSkipFileArgs = {
   exclude: Set<string>;
   include: Set<string>;
   file: Dirent;
-  excludePattern?: RegExp;
-  includePattern?: RegExp;
+  includePatterns: RegExp[];
+  excludePatterns: RegExp[];
 };
 
 export const shouldSkipFile = ({
@@ -14,8 +14,8 @@ export const shouldSkipFile = ({
   exclude,
   include,
   file,
-  excludePattern,
-  includePattern,
+  excludePatterns,
+  includePatterns,
 }: ShouldSkipFileArgs) => {
   const isExcluded =
     exclude.size === 0 ? false : exclude.has(fullPathWithFile) || exclude.has(file.name);
@@ -24,9 +24,11 @@ export const shouldSkipFile = ({
     return true;
   }
 
-  const isExcludedRegex = !excludePattern
-    ? false
-    : excludePattern.test(fullPathWithFile) || excludePattern.test(file.name);
+  const isExcludedRegex =
+    excludePatterns.length === 0
+      ? false
+      : excludePatterns.some((excludePattern) => excludePattern.test(fullPathWithFile)) ||
+        excludePatterns.some((excludePattern) => excludePattern.test(file.name));
 
   if (isExcludedRegex) {
     return true;
@@ -41,12 +43,13 @@ export const shouldSkipFile = ({
 
   const isDirectory = file.isDirectory();
 
-  const isIncludedRegex = !includePattern
-    ? true
-    : isDirectory ||
-      file.name === "package.json" ||
-      includePattern.test(fullPathWithFile) ||
-      includePattern.test(file.name);
+  const isIncludedRegex =
+    includePatterns.length === 0
+      ? true
+      : isDirectory ||
+        file.name === "package.json" ||
+        includePatterns.some((includePattern) => includePattern.test(fullPathWithFile)) ||
+        includePatterns.some((includePattern) => includePattern.test(file.name));
 
   if (!isIncludedRegex) {
     return true;

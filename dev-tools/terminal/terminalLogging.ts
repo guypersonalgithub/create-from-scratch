@@ -1,5 +1,5 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { updateGitIgnore } from "../git";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { updateGitIgnore } from "@packages/git";
 
 type TerminalLoggingArgs = {
   fileName: string;

@@ -13,7 +13,8 @@
     "@packages/paths": "*",
     "@packages/files": "*",
     "@packages/request": "*",
-    "@packages/package-manager": "*"
+    "@packages/package-manager": "*",
+    "@packages/git": "*"
   },
   "author": "",
   "license": "ISC",

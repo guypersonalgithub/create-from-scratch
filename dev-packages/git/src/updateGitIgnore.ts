@@ -1,5 +1,3 @@
-// TODO: Find more appropriate place for this file
-
 import { existsSync, readFileSync, writeFileSync } from "fs";
 
 type updateGitIgnoreArgs = {
@@ -17,12 +15,13 @@ export const updateGitIgnore = ({ path = ".gitignore", filesToIgnore }: updateGi
 
   const gitIgnoreData = readFileSync(path, "utf-8");
   const splitIgnored = gitIgnoreData.split(lineSplitter);
+  const existingIgnores = splitIgnored.length === 1 && splitIgnored[0] === "" ? [] : splitIgnored;
   filesToIgnore.forEach((file) => {
-    const fileAlreadyExists = splitIgnored.find((existingFile) => existingFile === file);
+    const fileAlreadyExists = existingIgnores.find((existingFile) => existingFile === file);
     if (!fileAlreadyExists) {
-      splitIgnored.push(file);
+      existingIgnores.push(file);
     }
   });
 
-  writeFileSync(path, splitIgnored.join(lineSplitter));
+  writeFileSync(path, existingIgnores.join(lineSplitter));
 };

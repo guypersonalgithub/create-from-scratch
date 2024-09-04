@@ -1,4 +1,4 @@
 {
-  "includeFilesPattern": "**/*.container.json",
+  "includeFilesPatterns": ["**/*.container.json"],
   "packageIdentifiers": ["@packages"]
 }

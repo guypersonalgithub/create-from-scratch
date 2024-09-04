@@ -58,8 +58,8 @@ async function sendRequest<T>({
     const errorMessage = await response.text();
     throw new Error(errorMessage);
   } catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError') {
-      console.log('Request was aborted');
+    if (error instanceof DOMException && error.name === "AbortError") {
+      console.log("Request was aborted");
       return fallback;
     }
 

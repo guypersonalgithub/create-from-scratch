@@ -34,6 +34,7 @@ export const useTempRequest = () => {
   const [isError, setIsError] = useState(false);
   const [isLoadingVersions, setIsLoadingVersions] = useState(false);
   const [isErrorVersions, setIsErrorVersions] = useState(false);
+  const sentRequest = useRef<boolean>(false);
   const abortRef = useRef<ReturnType<typeof sendAbortableRequest>["abort"]>();
 
   const attachMetadata = ({ data, latestVersionData }: AttachMetadataArgs) => {
@@ -119,6 +120,11 @@ export const useTempRequest = () => {
 
     const fetchData = async () => {
       try {
+        if (sentRequest.current) {
+          return;
+        }
+
+        sentRequest.current = true;
         setIsLoading(true);
         setIsError(false);
         const queryParams = getQueryParams();

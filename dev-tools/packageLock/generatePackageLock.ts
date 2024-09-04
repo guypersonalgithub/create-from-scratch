@@ -2,8 +2,9 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync } from "fs";
 import { getProjectAbsolutePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "../packages";
 import { executeTerminalCommand, multiOptions } from "../terminal";
-import { detectPackageJsonDependencyChanges, updateGitIgnore } from "../git";
+import { detectPackageJsonDependencyChanges } from "../git";
 import { getPackageManagerCreateLockfileOnlyCommand } from "@packages/package-manager";
+import { updateGitIgnore } from "@packages/git";
 
 type GeneratePackageLockArgs = {
   value: string[];

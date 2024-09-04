@@ -8,10 +8,11 @@ type IterateOverAllFilesArgs = {
   relativePath: string;
   iteratedPaths?: Set<string>;
   dependenciesMap?: DependenciesMap;
+  packageJsonPaths?: Set<string>;
   include: Set<string>;
   exclude: Set<string>;
-  includePattern?: RegExp;
-  excludePattern?: RegExp;
+  includePatterns: RegExp[];
+  excludePatterns: RegExp[];
   noNesting?: boolean;
   packageIdentifiers?: string[];
   skipFilesAndFolders: string[];
@@ -24,6 +25,8 @@ type IterateOverAllFilesArgs = {
       }
     >;
   };
+  skipDependencies?: boolean;
+  skipPackageJsonPaths?: boolean;
 };
 
 export const iterateOverAllFiles = ({
@@ -31,14 +34,17 @@ export const iterateOverAllFiles = ({
   relativePath,
   iteratedPaths = new Set<string>(),
   dependenciesMap = {},
+  packageJsonPaths = new Set<string>(),
   include,
   exclude,
-  includePattern,
-  excludePattern,
+  includePatterns,
+  excludePatterns,
   noNesting,
   packageIdentifiers,
   skipFilesAndFolders,
   parsedLockFile,
+  skipDependencies,
+  skipPackageJsonPaths,
 }: IterateOverAllFilesArgs) => {
   const skippedFolders =
     skipFilesAndFolders.length > 0 ? skipFilesAndFolders : ["node_modules", ".github", ".git"];
@@ -50,7 +56,7 @@ export const iterateOverAllFiles = ({
       "Encountered the same folder path twice, there might be a circular path somewhere within the file system, skipping.",
       `Path: ${fullPath}`,
     );
-    return dependenciesMap;
+    return { depencencies: dependenciesMap, packageJsonPaths };
   }
   iteratedPaths.add(fullPath);
 
@@ -67,8 +73,8 @@ export const iterateOverAllFiles = ({
       exclude,
       include,
       file,
-      excludePattern,
-      includePattern,
+      excludePatterns,
+      includePatterns,
     });
 
     if (skipFile) {
@@ -83,54 +89,63 @@ export const iterateOverAllFiles = ({
         relativePath: `${relativePath}/${file.name}`,
         iteratedPaths,
         dependenciesMap,
+        packageJsonPaths,
         include,
         exclude,
-        includePattern,
-        excludePattern,
+        includePatterns,
+        excludePatterns,
         noNesting,
         packageIdentifiers,
         skipFilesAndFolders,
         parsedLockFile,
+        skipDependencies,
+        skipPackageJsonPaths,
       });
 
       continue;
     }
 
-    const packageJsonFile = readFileSync(fullPathWithFile, {
-      encoding: "utf-8",
-    });
-    const parsedFile = JSON.parse(packageJsonFile);
-    const {
-      name,
-      dependencies = {},
-      devDependencies = {},
-      optionalDependencies = {},
-      peerDependencies = {},
-    } = parsedFile;
-
-    const dependencyTypesArray: {
-      dependencyType: string;
-      data: Record<string, string>;
-    }[] = [
-      { dependencyType: "dependencies", data: dependencies },
-      { dependencyType: "devDependencies", data: devDependencies },
-      { dependencyType: "optionalDependencies", data: optionalDependencies },
-      { dependencyType: "peerDependencies", data: peerDependencies },
-    ];
-    dependencyTypesArray.forEach((current) => {
-      const { dependencyType, data } = current;
-
-      fillDependenciesMap({
-        name,
-        fullPathWithFile,
-        dependencies: data,
-        dependencyType,
-        dependenciesMap,
-        parsedLockFile,
-        packageIdentifiers,
+    if (!skipDependencies) {
+      const packageJsonFile = readFileSync(fullPathWithFile, {
+        encoding: "utf-8",
       });
-    });
+      const parsedFile = JSON.parse(packageJsonFile);
+      const {
+        name,
+        dependencies = {},
+        devDependencies = {},
+        optionalDependencies = {},
+        peerDependencies = {},
+      } = parsedFile;
+
+      const dependencyTypesArray: {
+        dependencyType: string;
+        data: Record<string, string>;
+      }[] = [
+        { dependencyType: "dependencies", data: dependencies },
+        { dependencyType: "devDependencies", data: devDependencies },
+        { dependencyType: "optionalDependencies", data: optionalDependencies },
+        { dependencyType: "peerDependencies", data: peerDependencies },
+      ];
+      dependencyTypesArray.forEach((current) => {
+        const { dependencyType, data } = current;
+
+        fillDependenciesMap({
+          name,
+          fullPathWithFile,
+          dependencies: data,
+          dependencyType,
+          dependenciesMap,
+          parsedLockFile,
+          packageIdentifiers,
+        });
+      });
+    }
+
+    if (!skipPackageJsonPaths) {
+      packageJsonPaths.add(fullPathWithFile);
+    }
   }
 
-  return dependenciesMap;
+  return { dependencies: dependenciesMap, packageJsonPaths };
 };

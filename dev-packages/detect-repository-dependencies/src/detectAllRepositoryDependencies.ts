@@ -5,14 +5,20 @@ import { iterateOverAllFiles } from "./iterateOverAllFiles";
 import { getFile } from "@packages/files";
 import { detectRepositoryPackageManager } from "@packages/package-manager";
 
-export const detectAllRepositoryDependencies = () => {
+type DetectAllRepositoryDependenciesArgs = {
+  skipDependencies?: boolean;
+  skipPackageJsonPaths?: boolean;
+};
+
+export const detectAllRepositoryDependencies = (args?: DetectAllRepositoryDependenciesArgs) => {
+  const { skipDependencies, skipPackageJsonPaths } = args ?? {};
   const projectAbsolutePath = getProjectAbsolutePath();
   const config = getConfigFileData({ projectAbsolutePath });
   const {
     include,
     exclude,
-    includeFilesPattern,
-    excludeFilesPattern,
+    includeFilesPatterns = [],
+    excludeFilesPatterns = [],
     noNesting,
     packageIdentifiers,
   } = config;
@@ -30,30 +36,44 @@ export const detectAllRepositoryDependencies = () => {
     >;
   };
   const gitIgonoreFile = getFile({ path: `${projectAbsolutePath}/.gitignore` }) ?? "";
-  const skipFilesAndFolders = gitIgonoreFile.split("\r\n").filter(Boolean);
+  const dependenseeGitIgnoreFile = getFile({ path: ".gitignore" }) ?? "";
+  const skipFilesAndFolders = [
+    ...gitIgonoreFile.split("\r\n").filter(Boolean),
+    ...dependenseeGitIgnoreFile.split("\r\n").filter(Boolean),
+  ];
 
-  const includePattern = generateRegexOffPattern({
-    pattern: includeFilesPattern,
-    divider: ".",
-  });
+  const includePatterns = includeFilesPatterns
+    .map((includeFilesPattern) => {
+      return generateRegexOffPattern({
+        pattern: includeFilesPattern,
+        divider: ".",
+      });
+    })
+    .filter(Boolean) as RegExp[];
 
-  const excludePattern = generateRegexOffPattern({
-    pattern: excludeFilesPattern,
-    divider: ".",
-  });
+  const excludePatterns = excludeFilesPatterns
+    .map((excludeFilesPattern) => {
+      return generateRegexOffPattern({
+        pattern: excludeFilesPattern,
+        divider: ".",
+      });
+    })
+    .filter(Boolean) as RegExp[];
 
-  const dependencies = iterateOverAllFiles({
+  const { dependencies, packageJsonPaths } = iterateOverAllFiles({
     projectAbsolutePath,
     relativePath: "",
     include: new Set(include ?? []),
     exclude: new Set(exclude ?? []),
-    includePattern,
-    excludePattern,
+    includePatterns,
+    excludePatterns,
     noNesting,
     packageIdentifiers,
     skipFilesAndFolders,
     parsedLockFile,
+    skipDependencies,
+    skipPackageJsonPaths,
   });
 
-  return dependencies;
+  return { dependencies, packageJsonPaths };
 };

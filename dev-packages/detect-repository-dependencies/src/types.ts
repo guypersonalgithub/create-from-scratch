@@ -3,8 +3,8 @@ export type { DependenciesMap } from "@packages/detect-repository-dependencies-t
 export type ConfigProperties = {
   include?: string[];
   exclude?: string[];
-  includeFilesPattern?: string;
-  excludeFilesPattern?: string;
+  includeFilesPatterns?: string[];
+  excludeFilesPatterns?: string[];
   noNesting?: boolean;
   packageIdentifiers?: string[];
 };
