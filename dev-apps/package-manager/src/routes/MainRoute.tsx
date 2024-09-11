@@ -1,12 +1,12 @@
-import { Table } from "@packages/table";
+import { getDisplayedRows, Table } from "@packages/table";
 import { EllipsisTooltip } from "@packages/tooltip";
 import { useControlModal } from "@packages/modal";
 import { useControlToast } from "@packages/toast";
 import { useQueryParamsState, usePath } from "@packages/router";
-import { useTempRequest } from "../useTempRequest";
 import { Spinner, Skeleton } from "@packages/loading";
 import { formatDateByLocale } from "@packages/date";
 import { Tabs } from "@packages/tabs";
+import { useMountRequestState, useRequestState } from "@packages/fetch-management";
 
 export const MainRoute = () => {
   const { openModal, closeModal } = useControlModal();
@@ -113,11 +113,57 @@ export const MainRoute = () => {
 };
 
 const MainRouteTable = () => {
-  const { data, isLoading, isError, fetchMetadata, isLoadingVersions, isErrorVersions } =
-    useTempRequest();
+  // const { fetchMetadata, isLoadingVersions, isErrorVersions } = useTempRequest();
   const { moveTo } = usePath();
   const { pagination, tab } = useQueryParamsState({ specificParams: ["pagination", "tab"] });
   const paginationValue = Array.isArray(pagination) ? 1 : Number(pagination ?? 1);
+
+  const { data, isLoading, isError } = useMountRequestState({
+    id: "dependencies",
+    callback: ({ updateAdditionalRequests, requestData }) => {
+      const currentData = requestData?.data ?? {};
+      const parsedData = Object.entries(currentData).map(([key, value]) => {
+        const { data, isLocal } = value;
+        const instances = Object.entries(data).map(([path, details]) => {
+          return {
+            ...details,
+            path,
+          };
+        });
+
+        return {
+          name: key,
+          instances,
+          isLocal,
+        };
+      });
+
+      updateAdditionalRequests({
+        updateStates: {
+          dependencyVersions: ({ previousData }) => {
+            const newData = requestData?.latestVersions ?? {};
+            const previous = previousData ?? {};
+            return { ...previous, ...newData };
+          },
+        },
+      });
+
+      return parsedData;
+    },
+    url: `http://localhost:${import.meta.env.VITE_BACK_PORT}/detectDependencies`,
+    params: {
+      pagination: paginationValue,
+    },
+    disableAfterInitialFetch: true,
+  });
+
+  const {
+    data: versionsData,
+    isLoading: isLoadingVersions,
+    isError: isErrorVersion,
+    fetchData,
+  } = useRequestState({ id: "dependencyVersions" });
+
   const tabValue = Array.isArray(tab) ? "all" : tab ?? "all";
   const rowsPerPage = 10;
 
@@ -157,8 +203,11 @@ const MainRouteTable = () => {
         }}
       />
       <Table
+        headerContainer={{
+          backgroundColor: "#242424",
+        }}
         rowContainer={{
-          height: "250px",
+          height: "200px",
         }}
         rows={{
           dataRow: {
@@ -206,8 +255,8 @@ const MainRouteTable = () => {
                 return <Skeleton height="100%" width="100%" backgroundColor="lightgray" />;
               }
 
-              const { latestVersion } = data;
-              const { version } = latestVersion ?? {};
+              const { name } = data;
+              const { version } = versionsData?.[name] ?? {};
 
               if (!version) {
                 return <div>---</div>;
@@ -224,8 +273,8 @@ const MainRouteTable = () => {
                 return <Skeleton height="100%" width="100%" backgroundColor="lightgray" />;
               }
 
-              const { latestVersion } = data;
-              const { date } = latestVersion ?? {};
+              const { name } = data;
+              const { date } = versionsData?.[name] ?? {};
 
               if (!date) {
                 return <div>---</div>;
@@ -244,13 +293,14 @@ const MainRouteTable = () => {
                 return <Skeleton height="100%" width="100%" backgroundColor="lightgray" />;
               }
 
-              const { instances, latestVersion } = data;
+              const { name } = data;
+              const { version } = versionsData?.[name] ?? {};
+              const { instances } = data;
               const versionsSet = new Set<string>();
               instances.forEach((instance) => {
                 versionsSet.add(instance.version);
               });
               const amount = versionsSet.size;
-              const { version } = latestVersion ?? {};
 
               if (!version) {
                 return <div>---</div>;
@@ -276,7 +326,33 @@ const MainRouteTable = () => {
                 queryParams: page === 1 ? undefined : { pagination: page },
                 overrideSpecificParams: ["pagination"],
               });
-              fetchMetadata({ rowsPerPage, pagination: page });
+
+              const dataArray = data ?? [];
+
+              const packageNames = getDisplayedRows({
+                rowsPerPage,
+                currentPage: page,
+                amountOfRows: dataArray.length,
+                data: dataArray,
+              })
+                .filter((row) => !versionsData?.[row.name] && !row.isLocal)
+                .map((row) => row.name);
+
+              if (packageNames.length === 0) {
+                return;
+              }
+
+              fetchData({
+                callback: ({ requestData, previousData }) => {
+                  const newData = requestData?.data ?? {};
+                  const previous = previousData ?? {};
+                  return { ...previous, ...newData };
+                },
+                url: `http://localhost:${import.meta.env.VITE_BACK_PORT}/latest`,
+                params: {
+                  packageNames,
+                },
+              });
             },
           },
         }}

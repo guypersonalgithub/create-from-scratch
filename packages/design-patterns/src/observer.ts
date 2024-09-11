@@ -1,10 +1,27 @@
+import { areObjectsEqual } from "@packages/utils";
+import { generateSecureRandomString } from "@packages/randomizer";
+
 type Listener<T> = (value: T) => void;
 type PartialState<T> = Partial<T> | ((state: T) => Partial<T>);
 
+interface ListenerConfig<T, K extends keyof T, F extends boolean> {
+  id: string;
+  properties?: K[]; // Null or empty array indicates a full state listener
+  full: F; // If true, callback receives the entire state `T`, otherwise receives partial state
+  callback: Listener<
+    K extends keyof T
+      ? F extends true
+        ? T
+        : K[] extends [] | undefined
+          ? T
+          : Partial<Pick<T, K>>
+      : T
+  >;
+}
+
 export class Observer<T extends Record<string, unknown>> {
   private state: T;
-  private listeners: { [K in keyof T]?: Listener<T[K]>[] } = {};
-  private fullListeners: Listener<T>[] = [];
+  private listeners: ListenerConfig<T, keyof T, boolean>[] = [];
 
   constructor(initialState: T) {
     this.state = initialState;
@@ -16,54 +33,68 @@ export class Observer<T extends Record<string, unknown>> {
     const prevState = { ...this.state };
     const newState = typeof partialState === "function" ? partialState(this.state) : partialState;
 
+    const changed = new Set<keyof T>();
+    for (const property in newState) {
+      const newValue = newState[property];
+      const oldValue = prevState[property];
+
+      const areEqual = areObjectsEqual({ obj1: oldValue, obj2: newValue });
+      if (!areEqual) {
+        changed.add(property);
+      }
+    }
+
     this.state = { ...this.state, ...newState };
 
-    (Object.keys(newState) as (keyof T)[]).forEach((key) => {
-      if (this.state[key] !== prevState[key] && this.listeners[key]) {
-        this.listeners[key]?.forEach((listener) => listener(this.state[key]));
-      }
-    });
+    if (changed.size > 0) {
+      this.listeners.forEach(({ properties, full, callback }) => {
+        if (!properties || properties.length === 0 || full) {
+          (callback as Listener<T>)(this.state);
+        } else {
+          const wasListenedPropertyChanged = !!properties.find((key) => changed.has(key));
 
-    // TODO: Add deep check to ensure the object changed.
-    this.fullListeners.forEach((listener) => listener(this.state));
+          if (wasListenedPropertyChanged) {
+            const partialUpdate = Object.fromEntries(
+              properties.map((key) => [key, this.state[key]]),
+            ) as Partial<Pick<T, keyof T>>;
+            (callback as Listener<Partial<Pick<T, keyof T>>>)(partialUpdate);
+          }
+        }
+      });
+    }
   };
 
-  subscribe = <K extends keyof T>({
-    properties = [],
-    listener,
+  subscribe = <K extends keyof T, F extends boolean = false>({
+    properties,
+    full = false as F,
+    callback,
     initial,
-  }: (
-    | { properties: K[]; listener: Listener<T[K]> }
-    | { properties?: never; listener: Listener<T> }
-  ) & { initial?: boolean }) => {
-    if (properties.length === 0) {
-      this.fullListeners.push(listener as Listener<T>);
-      if (initial) {
-        (listener as Listener<T>)(this.state);
-      }
-    } else {
-      properties.forEach((property) => {
-        if (!this.listeners[property]) {
-          this.listeners[property] = [];
-        }
-        this.listeners[property]?.push(listener as Listener<T[K]>);
-      });
+  }: Omit<ListenerConfig<T, K, F>, "id"> & {
+    initial?: boolean;
+  }) => {
+    const id = generateSecureRandomString();
+    const config: ListenerConfig<T, K, F> = {
+      id,
+      properties,
+      full,
+      callback,
+    };
 
-      if (initial) {
-        properties.forEach((property) => {
-          (listener as Listener<T[K]>)(this.state[property]);
-        });
+    this.listeners.push(config as ListenerConfig<T, keyof T, boolean>);
+
+    if (initial) {
+      if (!properties || properties.length === 0 || full) {
+        (callback as Listener<T>)(this.state);
+      } else {
+        const initialValues = Object.fromEntries(
+          properties.map((property) => [property, this.state[property]]),
+        ) as Partial<Pick<T, K>>;
+        (callback as Listener<Partial<Pick<T, K>>>)(initialValues);
       }
     }
 
     return () => {
-      if (properties.length === 0) {
-        this.fullListeners.filter((l) => l !== listener);
-      } else {
-        properties.forEach((property) => {
-          this.listeners[property] = this.listeners[property]?.filter((l) => l !== listener);
-        });
-      }
+      this.listeners = this.listeners.filter((listener) => listener.id !== id);
     };
   };
 }

@@ -1,3 +1,5 @@
+import { RequestResponse } from "./types";
+
 type SetupURLArgs<T> = Pick<SendRequestArgs<T>, "url" | "params">;
 
 const setupURL = <T>({ url, params }: SetupURLArgs<T>) => {
@@ -31,8 +33,10 @@ export type SendRequestArgs<T> = {
   fallback?: T;
 };
 
-async function sendRequest<T>(args: SendRequestArgs<T> & { fallback: T }): Promise<T>;
-async function sendRequest<T>(args: SendRequestArgs<T>): Promise<T | undefined>;
+async function sendRequest<T>(
+  args: SendRequestArgs<T> & { fallback: T },
+): Promise<RequestResponse<T>>;
+async function sendRequest<T>(args: SendRequestArgs<T>): Promise<RequestResponse<T> | undefined>;
 
 async function sendRequest<T>({
   url,
@@ -42,16 +46,16 @@ async function sendRequest<T>({
   headers,
   signal,
   fallback,
-}: SendRequestArgs<T>): Promise<T | undefined> {
+}: SendRequestArgs<T>): Promise<{ response?: T; aborted?: boolean } | undefined> {
   try {
     const parsedURL = setupURL<T>({ url, params });
     const response = await fetch(parsedURL, { method, body, headers, signal });
     const contentType = response.headers.get("content-type");
     if (response.ok) {
       if (contentType && contentType.includes("application/json")) {
-        return await response.json();
+        return { response: await response.json() };
       } else {
-        return (await response.text()) as T;
+        return { response: (await response.text()) as T };
       }
     }
 
@@ -60,14 +64,14 @@ async function sendRequest<T>({
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") {
       console.log("Request was aborted");
-      return fallback;
+      return { response: fallback, aborted: true };
     }
 
     if (error instanceof Error) {
       console.error(error.message);
     }
 
-    return fallback;
+    return { response: fallback };
   }
 }
 

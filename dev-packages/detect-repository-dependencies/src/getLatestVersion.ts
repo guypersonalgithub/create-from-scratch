@@ -5,17 +5,18 @@ type GetLatestVersionArgs = {
 };
 
 export const getLatestVersion = ({ data }: GetLatestVersionArgs) => {
-  const parsedData = data.map((pack) => {
+  const latestVersions: LatestVersion = {};
+
+  data.forEach((pack) => {
     const name = pack.name;
     const latestVersion = pack?.["dist-tags"]?.latest;
     const releaseDate = pack?.time?.[latestVersion];
 
-    return {
-      name,
+    latestVersions[name] = {
       version: latestVersion,
       date: releaseDate,
-    } satisfies LatestVersion[number];
+    };
   });
 
-  return parsedData;
+  return latestVersions;
 };

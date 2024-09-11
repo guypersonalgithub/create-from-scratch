@@ -28,6 +28,7 @@ export const TableHeader = ({
         height: "fit-content",
         textAlign: "left",
         flexGrow: staticColumn ? 0 : 1,
+        whiteSpace: "nowrap",
         ...(size ? { width: `${size}px` } : {}),
       }}
     >

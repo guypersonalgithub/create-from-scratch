@@ -1,6 +1,7 @@
 import { sendRequest, SendRequestArgs } from "./sendRequest";
+import { RequestResponse } from "./types";
 
-type SendAbortableRequestArgs<T> = Omit<SendRequestArgs<T>, "signal">;
+export type SendAbortableRequestArgs<T> = Omit<SendRequestArgs<T>, "signal">;
 
 export const sendAbortableRequest = () => {
   const controller = new AbortController();
@@ -11,10 +12,14 @@ export const sendAbortableRequest = () => {
 
   async function sendRequestFunction<T>(
     args: SendAbortableRequestArgs<T> & { fallback: T },
-  ): Promise<T>;
-  async function sendRequestFunction<T>(args: SendAbortableRequestArgs<T>): Promise<T | undefined>;
+  ): Promise<RequestResponse<T>>;
+  async function sendRequestFunction<T>(
+    args: SendAbortableRequestArgs<T>,
+  ): Promise<RequestResponse<T> | undefined>;
 
-  async function sendRequestFunction<T>(args: SendAbortableRequestArgs<T>): Promise<T | undefined> {
+  async function sendRequestFunction<T>(
+    args: SendAbortableRequestArgs<T>,
+  ): Promise<RequestResponse<T> | undefined> {
     return sendRequest({ ...args, signal });
   }
 

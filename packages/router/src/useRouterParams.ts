@@ -16,7 +16,7 @@ export const useRouteParamsState = (args?: UseRouteParamsStateArgs) => {
 
   useEffect(() => {
     const unsubscribe = sharedState.subscribe({
-      listener: (newParamValues) => {
+      callback: (newParamValues) => {
         let shouldUpdate = false;
 
         const paramArray = specificParams.length > 0 ? specificParams : Object.keys(newParamValues);
@@ -33,6 +33,7 @@ export const useRouteParamsState = (args?: UseRouteParamsStateArgs) => {
           setRouteParams(newParamValues);
         }
       },
+      full: true,
       initial: true,
     });
 
@@ -50,7 +51,8 @@ type UseGetRouteParamsArgs = {
 
 export const getRouteParams = ({ onChange }: UseGetRouteParamsArgs) => {
   const unsubscribe = sharedState.subscribe({
-    listener: onChange,
+    callback: onChange,
+    full: true,
     initial: true,
   });
 

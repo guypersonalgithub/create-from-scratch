@@ -49,6 +49,10 @@ export default defineConfig({
         "../../packages/virtual-list/src/index.ts",
       ),
       "packages/input": path.resolve("__dirname", "../../packages/input/src/index.ts"),
+      "packages/fetch-management": path.resolve(
+        "__dirname",
+        "../../packages/fetch-management/src/index.ts",
+      ),
     },
   },
 });

@@ -8,7 +8,7 @@ export const useRequestExample = () => {
       const data = await sendRequest<ReturnedData>({
         url: "http://localhost:3002",
       });
-      console.log(data, data?.prop1, data?.prop1);
+      console.log(data, data?.response?.prop1, data?.response?.prop1);
     };
     fetchData();
   }, []);

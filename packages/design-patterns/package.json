@@ -6,6 +6,10 @@
   "scripts": {
     "build": "tsc -b ."
   },
+  "dependencies": {
+    "@packages/utils": "*",
+    "@packages/randomizer": "*"
+  },
   "author": "",
   "license": "ISC",
   "main": "./src/index.ts",
