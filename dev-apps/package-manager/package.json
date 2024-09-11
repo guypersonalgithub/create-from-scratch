@@ -24,7 +24,8 @@
     "@packages/date": "*",
     "@packages/tabs": "*",
     "@packages/checkbox": "*",
-    "@packages/typeahead": "*"
+    "@packages/typeahead": "*",
+    "@packages/fetch-management": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

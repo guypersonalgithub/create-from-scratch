@@ -95,8 +95,4 @@ export type NPMRegistryVersion = {
   };
 };
 
-export type LatestVersion = {
-  name: string;
-  version: string;
-  date: string;
-}[];
+export type LatestVersion = Record<string, { version: string; date: string }>;

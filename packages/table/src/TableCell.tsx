@@ -30,6 +30,7 @@ export const TableCell = <T,>({
         textAlign: "left",
         height: "inherit",
         flexGrow: staticColumn ? 0 : 1,
+        whiteSpace: "nowrap",
         ...(size ? { width: `${size}px` } : {}),
       }}
     >

@@ -47,8 +47,8 @@ export const Table = <T extends Record<string, unknown>>({
   onRowClick,
   columns,
   rows,
-  headerContainer,
-  rowContainer,
+  headerContainer = {},
+  rowContainer = {},
   pagination,
 }: TableProps<T>) => {
   const { headerRow, dataRow } = rows ?? {};
@@ -65,34 +65,45 @@ export const Table = <T extends Record<string, unknown>>({
 
   return (
     <div>
-      <div style={{ display: "flex", flexFlow: "column", width: "100%", ...headerContainer }}>
+      <div style={{ width: "100%", overflow: "auto" }}>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
+            position: "sticky",
+            top: 0,
             width: "100%",
-            height: headerRow?.size ? `${headerRow.size}px` : undefined,
           }}
-          className={headerRow?.className}
         >
-          {columns.map((column, index) => {
-            const { className, size, staticColumn } = column;
-            const columnProperties = { className, size, staticColumn } as Column<T>;
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              minWidth: "fit-content",
+              width: "100%",
+              height: headerRow?.size ? `${headerRow.size}px` : undefined,
+              ...headerContainer,
+            }}
+            className={headerRow?.className}
+          >
+            {columns.map((column, index) => {
+              const { className, size, staticColumn } = column;
+              const columnProperties = { className, size, staticColumn } as Column<T>;
 
-            return (
-              <TableHeader key={index} {...columnProperties}>
-                {column.header}
-              </TableHeader>
-            );
-          })}
+              return (
+                <TableHeader key={index} {...columnProperties}>
+                  {column.header}
+                </TableHeader>
+              );
+            })}
+          </div>
         </div>
-        <div style={{ overflow: "auto", ...rowContainer }}>
+        <div style={rowContainer}>
           {displayedDataRows.map((row, rowIndex) => (
             <div
               key={rowIndex}
               style={{
                 display: "flex",
                 alignItems: "center",
+                minWidth: "fit-content",
                 width: "100%",
                 height: dataRow?.size ? `${dataRow.size}px` : undefined,
                 cursor: onRowClick ? "pointer" : "default",

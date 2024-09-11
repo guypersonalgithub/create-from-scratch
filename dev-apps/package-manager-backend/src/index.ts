@@ -3,13 +3,16 @@ import cors from "cors";
 // import { loadFlagsIntoEnv } from "@packages/utils";
 import {
   detectAllRepositoryDependencies,
-  getLatestVersion,
   getPackageVersions,
   arePackageJsonDependenciesEqual,
 } from "@packages/detect-repository-dependencies";
-import { LatestVersion, NPMRegistry } from "@packages/detect-repository-dependencies-types";
+import { LatestVersion } from "@packages/detect-repository-dependencies-types";
 import { detectFileChanges } from "@packages/detect-file-changes";
 import { getFile } from "@packages/files";
+import {
+  fetchPackageLatestVersions,
+  getVersionsOfCurrentPagination,
+} from "./getVersionsOfCurrentPagination";
 
 // loadFlagsIntoEnv();
 
@@ -18,7 +21,7 @@ const app = express();
 let cachedDependencies:
   | ReturnType<typeof detectAllRepositoryDependencies>["dependencies"]
   | undefined;
-let latestVersions: LatestVersion = [];
+let latestVersions: Record<number, LatestVersion> = {};
 
 const corsOptions = {
   origin: [`http://localhost:${process.env.FRONT_PORT}`],
@@ -31,40 +34,14 @@ app.get("/", (req, res) => {});
 
 app.get("/detectDependencies", async (req, res) => {
   try {
+    const { pagination } = req.query;
+    const paginationValue = Number(pagination);
+
     if (!cachedDependencies) {
       const { dependencies } = detectAllRepositoryDependencies({
         skipPackageJsonPaths: true,
       });
       cachedDependencies = dependencies;
-
-      const { pagination } = req.query;
-      const paginationValue = Number(pagination);
-      if (!Number.isNaN(paginationValue)) {
-        const startingIndex = (paginationValue - 1) * 10;
-        const endingIndex = startingIndex + 10;
-
-        const parsedDependencies = Object.entries(cachedDependencies ?? {}).map(([key, value]) => {
-          return {
-            name: key,
-            isLocal: value.isLocal,
-          };
-        });
-
-        const packageNames = parsedDependencies
-          .slice(startingIndex, endingIndex)
-          .filter((row) => !row.isLocal)
-          .map((pack) => pack.name);
-
-        const data = await Promise.all(
-          packageNames.map((packageName) => {
-            return getPackageVersions({ packageName });
-          }),
-        );
-
-        latestVersions = getLatestVersion({ data: data.filter(Boolean) as NPMRegistry[] });
-      }
-
-      return res.send({ data: cachedDependencies, latestVersions });
     } else {
       const { packageJsonPaths } = detectAllRepositoryDependencies({
         skipPackageJsonPaths: true,
@@ -108,10 +85,22 @@ app.get("/detectDependencies", async (req, res) => {
         },
       });
 
-      console.log({ dependenciesWereChanged });
+      console.log({ dependenciesWereChanged }); // TODO: Add reparsing of the package.jsons in packageJsonPaths if changes were detected.
     }
 
-    return res.send({ data: cachedDependencies, latestVersions });
+    if (!latestVersions[paginationValue]) {
+      const parsed = await getVersionsOfCurrentPagination({
+        paginationValue,
+        cachedDependencies,
+      });
+
+      if (paginationValue && parsed) {
+        latestVersions = {};
+        latestVersions[paginationValue] = parsed;
+      }
+    }
+
+    return res.send({ data: cachedDependencies, latestVersions: latestVersions[paginationValue] });
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Error" });
@@ -125,12 +114,7 @@ app.get("/latest", async (req, res) => {
       throw new Error("Missing package names!");
     }
 
-    const data = await Promise.all(
-      packageNames.map((packageName) => {
-        return getPackageVersions({ packageName });
-      }),
-    );
-    const parsedData = getLatestVersion({ data: data.filter(Boolean) as NPMRegistry[] });
+    const parsedData = await fetchPackageLatestVersions({ packageNames });
 
     res.send({ data: parsedData });
   } catch (error) {
@@ -146,8 +130,17 @@ app.get("/metadata", async (req, res) => {
       throw new Error("Incorrect package name!");
     }
 
+    if (!cachedDependencies) {
+      const { dependencies } = detectAllRepositoryDependencies({
+        skipPackageJsonPaths: true,
+      });
+
+      cachedDependencies = dependencies;
+    }
+
     const data = await getPackageVersions({ packageName });
-    res.send({ data });
+    const { response } = data ?? {};
+    res.send({ data: response, cachedDependencies });
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Error" });
