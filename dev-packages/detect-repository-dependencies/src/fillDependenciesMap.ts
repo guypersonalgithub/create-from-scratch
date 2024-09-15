@@ -1,4 +1,4 @@
-import { DependenciesMap } from "./types";
+import { DependenciesMap, ParsedPackageLock } from "./types";
 
 type FillDependenciesMapArgs = {
   name: string;
@@ -6,15 +6,7 @@ type FillDependenciesMapArgs = {
   dependencies: Record<string, string>;
   dependencyType: string;
   dependenciesMap: DependenciesMap;
-  parsedLockFile: {
-    packages: Record<
-      string,
-      {
-        resolved: string;
-        link: boolean;
-      }
-    >;
-  };
+  parsedLockFile: ParsedPackageLock;
   packageIdentifiers?: string[];
 };
 

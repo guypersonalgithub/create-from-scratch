@@ -13,9 +13,11 @@ import "./types";
 import { activateRequest } from "./activateRequest";
 import { useShouldFetch } from "./useShouldFetch";
 
+// TODO: Consider adding data, isLoading and isError with useRefs.
+
 export type UseRequestArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;
-  callback: ({
+  callback?: ({
     data,
     isLoading,
     isError,
@@ -36,7 +38,7 @@ export const useRequest = <K extends keyof ExtendedRequestTypeRegistry>({
     const unsubscribe = fetchManagement.subscribe({
       callback: (value) => {
         const { data, isLoading, isError } = (value?.[id] ?? {}) as PseudoData<K>;
-        callback({ data, isLoading, isError });
+        callback?.({ data, isLoading, isError });
       },
       properties: [id],
       full: false,

@@ -23,6 +23,7 @@ type TableProps<T> = {
     headerRow?: Size | ClassName;
     dataRow?: Size | ClassName;
   };
+  columnGap?: number;
   headerContainer?: CSSProperties;
   rowContainer?: CSSProperties;
   pagination?: {
@@ -47,6 +48,7 @@ export const Table = <T extends Record<string, unknown>>({
   onRowClick,
   columns,
   rows,
+  columnGap,
   headerContainer = {},
   rowContainer = {},
   pagination,
@@ -80,6 +82,7 @@ export const Table = <T extends Record<string, unknown>>({
               minWidth: "fit-content",
               width: "100%",
               height: headerRow?.size ? `${headerRow.size}px` : undefined,
+              gap: columnGap ? `${columnGap}px` : undefined,
               ...headerContainer,
             }}
             className={headerRow?.className}
@@ -106,6 +109,7 @@ export const Table = <T extends Record<string, unknown>>({
                 minWidth: "fit-content",
                 width: "100%",
                 height: dataRow?.size ? `${dataRow.size}px` : undefined,
+                gap: columnGap ? `${columnGap}px` : undefined,
                 cursor: onRowClick ? "pointer" : "default",
               }}
               onClick={() => onRowClick?.(row)}

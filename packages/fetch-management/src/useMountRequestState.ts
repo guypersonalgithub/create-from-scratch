@@ -18,7 +18,7 @@ type UseMountRequestStateArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;
   expiredAfter?: ExpiredAfter;
   callback: ExtractedCallback<K>;
-  disable?: boolean;
+  disabled?: boolean;
   disableAfterInitialFetch?: boolean;
 } & Omit<SendAbortableRequestArgs<ExtractedCallbackArg<K>>, "fallback">;
 
@@ -26,16 +26,16 @@ export const useMountRequestState = <K extends keyof ExtendedRequestTypeRegistry
   id,
   expiredAfter,
   callback,
-  disable,
+  disabled,
   disableAfterInitialFetch,
   ...args
 }: UseMountRequestStateArgs<K>) => {
   const { data, setData, isLoading, setIsLoading, isError, setIsError, fetchData } =
-    useRequestStateInner({ id });
+    useRequestStateInner({ id, disabled });
   const abortRef = useRef<ReturnType<typeof sendAbortableRequest>["abort"]>(); // TODO: Ensure its a better experience to have different abortRefs for manual fetching and automated fetching.
 
   useEffect(() => {
-    if (disable) {
+    if (disabled) {
       return;
     }
 
@@ -57,7 +57,7 @@ export const useMountRequestState = <K extends keyof ExtendedRequestTypeRegistry
     };
 
     currentRequest();
-  }, [id, expiredAfter, args, disable, disableAfterInitialFetch]);
+  }, [id, expiredAfter, args, disabled, disableAfterInitialFetch]);
 
   useRequestStateUpdater({ id, setData, setIsLoading, setIsError });
 

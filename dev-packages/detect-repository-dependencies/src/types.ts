@@ -8,3 +8,13 @@ export type ConfigProperties = {
   noNesting?: boolean;
   packageIdentifiers?: string[];
 };
+
+export type ParsedPackageLock = {
+  packages: Record<
+    string,
+    {
+      resolved: string;
+      link: boolean;
+    }
+  >;
+};

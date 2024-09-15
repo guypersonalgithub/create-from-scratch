@@ -17,9 +17,6 @@ export const useClickOutside = ({
     }
 
     const clickOutsideElement = (event: MouseEvent): void => {
-      event.preventDefault();
-      event.stopPropagation();
-
       for (let i = 0; i < ref.length; i++) {
         if (!ref[i]) {
           continue;
@@ -29,6 +26,9 @@ export const useClickOutside = ({
           return;
         }
       }
+
+      event.preventDefault();
+      event.stopPropagation();
 
       onClick();
     };

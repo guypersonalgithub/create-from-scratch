@@ -4,6 +4,7 @@ import { getProjectAbsolutePath } from "@packages/paths";
 import { iterateOverAllFiles } from "./iterateOverAllFiles";
 import { getFile } from "@packages/files";
 import { detectRepositoryPackageManager } from "@packages/package-manager";
+import { ParsedPackageLock } from "./types";
 
 type DetectAllRepositoryDependenciesArgs = {
   skipDependencies?: boolean;
@@ -25,16 +26,8 @@ export const detectAllRepositoryDependencies = (args?: DetectAllRepositoryDepend
 
   const { lock } = detectRepositoryPackageManager();
   const lockFile = getFile({ path: `${projectAbsolutePath}/${lock}` });
-  const parsedLockFile = (lockFile ? JSON.parse(lockFile) : { packages: {} }) as {
-    // TODO: Add methods for yarn and pnpm.
-    packages: Record<
-      string,
-      {
-        resolved: string;
-        link: boolean;
-      }
-    >;
-  };
+  // TODO: Add methods for yarn and pnpm.
+  const parsedLockFile = (lockFile ? JSON.parse(lockFile) : { packages: {} }) as ParsedPackageLock;
   const gitIgonoreFile = getFile({ path: `${projectAbsolutePath}/.gitignore` }) ?? "";
   const dependenseeGitIgnoreFile = getFile({ path: ".gitignore" }) ?? "";
   const skipFilesAndFolders = [

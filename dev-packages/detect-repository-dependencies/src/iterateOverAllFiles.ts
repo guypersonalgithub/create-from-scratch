@@ -1,7 +1,7 @@
-import { readFileSync, readdirSync } from "fs";
-import { DependenciesMap } from "./types";
-import { fillDependenciesMap } from "./fillDependenciesMap";
+import { readdirSync } from "fs";
+import { DependenciesMap, ParsedPackageLock } from "./types";
 import { shouldSkipFile } from "./skipFile";
+import { mapPackageJsonDependencies } from "./mapPackageJsonDependencies";
 
 type IterateOverAllFilesArgs = {
   projectAbsolutePath: string;
@@ -16,15 +16,7 @@ type IterateOverAllFilesArgs = {
   noNesting?: boolean;
   packageIdentifiers?: string[];
   skipFilesAndFolders: string[];
-  parsedLockFile: {
-    packages: Record<
-      string,
-      {
-        resolved: string;
-        link: boolean;
-      }
-    >;
-  };
+  parsedLockFile: ParsedPackageLock;
   skipDependencies?: boolean;
   skipPackageJsonPaths?: boolean;
 };
@@ -106,39 +98,11 @@ export const iterateOverAllFiles = ({
     }
 
     if (!skipDependencies) {
-      const packageJsonFile = readFileSync(fullPathWithFile, {
-        encoding: "utf-8",
-      });
-      const parsedFile = JSON.parse(packageJsonFile);
-      const {
-        name,
-        dependencies = {},
-        devDependencies = {},
-        optionalDependencies = {},
-        peerDependencies = {},
-      } = parsedFile;
-
-      const dependencyTypesArray: {
-        dependencyType: string;
-        data: Record<string, string>;
-      }[] = [
-        { dependencyType: "dependencies", data: dependencies },
-        { dependencyType: "devDependencies", data: devDependencies },
-        { dependencyType: "optionalDependencies", data: optionalDependencies },
-        { dependencyType: "peerDependencies", data: peerDependencies },
-      ];
-      dependencyTypesArray.forEach((current) => {
-        const { dependencyType, data } = current;
-
-        fillDependenciesMap({
-          name,
-          fullPathWithFile,
-          dependencies: data,
-          dependencyType,
-          dependenciesMap,
-          parsedLockFile,
-          packageIdentifiers,
-        });
+      mapPackageJsonDependencies({
+        fullPathWithFile,
+        dependenciesMap,
+        parsedLockFile,
+        packageIdentifiers,
       });
     }
 

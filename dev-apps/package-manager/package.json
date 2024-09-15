@@ -25,7 +25,8 @@
     "@packages/tabs": "*",
     "@packages/checkbox": "*",
     "@packages/typeahead": "*",
-    "@packages/fetch-management": "*"
+    "@packages/fetch-management": "*",
+    "@packages/button": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
@@ -39,6 +40,7 @@
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
     "@packages/detect-repository-dependencies-types": "*",
-    "@packages/package-manager-shared-types": "*"
+    "@packages/package-manager-shared-types": "*",
+    "@packages/alter-package-versions-types": "*"
   }
 }

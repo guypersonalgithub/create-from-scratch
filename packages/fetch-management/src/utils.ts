@@ -1,4 +1,4 @@
-import { ExpiredAfter } from "./types";
+import { ExpiredAfter, ExtendedRequestTypeRegistry, PseudoData } from "./types";
 
 type CalculateExpiredDateArgs = {
   expiredAfter?: ExpiredAfter;
@@ -38,4 +38,26 @@ export const calculateExpiredDate = ({ expiredAfter }: CalculateExpiredDateArgs)
   }
 
   return currentDate;
+};
+
+type DictateIsLoadingInitiallyArgs<K extends keyof ExtendedRequestTypeRegistry> = {
+  initialData?: PseudoData<K>;
+  disabled?: boolean;
+};
+
+export const dictateIsLoadingInitially = <K extends keyof ExtendedRequestTypeRegistry>({
+  initialData,
+  disabled,
+}: DictateIsLoadingInitiallyArgs<K>) => {
+  if (disabled) {
+    return false;
+  }
+
+  const { data, isLoading, expiredAt } = initialData ?? {};
+
+  if (isLoading || !data) {
+    return true;
+  }
+
+  return expiredAt ? new Date() > expiredAt : false;
 };

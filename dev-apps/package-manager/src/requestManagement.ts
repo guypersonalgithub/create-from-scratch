@@ -1,7 +1,7 @@
 import "@packages/fetch-management";
 import { DetectDependenciesRoute } from "@packages/package-manager-shared-types";
 import { Data } from "./types";
-import { LatestVersion } from "@packages/detect-repository-dependencies-types";
+import { LatestVersion, NPMRegistry } from "@packages/detect-repository-dependencies-types";
 
 declare module "@packages/fetch-management" {
   interface BaseRequestTypeRegistry {
@@ -12,6 +12,10 @@ declare module "@packages/fetch-management" {
     dependencyVersions: {
       data: LatestVersion;
       callbackArgument: { data: LatestVersion };
+    };
+    specificDependency: {
+      data: NPMRegistry;
+      callbackArgument: { data: NPMRegistry };
     };
   }
 }

@@ -13,17 +13,20 @@ import "./types";
 import { useRequestStateUpdater } from "./useRequestStateUpdater";
 import { activateRequest } from "./activateRequest";
 import { useShouldFetch } from "./useShouldFetch";
+import { dictateIsLoadingInitially } from "./utils";
 
 type UseRequestStateArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;
+  disabled?: boolean;
 };
 
 export const useRequestStateInner = <K extends keyof ExtendedRequestTypeRegistry>({
   id,
+  disabled,
 }: UseRequestStateArgs<K>) => {
   const initialData = fetchManagement.getState()?.[id] as PseudoData<K> | undefined;
   const [data, setData] = useState<ExtractedData<K> | undefined>(initialData?.data);
-  const [isLoading, setIsLoading] = useState(initialData?.isLoading ?? false);
+  const [isLoading, setIsLoading] = useState(dictateIsLoadingInitially({ initialData, disabled }));
   const [isError, setIsError] = useState(initialData?.isError ?? false);
   const abortRef = useRef<ReturnType<typeof sendAbortableRequest>["abort"]>();
 

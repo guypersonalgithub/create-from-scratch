@@ -53,6 +53,11 @@ export default defineConfig({
         "__dirname",
         "../../packages/fetch-management/src/index.ts",
       ),
+      "packages/button": path.resolve("__dirname", "../../packages/button/src/index.ts"),
+      "dev-packages/alter-package-versions-types": path.resolve(
+        "__dirname",
+        "../../packages/alter-package-versions-types/src/index.ts",
+      ),
     },
   },
 });

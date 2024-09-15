@@ -5,6 +5,7 @@ import {
   detectAllRepositoryDependencies,
   getPackageVersions,
   arePackageJsonDependenciesEqual,
+  iterateOverPackageJsons,
 } from "@packages/detect-repository-dependencies";
 import { LatestVersion } from "@packages/detect-repository-dependencies-types";
 import { detectFileChanges } from "@packages/detect-file-changes";
@@ -13,6 +14,7 @@ import {
   fetchPackageLatestVersions,
   getVersionsOfCurrentPagination,
 } from "./getVersionsOfCurrentPagination";
+import { alterPackageVersions, DependenciesToChange } from "@packages/alter-package-versions";
 
 // loadFlagsIntoEnv();
 
@@ -47,10 +49,12 @@ app.get("/detectDependencies", async (req, res) => {
         skipPackageJsonPaths: true,
       });
 
+      const packageJsonPathsArray = [...packageJsonPaths];
+
       const dependenciesWereChanged = detectFileChanges({
         cacheFolderPath: "dependensee",
         cacheFileName: "cache.json",
-        filePaths: [...packageJsonPaths],
+        filePaths: packageJsonPathsArray,
         compareCacheAndCurrentCallback: (current = {}, previously = "{}") => {
           const parsedCachedChanges = JSON.parse(previously);
           const differentAmountOfPackageJsons =
@@ -85,7 +89,9 @@ app.get("/detectDependencies", async (req, res) => {
         },
       });
 
-      console.log({ dependenciesWereChanged }); // TODO: Add reparsing of the package.jsons in packageJsonPaths if changes were detected.
+      if (dependenciesWereChanged) {
+        cachedDependencies = iterateOverPackageJsons({ packageJsonPaths: packageJsonPathsArray });
+      }
     }
 
     if (!latestVersions[paginationValue]) {
@@ -145,6 +151,17 @@ app.get("/metadata", async (req, res) => {
     console.error(error);
     res.status(500).send({ error: "Error" });
   }
+});
+
+app.post("/updateDependencies", async (req, res) => {
+  const dependenciesToChange = req.body as DependenciesToChange;
+
+  const failures = alterPackageVersions({ dependenciesToChange });
+  if (failures) {
+    res.status(500).send({ failures });
+  }
+
+  res.status(200).send({ done: true });
 });
 
 app.listen(process.env.PORT ?? 3000, async () => {

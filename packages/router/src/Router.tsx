@@ -47,8 +47,12 @@ export const Router = ({ paths }: RouterProps) => {
       } else {
         const firstPath = grabFirstPath({ currentStage }) as `/${string}`;
         if (firstPath && firstPath.slice(0, 2) === "/:") {
-          setRouterParams(firstPath, nestedLevels[i]);
-          currentStage = currentStage[firstPath] as RouterPaths;
+          if (nestedLevels[i].length === 0) {
+            currentStage = currentStage["/"] as RouterPaths;
+          } else {
+            setRouterParams(firstPath, nestedLevels[i]);
+            currentStage = currentStage[firstPath] as RouterPaths;
+          }
         } else {
           currentStage = currentStage["/*"] as RouterPaths;
         }

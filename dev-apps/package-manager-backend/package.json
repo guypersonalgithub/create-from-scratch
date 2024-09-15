@@ -13,7 +13,8 @@
     "cors": "^2.8.5",
     "express": "^4.18.3",
     "@packages/detect-repository-dependencies": "*",
-    "@packages/detect-file-changes": "*"
+    "@packages/detect-file-changes": "*",
+    "@packages/alter-package-versions": "*"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

@@ -5,6 +5,7 @@ import { NotFound } from "./routes/NotFound";
 import { MainRoute } from "./routes/MainRoute";
 import { ToastManager } from "@packages/toast";
 import { SpecificDependency } from "./routes/SpecificDependency";
+import { Testing } from "./routes/Testing";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           "/dependency": {
             "/:dependency": <SpecificDependency />,
           },
+          "/testing": <Testing />,
           "404": <NotFound />,
         }}
       />

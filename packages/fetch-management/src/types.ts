@@ -12,12 +12,13 @@ export interface BaseRequestTypeRegistry {}
 export type ExtendedBase = {
   [K in keyof BaseRequestTypeRegistry]: BaseRequestTypeRegistry[K];
 } & {
-  // Include K-${string} variations
-  [K in keyof BaseRequestTypeRegistry as `${K}-${string}`]?: BaseRequestTypeRegistry[K];
+  [K in keyof BaseRequestTypeRegistry as `${K}-${string}`]: BaseRequestTypeRegistry[K];
 } & {
-  // Include K-${number} variations
-  [K in keyof BaseRequestTypeRegistry as `${K}-${number}`]?: BaseRequestTypeRegistry[K];
+  [K in keyof BaseRequestTypeRegistry as `${K}-${number}`]: BaseRequestTypeRegistry[K];
 };
+
+export type OriginalKey<K> = K extends `${infer Base}-${string | number}` ? Base : K;
+
 
 export type UpdateAdditionalRequests = ({
   updateStates,
@@ -43,7 +44,7 @@ export type RequestTypeRegistryProperties<T extends { data: unknown; callbackArg
       updateAdditionalRequests: UpdateAdditionalRequests;
       requestData?: T["callbackArgument"];
       previousData?: T["data"];
-    }) => T["data"];
+    }) => T["data"] | undefined;
     isLoading: boolean;
     isError: boolean;
   } & Omit<Partial<SendAbortableRequestArgs<T["callbackArgument"]>>, "fallback">;

@@ -1,0 +1,22 @@
+{
+  "name": "@packages/alter-package-versions",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@packages/files": "*"
+  },
+  "devDependencies": {
+    "@packages/alter-package-versions-types": "*"
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

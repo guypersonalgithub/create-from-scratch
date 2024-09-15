@@ -5,20 +5,32 @@ import { VaryingVirtualList } from "@packages/virtual-list";
 
 type TypeaheadProperties<T extends { label: string; value: string }> = {
   options: T[];
-  callback: (pick: string) => void;
   disabled?: boolean;
   className?: string;
   withSeperators?: boolean;
   initialValue?: string;
+  filterOnInitialOpening?: boolean;
+} & (AtleastCallback | AtleastInputChangeCallback);
+
+type AtleastCallback = {
+  callback: (pick: string) => void;
+  inputChangeCallback?: (pick: string) => void;
+};
+
+type AtleastInputChangeCallback = {
+  callback?: (pick: string) => void;
+  inputChangeCallback: (pick: string) => void;
 };
 
 export const Typeahead = <T extends { label: string; value: string }>({
   options,
   callback,
+  inputChangeCallback,
   disabled,
   className,
   withSeperators,
   initialValue = "",
+  filterOnInitialOpening = true,
 }: TypeaheadProperties<T>) => {
   const [filter, setFilter] = useState<string>(initialValue);
   const [results, setResults] = useState<{ label: string; value: string }[]>([]);
@@ -58,6 +70,7 @@ export const Typeahead = <T extends { label: string; value: string }>({
   };
 
   const onInputChange = (value: string) => {
+    inputChangeCallback?.(value);
     setFilter(value);
     setResults([]);
 
@@ -73,7 +86,10 @@ export const Typeahead = <T extends { label: string; value: string }>({
   };
 
   const onNameSelected = ({ selectedName }: { selectedName: string }) => {
-    callback(selectedName);
+    callback?.(selectedName);
+    if (!callback) {
+      inputChangeCallback?.(selectedName);
+    }
     setFilter(selectedName);
     setResults([]);
   };
@@ -126,18 +142,22 @@ export const Typeahead = <T extends { label: string; value: string }>({
         value={filter}
         onClick={() => {
           setResults(
-            filterResults({
-              keyword: filter,
-              options,
-            }),
+            filterOnInitialOpening
+              ? options
+              : filterResults({
+                  keyword: filter,
+                  options,
+                }),
           );
         }}
         onFocus={() => {
           setResults(
-            filterResults({
-              keyword: filter,
-              options,
-            }),
+            filterOnInitialOpening
+              ? options
+              : filterResults({
+                  keyword: filter,
+                  options,
+                }),
           );
         }}
         disabled={disabled}
@@ -167,7 +187,7 @@ export const Typeahead = <T extends { label: string; value: string }>({
                     <div
                       style={{
                         zIndex: 20,
-                        cursor: "pointer",
+                        cursor: result.label !== "Results not found" ? "pointer" : "default",
                         backgroundColor:
                           index === currentIndex || index === hoveredIndex ? "#e6e6e6" : "white",
                         padding: "8px",

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { sharedState } from "./sharedState";
 import { RouterContext } from "./routerContext";
 
@@ -12,25 +12,46 @@ export const useRouteParamsState = (args?: UseRouteParamsStateArgs) => {
     throw new Error("Attempted to use useRouteParamsState on a level above a router.");
   }
   const { specificParams = [] } = args ?? {};
-  const [routeParams, setRouteParams] = useState<Record<string, string>>({});
+
+  const getRequestedParams = useCallback(
+    ({
+      newParamValues,
+      existingParams,
+    }: {
+      newParamValues: Record<string, string>;
+      existingParams: Record<string, string>;
+    }) => {
+      let shouldUpdate = false;
+
+      const paramArray = specificParams.length > 0 ? specificParams : Object.keys(newParamValues);
+
+      for (let i = 0; i < paramArray.length; i++) {
+        const specificParam = paramArray[i];
+        if (newParamValues[specificParam] !== existingParams[specificParam]) {
+          shouldUpdate = true;
+          break;
+        }
+      }
+
+      if (shouldUpdate) {
+        return newParamValues;
+      }
+    },
+    [specificParams],
+  );
+
+  const [routeParams, setRouteParams] = useState<Record<string, string>>(() => {
+    const newParams =
+      getRequestedParams({ newParamValues: sharedState.getState(), existingParams: {} }) ?? {};
+    return newParams;
+  });
 
   useEffect(() => {
     const unsubscribe = sharedState.subscribe({
       callback: (newParamValues) => {
-        let shouldUpdate = false;
-
-        const paramArray = specificParams.length > 0 ? specificParams : Object.keys(newParamValues);
-
-        for (let i = 0; i < paramArray.length; i++) {
-          const specificParam = paramArray[i];
-          if (newParamValues[specificParam] !== routeParams[specificParam]) {
-            shouldUpdate = true;
-            break;
-          }
-        }
-
-        if (shouldUpdate) {
-          setRouteParams(newParamValues);
+        const paramsToUpdate = getRequestedParams({ newParamValues, existingParams: routeParams });
+        if (paramsToUpdate) {
+          setRouteParams(paramsToUpdate);
         }
       },
       full: true,
@@ -40,7 +61,7 @@ export const useRouteParamsState = (args?: UseRouteParamsStateArgs) => {
     return () => {
       unsubscribe();
     };
-  }, [specificParams]);
+  }, [getRequestedParams]);
 
   return routeParams;
 };

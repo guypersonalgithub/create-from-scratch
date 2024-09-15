@@ -25,7 +25,7 @@ const setupURL = <T>({ url, params }: SetupURLArgs<T>) => {
 
 export type SendRequestArgs<T> = {
   url: string;
-  params?: Record<string, string | number | boolean | string[] | number[] | boolean[]>;
+  params?: Record<string, string | number | boolean | string[] | number[] | boolean[] | undefined>;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
   body?: string | URLSearchParams;
   headers?: Record<string, string>;

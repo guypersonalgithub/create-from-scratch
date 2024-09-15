@@ -1,4 +1,5 @@
 import { CSSProperties, InputHTMLAttributes, useState } from "react";
+import "./styles.css";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   externalState?: {
