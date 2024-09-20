@@ -6,6 +6,7 @@ import { MainRoute } from "./routes/MainRoute";
 import { ToastManager } from "@packages/toast";
 import { SpecificDependency } from "./routes/SpecificDependency";
 import { Testing } from "./routes/Testing";
+import { TriggerPopperManager } from "@packages/trigger-popper";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
       <TooltipManager />
       <ModalManager />
       <ToastManager />
+      <TriggerPopperManager />
     </div>
   );
 };

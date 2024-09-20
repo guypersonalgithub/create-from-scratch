@@ -1,12 +1,5 @@
 import { SendAbortableRequestArgs } from "@packages/request";
 
-type TimeUnit = "seconds" | "minutes" | "hours" | "days";
-export type ExpiredAfter = `never` | `${number} ${TimeUnit}`;
-
-export type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never;
-
-export type Overwrite<T, U> = DistributiveOmit<T, keyof U> & U;
-
 export interface BaseRequestTypeRegistry {}
 
 export type ExtendedBase = {
@@ -16,9 +9,6 @@ export type ExtendedBase = {
 } & {
   [K in keyof BaseRequestTypeRegistry as `${K}-${number}`]: BaseRequestTypeRegistry[K];
 };
-
-export type OriginalKey<K> = K extends `${infer Base}-${string | number}` ? Base : K;
-
 
 export type UpdateAdditionalRequests = ({
   updateStates,

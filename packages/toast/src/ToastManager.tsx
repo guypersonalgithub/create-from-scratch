@@ -4,7 +4,6 @@ import {
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
-import "./styles.css";
 
 type ToastManagerProps = Partial<
   Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">

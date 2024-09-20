@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
-import { fetchManagement } from "./observer";
+import { fetchManagement } from "../observer";
 import {
   ExpiredAfter,
   ExtendedRequestTypeRegistry,
@@ -8,42 +8,55 @@ import {
   ExtractedData,
   ExtractedCallback,
   PseudoData,
-} from "./types";
-import "./types";
+} from "../types";
 import { useRequestStateUpdater } from "./useRequestStateUpdater";
 import { activateRequest } from "./activateRequest";
 import { useShouldFetch } from "./useShouldFetch";
-import { dictateIsLoadingInitially } from "./utils";
+import { dictateIsLoadingInitially, shouldAvoidSendingRequest } from "../utils";
 
 type UseRequestStateArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;
   disabled?: boolean;
 };
 
+type FetchDataArgs<K extends keyof ExtendedRequestTypeRegistry> = {
+  expiredAfter?: ExpiredAfter;
+  callback: ExtractedCallback<K>;
+} & Omit<SendAbortableRequestArgs<ExtractedCallbackArg<K>>, "fallback">;
+
 export const useRequestStateInner = <K extends keyof ExtendedRequestTypeRegistry>({
   id,
   disabled,
 }: UseRequestStateArgs<K>) => {
-  const initialData = fetchManagement.getState()?.[id] as PseudoData<K> | undefined;
+  const initialData = fetchManagement.requests.getState()?.[id] as PseudoData<K> | undefined;
   const [data, setData] = useState<ExtractedData<K> | undefined>(initialData?.data);
   const [isLoading, setIsLoading] = useState(dictateIsLoadingInitially({ initialData, disabled }));
   const [isError, setIsError] = useState(initialData?.isError ?? false);
   const abortRef = useRef<ReturnType<typeof sendAbortableRequest>["abort"]>();
+  const amountOfAttemptsForCurrentRequest = useRef(0);
 
-  const fetchData = async ({
-    expiredAfter,
-    callback,
-    ...args
-  }: {
-    expiredAfter?: ExpiredAfter;
-    callback: ExtractedCallback<K>;
-  } & Omit<SendAbortableRequestArgs<ExtractedCallbackArg<K>>, "fallback">) => {
+  const fetchData = async ({ expiredAfter, callback, ...args }: FetchDataArgs<K>) => {
     const shouldFetch = useShouldFetch({ id, ...args });
-    if (!shouldFetch) {
+    const { shouldAvoid, attempts } = shouldAvoidSendingRequest({
+      id,
+      attempts: amountOfAttemptsForCurrentRequest.current,
+      ...args,
+    });
+
+    amountOfAttemptsForCurrentRequest.current = attempts;
+    
+    if (!shouldFetch || shouldAvoid) {
       return;
     }
 
-    activateRequest({ id, expiredAfter, callback, abortRef, ...args });
+    activateRequest({
+      id,
+      expiredAfter,
+      callback,
+      abortRef,
+      amountOfAttemptsForCurrentRequest,
+      ...args,
+    });
   };
 
   useRequestStateUpdater({ id, setData, setIsLoading, setIsError });

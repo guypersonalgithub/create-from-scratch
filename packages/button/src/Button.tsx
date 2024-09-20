@@ -1,12 +1,20 @@
 import { ButtonHTMLAttributes, CSSProperties, ReactNode, useState } from "react";
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
   onFocusCSS?: () => CSSProperties;
   onHoverCSS?: () => CSSProperties;
+  disabledCSS?: CSSProperties;
 };
 
-export const Button = ({ children, onFocusCSS, onHoverCSS, ...rest }: ButtonProps) => {
+export const Button = ({
+  children,
+  onFocusCSS,
+  onHoverCSS,
+  disabledCSS = {},
+  disabled,
+  ...rest
+}: ButtonProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const onFocusStyle: CSSProperties = isFocused && onFocusCSS ? onFocusCSS() : {};
@@ -15,6 +23,7 @@ export const Button = ({ children, onFocusCSS, onHoverCSS, ...rest }: ButtonProp
   return (
     <button
       {...rest}
+      disabled={disabled}
       onFocus={(e) => {
         rest.onFocus?.(e);
         setIsFocused(true);
@@ -28,6 +37,7 @@ export const Button = ({ children, onFocusCSS, onHoverCSS, ...rest }: ButtonProp
         ...(isFocused ? { outline: "none" } : {}),
         ...onFocusStyle,
         ...onHoverStyle,
+        ...(disabled ? disabledCSS : {}),
       }}
     >
       {children}

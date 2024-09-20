@@ -1,18 +1,18 @@
 import { useEffect, useRef } from "react";
 import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
-import { fetchManagement } from "./observer";
+import { fetchManagement } from "../observer";
 import {
   ExpiredAfter,
   ExtendedRequestTypeRegistry,
   ExtractedCallbackArg,
   ExtractedCallback,
   PseudoData,
-} from "./types";
-import "./types";
+} from "../types";
 import { useRequestStateUpdater } from "./useRequestStateUpdater";
 import { activateRequest } from "./activateRequest";
 import { useShouldFetch } from "./useShouldFetch";
 import { useRequestStateInner } from "./useRequestState";
+import { shouldAvoidSendingRequest } from "../utils";
 
 type UseMountRequestStateArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;
@@ -33,13 +33,14 @@ export const useMountRequestState = <K extends keyof ExtendedRequestTypeRegistry
   const { data, setData, isLoading, setIsLoading, isError, setIsError, fetchData } =
     useRequestStateInner({ id, disabled });
   const abortRef = useRef<ReturnType<typeof sendAbortableRequest>["abort"]>(); // TODO: Ensure its a better experience to have different abortRefs for manual fetching and automated fetching.
+  const amountOfAttemptsForCurrentRequest = useRef(0);
 
   useEffect(() => {
     if (disabled) {
       return;
     }
 
-    const receivedData = fetchManagement.getState();
+    const receivedData = fetchManagement.requests.getState();
     const current = receivedData[id] as PseudoData<K> | undefined;
     const cachedData = current?.data;
 
@@ -48,12 +49,27 @@ export const useMountRequestState = <K extends keyof ExtendedRequestTypeRegistry
     }
 
     const shouldFetch = useShouldFetch({ id, ...args });
-    if (!shouldFetch) {
+    const { shouldAvoid, attempts } = shouldAvoidSendingRequest({
+      id,
+      attempts: amountOfAttemptsForCurrentRequest.current,
+      ...args,
+    });
+
+    amountOfAttemptsForCurrentRequest.current = attempts;
+
+    if (!shouldFetch || shouldAvoid) {
       return;
     }
 
     const currentRequest = async () => {
-      activateRequest({ id, expiredAfter, callback, abortRef, ...args });
+      activateRequest({
+        id,
+        expiredAfter,
+        callback,
+        abortRef,
+        amountOfAttemptsForCurrentRequest,
+        ...args,
+      });
     };
 
     currentRequest();

@@ -1,5 +1,4 @@
 import { createRef, ReactNode, useRef } from "react";
-import "./styles.css";
 import { useControlTooltip } from "./useControlTooltip";
 import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { TooltipDisplayProps } from "./types";
@@ -84,7 +83,6 @@ export const Tooltip = ({
   return (
     <EdgeIntersection
       id={id}
-      className="ellipsis"
       style={{ width: isEllipsizedCallback ? "inherit" : "fit-content", height: "fit-content" }}
       intersectionRefs={intersectionRefs}
       offset={offset}
@@ -94,6 +92,9 @@ export const Tooltip = ({
         style={{
           width: isEllipsizedCallback ? "inherit" : "fit-content",
           height: "fit-content",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
         }}
         onMouseEnter={show}
         onMouseLeave={hide}

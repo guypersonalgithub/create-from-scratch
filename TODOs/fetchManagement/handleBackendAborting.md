@@ -1,0 +1,2 @@
+- Stop endpoints if request was aborted.
+- Create a generic function that doesn that.

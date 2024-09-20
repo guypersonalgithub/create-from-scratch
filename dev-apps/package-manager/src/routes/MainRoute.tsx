@@ -80,7 +80,7 @@ export const MainRoute = () => {
 
               return <EllipsisTooltip content={name}>{name}</EllipsisTooltip>;
             },
-            size: 100,
+            size: 150,
           },
           {
             header: "Instances",
@@ -145,7 +145,7 @@ export const MainRoute = () => {
             size: 150,
           },
           {
-            header: "Can upgrade",
+            header: "Status",
             cell: (data) => {
               if (isLoadingVersions) {
                 return <Skeleton height="100%" width="100%" backgroundColor="lightgray" />;

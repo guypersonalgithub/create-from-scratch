@@ -1,10 +1,4 @@
 .loader {
-    /* border: 16px solid #f3f3f3;
-    width: 120px;
-    height: 120px; */
-    border-radius: 50%;
-    /* border-top: 16px solid #3498db; */
-    /* Safari */
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 }
@@ -31,10 +25,6 @@
 }
 
 .skeleton {
-    background-color: #e0e0e0;
-    border-radius: 4px;
-    width: 100%;
-    height: 100%;
     /* Safari */
     -webkit-animation: flicker 3s infinite ease-in-out;
     animation: flicker 3s infinite ease-in-out;
@@ -69,3 +59,14 @@
         opacity: 0.6;
     }
 }
+
+.loading-bar {
+    animation: progress 3s ease-out infinite;
+}
+
+@keyframes progress {
+    100% {
+      transform: translateX(500%);
+    }
+}
+  

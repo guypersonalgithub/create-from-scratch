@@ -1,0 +1,1 @@
+- Handle errors - if a user grants wrong mountOptions the animate process throws an error - it should be handled elegantly.

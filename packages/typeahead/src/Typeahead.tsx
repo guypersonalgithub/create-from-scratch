@@ -1,4 +1,4 @@
-import { useState, useRef, KeyboardEvent, Fragment } from "react";
+import { useState, useRef, KeyboardEvent, Fragment, useEffect } from "react";
 import { useClickOutside } from "./hooks";
 import { Input } from "@packages/input";
 import { VaryingVirtualList } from "@packages/virtual-list";
@@ -37,6 +37,10 @@ export const Typeahead = <T extends { label: string; value: string }>({
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | undefined>(undefined);
   const typeaheadContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setFilter(initialValue);
+  }, [initialValue]);
 
   useClickOutside({
     ref: [typeaheadContainerRef.current],

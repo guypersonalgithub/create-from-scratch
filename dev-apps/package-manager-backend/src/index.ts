@@ -20,6 +20,8 @@ import { alterPackageVersions, DependenciesToChange } from "@packages/alter-pack
 
 const app = express();
 
+app.use(express.json());
+
 let cachedDependencies:
   | ReturnType<typeof detectAllRepositoryDependencies>["dependencies"]
   | undefined;
@@ -157,11 +159,14 @@ app.post("/updateDependencies", async (req, res) => {
   const dependenciesToChange = req.body as DependenciesToChange;
 
   const failures = alterPackageVersions({ dependenciesToChange });
-  if (failures) {
-    res.status(500).send({ failures });
-  }
 
-  res.status(200).send({ done: true });
+  const { dependencies } = detectAllRepositoryDependencies({
+    skipPackageJsonPaths: true,
+  });
+
+  cachedDependencies = dependencies;
+
+  res.status(failures.length > 0 ? 500 : 200).send({ data: cachedDependencies, failures });
 });
 
 app.listen(process.env.PORT ?? 3000, async () => {

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { ExtendedRequestTypeRegistry, ExtractedData, PseudoData } from "./types";
-import { fetchManagement } from "./observer";
+import { ExtendedRequestTypeRegistry, ExtractedData, PseudoData } from "../types";
+import { fetchManagement } from "../observer";
 
 type UseRequestStateUpdaterArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;
@@ -16,7 +16,7 @@ export const useRequestStateUpdater = <K extends keyof ExtendedRequestTypeRegist
   setIsError,
 }: UseRequestStateUpdaterArgs<K>) => {
   useEffect(() => {
-    const unsubscribe = fetchManagement.subscribe({
+    const unsubscribe = fetchManagement.requests.subscribe({
       callback: (value) => {
         const { data, isLoading, isError } = (value?.[id] ?? {}) as PseudoData<K>;
 

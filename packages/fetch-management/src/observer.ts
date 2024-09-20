@@ -10,10 +10,14 @@ import {
 } from "./types";
 import { calculateExpiredDate } from "./utils";
 import { SendAbortableRequestArgs } from "@packages/request";
+import { ExtendedActionTypeRegistry } from "./types/actions";
 
-export const fetchManagement = new Observer<ExtendedRequestTypeRegistry>({});
+export const fetchManagement = {
+  requests: new Observer<ExtendedRequestTypeRegistry>({}),
+  actions: new Observer<ExtendedActionTypeRegistry>({}),
+};
 
-type UpdateObserverArgs<K extends keyof ExtendedRequestTypeRegistry> = {
+type UpdateRequestsObserverArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;
   data?: ExtractedData<K>;
   expiredAfter?: ExpiredAfter;
@@ -22,7 +26,7 @@ type UpdateObserverArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   isError?: boolean;
 } & Partial<Omit<SendAbortableRequestArgs<ExtractedCallbackArg<K>>, "fallback">>;
 
-export const updateObserver = <K extends keyof ExtendedRequestTypeRegistry>({
+export const updateRequestsObserver = <K extends keyof ExtendedRequestTypeRegistry>({
   id,
   data,
   expiredAfter,
@@ -30,11 +34,11 @@ export const updateObserver = <K extends keyof ExtendedRequestTypeRegistry>({
   isLoading,
   isError,
   ...args
-}: UpdateObserverArgs<K>) => {
-  const receivedData = fetchManagement.getState();
+}: UpdateRequestsObserverArgs<K>) => {
+  const receivedData = fetchManagement.requests.getState();
   const current = receivedData[id] as PseudoData<K> | undefined;
 
-  fetchManagement.setState({
+  fetchManagement.requests.setState({
     [id]: {
       ...(current ?? {}),
       ...(args ?? {}),
@@ -47,14 +51,14 @@ export const updateObserver = <K extends keyof ExtendedRequestTypeRegistry>({
   });
 };
 
-type UpdateObserverMultipleArgs<K extends keyof ExtendedRequestTypeRegistry> = {
+type UpdateRequestsObserverMultipleArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   updateStates: UpdateStates<K>;
 };
 
-export const updateObserverMultiple = <K extends keyof ExtendedRequestTypeRegistry>({
+export const updateRequestsObserverMultiple = <K extends keyof ExtendedRequestTypeRegistry>({
   updateStates,
-}: UpdateObserverMultipleArgs<K>) => {
-  const receivedData = fetchManagement.getState();
+}: UpdateRequestsObserverMultipleArgs<K>) => {
+  const receivedData = fetchManagement.requests.getState();
   const statesToUpdate = {} as ExtendedRequestTypeRegistry;
   const updatingStates = updateStates as PseudoData<K>;
   for (const key in updatingStates) {
@@ -72,5 +76,28 @@ export const updateObserverMultiple = <K extends keyof ExtendedRequestTypeRegist
     };
   }
 
-  fetchManagement.setState(statesToUpdate);
+  fetchManagement.requests.setState(statesToUpdate);
+};
+
+type UpdateActionsObserverArgs<K extends keyof ExtendedActionTypeRegistry> = {
+  id: K;
+  isLoading?: boolean;
+  isError?: boolean;
+};
+
+export const updateActionsObserver = <K extends keyof ExtendedActionTypeRegistry>({
+  id,
+  isLoading,
+  isError,
+}: UpdateActionsObserverArgs<K>) => {
+  if (isLoading === undefined && isError === undefined) {
+    return;
+  }
+
+  fetchManagement.actions.setState({
+    [id]: {
+      ...(isLoading !== undefined ? { isLoading } : {}),
+      ...(isError !== undefined ? { isError } : {}),
+    },
+  });
 };

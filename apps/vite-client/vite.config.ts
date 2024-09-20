@@ -45,6 +45,7 @@ export default defineConfig({
         "__dirname",
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "packages/button": path.resolve("__dirname", "../../packages/button/src/index.ts"),
     },
   },
 });

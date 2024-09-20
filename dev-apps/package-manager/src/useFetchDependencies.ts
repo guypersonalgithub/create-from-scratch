@@ -1,4 +1,5 @@
 import { useMountRequestState } from "@packages/fetch-management";
+import { parseDependenciesData } from "./utils";
 
 type UseFetchDependenciesArgs = {
   paginationValue: number;
@@ -10,21 +11,7 @@ export const useFetchDependencies = (args?: UseFetchDependenciesArgs) => {
     id: "dependencies",
     callback: ({ updateAdditionalRequests, requestData }) => {
       const currentData = requestData?.data ?? {};
-      const parsedData = Object.entries(currentData).map(([key, value]) => {
-        const { data, isLocal } = value;
-        const instances = Object.entries(data).map(([path, details]) => {
-          return {
-            ...details,
-            path,
-          };
-        });
-
-        return {
-          name: key,
-          instances,
-          isLocal,
-        };
-      });
+      const parsedData = parseDependenciesData({ currentData });
 
       updateAdditionalRequests({
         updateStates: {

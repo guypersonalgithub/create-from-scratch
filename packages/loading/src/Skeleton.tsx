@@ -10,8 +10,8 @@ type SkeletonProps = {
 export const Skeleton = ({
   height = 0,
   width = 0,
-  borderRadius,
-  backgroundColor,
+  borderRadius = 4,
+  backgroundColor = "#e0e0e0",
 }: SkeletonProps) => {
   return (
     <div

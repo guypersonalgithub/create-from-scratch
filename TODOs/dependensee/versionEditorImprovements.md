@@ -1,0 +1,2 @@
+- Close the trigger popper when leaving a specific dependency updater.
+- Make sure to only update the rows that are selected when submitting in the dependency updater.

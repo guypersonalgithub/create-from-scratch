@@ -1,4 +1,4 @@
-type ParsedData = {
+export type ParsedData = {
   name: string;
   instances: {
     path: string;
@@ -9,4 +9,3 @@ type ParsedData = {
   isLocal: boolean;
 }[];
 
-export type Data = ParsedData[number][];

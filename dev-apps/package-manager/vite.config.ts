@@ -58,6 +58,10 @@ export default defineConfig({
         "__dirname",
         "../../packages/alter-package-versions-types/src/index.ts",
       ),
+      "packages/trigger-popper": path.resolve(
+        "__dirname",
+        "../../packages/trigger-popper/src/index.ts",
+      ),
     },
   },
 });

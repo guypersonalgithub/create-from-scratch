@@ -141,6 +141,9 @@ services:
         source: ./packages/pagination
         target: /usr/src/app/packages/pagination
       - type: bind
+        source: ./packages/button
+        target: /usr/src/app/packages/button
+      - type: bind
         source: ./packages/tooltip
         target: /usr/src/app/packages/tooltip
       - type: bind

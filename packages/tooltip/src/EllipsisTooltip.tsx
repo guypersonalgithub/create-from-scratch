@@ -1,6 +1,5 @@
 import { CSSProperties, ReactNode, useRef } from "react";
 import { Tooltip, TooltipProps } from "./Tooltip";
-import "./styles.css";
 
 type EllipsisTooltipProps = {
   style?: CSSProperties;
@@ -32,7 +31,10 @@ export const EllipsisTooltip = ({
       side={side}
       offset={offset}
     >
-      <div ref={ref} className="ellipsis" style={style}>
+      <div
+        ref={ref}
+        style={{ ...style, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+      >
         {children}
       </div>
     </Tooltip>

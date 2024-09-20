@@ -26,7 +26,8 @@
     "@packages/checkbox": "*",
     "@packages/typeahead": "*",
     "@packages/fetch-management": "*",
-    "@packages/button": "*"
+    "@packages/button": "*",
+    "@packages/trigger-popper": "*"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

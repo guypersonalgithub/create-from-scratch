@@ -5,8 +5,8 @@ import { Pagination, PaginationProps } from "@packages/pagination";
 import { getDisplayedRows } from "./utils";
 
 type Column<T> = {
-  header: ReactNode;
-  cell: (data: T) => ReactNode;
+  header: (() => ReactNode) | ReactNode;
+  cell: (data: T, index: number) => ReactNode;
   staticColumn?: boolean;
 } & (Size | ClassName);
 
@@ -73,6 +73,7 @@ export const Table = <T extends Record<string, unknown>>({
             position: "sticky",
             top: 0,
             width: "100%",
+            zIndex: 2,
           }}
         >
           <div
@@ -93,7 +94,7 @@ export const Table = <T extends Record<string, unknown>>({
 
               return (
                 <TableHeader key={index} {...columnProperties}>
-                  {column.header}
+                  {typeof column.header === "function" ? column.header() : column.header}
                 </TableHeader>
               );
             })}
@@ -110,7 +111,7 @@ export const Table = <T extends Record<string, unknown>>({
                 width: "100%",
                 height: dataRow?.size ? `${dataRow.size}px` : undefined,
                 gap: columnGap ? `${columnGap}px` : undefined,
-                cursor: onRowClick ? "pointer" : "default",
+                cursor: onRowClick ? "pointer" : undefined,
               }}
               onClick={() => onRowClick?.(row)}
               className={dataRow?.className}
@@ -120,7 +121,13 @@ export const Table = <T extends Record<string, unknown>>({
                 const columnProperties = { className, size, staticColumn } as Column<T>;
 
                 return (
-                  <TableCell key={colIndex} row={row} {...columnProperties}>
+                  <TableCell
+                    key={colIndex}
+                    row={row}
+                    rowIndex={rowIndex}
+                    index={colIndex}
+                    {...columnProperties}
+                  >
                     {column.cell}
                   </TableCell>
                 );

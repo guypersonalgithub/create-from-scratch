@@ -1,21 +1,23 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import "./styles.css";
 
 type CheckboxProps = {
   checked?: boolean;
-  onChange: (event: ChangeEvent<HTMLInputElement> | boolean) => void;
+  onChange: (state: boolean) => void;
   label?: string;
 };
 
-export const Checkbox = ({ checked, onChange, label }: CheckboxProps) => {
-  const [isChecked, setIsChecked] = useState(checked || false);
+export const Checkbox = ({ checked = false, onChange, label }: CheckboxProps) => {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  useEffect(() => {
+    setIsChecked(checked);
+  }, [checked]);
 
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newChecked = e.target.checked;
     setIsChecked(newChecked);
-    if (onChange) {
-      onChange(newChecked);
-    }
+    onChange(newChecked);
   };
 
   return (

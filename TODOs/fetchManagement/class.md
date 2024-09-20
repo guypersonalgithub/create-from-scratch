@@ -1,0 +1,1 @@
+- Merge the requests and actions into a specific class that is extended beyond the original Observer class.

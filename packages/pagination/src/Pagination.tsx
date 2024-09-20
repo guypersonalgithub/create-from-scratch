@@ -1,10 +1,24 @@
-import "./styles.css";
+import { CSSProperties } from "react";
+import { Button, ButtonProps } from "@packages/button";
 
 export type PaginationProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
   maxPagesToShow: number;
+  pageButtonStyle?: CSSProperties;
+  navigationButtonStyle?: CSSProperties;
+};
+
+const commonStyle: CSSProperties = {
+  cursor: "pointer",
+  border: "none",
+  background: "none",
+  width: "50px",
+  height: "50px",
+  borderRadius: "10px",
+  fontSize: "18px",
+  color: "white",
 };
 
 export const Pagination = ({
@@ -12,6 +26,8 @@ export const Pagination = ({
   totalPages,
   onPageChange,
   maxPagesToShow,
+  pageButtonStyle,
+  navigationButtonStyle = {},
 }: PaginationProps) => {
   const handleClick = ({ page }: { page: number }) => {
     if (page >= 1 && page <= totalPages) {
@@ -36,13 +52,21 @@ export const Pagination = ({
 
     if (startPage > 1) {
       pageNumbers.push(
-        <button key={1} onClick={() => handleClick({ page: 1 })} className="page-number">
+        <BaseButton key={1} onClick={() => handleClick({ page: 1 })} style={pageButtonStyle}>
           1
-        </button>,
+        </BaseButton>,
       );
+
       if (startPage > 2) {
         pageNumbers.push(
-          <span key="start-ellipsis" className="ellipsis">
+          <span
+            key="start-ellipsis"
+            style={{
+              height: "50px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             ...
           </span>,
         );
@@ -51,32 +75,45 @@ export const Pagination = ({
 
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(
-        <button
+        <BaseButton
           key={i}
           onClick={() => handleClick({ page: i })}
-          className={`page-number ${currentPage === i ? "active" : ""}`}
+          style={
+            currentPage === i
+              ? {
+                  background: "default",
+                  backgroundColor: "black",
+                  color: "white",
+                }
+              : undefined
+          }
         >
           {i}
-        </button>,
+        </BaseButton>,
       );
     }
 
     if (endPage < totalPages) {
       if (endPage < totalPages - 1) {
         pageNumbers.push(
-          <span key="end-ellipsis" className="ellipsis">
+          <span
+            key="end-ellipsis"
+            style={{
+              height: "50px",
+              display: "flex",
+              alignItems: "center",
+              fontSize: "20px",
+            }}
+          >
             ...
           </span>,
         );
       }
+      
       pageNumbers.push(
-        <button
-          key={totalPages}
-          onClick={() => handleClick({ page: totalPages })}
-          className="page-number"
-        >
+        <BaseButton key={totalPages} onClick={() => handleClick({ page: totalPages })}>
           {totalPages}
-        </button>,
+        </BaseButton>,
       );
     }
 
@@ -84,20 +121,32 @@ export const Pagination = ({
   };
 
   return (
-    <div className="pagination">
-      <button
+    <div style={{ display: "flex", listStyle: "none", padding: 0 }}>
+      <BaseButton
         onClick={() => handleClick({ page: currentPage - 1 })}
         disabled={currentPage === 1 || totalPages === 0}
+        style={{ fontSize: "22px", ...navigationButtonStyle }}
+        disabledCSS={{ cursor: "not-allowed", opacity: 0.5 }}
       >
-        Previous
-      </button>
+        {"<"}
+      </BaseButton>
       {renderPageNumbers()}
-      <button
+      <BaseButton
         onClick={() => handleClick({ page: currentPage + 1 })}
         disabled={currentPage === totalPages || totalPages === 0}
+        style={{ fontSize: "22px", ...navigationButtonStyle }}
+        disabledCSS={{ cursor: "not-allowed", opacity: 0.5 }}
       >
-        Next
-      </button>
+        {">"}
+      </BaseButton>
     </div>
+  );
+};
+
+const BaseButton = ({ children, style = {}, ...rest }: ButtonProps) => {
+  return (
+    <Button style={{ ...commonStyle, ...style }} {...rest}>
+      {children}
+    </Button>
   );
 };

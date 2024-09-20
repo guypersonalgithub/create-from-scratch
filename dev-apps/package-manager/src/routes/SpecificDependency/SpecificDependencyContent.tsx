@@ -1,11 +1,13 @@
 import { NPMRegistry } from "@packages/detect-repository-dependencies-types";
-import { Data } from "../../types";
+import { ParsedData } from "../../types";
 import { usePath } from "@packages/router";
 import { SpecificDependencyTable } from "./SpecificDependencyTable";
 import { Button } from "@packages/button";
 import { useRef } from "react";
 import { DependenciesToChange } from "@packages/alter-package-versions-types";
 import { UpdateChangedDependenciesArgs } from "./types";
+import { useActionState } from "@packages/fetch-management";
+import { parseDependenciesData } from "../../utils";
 
 type SpecificDependencyContentProps = {
   data?: NPMRegistry;
@@ -13,7 +15,7 @@ type SpecificDependencyContentProps = {
     label: string;
     value: string;
   }[];
-  depedencyDetails?: Data[number];
+  depedencyDetails?: ParsedData[number];
 };
 
 export const SpecificDependencyContent = ({
@@ -22,6 +24,7 @@ export const SpecificDependencyContent = ({
   depedencyDetails,
 }: SpecificDependencyContentProps) => {
   const changedDependencies = useRef<DependenciesToChange>({});
+  const { isLoading, isError, initiateAction } = useActionState({ id: "updateDependency" });
   const { moveTo } = usePath();
   const { name, description } = data ?? {};
 
@@ -35,6 +38,15 @@ export const SpecificDependencyContent = ({
     const { version, dependencyType } = currentPath;
 
     if (version === newVersion) {
+      const updatedDependencies = changedDependencies.current[path].filter(
+        (updated) => updated.dependency !== name,
+      );
+      if (updatedDependencies.length === 0) {
+        delete changedDependencies.current[path];
+      } else {
+        changedDependencies.current[path] = updatedDependencies;
+      }
+
       return;
     }
 
@@ -75,7 +87,35 @@ export const SpecificDependencyContent = ({
         >
           Back to main
         </Button>
-        <Button>Submit</Button>
+        <Button
+          onClick={async () => {
+            if (Object.keys(changedDependencies.current).length === 0) {
+              return;
+            }
+
+            await initiateAction({
+              body: changedDependencies.current,
+              callback: ({ updateRequests, requestData }) => {
+                const { data = {} } = requestData ?? {};
+
+                updateRequests({
+                  updateStates: {
+                    dependencies: () => {
+                      const parsedData = parseDependenciesData({ currentData: data });
+                      return parsedData;
+                    },
+                  },
+                });
+              },
+              url: `http://localhost:${import.meta.env.VITE_BACK_PORT}/updateDependencies`,
+              method: "POST",
+            });
+
+            changedDependencies.current = {};
+          }}
+        >
+          {!isLoading ? "Submit" : "Loading..."}
+        </Button>
       </div>
     </div>
   );

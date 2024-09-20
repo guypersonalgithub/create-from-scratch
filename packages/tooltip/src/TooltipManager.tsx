@@ -12,6 +12,7 @@ import type { CustomEdges, Edges } from "@packages/edge-intersection";
 type TooltipManagerProps = Partial<
   Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">
 >;
+
 export const TooltipManager = ({
   onMount,
   onUnmount,
@@ -88,6 +89,7 @@ export const TooltipManager = ({
               onUnmount={onUnmount}
               mountOptions={mountOptions ?? { duration: 300 }}
               unmountOptions={unmountOptions}
+              style={{ zIndex: 1000, position: "fixed" }}
               changeMethod="fullPhase"
             >
               <TooltipBody
@@ -111,7 +113,7 @@ export const TooltipManager = ({
   );
 };
 
-type TestProps = Required<
+type TooltipBodyProps = Required<
   Pick<TooltipDisplayProps, "side" | "intersectionRefs" | "distanceFromViewport">
 > &
   Pick<TooltipDisplayProps, "offset"> & {
@@ -128,7 +130,7 @@ const TooltipBody = ({
   intersectionRefs,
   distanceFromViewport,
   transitionDuration,
-}: TestProps) => {
+}: TooltipBodyProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -212,7 +214,6 @@ const TooltipBody = ({
   return (
     <div
       ref={ref}
-      className="tooltip-box"
       style={{
         position: "fixed",
         display: "block",
@@ -224,6 +225,11 @@ const TooltipBody = ({
         left: "-9999px",
         top: "-9999px",
         transition: `opacity ${duration}s ease, visibility ${duration}s ease`,
+        backgroundColor: "black",
+        color: "#fff",
+        padding: "5px 10px",
+        borderRadius: "4px",
+        wordWrap: "break-word",
       }}
     >
       {children}

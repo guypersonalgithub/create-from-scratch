@@ -1,5 +1,4 @@
 import { CSSProperties, InputHTMLAttributes, useState } from "react";
-import "./styles.css";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   externalState?: {
@@ -38,6 +37,8 @@ export const Input = ({ externalState, onFocusCSS, onHoverCSS, ...rest }: InputP
         ...(isFocused ? { outline: "none" } : {}),
         ...onFocusStyle,
         ...onHoverStyle,
+        boxSizing: "border-box",
+        border: 0,
       }}
     />
   );

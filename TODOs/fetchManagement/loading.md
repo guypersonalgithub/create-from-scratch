@@ -1,0 +1,1 @@
+- Add support to loading beyond the first time - we shouldn't necessarily want to display loading components if a second request was sent, as we already have some data to display for the time being.

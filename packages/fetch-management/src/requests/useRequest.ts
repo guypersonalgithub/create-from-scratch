@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
-import { fetchManagement } from "./observer";
+import { fetchManagement } from "../observer";
 import {
   ExpiredAfter,
   ExtendedRequestTypeRegistry,
@@ -8,10 +8,10 @@ import {
   ExtractedData,
   ExtractedCallback,
   PseudoData,
-} from "./types";
-import "./types";
+} from "../types";
 import { activateRequest } from "./activateRequest";
 import { useShouldFetch } from "./useShouldFetch";
+import { shouldAvoidSendingRequest } from "../utils";
 
 // TODO: Consider adding data, isLoading and isError with useRefs.
 
@@ -33,9 +33,10 @@ export const useRequest = <K extends keyof ExtendedRequestTypeRegistry>({
   callback,
 }: UseRequestArgs<K>) => {
   const abortRef = useRef<ReturnType<typeof sendAbortableRequest>["abort"]>();
+  const amountOfAttemptsForCurrentRequest = useRef(0);
 
   useEffect(() => {
-    const unsubscribe = fetchManagement.subscribe({
+    const unsubscribe = fetchManagement.requests.subscribe({
       callback: (value) => {
         const { data, isLoading, isError } = (value?.[id] ?? {}) as PseudoData<K>;
         callback?.({ data, isLoading, isError });
@@ -59,11 +60,26 @@ export const useRequest = <K extends keyof ExtendedRequestTypeRegistry>({
     callback: ExtractedCallback<K>;
   } & Omit<SendAbortableRequestArgs<ExtractedCallbackArg<K>>, "fallback">) => {
     const shouldFetch = useShouldFetch({ id, ...args });
-    if (!shouldFetch) {
+    const { shouldAvoid, attempts } = shouldAvoidSendingRequest({
+      id,
+      attempts: amountOfAttemptsForCurrentRequest.current,
+      ...args,
+    });
+
+    amountOfAttemptsForCurrentRequest.current = attempts;
+
+    if (!shouldFetch || shouldAvoid) {
       return;
     }
 
-    activateRequest({ id, expiredAfter, callback, abortRef, ...args });
+    activateRequest({
+      id,
+      expiredAfter,
+      callback,
+      abortRef,
+      amountOfAttemptsForCurrentRequest,
+      ...args,
+    });
   };
 
   return {

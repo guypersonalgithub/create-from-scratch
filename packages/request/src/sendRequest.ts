@@ -27,7 +27,7 @@ export type SendRequestArgs<T> = {
   url: string;
   params?: Record<string, string | number | boolean | string[] | number[] | boolean[] | undefined>;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
-  body?: string | URLSearchParams;
+  body?: BodyInit | null;
   headers?: Record<string, string>;
   signal?: AbortSignal;
   fallback?: T;
@@ -43,13 +43,18 @@ async function sendRequest<T>({
   params,
   method,
   body,
-  headers,
+  headers = {},
   signal,
   fallback,
 }: SendRequestArgs<T>): Promise<{ response?: T; aborted?: boolean } | undefined> {
   try {
     const parsedURL = setupURL<T>({ url, params });
-    const response = await fetch(parsedURL, { method, body, headers, signal });
+    const response = await fetch(parsedURL, {
+      method,
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json", ...headers },
+      signal,
+    });
     const contentType = response.headers.get("content-type");
     if (response.ok) {
       if (contentType && contentType.includes("application/json")) {

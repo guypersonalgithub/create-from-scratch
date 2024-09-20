@@ -20,6 +20,7 @@ export const Spinner = ({
         height: `${size}px`,
         border: `${borderSize * size}px solid ${backgroundColor}`,
         borderTop: `${borderSize * size}px solid ${spinColor}`,
+        borderRadius: "50%",
       }}
       className="loader"
     />

@@ -6,8 +6,12 @@ import {
   ExtractedCallbackArg,
   PseudoData,
   UpdateStates,
-} from "./types";
-import { fetchManagement, updateObserver, updateObserverMultiple } from "./observer";
+} from "../types";
+import {
+  fetchManagement,
+  updateRequestsObserver,
+  updateRequestsObserverMultiple,
+} from "../observer";
 import { MutableRefObject } from "react";
 
 type ActivateRequestArgs<K extends keyof ExtendedRequestTypeRegistry> = {
@@ -15,6 +19,7 @@ type ActivateRequestArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   expiredAfter?: ExpiredAfter;
   callback: ExtractedCallback<K>;
   abortRef: MutableRefObject<(() => void) | undefined>;
+  amountOfAttemptsForCurrentRequest: MutableRefObject<number>;
 } & Omit<SendAbortableRequestArgs<ExtractedCallbackArg<K>>, "fallback">;
 
 export const activateRequest = async <K extends keyof ExtendedRequestTypeRegistry>({
@@ -22,6 +27,7 @@ export const activateRequest = async <K extends keyof ExtendedRequestTypeRegistr
   expiredAfter,
   callback,
   abortRef,
+  amountOfAttemptsForCurrentRequest,
   ...args
 }: ActivateRequestArgs<K>) => {
   abortRef.current?.();
@@ -32,14 +38,21 @@ export const activateRequest = async <K extends keyof ExtendedRequestTypeRegistr
   let wasAborted = false;
 
   try {
-    updateObserver({ id, expiredAfter, callback, isLoading: true, isError: false, ...args });
+    updateRequestsObserver({
+      id,
+      expiredAfter,
+      callback,
+      isLoading: true,
+      isError: false,
+      ...args,
+    });
 
     const received = await sendRequestFunction<ExtractedCallbackArg<K>>(args);
     const { response, aborted } = received ?? {};
     wasAborted = aborted ?? false;
     if (!wasAborted) {
       let updateStates: UpdateStates<K> | undefined;
-      const receivedData = fetchManagement.getState();
+      const receivedData = fetchManagement.requests.getState();
       const current = receivedData[id] as PseudoData<K> | undefined;
 
       const parsed = callback({
@@ -50,19 +63,22 @@ export const activateRequest = async <K extends keyof ExtendedRequestTypeRegistr
         previousData: current?.data,
       });
 
-      updateObserver({ id, data: parsed, expiredAfter, callback, ...args });
+      updateRequestsObserver({ id, data: parsed });
       if (updateStates) {
-        updateObserverMultiple({ updateStates });
+        updateRequestsObserverMultiple({ updateStates });
       }
+    } else {
+      updateRequestsObserver({ id, isLoading: false });
     }
   } catch (error) {
+    console.error(error);
     if (!wasAborted) {
-      console.error(error);
-      updateObserver({ id, expiredAfter, isError: true, callback, ...args });
+      updateRequestsObserver({ id, isError: true });
     }
   } finally {
     if (!wasAborted) {
-      updateObserver({ id, expiredAfter, isLoading: false, callback, ...args });
+      updateRequestsObserver({ id, isLoading: false });
+      amountOfAttemptsForCurrentRequest.current = 0;
     }
   }
 };

@@ -1,0 +1,1 @@
+- Improve requests based off the method of the request.

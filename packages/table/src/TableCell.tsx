@@ -2,8 +2,10 @@ import { ReactNode } from "react";
 
 type TableCellProps<T> = {
   row: T;
-  children: (row: T) => ReactNode;
+  children: (row: T, rowIndex: number, columnIndex: number) => ReactNode;
   staticColumn?: boolean;
+  rowIndex: number;
+  index: number;
 } & (Size | ClassName);
 
 type Size = {
@@ -22,6 +24,8 @@ export const TableCell = <T,>({
   staticColumn = true,
   className,
   size,
+  rowIndex,
+  index,
 }: TableCellProps<T>) => {
   return (
     <div
@@ -34,7 +38,7 @@ export const TableCell = <T,>({
         ...(size ? { width: `${size}px` } : {}),
       }}
     >
-      {children(row)}
+      {children(row, rowIndex, index)}
     </div>
   );
 };

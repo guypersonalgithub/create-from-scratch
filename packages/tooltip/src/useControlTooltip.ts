@@ -1,11 +1,9 @@
-import { useMemo } from "react";
+import { useRef } from "react";
 import { TooltipDisplayProps } from "./types";
 import { generateSecureRandomString } from "@packages/randomizer";
 
 export const useControlTooltip = () => {
-  const id = useMemo(() => {
-    return generateSecureRandomString();
-  }, []);
+  const id = useRef(generateSecureRandomString());
 
   const showTooltip = ({
     content,
@@ -17,7 +15,7 @@ export const useControlTooltip = () => {
   }: Omit<TooltipDisplayProps, "id">) => {
     const event = new CustomEvent<TooltipDisplayProps>("showTooltip", {
       detail: {
-        id,
+        id: id.current,
         content,
         ref,
         side,
@@ -31,13 +29,13 @@ export const useControlTooltip = () => {
 
   const hideTooltip = () => {
     const event = new CustomEvent<Pick<TooltipDisplayProps, "id">>("hideTooltip", {
-      detail: { id },
+      detail: { id: id.current },
     });
     window.dispatchEvent(event);
   };
 
   return {
-    id,
+    id: id.current,
     showTooltip,
     hideTooltip,
   };
