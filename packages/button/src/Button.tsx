@@ -28,9 +28,15 @@ export const Button = ({
         rest.onFocus?.(e);
         setIsFocused(true);
       }}
+      onBlur={() => {
+        setIsFocused(false);
+      }}
       onMouseEnter={(e) => {
         rest.onMouseEnter?.(e);
         setIsHovered(true);
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false);
       }}
       style={{
         ...rest.style,

@@ -12,14 +12,29 @@ export const TriggerPopperManager = () => {
   useEffect(() => {
     const showTriggerPopper = (event: CustomEvent<TriggerPopperDisplayProps>) => {
       const { id, content, style, onMount, onUnmount, mountOptions, unmountOptions } = event.detail;
-      if (triggerPopperIds.current.has(id)) {
-        return;
-      }
 
-      setTriggerPoppers((prev) => [
-        ...prev,
-        { id, content, style, onMount, onUnmount, mountOptions, unmountOptions },
-      ]);
+      setTriggerPoppers((prev) => {
+        if (triggerPopperIds.current.has(id)) {
+          const shallowCopy = prev.slice();
+          const existingIndex = shallowCopy.findIndex((curr) => curr.id === id);
+
+          if (existingIndex !== -1) {
+            shallowCopy[existingIndex] = {
+              id,
+              content,
+              style,
+              onMount,
+              onUnmount,
+              mountOptions,
+              unmountOptions,
+            };
+
+            return shallowCopy;
+          }
+        }
+
+        return [...prev, { id, content, style, onMount, onUnmount, mountOptions, unmountOptions }];
+      });
       triggerPopperIds.current.add(id);
     };
 
@@ -30,7 +45,6 @@ export const TriggerPopperManager = () => {
         return;
       }
 
-      triggerPopperIds.current.delete(id);
       setTriggerPoppers((prev) => {
         const remainingTriggerPoppers = prev.filter((triggerPopper) => triggerPopper.id !== id);
         triggerPopperIds.current = new Set();

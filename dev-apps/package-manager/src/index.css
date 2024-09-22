@@ -17,3 +17,20 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.main-route-table-row-odd {
+  background-color: #3d3d3d;
+
+}
+.main-route-table-row-even {
+  background-color: #1a1a1a;
+}
+
+.main-route-table-row {
+  transition: background-color 0.3s ease in;
+  border-bottom: 1px solid #383232;
+}
+
+.main-route-table-row:hover {
+  background-color: #575757;
+}

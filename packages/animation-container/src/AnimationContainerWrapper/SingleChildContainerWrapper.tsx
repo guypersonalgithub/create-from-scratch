@@ -34,8 +34,10 @@ const FullPhase = ({
   const keyAlreadyExists = currentChildKey.current === children.key;
 
   useEffect(() => {
-    if (!rest.onMount && !rest.onUnmount) {
+    const sameChild = currentChildKey.current === children.key;
+    if ((!rest.onMount && !rest.onUnmount) || sameChild) {
       setCurrentChild(children);
+      currentChildKey.current = children.key;
     }
   }, [children]);
 

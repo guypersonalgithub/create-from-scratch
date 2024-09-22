@@ -2,31 +2,49 @@ import { Typeahead } from "@packages/typeahead";
 import { semverOptions } from "../../constants";
 import { getSemVer } from "../../utils";
 import { InstancesType, SpecificDependencyTableProps } from "./types";
-import { Dispatch, MutableRefObject, SetStateAction, useRef, useState } from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "@packages/button";
+import { DependenciesToChange } from "@packages/alter-package-versions-types";
 
 type VersionTypeAheadsProps = {
+  name?: string;
   data?: InstancesType[number];
   valueCallbacksRef?: MutableRefObject<Dispatch<SetStateAction<string>>[]>;
   index?: number;
   versions: SpecificDependencyTableProps["versions"];
   updateChangedDependencies?: SpecificDependencyTableProps["updateChangedDependencies"];
   versionRef?: MutableRefObject<string>;
+  changedDependencies: DependenciesToChange;
 };
 
 export const VersionTypeAheads = ({
+  name,
   data,
   versions,
   updateChangedDependencies,
   valueCallbacksRef,
   index,
   versionRef,
+  changedDependencies,
 }: VersionTypeAheadsProps) => {
-  const [version, setVersion] = useState(data?.version ?? "");
+  const getCurrentVersion = () => {
+    const currentPathChanges = data ? changedDependencies[data.path] : [];
+    const newVersion = currentPathChanges?.find(
+      (dependency) => dependency.dependency === name,
+    )?.newVersion;
+
+    return newVersion ?? data?.version ?? "";
+  };
+
+  const [version, setVersion] = useState(getCurrentVersion());
   const { semver, actualVersion } = getSemVer({ version });
   if (updateChangedDependencies && index !== undefined && valueCallbacksRef) {
     valueCallbacksRef.current[index] = setVersion;
   }
+
+  useEffect(() => {
+    setVersion(getCurrentVersion());
+  }, [data?.version, data?.path]);
 
   return (
     <div style={{ display: "flex", gap: "10px" }}>
@@ -66,14 +84,24 @@ export const VersionTypeAheads = ({
 
 type SelectedTriggerPopperProps = {
   hideTriggerPopper: () => void;
+  checked: Set<string>;
   setChecked: Dispatch<SetStateAction<Set<string>>>;
-} & Pick<VersionTypeAheadsProps, "versions" | "valueCallbacksRef">;
+  instances?: InstancesType;
+} & Pick<
+  VersionTypeAheadsProps,
+  "name" | "versions" | "valueCallbacksRef" | "changedDependencies" | "updateChangedDependencies"
+>;
 
 export const SelectedTriggerPopper = ({
+  name,
   versions,
   valueCallbacksRef,
   hideTriggerPopper,
+  checked,
   setChecked,
+  instances = [],
+  changedDependencies,
+  updateChangedDependencies,
 }: SelectedTriggerPopperProps) => {
   const versionRef = useRef<string>("");
 
@@ -88,7 +116,12 @@ export const SelectedTriggerPopper = ({
         justifyItems: "center",
       }}
     >
-      <VersionTypeAheads versions={versions} versionRef={versionRef} />
+      <VersionTypeAheads
+        name={name}
+        versions={versions}
+        versionRef={versionRef}
+        changedDependencies={changedDependencies}
+      />
       <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
         <Button
           onClick={() => {
@@ -100,9 +133,22 @@ export const SelectedTriggerPopper = ({
         </Button>
         <Button
           onClick={() => {
-            valueCallbacksRef?.current.forEach((callback) => {
-              callback(versionRef.current);
+            const checkedRows: { path: string; index: number }[] = [];
+            instances.forEach((instance, index) => {
+              if (checked.has(instance.path)) {
+                checkedRows.push({ path: instance.path, index });
+              }
             });
+
+            checkedRows.forEach((checkedRow) => {
+              updateChangedDependencies?.({
+                path: checkedRow.path,
+                newVersion: versionRef.current,
+              });
+              const callback = valueCallbacksRef?.current?.[checkedRow.index];
+              callback?.(versionRef.current);
+            });
+
             setChecked(new Set<string>());
             hideTriggerPopper();
           }}

@@ -21,7 +21,6 @@ export const Tooltip = ({
   distanceFromViewport,
   children,
 }: TooltipProps) => {
-  const isHovered = useRef(false);
   const ref = useRef<HTMLDivElement>(null);
   const intersectionRefs: EdgeWrapperRefs = {
     top: createRef(),
@@ -58,8 +57,6 @@ export const Tooltip = ({
       return;
     }
 
-    isHovered.current = true;
-
     showTooltip({
       content,
       ref,
@@ -74,8 +71,6 @@ export const Tooltip = ({
     if (isDisabled || disableTooltipBecauseOfEllipsis()) {
       return;
     }
-
-    isHovered.current = false;
 
     hideTooltip();
   };

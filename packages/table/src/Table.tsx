@@ -1,46 +1,9 @@
-import { CSSProperties, ReactNode } from "react";
 import { TableHeader } from "./TableHeader";
 import { TableCell } from "./TableCell";
-import { Pagination, PaginationProps } from "@packages/pagination";
+import { Pagination } from "@packages/pagination";
 import { getDisplayedRows } from "./utils";
-
-type Column<T> = {
-  header: (() => ReactNode) | ReactNode;
-  cell: (data: T, index: number) => ReactNode;
-  staticColumn?: boolean;
-} & (Size | ClassName);
-
-type TableProps<T> = {
-  data?: T[];
-  requestData?: {
-    isLoading: boolean;
-    isError: boolean;
-    amountOfRows?: number;
-  };
-  onRowClick?: (data: T) => void;
-  columns: Column<T>[];
-  rows?: {
-    headerRow?: Size | ClassName;
-    dataRow?: Size | ClassName;
-  };
-  columnGap?: number;
-  headerContainer?: CSSProperties;
-  rowContainer?: CSSProperties;
-  pagination?: {
-    paginationProps: Omit<PaginationProps, "totalPages">;
-    rowsPerPage: number;
-  };
-};
-
-type Size = {
-  size: number;
-  className?: never;
-};
-
-type ClassName = {
-  size?: never;
-  className: string;
-};
+import { Column, TableProps } from "./types";
+import { combineStringsWithSpaces } from "@packages/utils";
 
 export const Table = <T extends Record<string, unknown>>({
   data = [],
@@ -51,6 +14,8 @@ export const Table = <T extends Record<string, unknown>>({
   columnGap,
   headerContainer = {},
   rowContainer = {},
+  dataRowStyle,
+  dataRowClass,
   pagination,
 }: TableProps<T>) => {
   const { headerRow, dataRow } = rows ?? {};
@@ -101,39 +66,47 @@ export const Table = <T extends Record<string, unknown>>({
           </div>
         </div>
         <div style={rowContainer}>
-          {displayedDataRows.map((row, rowIndex) => (
-            <div
-              key={rowIndex}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                minWidth: "fit-content",
-                width: "100%",
-                height: dataRow?.size ? `${dataRow.size}px` : undefined,
-                gap: columnGap ? `${columnGap}px` : undefined,
-                cursor: onRowClick ? "pointer" : undefined,
-              }}
-              onClick={() => onRowClick?.(row)}
-              className={dataRow?.className}
-            >
-              {columns.map((column, colIndex) => {
-                const { className, size, staticColumn } = column;
-                const columnProperties = { className, size, staticColumn } as Column<T>;
+          {displayedDataRows.map((row, rowIndex) => {
+            const rowStyle = dataRowStyle?.(row, rowIndex) ?? {};
 
-                return (
-                  <TableCell
-                    key={colIndex}
-                    row={row}
-                    rowIndex={rowIndex}
-                    index={colIndex}
-                    {...columnProperties}
-                  >
-                    {column.cell}
-                  </TableCell>
-                );
-              })}
-            </div>
-          ))}
+            return (
+              <div
+                key={rowIndex}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  minWidth: "fit-content",
+                  width: "100%",
+                  height: dataRow?.size ? `${dataRow.size}px` : undefined,
+                  gap: columnGap ? `${columnGap}px` : undefined,
+                  cursor: onRowClick ? "pointer" : undefined,
+                  ...rowStyle,
+                }}
+                onClick={() => onRowClick?.(row)}
+                className={combineStringsWithSpaces(
+                  dataRow?.className,
+                  dataRowClass?.(row, rowIndex),
+                )}
+              >
+                {columns.map((column, colIndex) => {
+                  const { className, size, staticColumn } = column;
+                  const columnProperties = { className, size, staticColumn } as Column<T>;
+
+                  return (
+                    <TableCell
+                      key={colIndex}
+                      row={row}
+                      rowIndex={rowIndex}
+                      index={colIndex}
+                      {...columnProperties}
+                    >
+                      {column.cell}
+                    </TableCell>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
       {paginationProps ? (

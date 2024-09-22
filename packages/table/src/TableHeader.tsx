@@ -25,6 +25,8 @@ export const TableHeader = ({
     <div
       className={className}
       style={{
+        display: "flex",
+        alignItems: "center",
         height: "fit-content",
         textAlign: "left",
         flexGrow: staticColumn ? 0 : 1,

@@ -67,8 +67,6 @@ export const activateRequest = async <K extends keyof ExtendedRequestTypeRegistr
       if (updateStates) {
         updateRequestsObserverMultiple({ updateStates });
       }
-    } else {
-      updateRequestsObserver({ id, isLoading: false });
     }
   } catch (error) {
     console.error(error);

@@ -10,9 +10,11 @@ import { useControlTriggerPopper } from "@packages/trigger-popper";
 import { SelectedTriggerPopper, VersionTypeAheads } from "./VersionTypeAheads";
 
 export const SpecificDependencyTable = ({
+  name,
   versions,
   depedencyDetails,
   updateChangedDependencies,
+  changedDependencies,
 }: SpecificDependencyTableProps) => {
   const valueCallbacksRef = useRef<Dispatch<SetStateAction<string>>[]>([]);
   const [checked, setChecked] = useState<Set<string>>(new Set<string>()); // TODO: Consider managing state per row and having access to other states through refs for the header.
@@ -22,53 +24,81 @@ export const SpecificDependencyTable = ({
   const { showTriggerPopper, hideTriggerPopper } = useControlTriggerPopper();
 
   useEffect(() => {
-    if (checked.size > 0) {
-      const style: CSSProperties = {
-        position: "fixed",
-        bottom: 0,
-        width: "100%",
-        height: "100px",
-        backgroundColor: "black",
-      };
-
-      const onMount: Keyframe[] = [
-        { transform: "translateY(100%)", opacity: 0 },
-        { transform: "translateY(0%)", opacity: 1 },
-      ];
-      const mountOptions: KeyframeAnimationOptions = {
-        duration: 300,
-      };
-
-      showTriggerPopper({
-        content: (
-          <SelectedTriggerPopper
-            versions={versions}
-            hideTriggerPopper={hideTriggerPopper}
-            valueCallbacksRef={valueCallbacksRef}
-            setChecked={setChecked}
-          />
-        ),
-        style,
-        onMount,
-        mountOptions,
-      });
-    } else {
+    return () => {
       hideTriggerPopper();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (checked.size === 0) {
+      return hideTriggerPopper();
     }
-  }, [checked.size]);
+
+    const style: CSSProperties = {
+      position: "fixed",
+      bottom: 0,
+      width: "100%",
+      height: "100px",
+      backgroundColor: "black",
+    };
+
+    const onMount: Keyframe[] = [
+      { transform: "translateY(100%)", opacity: 0 },
+      { transform: "translateY(0%)", opacity: 1 },
+    ];
+    const mountOptions: KeyframeAnimationOptions = {
+      duration: 300,
+    };
+
+    showTriggerPopper({
+      content: (
+        <SelectedTriggerPopper
+          name={name}
+          versions={versions}
+          hideTriggerPopper={hideTriggerPopper}
+          valueCallbacksRef={valueCallbacksRef}
+          checked={checked}
+          setChecked={setChecked}
+          instances={depedencyDetails?.instances}
+          changedDependencies={changedDependencies}
+          updateChangedDependencies={updateChangedDependencies}
+        />
+      ),
+      style,
+      onMount,
+      mountOptions,
+    });
+  }, [checked]);
 
   return (
     <Table
       headerContainer={{
         backgroundColor: "#242424",
+        borderBottom: "1px solid #383232",
       }}
       rowContainer={{
-        height: "200px",
+        height: "250px",
       }}
       rows={{
         dataRow: {
-          size: 25,
+          size: 35,
         },
+      }}
+      dataRowClass={(_, index) => {
+        const baseClass = "main-route-table-row";
+
+        return (
+          baseClass +
+          " " +
+          (index % 2 === 0 ? "main-route-table-row-odd" : "main-route-table-row-even")
+        );
+      }}
+      dataRowStyle={(data) => {
+        if (checked.has(data.path)) {
+          return { backgroundColor: "#575757" };
+        }
+
+        return {};
       }}
       columns={[
         {
@@ -117,11 +147,13 @@ export const SpecificDependencyTable = ({
           cell: (data, index) => {
             return (
               <VersionTypeAheads
+                name={name}
                 data={data}
                 versions={versions}
                 updateChangedDependencies={updateChangedDependencies}
                 valueCallbacksRef={valueCallbacksRef}
                 index={index}
+                changedDependencies={changedDependencies}
               />
             );
           },

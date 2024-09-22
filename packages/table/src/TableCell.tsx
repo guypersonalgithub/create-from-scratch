@@ -31,6 +31,8 @@ export const TableCell = <T,>({
     <div
       className={className}
       style={{
+        display: "flex",
+        alignItems: "center",
         textAlign: "left",
         height: "inherit",
         flexGrow: staticColumn ? 0 : 1,

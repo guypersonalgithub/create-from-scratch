@@ -46,9 +46,6 @@ services:
       - type: volume
         target: /usr/src/app/node_modules
       - type: bind
-        source: ./packages/shared-types
-        target: /usr/src/app/packages/shared-types
-      - type: bind
         source: ./packages/express-postgres-db
         target: /usr/src/app/packages/express-postgres-db
       - type: bind
@@ -126,9 +123,6 @@ services:
       - type: volume
         target: /usr/src/app/node_modules
       - type: bind
-        source: ./packages/shared-types
-        target: /usr/src/app/packages/shared-types
-      - type: bind
         source: ./packages/micro-frontends
         target: /usr/src/app/packages/micro-frontends
       - type: bind
@@ -144,14 +138,14 @@ services:
         source: ./packages/button
         target: /usr/src/app/packages/button
       - type: bind
+        source: ./packages/utils
+        target: /usr/src/app/packages/utils
+      - type: bind
         source: ./packages/tooltip
         target: /usr/src/app/packages/tooltip
       - type: bind
         source: ./packages/animation-container
         target: /usr/src/app/packages/animation-container
-      - type: bind
-        source: ./packages/utils
-        target: /usr/src/app/packages/utils
       - type: bind
         source: ./packages/is-dev
         target: /usr/src/app/packages/is-dev

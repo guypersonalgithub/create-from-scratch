@@ -63,14 +63,22 @@ export const MainRoute = () => {
       <Table
         headerContainer={{
           backgroundColor: "#242424",
+          borderBottom: "1px solid #383232",
         }}
         rowContainer={{
-          height: "200px",
+          height: "250px",
         }}
         rows={{
           dataRow: {
-            size: 25,
+            size: 35,
           },
+        }}
+        dataRowClass={(_, index) => {
+          const baseClass = "main-route-table-row";
+
+          return (
+            baseClass + " " + (index % 2 === 0 ? "main-route-table-row-odd" : "main-route-table-row-even")
+          );
         }}
         columns={[
           {

@@ -44,7 +44,6 @@ export const TooltipManager = ({
         return;
       }
 
-      tooltipIds.current.delete(id);
       setTooltips((prev) => {
         const remainingTooltips = prev.filter((tooltip) => tooltip.id !== id);
         tooltipIds.current = new Set();

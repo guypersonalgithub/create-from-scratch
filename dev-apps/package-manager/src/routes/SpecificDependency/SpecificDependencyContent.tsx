@@ -72,9 +72,11 @@ export const SpecificDependencyContent = ({
       <div>{name}</div>
       <div>{description}</div>
       <SpecificDependencyTable
+        name={data?.name}
         versions={versions}
         depedencyDetails={depedencyDetails}
         updateChangedDependencies={updateChangedDependencies}
+        changedDependencies={changedDependencies.current}
       />
       <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
         <Button

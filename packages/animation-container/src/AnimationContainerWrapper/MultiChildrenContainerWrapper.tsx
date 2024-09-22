@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import { getChildKeys } from "./utils";
+import { areSetsEqual } from "@packages/utils";
 
 type MultiChildrenContainerWrapper = AnimationContainerWrapperProps & {
   children: ReactElement[];
@@ -35,11 +36,13 @@ const FullPhase = ({
   const latestChildrenRef = useRef<ReactElement[]>(children);
 
   useEffect(() => {
+    const existingKeys = getChildKeys({ children: latestChildrenRef.current });
     latestChildrenRef.current = children;
     const updatedKeys = getChildKeys({ children });
     setChildrenKeys(updatedKeys);
+    const areSameChildren = areSetsEqual({ setA: existingKeys, setB: updatedKeys });
 
-    if (currentChildKeys.current.size > 0 && (rest.onMount || rest.onUnmount)) {
+    if (currentChildKeys.current.size > 0 && (rest.onMount || rest.onUnmount) && !areSameChildren) {
       return;
     }
 

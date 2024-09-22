@@ -3,15 +3,14 @@ WORKDIR /usr/src/app
 COPY ./apps/vite-client/package.json ./package.json
 COPY ./apps/vite-client/package-lock.json ./package-lock.json
 COPY ./apps/vite-client/package.json ./apps/vite-client/package.json
-COPY ./packages/shared-types/package.json ./packages/shared-types/package.json
 COPY ./packages/micro-frontends/package.json ./packages/micro-frontends/package.json
 COPY ./packages/get-fps/package.json ./packages/get-fps/package.json
 COPY ./packages/table/package.json ./packages/table/package.json
 COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/button/package.json ./packages/button/package.json
+COPY ./packages/utils/package.json ./packages/utils/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
-COPY ./packages/utils/package.json ./packages/utils/package.json
 COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
 COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/package.json
@@ -32,15 +31,14 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 USER node
 COPY --chown=node:node ./apps/vite-client ./
-COPY ./packages/shared-types ./packages/shared-types
 COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/get-fps ./packages/get-fps
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/button ./packages/button
+COPY ./packages/utils ./packages/utils
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
-COPY ./packages/utils ./packages/utils
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
@@ -63,15 +61,14 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm ci --only=production
 USER node
 COPY --chown=node:node ./apps/vite-client ./
-COPY ./packages/shared-types ./packages/shared-types
 COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/get-fps ./packages/get-fps
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/button ./packages/button
+COPY ./packages/utils ./packages/utils
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
-COPY ./packages/utils ./packages/utils
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
@@ -94,15 +91,14 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm install
 USER node
 COPY --chown=node:node ./apps/vite-client ./
-COPY ./packages/shared-types ./packages/shared-types
 COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/get-fps ./packages/get-fps
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/button ./packages/button
+COPY ./packages/utils ./packages/utils
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
-COPY ./packages/utils ./packages/utils
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
