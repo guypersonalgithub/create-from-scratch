@@ -19,6 +19,8 @@ COPY ./packages/url/package.json ./packages/url/package.json
 COPY ./packages/environment/package.json ./packages/environment/package.json
 COPY ./packages/design-patterns/package.json ./packages/design-patterns/package.json
 COPY ./packages/request/package.json ./packages/request/package.json
+COPY ./packages/collapsible/package.json ./packages/collapsible/package.json
+COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 
 
 
@@ -47,6 +49,8 @@ COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/request ./packages/request
+COPY ./packages/collapsible ./packages/collapsible
+COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "dev"]
 
@@ -77,6 +81,8 @@ COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/request ./packages/request
+COPY ./packages/collapsible ./packages/collapsible
+COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "build"]
 
@@ -107,5 +113,7 @@ COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/request ./packages/request
+COPY ./packages/collapsible ./packages/collapsible
+COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/cypress ./packages/cypress
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

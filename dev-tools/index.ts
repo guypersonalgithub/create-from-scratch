@@ -15,6 +15,7 @@ export * from "./operatingSystem";
 export * from "./globalDependencies";
 export * from "./clis";
 export * from "./ports";
+export * from "./yaml";
 export { getFlags } from "@packages/utils";
 export type { Flag } from "@packages/utils";
 export * from "@packages/paths";

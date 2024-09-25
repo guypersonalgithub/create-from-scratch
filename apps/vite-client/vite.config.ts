@@ -46,6 +46,11 @@ export default defineConfig({
         "../../packages/edge-intersection/src/index.ts",
       ),
       "packages/button": path.resolve("__dirname", "../../packages/button/src/index.ts"),
+      "packages/collapsible": path.resolve("__dirname", "../../packages/collapsible/src/index.ts"),
+      "packages/copy-to-clipboard": path.resolve(
+        "__dirname",
+        "../../packages/copy-to-clipboard/src/index.ts",
+      ),
     },
   },
 });

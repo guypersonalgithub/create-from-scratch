@@ -10,6 +10,8 @@ import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
 } from "@packages/animation-container";
+import { Collapsible } from "@packages/collapsible";
+import { CopyToClipboard } from "@packages/copy-to-clipboard";
 
 export const MainRoute = () => {
   const [count, setCount] = useState(0);
@@ -29,6 +31,10 @@ export const MainRoute = () => {
 
   return (
     <div>
+      <Collapsible title="Toggle" maximumContentHeight={100}>
+        testhi
+      </Collapsible>
+      <CopyToClipboard textToCopy="Test123" />
       <Test />
       <PostMessage />
       <div>
