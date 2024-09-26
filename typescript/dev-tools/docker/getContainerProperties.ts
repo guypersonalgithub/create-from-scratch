@@ -6,23 +6,18 @@ type GetContainerPropertiesArgs = {
   workspace: string;
 };
 
-export const getContainerProperties = ({
-  folderPath,
-  workspace,
-}: GetContainerPropertiesArgs) => {
+export const getContainerProperties = ({ folderPath, workspace }: GetContainerPropertiesArgs) => {
   try {
     const workspaceContainerProperties = readFileSync(
       `${folderPath}/${workspace}/containerProperties.json`,
       {
         encoding: "utf-8",
         flag: "r",
-      }
+      },
     );
 
-    return JSON.parse(
-      workspaceContainerProperties
-    ) as WorkspaceContainerProperties;
+    return JSON.parse(workspaceContainerProperties) as WorkspaceContainerProperties;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 };

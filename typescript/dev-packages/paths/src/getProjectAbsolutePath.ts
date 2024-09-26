@@ -2,7 +2,7 @@ import { dirname, join, parse } from "path";
 import { existsSync } from "fs";
 
 export const getProjectAbsolutePath = () => {
-  const rootMarker = ".git";
+  const rootMarker = "node_modules";
 
   let dir = process.cwd();
 
