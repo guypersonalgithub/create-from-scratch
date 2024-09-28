@@ -22,8 +22,6 @@ export const printHelp = () => {
     )}`,
     [SupportedCommands.GENERATE_POSTGRES_TYPES]:
       "Generates an appropriate types package and file with the tables' columns' types.",
-    [SupportedCommands.GET_DEPENDENCIES]:
-      "Generates a list with all dependencies in any package.json in the repository and other json files, based off the configuration file",
     [SupportedCommands.VITE_ALIASES]:
       "Updates for each workspace based off Vite its resolve aliases of local dependencies within its vite config file",
     [SupportedCommands.PACKAGE_LOCK]:

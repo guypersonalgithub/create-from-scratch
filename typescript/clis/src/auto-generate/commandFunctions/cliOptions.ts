@@ -1,17 +1,13 @@
-import {
-  Flag,
-  detectChangedDependencies,
-  generateDockerComposeDev,
-  generateDockerfileDev,
-  generatePackageLock,
-  updateViteConfigLocalDependenciesAliases,
-} from "dev-tools";
+import { generateDockerComposeDev, generateDockerfileDev } from "dev-tools";
 import { SupportedCommands } from "./supportedCommands";
 import { printHelp } from "./printHelp";
 import { runDockerContainers } from "./runDockerContainers";
 import { generateAndInstallPackage } from "./generateAndInstallPackage";
 import { generatePostgresTypes } from "./generatePostgresTypes";
-import { pickDependenciesToUpdate } from "./pickDependenciesToUpdate";
+import { updateViteConfigLocalDependenciesAliases } from "@packages/vite";
+import { detectChangedDependencies } from "@packages/git";
+import { Flag } from "@packages/utils";
+import { generatePackageLock } from "@packages/package-lock";
 
 type CliOptionsArgs = {
   command: Flag;
@@ -43,10 +39,6 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.GENERATE_POSTGRES_TYPES: {
       await generatePostgresTypes();
-      break;
-    }
-    case SupportedCommands.GET_DEPENDENCIES: {
-      await pickDependenciesToUpdate();
       break;
     }
     case SupportedCommands.VITE_ALIASES: {

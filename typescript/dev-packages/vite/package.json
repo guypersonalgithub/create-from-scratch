@@ -1,0 +1,25 @@
+{
+  "name": "@packages/vite",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@packages/paths": "*",
+    "@packages/packages": "*",
+    "@packages/typescript": "*",
+    "@packages/eslint": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

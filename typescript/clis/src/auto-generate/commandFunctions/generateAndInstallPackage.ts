@@ -1,11 +1,10 @@
+import { multiSelect } from "@packages/terminal-multi-select";
+import { executeTerminalCommand, getUserInput } from "@packages/terminal-utils";
+import { generatePackage } from "@packages/packages";
 import {
   detectRepositoryPackageManager,
-  executeTerminalCommand,
-  generatePackage,
   getPackageManagerInstallCommand,
-  getUserInput,
-  multiOptions,
-} from "dev-tools";
+} from "@packages/package-manager";
 
 type GenerateAndInstallPackageArgs = {
   value: string[];
@@ -31,7 +30,7 @@ export const generateAndInstallPackage = async ({ value }: GenerateAndInstallPac
     return;
   }
 
-  const selectedOptions = await multiOptions({
+  const selectedOptions = await multiSelect({
     options: [
       {
         value: "packages",

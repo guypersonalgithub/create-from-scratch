@@ -1,6 +1,7 @@
-import { Option, getFlags, multiOptions } from "dev-tools";
+import { Option, multiSelect } from "@packages/terminal-multi-select";
 import { cliOptions } from "./commandFunctions/cliOptions";
 import { SupportedCommands } from "./commandFunctions/supportedCommands";
+import { getFlags } from "@packages/utils";
 
 const entryPoint = async () => {
   const commands = getFlags();
@@ -17,7 +18,7 @@ const entryPoint = async () => {
       });
     }
 
-    const selectedOptions = await multiOptions({
+    const selectedOptions = await multiSelect({
       options,
       prefixText: "Please pick the option you'd like to use:\n",
       suffixText: "\nPress Enter to confirm",

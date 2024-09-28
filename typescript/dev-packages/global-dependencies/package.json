@@ -1,0 +1,20 @@
+{
+  "name": "@packages/global-dependencies",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@packages/package-manager": "*",
+    "@packages/terminal-utils": "*"
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

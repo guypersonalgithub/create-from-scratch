@@ -1,11 +1,6 @@
-import {
-  detectPackage,
-  detectPostgresContainersInRepo,
-  generatePostgresDBTypes,
-  insertPackageTypes,
-  parseEnvironmentString,
-  loadEnvVariables,
-} from "dev-tools";
+import { detectPostgresContainersInRepo, generatePostgresDBTypes } from "dev-tools";
+import { parseEnvironmentString, loadEnvVariables } from "@packages/dev-utils";
+import { detectPackage, insertPackageTypes } from "@packages/packages";
 
 export const generatePostgresTypes = async () => {
   const services = detectPostgresContainersInRepo();

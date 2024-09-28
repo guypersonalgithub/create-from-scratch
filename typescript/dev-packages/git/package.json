@@ -6,6 +6,10 @@
   "scripts": {
     "build": "tsc -b ."
   },
+  "dependencies": {
+    "@packages/paths": "*",
+    "@packages/terminal-utils": "*"
+  },
   "author": "",
   "license": "ISC",
   "main": "./src/index.ts",

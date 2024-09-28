@@ -1,9 +1,7 @@
-import {
-  cliAlreadyInstalled,
-  executeTerminalCommand,
-  getOperatingSystem,
-  getPackageManagerLinkCommand,
-} from "../dev-tools";
+import { cliAlreadyInstalled } from "@packages/clis";
+import { getOperatingSystem } from "@packages/os";
+import { executeTerminalCommand } from "@packages/terminal-utils";
+import { getPackageManagerLinkCommand } from "@packages/package-manager";
 
 const installAutoGenerateIfNotAlreadyInstalled = async () => {
   const isAlreadyInstalled = await cliAlreadyInstalled({ cliName: "custom-clis" });

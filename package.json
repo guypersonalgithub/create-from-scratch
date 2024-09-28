@@ -5,11 +5,13 @@
   "private": true,
   "package-lock": false,
   "scripts": {
-    "preinstall": "node skipInstall.js",
     "packagemanager": "cd typescript && npm run packagemanager",
     "workspace": "cd typescript && npm run workspace",
     "dependensee": "cd typescript && npm run dependensee",
     "view-global-npm-installs": "npm ls -g --depth=0",
     "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.2"
   }
 }

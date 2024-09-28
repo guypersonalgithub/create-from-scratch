@@ -1,11 +1,11 @@
 // TODO: Move to a dedicated new CLI.
 
+// import { getOpenBrowserTabCommand } from "@packages/dev-utils";
+import { findAvailablePortsInRange } from "@packages/ports";
 import {
-  findAvailablePortsInRange,
-  // getOpenBrowserTabCommand,
   runSequencedCommands,
   // RunSequencedCommandsArgs,
-} from "../dev-tools";
+} from "@packages/terminal-multi-commands";
 
 const runDependensee = async () => {
   const basePort = 10000;

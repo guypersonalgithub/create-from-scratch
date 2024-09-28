@@ -1,16 +1,13 @@
 import { readdirSync } from "fs";
-import {
-  detectPackageEnvironment,
-  ExecuteTerminalCommandWithReadinessCheckArgs,
-  findAvailablePortsInRange,
-  getFlags,
-  getOpenBrowserTabCommand,
-  getOperatingSystem,
-  getProjectAbsolutePath,
-  runSequencedCommands,
-} from "../dev-tools";
+import { getFlags, getProjectAbsolutePath } from "../dev-tools";
 import { sep } from "path";
 import { convertFlagsArrayToObject } from "../packages/utils/src/flags";
+import { getOperatingSystem } from "@packages/os";
+import { detectPackageEnvironment } from "@packages/dev-utils";
+import { ExecuteTerminalCommandWithReadinessCheckArgs } from "@packages/terminal-utils";
+import { getOpenBrowserTabCommand } from "@packages/dev-utils";
+import { findAvailablePortsInRange } from "@packages/ports";
+import { runSequencedCommands } from "@packages/terminal-multi-commands";
 
 const runWorkspace = async () => {
   const flags = getFlags();

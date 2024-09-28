@@ -9,12 +9,8 @@
   "dependencies": {
     "@packages/postgresql": "*",
     "@packages/utils": "*",
-    "@packages/regex": "*",
     "@packages/paths": "*",
-    "@packages/files": "*",
-    "@packages/request": "*",
-    "@packages/package-manager": "*",
-    "@packages/git": "*"
+    "@packages/terminal-utils": "*"
   },
   "author": "",
   "license": "ISC",

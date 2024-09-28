@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { GithubActionYaml } from "./types";
 import jsYaml from "js-yaml";
 import { getProjectAbsolutePath } from "@packages/paths";
-import { detectUsedLocalPackages } from "../packages";
+import { detectUsedLocalPackages } from "@packages/packages";
 
 export const generateGithubActionYaml = async () => {
   console.log("Generating new github action yaml files");

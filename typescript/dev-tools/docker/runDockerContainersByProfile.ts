@@ -1,4 +1,4 @@
-import { executeTerminalCommand } from "../terminal";
+import { executeTerminalCommand } from "@packages/terminal-utils";
 import { getAvailableDockerProfiles } from "./getAvailableDockerProfiles";
 
 type RunDockerContainersByProfileArgs = {
@@ -23,9 +23,7 @@ export const runDockerContainersByProfile = async ({
   }, initialCommand);
 
   if (command === initialCommand) {
-    console.error(
-      "None of the received profiles was supported, cancelling the request."
-    );
+    console.error("None of the received profiles was supported, cancelling the request.");
     return;
   }
 

@@ -1,4 +1,5 @@
-import { getAvailableDockerProfiles, multiOptions, runDockerContainersByProfile } from "dev-tools";
+import { getAvailableDockerProfiles, runDockerContainersByProfile } from "dev-tools";
+import { multiSelect } from "@packages/terminal-multi-select";
 
 type RunDockerContainersArgs = {
   pickedContainers: string[];
@@ -17,7 +18,7 @@ export const runDockerContainers = async ({ pickedContainers }: RunDockerContain
       };
     });
 
-    const selectedOptions = await multiOptions({
+    const selectedOptions = await multiSelect({
       options,
       prefixText: "Please pick the containers you'd like to run:\n",
       suffixText: "\nPress Space to toggle selection, Enter to confirm",
