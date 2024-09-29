@@ -1,5 +1,5 @@
 {
-  "name": "dev-tools",
+  "name": "@packages/docker",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -7,16 +7,16 @@
     "build": "tsc -b ."
   },
   "dependencies": {
-    "@packages/postgresql": "*",
-    "@packages/utils": "*",
+    "@packages/yaml": "*",
+    "@packages/packages": "*",
     "@packages/paths": "*",
     "@packages/terminal-utils": "*"
   },
   "author": "",
   "license": "ISC",
-  "main": "./index.ts",
-  "module": "./index.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "exports": {
-    ".": "./index.ts"
+    ".": "./src/index.ts"
   }
 }

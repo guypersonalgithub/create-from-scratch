@@ -1,5 +1,4 @@
 import { readdirSync } from "fs";
-import { getFlags, getProjectAbsolutePath } from "../dev-tools";
 import { sep } from "path";
 import { convertFlagsArrayToObject } from "../packages/utils/src/flags";
 import { getOperatingSystem } from "@packages/os";
@@ -8,6 +7,8 @@ import { ExecuteTerminalCommandWithReadinessCheckArgs } from "@packages/terminal
 import { getOpenBrowserTabCommand } from "@packages/dev-utils";
 import { findAvailablePortsInRange } from "@packages/ports";
 import { runSequencedCommands } from "@packages/terminal-multi-commands";
+import { getProjectAbsolutePath } from "@packages/paths";
+import { getFlags } from "@packages/utils";
 
 const runWorkspace = async () => {
   const flags = getFlags();

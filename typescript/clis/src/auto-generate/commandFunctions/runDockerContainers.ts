@@ -1,4 +1,4 @@
-import { getAvailableDockerProfiles, runDockerContainersByProfile } from "dev-tools";
+import { getAvailableDockerProfiles, runDockerContainersByProfile } from "@packages/docker";
 import { multiSelect } from "@packages/terminal-multi-select";
 
 type RunDockerContainersArgs = {

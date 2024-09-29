@@ -1,4 +1,4 @@
-import { generateDockerComposeDev, generateDockerfileDev } from "dev-tools";
+import { generateDockerComposeDev, generateDockerfileDev } from "@packages/docker";
 import { SupportedCommands } from "./supportedCommands";
 import { printHelp } from "./printHelp";
 import { runDockerContainers } from "./runDockerContainers";

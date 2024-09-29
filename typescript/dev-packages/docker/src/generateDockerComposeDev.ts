@@ -1,10 +1,10 @@
 import { readdirSync, writeFileSync } from "fs";
-import jsYaml from "js-yaml";
 import { detectUsedLocalPackages } from "@packages/packages";
 import { DockerComposeData, Profiles, WorkspaceContainerProperties } from "./types";
 import { getProjectAbsolutePath } from "@packages/paths";
 import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
+import { convertObjectToYaml } from "@packages/yaml";
 
 export const generateDockerComposeDev = () => {
   console.log("Generating new docker compose file");
@@ -41,7 +41,7 @@ export const generateDockerComposeDev = () => {
     profiles,
   });
 
-  const yamlFormat = jsYaml.dump(dockerComposeData);
+  const yamlFormat = convertObjectToYaml({ obj: dockerComposeData });
   writeFileSync(`${projectAbsolutePath}/docker-compose.yaml`, yamlFormat);
   writeFileSync(`${projectAbsolutePath}/profiles.json`, JSON.stringify([...profiles], null, 2));
 };

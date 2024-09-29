@@ -1,4 +1,4 @@
-import { getAvailableDockerProfiles } from "dev-tools";
+import { getAvailableDockerProfiles } from "@packages/docker";
 import { SupportedCommands } from "./supportedCommands";
 import { FilterEnums } from "@packages/utils";
 

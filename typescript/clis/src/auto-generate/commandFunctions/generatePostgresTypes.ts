@@ -1,4 +1,4 @@
-import { detectPostgresContainersInRepo, generatePostgresDBTypes } from "dev-tools";
+import { detectPostgresContainersInRepo, generatePostgresDBTypes } from "@packages/dev-postgres";
 import { parseEnvironmentString, loadEnvVariables } from "@packages/dev-utils";
 import { detectPackage, insertPackageTypes } from "@packages/packages";
 

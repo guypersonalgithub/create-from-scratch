@@ -1,12 +1,12 @@
 import { readFileSync } from "fs";
 import { getProjectAbsolutePath } from "@packages/paths";
-import jsYaml from "js-yaml";
-import { DockerComposeData } from "../docker";
+import { DockerComposeData } from "@packages/docker";
+import { convertYamlToObject } from "@packages/yaml";
 
 export const detectPostgresContainersInRepo = () => {
   const projectAbsolutePath = getProjectAbsolutePath();
   const dockerCompose = readFileSync(`${projectAbsolutePath}/docker-compose.yaml`, "utf-8");
-  const convertedDockerCompose = jsYaml.load(dockerCompose) as DockerComposeData;
+  const convertedDockerCompose = convertYamlToObject({ str: dockerCompose }) as DockerComposeData;
   const { services } = convertedDockerCompose;
 
   const postgresqlServices: DockerComposeData["services"][number][] = [];

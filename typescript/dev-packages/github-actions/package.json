@@ -1,0 +1,21 @@
+{
+  "name": "@packages/github-actions",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@packages/yaml": "*",
+    "@packages/paths": "*",
+    "@packages/packages": "*"
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

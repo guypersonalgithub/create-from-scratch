@@ -1,10 +1,8 @@
-type ObjectType = {
-  [key: string]: unknown;
-};
+import { ObjectType } from "./types";
 
 type ConvertObjectToYamlArgs = {
   obj: ObjectType;
-  indentLevel: number;
+  indentLevel?: number;
   isObject?: boolean;
 };
 
@@ -33,7 +31,26 @@ export const convertObjectToYaml = ({
       });
     } else {
       const shouldIndent = isObject ? index > 0 : true;
-      yamlStr += `${shouldIndent ? indent : ""}${key}: ${escapeValue({ value })}\n`;
+      const isString = typeof value === "string";
+      const isMultiline = isString && value.includes("\n");
+      const isRunCommand = isString && key === "run";
+      const prefix = `${shouldIndent ? indent : ""}`;
+
+      if (isMultiline || isRunCommand) {
+        const splitValue = value
+          .split("\n")
+          .map((part) => part.trim())
+          .filter((part) => part.length > 0);
+        const moreThanOneCommand = splitValue.length > 1;
+
+        yamlStr += `${prefix}${key}: ${moreThanOneCommand ? "|\n" : ""}`;
+        yamlStr +=
+          splitValue
+            .map((line) => `${moreThanOneCommand ? "  ".repeat(indentLevel + 1) : ""}${line}`)
+            .join("\n") + "\n";
+      } else {
+        yamlStr += `${prefix}${key}: ${escapeValue({ value })}\n`;
+      }
     }
 
     index++;
@@ -50,5 +67,10 @@ const escapeValue = ({ value }: EscapeValueArgs) => {
   if (typeof value === "string" && value.includes(":")) {
     return `'${value}'`;
   }
+
+  if (value === undefined) {
+    return "";
+  }
+
   return value;
 };

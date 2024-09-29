@@ -1,8 +1,8 @@
 import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { GithubActionYaml } from "./types";
-import jsYaml from "js-yaml";
 import { getProjectAbsolutePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "@packages/packages";
+import { convertObjectToYaml } from "@packages/yaml";
 
 export const generateGithubActionYaml = async () => {
   console.log("Generating new github action yaml files");
@@ -77,21 +77,9 @@ export const generateGithubActionYaml = async () => {
           jobs,
         };
 
-        const yamlFormat = jsYaml.dump(githubActionYaml);
-        const fixedYamlFormat = fixJSYamlInconsistencies({ yamlFormat });
-        writeFileSync(`${projectAbsolutePath}/.github/workflows/${fileName}.yaml`, fixedYamlFormat);
+        const yamlFormat = convertObjectToYaml({ obj: githubActionYaml });
+        writeFileSync(`${projectAbsolutePath}/.github/workflows/${fileName}.yaml`, yamlFormat);
       }
     } catch (error) {}
   });
-};
-
-type FixJSYamlInconsistenciesArgs = {
-  yamlFormat: string;
-};
-
-const fixJSYamlInconsistencies = ({ yamlFormat }: FixJSYamlInconsistenciesArgs) => {
-  const regexPattern = /\b(run:\s*\|-)/g;
-  const fixedYamlFormat = yamlFormat.replace(regexPattern, "run: |");
-  const regexPattern2 = /'/g;
-  return fixedYamlFormat.replace(regexPattern2, "");
 };
