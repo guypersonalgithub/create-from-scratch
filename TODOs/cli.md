@@ -1,0 +1,1 @@
+- Consider moving the Typescript's CLI to the root folder, create a stepping step to choose which language the CLI should serve, and create automated processes for the Python section aswell.

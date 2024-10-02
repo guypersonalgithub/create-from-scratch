@@ -24,3 +24,18 @@ export const getProjectAbsolutePath = () => {
 
   throw new Error("Project root not found");
 };
+
+export const completeRootAbsolutePath = () => {
+  const rootMarker = ".git";
+
+  let dir = process.cwd();
+
+  while (dir !== parse(dir).root) {
+    if (existsSync(join(dir, rootMarker))) {
+      return dir;
+    }
+    dir = dirname(dir);
+  }
+
+  throw new Error("Project root not found");
+};

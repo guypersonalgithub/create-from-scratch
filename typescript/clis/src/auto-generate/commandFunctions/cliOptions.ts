@@ -8,6 +8,7 @@ import { updateViteConfigLocalDependenciesAliases } from "@packages/vite";
 import { detectChangedDependencies } from "@packages/git";
 import { Flag } from "@packages/utils";
 import { generatePackageLock } from "@packages/package-lock";
+import { generateGithubActionYaml } from "@packages/github-actions";
 
 type CliOptionsArgs = {
   command: Flag;
@@ -52,6 +53,10 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     case SupportedCommands.CHANGED_FILES: {
       const changedDependencies = await detectChangedDependencies();
       console.log(changedDependencies);
+      break;
+    }
+    case SupportedCommands.GENERATE_GITHUB_ACTION_YAMLS: {
+      await generateGithubActionYaml();
       break;
     }
     default: {

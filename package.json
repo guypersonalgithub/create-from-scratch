@@ -9,7 +9,9 @@
     "workspace": "cd typescript && npm run workspace",
     "dependensee": "cd typescript && npm run dependensee",
     "view-global-npm-installs": "npm ls -g --depth=0",
-    "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true"
+    "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true",
+    "repository-file-count": "powershell -ExecutionPolicy Bypass -File ./scripts/repositoryFileCount.ps1",
+    "repository-file-count-ts": "tsx ./scripts/repositoryFileCount.ts"
   },
   "devDependencies": {
     "tsx": "^4.7.2"

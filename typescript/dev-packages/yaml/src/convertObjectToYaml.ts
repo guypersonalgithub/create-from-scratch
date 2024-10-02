@@ -64,13 +64,13 @@ type EscapeValueArgs = {
 };
 
 const escapeValue = ({ value }: EscapeValueArgs) => {
-  if (typeof value === "string" && value.includes(":")) {
-    return `'${value}'`;
-  }
-
   if (value === undefined) {
     return "";
   }
+
+  // if (typeof value === "string" && value.includes(":")) {
+  //   return value;
+  // }
 
   return value;
 };

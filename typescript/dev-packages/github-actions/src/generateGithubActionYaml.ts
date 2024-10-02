@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync, writeFileSync } from "fs";
 import { GithubActionYaml } from "./types";
-import { getProjectAbsolutePath } from "@packages/paths";
+import { getProjectAbsolutePath, completeRootAbsolutePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "@packages/packages";
 import { convertObjectToYaml } from "@packages/yaml";
 
@@ -8,6 +8,7 @@ export const generateGithubActionYaml = async () => {
   console.log("Generating new github action yaml files");
 
   const projectAbsolutePath = getProjectAbsolutePath();
+  const projectCompleteRootAbsolutePath = completeRootAbsolutePath();
   const folderPath = `${projectAbsolutePath}/apps`;
   const workspaces = readdirSync(folderPath);
 
@@ -43,7 +44,7 @@ export const generateGithubActionYaml = async () => {
         const { push } = on;
         if (push) {
           (on.push as Record<string, string[]>).paths = [
-            "apps/remix/**",
+            `typescript/apps/${workspace}/**`, // Temporary solution
             ...workspacePackages.map((workspacePackage) => {
               return `${workspacePackage.path}/**`;
             }),
@@ -78,7 +79,11 @@ export const generateGithubActionYaml = async () => {
         };
 
         const yamlFormat = convertObjectToYaml({ obj: githubActionYaml });
-        writeFileSync(`${projectAbsolutePath}/.github/workflows/${fileName}.yaml`, yamlFormat);
+
+        writeFileSync(
+          `${projectCompleteRootAbsolutePath}/.github/workflows/${fileName}.yaml`,
+          yamlFormat,
+        );
       }
     } catch (error) {}
   });

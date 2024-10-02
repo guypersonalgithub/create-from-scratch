@@ -17,7 +17,8 @@
     "@packages/git": "*",
     "@packages/package-lock": "*",
     "@packages/dev-postgres": "*",
-    "@packages/docker": "*"
+    "@packages/docker": "*",
+    "@packages/github-actions": "*"
   },
   "bin": {
     "auto-generate": "index.js"

@@ -27,6 +27,8 @@ export const printHelp = () => {
     [SupportedCommands.PACKAGE_LOCK]:
       "Generates different package-lock.json files for each workspace",
     [SupportedCommands.CHANGED_FILES]: "Lists all of the files that were changed in the repository",
+    [SupportedCommands.GENERATE_GITHUB_ACTION_YAMLS]:
+      "Generates github action yamls to workspaces if they contain appropriate github cicd config files",
   };
 
   for (const command in commandDescriptions) {

@@ -27,6 +27,10 @@ export default [
       ],
       "newline-before-return": "error",
     },
+    env: {
+      node: true,
+      es6: true,
+    },
   },
   // ...fixupConfigRules(pluginReactConfig),
 ];
