@@ -19,3 +19,19 @@ const runScript = async () => {
 };
 
 runScript();
+
+// import { execSync } from "child_process";
+// import { fileURLToPath } from "url";
+// import { dirname } from "path";
+
+// const runScript = async () => {
+//   const __filename = fileURLToPath(import.meta.url);
+//   const __dirname = dirname(__filename);
+//   const { argv } = process;
+//   const flags = argv.slice(2);
+
+//   execSync(`npx tsx ${__dirname}/src/auto-generate  ${flags.join(" ")}`, {
+//     encoding: "utf-8",
+//     stdio: "inherit",
+//   });
+// };

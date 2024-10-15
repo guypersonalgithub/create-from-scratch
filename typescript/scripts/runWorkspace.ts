@@ -78,7 +78,7 @@ const runWorkspace = async () => {
 
     for (const key in envVariables) {
       const envKey = key.toUpperCase();
-      const value = envVariables[key];
+      const value = envVariables[key as keyof typeof envVariables];
       const fullKey = envPrefix ? `${envPrefix}_${envKey}` : envKey;
       process.env[fullKey] = value;
     }

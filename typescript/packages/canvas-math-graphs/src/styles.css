@@ -1,0 +1,13 @@
+.canvasContainer {
+  display: grid;
+}
+
+.canvasContainer > * {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
+.canvas {
+  display: block;
+  border: 1px solid white;
+}
