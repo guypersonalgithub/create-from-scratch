@@ -4,6 +4,7 @@ import { MainRoute } from "./MainRoute";
 import { NotFound } from "./NotFound";
 import { RouteParam } from "./RouteParam";
 import { TooltipManager } from "@packages/tooltip";
+import { MathRoute } from "./MathRoute";
 
 const App = () => {
   const { moveTo } = usePath();
@@ -22,6 +23,9 @@ const App = () => {
         <Link pathname="/test/old?test=3&no=asdf3">
           <button>test5</button>
         </Link>
+        <Link pathname="/math">
+          <button>Math</button>
+        </Link>
       </div>
       <div style={{ height: "800px" }}>
         <Router
@@ -32,6 +36,7 @@ const App = () => {
             "/test": {
               "/:one": <RouteParam />,
             },
+            "/math": <MathRoute />,
             "404": <NotFound />,
           }}
         />

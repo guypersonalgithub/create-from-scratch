@@ -205,6 +205,12 @@ services:
         source: ./packages/copy-to-clipboard
         target: /usr/src/app/packages/copy-to-clipboard
       - type: bind
+        source: ./packages/mathml
+        target: /usr/src/app/packages/mathml
+      - type: bind
+        source: ./packages/math-parser
+        target: /usr/src/app/packages/math-parser
+      - type: bind
         source: ./packages/cypress
         target: /usr/src/app/packages/cypress
       - type: bind

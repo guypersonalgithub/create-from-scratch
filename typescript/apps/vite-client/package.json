@@ -22,7 +22,9 @@
     "@packages/router": "*",
     "@packages/request": "*",
     "@packages/collapsible": "*",
-    "@packages/copy-to-clipboard": "*"
+    "@packages/copy-to-clipboard": "*",
+    "@packages/mathml": "*",
+    "@packages/canvas-math-graphs": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

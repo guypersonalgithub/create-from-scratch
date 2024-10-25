@@ -1,0 +1,2 @@
+- Validate unique tokens such as sin, cos, tan, log, ln having a value, otherwise throw an error.
+- Simplify the algorithm.

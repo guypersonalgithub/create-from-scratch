@@ -45,7 +45,7 @@ export const Collapsible = ({ title, isOpenInitially, maximumContentHeight, chil
           />
         </div>
       </div>
-      <AnimationContainerUnmountWrapper changeMethod="fullPhase">
+      <AnimationContainerUnmountWrapper changeMethod="gradual">
         {isOpen ? (
           <AnimationContainerWrapper
             key="test"
