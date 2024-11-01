@@ -1,4 +1,6 @@
 import { ReactElement } from "react";
+import { CSSPropertiesWithIndex } from "./types";
+import { convertStringFormat } from "@packages/utils";
 
 type ReverseKeyframesArgs = {
   keyframes: Keyframe[];
@@ -49,6 +51,35 @@ export const getElementStyles = ({ element, stage }: GetElementStylesArgs) => {
   }
 
   return styles;
+};
+
+type ConvertKeyframeToCSSPropertiesArgs = {
+  element: Element;
+  keyframe: Keyframe;
+};
+
+export const convertKeyframeToCSSProperties = ({
+  element,
+  keyframe,
+}: ConvertKeyframeToCSSPropertiesArgs) => {
+  const computedStyle = getComputedStyle(element);
+  const style: CSSPropertiesWithIndex = {};
+  const relevantProperties = new Set<string>();
+  Object.keys(keyframe).forEach((property) => relevantProperties.add(property));
+
+  relevantProperties.forEach((property) => {
+    const cssValue = computedStyle.getPropertyValue(property);
+    if (cssValue) {
+      const reactKey = convertStringFormat({
+        str: property,
+        formatFrom: "kebab",
+        formatTo: "camel",
+      });
+      style[reactKey] = cssValue;
+    }
+  });
+
+  return style;
 };
 
 type ContinueReversedStoppedAnimationArgs = {

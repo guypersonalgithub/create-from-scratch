@@ -1,2 +1,2 @@
 export * from "./generateURL";
-export type { FrontendArgs } from "./types";
+export type { FrontendArgs, QueryParams } from "./types";

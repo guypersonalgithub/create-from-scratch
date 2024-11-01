@@ -31,9 +31,7 @@ export const MainRoute = () => {
 
   return (
     <div>
-      <Collapsible title="Toggle" maximumContentHeight={100}>
-        testhi
-      </Collapsible>
+      <Collapsible title="Toggle">testhi</Collapsible>
       <CopyToClipboard textToCopy="Test123" />
       <Test />
       <PostMessage />

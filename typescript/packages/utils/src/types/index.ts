@@ -1,4 +1,4 @@
 export * from "./filterEnumsType";
-export * from "./makeOptionalProps";
+export * from "./optionalProps";
 export * from "./atleastOne";
 export * from "./omitByPattern";

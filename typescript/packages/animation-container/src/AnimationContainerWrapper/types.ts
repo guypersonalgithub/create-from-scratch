@@ -1,5 +1,9 @@
 import { CSSProperties, MutableRefObject, ReactElement } from "react";
 
+export interface CSSPropertiesWithIndex extends CSSProperties {
+  [key: string]: string | number | undefined;
+}
+
 export type AnimationContainerWrapperProps = {
   children: ReactElement[] | ReactElement;
   clearLifeCycleAnimationOnExitRef: MutableRefObject<(() => void)[]>;

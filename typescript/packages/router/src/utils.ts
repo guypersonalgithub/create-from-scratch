@@ -1,5 +1,5 @@
 import { RouterPaths } from "./types";
-import { areArraysEqual } from "@packages/utils";
+import { areStringArraysEqual } from "@packages/utils";
 
 type GrabFirstPathsArgs = {
   currentStage: RouterPaths;
@@ -50,7 +50,7 @@ const areQueryParamsEqual = ({ url1, url2 }: AreEqualURLsArgs) => {
     const value2 = paramsObject2[property];
 
     if (Array.isArray(value1) && Array.isArray(value2)) {
-      const areEqual = areArraysEqual({ array1: value1, array2: value2 });
+      const areEqual = areStringArraysEqual({ array1: value1, array2: value2 });
       if (!areEqual) {
         return false;
       }

@@ -8,6 +8,21 @@ on:
       - main
     paths:
       - typescript/apps/cs/**
+      - packages/icons/**
+      - packages/mathml/**
+      - packages/math-parser/**
+      - packages/router/**
+      - packages/utils/**
+      - packages/url/**
+      - packages/environment/**
+      - packages/design-patterns/**
+      - packages/randomizer/**
+      - packages/sidebar/**
+      - packages/animation-container/**
+      - packages/is-dev/**
+      - packages/button/**
+      - packages/tooltip/**
+      - packages/edge-intersection/**
   workflow_dispatch: 
 jobs:
   Deploy-Production:
@@ -30,7 +45,23 @@ jobs:
           mkdir -p ./full-application/apps
           cp -r ./apps/cs ./full-application/apps
       - name: Copy dependencies
-        run: mkdir -p ./full-application/packages
+        run: |
+          mkdir -p ./full-application/packages
+          cp -r ./packages/icons ./full-application/packages
+          cp -r ./packages/mathml ./full-application/packages
+          cp -r ./packages/math-parser ./full-application/packages
+          cp -r ./packages/router ./full-application/packages
+          cp -r ./packages/utils ./full-application/packages
+          cp -r ./packages/url ./full-application/packages
+          cp -r ./packages/environment ./full-application/packages
+          cp -r ./packages/design-patterns ./full-application/packages
+          cp -r ./packages/randomizer ./full-application/packages
+          cp -r ./packages/sidebar ./full-application/packages
+          cp -r ./packages/animation-container ./full-application/packages
+          cp -r ./packages/is-dev ./full-application/packages
+          cp -r ./packages/button ./full-application/packages
+          cp -r ./packages/tooltip ./full-application/packages
+          cp -r ./packages/edge-intersection ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

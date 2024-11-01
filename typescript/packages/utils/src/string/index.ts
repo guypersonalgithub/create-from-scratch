@@ -6,3 +6,4 @@ export * from "./detectStringDifferences";
 export * from "./combineStringsWithSpaces";
 export * from "./replaceOrInsertCharactersInRange";
 export * from "./getAllIndexesOfChar";
+export * from "./convertStringFormat";

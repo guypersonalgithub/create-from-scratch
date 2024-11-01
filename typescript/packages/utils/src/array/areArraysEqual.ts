@@ -1,6 +1,8 @@
+import { areObjectsEqual } from "../object";
+
 type AreArraysEqualArgs = {
-  array1: string[];
-  array2: string[];
+  array1: unknown[];
+  array2: unknown[];
 };
 
 export const areArraysEqual = ({ array1, array2 }: AreArraysEqualArgs) => {
@@ -9,7 +11,11 @@ export const areArraysEqual = ({ array1, array2 }: AreArraysEqualArgs) => {
   }
 
   for (let i = 0; i < array1.length; i++) {
-    if (array1[i] !== array2[i]) {
+    const areEqual = areObjectsEqual({
+      obj1: array1[i],
+      obj2: array2[i],
+    });
+    if (!areEqual) {
       return false;
     }
   }

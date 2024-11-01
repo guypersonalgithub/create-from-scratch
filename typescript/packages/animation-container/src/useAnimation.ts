@@ -1,4 +1,9 @@
-import { MutableRefObject, RefObject, useEffect } from "react";
+import { areArraysEqual } from "@packages/utils";
+import { CSSProperties, MutableRefObject, RefObject, useEffect, useRef } from "react";
+import {
+  convertKeyframeToCSSProperties,
+  detectStoppedFrame,
+} from "./AnimationContainerWrapper/utils";
 
 type UseAnimationArgs = {
   animation?: Keyframe[];
@@ -10,6 +15,7 @@ type UseAnimationArgs = {
   animationOptions: KeyframeAnimationOptions;
   animationRef: MutableRefObject<Animation | undefined>;
   disableAnimation?: boolean;
+  lastFrameProperties: MutableRefObject<CSSProperties>;
 };
 
 export const useAnimation = ({
@@ -22,9 +28,20 @@ export const useAnimation = ({
   animationOptions,
   animationRef,
   disableAnimation,
+  lastFrameProperties,
 }: UseAnimationArgs) => {
+  const previousKeyframes = useRef<Keyframe[]>([]);
+
   useEffect(() => {
-    if (removeState || !animation || disableAnimation) {
+    if (
+      removeState ||
+      !animation ||
+      disableAnimation ||
+      areArraysEqual({
+        array1: animation,
+        array2: previousKeyframes.current,
+      })
+    ) {
       return;
     }
 
@@ -44,10 +61,27 @@ export const useAnimation = ({
     animationRef.current = currentAnimation;
     currentAnimation.onfinish = () => {
       onAnimationEnd?.();
+      if (animationRef.current) {
+        const duration = Number(animationOptions.duration ?? fallbackDuration);
+
+        const lastFrame = detectStoppedFrame({
+          animation: animationRef.current,
+          duration,
+          keyframesAmount: animation.length,
+        });
+
+        const currentLastFrame = animation[lastFrame];
+        const styles = convertKeyframeToCSSProperties({
+          element: childElement,
+          keyframe: currentLastFrame,
+        });
+        lastFrameProperties.current = styles;
+      }
     };
 
     return () => {
       animationRef.current?.cancel();
+      previousKeyframes.current = animation.slice();
     };
   }, [removeState, animation, disableAnimation]);
 };

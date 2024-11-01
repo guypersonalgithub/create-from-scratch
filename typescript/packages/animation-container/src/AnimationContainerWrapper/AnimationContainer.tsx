@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, ReactElement } from "react";
+import { useState, useRef, useEffect, ReactElement, CSSProperties } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
 import { useAnimation } from "../useAnimation";
@@ -29,7 +29,7 @@ export const AnimationWrapper = ({
   onAnimationEnd,
   clearLifeCycleAnimationOnExitRef,
   clearAnimationOnExitRef,
-  style,
+  style = {},
   disableLifeCycleAnimations,
   disableAnimation,
 }: AnimationWrapperProps) => {
@@ -40,6 +40,8 @@ export const AnimationWrapper = ({
   const animationRef = useRef<Animation>();
   const initialized = useRef(false);
   const stoppedFrame = useRef<number>(0);
+  const lastFrameProperties = useRef<CSSProperties>({});
+
   useAnimation({
     animation,
     removeState,
@@ -50,6 +52,7 @@ export const AnimationWrapper = ({
     animationOptions,
     animationRef,
     disableAnimation,
+    lastFrameProperties,
   });
 
   clearLifeCycleAnimationOnExitRef.current[index] = () => {
@@ -64,7 +67,13 @@ export const AnimationWrapper = ({
   };
 
   useEffect(() => {
-    if (disableLifeCycleAnimations) {
+    const noOnmountFrames = onMount.length === 0;
+
+    if (
+      disableLifeCycleAnimations ||
+      (show && noOnmountFrames) ||
+      (!show && noOnmountFrames && (!onUnmount || onUnmount.length === 0))
+    ) {
       return;
     }
 
@@ -166,7 +175,7 @@ export const AnimationWrapper = ({
   }
 
   return (
-    <div ref={elementRef} style={style}>
+    <div ref={elementRef} style={{ ...style, ...lastFrameProperties.current }}>
       {children}
     </div>
   );

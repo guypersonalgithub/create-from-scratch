@@ -1,5 +1,30 @@
+import { useEffect, useState } from "react";
 import { isTheSameURL } from "./utils";
 import { generateURL, FrontendArgs } from "@packages/url";
+
+export const usePathState = () => {
+  const [path, setPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handleUrlChange = () => {
+      setPath(window.location.pathname);
+    };
+
+    window.addEventListener("popstate", handleUrlChange);
+    window.addEventListener("pushstate", handleUrlChange);
+    window.addEventListener("replacestate", handleUrlChange);
+
+    return () => {
+      window.removeEventListener("popstate", handleUrlChange);
+      window.removeEventListener("pushstate", handleUrlChange);
+      window.removeEventListener("replacestate", handleUrlChange);
+    };
+  }, []);
+
+  return {
+    path,
+  };
+};
 
 export const usePath = () => {
   const getPathName = () => {

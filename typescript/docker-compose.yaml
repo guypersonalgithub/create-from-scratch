@@ -42,6 +42,51 @@ services:
       - type: volume
         target: /usr/src/app/node_modules
       - type: bind
+        source: ./packages/icons
+        target: /usr/src/app/packages/icons
+      - type: bind
+        source: ./packages/mathml
+        target: /usr/src/app/packages/mathml
+      - type: bind
+        source: ./packages/math-parser
+        target: /usr/src/app/packages/math-parser
+      - type: bind
+        source: ./packages/router
+        target: /usr/src/app/packages/router
+      - type: bind
+        source: ./packages/utils
+        target: /usr/src/app/packages/utils
+      - type: bind
+        source: ./packages/url
+        target: /usr/src/app/packages/url
+      - type: bind
+        source: ./packages/environment
+        target: /usr/src/app/packages/environment
+      - type: bind
+        source: ./packages/design-patterns
+        target: /usr/src/app/packages/design-patterns
+      - type: bind
+        source: ./packages/randomizer
+        target: /usr/src/app/packages/randomizer
+      - type: bind
+        source: ./packages/sidebar
+        target: /usr/src/app/packages/sidebar
+      - type: bind
+        source: ./packages/animation-container
+        target: /usr/src/app/packages/animation-container
+      - type: bind
+        source: ./packages/is-dev
+        target: /usr/src/app/packages/is-dev
+      - type: bind
+        source: ./packages/button
+        target: /usr/src/app/packages/button
+      - type: bind
+        source: ./packages/tooltip
+        target: /usr/src/app/packages/tooltip
+      - type: bind
+        source: ./packages/edge-intersection
+        target: /usr/src/app/packages/edge-intersection
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:
@@ -210,6 +255,9 @@ services:
       - type: bind
         source: ./packages/math-parser
         target: /usr/src/app/packages/math-parser
+      - type: bind
+        source: ./packages/canvas-math-graphs
+        target: /usr/src/app/packages/canvas-math-graphs
       - type: bind
         source: ./packages/cypress
         target: /usr/src/app/packages/cypress
