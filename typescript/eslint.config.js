@@ -11,7 +11,7 @@ import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 export default [
   // { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
-  tseslint.configs.recommended,
+  ...tseslint.configs.recommended,
   eslintConfigPrettier,
   {
     plugins: {
@@ -30,11 +30,11 @@ export default [
       "newline-before-return": "error",
       "react-hooks/exhaustive-deps": "off",
     },
-    env: {
-      node: true,
-      es6: true,
-    },
-    parser: "@typescript-eslint/parser",
+    // env: {
+    //   node: true,
+    //   es6: true,
+    // },
+    // parser: "@typescript-eslint/parser",
   },
   // ...fixupConfigRules(pluginReactConfig),
 ];

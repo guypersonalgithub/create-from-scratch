@@ -1,4 +1,4 @@
-import { CSSProperties, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useRef, useState } from "react";
 import { SidebarLink } from "./types";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
@@ -6,6 +6,7 @@ import { DoubleArrowRightFull } from "@packages/icons";
 import { Tooltip } from "@packages/tooltip";
 
 type MinimizableSidebarProps = {
+  title: ReactNode;
   links: SidebarLink[];
   onLinkClick: ({ pathname, queryParams }: Pick<SidebarLink, "pathname" | "queryParams">) => void;
   openedWidth: number;
@@ -17,6 +18,7 @@ type MinimizableSidebarProps = {
 };
 
 export const MinimizableSidebar = ({
+  title,
   links,
   onLinkClick,
   openedWidth,
@@ -64,7 +66,11 @@ export const MinimizableSidebar = ({
           padding: "5px",
         }}
       >
-        <span style={{ width: "fit-content", fontSize: "26px", fontWeight: "bold" }}>CS</span>
+        <div
+          style={{ overflow: "hidden", width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          {title}
+        </div>
         <div style={{ display: "flex", justifyContent: "end", width: "100%" }}>
           <Button
             style={{

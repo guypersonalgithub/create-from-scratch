@@ -1,8 +1,13 @@
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Tab } from "./types";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 
 type TabValues<T extends Tab[]> = T[number]["value"];
+
+type TabProperties = {
+  width: number;
+  left: number;
+};
 
 type TabWithOnClick<T extends Tab[]> = {
   [K in keyof T]: T[K] & { onClick: (value: string) => void };
@@ -99,14 +104,19 @@ type HighlightBarProps = {
 };
 
 const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps) => {
-  const [tabProperties, setTabPropeties] = useState<{ width: number; left: number }>({
+  const firstTabLeftPosition = useRef<number>(0);
+  const lastTab = useRef<TabProperties>({
     width: 0,
     left: 0,
   });
-  const [current, setCurrent] = useState<{ width: number; left: number }>({
+  const [tabProperties, setTabPropeties] = useState<TabProperties>({
     width: 0,
     left: 0,
   });
+
+  useLayoutEffect(() => {
+    firstTabLeftPosition.current = refs.current?.[0]?.getBoundingClientRect()?.left ?? 0;
+  }, []);
 
   useEffect(() => {
     const getRefProperties = (ref: HTMLDivElement | null) => {
@@ -117,23 +127,23 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
 
       return {
         width,
-        left,
+        left: left - firstTabLeftPosition.current,
       };
     };
 
-    setCurrent(tabProperties);
+    lastTab.current = tabProperties;
     setTabPropeties(getRefProperties(refs.current[selectedIndex]));
   }, [selectedIndex]);
 
   const animation = useMemo(() => {
     return [
-      { width: `${current.width}px`, left: `${current.left}px` },
+      { width: `${lastTab.current.width}px`, left: `${lastTab.current.left}px` },
       {
         width: `${tabProperties.width}px`,
         left: `${tabProperties.left}px`,
       },
     ];
-  }, [current, tabProperties]);
+  }, [tabProperties]);
 
   return (
     <AnimationContainerWrapper

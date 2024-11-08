@@ -10,5 +10,6 @@ declare namespace JSX {
     mrow: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     munder: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     munderover: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    msub: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
   }
 }

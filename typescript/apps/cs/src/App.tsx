@@ -29,6 +29,7 @@ const SidebarWrapper = () => {
 
   return (
     <MinimizableSidebar
+      title={<span style={{ width: "fit-content", fontSize: "26px", fontWeight: "bold" }}>CS</span>}
       links={[
         { icon: <Home />, label: "Home", pathname: "/" },
         { icon: <Calculator />, label: "Math", pathname: "/math" },

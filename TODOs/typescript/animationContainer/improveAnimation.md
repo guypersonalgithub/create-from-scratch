@@ -1,1 +1,0 @@
-- Fix the need to memo animation frames so that it would be automatically detected within the component itself instead.

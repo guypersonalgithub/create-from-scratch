@@ -1,4 +1,6 @@
+import { TokenTypes } from "./constants";
+
 export type BaseToken = {
-  type: string;
+  type: TokenTypes;
   value: string;
 };

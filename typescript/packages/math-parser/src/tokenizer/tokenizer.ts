@@ -1,14 +1,30 @@
+import { TokenTypes } from "./constants";
 import { BaseToken } from "./types";
-import { uniqueTokens } from "./uniqueTokens";
+import { getNextNonSpaceCharIndex, getUniqueToken, isCharacterLetter } from "./utils";
+import {
+  nonStarterTokens,
+  starterTokens,
+  uniqueFunctions,
+  uniqueTokens,
+  uniqueWords,
+} from "./uniqueTokens";
 
 type TokenizerArgs = {
   input: string;
 };
 
 type TokenContext = {
-  isNumber?: {
-    hasDot: boolean;
-  };
+  isNumberWithDot?: boolean;
+  isUniqueFunctionOrLogWithPower?: {
+    hasParenthesis?: {
+      remainingOpenedParenthesis: string[];
+    };
+    hasNoParenthesis?: boolean;
+  }[];
+  isLog?: {
+    remainingOpenedParenthesis: string[];
+    hasComa: boolean;
+  }[];
 };
 
 export const tokenizer = ({ input }: TokenizerArgs) => {
@@ -26,17 +42,18 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
         }
 
         const token = {
-          type: "value",
+          type: TokenTypes.VALUE,
           value: currentToken,
         };
 
         currentToken = "";
-        tokenContext = {};
+        delete tokenContext.isNumberWithDot;
         tokens.push(token);
         previousToken = token;
 
         continue;
       }
+
       const { token: uniqueToken, index } = uniqueTokenFlow({
         input,
         i,
@@ -44,13 +61,16 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
         tokens,
         currentToken,
         previousToken,
+        tokenContext,
       });
+
       if (index !== undefined) {
         i = index;
       }
+
       if (uniqueToken) {
         currentToken = "";
-        tokenContext = {};
+        delete tokenContext.isNumberWithDot;
         previousToken = uniqueToken;
 
         continue;
@@ -58,9 +78,7 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
 
       if (currentChar === "." && currentChar.length === 0) {
         currentToken = "0.";
-        tokenContext.isNumber = {
-          hasDot: true,
-        };
+        tokenContext.isNumberWithDot = true;
 
         const followingChar = input[i + 1];
         const isFollowingCharNumber = !isNaN(Number.parseFloat(followingChar));
@@ -72,20 +90,42 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
         if (isNumber) {
           currentToken += currentChar;
         } else if (currentChar === ".") {
-          if (tokenContext.isNumber?.hasDot) {
+          if (tokenContext.isNumberWithDot) {
             throw new Error("Unexpected syntax");
           }
 
           currentToken += currentChar;
-          tokenContext.isNumber = {
-            hasDot: true,
-          };
+          tokenContext.isNumberWithDot = true;
 
           const followingChar = input[i + 1];
           const isFollowingCharNumber = !isNaN(Number.parseFloat(followingChar));
           if (!isFollowingCharNumber) {
             throw new Error("Unexpected syntax");
           }
+        } else if (currentChar === ",") {
+          const hasLogs = tokenContext.isLog;
+          if (!hasLogs || hasLogs[hasLogs.length - 1].hasComa) {
+            throw new Error("Unexpected syntax");
+          }
+
+          const currentValueToken = {
+            type: TokenTypes.VALUE,
+            value: currentToken,
+          };
+
+          tokens.push(currentValueToken);
+
+          hasLogs[hasLogs.length - 1].hasComa = true;
+          const token = {
+            type: TokenTypes.LOG_SPREAD,
+            value: currentChar,
+          };
+
+          currentToken = "";
+          delete tokenContext.isNumberWithDot;
+          tokens.push(token);
+          previousToken = token;
+          continue;
         } else {
           const isLetter = isCharacterLetter({ currentChar });
 
@@ -97,80 +137,55 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
 
           if (currentToken.length > 0) {
             const token = {
-              type: "value",
+              type: TokenTypes.VALUE,
               value: currentToken,
             };
 
             tokens.push(token);
           }
 
-          let tokenValue = "";
-          let tokenType = "";
+          let tokenValue = getUniqueToken({ input: input.slice(i) });
+          const isVariable = !tokenValue;
+          const isNotE = currentChar !== "e";
+          const isLog = tokenValue === "log";
 
-          switch (currentChar) {
-            case "c": {
-              if (input[i + 1] === "o" && input[i + 2] === "s") {
-                tokenValue = "cos";
-                tokenType = "keyword";
-                i += 2;
-              }
-              break;
+          if (isLog) {
+            if (!tokenContext.isLog) {
+              tokenContext.isLog = [];
             }
-            case "s": {
-              if (input[i + 1] === "i" && input[i + 2] === "n") {
-                tokenValue = "sin";
-                tokenType = "keyword";
-                i += 2;
-              } else if (input[i + 1] === "q" && input[i + 2] === "r" && input[i + 3] === "t") {
-                tokenValue = "sqrt";
-                tokenType = "keyword";
-                i += 3;
-              }
-              break;
-            }
-            case "t": {
-              if (input[i + 1] === "a" && input[i + 2] === "n") {
-                tokenValue = "tan";
-                tokenType = "keyword";
-                i += 2;
-              }
-              break;
-            }
-            case "l": {
-              if (input[i + 1] === "n") {
-                tokenValue = "ln";
-                tokenType = "keyword";
-                i += 1;
-              } else if (input[i + 1] === "o" && input[i + 2] === "g") {
-                tokenValue = "log";
-                tokenType = "keyword";
-                i += 2;
-              }
-              break;
-            }
+            tokenContext.isLog.push({
+              remainingOpenedParenthesis: [],
+              hasComa: false,
+            });
           }
 
-          const isVariable = tokenType.length === 0;
-
           const token = {
-            type: isVariable ? "variable" : tokenType,
+            type: isNotE && isVariable ? TokenTypes.VARIABLE : TokenTypes.KEYWORD,
             value: isVariable ? currentChar : tokenValue,
-          };
+          } as BaseToken;
+
+          if (tokenValue) {
+            i += tokenValue.length - 1;
+          }
 
           const lastToken = tokens[tokens.length - 1];
-          if (lastToken?.type === "value" || lastToken?.type === "variable") {
+          if (
+            lastToken?.type === TokenTypes.VALUE ||
+            lastToken?.type === TokenTypes.VARIABLE ||
+            lastToken?.value === "!"
+          ) {
             tokens.push({
-              type: "uniqueToken",
+              type: TokenTypes.UNIQUE_TOKEN,
               value: "*",
             });
           }
 
           currentToken = "";
-          tokenContext = {};
+          delete tokenContext.isNumberWithDot;
           tokens.push(token);
           previousToken = token;
 
-          if (isVariable) {
+          if (isVariable || isLog) {
             const nextIndex = getNextNonSpaceCharIndex({ input, i });
             if (nextIndex === undefined) {
               break;
@@ -178,12 +193,24 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
             i = nextIndex;
 
             const followingChar = input[i + 1];
+            if (followingChar === undefined) {
+              break;
+            }
+
+            if (isLog) {
+              if (followingChar !== "(" && followingChar !== "^" && followingChar !== "|") {
+                throw new Error("Unexpected syntax");
+              }
+
+              continue;
+            }
+
             const isLetter = isCharacterLetter({ currentChar: followingChar });
             const isNumber = !isNaN(Number.parseFloat(followingChar));
 
             if (isLetter || isNumber) {
               tokens.push({
-                type: "uniqueToken",
+                type: TokenTypes.UNIQUE_TOKEN,
                 value: "*",
               });
             }
@@ -197,7 +224,7 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
     } else {
       if (currentToken.length > 0) {
         const token = {
-          type: "value",
+          type: TokenTypes.VALUE,
           value: currentToken,
         };
 
@@ -219,6 +246,7 @@ type UniqueTokenFlowArgs = {
   tokens: BaseToken[];
   currentToken: string;
   previousToken?: BaseToken;
+  tokenContext: TokenContext;
 };
 
 const uniqueTokenFlow = ({
@@ -228,6 +256,7 @@ const uniqueTokenFlow = ({
   tokens,
   currentToken,
   previousToken,
+  tokenContext,
 }: UniqueTokenFlowArgs) => {
   const isUniqueToken = uniqueTokens.has(currentChar);
 
@@ -237,23 +266,23 @@ const uniqueTokenFlow = ({
 
   if (isUniqueToken && currentToken.length > 0) {
     const token = {
-      type: "value",
+      type: TokenTypes.VALUE,
       value: currentToken,
     };
 
-    currentToken = "";
     tokens.push(token);
     previousToken = token;
   }
 
-  if (!previousToken && !["(", "-"].includes(currentChar)) {
+  if (!previousToken && !starterTokens.includes(currentChar)) {
     throw new Error("Unexpected syntax");
   }
 
   if (previousToken) {
     if (
-      (previousToken.value === "(" && currentChar === ")") ||
-      (["*", "/", "^"].includes(previousToken.value) && !["(", "-"].includes(currentChar))
+      (previousToken.value === "(" && [...nonStarterTokens, ")"].includes(currentChar)) ||
+      (previousToken.value === "-" && nonStarterTokens.includes(currentChar)) ||
+      (nonStarterTokens.includes(previousToken.value) && !starterTokens.includes(currentChar))
     ) {
       throw new Error("Unexpected syntax");
     }
@@ -263,7 +292,7 @@ const uniqueTokenFlow = ({
         tokens.pop();
 
         const operatorToken = {
-          type: "uniqueToken",
+          type: TokenTypes.UNIQUE_TOKEN,
           value: "+",
         };
 
@@ -274,7 +303,7 @@ const uniqueTokenFlow = ({
         tokens.pop();
 
         const operatorToken = {
-          type: "uniqueToken",
+          type: TokenTypes.UNIQUE_TOKEN,
           value: "-",
         };
 
@@ -284,14 +313,14 @@ const uniqueTokenFlow = ({
       }
 
       const valueToken = {
-        type: "value",
+        type: TokenTypes.VALUE,
         value: "-1",
       };
 
       tokens.push(valueToken);
 
       const operatorToken = {
-        type: "uniqueToken",
+        type: TokenTypes.UNIQUE_TOKEN,
         value: "*",
       };
 
@@ -300,24 +329,138 @@ const uniqueTokenFlow = ({
       return { token: operatorToken, index: i };
     }
 
-    if ((previousToken.type === "value" || previousToken.type === "variable") && currentChar === "(") {
+    if (currentChar === "(") {
+      const hasUniqueFunctionOrLogWithPower = tokenContext.isUniqueFunctionOrLogWithPower;
+
+      if (
+        hasUniqueFunctionOrLogWithPower &&
+        (hasUniqueFunctionOrLogWithPower[hasUniqueFunctionOrLogWithPower.length - 1].hasParenthesis
+          ?.remainingOpenedParenthesis.length === 0 ||
+          hasUniqueFunctionOrLogWithPower[hasUniqueFunctionOrLogWithPower.length - 1]
+            .hasNoParenthesis)
+      ) {
+      } else if (
+        previousToken.type === TokenTypes.VALUE ||
+        previousToken.type === TokenTypes.VARIABLE ||
+        previousToken.value === "e"
+      ) {
+        const operatorToken = {
+          type: TokenTypes.UNIQUE_TOKEN,
+          value: "*",
+        };
+
+        tokens.push(operatorToken);
+      }
+    }
+
+    if (
+      (previousToken.type === TokenTypes.VALUE ||
+        previousToken.type === TokenTypes.VARIABLE ||
+        previousToken.value === "e") &&
+      currentChar === "|"
+    ) {
       const operatorToken = {
-        type: "uniqueToken",
+        type: TokenTypes.UNIQUE_TOKEN,
         value: "*",
       };
 
       tokens.push(operatorToken);
     }
+
+    if (
+      (currentChar === "^" && uniqueFunctions.includes(previousToken.value)) ||
+      previousToken.value === "log"
+    ) {
+      if (!tokenContext.isUniqueFunctionOrLogWithPower) {
+        tokenContext.isUniqueFunctionOrLogWithPower = [];
+      }
+
+      tokenContext.isUniqueFunctionOrLogWithPower.push({});
+
+      const lastUniqueFunctionIndex = tokenContext.isUniqueFunctionOrLogWithPower.length - 1;
+
+      const nextInput = input[i + 1];
+      if (nextInput === "(") {
+        if (!tokenContext.isUniqueFunctionOrLogWithPower[lastUniqueFunctionIndex].hasParenthesis) {
+          tokenContext.isUniqueFunctionOrLogWithPower[lastUniqueFunctionIndex].hasParenthesis = {
+            remainingOpenedParenthesis: [],
+          };
+        }
+
+        tokenContext.isUniqueFunctionOrLogWithPower[
+          lastUniqueFunctionIndex
+        ].hasParenthesis.remainingOpenedParenthesis.push("(");
+      } else {
+        tokenContext.isUniqueFunctionOrLogWithPower[lastUniqueFunctionIndex].hasNoParenthesis =
+          true;
+      }
+    }
+
+    if (
+      currentChar === "!" &&
+      (uniqueWords.includes(previousToken.value) ||
+        (previousToken.value !== ")" && uniqueTokens.has(previousToken.value)))
+    ) {
+      throw new Error("Unexpected syntax");
+    }
   }
 
   const token = {
-    type: "uniqueToken",
+    type: TokenTypes.UNIQUE_TOKEN,
     value: currentChar,
   };
 
   tokens.push(token);
 
+  if (currentChar === "(") {
+    const hasUniqueFunctionOrLogWithPower = tokenContext.isUniqueFunctionOrLogWithPower;
+    if (hasUniqueFunctionOrLogWithPower) {
+      const lastUniqueFunctionIndex = hasUniqueFunctionOrLogWithPower.length - 1;
+      hasUniqueFunctionOrLogWithPower[
+        lastUniqueFunctionIndex
+      ].hasParenthesis?.remainingOpenedParenthesis.push("(");
+    }
+
+    const hasLogs = tokenContext.isLog;
+    if (hasLogs) {
+      const lastLogIndex = hasLogs.length - 1;
+      hasLogs[lastLogIndex].remainingOpenedParenthesis.push("(");
+    }
+  }
+
   if (currentChar === ")") {
+    const hasUniqueFunctionOrLogWithPower = tokenContext.isUniqueFunctionOrLogWithPower;
+    if (hasUniqueFunctionOrLogWithPower) {
+      const lastUniqueFunctionIndex = hasUniqueFunctionOrLogWithPower.length - 1;
+      hasUniqueFunctionOrLogWithPower[
+        lastUniqueFunctionIndex
+      ].hasParenthesis?.remainingOpenedParenthesis.pop();
+
+      hasUniqueFunctionOrLogWithPower.pop();
+      if (hasUniqueFunctionOrLogWithPower.length === 0) {
+        delete tokenContext.isUniqueFunctionOrLogWithPower;
+      }
+    }
+
+    const hasLogs = tokenContext.isLog;
+    if (hasLogs) {
+      const lastLogIndex = hasLogs.length - 1;
+
+      hasLogs[lastLogIndex].remainingOpenedParenthesis.pop();
+
+      if (hasLogs[lastLogIndex].remainingOpenedParenthesis.length === 0) {
+        if (!hasLogs[lastLogIndex].hasComa) {
+          throw new Error("Unexpected syntax");
+        }
+
+        hasLogs.pop();
+      }
+
+      if (tokenContext.isLog?.length === 0) {
+        delete tokenContext.isLog;
+      }
+    }
+
     const nextIndex = getNextNonSpaceCharIndex({ input, i });
     if (nextIndex !== undefined) {
       const followingChar = input[nextIndex + 1];
@@ -326,7 +469,7 @@ const uniqueTokenFlow = ({
 
       if (isLetter || isNumber) {
         tokens.push({
-          type: "uniqueToken",
+          type: TokenTypes.UNIQUE_TOKEN,
           value: "*",
         });
       }
@@ -335,34 +478,15 @@ const uniqueTokenFlow = ({
     }
   }
 
+  if (currentChar === "!") {
+    const nextIndex = getNextNonSpaceCharIndex({ input, i });
+    if (nextIndex !== undefined) {
+      const followingChar = input[nextIndex + 1];
+      if (followingChar === "!" || followingChar === "^") {
+        throw new Error("Unexpected syntax");
+      }
+    }
+  }
+
   return { token, index: i };
-};
-
-type IsCharacterLetterArgs = {
-  currentChar: string;
-};
-
-const isCharacterLetter = ({ currentChar }: IsCharacterLetterArgs) => {
-  if (!currentChar) {
-    return false;
-  }
-
-  const characterCode = currentChar.charCodeAt(0);
-  return (characterCode > 64 && characterCode < 91) || (characterCode > 96 && characterCode < 123);
-};
-
-type GetNextNonSpaceCharIndexArgs = {
-  input: string;
-  i: number;
-};
-
-const getNextNonSpaceCharIndex = ({ input, i }: GetNextNonSpaceCharIndexArgs) => {
-  while (i < input.length && input[i + 1] === " ") {
-    i++;
-  }
-  if (i === input.length) {
-    return;
-  }
-
-  return i;
 };

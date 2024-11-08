@@ -1,0 +1,1 @@
+- Share data between the front and backend, so that the data fetched to the front would be more accurate, based off the tabs and other potential filters that are currently active/selected.

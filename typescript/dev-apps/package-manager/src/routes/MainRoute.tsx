@@ -7,6 +7,32 @@ import { Tabs } from "@packages/tabs";
 import { useRequestState } from "@packages/fetch-management";
 import { useFetchDependencies } from "../useFetchDependencies";
 import { getSemVer } from "../utils";
+import { ParsedData } from "../types";
+import { LatestVersion } from "@packages/detect-repository-dependencies-types";
+
+type IsDependencyUpToDateArgs = {
+  row: ParsedData[number];
+  versionsData?: LatestVersion;
+};
+
+const isDependencyUpToDate = ({ row, versionsData }: IsDependencyUpToDateArgs) => {
+  const { name, instances } = row;
+  const { version } = versionsData?.[name] ?? {};
+
+  if (!version) {
+    return;
+  }
+
+  const versionsSet = new Set<string>();
+  instances.forEach((instance) => {
+    const { actualVersion } = getSemVer({ version: instance.version });
+    versionsSet.add(actualVersion);
+  });
+  const amount = versionsSet.size;
+
+  const isUpdated = versionsSet.has(version) && amount === 1;
+  return isUpdated;
+};
 
 export const MainRoute = () => {
   // const { fetchMetadata, isLoadingVersions, isErrorVersions } = useTempRequest();
@@ -30,15 +56,23 @@ export const MainRoute = () => {
   }
 
   const getDisplayableData = () => {
-    if (tabValue === "all") {
+    if (!data || tabValue === "all") {
       return data;
     }
 
     if (tabValue === "external") {
-      return data?.filter((row) => !row.isLocal);
+      return data.filter((row) => !row.isLocal);
     }
 
-    return data?.filter((row) => row.isLocal);
+    if (tabValue === "local") {
+      return data.filter((row) => row.isLocal);
+    }
+
+    if (tabValue === "up-to-date") {
+      return data.filter((row) => row.isLocal || isDependencyUpToDate({ row, versionsData }));
+    }
+
+    return data.filter((row) => !row.isLocal && !isDependencyUpToDate({ row, versionsData }));
   };
 
   return (
@@ -49,6 +83,8 @@ export const MainRoute = () => {
             { label: "All", value: "all" },
             { label: "External", value: "external" },
             { label: "Local", value: "local" },
+            { label: "Up to date", value: "up-to-date" },
+            { label: "Outdated", value: "outdated" },
           ] as const
         }
         selected={tabValue as "all" | "external" | "local"}
@@ -64,9 +100,11 @@ export const MainRoute = () => {
         headerContainer={{
           backgroundColor: "#242424",
           borderBottom: "1px solid #383232",
+          paddingLeft: "10px",
+          paddingRight: "10px",
         }}
         rowContainer={{
-          height: "250px",
+          height: "100%",
         }}
         rows={{
           dataRow: {
@@ -77,8 +115,16 @@ export const MainRoute = () => {
           const baseClass = "main-route-table-row";
 
           return (
-            baseClass + " " + (index % 2 === 0 ? "main-route-table-row-odd" : "main-route-table-row-even")
+            baseClass +
+            " " +
+            (index % 2 === 0 ? "main-route-table-row-odd" : "main-route-table-row-even")
           );
+        }}
+        dataRowStyle={() => {
+          return {
+            paddingLeft: "10px",
+            paddingRight: "10px",
+          };
         }}
         columns={[
           {
@@ -159,22 +205,13 @@ export const MainRoute = () => {
                 return <Skeleton height="100%" width="100%" backgroundColor="lightgray" />;
               }
 
-              const { name } = data;
-              const { version } = versionsData?.[name] ?? {};
-              const { instances } = data;
-              const versionsSet = new Set<string>();
-              instances.forEach((instance) => {
-                const { actualVersion } = getSemVer({ version: instance.version });
-                versionsSet.add(actualVersion);
-              });
-              const amount = versionsSet.size;
+              const isUpToDate = isDependencyUpToDate({ row: data, versionsData });
 
-              if (!version) {
+              if (isUpToDate === undefined) {
                 return <div>---</div>;
               }
 
-              const isUpdated = versionsSet.has(version) && amount === 1;
-              const text = isUpdated ? "Up to date" : "Can upgrade";
+              const text = isUpToDate ? "Up to date" : "Can upgrade";
 
               return <EllipsisTooltip content={text}>{text}</EllipsisTooltip>;
             },

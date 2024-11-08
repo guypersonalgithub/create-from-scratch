@@ -51,6 +51,12 @@ export default defineConfig({
         "__dirname",
         "../../packages/copy-to-clipboard/src/index.ts",
       ),
+      "packages/mathml": path.resolve("__dirname", "../../packages/mathml/src/index.ts"),
+      "packages/math-parser": path.resolve("__dirname", "../../packages/math-parser/src/index.ts"),
+      "packages/canvas-math-graphs": path.resolve(
+        "__dirname",
+        "../../packages/canvas-math-graphs/src/index.ts",
+      ),
     },
   },
 });

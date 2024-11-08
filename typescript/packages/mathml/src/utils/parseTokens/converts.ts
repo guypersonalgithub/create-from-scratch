@@ -1,4 +1,6 @@
+import { TokenTypes } from "@packages/math-parser";
 import { ParsedToken } from "./types";
+import { UniqueMathMLTokens } from "./constants";
 
 type ConvertsArgs = {
   token: ParsedToken;
@@ -13,7 +15,7 @@ export const convertMinuses = ({ token, nextToken, parsedTokens, tokens }: Conve
   }
 
   parsedTokens.push({
-    type: "uniqueToken",
+    type: TokenTypes.UNIQUE_TOKEN,
     value: "-",
   });
   tokens.shift();
@@ -25,14 +27,14 @@ export const convertMultiplications = ({
   token,
   nextToken,
   parsedTokens,
-  tokens,
-}: ConvertsArgs) => {
+}: Omit<ConvertsArgs, "tokens">) => {
   const lastToken = parsedTokens[parsedTokens.length - 1];
   if (
     token.value !== "*" ||
-    nextToken.type === "value" ||
+    nextToken.type === TokenTypes.VALUE ||
     nextToken.value === "(" ||
-    lastToken.value === ")"
+    lastToken.value === ")" ||
+    lastToken.type === UniqueMathMLTokens.FACTORIAL
   ) {
     return false;
   }

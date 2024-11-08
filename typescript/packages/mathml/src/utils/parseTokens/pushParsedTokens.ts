@@ -27,7 +27,6 @@ export const pushParsedTokens = ({ tokens, parsedTokens }: PushParsedTokensArgs)
       token,
       nextToken: tokens[0],
       parsedTokens,
-      tokens,
     });
 
     if (convertMultiplication) {

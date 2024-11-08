@@ -1,0 +1,1 @@
+- Develop the syntax highlighter package to highlight typescript/javascript.

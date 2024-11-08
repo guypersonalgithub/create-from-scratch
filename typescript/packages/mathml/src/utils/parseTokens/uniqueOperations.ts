@@ -1,7 +1,8 @@
-import { operators } from "@packages/math-parser";
+import { operators, TokenTypes, uniqueFunctions } from "@packages/math-parser";
 import { ParsedToken } from "./types";
 import { convertMinuses, convertMultiplications } from "./converts";
-import { detectParenthesisTokens } from "./detectParenthesis";
+import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectParenthesisOrAbsolute";
+import { UniqueMathMLTokens } from "./constants";
 
 type FindUniqueOperationsArgs = {
   tokens: ParsedToken[];
@@ -11,7 +12,13 @@ type FindUniqueOperationsArgs = {
 
 export const findUniqueOperations = ({ tokens, token, parsedTokens }: FindUniqueOperationsArgs) => {
   const { type, value } = token;
-  if (type !== "keyword" && typeof value === "string" && !operators.has(value)) {
+
+  if (
+    type !== TokenTypes.KEYWORD &&
+    typeof value === "string" &&
+    !operators.has(value) &&
+    value !== "!"
+  ) {
     return false;
   }
 
@@ -23,6 +30,12 @@ export const findUniqueOperations = ({ tokens, token, parsedTokens }: FindUnique
     parsedTokens.push(
       recursivelyParseFraction({ tokens, parsedTokensOfTheSameLevel: parsedTokens }),
     );
+  } else if (value === "!") {
+    parsedTokens.push(recursivelyParseFactorial({ parsedTokensOfTheSameLevel: parsedTokens }));
+  } else if (value === "log") {
+    parsedTokens.push(recursivelyParseLog({ tokens }));
+  } else if (typeof value === "string" && uniqueFunctions.includes(value)) {
+    parsedTokens.push(recursivelyParseUniqueFunction({ func: value, tokens }));
   } else {
     parsedTokens.push(token);
   }
@@ -59,7 +72,6 @@ export const recursiveOperations = ({
       token,
       nextToken: tokens[0],
       parsedTokens: parsedTokensOfTheSameLevel,
-      tokens,
     });
 
     if (convertMultiplication) {
@@ -73,6 +85,14 @@ export const recursiveOperations = ({
       parsedTokensOfTheSameLevel.push(
         recursivelyParseFraction({ tokens, parsedTokensOfTheSameLevel }),
       );
+    } else if (token.value === "!") {
+      parsedTokensOfTheSameLevel.push(recursivelyParseFactorial({ parsedTokensOfTheSameLevel }));
+    } else if (token.value === "log") {
+      parsedTokensOfTheSameLevel.push(recursivelyParseLog({ tokens }));
+    } else if (typeof token.value === "string" && uniqueFunctions.includes(token.value)) {
+      parsedTokensOfTheSameLevel.push(
+        recursivelyParseUniqueFunction({ func: token.value, tokens }),
+      );
     } else {
       parsedTokensOfTheSameLevel.push(token);
     }
@@ -83,30 +103,34 @@ type RecursivelyParseArgs = {
   tokens: ParsedToken[];
 };
 
-export const recursivelyParseSqrt = ({ tokens }: RecursivelyParseArgs) => {
+const recursivelyParseSqrt = ({ tokens }: RecursivelyParseArgs) => {
   const value: ParsedToken[] = [];
 
-  const initialToken = tokens.shift();
-  if (!initialToken) {
-    throw new Error("Unexpected syntax!");
-  }
-
-  if (initialToken.value !== "(" && initialToken.value !== "sqrt") {
-    value.push(initialToken);
-  }
+  const initialToken = tokens[0];
 
   if (initialToken.value === "(") {
     const { tokensWithinTheParenthesis } = detectParenthesisTokens({ tokens, direction: "ltr" });
-    value.push(...tokensWithinTheParenthesis);
+    value.push(...tokensWithinTheParenthesis.slice(1, tokensWithinTheParenthesis.length - 1));
+  } else if (initialToken.value === "|") {
+    const { tokensWithinTheAbsolute } = detectAbsoluteTokens({ tokens, direction: "ltr" });
+    value.push(...tokensWithinTheAbsolute);
   } else {
-    let token = { ...initialToken } as ParsedToken | undefined;
+    let token = tokens.shift() as ParsedToken | undefined;
+
+    if (!token) {
+      throw new Error("Unexpected syntax!");
+    }
+
+    if (token.value !== "(" && token.value !== "sqrt") {
+      value.push(initialToken);
+    }
 
     while (
       (token = tokens.shift()) &&
       (token?.value === "^" ||
         token?.value === "sqrt" ||
-        token?.type === "value" ||
-        token?.type === "variable" ||
+        token?.type === TokenTypes.VALUE ||
+        token?.type === TokenTypes.VARIABLE ||
         typeof token?.value !== "string")
     ) {
       recursiveOperations({ tokens, token, parsedTokensOfTheSameLevel: value });
@@ -114,7 +138,7 @@ export const recursivelyParseSqrt = ({ tokens }: RecursivelyParseArgs) => {
   }
 
   return {
-    type: "sqrt",
+    type: UniqueMathMLTokens.SQRT,
     value,
   };
 };
@@ -123,33 +147,40 @@ type RecursivelyParseWithBackwardsArgs = RecursivelyParseArgs & {
   parsedTokensOfTheSameLevel: ParsedToken[];
 };
 
-export const recursivelyParsePower = ({
+const recursivelyParsePower = ({
   tokens,
   parsedTokensOfTheSameLevel,
 }: RecursivelyParseWithBackwardsArgs) => {
   const power: ParsedToken[] = [];
 
-  const initialToken = tokens.shift();
-  if (!initialToken) {
-    throw new Error("Unexpected syntax!");
-  }
-
-  if (initialToken.value !== "(" && initialToken.value !== "^") {
-    power.push(initialToken);
-  }
+  const initialToken = tokens[0];
 
   if (initialToken.value === "(") {
-    const { tokensWithinTheParenthesis } = detectParenthesisTokens({ tokens, direction: "ltr" });
-    power.push(...tokensWithinTheParenthesis);
+    const { tokensWithinTheParenthesis } = detectParenthesisTokens({
+      tokens,
+      direction: "ltr",
+    });
+    power.push(...tokensWithinTheParenthesis.slice(1, tokensWithinTheParenthesis.length - 1));
+  } else if (initialToken.value === "|") {
+    const { tokensWithinTheAbsolute } = detectAbsoluteTokens({ tokens, direction: "ltr" });
+    power.push(...tokensWithinTheAbsolute);
   } else {
-    let token = { ...initialToken } as ParsedToken | undefined;
+    let token = tokens.shift() as ParsedToken | undefined;
+
+    if (!token) {
+      throw new Error("Unexpected syntax!");
+    }
+
+    if (token.value !== "(" && token.value !== "^") {
+      power.push(initialToken);
+    }
 
     while (
       (token = tokens.shift()) &&
       (token?.value === "^" ||
         token?.value === "sqrt" ||
-        token?.type === "value" ||
-        token?.type === "variable" ||
+        token?.type === TokenTypes.VALUE ||
+        token?.type === TokenTypes.VARIABLE ||
         typeof token?.value !== "string")
     ) {
       recursiveOperations({ tokens, token, parsedTokensOfTheSameLevel: power });
@@ -162,40 +193,35 @@ export const recursivelyParsePower = ({
 
   const base: ParsedToken[] = [];
 
-  const lastValueToken = parsedTokensOfTheSameLevel.pop();
-  if (!lastValueToken) {
-    throw new Error("Unexpected syntax!");
-  }
-
-  if (lastValueToken.value !== ")") {
-    base.push(lastValueToken);
-  }
+  const lastValueToken = parsedTokensOfTheSameLevel[parsedTokensOfTheSameLevel.length - 1];
 
   if (lastValueToken.value === ")") {
     const { tokensWithinTheParenthesis } = detectParenthesisTokens({
       tokens: parsedTokensOfTheSameLevel,
       direction: "rtl",
     });
-    tokensWithinTheParenthesis.unshift({
-      type: "uniqueToken",
-      value: "(",
-    });
-    tokensWithinTheParenthesis.push({
-      type: "uniqueToken",
-      value: ")",
-    });
     base.push(...tokensWithinTheParenthesis);
+  } else if (lastValueToken.value === "|") {
+    const { tokensWithinTheAbsolute } = detectAbsoluteTokens({
+      tokens: parsedTokensOfTheSameLevel,
+      direction: "rtl",
+    });
+    base.push(...tokensWithinTheAbsolute);
   } else {
-    let token = { ...lastValueToken } as ParsedToken | undefined;
+    let token = parsedTokensOfTheSameLevel.pop() as ParsedToken | undefined;
+    if (token) {
+      base.unshift(token);
+    }
+
     while (
       (token = parsedTokensOfTheSameLevel.pop()) &&
-      (token?.type === "sqrt" ||
-        token?.type === "power" ||
-        token?.type === "value" ||
-        token?.type === "variable" ||
+      (token?.type === UniqueMathMLTokens.SQRT ||
+        token?.type === UniqueMathMLTokens.POWER ||
+        token?.type === TokenTypes.VALUE ||
+        token?.type === TokenTypes.VARIABLE ||
         typeof token?.value !== "string")
     ) {
-      base.push(token);
+      base.unshift(token);
     }
 
     if (token) {
@@ -204,7 +230,7 @@ export const recursivelyParsePower = ({
   }
 
   return {
-    type: "power",
+    type: UniqueMathMLTokens.POWER,
     value: {
       base,
       power,
@@ -212,33 +238,37 @@ export const recursivelyParsePower = ({
   };
 };
 
-export const recursivelyParseFraction = ({
+const recursivelyParseFraction = ({
   tokens,
   parsedTokensOfTheSameLevel,
 }: RecursivelyParseWithBackwardsArgs) => {
   const denominator: ParsedToken[] = [];
 
-  const initialToken = tokens.shift();
-  if (!initialToken) {
-    throw new Error("Unexpected syntax!");
-  }
-
-  if (initialToken.value !== "(" && initialToken.value !== "/") {
-    denominator.push(initialToken);
-  }
+  const initialToken = tokens[0];
 
   if (initialToken.value === "(") {
     const { tokensWithinTheParenthesis } = detectParenthesisTokens({ tokens, direction: "ltr" });
-    denominator.push(...tokensWithinTheParenthesis);
+    denominator.push(...tokensWithinTheParenthesis.slice(1, tokensWithinTheParenthesis.length - 1));
+  } else if (initialToken.value === "|") {
+    const { tokensWithinTheAbsolute } = detectAbsoluteTokens({ tokens, direction: "ltr" });
+    denominator.push(...tokensWithinTheAbsolute);
   } else {
-    let token = { ...initialToken } as ParsedToken | undefined;
+    let token = tokens.shift() as ParsedToken | undefined;
+
+    if (!token) {
+      throw new Error("Unexpected syntax!");
+    }
+
+    if (token.value !== "(" && token.value !== "/") {
+      denominator.push(initialToken);
+    }
 
     while (
       (token = tokens.shift()) &&
       (token?.value === "^" ||
         token?.value === "sqrt" ||
-        token?.type === "value" ||
-        token?.type === "variable" ||
+        token?.type === TokenTypes.VALUE ||
+        token?.type === TokenTypes.VARIABLE ||
         typeof token?.value !== "string")
     ) {
       recursiveOperations({ tokens, token, parsedTokensOfTheSameLevel: denominator });
@@ -251,32 +281,35 @@ export const recursivelyParseFraction = ({
 
   const numerator: ParsedToken[] = [];
 
-  const lastValueToken = parsedTokensOfTheSameLevel.pop();
-  if (!lastValueToken) {
-    throw new Error("Unexpected syntax!");
-  }
-
-  if (lastValueToken.value !== ")") {
-    numerator.push(lastValueToken);
-  }
+  const lastValueToken = parsedTokensOfTheSameLevel[parsedTokensOfTheSameLevel.length - 1];
 
   if (lastValueToken.value === ")") {
     const { tokensWithinTheParenthesis } = detectParenthesisTokens({
       tokens: parsedTokensOfTheSameLevel,
       direction: "rtl",
     });
-    numerator.push(...tokensWithinTheParenthesis);
+    numerator.push(...tokensWithinTheParenthesis.slice(1, tokensWithinTheParenthesis.length - 1));
+  } else if (lastValueToken.value === "|") {
+    const { tokensWithinTheAbsolute } = detectAbsoluteTokens({
+      tokens: parsedTokensOfTheSameLevel,
+      direction: "rtl",
+    });
+    numerator.push(...tokensWithinTheAbsolute);
   } else {
-    let token = { ...lastValueToken } as ParsedToken | undefined;
+    let token = parsedTokensOfTheSameLevel.pop() as ParsedToken | undefined;
+    if (token) {
+      numerator.unshift(token);
+    }
+
     while (
       (token = parsedTokensOfTheSameLevel.pop()) &&
-      (token?.type === "sqrt" ||
-        token?.type === "power" ||
-        token?.type === "value" ||
-        token?.type === "variable" ||
+      (token?.type === UniqueMathMLTokens.SQRT ||
+        token?.type === UniqueMathMLTokens.POWER ||
+        token?.type === TokenTypes.VALUE ||
+        token?.type === TokenTypes.VARIABLE ||
         typeof token?.value !== "string")
     ) {
-      numerator.push(token);
+      numerator.unshift(token);
     }
 
     if (token) {
@@ -285,10 +318,204 @@ export const recursivelyParseFraction = ({
   }
 
   return {
-    type: "fraction",
+    type: UniqueMathMLTokens.FRACTION,
     value: {
       numerator,
       denominator,
+    },
+  };
+};
+
+type RecursivelyParseUniqueFunctionArgs = {
+  func: string;
+  tokens: ParsedToken[];
+};
+
+const recursivelyParseUniqueFunction = ({ func, tokens }: RecursivelyParseUniqueFunctionArgs) => {
+  const value: ParsedToken[] = [
+    {
+      type: TokenTypes.UNIQUE_TOKEN,
+      value: func,
+    },
+  ];
+
+  const initialToken = tokens[0];
+
+  if (initialToken.value === "(") {
+    const { tokensWithinTheParenthesis } = detectParenthesisTokens({
+      tokens,
+      direction: "ltr",
+    });
+    value.push(...tokensWithinTheParenthesis);
+  } else if (initialToken.value === "|") {
+    const { tokensWithinTheAbsolute } = detectAbsoluteTokens({ tokens, direction: "ltr" });
+    value.push(...tokensWithinTheAbsolute);
+  } else {
+    let token = undefined as ParsedToken | undefined;
+
+    while (
+      (token = tokens.shift()) &&
+      (token?.value === "^" ||
+        token?.value === "sqrt" ||
+        token?.type === TokenTypes.VALUE ||
+        token?.type === TokenTypes.VARIABLE ||
+        typeof token?.value !== "string")
+    ) {
+      recursiveOperations({ tokens, token, parsedTokensOfTheSameLevel: value });
+    }
+
+    if (token) {
+      tokens.unshift(token);
+    }
+  }
+
+  if (initialToken.value === "^") {
+    const { tokensWithinTheParenthesis } = detectParenthesisTokens({
+      tokens,
+      direction: "ltr",
+    });
+    value.push(...tokensWithinTheParenthesis);
+  }
+
+  return {
+    type: UniqueMathMLTokens.UNIQUE_FUNCTION,
+    value,
+  };
+};
+
+const recursivelyParseFactorial = ({
+  parsedTokensOfTheSameLevel,
+}: Pick<RecursivelyParseWithBackwardsArgs, "parsedTokensOfTheSameLevel">) => {
+  const value: ParsedToken[] = [];
+
+  const lastValueToken = parsedTokensOfTheSameLevel[parsedTokensOfTheSameLevel.length - 1];
+
+  if (lastValueToken.value === ")") {
+    const { tokensWithinTheParenthesis } = detectParenthesisTokens({
+      tokens: parsedTokensOfTheSameLevel,
+      direction: "rtl",
+    });
+    value.push(...tokensWithinTheParenthesis);
+  } else if (lastValueToken.value === "|") {
+    const { tokensWithinTheAbsolute } = detectAbsoluteTokens({
+      tokens: parsedTokensOfTheSameLevel,
+      direction: "rtl",
+    });
+    value.push(...tokensWithinTheAbsolute);
+  } else {
+    let token = parsedTokensOfTheSameLevel.pop() as ParsedToken | undefined;
+    if (token) {
+      value.unshift(token);
+    }
+
+    while (
+      (token = parsedTokensOfTheSameLevel.pop()) &&
+      (token?.type === UniqueMathMLTokens.SQRT ||
+        token?.type === UniqueMathMLTokens.POWER ||
+        token?.type === TokenTypes.VALUE ||
+        token?.type === TokenTypes.VARIABLE ||
+        typeof token?.value !== "string")
+    ) {
+      value.unshift(token);
+    }
+
+    if (token) {
+      parsedTokensOfTheSameLevel.push(token);
+    }
+  }
+
+  value.push({
+    type: TokenTypes.UNIQUE_TOKEN,
+    value: "!",
+  });
+
+  return {
+    type: UniqueMathMLTokens.FACTORIAL,
+    value,
+  };
+};
+
+type RecursivelyParseLogArgs = {
+  tokens: ParsedToken[];
+};
+
+const recursivelyParseLog = ({ tokens }: RecursivelyParseLogArgs) => {
+  const func = {
+    type: TokenTypes.UNIQUE_TOKEN,
+    value: "log",
+  };
+  const base: ParsedToken[] = [];
+  const value: ParsedToken[] = [];
+
+  const initialToken = tokens[0];
+
+  if (initialToken.value === "(") {
+    const { tokensWithinTheParenthesis } = detectParenthesisTokens({
+      tokens,
+      direction: "ltr",
+    });
+    const parenthesisLessTokens = tokensWithinTheParenthesis.slice(
+      1,
+      tokensWithinTheParenthesis.length - 1,
+    );
+    const comaToken = parenthesisLessTokens.findIndex((token) => token.value === ",");
+    if (comaToken === -1) {
+      throw new Error("Unexpected syntax");
+    }
+
+    for (let i = 0; i < comaToken; i++) {
+      const current = parenthesisLessTokens[i];
+      base.push(current);
+    }
+
+    for (let i = comaToken + 1; i < parenthesisLessTokens.length; i++) {
+      const current = parenthesisLessTokens[i];
+      value.push(current);
+    }
+  }
+
+  // TODO: Add support to that through the tokenizer
+
+  //  else if (initialToken.value === "|") {
+  //   const { tokensWithinTheAbsolute } = detectAbsoluteTokens({ tokens, direction: "ltr" });
+  //   const parenthesisLessTokens = tokensWithinTheAbsolute.slice(
+  //     1,
+  //     tokensWithinTheAbsolute.length - 1,
+  //   );
+  //   const comaToken = parenthesisLessTokens.findIndex((token) => token.value === ",");
+  //   if (comaToken === -1) {
+  //     throw new Error("Unexpected syntax");
+  //   }
+
+  //   for (let i = 0; i < comaToken; i++) {
+  //     const current = parenthesisLessTokens[i];
+  //     base.push(current);
+  //   }
+
+  //   for (let i = comaToken + 1; i < parenthesisLessTokens.length; i++) {
+  //     const current = parenthesisLessTokens[i];
+  //     value.push(current);
+  //   }
+  // }
+
+  // TODO: Add support to that through the tokenizer
+
+  // if (initialToken.value === "^") {
+  //   const { tokensWithinTheParenthesis } = detectParenthesisTokens({
+  //     tokens,
+  //     direction: "ltr",
+  //   });
+  //   value.push(...tokensWithinTheParenthesis);
+  // }
+
+  // console.log(tokens.slice());
+
+  return {
+    type: UniqueMathMLTokens.LOG,
+    value: {
+      func,
+      base,
+      value,
     },
   };
 };

@@ -34,7 +34,6 @@ export const parseTokens = ({ tokens }: ParseTokensArgs) => {
           token,
           nextToken: tokensCopy[0],
           parsedTokens,
-          tokens: tokensCopy,
         });
 
         if (convertMultiplication) {
