@@ -1,1 +1,2 @@
 - Continue developing the math parser by adding AST options, an actual parser beyond the tokenizing process, etc.
+- Continue the README file.

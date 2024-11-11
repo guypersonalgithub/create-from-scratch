@@ -1,8 +1,8 @@
 import { tokenizer } from "@packages/math-parser";
-import { parseTokens } from "./utils";
 import { RecursiveMathMLToken } from "./JSX/RecursiveMathMLToken";
 import { useEffect, useRef } from "react";
 import { functionalParsing } from "./functionalParsing";
+import { parseTokens } from "./utils/parseTokens";
 
 type MathMLProps = {
   input: string;
@@ -12,7 +12,6 @@ type MathMLProps = {
 const getParsedTokens = ({ input }: Pick<MathMLProps, "input">) => {
   const tokens = tokenizer({ input });
   const { parsedTokens } = parseTokens({ tokens });
-  console.log({ tokens, parsedTokens });
   return parsedTokens;
 };
 

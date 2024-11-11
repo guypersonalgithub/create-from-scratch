@@ -1,26 +1,15 @@
-import { uniqueWords } from "./uniqueTokens";
+import { nonStarterTokens } from "./uniqueTokens";
 
-type GetUniqueTokenArgs = {
-  input: string;
+type IsCharacterNumberArgs = {
+  currentChar: string;
 };
 
-export const getUniqueToken = ({ input }: GetUniqueTokenArgs) => {
-  let tokenValue: string = "";
-  let currentInput = input.slice();
-
-  while (
-    currentInput.length > 0 &&
-    (uniqueWords.find((unique) => unique.includes(tokenValue + currentInput.at(0))) ||
-      tokenValue.length === 0)
-  ) {
-    // TODO: consider turning it into a string utility function.
-    const currentChar = currentInput.at(0);
-    currentInput = currentInput.slice(1);
-
-    tokenValue += currentChar;
+export const isCharacterNumber = ({ currentChar }: IsCharacterNumberArgs) => {
+  if (!currentChar) {
+    return false;
   }
 
-  return uniqueWords.includes(tokenValue) ? tokenValue : "";
+  return !isNaN(Number.parseFloat(currentChar));
 };
 
 type IsCharacterLetterArgs = {
@@ -38,16 +27,36 @@ export const isCharacterLetter = ({ currentChar }: IsCharacterLetterArgs) => {
 
 type GetNextNonSpaceCharIndexArgs = {
   input: string;
-  i: number;
 };
 
-export const getNextNonSpaceCharIndex = ({ input, i }: GetNextNonSpaceCharIndexArgs) => {
-  while (i < input.length && input[i + 1] === " ") {
-    i++;
-  }
-  if (i === input.length) {
-    return;
+export const getNextNonSpaceCharIndex = ({ input }: GetNextNonSpaceCharIndexArgs) => {
+  let skippedIndexes = 0;
+
+  while (skippedIndexes < input.length && input[skippedIndexes] === " ") {
+    skippedIndexes++;
   }
 
-  return i;
+  if (skippedIndexes === input.length) {
+    return {};
+  }
+
+  return {
+    skippedIndexes,
+  };
+};
+
+type IsValidSectionStartingCharacterArgs = {
+  input: string;
+  currentIndex: number;
+};
+
+export const isValidSectionStartingCharacter = ({
+  input,
+  currentIndex,
+}: IsValidSectionStartingCharacterArgs) => {
+  const currentChar = input.charAt(0);
+  const isValid = currentChar && !nonStarterTokens.has(currentChar) && currentChar !== ",";
+  if (!isValid) {
+    throw new Error(`Encountered an unexpected character ${currentChar} on index ${currentIndex}`);
+  }
 };

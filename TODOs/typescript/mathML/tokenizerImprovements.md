@@ -1,0 +1,1 @@
+- Alter the displayers for uniqueFunctions/logs that are wrapped by powers. Same for powers of powers and the behavior of parenthesis.

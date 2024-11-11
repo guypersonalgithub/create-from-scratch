@@ -1,6 +1,5 @@
 import { BaseToken } from "@packages/math-parser";
 import { ParsedToken } from "./types";
-import { convertMinuses, convertMultiplications } from "./converts";
 import { findUniqueOperations } from "./uniqueOperations";
 
 type ParseTokensArgs = {
@@ -21,33 +20,14 @@ export const parseTokens = ({ tokens }: ParseTokensArgs) => {
         throw new Error("Unexpected syntax!");
       }
 
-      const convertedMinus = convertMinuses({
-        token,
-        nextToken: tokensCopy[0],
-        parsedTokens,
+      const foundUniqueOprator = findUniqueOperations({
         tokens: tokensCopy,
+        token,
+        parsedTokens,
       });
-      if (convertedMinus) {
-        // tokensCopy.shift();
-      } else {
-        const convertMultiplication = convertMultiplications({
-          token,
-          nextToken: tokensCopy[0],
-          parsedTokens,
-        });
 
-        if (convertMultiplication) {
-        } else {
-          const foundUniqueOprator = findUniqueOperations({
-            tokens: tokensCopy,
-            token,
-            parsedTokens,
-          });
-
-          if (!foundUniqueOprator) {
-            parsedTokens.push(token);
-          }
-        }
+      if (!foundUniqueOprator) {
+        parsedTokens.push(token);
       }
     }
   } catch (error) {

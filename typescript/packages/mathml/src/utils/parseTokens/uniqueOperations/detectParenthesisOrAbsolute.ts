@@ -1,5 +1,5 @@
-import { ParsedToken } from "./types";
-import { recursiveOperations } from "./uniqueOperations";
+import { ParsedToken } from "../types";
+import { recursiveOperations } from "./recursiveOperations";
 
 type DetectParenthesisTokensArgs = {
   tokens: ParsedToken[];
@@ -15,10 +15,7 @@ type GetNextTokenArgs = {
   isLTR: boolean;
 };
 
-export const detectParenthesisTokens = ({
-  tokens,
-  direction,
-}: DetectParenthesisTokensArgs) => {
+export const detectParenthesisTokens = ({ tokens, direction }: DetectParenthesisTokensArgs) => {
   const tokensWithinTheParenthesis: ParsedToken[] = [];
   const parenthesisArray: string[] = [];
 

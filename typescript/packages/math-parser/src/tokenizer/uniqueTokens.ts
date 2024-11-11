@@ -1,3 +1,5 @@
+export const basicOperators = new Set(["+", "-", "*", "/"]);
+export const nonConsecutiveOperators = new Set([...basicOperators, "^", "!"])
 export const operators = new Set<string>(["+", "-", "*", "/", "^"]);
 export const uniqueTokens = new Set<string>([...operators, "(", ")", "=", "|", "!"]);
 export const trigonometricFunctions = new Set<string>([
@@ -28,7 +30,6 @@ export const hyperbolicFunctions = new Set<string>([
   "arcsech",
   "arccoth",
 ]);
-export const uniqueFunctions = [...trigonometricFunctions, ...hyperbolicFunctions, "ln"];
-export const uniqueWords = [...uniqueFunctions, "sqrt", "log"];
-export const starterTokens = ["(", "-", "|"];
-export const nonStarterTokens = ["+", "*", "/", "^"];
+export const uniqueFunctions = new Set([...trigonometricFunctions, ...hyperbolicFunctions, "ln"]);
+export const uniqueWords = new Set([...uniqueFunctions, "sqrt", "log"]);
+export const nonStarterTokens = new Set(["+", "*", "/", "^", ")"]);
