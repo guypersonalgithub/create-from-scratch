@@ -8,21 +8,21 @@ on:
       - main
     paths:
       - typescript/apps/cs/**
-      - packages/icons/**
-      - packages/mathml/**
-      - packages/math-parser/**
-      - packages/router/**
-      - packages/utils/**
-      - packages/url/**
-      - packages/environment/**
-      - packages/design-patterns/**
-      - packages/randomizer/**
-      - packages/sidebar/**
-      - packages/animation-container/**
-      - packages/is-dev/**
-      - packages/button/**
-      - packages/tooltip/**
-      - packages/edge-intersection/**
+      - typescript/packages/icons/**
+      - typescript/packages/mathml/**
+      - typescript/packages/math-parser/**
+      - typescript/packages/router/**
+      - typescript/packages/utils/**
+      - typescript/packages/url/**
+      - typescript/packages/environment/**
+      - typescript/packages/design-patterns/**
+      - typescript/packages/randomizer/**
+      - typescript/packages/sidebar/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/button/**
+      - typescript/packages/tooltip/**
+      - typescript/packages/edge-intersection/**
   workflow_dispatch: 
 jobs:
   Deploy-Production:

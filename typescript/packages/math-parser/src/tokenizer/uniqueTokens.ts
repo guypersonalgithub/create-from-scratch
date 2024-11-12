@@ -1,5 +1,5 @@
 export const basicOperators = new Set(["+", "-", "*", "/"]);
-export const nonConsecutiveOperators = new Set([...basicOperators, "^", "!"])
+export const nonConsecutiveOperators = new Set([...basicOperators, "^", "!", ")", "|", "="])
 export const operators = new Set<string>(["+", "-", "*", "/", "^"]);
 export const uniqueTokens = new Set<string>([...operators, "(", ")", "=", "|", "!"]);
 export const trigonometricFunctions = new Set<string>([

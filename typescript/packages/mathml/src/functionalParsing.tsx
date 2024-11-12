@@ -1,6 +1,12 @@
 import { TokenTypes } from "@packages/math-parser";
-import { FracionToken, LogToken, ParsedToken, PowerToken, TokenGroup } from "./utils";
-import { UniqueMathMLTokens } from "./utils/parseTokensOld/constants";
+import {
+  FracionToken,
+  LogToken,
+  ParsedToken,
+  PowerToken,
+  TokenGroup,
+} from "./utils/parseTokens/types";
+import { UniqueMathMLTokens } from "./utils/parseTokens/constants";
 
 type FunctionalParsingArgs = {
   parsedTokens: ParsedToken[];
@@ -9,9 +15,11 @@ type FunctionalParsingArgs = {
 export const functionalParsing = ({ parsedTokens }: FunctionalParsingArgs): string => {
   return `<math>
       <mrow>
-        ${parsedTokens.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${parsedTokens
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </mrow>
     </math>`;
 };
@@ -58,14 +66,18 @@ type PowerTemplateArgs = {
 const powerTemplate = ({ base, power }: PowerTemplateArgs): string => {
   return `<msup>
       <mrow>
-        ${base.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${base
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </mrow>
       <mrow>
-        ${power.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${power
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </mrow>
     </msup>`;
 };
@@ -78,14 +90,18 @@ type FractionTemplateArgs = {
 const fractionTemplate = ({ numerator, denominator }: FractionTemplateArgs): string => {
   return `<mfrac>
       <mrow>
-        ${numerator.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${numerator
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </mrow>
       <mrow>
-        ${denominator.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${denominator
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </mrow>
     </mfrac>`;
 };
@@ -96,9 +112,11 @@ type SquareRootTemplateArgs = {
 
 const squareRootTemplate = ({ value }: SquareRootTemplateArgs): string => {
   return `<msqrt>
-      ${value.map((parsedToken) => {
-        return recursiveMathMLToken({ token: parsedToken });
-      })}
+      ${value
+        .map((parsedToken) => {
+          return recursiveMathMLToken({ token: parsedToken });
+        })
+        .join(" ")}
     </msqrt>`;
 };
 
@@ -110,9 +128,11 @@ type UniqueFunctionTemplateArgs = {
 const uniqueFunctionTemplate = ({ func, value }: UniqueFunctionTemplateArgs): string => {
   return `<mrow>
       ${recursiveMathMLToken({ token: func })}$
-      ${value.map((parsedToken) => {
-        return recursiveMathMLToken({ token: parsedToken });
-      })}
+      ${value
+        .map((parsedToken) => {
+          return recursiveMathMLToken({ token: parsedToken });
+        })
+        .join(" ")}
     </mrow>`;
 };
 
@@ -122,9 +142,11 @@ type FactorialTemplateArgs = {
 
 const factorialTemplate = ({ value }: FactorialTemplateArgs): string => {
   return `<mrow>
-      ${value.map((parsedToken) => {
-        return recursiveMathMLToken({ token: parsedToken });
-      })}
+      ${value
+        .map((parsedToken) => {
+          return recursiveMathMLToken({ token: parsedToken });
+        })
+        .join(" ")}
     </mrow>`;
 };
 
@@ -137,11 +159,15 @@ type LogTemplateArgs = {
 export const logTemplate = ({ func, base, value }: LogTemplateArgs): string => {
   return `<msub>
         ${recursiveMathMLToken({ token: func })}
-        ${base.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${base
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </msub>
-      ${value.map((parsedToken) => {
-        return recursiveMathMLToken({ token: parsedToken });
-      })}`;
+      ${value
+        .map((parsedToken) => {
+          return recursiveMathMLToken({ token: parsedToken });
+        })
+        .join(" ")}`;
 };

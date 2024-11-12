@@ -1,1 +1,1 @@
-- Alter the displayers for uniqueFunctions/logs that are wrapped by powers. Same for powers of powers and the behavior of parenthesis.
+- Make sure for powers/others, a unique function with its value would be treated as a single wrapping token, so that 4 ^ sin(15) wouldn't treat as the sin as power and (15) as a different detached value.

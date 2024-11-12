@@ -11,10 +11,16 @@ type UniqueOperationsFlowArgs = {
   tokens: ParsedToken[];
   token: ParsedToken;
   parsedTokens: ParsedToken[];
+  isRoot?: boolean;
 };
 
-export const uniqueOperationsFlow = ({ tokens, token, parsedTokens }: UniqueOperationsFlowArgs) => {
-  const { type, value } = token;
+export const uniqueOperationsFlow = ({
+  tokens,
+  token,
+  parsedTokens,
+  isRoot,
+}: UniqueOperationsFlowArgs) => {
+  const { value } = token;
 
   if (value === "sqrt") {
     parsedTokens.push(recursivelyParseSqrt({ tokens }));
@@ -27,9 +33,26 @@ export const uniqueOperationsFlow = ({ tokens, token, parsedTokens }: UniqueOper
   } else if (value === "!") {
     parsedTokens.push(recursivelyParseFactorial({ parsedTokensOfTheSameLevel: parsedTokens }));
   } else if (value === "log") {
-    parsedTokens.push(recursivelyParseLog({ tokens }));
+    const { changedPowerLocation, isRootLog, ...newToken } = recursivelyParseLog({
+      tokens,
+      isRoot,
+    });
+    parsedTokens.push(newToken);
+    if (changedPowerLocation && isRootLog) {
+      parsedTokens.shift();
+      tokens.shift();
+    }
   } else if (typeof value === "string" && uniqueFunctions.has(value)) {
-    parsedTokens.push(recursivelyParseUniqueFunction({ func: value, tokens }));
+    const { changedPowerLocation, isRootFunction, ...newToken } = recursivelyParseUniqueFunction({
+      func: value,
+      tokens,
+      isRoot,
+    });
+    parsedTokens.push(newToken);
+    if (changedPowerLocation && isRootFunction) {
+      parsedTokens.shift();
+      tokens.shift();
+    }
   } else {
     parsedTokens.push(token);
   }

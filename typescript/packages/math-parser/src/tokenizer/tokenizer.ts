@@ -7,9 +7,10 @@ type TokenizerArgs = {
 };
 
 export const tokenizer = ({ input }: TokenizerArgs) => {
-  const tokens: BaseToken[] = [];
+  let errorMessage: string | undefined;
 
   try {
+    const tokens: BaseToken[] = [];
     let duplicatedInput = input.slice();
 
     let currentIndex = 0;
@@ -37,9 +38,10 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
         );
       }
     }
+    return { tokens, errorMessage };
   } catch (error) {
-    console.error(error);
+    const isError = error instanceof Error;
+    errorMessage = `${isError ? error.message : error}`;
+    return { tokens: [], errorMessage };
   }
-
-  return tokens;
 };

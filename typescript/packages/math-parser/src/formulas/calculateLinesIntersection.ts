@@ -6,8 +6,8 @@ type CalculateLinesIntersectionArgs = {
 };
 
 export const calculateLinesIntersection = ({ line1, line2 }: CalculateLinesIntersectionArgs) => {
-  const line1Tokens = tokenizer({ input: line1 });
-  const line2Tokens = tokenizer({ input: line2 });
+  const { tokens: line1Tokens } = tokenizer({ input: line1 });
+  const { tokens: line2Tokens } = tokenizer({ input: line2 });
 
   console.log({ line1Tokens, line2Tokens });
 };

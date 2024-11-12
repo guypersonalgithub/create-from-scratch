@@ -46,7 +46,7 @@ export const generateGithubActionYaml = async () => {
           (on.push as Record<string, string[]>).paths = [
             `typescript/apps/${workspace}/**`, // Temporary solution
             ...workspacePackages.map((workspacePackage) => {
-              return `${workspacePackage.path}/**`;
+              return `typescript/${workspacePackage.path}/**`;
             }),
           ];
         }

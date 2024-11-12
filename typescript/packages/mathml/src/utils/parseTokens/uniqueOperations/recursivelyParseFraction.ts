@@ -36,8 +36,8 @@ export const recursivelyParseFraction = ({
 
     while (
       (token = tokens.shift()) &&
-      (token?.value === "^" ||
-        token?.value === "sqrt" ||
+      (token?.type === UniqueMathMLTokens.SQRT ||
+        token?.type === UniqueMathMLTokens.POWER ||
         token?.type === TokenTypes.VALUE ||
         token?.type === TokenTypes.VARIABLE ||
         typeof token?.value !== "string")

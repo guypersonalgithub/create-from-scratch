@@ -2,8 +2,14 @@ import { Fraction } from "./Fraction";
 import { Power } from "./Power";
 import { SquareRoot } from "./SquareRoot";
 import { UniqueFunction } from "./UniqueFunction";
-import { FracionToken, LogToken, ParsedToken, PowerToken, TokenGroup } from "../utils";
-import { UniqueMathMLTokens } from "../utils/parseTokensOld/constants";
+import {
+  FracionToken,
+  LogToken,
+  ParsedToken,
+  PowerToken,
+  TokenGroup,
+} from "../utils/parseTokens/types";
+import { UniqueMathMLTokens } from "../utils/parseTokens/constants";
 import { TokenTypes } from "@packages/math-parser";
 import { Factorial } from "./Factorial";
 import { Log } from "./Log";

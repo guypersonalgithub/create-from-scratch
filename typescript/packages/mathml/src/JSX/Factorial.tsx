@@ -1,5 +1,5 @@
 import { RecursiveMathMLToken } from "./RecursiveMathMLToken";
-import { ParsedToken } from "../utils";
+import { ParsedToken } from "../utils/parseTokens/types";
 
 type FactorialProps = {
   value: ParsedToken[];

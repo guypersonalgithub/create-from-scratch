@@ -1,6 +1,6 @@
 import { tokenizer } from "@packages/math-parser";
 import { RecursiveMathMLToken } from "./JSX/RecursiveMathMLToken";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { functionalParsing } from "./functionalParsing";
 import { parseTokens } from "./utils/parseTokens";
 
@@ -10,9 +10,9 @@ type MathMLProps = {
 };
 
 const getParsedTokens = ({ input }: Pick<MathMLProps, "input">) => {
-  const tokens = tokenizer({ input });
-  const { parsedTokens } = parseTokens({ tokens });
-  return parsedTokens;
+  const { tokens, errorMessage: tokenizerErrorMessage } = tokenizer({ input });
+  const { parsedTokens, errorMessage } = parseTokens({ tokens });
+  return { parsedTokens, errorMessage: errorMessage || tokenizerErrorMessage };
 };
 
 export const MathML = ({ input, format }: MathMLProps) => {
@@ -29,21 +29,37 @@ type FormatProps = {
 
 const HTMLFormat = ({ input }: FormatProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
     if (!ref.current) {
       return;
     }
 
-    const parsedTokens = getParsedTokens({ input });
+    const { parsedTokens, errorMessage } = getParsedTokens({ input });
+    setError(errorMessage);
+    if (errorMessage) {
+      ref.current.innerHTML = "";
+      return;
+    }
+
     ref.current.innerHTML = functionalParsing({ parsedTokens });
   }, [input]);
 
-  return <div ref={ref} />;
+  return (
+    <>
+      <div>{error}</div>
+      <div ref={ref} style={{ visibility: error ? "hidden" : "visible" }} />
+    </>
+  );
 };
 
 const JSXFormat = ({ input }: FormatProps) => {
-  const parsedTokens = getParsedTokens({ input });
+  const { parsedTokens, errorMessage } = getParsedTokens({ input });
+
+  if (errorMessage) {
+    return <div>{errorMessage}</div>;
+  }
 
   return (
     <math>

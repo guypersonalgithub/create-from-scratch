@@ -4,6 +4,7 @@ import { recursiveOperations } from "./recursiveOperations";
 type DetectParenthesisTokensArgs = {
   tokens: ParsedToken[];
   direction: "rtl" | "ltr";
+  isRoot?: boolean;
 };
 
 type PushIntoTakenValueArgs = {
@@ -15,7 +16,11 @@ type GetNextTokenArgs = {
   isLTR: boolean;
 };
 
-export const detectParenthesisTokens = ({ tokens, direction }: DetectParenthesisTokensArgs) => {
+export const detectParenthesisTokens = ({
+  tokens,
+  direction,
+  isRoot,
+}: DetectParenthesisTokensArgs) => {
   const tokensWithinTheParenthesis: ParsedToken[] = [];
   const parenthesisArray: string[] = [];
 
@@ -69,6 +74,7 @@ export const detectParenthesisTokens = ({ tokens, direction }: DetectParenthesis
           tokens,
           token,
           parsedTokensOfTheSameLevel: tokensWithinTheParenthesis,
+          isRoot,
         });
       } else {
         pushIntoTakenValue({ token });

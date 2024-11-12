@@ -2,17 +2,20 @@ import { TokenTypes } from "@packages/math-parser";
 import { ParsedToken } from "../types";
 import { detectParenthesisTokens } from "./detectParenthesisOrAbsolute";
 import { UniqueMathMLTokens } from "../constants";
+import { uniqueFunctionWithPower } from "./uniqueFunctionWithPower";
 
 type RecursivelyParseLogArgs = {
   tokens: ParsedToken[];
+  isRoot?: boolean;
 };
 
-export const recursivelyParseLog = ({ tokens }: RecursivelyParseLogArgs) => {
-  const func = {
-    type: TokenTypes.UNIQUE_TOKEN,
-    value: "log",
-  };
-  const base: ParsedToken[] = [];
+export const recursivelyParseLog = ({ tokens, isRoot }: RecursivelyParseLogArgs) => {
+  const base: ParsedToken[] = [
+    {
+      type: TokenTypes.UNIQUE_TOKEN,
+      value: "log",
+    },
+  ];
   const value: ParsedToken[] = [];
 
   const initialToken = tokens[0];
@@ -42,12 +45,16 @@ export const recursivelyParseLog = ({ tokens }: RecursivelyParseLogArgs) => {
     }
   }
 
+  const changedPowerLocation = uniqueFunctionWithPower({ value: base, tokens });
+
   return {
     type: UniqueMathMLTokens.LOG,
     value: {
-      func,
-      base,
+      func: base[0],
+      base: base.slice(1),
       value,
     },
+    changedPowerLocation,
+    isRootLog: isRoot === undefined,
   };
 };

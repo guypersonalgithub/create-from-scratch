@@ -7,11 +7,13 @@ import { UniqueMathMLTokens } from "../constants";
 type RecursivelyParseWithBackwardsArgs = {
   tokens: ParsedToken[];
   parsedTokensOfTheSameLevel: ParsedToken[];
+  isRoot?: boolean;
 };
 
 export const recursivelyParsePower = ({
   tokens,
   parsedTokensOfTheSameLevel,
+  isRoot,
 }: RecursivelyParseWithBackwardsArgs) => {
   const power: ParsedToken[] = [];
 
@@ -21,8 +23,13 @@ export const recursivelyParsePower = ({
     const { tokensWithinTheParenthesis } = detectParenthesisTokens({
       tokens,
       direction: "ltr",
+      isRoot
     });
-    power.push(...tokensWithinTheParenthesis.slice(1, tokensWithinTheParenthesis.length - 1));
+    const shouldRemoveParenthesis = tokens?.[0]?.value !== "^";
+    const pushedTokens = shouldRemoveParenthesis
+      ? tokensWithinTheParenthesis.slice(1, tokensWithinTheParenthesis.length - 1)
+      : tokensWithinTheParenthesis;
+    power.push(...pushedTokens);
   } else if (initialToken.value === "|") {
     const { tokensWithinTheAbsolute } = detectAbsoluteTokens({ tokens, direction: "ltr" });
     power.push(...tokensWithinTheAbsolute);

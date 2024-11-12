@@ -1,5 +1,5 @@
-import { ParsedToken } from "../utils";
 import { RecursiveMathMLToken } from "./RecursiveMathMLToken";
+import { ParsedToken } from "../utils/parseTokens/types";
 
 type LogProps = {
   func: ParsedToken;

@@ -8,6 +8,7 @@ import { isCharacterLetter, isCharacterNumber } from "../utils";
 import { powerFlow } from "./powerFlow";
 import { uniqueFunctionFlow } from "./uniqueFunctionFlow";
 import { logFlow } from "./logFlow";
+import { factorialFlow } from "./factorialFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -26,42 +27,63 @@ export const tokenizerFlows = ({
 }: TokenizerFlowsArgs) => {
   const currentChar = input.charAt(0);
 
-  if (isCharacterNumber({ currentChar }) || currentChar === ".") {
-    const { token, newInput, updatedIndex } = numberFlow({
-      input,
-      currentIndex,
-      isWithinParenthesis,
-      isWithinLog,
-    });
+  const singleTokenCallbacks = [
+    () => {
+      if (!isCharacterNumber({ currentChar }) && currentChar !== ".") {
+        return false;
+      }
 
+      return numberFlow({
+        input,
+        currentIndex,
+        isWithinParenthesis,
+        isWithinLog,
+      });
+    },
+    () => {
+      if (!basicOperators.has(currentChar)) {
+        return;
+      }
+
+      return basicOperatorFlow({ input, currentIndex });
+    },
+    () => {
+      if (currentChar !== "^") {
+        return;
+      }
+
+      return powerFlow({ input, currentIndex });
+    },
+    () => {
+      if (currentChar !== "!") {
+        return;
+      }
+
+      return factorialFlow({
+        input,
+        currentIndex,
+        isWithinParenthesis,
+      });
+    }
+  ];
+
+  for (let i = 0; i < singleTokenCallbacks.length; i++) {
+    const current = singleTokenCallbacks[i];
+    const response = current();
+    if (!response) {
+      continue;
+    }
+
+    const { token, newInput, updatedIndex } = response;
     tokens.push(token);
+
     return {
       newInput,
       updatedIndex,
     };
   }
 
-  if (basicOperators.has(currentChar)) {
-    const { token, newInput, updatedIndex } = basicOperatorFlow({ input, currentIndex });
-
-    tokens.push(token);
-    return {
-      newInput,
-      updatedIndex,
-    };
-  }
-
-  if (currentChar === "^") {
-    const { token, newInput, updatedIndex } = powerFlow({ input, currentIndex });
-
-    tokens.push(token);
-    return {
-      newInput,
-      updatedIndex,
-    };
-  }
-
-  const callbacks = [
+  const multipleTokenCallbacks = [
     () => {
       if (currentChar !== "(") {
         return;
@@ -85,8 +107,8 @@ export const tokenizerFlows = ({
     },
   ];
 
-  for (let i = 0; i < callbacks.length; i++) {
-    const current = callbacks[i];
+  for (let i = 0; i < multipleTokenCallbacks.length; i++) {
+    const current = multipleTokenCallbacks[i];
     const response = current();
     if (!response) {
       continue;
@@ -98,7 +120,11 @@ export const tokenizerFlows = ({
     if (parsedTokens[0].value === "log") {
       input = newInput;
       currentIndex = updatedIndex;
-      const { tokens: parsedTokens, newInput: newLogInput, updatedIndex: updatedLogIndex } = logFlow({ input, currentIndex });
+      const {
+        tokens: parsedTokens,
+        newInput: newLogInput,
+        updatedIndex: updatedLogIndex,
+      } = logFlow({ input, currentIndex });
       tokens.push(...parsedTokens);
       newInput = newLogInput;
       updatedIndex = updatedLogIndex;
