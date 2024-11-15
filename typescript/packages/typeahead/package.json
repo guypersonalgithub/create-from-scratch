@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "@packages/input": "*",
-    "@packages/virtual-list": "*"
+    "@packages/virtual-list": "*",
+    "@packages/hooks": "*"
   },
   "peerDependencies": {
     "react": "^18.2.0",

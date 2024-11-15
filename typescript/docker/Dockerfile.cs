@@ -18,6 +18,12 @@ COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
 COPY ./packages/button/package.json ./packages/button/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
 COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/package.json
+COPY ./packages/auto-complete-input/package.json ./packages/auto-complete-input/package.json
+COPY ./packages/typeahead/package.json ./packages/typeahead/package.json
+COPY ./packages/input/package.json ./packages/input/package.json
+COPY ./packages/loading/package.json ./packages/loading/package.json
+COPY ./packages/virtual-list/package.json ./packages/virtual-list/package.json
+COPY ./packages/hooks/package.json ./packages/hooks/package.json
 
 
 
@@ -44,6 +50,12 @@ COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/auto-complete-input ./packages/auto-complete-input
+COPY ./packages/typeahead ./packages/typeahead
+COPY ./packages/input ./packages/input
+COPY ./packages/loading ./packages/loading
+COPY ./packages/virtual-list ./packages/virtual-list
+COPY ./packages/hooks ./packages/hooks
 CMD ["npm", "run", "dev"]
 
 
@@ -71,6 +83,12 @@ COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/auto-complete-input ./packages/auto-complete-input
+COPY ./packages/typeahead ./packages/typeahead
+COPY ./packages/input ./packages/input
+COPY ./packages/loading ./packages/loading
+COPY ./packages/virtual-list ./packages/virtual-list
+COPY ./packages/hooks ./packages/hooks
 CMD ["npm", "run", "build"]
 
 
@@ -98,4 +116,10 @@ COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/auto-complete-input ./packages/auto-complete-input
+COPY ./packages/typeahead ./packages/typeahead
+COPY ./packages/input ./packages/input
+COPY ./packages/loading ./packages/loading
+COPY ./packages/virtual-list ./packages/virtual-list
+COPY ./packages/hooks ./packages/hooks
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

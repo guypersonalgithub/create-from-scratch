@@ -79,7 +79,7 @@ function Tabs<T extends Tab[]>({
                 paddingRight: "10px",
                 paddingTop: "5px",
                 paddingBottom: "5px",
-                backgroundColor: tab.value === selected ? "red" : undefined,
+                backgroundColor: tab.value === selected ? "" : undefined,
               }}
               onClick={handleClick}
             >
@@ -158,7 +158,7 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
       }}
       disableAnimation={isInitialState}
     >
-      <div key="bar" style={{ height: "5px", backgroundColor: "blue" }} />
+      <div key="bar" style={{ height: "5px", backgroundColor: "#5662F6" }} />
     </AnimationContainerWrapper>
   );
 };

@@ -1,4 +1,5 @@
-import { CSSProperties, InputHTMLAttributes, useState } from "react";
+import { CSSProperties, InputHTMLAttributes, ReactNode, useState } from "react";
+import { Spinner } from "@packages/loading";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   externalState?: {
@@ -7,9 +8,22 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   };
   onFocusCSS?: () => CSSProperties;
   onHoverCSS?: () => CSSProperties;
+  isLoading?: boolean;
+  customPrefix?: ReactNode;
+  customSuffix?: ReactNode;
+  wrapperStyle?: CSSProperties;
 };
 
-export const Input = ({ externalState, onFocusCSS, onHoverCSS, ...rest }: InputProps) => {
+export const Input = ({
+  externalState,
+  onFocusCSS,
+  onHoverCSS,
+  isLoading,
+  customPrefix = null,
+  customSuffix = null,
+  wrapperStyle = {},
+  ...rest
+}: InputProps) => {
   const [value, setValue] = useState<string>((rest.value as string) ?? "");
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -17,29 +31,58 @@ export const Input = ({ externalState, onFocusCSS, onHoverCSS, ...rest }: InputP
   const onHoverStyle: CSSProperties = isHovered && onHoverCSS ? onHoverCSS() : {};
 
   return (
-    <input
-      {...rest}
-      value={externalState?.value ?? value}
-      onChange={(e) => {
-        rest.onChange?.(e);
-        (externalState?.onChange ?? setValue)(e.target.value);
-      }}
-      onFocus={(e) => {
-        rest.onFocus?.(e);
-        setIsFocused(true);
-      }}
-      onMouseEnter={(e) => {
-        rest.onMouseEnter?.(e);
-        setIsHovered(true);
-      }}
+    <div
       style={{
-        ...rest.style,
-        ...(isFocused ? { outline: "none" } : {}),
-        ...onFocusStyle,
-        ...onHoverStyle,
-        boxSizing: "border-box",
-        border: 0,
+        display: "flex",
+        backgroundColor: "white",
+        height: "20px",
+        borderRadius: "20px",
+        paddingLeft: "5px",
+        paddingRight: "5px",
+        border: "1px solid black",
+        overflow: "hidden",
+        ...wrapperStyle,
       }}
-    />
+    >
+      {customPrefix}
+      <input
+        {...rest}
+        value={externalState?.value ?? value}
+        onChange={(e) => {
+          rest.onChange?.(e);
+          (externalState?.onChange ?? setValue)(e.target.value);
+        }}
+        onFocus={(e) => {
+          rest.onFocus?.(e);
+          setIsFocused(true);
+        }}
+        onMouseEnter={(e) => {
+          rest.onMouseEnter?.(e);
+          setIsHovered(true);
+        }}
+        style={{
+          ...rest.style,
+          ...(isFocused ? { outline: "none" } : {}),
+          ...onFocusStyle,
+          ...onHoverStyle,
+          boxSizing: "border-box",
+          border: 0,
+        }}
+      />
+      {customSuffix}
+      <Loading isLoading={isLoading} />
+    </div>
   );
+};
+
+type LoadingProps = {
+  isLoading?: boolean;
+};
+
+const Loading = ({ isLoading }: LoadingProps) => {
+  if (isLoading === undefined) {
+    return null;
+  }
+
+  return isLoading ? <Spinner size={15} /> : <div style={{ width: "19px", height: "19px" }} />;
 };

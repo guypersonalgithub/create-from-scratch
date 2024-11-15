@@ -53,7 +53,7 @@ export const VersionTypeAheads = ({
           options={semverOptions}
           initialValue={semver}
           callback={(picked) => {
-            const newFullVersion = `${picked}${actualVersion}`;
+            const newFullVersion = `${picked.value}${actualVersion}`;
             if (data) {
               updateChangedDependencies?.({ path: data.path, newVersion: newFullVersion });
             }
@@ -68,7 +68,7 @@ export const VersionTypeAheads = ({
         options={versions}
         initialValue={actualVersion}
         callback={(picked) => {
-          const newFullVersion = `${semver}${picked}`;
+          const newFullVersion = `${semver}${picked.value}`;
           if (data) {
             updateChangedDependencies?.({ path: data.path, newVersion: newFullVersion });
           }
@@ -122,7 +122,7 @@ export const SelectedTriggerPopper = ({
         versionRef={versionRef}
         changedDependencies={changedDependencies}
       />
-      <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
+      <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "10px" }}>
         <Button
           onClick={() => {
             hideTriggerPopper();

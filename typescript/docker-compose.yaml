@@ -87,6 +87,24 @@ services:
         source: ./packages/edge-intersection
         target: /usr/src/app/packages/edge-intersection
       - type: bind
+        source: ./packages/auto-complete-input
+        target: /usr/src/app/packages/auto-complete-input
+      - type: bind
+        source: ./packages/typeahead
+        target: /usr/src/app/packages/typeahead
+      - type: bind
+        source: ./packages/input
+        target: /usr/src/app/packages/input
+      - type: bind
+        source: ./packages/loading
+        target: /usr/src/app/packages/loading
+      - type: bind
+        source: ./packages/virtual-list
+        target: /usr/src/app/packages/virtual-list
+      - type: bind
+        source: ./packages/hooks
+        target: /usr/src/app/packages/hooks
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:

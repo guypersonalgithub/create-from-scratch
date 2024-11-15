@@ -1,12 +1,13 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { usePath } from "./usePath";
 
 type LinkProps = {
   pathname: string;
   children: ReactNode;
+  style?: CSSProperties;
 };
 
-export const Link = ({ pathname, children }: LinkProps) => {
+export const Link = ({ pathname, children, style }: LinkProps) => {
   const { moveTo } = usePath();
 
   return (
@@ -17,6 +18,7 @@ export const Link = ({ pathname, children }: LinkProps) => {
         e.preventDefault();
         moveTo({ pathname });
       }}
+      style={style}
     >
       {children}
     </a>

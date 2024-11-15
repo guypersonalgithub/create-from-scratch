@@ -31,6 +31,18 @@ export default defineConfig({
         "__dirname",
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "packages/auto-complete-input": path.resolve(
+        "__dirname",
+        "../../packages/auto-complete-input/src/index.ts",
+      ),
+      "packages/typeahead": path.resolve("__dirname", "../../packages/typeahead/src/index.ts"),
+      "packages/input": path.resolve("__dirname", "../../packages/input/src/index.ts"),
+      "packages/virtual-list": path.resolve(
+        "__dirname",
+        "../../packages/virtual-list/src/index.ts",
+      ),
+      "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
+      "packages/loading": path.resolve("__dirname", "../../packages/loading/src/index.ts"),
     },
   },
 });

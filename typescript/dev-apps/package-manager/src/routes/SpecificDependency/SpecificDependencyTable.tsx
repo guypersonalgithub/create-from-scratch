@@ -38,8 +38,8 @@ export const SpecificDependencyTable = ({
       position: "fixed",
       bottom: 0,
       width: "100%",
-      height: "100px",
-      backgroundColor: "black",
+      height: "200px",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
     };
 
     const onMount: Keyframe[] = [
@@ -52,17 +52,22 @@ export const SpecificDependencyTable = ({
 
     showTriggerPopper({
       content: (
-        <SelectedTriggerPopper
-          name={name}
-          versions={versions}
-          hideTriggerPopper={hideTriggerPopper}
-          valueCallbacksRef={valueCallbacksRef}
-          checked={checked}
-          setChecked={setChecked}
-          instances={depedencyDetails?.instances}
-          changedDependencies={changedDependencies}
-          updateChangedDependencies={updateChangedDependencies}
-        />
+        <>
+          <div style={{ display: "flex", justifyContent: "center", fontSize: "20px" }}>
+            Update versions
+          </div>
+          <SelectedTriggerPopper
+            name={name}
+            versions={versions}
+            hideTriggerPopper={hideTriggerPopper}
+            valueCallbacksRef={valueCallbacksRef}
+            checked={checked}
+            setChecked={setChecked}
+            instances={depedencyDetails?.instances}
+            changedDependencies={changedDependencies}
+            updateChangedDependencies={updateChangedDependencies}
+          />
+        </>
       ),
       style,
       onMount,

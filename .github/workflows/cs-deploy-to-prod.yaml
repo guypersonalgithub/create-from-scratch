@@ -23,6 +23,12 @@ on:
       - typescript/packages/button/**
       - typescript/packages/tooltip/**
       - typescript/packages/edge-intersection/**
+      - typescript/packages/auto-complete-input/**
+      - typescript/packages/typeahead/**
+      - typescript/packages/input/**
+      - typescript/packages/loading/**
+      - typescript/packages/virtual-list/**
+      - typescript/packages/hooks/**
   workflow_dispatch: 
 jobs:
   Deploy-Production:
@@ -62,6 +68,12 @@ jobs:
           cp -r ./packages/button ./full-application/packages
           cp -r ./packages/tooltip ./full-application/packages
           cp -r ./packages/edge-intersection ./full-application/packages
+          cp -r ./packages/auto-complete-input ./full-application/packages
+          cp -r ./packages/typeahead ./full-application/packages
+          cp -r ./packages/input ./full-application/packages
+          cp -r ./packages/loading ./full-application/packages
+          cp -r ./packages/virtual-list ./full-application/packages
+          cp -r ./packages/hooks ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

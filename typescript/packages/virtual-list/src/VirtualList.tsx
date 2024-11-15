@@ -6,20 +6,25 @@ type VirtualListProps = {
   children: ReactNode[];
   itemHeight: number;
   containerHeight: number;
+  buffer?: number;
 };
 
-export const VirtualList = ({ children, itemHeight, containerHeight }: VirtualListProps) => {
+export const VirtualList = ({
+  children,
+  itemHeight,
+  containerHeight,
+  buffer = 20,
+}: VirtualListProps) => {
   const [scrollOffset, setScrollOffset] = useState(0);
-  const [visibleItems, setVisibleItems] = useState<ReactNode[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const visibleItemCount = Math.ceil(containerHeight / itemHeight);
-
-  // Temp hard coded buffer
-  const buffer = 20;
-
   const startIndex = Math.max(0, Math.floor(scrollOffset / itemHeight) - buffer);
   const endIndex = Math.min(children.length - 1, startIndex + visibleItemCount + buffer * 2);
+
+  const [visibleItems, setVisibleItems] = useState<ReactNode[]>(
+    children.slice(startIndex, endIndex + 1),
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const updateVisibleItems = useCallback(() => {
     setVisibleItems(children.slice(startIndex, endIndex + 1));

@@ -62,6 +62,7 @@ export default defineConfig({
         "__dirname",
         "../../packages/trigger-popper/src/index.ts",
       ),
+      "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
     },
   },
 });

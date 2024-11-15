@@ -1,28 +1,35 @@
-import { useState, useRef, KeyboardEvent, Fragment, useEffect } from "react";
-import { useClickOutside } from "./hooks";
+import {
+  useState,
+  useRef,
+  KeyboardEvent,
+  Fragment,
+  useEffect,
+  ReactNode,
+  CSSProperties,
+} from "react";
+import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
-import { VaryingVirtualList } from "@packages/virtual-list";
+import { VirtualList } from "@packages/virtual-list";
+import { BaseTypeaheadOption } from "./types";
 
-type TypeaheadProperties<T extends { label: string; value: string }> = {
+type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   options: T[];
   disabled?: boolean;
   className?: string;
   withSeperators?: boolean;
   initialValue?: string;
   filterOnInitialOpening?: boolean;
-} & (AtleastCallback | AtleastInputChangeCallback);
-
-type AtleastCallback = {
-  callback: (pick: string) => void;
+  callback: (pick: T) => void;
   inputChangeCallback?: (pick: string) => void;
+  isLoading?: boolean;
+  customInputPrefix?: ReactNode;
+  customInputSuffix?: ReactNode;
+  inputWrapperStyle?: CSSProperties;
 };
 
-type AtleastInputChangeCallback = {
-  callback?: (pick: string) => void;
-  inputChangeCallback: (pick: string) => void;
-};
+const ResultsNotFound = "Results not found";
 
-export const Typeahead = <T extends { label: string; value: string }>({
+export const Typeahead = <T extends BaseTypeaheadOption>({
   options,
   callback,
   inputChangeCallback,
@@ -31,9 +38,13 @@ export const Typeahead = <T extends { label: string; value: string }>({
   withSeperators,
   initialValue = "",
   filterOnInitialOpening = true,
+  isLoading,
+  customInputPrefix,
+  customInputSuffix,
+  inputWrapperStyle,
 }: TypeaheadProperties<T>) => {
   const [filter, setFilter] = useState<string>(initialValue);
-  const [results, setResults] = useState<{ label: string; value: string }[]>([]);
+  const [results, setResults] = useState<T[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | undefined>(undefined);
   const typeaheadContainerRef = useRef<HTMLDivElement>(null);
@@ -50,14 +61,8 @@ export const Typeahead = <T extends { label: string; value: string }>({
     isActive: results.length > 0,
   });
 
-  const filterResults = ({
-    keyword,
-    options,
-  }: {
-    keyword: string;
-    options: { label: string; value: string }[];
-  }) => {
-    const searchResults = [];
+  const filterResults = ({ keyword, options }: { keyword: string; options: T[] }) => {
+    const searchResults: T[] = [];
     for (let i = 0; i < options.length; i++) {
       const itemName = options[i].label.toLowerCase();
       const keywordName = keyword.toLowerCase();
@@ -67,34 +72,46 @@ export const Typeahead = <T extends { label: string; value: string }>({
     }
 
     if (keyword.length > 0 && searchResults.length === 0) {
-      return [{ label: "Results not found", value: "" }];
+      return [{ label: ResultsNotFound, value: "" } as T];
     }
 
     return searchResults;
   };
 
+  useEffect(() => {
+    if (!inputChangeCallback || options.length === 0) {
+      return;
+    }
+
+    const newResults = filterResults({
+      keyword: filter,
+      options,
+    });
+
+    setResults(newResults);
+  }, [options, inputChangeCallback]);
+
   const onInputChange = (value: string) => {
-    inputChangeCallback?.(value);
     setFilter(value);
     setResults([]);
 
-    if (value.length >= 0) {
-      const newResults = filterResults({
-        keyword: value,
-        options,
-      });
-      setResults(newResults);
-      const somethingEqualsInput = newResults.findIndex((option) => option.label === value);
-      setCurrentIndex(somethingEqualsInput);
+    if (inputChangeCallback) {
+      inputChangeCallback(value);
+      return;
     }
+
+    const newResults = filterResults({
+      keyword: value,
+      options,
+    });
+    setResults(newResults);
+    const someOptionHasTheSameLabel = newResults.findIndex((option) => option.label === value);
+    setCurrentIndex(someOptionHasTheSameLabel);
   };
 
-  const onNameSelected = ({ selectedName }: { selectedName: string }) => {
-    callback?.(selectedName);
-    if (!callback) {
-      inputChangeCallback?.(selectedName);
-    }
-    setFilter(selectedName);
+  const onNameSelected = ({ selected }: { selected: T }) => {
+    callback(selected);
+    setFilter(selected.label);
     setResults([]);
   };
 
@@ -117,17 +134,19 @@ export const Typeahead = <T extends { label: string; value: string }>({
           return;
         }
 
-        onNameSelected({ selectedName: options[currentIndex].label });
+        onNameSelected({ selected: options[currentIndex] });
       }
     } else if (e.key === "Escape") {
       setResults([]);
     }
   };
 
-  const onResultClick = ({ result }: { result: { label: string; value: string } }) => {
-    if (result.label !== "Results not found") {
-      onNameSelected({ selectedName: result.label });
+  const onResultClick = ({ result }: { result: T }) => {
+    if (result.label === ResultsNotFound) {
+      return;
     }
+
+    onNameSelected({ selected: result });
   };
 
   return (
@@ -165,6 +184,10 @@ export const Typeahead = <T extends { label: string; value: string }>({
           );
         }}
         disabled={disabled}
+        isLoading={isLoading}
+        customPrefix={customInputPrefix}
+        customSuffix={customInputSuffix}
+        wrapperStyle={inputWrapperStyle}
       />
       <div
         style={{
@@ -183,44 +206,45 @@ export const Typeahead = <T extends { label: string; value: string }>({
         className={className}
         onMouseLeave={() => setHoveredIndex(undefined)}
       >
-        <VaryingVirtualList containerHeight={150}>
-          {results.length > 0
-            ? results.map((result: { label: string; value: string }, index: number) => {
-                return (
-                  <Fragment key={`${result.label}-${index}`}>
-                    <div
+        {results.length > 0 ? (
+          <VirtualList containerHeight={150} itemHeight={40}>
+            {results.map((result: T, index: number) => {
+              return (
+                <Fragment key={`${result.label}-${index}`}>
+                  <div
+                    style={{
+                      zIndex: 20,
+                      cursor: result.label !== ResultsNotFound ? "pointer" : "default",
+                      backgroundColor:
+                        index === currentIndex || index === hoveredIndex
+                          ? "black"
+                          : "rgba(20, 12, 12, 0.87)",
+                      padding: "8px",
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => onResultClick({ result })}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                  >
+                    {result.label}
+                  </div>
+                  {withSeperators ? (
+                    <hr
                       style={{
-                        zIndex: 20,
-                        cursor: result.label !== "Results not found" ? "pointer" : "default",
-                        backgroundColor:
-                          index === currentIndex || index === hoveredIndex ? "#e6e6e6" : "white",
-                        padding: "8px",
-                        fontWeight: "bold",
+                        marginTop: "4px",
+                        marginBottom: "4px",
+                        height: "1px",
+                        width: "100%",
                       }}
-                      className={`justify-around hover:bg-primary hover:text-white`}
-                      onClick={() => onResultClick({ result })}
-                      onMouseEnter={() => setHoveredIndex(index)}
-                    >
-                      {result.label}
-                    </div>
-                    {withSeperators ? (
-                      <hr
-                        style={{
-                          marginTop: "4px",
-                          marginBottom: "4px",
-                          height: "1px",
-                          width: "100%",
-                        }}
-                        className="bg-primary"
-                      />
-                    ) : null}
-                  </Fragment>
-                );
-              })
-            : []}
-        </VaryingVirtualList>
+                      className="bg-primary"
+                    />
+                  ) : null}
+                </Fragment>
+              );
+            })}
+          </VirtualList>
+        ) : null}
         {/* {results.length > 0
-          ? results.map((result: { label: string; value: string }, index: number) => {
+          ? results.map((result: BaseTypeaheadOption, index: number) => {
               return (
                 <Fragment key={`${result.label}-${index}`}>
                   <div

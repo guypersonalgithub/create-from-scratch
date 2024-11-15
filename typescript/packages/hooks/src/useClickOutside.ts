@@ -1,6 +1,4 @@
-// TODO: Move to a dedicated hooks package.
-
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export const useClickOutside = ({
   ref,
@@ -39,23 +37,4 @@ export const useClickOutside = ({
       document.removeEventListener("click", clickOutsideElement, true);
     };
   }, [ref, onClick, isActive]);
-};
-
-export const useDebounce = () => {
-  const timeoutRef = useRef<NodeJS.Timeout>();
-
-  const clear = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-  };
-
-  const set = ({ callback, delay }: { callback: () => void; delay: number }) => {
-    clear();
-    timeoutRef.current = setTimeout(() => callback(), delay);
-  };
-
-  useEffect(() => {
-    return () => clear();
-  }, []);
-
-  return { set, clear };
 };
