@@ -43,6 +43,12 @@ export default defineConfig({
       ),
       "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
       "packages/loading": path.resolve("__dirname", "../../packages/loading/src/index.ts"),
+      "packages/table": path.resolve("__dirname", "../../packages/table/src/index.ts"),
+      "packages/pagination": path.resolve("__dirname", "../../packages/pagination/src/index.ts"),
+      "packages/copy-to-clipboard": path.resolve(
+        "__dirname",
+        "../../packages/copy-to-clipboard/src/index.ts",
+      ),
     },
   },
 });

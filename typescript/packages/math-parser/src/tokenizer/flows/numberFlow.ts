@@ -7,6 +7,7 @@ type NumberFlowArgs = {
   currentIndex: number;
   isWithinParenthesis?: boolean;
   isWithinLog?: boolean;
+  isWithinLimit?: boolean;
 };
 
 export const numberFlow = ({
@@ -14,6 +15,7 @@ export const numberFlow = ({
   currentIndex,
   isWithinParenthesis,
   isWithinLog,
+  isWithinLimit,
 }: NumberFlowArgs) => {
   let hasDot = false;
   let value = "";
@@ -53,6 +55,7 @@ export const numberFlow = ({
       currentIndex,
       isWithinParenthesis,
       isWithinLog,
+      isWithinLimit,
     });
   }
 
@@ -73,6 +76,7 @@ type IsValidFollowingTokenArgs = {
   currentIndex: number;
   isWithinParenthesis?: boolean;
   isWithinLog?: boolean;
+  isWithinLimit?: boolean;
 };
 
 const isValidFollowingToken = ({
@@ -80,6 +84,7 @@ const isValidFollowingToken = ({
   currentIndex,
   isWithinParenthesis,
   isWithinLog,
+  isWithinLimit,
 }: IsValidFollowingTokenArgs) => {
   if (!isWithinParenthesis && followingChar === ")") {
     throw new Error(`Encountered an unexpected closing parenthesis on index ${currentIndex}`);
@@ -88,7 +93,7 @@ const isValidFollowingToken = ({
   const isValid =
     uniqueTokens.has(followingChar) ||
     isCharacterLetter({ currentChar: followingChar }) ||
-    (isWithinLog ? followingChar === "," : false);
+    ((isWithinLog || isWithinLimit) ? followingChar === "," : false);
 
   if (!isValid) {
     throw new Error(

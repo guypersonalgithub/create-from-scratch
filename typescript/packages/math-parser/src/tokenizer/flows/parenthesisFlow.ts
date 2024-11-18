@@ -7,9 +7,15 @@ type ParenthesisFlowArgs = {
   input: string;
   currentIndex: number;
   isWithinLog?: boolean;
+  isWithinLimit?: boolean;
 };
 
-export const parenthesisFlow = ({ input, currentIndex, isWithinLog }: ParenthesisFlowArgs) => {
+export const parenthesisFlow = ({
+  input,
+  currentIndex,
+  isWithinLog,
+  isWithinLimit,
+}: ParenthesisFlowArgs) => {
   0.0;
   const innerTokens: BaseToken[] = [
     {
@@ -64,6 +70,7 @@ export const parenthesisFlow = ({ input, currentIndex, isWithinLog }: Parenthesi
         currentIndex,
         isWithinParenthesis: true,
         isWithinLog,
+        isWithinLimit,
       });
 
       if (newInput === undefined || !updatedIndex) {
@@ -88,14 +95,17 @@ export const parenthesisFlow = ({ input, currentIndex, isWithinLog }: Parenthesi
     input: duplicatedInput,
   });
   if (skippedIndexesEndOfParenthesis === undefined) {
-    throw new Error(`Parenthesis ended unexpectedly without a closing parenthesis on index ${currentIndex}`);
+    throw new Error(
+      `Parenthesis ended unexpectedly without a closing parenthesis on index ${currentIndex}`,
+    );
   }
   currentIndex += skippedIndexesEndOfParenthesis;
   duplicatedInput = duplicatedInput.slice(skippedIndexesEndOfParenthesis);
   if (duplicatedInput.charAt(0) !== ")") {
-    throw new Error(`Parenthesis ended unexpectedly without a closing parenthesis on index ${currentIndex}`)
+    throw new Error(
+      `Parenthesis ended unexpectedly without a closing parenthesis on index ${currentIndex}`,
+    );
   }
-
 
   innerTokens.push({
     type: TokenTypes.UNIQUE_TOKEN,

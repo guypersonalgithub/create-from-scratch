@@ -24,6 +24,9 @@ COPY ./packages/input/package.json ./packages/input/package.json
 COPY ./packages/loading/package.json ./packages/loading/package.json
 COPY ./packages/virtual-list/package.json ./packages/virtual-list/package.json
 COPY ./packages/hooks/package.json ./packages/hooks/package.json
+COPY ./packages/table/package.json ./packages/table/package.json
+COPY ./packages/pagination/package.json ./packages/pagination/package.json
+COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 
 
 
@@ -56,6 +59,9 @@ COPY ./packages/input ./packages/input
 COPY ./packages/loading ./packages/loading
 COPY ./packages/virtual-list ./packages/virtual-list
 COPY ./packages/hooks ./packages/hooks
+COPY ./packages/table ./packages/table
+COPY ./packages/pagination ./packages/pagination
+COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 CMD ["npm", "run", "dev"]
 
 
@@ -89,6 +95,9 @@ COPY ./packages/input ./packages/input
 COPY ./packages/loading ./packages/loading
 COPY ./packages/virtual-list ./packages/virtual-list
 COPY ./packages/hooks ./packages/hooks
+COPY ./packages/table ./packages/table
+COPY ./packages/pagination ./packages/pagination
+COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 CMD ["npm", "run", "build"]
 
 
@@ -122,4 +131,7 @@ COPY ./packages/input ./packages/input
 COPY ./packages/loading ./packages/loading
 COPY ./packages/virtual-list ./packages/virtual-list
 COPY ./packages/hooks ./packages/hooks
+COPY ./packages/table ./packages/table
+COPY ./packages/pagination ./packages/pagination
+COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

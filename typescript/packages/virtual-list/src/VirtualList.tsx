@@ -7,6 +7,7 @@ type VirtualListProps = {
   itemHeight: number;
   containerHeight: number;
   buffer?: number;
+  backgroundColor?: string;
 };
 
 export const VirtualList = ({
@@ -14,6 +15,7 @@ export const VirtualList = ({
   itemHeight,
   containerHeight,
   buffer = 20,
+  backgroundColor,
 }: VirtualListProps) => {
   const [scrollOffset, setScrollOffset] = useState(0);
 
@@ -65,6 +67,7 @@ export const VirtualList = ({
         height: `${containerHeight}px`,
         overflowY: "auto",
         position: "relative",
+        backgroundColor,
       }}
     >
       <div

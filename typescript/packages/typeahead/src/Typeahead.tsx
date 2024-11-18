@@ -6,6 +6,7 @@ import {
   useEffect,
   ReactNode,
   CSSProperties,
+  useLayoutEffect,
 } from "react";
 import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
@@ -25,6 +26,7 @@ type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   customInputPrefix?: ReactNode;
   customInputSuffix?: ReactNode;
   inputWrapperStyle?: CSSProperties;
+  inputPlaceholder?: string;
 };
 
 const ResultsNotFound = "Results not found";
@@ -42,6 +44,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
   customInputPrefix,
   customInputSuffix,
   inputWrapperStyle,
+  inputPlaceholder,
 }: TypeaheadProperties<T>) => {
   const [filter, setFilter] = useState<string>(initialValue);
   const [results, setResults] = useState<T[]>([]);
@@ -78,7 +81,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
     return searchResults;
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!inputChangeCallback || options.length === 0) {
       return;
     }
@@ -188,6 +191,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
         customPrefix={customInputPrefix}
         customSuffix={customInputSuffix}
         wrapperStyle={inputWrapperStyle}
+        placeholder={inputPlaceholder}
       />
       <div
         style={{
@@ -207,7 +211,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
         onMouseLeave={() => setHoveredIndex(undefined)}
       >
         {results.length > 0 ? (
-          <VirtualList containerHeight={150} itemHeight={40}>
+          <VirtualList containerHeight={150} itemHeight={40} backgroundColor="rgba(20, 12, 12)">
             {results.map((result: T, index: number) => {
               return (
                 <Fragment key={`${result.label}-${index}`}>
@@ -218,7 +222,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
                       backgroundColor:
                         index === currentIndex || index === hoveredIndex
                           ? "black"
-                          : "rgba(20, 12, 12, 0.87)",
+                          : "rgba(20, 12, 12)",
                       padding: "8px",
                       fontWeight: "bold",
                     }}
@@ -235,7 +239,6 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
                         height: "1px",
                         width: "100%",
                       }}
-                      className="bg-primary"
                     />
                   ) : null}
                 </Fragment>

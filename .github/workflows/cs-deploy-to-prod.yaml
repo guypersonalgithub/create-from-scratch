@@ -29,6 +29,9 @@ on:
       - typescript/packages/loading/**
       - typescript/packages/virtual-list/**
       - typescript/packages/hooks/**
+      - typescript/packages/table/**
+      - typescript/packages/pagination/**
+      - typescript/packages/copy-to-clipboard/**
   workflow_dispatch: 
 jobs:
   Deploy-Production:
@@ -74,6 +77,9 @@ jobs:
           cp -r ./packages/loading ./full-application/packages
           cp -r ./packages/virtual-list ./full-application/packages
           cp -r ./packages/hooks ./full-application/packages
+          cp -r ./packages/table ./full-application/packages
+          cp -r ./packages/pagination ./full-application/packages
+          cp -r ./packages/copy-to-clipboard ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

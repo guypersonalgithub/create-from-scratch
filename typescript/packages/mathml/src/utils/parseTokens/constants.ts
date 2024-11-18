@@ -4,5 +4,6 @@ export enum UniqueMathMLTokens {
   FRACTION = "fraction",
   UNIQUE_FUNCTION = "uniqueFunction",
   FACTORIAL = "factorial",
-  LOG = "log"
+  LOG = "log",
+  LIMIT = "limit",
 }

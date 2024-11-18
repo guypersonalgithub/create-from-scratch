@@ -16,6 +16,7 @@ type TokenizerFlowsArgs = {
   currentIndex: number;
   isWithinParenthesis?: boolean;
   isWithinLog?: boolean;
+  isWithinLimit?: boolean;
 };
 
 export const tokenizerFlows = ({
@@ -24,6 +25,7 @@ export const tokenizerFlows = ({
   currentIndex,
   isWithinParenthesis,
   isWithinLog,
+  isWithinLimit,
 }: TokenizerFlowsArgs) => {
   const currentChar = input.charAt(0);
 
@@ -38,6 +40,7 @@ export const tokenizerFlows = ({
         currentIndex,
         isWithinParenthesis,
         isWithinLog,
+        isWithinLimit,
       });
     },
     () => {
@@ -45,7 +48,7 @@ export const tokenizerFlows = ({
         return;
       }
 
-      return basicOperatorFlow({ input, currentIndex });
+      return basicOperatorFlow({ input, currentIndex, isWithinLimit });
     },
     () => {
       if (currentChar !== "^") {
@@ -64,7 +67,7 @@ export const tokenizerFlows = ({
         currentIndex,
         isWithinParenthesis,
       });
-    }
+    },
   ];
 
   for (let i = 0; i < singleTokenCallbacks.length; i++) {
@@ -89,14 +92,14 @@ export const tokenizerFlows = ({
         return;
       }
 
-      return parenthesisFlow({ input, currentIndex, isWithinLog });
+      return parenthesisFlow({ input, currentIndex, isWithinLog, isWithinLimit });
     },
     () => {
       if (currentChar !== "|") {
         return;
       }
 
-      return absoluteFlow({ input, currentIndex });
+      return absoluteFlow({ input, currentIndex, isWithinLimit });
     },
     () => {
       if (!isCharacterLetter({ currentChar })) {

@@ -7,7 +7,9 @@
     "build": "tsc -b ."
   },
   "dependencies": {
-    "@packages/button": "*"
+    "@packages/button": "*",
+    "@packages/tooltip": "*",
+    "@packages/hooks": "*"
   },
   "peerDependencies": {
     "react": "^18.2.0",

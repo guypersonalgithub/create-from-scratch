@@ -12,8 +12,10 @@ export const Table = <T extends Record<string, unknown>>({
   columns,
   rows,
   columnGap,
+  containerStyle,
   headerContainer = {},
   rowContainer = {},
+  columnStyle,
   dataRowStyle,
   dataRowClass,
   pagination,
@@ -31,7 +33,7 @@ export const Table = <T extends Record<string, unknown>>({
   const totalPages = rowsPerPage ? Math.ceil(totalAmountOfRows / rowsPerPage) : 0;
 
   return (
-    <div>
+    <div style={containerStyle}>
       <div style={{ width: "100%", overflow: "auto" }}>
         <div
           style={{
@@ -58,7 +60,12 @@ export const Table = <T extends Record<string, unknown>>({
               const columnProperties = { className, size, staticColumn } as Column<T>;
 
               return (
-                <TableHeader key={index} {...columnProperties}>
+                <TableHeader
+                  key={index}
+                  index={index}
+                  columnStyle={columnStyle}
+                  {...columnProperties}
+                >
                   {typeof column.header === "function" ? column.header() : column.header}
                 </TableHeader>
               );
@@ -98,6 +105,7 @@ export const Table = <T extends Record<string, unknown>>({
                       row={row}
                       rowIndex={rowIndex}
                       index={colIndex}
+                      columnStyle={columnStyle}
                       {...columnProperties}
                     >
                       {column.cell}

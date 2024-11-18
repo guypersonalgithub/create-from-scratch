@@ -6,6 +6,7 @@ import { recursivelyParseUniqueFunction } from "./recursivelyParseFunction";
 import { recursivelyParseLog } from "./recursivelyParseLog";
 import { recursivelyParsePower } from "./recursivelyParsePower";
 import { recursivelyParseSqrt } from "./recursivelyParseSqrt";
+import { recursivelyParseLimit } from "./recursivelyParseLimit";
 
 type UniqueOperationsFlowArgs = {
   tokens: ParsedToken[];
@@ -42,6 +43,8 @@ export const uniqueOperationsFlow = ({
       parsedTokens.shift();
       tokens.shift();
     }
+  } else if (value === "lim") {
+    parsedTokens.push(recursivelyParseLimit({ tokens }));
   } else if (typeof value === "string" && uniqueFunctions.has(value)) {
     const { changedPowerLocation, isRootFunction, ...newToken } = recursivelyParseUniqueFunction({
       func: value,

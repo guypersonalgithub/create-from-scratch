@@ -1,8 +1,10 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 type TableHeaderProps = {
   children: ReactNode;
   staticColumn?: boolean;
+  columnStyle?: (index: number) => CSSProperties | undefined;
+  index: number;
 } & (Size | ClassName);
 
 type Size = {
@@ -18,9 +20,13 @@ type ClassName = {
 export const TableHeader = ({
   children,
   staticColumn = true,
+  columnStyle,
+  index,
   size,
   className,
 }: TableHeaderProps) => {
+  const style = columnStyle?.(index) ?? {};
+
   return (
     <div
       className={className}
@@ -32,6 +38,7 @@ export const TableHeader = ({
         flexGrow: staticColumn ? 0 : 1,
         whiteSpace: "nowrap",
         ...(size ? { width: `${size}px` } : {}),
+        ...style,
       }}
     >
       {children}

@@ -1,7 +1,8 @@
-import { createRef, CSSProperties, ReactNode, useRef } from "react";
+import { CSSProperties, ReactNode, useRef } from "react";
 import { useControlTooltip } from "./useControlTooltip";
-import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { TooltipDisplayProps } from "./types";
+import { TooltipContent } from "./TooltipContent";
+import { useTooltipIntersectionRefs } from "./useTooltipIntersectionRefs";
 
 export type TooltipProps = Pick<
   TooltipDisplayProps,
@@ -20,28 +21,11 @@ export const Tooltip = ({
   offset,
   isEllipsizedCallback,
   distanceFromViewport,
-  style = {},
+  style,
   children,
 }: TooltipProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const intersectionRefs: EdgeWrapperRefs = {
-    top: createRef(),
-    topLeft: createRef(),
-    topRight: createRef(),
-    left: createRef(),
-    bottom: createRef(),
-    bottomLeft: createRef(),
-    bottomRight: createRef(),
-    right: createRef(),
-    customTop: createRef(),
-    customTopLeft: createRef(),
-    customTopRight: createRef(),
-    customLeft: createRef(),
-    customBottom: createRef(),
-    customBottomLeft: createRef(),
-    customBottomRight: createRef(),
-    customRight: createRef(),
-  };
+  const { intersectionRefs } = useTooltipIntersectionRefs();
   const { id, showTooltip, hideTooltip } = useControlTooltip();
 
   const disableTooltipBecauseOfEllipsis = () => {
@@ -78,31 +62,17 @@ export const Tooltip = ({
   };
 
   return (
-    <EdgeIntersection
-      id={id}
-      style={{
-        width: isEllipsizedCallback ? "inherit" : "fit-content",
-        height: "fit-content",
-        ...style,
-      }}
+    <TooltipContent
+      ref={ref}
       intersectionRefs={intersectionRefs}
+      id={id}
+      show={show}
+      hide={hide}
+      isEllipsizedCallback={isEllipsizedCallback}
       offset={offset}
+      style={style}
     >
-      <div
-        ref={ref}
-        style={{
-          width: isEllipsizedCallback ? "inherit" : "fit-content",
-          height: "fit-content",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          ...style,
-        }}
-        onMouseEnter={show}
-        onMouseLeave={hide}
-      >
-        {children}
-      </div>
-    </EdgeIntersection>
+      {children}
+    </TooltipContent>
   );
 };

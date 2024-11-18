@@ -1,6 +1,7 @@
 import { TokenTypes } from "@packages/math-parser";
 import {
   FracionToken,
+  LimitToken,
   LogToken,
   ParsedToken,
   PowerToken,
@@ -35,7 +36,13 @@ const recursiveMathMLToken = ({ token }: RecursiveMathMLTokenArgs) => {
     return `<mn>${value as string}</mn>`;
   } else if (type === TokenTypes.VARIABLE) {
     return `<mi>${value as string}</mi>`;
-  } else if (type === TokenTypes.UNIQUE_TOKEN || type === TokenTypes.KEYWORD) {
+  } else if (
+    type === TokenTypes.UNIQUE_TOKEN ||
+    type === TokenTypes.KEYWORD ||
+    type === TokenTypes.LIMIT_ARROW ||
+    type === TokenTypes.LIMIT_SPREAD ||
+    type === TokenTypes.LIMIT_DIRECTION
+  ) {
     return `<mo>${value as string}</mo>`;
   } else if (type === UniqueMathMLTokens.POWER) {
     const { base, power } = value as PowerToken["value"];
@@ -53,6 +60,9 @@ const recursiveMathMLToken = ({ token }: RecursiveMathMLTokenArgs) => {
   } else if (type === UniqueMathMLTokens.LOG) {
     const { func, base, value: logValue } = value as LogToken["value"];
     return logTemplate({ func, base, value: logValue });
+  } else if (type === UniqueMathMLTokens.LIMIT) {
+    const { lim, arrow, variables, values } = value as LimitToken["value"];
+    return limitTemplate({ lim, arrow, variables, values });
   }
 
   return "";
@@ -170,4 +180,41 @@ export const logTemplate = ({ func, base, value }: LogTemplateArgs): string => {
           return recursiveMathMLToken({ token: parsedToken });
         })
         .join(" ")}`;
+};
+
+type LimitTemplateProps = {
+  lim: ParsedToken;
+  arrow: ParsedToken;
+  variables: ParsedToken[];
+  values: ParsedToken[][];
+};
+
+export const limitTemplate = ({ lim, arrow, variables, values }: LimitTemplateProps): string => {
+  return `<msub>
+        ${recursiveMathMLToken({ token: lim })}
+      <mrow>
+        ${variables
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
+        ${recursiveMathMLToken({ token: arrow })}
+        ${values.map((parsedTokens) => {
+          const lastToken = parsedTokens[parsedTokens.length - 1];
+          const hasDirection = lastToken.type === TokenTypes.LIMIT_DIRECTION;
+          const value = hasDirection
+            ? parsedTokens.slice(0, parsedTokens.length - 1)
+            : parsedTokens;
+
+          return `<msup>
+            <mrow>
+              ${value.map((parsedToken) => {
+                return recursiveMathMLToken({ token: parsedToken });
+              })}
+            </mrow>
+            ${hasDirection ? recursiveMathMLToken({ token: lastToken }) : ""}
+          </msup>`;
+        })}
+      </mrow>
+    </msub>`;
 };

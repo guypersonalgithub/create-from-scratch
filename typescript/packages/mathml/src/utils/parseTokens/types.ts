@@ -18,10 +18,20 @@ export type LogToken = {
   type: UniqueMathMLTokens;
   value: { func: ParsedToken; base: ParsedToken[]; value: ParsedToken[] };
 };
+export type LimitToken = {
+  type: UniqueMathMLTokens;
+  value: {
+    lim: ParsedToken;
+    arrow: ParsedToken;
+    variables: ParsedToken[];
+    values: ParsedToken[][];
+  };
+};
 export type ParsedToken =
   | BaseToken
   | TokenGroup
   | FracionToken
   | PowerToken
   | UniqueFunctionToken
-  | LogToken;
+  | LogToken
+  | LimitToken;

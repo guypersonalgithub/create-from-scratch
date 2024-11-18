@@ -1,6 +1,6 @@
 import { BaseToken } from "./types";
 import { getNextNonSpaceCharIndex, isValidSectionStartingCharacter } from "./utils";
-import { tokenizerFlows } from "./flows";
+import { limitFlow, tokenizerFlows } from "./flows";
 
 type TokenizerArgs = {
   input: string;
@@ -19,7 +19,20 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
       currentIndex += skippedIndexes;
       duplicatedInput = duplicatedInput.slice(skippedIndexes);
     }
-    isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex });
+
+    if (duplicatedInput.length > 0) {
+      isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex });
+    }
+
+    const { newInput, updatedIndex } = limitFlow({ tokens, input: duplicatedInput, currentIndex });
+    if (updatedIndex !== undefined) {
+      duplicatedInput = newInput;
+      currentIndex = updatedIndex;
+    }
+
+    if (tokens.length > 0 && duplicatedInput.length === 0) {
+      throw new Error(`The input ended unexpectedly when expecting a function value after creating a limit.`);
+    }
 
     while (duplicatedInput.length > 0) {
       const { newInput, updatedIndex } = tokenizerFlows({

@@ -30,7 +30,7 @@ export const Calculus = () => {
       <div>
         The integral is the limit of the total area of the rectangles as the width tends to zero.
       </div>
-      <Link pathname="/math/calculus" style={{ color: "#5662F6" }}>
+      <Link pathname="/math/calculus/limit" style={{ color: "#5662F6" }}>
         Limit
       </Link>
     </div>

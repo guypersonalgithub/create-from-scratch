@@ -1,35 +1,13 @@
-import { useEffect, useRef, useState } from "react";
 import { Button } from "@packages/button";
+import { useCopyToClipboard } from "./useCopyToClipboard";
 
 type CopyToClipboardProps = {
   textToCopy: string;
+  delay?: number;
 };
 
-export const CopyToClipboard = ({ textToCopy }: CopyToClipboardProps) => {
-  const [copied, setCopied] = useState<boolean>(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
-
-  useEffect(() => {
-    return () => {
-      if (!timeoutRef.current) {
-        return;
-      }
-
-      clearTimeout(timeoutRef.current);
-    };
-  }, []);
-
-  const copyToClipboard = () => {
-    if (!navigator.clipboard) {
-      return;
-    }
-
-    navigator.clipboard.writeText(textToCopy);
-    setCopied(true);
-    timeoutRef.current = setTimeout(() => {
-      setCopied(false);
-    }, 1000);
-  };
+export const CopyToClipboard = ({ textToCopy, delay }: CopyToClipboardProps) => {
+  const { copied, copyToClipboard } = useCopyToClipboard({ textToCopy, delay });
 
   return <Button onClick={() => copyToClipboard()}>{!copied ? "Copy" : "Copied"}</Button>;
 };

@@ -6,9 +6,10 @@ import { getNextNonSpaceCharIndex, isValidSectionStartingCharacter } from "../ut
 type AbsoluteFlowArgs = {
   input: string;
   currentIndex: number;
+  isWithinLimit?: boolean;
 };
 
-export const absoluteFlow = ({ input, currentIndex }: AbsoluteFlowArgs) => {
+export const absoluteFlow = ({ input, currentIndex, isWithinLimit }: AbsoluteFlowArgs) => {
   const innerTokens: BaseToken[] = [
     {
       type: TokenTypes.UNIQUE_TOKEN,
@@ -32,6 +33,7 @@ export const absoluteFlow = ({ input, currentIndex }: AbsoluteFlowArgs) => {
       input: duplicatedInput,
       currentIndex,
       isWithinParenthesis: true,
+      isWithinLimit,
     });
 
     if (newInput === undefined || !updatedIndex) {

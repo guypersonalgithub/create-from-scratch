@@ -57,6 +57,7 @@ export default defineConfig({
         "__dirname",
         "../../packages/canvas-math-graphs/src/index.ts",
       ),
+      "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
     },
   },
 });

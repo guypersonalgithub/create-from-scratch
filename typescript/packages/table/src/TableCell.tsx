@@ -1,9 +1,10 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 type TableCellProps<T> = {
   row: T;
   children: (row: T, rowIndex: number, columnIndex: number) => ReactNode;
   staticColumn?: boolean;
+  columnStyle?: (index: number) => CSSProperties | undefined;
   rowIndex: number;
   index: number;
 } & (Size | ClassName);
@@ -24,9 +25,12 @@ export const TableCell = <T,>({
   staticColumn = true,
   className,
   size,
+  columnStyle,
   rowIndex,
   index,
 }: TableCellProps<T>) => {
+  const style = columnStyle?.(index) ?? {};
+
   return (
     <div
       className={className}
@@ -38,6 +42,7 @@ export const TableCell = <T,>({
         flexGrow: staticColumn ? 0 : 1,
         whiteSpace: "nowrap",
         ...(size ? { width: `${size}px` } : {}),
+        ...style,
       }}
     >
       {children(row, rowIndex, index)}

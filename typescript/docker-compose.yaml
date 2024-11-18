@@ -105,6 +105,15 @@ services:
         source: ./packages/hooks
         target: /usr/src/app/packages/hooks
       - type: bind
+        source: ./packages/table
+        target: /usr/src/app/packages/table
+      - type: bind
+        source: ./packages/pagination
+        target: /usr/src/app/packages/pagination
+      - type: bind
+        source: ./packages/copy-to-clipboard
+        target: /usr/src/app/packages/copy-to-clipboard
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:
@@ -267,6 +276,9 @@ services:
       - type: bind
         source: ./packages/copy-to-clipboard
         target: /usr/src/app/packages/copy-to-clipboard
+      - type: bind
+        source: ./packages/hooks
+        target: /usr/src/app/packages/hooks
       - type: bind
         source: ./packages/mathml
         target: /usr/src/app/packages/mathml

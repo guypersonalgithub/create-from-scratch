@@ -10,8 +10,20 @@ import { Limit } from "./routes/math/calculus/limit/Limit";
 
 const searchableRoutes = [
   {
+    label: "Home",
+    value: "/",
+  },
+  {
+    label: "Math",
+    value: "/math",
+  },
+  {
     label: "Calculus",
     value: "/math/calculus",
+  },
+  {
+    label: "Limit",
+    value: "/math/calculus/limit",
   },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
@@ -33,7 +45,14 @@ const App = () => {
           <Router
             paths={{
               "/": () => {
-                return <></>;
+                return (
+                  <div>
+                    <h3>
+                      Navigate to your desirable interests through the sidebar or the auto complete
+                      search
+                    </h3>
+                  </div>
+                );
               },
               "/math": {
                 "/": <Math />,
@@ -96,6 +115,7 @@ const AutoComplete = () => {
           height: "30px",
           alignItems: "center",
         }}
+        inputPlaceholder="Search"
       />
     </div>
   );

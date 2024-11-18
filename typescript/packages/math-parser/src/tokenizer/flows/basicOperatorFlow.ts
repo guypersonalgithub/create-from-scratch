@@ -5,9 +5,14 @@ import { getNextNonSpaceCharIndex } from "../utils";
 type BasicOperatorFlowArgs = {
   input: string;
   currentIndex: number;
+  isWithinLimit?: boolean;
 };
 
-export const basicOperatorFlow = ({ input, currentIndex }: BasicOperatorFlowArgs) => {
+export const basicOperatorFlow = ({
+  input,
+  currentIndex,
+  isWithinLimit,
+}: BasicOperatorFlowArgs) => {
   let duplicatedInput = input.slice();
   let value = duplicatedInput.charAt(0);
   duplicatedInput = duplicatedInput.slice(1);
@@ -22,6 +27,7 @@ export const basicOperatorFlow = ({ input, currentIndex }: BasicOperatorFlowArgs
       currentChar: value,
       followingChar,
       currentIndex,
+      isWithinLimit,
     });
 
     if (replacedValue) {
@@ -48,15 +54,21 @@ type IsValidFollowingTokenArgs = {
   currentChar: string;
   followingChar: string;
   currentIndex: number;
+  isWithinLimit?: boolean;
 };
 
 const isValidFollowingToken = ({
   currentChar,
   followingChar,
   currentIndex,
+  isWithinLimit,
 }: IsValidFollowingTokenArgs) => {
   const isValid = followingChar !== "-" ? !nonConsecutiveOperators.has(followingChar) : true;
-  if (!isValid || followingChar === ",") {
+  if (
+    !isValid || followingChar === ","
+      ? !isValidFollowingComaToken({ currentChar, isWithinLimit })
+      : false
+  ) {
     throw new Error(
       `Encountered an unexpected character ${followingChar} after ${currentChar} on index ${currentIndex}.`,
     );
@@ -80,4 +92,20 @@ const isValidFollowingToken = ({
   }
 
   return {};
+};
+
+type IsValidFollowingComaTokenArgs = {
+  currentChar: string;
+  isWithinLimit?: boolean;
+};
+
+const isValidFollowingComaToken = ({
+  currentChar,
+  isWithinLimit,
+}: IsValidFollowingComaTokenArgs) => {
+  if (!isWithinLimit) {
+    return false;
+  }
+
+  return currentChar === "+" || currentChar === "-";
 };
