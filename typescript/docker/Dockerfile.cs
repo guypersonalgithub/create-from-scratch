@@ -27,6 +27,7 @@ COPY ./packages/hooks/package.json ./packages/hooks/package.json
 COPY ./packages/table/package.json ./packages/table/package.json
 COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
+COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
 
 
 
@@ -62,6 +63,7 @@ COPY ./packages/hooks ./packages/hooks
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
+COPY ./packages/calculations-table ./packages/calculations-table
 CMD ["npm", "run", "dev"]
 
 
@@ -98,6 +100,7 @@ COPY ./packages/hooks ./packages/hooks
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
+COPY ./packages/calculations-table ./packages/calculations-table
 CMD ["npm", "run", "build"]
 
 
@@ -134,4 +137,5 @@ COPY ./packages/hooks ./packages/hooks
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
+COPY ./packages/calculations-table ./packages/calculations-table
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

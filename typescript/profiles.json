@@ -1,12 +1,12 @@
 [
-  "angular",
+  "angular-app",
   "cs",
   "express-backend",
-  "next",
-  "remix",
+  "next-app",
+  "remix-app",
   "vite-client",
   "vite-micro",
-  "vue",
+  "vue-app",
   "express-backend-postgresql",
   "vite-client-e2e"
 ]

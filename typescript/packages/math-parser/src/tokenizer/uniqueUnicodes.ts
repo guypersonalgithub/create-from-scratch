@@ -3,6 +3,8 @@ export const unicodes = {
     arrow: "\u2192",
     infinity: "\u221E",
     plusMinus: "±",
+    leftFloor: "\u230A",
+    rightFloor: "\u230B"
   },
   basic: {
     arrow: "&#x2192;",

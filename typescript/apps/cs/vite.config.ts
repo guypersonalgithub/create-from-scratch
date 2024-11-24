@@ -49,6 +49,10 @@ export default defineConfig({
         "__dirname",
         "../../packages/copy-to-clipboard/src/index.ts",
       ),
+      "packages/calculations-table": path.resolve(
+        "__dirname",
+        "../../packages/calculations-table/src/index.ts",
+      ),
     },
   },
 });

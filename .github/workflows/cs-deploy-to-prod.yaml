@@ -32,6 +32,7 @@ on:
       - typescript/packages/table/**
       - typescript/packages/pagination/**
       - typescript/packages/copy-to-clipboard/**
+      - typescript/packages/calculations-table/**
   workflow_dispatch: 
 jobs:
   Deploy-Production:
@@ -80,6 +81,7 @@ jobs:
           cp -r ./packages/table ./full-application/packages
           cp -r ./packages/pagination ./full-application/packages
           cp -r ./packages/copy-to-clipboard ./full-application/packages
+          cp -r ./packages/calculations-table ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

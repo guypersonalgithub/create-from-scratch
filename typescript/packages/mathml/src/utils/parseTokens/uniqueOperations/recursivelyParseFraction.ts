@@ -78,7 +78,7 @@ export const recursivelyParseFraction = ({
         token?.type === UniqueMathMLTokens.POWER ||
         token?.type === TokenTypes.VALUE ||
         token?.type === TokenTypes.VARIABLE ||
-        typeof token?.value !== "string")
+        (token?.type !== UniqueMathMLTokens.LIMIT && typeof token?.value !== "string"))
     ) {
       numerator.unshift(token);
     }

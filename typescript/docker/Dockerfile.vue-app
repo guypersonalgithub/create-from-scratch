@@ -1,8 +1,9 @@
 FROM node:20.11.0-alpine3.19 AS base
 WORKDIR /usr/src/app
-COPY ./apps/next/package.json ./package.json
-COPY ./apps/next/package-lock.json ./package-lock.json
-COPY ./apps/next/package.json ./apps/next/package.json
+COPY ./apps/vue-app/package.json ./package.json
+COPY ./apps/vue-app/package-lock.json ./package-lock.json
+COPY ./apps/vue-app/package.json ./apps/vue-app/package.json
+COPY ./packages/micro-frontends/package.json ./packages/micro-frontends/package.json
 
 
 
@@ -13,7 +14,8 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \ 
     npm install
 USER node
-COPY --chown=node:node ./apps/next ./
+COPY --chown=node:node ./apps/vue-app ./
+COPY ./packages/micro-frontends ./packages/micro-frontends
 CMD ["npm", "run", "dev"]
 
 
@@ -25,7 +27,8 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \ 
     npm ci --only=production
 USER node
-COPY --chown=node:node ./apps/next ./
+COPY --chown=node:node ./apps/vue-app ./
+COPY ./packages/micro-frontends ./packages/micro-frontends
 CMD ["npm", "run", "build"]
 
 
@@ -37,5 +40,6 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \ 
     npm install
 USER node
-COPY --chown=node:node ./apps/next ./
+COPY --chown=node:node ./apps/vue-app ./
+COPY ./packages/micro-frontends ./packages/micro-frontends
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

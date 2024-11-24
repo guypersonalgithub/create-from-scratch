@@ -128,6 +128,11 @@ const squareRootTemplate = ({ value }: SquareRootTemplateArgs): string => {
         })
         .join(" ")}
     </msqrt>`;
+  // reference for root template
+  //   <mroot>
+  //   <mi>x</mi>
+  //   <mn>3</mn>
+  // </mroot>
 };
 
 type UniqueFunctionTemplateArgs = {

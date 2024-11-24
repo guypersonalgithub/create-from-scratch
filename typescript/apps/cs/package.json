@@ -18,6 +18,7 @@
     "@packages/auto-complete-input": "*",
     "@packages/table": "*",
     "@packages/copy-to-clipboard": "*",
+    "@packages/calculations-table": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

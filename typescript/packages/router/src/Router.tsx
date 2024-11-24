@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState, isValidElement } from "react";
+import { ReactNode, useEffect, useState, isValidElement, CSSProperties } from "react";
 import { RouterPathGuard, RouterPaths } from "./types";
 import { useInnerRouteParams } from "./useRouterParams";
 import { grabFirstPath } from "./utils";
@@ -6,9 +6,10 @@ import { RouterContext } from "./routerContext";
 
 type RouterProps = {
   paths: RouterPaths;
+  wrapperStyle?: CSSProperties;
 };
 
-export const Router = ({ paths }: RouterProps) => {
+export const Router = ({ paths, wrapperStyle }: RouterProps) => {
   const { setRouterParams, resetRouterParams } = useInnerRouteParams();
   const [path, setPath] = useState<`/${string}`>(window.location.pathname as `/${string}`);
 
@@ -76,7 +77,7 @@ export const Router = ({ paths }: RouterProps) => {
 
   return (
     <RouterContext.Provider value={true}>
-      <div>{getCurrentRoute()}</div>
+      <div style={wrapperStyle}>{getCurrentRoute()}</div>
     </RouterContext.Provider>
   );
 };

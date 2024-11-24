@@ -60,6 +60,9 @@ export const absoluteFlow = ({ input, currentIndex, isWithinLimit }: AbsoluteFlo
     value: "|",
   });
 
+  duplicatedInput = duplicatedInput.slice(1);
+  currentIndex++;
+
   return {
     tokens: innerTokens,
     newInput: duplicatedInput,

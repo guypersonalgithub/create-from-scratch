@@ -1,12 +1,14 @@
 import { tokenizer } from "@packages/math-parser";
 import { RecursiveMathMLToken } from "./JSX/RecursiveMathMLToken";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { functionalParsing } from "./functionalParsing";
 import { parseTokens } from "./utils/parseTokens";
 
 type MathMLProps = {
   input: string;
   format: "HTML" | "JSX";
+  displayError?: boolean;
+  consoleError?: boolean;
 };
 
 const getParsedTokens = ({ input }: Pick<MathMLProps, "input">) => {
@@ -15,23 +17,21 @@ const getParsedTokens = ({ input }: Pick<MathMLProps, "input">) => {
   return { parsedTokens, errorMessage: errorMessage || tokenizerErrorMessage };
 };
 
-export const MathML = ({ input, format }: MathMLProps) => {
+export const MathML = ({ input, format, displayError = true, consoleError }: MathMLProps) => {
   if (format === "HTML") {
-    return <HTMLFormat input={input} />;
+    return <HTMLFormat input={input} displayError={displayError} consoleError={consoleError} />;
   }
 
-  return <JSXFormat input={input} />;
+  return <JSXFormat input={input} displayError={displayError} consoleError={consoleError} />;
 };
 
-type FormatProps = {
-  input: string;
-};
+type FormatProps = Omit<MathMLProps, "format">;
 
-const HTMLFormat = ({ input }: FormatProps) => {
+const HTMLFormat = ({ input, displayError, consoleError }: FormatProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | undefined>();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) {
       return;
     }
@@ -39,6 +39,9 @@ const HTMLFormat = ({ input }: FormatProps) => {
     const { parsedTokens, errorMessage } = getParsedTokens({ input });
     setError(errorMessage);
     if (errorMessage) {
+      if (consoleError) {
+        console.error(error);
+      }
       ref.current.innerHTML = "";
       return;
     }
@@ -48,17 +51,23 @@ const HTMLFormat = ({ input }: FormatProps) => {
 
   return (
     <>
-      <div>{error}</div>
+      {displayError ? <div>{error}</div> : null}
       <div ref={ref} style={{ visibility: error ? "hidden" : "visible" }} />
     </>
   );
 };
 
-const JSXFormat = ({ input }: FormatProps) => {
+const JSXFormat = ({ input, displayError, consoleError }: FormatProps) => {
   const { parsedTokens, errorMessage } = getParsedTokens({ input });
 
   if (errorMessage) {
-    return <div>{errorMessage}</div>;
+    if (consoleError) {
+      console.error(errorMessage);
+    }
+
+    if (displayError) {
+      return <div>{errorMessage}</div>;
+    }
   }
 
   return (

@@ -1,18 +1,18 @@
 services:
-  angular:
-    image: angular:latest
+  angular-app:
+    image: angular-app:latest
     environment:
       - NODE_ENV=development
     build:
-      dockerfile: ./docker/Dockerfile.angular
+      dockerfile: ./docker/Dockerfile.angular-app
       context: ./
       target: development
     profiles:
-      - angular
+      - angular-app
     restart: unless-stopped
     volumes:
       - type: bind
-        source: ./apps/angular/
+        source: ./apps/angular-app/
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
@@ -114,6 +114,9 @@ services:
         source: ./packages/copy-to-clipboard
         target: /usr/src/app/packages/copy-to-clipboard
       - type: bind
+        source: ./packages/calculations-table
+        target: /usr/src/app/packages/calculations-table
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:
@@ -155,22 +158,22 @@ services:
       - 3002:3002
     depends_on:
       - express-backend-postgresql
-  next:
-    image: next:latest
+  next-app:
+    image: next-app:latest
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
       - WATCHPACK_INTERVAL=1000
     build:
-      dockerfile: ./docker/Dockerfile.next
+      dockerfile: ./docker/Dockerfile.next-app
       context: ./
       target: development
     profiles:
-      - next
+      - next-app
     restart: unless-stopped
     volumes:
       - type: bind
-        source: ./apps/next/
+        source: ./apps/next-app/
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
@@ -179,22 +182,22 @@ services:
     ports:
       - 3003:3003
     depends_on: 
-  remix:
-    image: remix:latest
+  remix-app:
+    image: remix-app:latest
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=1000
     build:
-      dockerfile: ./docker/Dockerfile.remix
+      dockerfile: ./docker/Dockerfile.remix-app
       context: ./
       target: development
     profiles:
-      - remix
+      - remix-app
     restart: unless-stopped
     volumes:
       - type: bind
-        source: ./apps/remix/
+        source: ./apps/remix-app/
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules
@@ -327,20 +330,20 @@ services:
     ports:
       - 5174:5174
     depends_on: 
-  vue:
-    image: vue:latest
+  vue-app:
+    image: vue-app:latest
     environment:
       - NODE_ENV=development
     build:
-      dockerfile: ./docker/Dockerfile.vue
+      dockerfile: ./docker/Dockerfile.vue-app
       context: ./
       target: development
     profiles:
-      - vue
+      - vue-app
     restart: unless-stopped
     volumes:
       - type: bind
-        source: ./apps/vue/
+        source: ./apps/vue-app/
         target: /usr/src/app/
       - type: volume
         target: /usr/src/app/node_modules

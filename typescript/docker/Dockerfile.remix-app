@@ -1,9 +1,8 @@
 FROM node:20.11.0-alpine3.19 AS base
 WORKDIR /usr/src/app
-COPY ./apps/vue/package.json ./package.json
-COPY ./apps/vue/package-lock.json ./package-lock.json
-COPY ./apps/vue/package.json ./apps/vue/package.json
-COPY ./packages/micro-frontends/package.json ./packages/micro-frontends/package.json
+COPY ./apps/remix-app/package.json ./package.json
+COPY ./apps/remix-app/package-lock.json ./package-lock.json
+COPY ./apps/remix-app/package.json ./apps/remix-app/package.json
 
 
 
@@ -14,8 +13,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \ 
     npm install
 USER node
-COPY --chown=node:node ./apps/vue ./
-COPY ./packages/micro-frontends ./packages/micro-frontends
+COPY --chown=node:node ./apps/remix-app ./
 CMD ["npm", "run", "dev"]
 
 
@@ -27,8 +25,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \ 
     npm ci --only=production
 USER node
-COPY --chown=node:node ./apps/vue ./
-COPY ./packages/micro-frontends ./packages/micro-frontends
+COPY --chown=node:node ./apps/remix-app ./
 CMD ["npm", "run", "build"]
 
 
@@ -40,6 +37,5 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \ 
     npm install
 USER node
-COPY --chown=node:node ./apps/vue ./
-COPY ./packages/micro-frontends ./packages/micro-frontends
+COPY --chown=node:node ./apps/remix-app ./
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

@@ -31,7 +31,9 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
     }
 
     if (tokens.length > 0 && duplicatedInput.length === 0) {
-      throw new Error(`The input ended unexpectedly when expecting a function value after creating a limit.`);
+      throw new Error(
+        `The input ended unexpectedly when expecting a function value after creating a limit.`,
+      );
     }
 
     while (duplicatedInput.length > 0) {

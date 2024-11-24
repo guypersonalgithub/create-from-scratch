@@ -23,7 +23,7 @@ export const recursivelyParsePower = ({
     const { tokensWithinTheParenthesis } = detectParenthesisTokens({
       tokens,
       direction: "ltr",
-      isRoot
+      isRoot,
     });
     const shouldRemoveParenthesis = tokens?.[0]?.value !== "^";
     const pushedTokens = shouldRemoveParenthesis
@@ -88,7 +88,7 @@ export const recursivelyParsePower = ({
         token?.type === UniqueMathMLTokens.POWER ||
         token?.type === TokenTypes.VALUE ||
         token?.type === TokenTypes.VARIABLE ||
-        typeof token?.value !== "string")
+        (token?.type !== UniqueMathMLTokens.LIMIT && typeof token?.value !== "string"))
     ) {
       base.unshift(token);
     }

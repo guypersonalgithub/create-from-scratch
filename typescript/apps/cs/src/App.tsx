@@ -7,6 +7,13 @@ import { AutoCompleteInput } from "@packages/auto-complete-input";
 import { ComponentProps } from "react";
 import { Calculus } from "./routes/math/calculus/Calculus";
 import { Limit } from "./routes/math/calculus/limit/Limit";
+import { FloorFunction } from "./routes/math/FloorFunction";
+import { LimitLaws } from "./routes/math/calculus/limit/LimitLaws";
+import { Continuity } from "./routes/math/calculus/continuity/Continuity";
+import { CompositionOfFunctions } from "./routes/math/CompositionOfFunctions";
+import { IntermediateValueTheorem } from "./routes/math/calculus/continuity/IntermediateValueTheorem";
+import { LimitsOfQuotients } from "./routes/math/calculus/limit/LimitsOfQuotients";
+import { LimitsThatAreInfinite } from "./routes/math/calculus/limit/LimitsThatAreInfinite";
 
 const searchableRoutes = [
   {
@@ -22,27 +29,60 @@ const searchableRoutes = [
     value: "/math/calculus",
   },
   {
+    label: "Floor function",
+    value: "/math/floor-function",
+  },
+  {
     label: "Limit",
     value: "/math/calculus/limit",
+  },
+  {
+    label: "Limit laws",
+    value: "/math/calculus/limit/laws",
+  },
+  {
+    label: "Continuity",
+    value: "/math/calculus/continuity",
+  },
+  {
+    label: "Composition",
+    value: "/math/composition-of-functions",
+  },
+  {
+    label: "Intermediate value theorem",
+    value: "/math/calculus/continuity/intermediate-value-theorem",
+  },
+  {
+    label: "Limits of quotients",
+    value: "/math/calculus/limit/limits-of-quotients",
+  },
+  {
+    label: "Limits that are infinite",
+    value: "/math/calculus/limit/limits-that-are-infinite",
   },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
 const App = () => {
   return (
     <>
-      <div style={{ width: "100%", height: "100vh", display: "flex" }}>
+      <div style={{ width: "100%", height: "100vh", display: "flex", overflow: "hidden" }}>
         <SidebarWrapper />
-        <div style={{ width: "100%", marginLeft: "20px", marginRight: "20px" }}>
+        <div style={{ width: "100%", overflow: "auto" }}>
           <div
             style={{
+              position: "relative",
               display: "flex",
               justifyContent: "end",
+              marginRight: "20px",
               marginTop: "10px",
             }}
           >
-            <AutoComplete />
+            <div style={{ position: "fixed", top: "10px" }}>
+              <AutoComplete />
+            </div>
           </div>
           <Router
+            wrapperStyle={{ margin: "20px" }}
             paths={{
               "/": () => {
                 return (
@@ -60,8 +100,17 @@ const App = () => {
                   "/": <Calculus />,
                   "/limit": {
                     "/": <Limit />,
+                    "/laws": <LimitLaws />,
+                    "/limits-of-quotients": <LimitsOfQuotients />,
+                    "/limits-that-are-infinite": <LimitsThatAreInfinite />,
+                  },
+                  "/continuity": {
+                    "/": <Continuity />,
+                    "/intermediate-value-theorem": <IntermediateValueTheorem />,
                   },
                 },
+                "/floor-function": <FloorFunction />,
+                "/composition-of-functions": <CompositionOfFunctions />,
               },
             }}
           />

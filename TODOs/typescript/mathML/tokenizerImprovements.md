@@ -1,1 +1,3 @@
 - Make sure for powers/others, a unique function with its value would be treated as a single wrapping token, so that 4 ^ sin(15) wouldn't treat as the sin as power and (15) as a different detached value.
+- Add support to floor functions.
+- Add support for roots that aren't square roots.

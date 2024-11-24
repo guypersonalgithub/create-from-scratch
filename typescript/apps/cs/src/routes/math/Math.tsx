@@ -12,9 +12,12 @@ export const Math = () => {
 
   return (
     <>
-      <div>
+      <div style={{ display: "flex", gap: "5px" }}>
         <Link pathname="/math/calculus" style={{ color: "#5662F6" }}>
           Calculus
+        </Link>
+        <Link pathname="/math/floor-function" style={{ color: "#5662F6" }}>
+          Floor function
         </Link>
       </div>
       <div>
