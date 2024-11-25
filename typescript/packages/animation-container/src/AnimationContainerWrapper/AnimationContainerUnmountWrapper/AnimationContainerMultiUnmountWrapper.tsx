@@ -2,9 +2,10 @@ import { ReactElement, useEffect, useState, useRef } from "react";
 import { getAnimationWrapperChildKeys, getChildKeys, isAnimationWrapperChild } from "../utils";
 import { UnmountContext } from "./unmountContext";
 import { areSetsEqual } from "@packages/utils";
+import { ChangeMethod } from "../types";
 
 type AnimationContainerMultiUnmountWrapperProps = {
-  changeMethod: "gradual" | "fullPhase";
+  changeMethod: ChangeMethod;
   children: ReactElement[];
 };
 

@@ -289,8 +289,8 @@ services:
         source: ./packages/math-parser
         target: /usr/src/app/packages/math-parser
       - type: bind
-        source: ./packages/canvas-math-graphs
-        target: /usr/src/app/packages/canvas-math-graphs
+        source: ./packages/canvas-math-graph
+        target: /usr/src/app/packages/canvas-math-graph
       - type: bind
         source: ./packages/cypress
         target: /usr/src/app/packages/cypress

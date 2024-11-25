@@ -1,9 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import { UnmountContext } from "./unmountContext";
 import { getChildKeys, isAnimationWrapperChild } from "../utils";
+import { ChangeMethod } from "../types";
 
 type AnimationContainerSingleUnmountWrapperProps = {
-  changeMethod: "gradual" | "fullPhase";
+  changeMethod: ChangeMethod;
   children: ReactElement;
 };
 

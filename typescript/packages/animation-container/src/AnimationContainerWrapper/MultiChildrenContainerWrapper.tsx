@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { AnimationContainerWrapperProps } from "./types";
+import { AnimationContainerWrapperProps, ChangeMethod } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import { getChildKeys } from "./utils";
 import { areSetsEqual } from "@packages/utils";
@@ -8,7 +8,7 @@ type MultiChildrenContainerWrapper = AnimationContainerWrapperProps & {
   children: ReactElement[];
   isUnmounted: boolean;
   finishedAnimation?: () => void;
-  changeMethod: "gradual" | "fullPhase";
+  changeMethod: ChangeMethod;
 };
 
 export const MultiChildrenContainerWrapper = ({

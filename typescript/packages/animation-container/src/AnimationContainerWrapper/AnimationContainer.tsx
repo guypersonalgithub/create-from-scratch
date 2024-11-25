@@ -3,7 +3,7 @@ import { AnimationContainerWrapperProps } from "./types";
 import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
 import { useAnimation } from "../useAnimation";
 
-type AnimationWrapperProps = Omit<AnimationContainerWrapperProps, "children"> & {
+type AnimationWrapperProps = Omit<AnimationContainerWrapperProps, "children" | "changeMethod"> & {
   index: number;
   show: boolean;
   children: ReactElement;

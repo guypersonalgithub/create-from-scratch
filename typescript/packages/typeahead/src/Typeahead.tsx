@@ -225,6 +225,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
                           : "rgba(20, 12, 12)",
                       padding: "8px",
                       fontWeight: "bold",
+                      color: "white",
                     }}
                     onClick={() => onResultClick({ result })}
                     onMouseEnter={() => setHoveredIndex(index)}
@@ -246,40 +247,6 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
             })}
           </VirtualList>
         ) : null}
-        {/* {results.length > 0
-          ? results.map((result: BaseTypeaheadOption, index: number) => {
-              return (
-                <Fragment key={`${result.label}-${index}`}>
-                  <div
-                    style={{
-                      zIndex: 20,
-                      cursor: "pointer",
-                      backgroundColor:
-                        index === currentIndex || index === hoveredIndex ? "#e6e6e6" : "white",
-                      padding: "8px",
-                      fontWeight: "bold",
-                    }}
-                    className={`justify-around hover:bg-primary hover:text-white`}
-                    onClick={() => onResultClick({ result })}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                  >
-                    {result.label}
-                  </div>
-                  {withSeperators ? (
-                    <hr
-                      style={{
-                        marginTop: "4px",
-                        marginBottom: "4px",
-                        height: "1px",
-                        width: "100%",
-                      }}
-                      className="bg-primary"
-                    />
-                  ) : null}
-                </Fragment>
-              );
-            })
-          : null} */}
       </div>
     </div>
   );

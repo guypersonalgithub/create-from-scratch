@@ -13,6 +13,7 @@ type EdgeIntersectionProps = {
     x?: number;
     y?: number;
   };
+  edgeIntersectionStyle?: CSSProperties;
 };
 
 const sideIntersections: Record<
@@ -70,10 +71,11 @@ const intersections: {
 export const EdgeIntersection = ({
   id,
   className,
-  style,
+  style = {},
   children,
   intersectionRefs,
   offset,
+  edgeIntersectionStyle = {},
 }: EdgeIntersectionProps) => {
   const edgeIntersections: typeof intersections = [
     ...intersections,
@@ -124,6 +126,7 @@ export const EdgeIntersection = ({
                 // border: position.includes("custom") ? "1px solid blue" : "1px solid green",
                 top,
                 left,
+                ...edgeIntersectionStyle,
               }}
             />
           );

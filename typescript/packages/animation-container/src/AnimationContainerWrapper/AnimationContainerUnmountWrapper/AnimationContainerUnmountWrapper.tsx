@@ -1,9 +1,10 @@
 import { ReactElement } from "react";
 import { AnimationContainerSingleUnmountWrapper } from "./AnimationContainerSingleUnmountWrapper";
 import { AnimationContainerMultiUnmountWrapper } from "./AnimationContainerMultiUnmountWrapper";
+import { ChangeMethod } from "../types";
 
 type AnimationContainerUnmountWrapperProps = {
-  changeMethod: "gradual" | "fullPhase";
+  changeMethod: ChangeMethod;
   children: ReactElement | ReactElement[];
 };
 

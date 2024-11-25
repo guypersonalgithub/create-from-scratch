@@ -1,0 +1,1 @@
+- Create a script that maps all internal packages' names and external packages' names, and informs if there are conflicts between internal and external (npm doesn't handle that well).

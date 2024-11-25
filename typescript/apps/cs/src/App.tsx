@@ -14,6 +14,7 @@ import { CompositionOfFunctions } from "./routes/math/CompositionOfFunctions";
 import { IntermediateValueTheorem } from "./routes/math/calculus/continuity/IntermediateValueTheorem";
 import { LimitsOfQuotients } from "./routes/math/calculus/limit/LimitsOfQuotients";
 import { LimitsThatAreInfinite } from "./routes/math/calculus/limit/LimitsThatAreInfinite";
+import { Derivative } from "./routes/math/calculus/derivative/Derivative";
 
 const searchableRoutes = [
   {
@@ -59,6 +60,10 @@ const searchableRoutes = [
   {
     label: "Limits that are infinite",
     value: "/math/calculus/limit/limits-that-are-infinite",
+  },
+  {
+    label: "Derivative",
+    value: "/math/calculus/derivative",
   },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
@@ -107,6 +112,9 @@ const App = () => {
                   "/continuity": {
                     "/": <Continuity />,
                     "/intermediate-value-theorem": <IntermediateValueTheorem />,
+                  },
+                  "/derivative": {
+                    "/": <Derivative />,
                   },
                 },
                 "/floor-function": <FloorFunction />,

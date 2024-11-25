@@ -24,7 +24,7 @@ COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/pack
 COPY ./packages/hooks/package.json ./packages/hooks/package.json
 COPY ./packages/mathml/package.json ./packages/mathml/package.json
 COPY ./packages/math-parser/package.json ./packages/math-parser/package.json
-COPY ./packages/canvas-math-graphs/package.json ./packages/canvas-math-graphs/package.json
+COPY ./packages/canvas-math-graph/package.json ./packages/canvas-math-graph/package.json
 
 
 
@@ -58,7 +58,7 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
-COPY ./packages/canvas-math-graphs ./packages/canvas-math-graphs
+COPY ./packages/canvas-math-graph ./packages/canvas-math-graph
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "dev"]
 
@@ -94,7 +94,7 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
-COPY ./packages/canvas-math-graphs ./packages/canvas-math-graphs
+COPY ./packages/canvas-math-graph ./packages/canvas-math-graph
 COPY ./packages/cypress ./packages/cypress
 CMD ["npm", "run", "build"]
 
@@ -130,6 +130,6 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
-COPY ./packages/canvas-math-graphs ./packages/canvas-math-graphs
+COPY ./packages/canvas-math-graph ./packages/canvas-math-graph
 COPY ./packages/cypress ./packages/cypress
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

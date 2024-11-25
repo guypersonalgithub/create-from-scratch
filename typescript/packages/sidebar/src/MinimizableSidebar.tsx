@@ -34,7 +34,6 @@ export const MinimizableSidebar = ({
 
   return (
     <AnimationContainerWrapper
-      changeMethod="fullPhase"
       animation={
         isOpen
           ? [{ width: `${closedWidth}px` }, { width: `${openedWidth}px` }]

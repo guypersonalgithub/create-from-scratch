@@ -147,7 +147,6 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
 
   return (
     <AnimationContainerWrapper
-      changeMethod="fullPhase"
       animation={animation}
       animationOptions={{ duration: 300, easing: "ease-out" }}
       style={{

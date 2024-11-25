@@ -4,6 +4,8 @@ export interface CSSPropertiesWithIndex extends CSSProperties {
   [key: string]: string | number | undefined;
 }
 
+export type ChangeMethod = "gradual" | "fullPhase";
+
 export type AnimationContainerWrapperProps = {
   children: ReactElement[] | ReactElement;
   clearLifeCycleAnimationOnExitRef: MutableRefObject<(() => void)[]>;
@@ -24,21 +26,25 @@ export type AnimationContainerWrapperProps = {
 type WithMount = {
   onMount?: Keyframe[];
   mountOptions?: KeyframeAnimationOptions;
+  changeMethod?: ChangeMethod;
 };
 
 type WithoutMount = {
   onMount?: never;
   mountOptions?: never;
+  changeMethod?: never;
 };
 
 type WithUnmount = {
   onUnmount?: Keyframe[];
   unmountOptions?: KeyframeAnimationOptions;
+  changeMethod?: ChangeMethod;
 };
 
 type WithoutUnmount = {
   onUnmount?: never;
   unmountOptions?: never;
+  changeMethod?: never;
 };
 
 type WithAnimation = {

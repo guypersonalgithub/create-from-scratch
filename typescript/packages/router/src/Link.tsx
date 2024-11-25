@@ -2,12 +2,46 @@ import { CSSProperties, ReactNode } from "react";
 import { usePath } from "./usePath";
 
 type LinkProps = {
-  pathname: string;
   children: ReactNode;
   style?: CSSProperties;
 };
 
-export const Link = ({ pathname, children, style }: LinkProps) => {
+type InternalLinkProps = LinkProps & {
+  pathname: string;
+  href?: never;
+};
+
+type ExternalLinkProps = LinkProps & {
+  pathname?: never;
+  href: string;
+};
+
+export const Link = ({
+  pathname,
+  href,
+  children,
+  style,
+}: InternalLinkProps | ExternalLinkProps) => {
+  if (pathname) {
+    return (
+      <InternalLink pathname={pathname} style={style}>
+        {children}
+      </InternalLink>
+    );
+  }
+
+  if (href) {
+    return (
+      <ExternalLink href={href} style={style}>
+        {children}
+      </ExternalLink>
+    );
+  }
+
+  return null;
+};
+
+const InternalLink = ({ pathname, children, style }: InternalLinkProps) => {
   const { moveTo } = usePath();
 
   return (
@@ -20,6 +54,14 @@ export const Link = ({ pathname, children, style }: LinkProps) => {
       }}
       style={style}
     >
+      {children}
+    </a>
+  );
+};
+
+const ExternalLink = ({ href, children, style }: ExternalLinkProps) => {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" style={style}>
       {children}
     </a>
   );

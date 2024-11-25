@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { CSSPropertiesWithIndex } from "./types";
 import { convertStringFormat } from "@packages/utils";
+import { IS_ANIMATION_CONTAINER_WRAPPER } from "./AnimationContainerWrapper";
 
 type ReverseKeyframesArgs = {
   keyframes: Keyframe[];
@@ -116,13 +117,19 @@ export function isComponentType(type: any): type is React.ComponentType<any> {
   return typeof type === "function";
 }
 
+function isAnimationContainerWrapperComponent(
+  component: unknown,
+): component is { [IS_ANIMATION_CONTAINER_WRAPPER]: true } {
+  return typeof component === "function" && IS_ANIMATION_CONTAINER_WRAPPER in component;
+}
+
 type isAnimationWrapperChildArgs = {
   child: ReactElement;
 };
 
 export const isAnimationWrapperChild = ({ child }: isAnimationWrapperChildArgs) => {
   const isAnimation = isComponentType(child.type)
-    ? child.type.name === "AnimationContainerWrapper"
+    ? child.type && isAnimationContainerWrapperComponent(child.type)
     : false;
 
   return isAnimation;

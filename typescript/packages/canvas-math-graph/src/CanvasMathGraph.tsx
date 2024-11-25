@@ -2,12 +2,12 @@ import { useEffect, useRef } from 'react';
 import './styles.css';
 import { Graph } from './graph';
 
-type CanvasMathGraphsProps = {
+type CanvasMathGraphProps = {
     height: number;
     width: number;
 }
 
-export const CanvasMathGraphs = ({ height, width }: CanvasMathGraphsProps) => {
+export const CanvasMathGraph = ({ height, width }: CanvasMathGraphProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasUpperLayerRef = useRef<HTMLCanvasElement>(null); // The idea behind a second layer is for the sake of animation optimization.
     const contextRef = useRef<CanvasRenderingContext2D | null>(null);

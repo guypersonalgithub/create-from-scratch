@@ -1,1 +1,2 @@
 - Create a mechanism that would differentiate between workspaces/packages, so that with eslint we'd easily be able to dictate if an imported workspace/package can be used in the current workspace/package - this would enforce easier that we shouldn't be using a certain package that belongs for example to the backend in the frontend environment.
+- Create a mechanism that detects circular dependencies between local packages.

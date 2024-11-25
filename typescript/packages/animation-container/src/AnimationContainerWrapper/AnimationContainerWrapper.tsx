@@ -7,14 +7,12 @@ import { UnmountContext } from "./AnimationContainerUnmountWrapper/unmountContex
 
 export const AnimationContainerWrapper = ({
   children,
-  changeMethod,
+  changeMethod = "fullPhase",
   ...rest
 }: Omit<
   AnimationContainerWrapperProps,
   "clearLifeCycleAnimationOnExitRef" | "clearAnimationOnExitRef"
-> & {
-  changeMethod: "gradual" | "fullPhase";
-}) => {
+>) => {
   const wrapper = useContext(UnmountContext);
   const clearLifeCycleAnimationOnExitRef = useRef<(() => void)[]>([]);
   const clearAnimationOnExitRef = useRef<(() => void)[]>([]);
@@ -68,3 +66,10 @@ export const AnimationContainerWrapper = ({
     </MultiChildrenContainerWrapper>
   );
 };
+
+// This is required for the identification of the component under AnimationContainerUnmountWrapper - in production using naming by detection is inconsistent due to optimizers that shorten variable names.
+// Its also possible to use AnimationContainerWrapper.displayName = "AnimationContainerWrapper" instead of the current approach if desired to do so.
+
+export const IS_ANIMATION_CONTAINER_WRAPPER = Symbol("isAnimationContainerWrapper");
+
+AnimationContainerWrapper[IS_ANIMATION_CONTAINER_WRAPPER] = true;

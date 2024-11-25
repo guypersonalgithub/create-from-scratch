@@ -138,7 +138,7 @@ const TooltipBody = ({
     }
 
     const refKey = (
-      offset?.x ?? offset?.y ? `custom${capitalizeFirstChar({ str: side })}` : side
+      (offset?.x ?? offset?.y) ? `custom${capitalizeFirstChar({ str: side })}` : side
     ) as Edges | CustomEdges;
 
     const updateStyle = () => {

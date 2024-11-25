@@ -24,7 +24,7 @@
     "@packages/collapsible": "*",
     "@packages/copy-to-clipboard": "*",
     "@packages/mathml": "*",
-    "@packages/canvas-math-graphs": "*"
+    "@packages/canvas-math-graph": "*"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
