@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from "react";
 import { parseURLQueryParams } from "./utils";
 
 type UseQueryParamsStateArgs = {
-  specificParams?: string[];
+  specificParams: string[];
 };
 
-export const useQueryParamsState = (args?: UseQueryParamsStateArgs) => {
-  const { specificParams = [] } = args ?? {};
-
+export const useQueryParamsState = (
+  { specificParams }: UseQueryParamsStateArgs = { specificParams: [] },
+) => {
   const getQueryParamValues = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
 

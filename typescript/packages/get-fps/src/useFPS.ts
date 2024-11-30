@@ -2,14 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { calculateAverageFPS, calculateMaxFPS } from "./utils";
 
 type UseFPSArgs = {
-  numberOfRecordsLimit?: number;
+  numberOfRecordsLimit: number;
 };
 
 const second = 1000;
 
-export const useFPS = (args?: UseFPSArgs) => {
-  const { numberOfRecordsLimit = 60 } = args || {};
-
+export const useFPS = ({ numberOfRecordsLimit }: UseFPSArgs = { numberOfRecordsLimit: 60 }) => {
   const [FPS, setFps] = useState<number>(0);
   const lastFPSValues = useRef<number[]>([]);
   const frames = useRef(0);
@@ -26,13 +24,8 @@ export const useFPS = (args?: UseFPSArgs) => {
       const didAtleastOneSecondPass = timeDifference > second;
 
       if (didAtleastOneSecondPass) {
-        const currentFPS = Math.round(
-          (frames.current * second) / timeDifference
-        );
-        allTimeHighMaxFPS.current = Math.max(
-          allTimeHighMaxFPS.current,
-          currentFPS
-        );
+        const currentFPS = Math.round((frames.current * second) / timeDifference);
+        allTimeHighMaxFPS.current = Math.max(allTimeHighMaxFPS.current, currentFPS);
         lastFPSValues.current.push(currentFPS);
 
         if (timeDifference > second * 1.5) {
@@ -42,12 +35,9 @@ export const useFPS = (args?: UseFPSArgs) => {
         }
 
         const amountOfRecordedFPSValues = lastFPSValues.current.length;
-        const amountOfRecordsAboveLimit =
-          amountOfRecordedFPSValues - numberOfRecordsLimit;
+        const amountOfRecordsAboveLimit = amountOfRecordedFPSValues - numberOfRecordsLimit;
         if (amountOfRecordsAboveLimit > 0) {
-          lastFPSValues.current = lastFPSValues.current.slice(
-            amountOfRecordsAboveLimit
-          );
+          lastFPSValues.current = lastFPSValues.current.slice(amountOfRecordsAboveLimit);
         }
 
         setFps(currentFPS);

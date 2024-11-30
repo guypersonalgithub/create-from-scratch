@@ -37,6 +37,9 @@ export const Calculus = () => {
         <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
           Continuity
         </Link>
+        <Link pathname="/math/calculus/derivative" style={{ color: "#5662F6" }}>
+          Derivative
+        </Link>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ type UniqueFunctionFlowArgs = {
   input: string;
   currentIndex: number;
   isWithinParenthesis?: boolean;
+  isAnExpression?: boolean;
 };
 
 const maximumUniqueFunctionLength = 6;
@@ -19,6 +20,7 @@ export const uniqueFunctionFlow = ({
   input,
   currentIndex,
   isWithinParenthesis,
+  isAnExpression,
 }: UniqueFunctionFlowArgs) => {
   const tokens: BaseToken[] = [];
   let value: string = "";
@@ -62,6 +64,7 @@ export const uniqueFunctionFlow = ({
         followingChar,
         currentIndex,
         isWithinParenthesis,
+        isAnExpression,
       });
     }
   }
@@ -93,16 +96,18 @@ type IsValidFollowingTokenArgs = {
   followingChar: string;
   currentIndex: number;
   isWithinParenthesis?: boolean;
+  isAnExpression?: boolean;
 };
 
 const isValidFollowingToken = ({
   followingChar,
   currentIndex,
   isWithinParenthesis,
+  isAnExpression,
 }: IsValidFollowingTokenArgs) => {
   if (!isWithinParenthesis && followingChar === ")") {
     throw new Error(`Encountered an unexpected closing parenthesis on index ${currentIndex}`);
   }
 
-  isValidSectionStartingCharacter({ input: followingChar, currentIndex });
+  isValidSectionStartingCharacter({ input: followingChar, currentIndex, isAnExpression });
 };

@@ -6,13 +6,12 @@ import { addNewImport, extractExportDefault, generateObjectProperties } from "@p
 import { formatCodeWithESLint } from "@packages/eslint";
 
 type UpdateViteConfigLocalDependenciesAliasesArgs = {
-  folders?: string[];
+  folders: string[];
 };
 
 export const updateViteConfigLocalDependenciesAliases = async (
-  args?: UpdateViteConfigLocalDependenciesAliasesArgs,
+  { folders }: UpdateViteConfigLocalDependenciesAliasesArgs = { folders: ["apps"] },
 ) => {
-  const { folders = ["apps"] } = args ?? {};
   const projectAbsolutePath = getProjectAbsolutePath();
 
   for await (const folder of folders) {

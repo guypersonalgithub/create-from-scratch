@@ -5,7 +5,7 @@ export const LimitsOfQuotients = () => {
   return (
     <div>
       <h3>Limits of quotients</h3>
-      <div style={{ display: "flex", gap: "3px" }}>
+      <div style={{ display: "flex", gap: "3px", flexWrap: "wrap" }}>
         <div>On the</div>
         <Link pathname="/math/calculus/limit/laws">Limits laws</Link>
         <div>
@@ -34,7 +34,7 @@ export const LimitsOfQuotients = () => {
       <h4>If the limits of both the denominator and numerator are equal to zero:</h4>
       <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
         <div>We can take for example the following quotient:</div>
-        <MathML input="lim(x→0)2x/x" format="HTML" />
+        <MathML input="lim(x→0)2x/x" />
         <div>
           Since we are looking at it from a limits perspective, x = 0 doesn't matter, and in any
           other case, the denominator and the numerator would not be exactly equal to zero, and
@@ -46,26 +46,23 @@ export const LimitsOfQuotients = () => {
         </div>
       </div>
       <h5>Let's take an example:</h5>
-      <MathML input="lim(x→1)(x^2+2x-3)/(x^2-3x+2)" format="HTML" />
+      <MathML input="lim(x→1)(x^2+2x-3)/(x^2-3x+2)" />
       <div>
         Both denominator and numerators' limits are equal to 0. Since both of them are polynomials,
         most of the time we will have to do factorization.
       </div>
-      <MathML input="lim(x→1)((x-1)(x+3))/((x-1)(x-2))" format="HTML" />
+      <MathML input="lim(x→1)((x-1)(x+3))/((x-1)(x-2))" />
       <div>Since both have a common factor, we can remove it:</div>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <MathML input="lim(x→1)((x+3))/((x-2))" format="HTML" />
-        <div>= -4</div>
-      </div>
+      <MathML input="lim(x→1)((x+3))/((x-2)) = -4" isAnExpression />
       <h5>And another one:</h5>
-      <MathML input="lim(x→-1)(x+1)/(x+1/x+2)" format="HTML" />
+      <MathML input="lim(x→-1)(x+1)/(x+1/x+2)" />
       <div>
         Both denominator and numerators' limits are equal to 0. We need to slightly adjust both of
         them to be able to factor them with ease by multilying both the bottom and the top with x.
       </div>
-      <MathML input="lim(x→-1)(x^2+x)/(x^2+1+2x)" format="HTML" />
+      <MathML input="lim(x→-1)(x^2+x)/(x^2+1+2x)" />
       <div>And then factor it:</div>
-      <MathML input="lim(x→-1)(x(x+1))/((x+1)^2)" format="HTML" />
+      <MathML input="lim(x→-1)(x(x+1))/((x+1)^2)" />
       <div>
         Since the top's limit is -1 and the bottom 0, we can deduce from that, that the limit to a
         fixed number doesn't exist.

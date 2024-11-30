@@ -8,10 +8,10 @@ export const LimitLaws = () => {
       <h4>Addition between limits:</h4>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <div>Let's assume that we have two functions with defined limits on value a:</div>
-        <MathML input="lim(x→a)f(x)" format="HTML" />
-        <div>= 4, and</div>
-        <MathML input="lim(x→a)g(x)" format="HTML" />
-        <div>= 7.</div>
+        <MathML input="lim(x→a)f(x) = 4" isAnExpression />
+        <div>, and</div>
+        <MathML input="lim(x→a)g(x) = 7" isAnExpression />
+        <div>.</div>
         <div>
           Calculating the sum of both functions' limits is very simple, and it is equivalent to a
           simple addition, assuming they approach the same value.
@@ -22,31 +22,31 @@ export const LimitLaws = () => {
           like normal.
         </div>
         <div>That would mean that: </div>
-        <MathML input="lim(x→a)f(x)+g(x)" format="HTML" />
-        <div>= 11.</div>
+        <MathML input="lim(x→a)f(x)+g(x) = 11" isAnExpression />
+        <div>.</div>
       </div>
       <h4>Substraction between limits:</h4>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <div>
           Similarly to addition, substraction works the same. That's why, the substraction between
         </div>
-        <MathML input="lim(x→a)f(x)" format="HTML" />
+        <MathML input="lim(x→a)f(x)" />
         <div>and</div>
-        <MathML input="lim(x→a)g(x)" format="HTML" />
+        <MathML input="lim(x→a)g(x)" />
         <div>is:</div>
-        <MathML input="lim(x→a)f(x)-g(x)" format="HTML" />
-        <div>= -3 as one would expect.</div>
+        <MathML input="lim(x→a)f(x)-g(x) = -3" isAnExpression />
+        <div>as one would expect.</div>
       </div>
       <h4>Multiplication between limits:</h4>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <div>Once again, similarly to the previous examples, multiplication works the same.</div>
         <div>The multiplication between</div>
-        <MathML input="lim(x→a)f(x)" format="HTML" />
+        <MathML input="lim(x→a)f(x)" />
         <div>and</div>
-        <MathML input="lim(x→a)g(x)" format="HTML" />
+        <MathML input="lim(x→a)g(x)" />
         <div>is:</div>
-        <MathML input="lim(x→a)f(x)*g(x)" format="HTML" />
-        <div>= 28.</div>
+        <MathML input="lim(x→a)f(x)*g(x) = 28" isAnExpression />
+        <div>.</div>
       </div>
       <h4>Division between limits:</h4>
       <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
@@ -54,9 +54,9 @@ export const LimitLaws = () => {
           Unlike the previous rules, division between limits is a bit different. If, for instance,
           we would like to divide between
         </div>
-        <MathML input="lim(x→a)f(x)" format="HTML" />
+        <MathML input="lim(x→a)f(x)" />
         <div>and</div>
-        <MathML input="lim(x→a)g(x)" format="HTML" />
+        <MathML input="lim(x→a)g(x)" />
         <div>
           , we have to make sure that the limit of g(x) isn't 0 when x approaches a, as if that
           happens, the division between limits behaves differently.
@@ -65,13 +65,11 @@ export const LimitLaws = () => {
           However, when the denominator isn't equal to 0, a division between limits works just like
           one would expect. For example, the division between
         </div>
-        <MathML input="lim(x→a)f(x)" format="HTML" />
+        <MathML input="lim(x→a)f(x)" />
         <div>and</div>
-        <MathML input="lim(x→a)g(x)" format="HTML" />
+        <MathML input="lim(x→a)g(x)" />
         <div>is:</div>
-        <MathML input="lim(x→a)(f(x))/(g(x))" format="HTML" />
-        <div>=</div>
-        <MathML input="4/7" format="HTML" />
+        <MathML input="lim(x→a)(f(x))/(g(x)) = 4/7" isAnExpression />
         <div>.</div>
         <div style={{ display: "flex", gap: "3px" }}>
           <div>For division between limits where the denominator is equal to 0, head to the</div>
@@ -91,12 +89,12 @@ export const LimitLaws = () => {
         everywhere:
       </div>
       <div style={{ display: "flex", gap: "3px" }}>
-        <MathML input="f(x)" format="HTML" />
-        <div>= 4, and</div>
-        <MathML input="g(x)" format="HTML" />
-        <div>= 7, then</div>
-        <MathML input="f(x)+g(x)" format="HTML" />
-        <div>= 11.</div>
+        <MathML input="f(x) = 4" isAnExpression />
+        <div>, and</div>
+        <MathML input="g(x) = 7" isAnExpression />
+        <div>, then</div>
+        <MathML input="f(x)+g(x) = 11" isAnExpression />
+        <div>.</div>
       </div>
       <div>
         Keep in mind, that the values may change, depending on the value of x, as the functions
@@ -108,12 +106,12 @@ export const LimitLaws = () => {
         functions that are continuous everywhere, is also <b>continuous everywhere</b>:
       </div>
       <div style={{ display: "flex", gap: "3px" }}>
-        <MathML input="f(x)" format="HTML" />
-        <div>= 4, and</div>
-        <MathML input="g(x)" format="HTML" />
-        <div>= 7, then</div>
-        <MathML input="f(x)-g(x)" format="HTML" />
-        <div>= -3.</div>
+        <MathML input="f(x) = 4" isAnExpression />
+        <div>, and</div>
+        <MathML input="g(x) = 7" isAnExpression />
+        <div>, then</div>
+        <MathML input="f(x)-g(x) = -3" isAnExpression />
+        <div>.</div>
       </div>
       <h4>Multiplication between continuous functions:</h4>
       <div>
@@ -121,12 +119,12 @@ export const LimitLaws = () => {
         continuous everywhere is also <b>continous everywhere</b>:
       </div>
       <div style={{ display: "flex", gap: "3px" }}>
-        <MathML input="f(x)" format="HTML" />
-        <div>= 4, and</div>
-        <MathML input="g(x)" format="HTML" />
-        <div>= 7, then</div>
-        <MathML input="f(x)*g(x)" format="HTML" />
-        <div>= 28.</div>
+        <MathML input="f(x) = 4" isAnExpression />
+        <div>, and</div>
+        <MathML input="g(x) = 7" isAnExpression />
+        <div>, then</div>
+        <MathML input="f(x)*g(x) = 28" isAnExpression />
+        <div>.</div>
       </div>
       <h4>Division between continuous functions:</h4>
       <div>
@@ -134,13 +132,12 @@ export const LimitLaws = () => {
         between two functions that are continuous everywhere is continuous <b>where its defined</b>:
       </div>
       <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
-        <MathML input="f(x)" format="HTML" />
-        <div>= 4, and</div>
-        <MathML input="g(x)" format="HTML" />
-        <div>= 7, then</div>
-        <MathML input="(f(x))/(g(x))" format="HTML" />
-        <div>=</div>
-        <MathML input="4/7" format="HTML" />
+        <MathML input="f(x) = 4" isAnExpression />
+        <div>, and</div>
+        <MathML input="g(x) = 7" isAnExpression />
+        <div>, then</div>
+        <MathML input="(f(x))/(g(x)) = 4/7" isAnExpression />
+        <div>.</div>
       </div>
       <h4>
         In functions created out of{" "}
@@ -157,20 +154,21 @@ export const LimitLaws = () => {
         The sum of functions that have discontinuity won't necessarily have a discontinuity aswell:
       </h4>
       <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
-        <div>For instance: f(x) = </div>
-        <MathML input="1/x" format="HTML" />
-        <div>and g(x) = </div>
-        <MathML input="-1/x" format="HTML" />
-        <div>
-          which means that both have a discontinuity at x = 0, yet h(x) = f(x) + g(x) would be 0
-          which is continuous.
+        <div>For instance:</div>
+        <MathML input="f(x) = 1/x" isAnExpression />
+        <div>and</div>
+        <MathML input="g(x) = -1/x" isAnExpression />
+        <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+          <div>which means that both have a discontinuity at x = 0, yet</div>
+          <MathML input="h(x) = f(x) + g(x)" isAnExpression />
+          <div>would be 0 which is continuous.</div>
         </div>
       </div>
       <div style={{ display: "flex", gap: "3px", alignContent: "center", flexWrap: "wrap" }}>
         <div>For example we can tell that the following function:</div>
-        <MathML input="sin(x^2+1)" format="HTML" />
+        <MathML input="sin(x^2+1)" />
         <div>is continuous everywhere, becaues both sin and</div>
-        <MathML input="x^2 + 1" format="HTML" />
+        <MathML input="x^2 + 1" />
         <div>are continuous everywhere.</div>
       </div>
       <div style={{ display: "flex", gap: "5px" }}>

@@ -7,9 +7,15 @@ type AbsoluteFlowArgs = {
   input: string;
   currentIndex: number;
   isWithinLimit?: boolean;
+  isAnExpression?: boolean;
 };
 
-export const absoluteFlow = ({ input, currentIndex, isWithinLimit }: AbsoluteFlowArgs) => {
+export const absoluteFlow = ({
+  input,
+  currentIndex,
+  isWithinLimit,
+  isAnExpression,
+}: AbsoluteFlowArgs) => {
   const innerTokens: BaseToken[] = [
     {
       type: TokenTypes.UNIQUE_TOKEN,
@@ -24,7 +30,7 @@ export const absoluteFlow = ({ input, currentIndex, isWithinLimit }: AbsoluteFlo
     currentIndex += skippedIndexes;
     duplicatedInput = duplicatedInput.slice(skippedIndexes);
   }
-  isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex });
+  isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex, isAnExpression });
   let currentChar = duplicatedInput.charAt(0);
 
   while (duplicatedInput.length > 0 && currentChar !== "|") {
@@ -34,6 +40,7 @@ export const absoluteFlow = ({ input, currentIndex, isWithinLimit }: AbsoluteFlo
       currentIndex,
       isWithinParenthesis: true,
       isWithinLimit,
+      isAnExpression,
     });
 
     if (newInput === undefined || !updatedIndex) {

@@ -11,6 +11,9 @@ export default defineConfig({
       interval: 1000,
     },
   },
+  // build: {
+  //   sourcemap: true,
+  // },
   resolve: {
     alias: {
       "packages/shared-types": path.resolve(

@@ -21,7 +21,7 @@ export const IntermediateValueTheorem = () => {
       <h4>Using the IVT example:</h4>
       <div>Let's assume we have the following function:</div>
       <div style={{ display: "flex", gap: "5px" }}>
-        <MathML input="x^4 - x - 1" format="HTML" />
+        <MathML input="x^4 - x - 1" />
         <div>
           and we would like to know if it has any roots (i.e. when its equal to 0) without
           necessarily knowing their values.

@@ -12,9 +12,9 @@ const commandPerPackageManager: Record<SupportedPackageManagers, string> = {
 };
 
 export const getPackageManagerGlobalDependenciesFolder = (
-  args?: GetPackageManagerGlobalDependenciesFolderArgs,
+  { packageManager }: GetPackageManagerGlobalDependenciesFolderArgs = {
+    packageManager: detectRepositoryPackageManager().manager,
+  },
 ) => {
-  const { packageManager } = args ?? { packageManager: detectRepositoryPackageManager().manager };
-
   return commandPerPackageManager[packageManager] || commandPerPackageManager.npm;
 };

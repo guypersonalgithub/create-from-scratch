@@ -24,7 +24,7 @@ export const Limit = () => {
       <div>
         When the variable is approaching from the right, it is referred as a{" "}
         <b>right-handed limit</b>.<div>For example:</div>
-        <MathML input="lim(x→1+)sqrt(3 - 5x + x^2 + x^3)/(x - 1)" format="HTML" />
+        <MathML input="lim(x→1+)sqrt(3 - 5x + x^2 + x^3)/(x - 1)" isAnExpression />
         <div>
           We can tell that the function is undefined on x = 1, but that is irrelevant as mentioned
           earlier, as we only care about the values of x that are bigger than 1.
@@ -47,7 +47,7 @@ export const Limit = () => {
       <div>
         When the variable is approaching from the left, it is referred as a <b>left-handed limit</b>
         .<div>Let's take the same example from last time, and calculate its left-handed limit:</div>
-        <MathML input="lim(x→1-)sqrt(3 - 5x + x^2 + x^3)/(x - 1)" format="HTML" />
+        <MathML input="lim(x→1-)sqrt(3 - 5x + x^2 + x^3)/(x - 1)" isAnExpression />
         <CalculationsTable
           columns={["x", "fx"]}
           data={[
@@ -77,22 +77,14 @@ export const Limit = () => {
         function exists and it is equal to the value on both ends.
       </div>
       <div>In other words:</div>
-      <div style={{ display: "flex" }}>
-        <MathML input="lim(x→a+)f(x)" format="HTML" />
-        <div>=</div>
-        <MathML input="lim(x→a-)f(x)" format="HTML" />
-        <div>= L</div>
-      </div>
+      <MathML input="lim(x→a+)f(x) = lim(x→a-)f(x) = L" isAnExpression />
       <div>Then:</div>
-      <div style={{ display: "flex" }}>
-        <MathML input="lim(x→a)f(x)" format="HTML" />
-        <div>= L</div>
-      </div>
+      <MathML input="lim(x→a)f(x) = L" isAnExpression />
       <h5>Formal definition:</h5>
       <div style={{ display: "flex", gap: "1px" }}>
         For all ε{">"}0, there exists some δ{">"}0 such as if 0 {"<"}
-        <MathML input="|x - a|" format="HTML" />
-        {"<"}δ, then <MathML input="|f(x) - L|" format="HTML" />
+        <MathML input="|x - a|" />
+        {"<"}δ, then <MathML input="|f(x) - L|" />
         {"<"}ε.
       </div>
       <b>
@@ -123,6 +115,9 @@ export const Limit = () => {
         </Link>
         <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
           Continuity
+        </Link>
+        <Link pathname="/math/calculus/derivative" style={{ color: "#5662F6" }}>
+          Derivative
         </Link>
       </div>
     </div>

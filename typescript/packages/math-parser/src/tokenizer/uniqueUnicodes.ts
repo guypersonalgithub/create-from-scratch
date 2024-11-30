@@ -4,7 +4,11 @@ export const unicodes = {
     infinity: "\u221E",
     plusMinus: "±",
     leftFloor: "\u230A",
-    rightFloor: "\u230B"
+    rightFloor: "\u230B",
+    capitalDelta: "\u0394",
+    delta: "\u03B4",
+    lessThanEqual: "\u2264",
+    greaterThanEqual: "\u2265",
   },
   basic: {
     arrow: "&#x2192;",
@@ -12,4 +16,3 @@ export const unicodes = {
     plusMinus: "±",
   },
 };
-

@@ -69,6 +69,9 @@ services:
         source: ./packages/randomizer
         target: /usr/src/app/packages/randomizer
       - type: bind
+        source: ./packages/hooks
+        target: /usr/src/app/packages/hooks
+      - type: bind
         source: ./packages/sidebar
         target: /usr/src/app/packages/sidebar
       - type: bind
@@ -101,9 +104,6 @@ services:
       - type: bind
         source: ./packages/virtual-list
         target: /usr/src/app/packages/virtual-list
-      - type: bind
-        source: ./packages/hooks
-        target: /usr/src/app/packages/hooks
       - type: bind
         source: ./packages/table
         target: /usr/src/app/packages/table
@@ -229,9 +229,6 @@ services:
         source: ./packages/micro-frontends
         target: /usr/src/app/packages/micro-frontends
       - type: bind
-        source: ./packages/get-fps
-        target: /usr/src/app/packages/get-fps
-      - type: bind
         source: ./packages/table
         target: /usr/src/app/packages/table
       - type: bind
@@ -271,6 +268,9 @@ services:
         source: ./packages/design-patterns
         target: /usr/src/app/packages/design-patterns
       - type: bind
+        source: ./packages/hooks
+        target: /usr/src/app/packages/hooks
+      - type: bind
         source: ./packages/request
         target: /usr/src/app/packages/request
       - type: bind
@@ -279,9 +279,6 @@ services:
       - type: bind
         source: ./packages/copy-to-clipboard
         target: /usr/src/app/packages/copy-to-clipboard
-      - type: bind
-        source: ./packages/hooks
-        target: /usr/src/app/packages/hooks
       - type: bind
         source: ./packages/mathml
         target: /usr/src/app/packages/mathml
@@ -294,6 +291,9 @@ services:
       - type: bind
         source: ./packages/cypress
         target: /usr/src/app/packages/cypress
+      - type: bind
+        source: ./packages/get-fps
+        target: /usr/src/app/packages/get-fps
       - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts

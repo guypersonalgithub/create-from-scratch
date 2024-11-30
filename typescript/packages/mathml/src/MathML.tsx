@@ -6,28 +6,52 @@ import { parseTokens } from "./utils/parseTokens";
 
 type MathMLProps = {
   input: string;
-  format: "HTML" | "JSX";
+  format?: "HTML" | "JSX";
+  isAnExpression?: boolean;
   displayError?: boolean;
   consoleError?: boolean;
 };
 
-const getParsedTokens = ({ input }: Pick<MathMLProps, "input">) => {
-  const { tokens, errorMessage: tokenizerErrorMessage } = tokenizer({ input });
+const getParsedTokens = ({
+  input,
+  isAnExpression,
+}: Pick<MathMLProps, "input" | "isAnExpression">) => {
+  const { tokens, errorMessage: tokenizerErrorMessage } = tokenizer({ input, isAnExpression });
   const { parsedTokens, errorMessage } = parseTokens({ tokens });
   return { parsedTokens, errorMessage: errorMessage || tokenizerErrorMessage };
 };
 
-export const MathML = ({ input, format, displayError = true, consoleError }: MathMLProps) => {
+export const MathML = ({
+  input,
+  format = "HTML",
+  isAnExpression,
+  displayError = true,
+  consoleError,
+}: MathMLProps) => {
   if (format === "HTML") {
-    return <HTMLFormat input={input} displayError={displayError} consoleError={consoleError} />;
+    return (
+      <HTMLFormat
+        input={input}
+        isAnExpression={isAnExpression}
+        displayError={displayError}
+        consoleError={consoleError}
+      />
+    );
   }
 
-  return <JSXFormat input={input} displayError={displayError} consoleError={consoleError} />;
+  return (
+    <JSXFormat
+      input={input}
+      isAnExpression={isAnExpression}
+      displayError={displayError}
+      consoleError={consoleError}
+    />
+  );
 };
 
 type FormatProps = Omit<MathMLProps, "format">;
 
-const HTMLFormat = ({ input, displayError, consoleError }: FormatProps) => {
+const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: FormatProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | undefined>();
 
@@ -36,7 +60,7 @@ const HTMLFormat = ({ input, displayError, consoleError }: FormatProps) => {
       return;
     }
 
-    const { parsedTokens, errorMessage } = getParsedTokens({ input });
+    const { parsedTokens, errorMessage } = getParsedTokens({ input, isAnExpression });
     setError(errorMessage);
     if (errorMessage) {
       if (consoleError) {
@@ -57,8 +81,8 @@ const HTMLFormat = ({ input, displayError, consoleError }: FormatProps) => {
   );
 };
 
-const JSXFormat = ({ input, displayError, consoleError }: FormatProps) => {
-  const { parsedTokens, errorMessage } = getParsedTokens({ input });
+const JSXFormat = ({ input, isAnExpression, displayError, consoleError }: FormatProps) => {
+  const { parsedTokens, errorMessage } = getParsedTokens({ input, isAnExpression });
 
   if (errorMessage) {
     if (consoleError) {

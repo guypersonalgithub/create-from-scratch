@@ -5,7 +5,10 @@ type GetPackageManagerLinkCommandArgs = {
   packageManager: SupportedPackageManagers;
 };
 
-export const getPackageManagerLinkCommand = (args?: GetPackageManagerLinkCommandArgs) => {
-  const { packageManager } = args ?? { packageManager: detectRepositoryPackageManager().manager };
+export const getPackageManagerLinkCommand = (
+  { packageManager }: GetPackageManagerLinkCommandArgs = {
+    packageManager: detectRepositoryPackageManager().manager,
+  },
+) => {
   return `${packageManager} link`;
 };

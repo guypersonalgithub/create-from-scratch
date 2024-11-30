@@ -15,6 +15,9 @@ import { IntermediateValueTheorem } from "./routes/math/calculus/continuity/Inte
 import { LimitsOfQuotients } from "./routes/math/calculus/limit/LimitsOfQuotients";
 import { LimitsThatAreInfinite } from "./routes/math/calculus/limit/LimitsThatAreInfinite";
 import { Derivative } from "./routes/math/calculus/derivative/Derivative";
+import { GeometricDerivativeInterpretation } from "./routes/math/calculus/derivative/GeometricDerivativeInterpretation";
+import { TangentLine } from "./routes/math/TangentLine";
+import { SecantLine } from "./routes/math/SecantLine";
 
 const searchableRoutes = [
   {
@@ -64,6 +67,18 @@ const searchableRoutes = [
   {
     label: "Derivative",
     value: "/math/calculus/derivative",
+  },
+  {
+    label: "Geometric derivative interpretation",
+    value: "/math/calculus/derivative/geometric-derivative-interpretation",
+  },
+  {
+    label: "Tangent line",
+    value: "/math/tangent-line",
+  },
+  {
+    label: "Secant line",
+    value: "/math/secant-line",
   },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
@@ -115,10 +130,13 @@ const App = () => {
                   },
                   "/derivative": {
                     "/": <Derivative />,
+                    "/geometric-derivative-interpretation": <GeometricDerivativeInterpretation />,
                   },
                 },
                 "/floor-function": <FloorFunction />,
                 "/composition-of-functions": <CompositionOfFunctions />,
+                "/tangent-line": <TangentLine />,
+                "/secant-line": <SecantLine />,
               },
             }}
           />

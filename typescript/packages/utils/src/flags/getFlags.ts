@@ -4,9 +4,7 @@ type GetFlagsArgs = {
   singleKeyValue: boolean;
 };
 
-export const getFlags = (args?: GetFlagsArgs) => {
-  const { singleKeyValue } = args || {};
-
+export const getFlags = ({ singleKeyValue }: GetFlagsArgs = { singleKeyValue: false }) => {
   const { argv } = process;
   const flags = argv.slice(2);
 

@@ -1,6 +1,9 @@
+import { SpecificLocales } from "./types";
+import { getLocale } from "./utils";
+
 type FormatDateByLocaleArgs = {
   dateString: string;
-  locale?: string;
+  locale?: SpecificLocales;
   timeZone?: string;
   year?: "numeric" | "2-digit";
   month?: "numeric" | "2-digit" | "long" | "short" | "narrow";
@@ -25,7 +28,7 @@ export const formatDateByLocale = ({
 }: FormatDateByLocaleArgs) => {
   const date = new Date(dateString);
 
-  const userLocale = locale || Intl.DateTimeFormat().resolvedOptions().locale;
+  const userLocale = locale || getLocale();
   const userTimeZone = timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const options: Intl.DateTimeFormatOptions = {

@@ -19,6 +19,9 @@ export const Math = () => {
         <Link pathname="/math/floor-function" style={{ color: "#5662F6" }}>
           Floor function
         </Link>
+        <Link pathname="/math/tangent-line" style={{ color: "#5662F6" }}>
+          Tangent line
+        </Link>
       </div>
       <div>
         <h3>Helper unicodes:</h3>
@@ -31,7 +34,7 @@ export const Math = () => {
         </div>
       </div>
       <input type="string" value={input} onChange={(e) => setInput(e.target.value)} />
-      <MathML input={input} format="HTML" />
+      <MathML input={input} isAnExpression />
     </>
   );
 };

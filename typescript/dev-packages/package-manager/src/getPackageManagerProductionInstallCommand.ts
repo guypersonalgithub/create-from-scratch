@@ -12,9 +12,9 @@ const commandPerPackageManager: Record<SupportedPackageManagers, string> = {
 };
 
 export const getPackageManagerProductionInstallCommand = (
-  args?: GetPackageManagerProductionInstallCommandArgs,
+  { packageManager }: GetPackageManagerProductionInstallCommandArgs = {
+    packageManager: detectRepositoryPackageManager().manager,
+  },
 ) => {
-  const { packageManager } = args ?? { packageManager: detectRepositoryPackageManager().manager };
-
   return commandPerPackageManager[packageManager] || commandPerPackageManager.npm;
 };

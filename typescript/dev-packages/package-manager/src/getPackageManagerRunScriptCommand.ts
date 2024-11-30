@@ -11,8 +11,10 @@ const commandPerPackageManager: Record<SupportedPackageManagers, string> = {
   pnpm: "pnpm run",
 };
 
-export const getPackageManagerRunScriptCommand = (args?: GetPackageManagerRunScriptCommandArgs) => {
-  const { packageManager } = args ?? { packageManager: detectRepositoryPackageManager().manager };
-
+export const getPackageManagerRunScriptCommand = (
+  { packageManager }: GetPackageManagerRunScriptCommandArgs = {
+    packageManager: detectRepositoryPackageManager().manager,
+  },
+) => {
   return commandPerPackageManager[packageManager] || commandPerPackageManager.npm;
 };

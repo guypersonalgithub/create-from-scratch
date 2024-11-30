@@ -3,15 +3,16 @@ import { sharedState } from "./sharedState";
 import { RouterContext } from "./routerContext";
 
 type UseRouteParamsStateArgs = {
-  specificParams?: string[];
+  specificParams: string[];
 };
 
-export const useRouteParamsState = (args?: UseRouteParamsStateArgs) => {
+export const useRouteParamsState = (
+  { specificParams }: UseRouteParamsStateArgs = { specificParams: [] },
+) => {
   const withinRouter = useContext(RouterContext);
   if (!withinRouter) {
     throw new Error("Attempted to use useRouteParamsState on a level above a router.");
   }
-  const { specificParams = [] } = args ?? {};
 
   const getRequestedParams = useCallback(
     ({

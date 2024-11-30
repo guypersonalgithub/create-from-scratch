@@ -4,11 +4,17 @@ import { parenthesisFlow } from "./parenthesisFlow";
 import { BaseToken } from "../types";
 import { basicOperators } from "../uniqueTokens";
 import { basicOperatorFlow } from "./basicOperatorFlow";
-import { isCharacterLetter, isCharacterNumber } from "../utils";
+import { isCharacterLetter, isCharacterNumber, isValidLimit } from "../utils";
 import { powerFlow } from "./powerFlow";
 import { uniqueFunctionFlow } from "./uniqueFunctionFlow";
 import { logFlow } from "./logFlow";
 import { factorialFlow } from "./factorialFlow";
+import { deltaFlow } from "./deltaFlow";
+import { unicodes } from "../uniqueUnicodes";
+import { equalSignFlow } from "./equalSignFlow";
+import { limitFlow } from "./limitFlow";
+import { derivativeSignFlow } from "./derivativeSignFlow";
+import { inequalitySignsFlow } from "./inequalitySignsFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -17,6 +23,7 @@ type TokenizerFlowsArgs = {
   isWithinParenthesis?: boolean;
   isWithinLog?: boolean;
   isWithinLimit?: boolean;
+  isAnExpression?: boolean;
 };
 
 export const tokenizerFlows = ({
@@ -26,6 +33,7 @@ export const tokenizerFlows = ({
   isWithinParenthesis,
   isWithinLog,
   isWithinLimit,
+  isAnExpression,
 }: TokenizerFlowsArgs) => {
   const currentChar = input.charAt(0);
 
@@ -41,6 +49,7 @@ export const tokenizerFlows = ({
         isWithinParenthesis,
         isWithinLog,
         isWithinLimit,
+        isAnExpression,
       });
     },
     () => {
@@ -55,18 +64,48 @@ export const tokenizerFlows = ({
         return;
       }
 
-      return powerFlow({ input, currentIndex });
+      return powerFlow({ input, currentIndex, isAnExpression });
     },
     () => {
       if (currentChar !== "!") {
         return;
       }
 
-      return factorialFlow({
-        input,
-        currentIndex,
-        isWithinParenthesis,
-      });
+      return factorialFlow({ input, currentIndex, isWithinParenthesis });
+    },
+    () => {
+      if (!isAnExpression || currentChar !== unicodes.javascript.capitalDelta) {
+        return;
+      }
+
+      return deltaFlow({ input, currentIndex });
+    },
+    () => {
+      if (!isAnExpression || currentChar !== "=") {
+        return;
+      }
+
+      return equalSignFlow({ input, currentIndex });
+    },
+    () => {
+      if (!isAnExpression || currentChar !== "'") {
+        return;
+      }
+
+      return derivativeSignFlow({ tokens, input, currentIndex });
+    },
+    () => {
+      if (
+        !isAnExpression ||
+        (currentChar !== ">" &&
+          currentChar !== "<" &&
+          currentChar !== unicodes.javascript.lessThanEqual &&
+          currentChar !== unicodes.javascript.greaterThanEqual)
+      ) {
+        return;
+      }
+
+      return inequalitySignsFlow({ input, currentIndex });
     },
   ];
 
@@ -92,21 +131,28 @@ export const tokenizerFlows = ({
         return;
       }
 
-      return parenthesisFlow({ input, currentIndex, isWithinLog, isWithinLimit });
+      return parenthesisFlow({ input, currentIndex, isWithinLog, isWithinLimit, isAnExpression });
     },
     () => {
       if (currentChar !== "|") {
         return;
       }
 
-      return absoluteFlow({ input, currentIndex, isWithinLimit });
+      return absoluteFlow({ input, currentIndex, isWithinLimit, isAnExpression });
+    },
+    () => {
+      if (!isAnExpression || !isValidLimit({ input })) {
+        return;
+      }
+
+      return limitFlow({ input, currentIndex });
     },
     () => {
       if (!isCharacterLetter({ currentChar })) {
         return;
       }
 
-      return uniqueFunctionFlow({ input, currentIndex, isWithinParenthesis });
+      return uniqueFunctionFlow({ input, currentIndex, isWithinParenthesis, isAnExpression });
     },
   ];
 

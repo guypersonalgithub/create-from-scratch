@@ -5,7 +5,10 @@ type GetPackageManagerInstallCommandArgs = {
   packageManager: SupportedPackageManagers;
 };
 
-export const getPackageManagerInstallCommand = (args?: GetPackageManagerInstallCommandArgs) => {
-  const { packageManager } = args ?? { packageManager: detectRepositoryPackageManager().manager };
+export const getPackageManagerInstallCommand = (
+  { packageManager }: GetPackageManagerInstallCommandArgs = {
+    packageManager: detectRepositoryPackageManager().manager,
+  },
+) => {
   return `${packageManager} install`;
 };

@@ -8,6 +8,7 @@ type ParenthesisFlowArgs = {
   currentIndex: number;
   isWithinLog?: boolean;
   isWithinLimit?: boolean;
+  isAnExpression?: boolean;
 };
 
 export const parenthesisFlow = ({
@@ -15,6 +16,7 @@ export const parenthesisFlow = ({
   currentIndex,
   isWithinLog,
   isWithinLimit,
+  isAnExpression,
 }: ParenthesisFlowArgs) => {
   0.0;
   const innerTokens: BaseToken[] = [
@@ -34,7 +36,7 @@ export const parenthesisFlow = ({
     currentIndex += skippedIndexes;
     duplicatedInput = duplicatedInput.slice(skippedIndexes);
   }
-  isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex });
+  isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex, isAnExpression });
   let currentChar = duplicatedInput.charAt(0);
 
   while (duplicatedInput.length > 0 && currentChar !== ")") {
@@ -71,6 +73,7 @@ export const parenthesisFlow = ({
         isWithinParenthesis: true,
         isWithinLog,
         isWithinLimit,
+        isAnExpression,
       });
 
       if (newInput === undefined || !updatedIndex) {

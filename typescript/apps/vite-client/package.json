@@ -14,7 +14,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@packages/micro-frontends": "*",
-    "@packages/get-fps": "*",
     "@packages/table": "*",
     "@packages/tooltip": "*",
     "@packages/animation-container": "*",
@@ -32,6 +31,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.4.5",
     "vite": "^5.0.8",
-    "@packages/cypress": "*"
+    "@packages/cypress": "*",
+    "@packages/get-fps": "*"
   }
 }

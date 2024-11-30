@@ -1,12 +1,13 @@
 import { BaseToken } from "./types";
-import { getNextNonSpaceCharIndex, isValidSectionStartingCharacter } from "./utils";
+import { getNextNonSpaceCharIndex, isValidLimit, isValidSectionStartingCharacter } from "./utils";
 import { limitFlow, tokenizerFlows } from "./flows";
 
 type TokenizerArgs = {
   input: string;
+  isAnExpression?: boolean;
 };
 
-export const tokenizer = ({ input }: TokenizerArgs) => {
+export const tokenizer = ({ input, isAnExpression }: TokenizerArgs) => {
   let errorMessage: string | undefined;
 
   try {
@@ -21,13 +22,24 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
     }
 
     if (duplicatedInput.length > 0) {
-      isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex });
+      isValidSectionStartingCharacter({ input: duplicatedInput, currentIndex, isAnExpression });
     }
 
-    const { newInput, updatedIndex } = limitFlow({ tokens, input: duplicatedInput, currentIndex });
-    if (updatedIndex !== undefined) {
-      duplicatedInput = newInput;
-      currentIndex = updatedIndex;
+    while (
+      !isAnExpression &&
+      duplicatedInput.length > 0 &&
+      isValidLimit({ input: duplicatedInput })
+    ) {
+      const {
+        tokens: parsedTokens,
+        newInput,
+        updatedIndex,
+      } = limitFlow({ input: duplicatedInput, currentIndex });
+      if (updatedIndex !== undefined) {
+        tokens.push(...parsedTokens);
+        duplicatedInput = newInput;
+        currentIndex = updatedIndex;
+      }
     }
 
     if (tokens.length > 0 && duplicatedInput.length === 0) {
@@ -41,6 +53,7 @@ export const tokenizer = ({ input }: TokenizerArgs) => {
         tokens,
         input: duplicatedInput,
         currentIndex,
+        isAnExpression,
       });
 
       if (newInput !== undefined && updatedIndex !== undefined) {

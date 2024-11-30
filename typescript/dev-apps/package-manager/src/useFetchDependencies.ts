@@ -5,8 +5,9 @@ type UseFetchDependenciesArgs = {
   paginationValue: number;
 };
 
-export const useFetchDependencies = (args?: UseFetchDependenciesArgs) => {
-  const { paginationValue = 1 } = args ?? {};
+export const useFetchDependencies = (
+  { paginationValue }: UseFetchDependenciesArgs = { paginationValue: 1 },
+) => {
   const { data, isLoading, isError } = useMountRequestState({
     id: "dependencies",
     callback: ({ updateAdditionalRequests, requestData }) => {

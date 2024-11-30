@@ -17,6 +17,7 @@ on:
       - typescript/packages/environment/**
       - typescript/packages/design-patterns/**
       - typescript/packages/randomizer/**
+      - typescript/packages/hooks/**
       - typescript/packages/sidebar/**
       - typescript/packages/animation-container/**
       - typescript/packages/is-dev/**
@@ -28,7 +29,6 @@ on:
       - typescript/packages/input/**
       - typescript/packages/loading/**
       - typescript/packages/virtual-list/**
-      - typescript/packages/hooks/**
       - typescript/packages/table/**
       - typescript/packages/pagination/**
       - typescript/packages/copy-to-clipboard/**
@@ -66,6 +66,7 @@ jobs:
           cp -r ./packages/environment ./full-application/packages
           cp -r ./packages/design-patterns ./full-application/packages
           cp -r ./packages/randomizer ./full-application/packages
+          cp -r ./packages/hooks ./full-application/packages
           cp -r ./packages/sidebar ./full-application/packages
           cp -r ./packages/animation-container ./full-application/packages
           cp -r ./packages/is-dev ./full-application/packages
@@ -77,7 +78,6 @@ jobs:
           cp -r ./packages/input ./full-application/packages
           cp -r ./packages/loading ./full-application/packages
           cp -r ./packages/virtual-list ./full-application/packages
-          cp -r ./packages/hooks ./full-application/packages
           cp -r ./packages/table ./full-application/packages
           cp -r ./packages/pagination ./full-application/packages
           cp -r ./packages/copy-to-clipboard ./full-application/packages

@@ -11,8 +11,10 @@ type DetectAllRepositoryDependenciesArgs = {
   skipPackageJsonPaths?: boolean;
 };
 
-export const detectAllRepositoryDependencies = (args?: DetectAllRepositoryDependenciesArgs) => {
-  const { skipDependencies, skipPackageJsonPaths } = args ?? {};
+export const detectAllRepositoryDependencies = ({
+  skipDependencies,
+  skipPackageJsonPaths,
+}: DetectAllRepositoryDependenciesArgs = {}) => {
   const projectAbsolutePath = getProjectAbsolutePath();
   const config = getConfigFileData({ projectAbsolutePath });
   const {

@@ -9,11 +9,7 @@ export const Continuity = () => {
         A function can be called continuous at the point x equals to a if the <b>limit</b> of f(x)
         is equal to the same value of the value of f(x).
       </div>
-      <div style={{ display: "flex" }}>
-        <MathML input="lim(x→a)f(x)" format="HTML" />
-        <div>=</div>
-        <MathML input="f(a)" format="HTML" />
-      </div>
+      <MathML input="lim(x→a)f(x) = f(a)" isAnExpression />
       <div>
         If we know that a function is continuous when x equals a, we can just calculate f(a) instead
         of calculating the limit in order to know what the limit is.
@@ -24,22 +20,14 @@ export const Continuity = () => {
         A function that its limit from the right of a is equal to the value of the function when x
         equals a means that the function is right-continuous at a.
       </div>
-      <div style={{ display: "flex" }}>
-        <MathML input="lim(x→a+)f(x)" format="HTML" />
-        <div>=</div>
-        <MathML input="f(a)" format="HTML" />
-      </div>
+      <MathML input="lim(x→a+)f(x) = f(a)" isAnExpression />
       <h5>Left-contiuous function:</h5>
       <div>
         Similarly to the right-continuous explanation, a function that its limit fro mthe left of a
         is equal to the value of the function when x equals a means that the function is
         left-continuous at a.
       </div>
-      <div style={{ display: "flex" }}>
-        <MathML input="lim(x→a-)f(x)" format="HTML" />
-        <div>=</div>
-        <MathML input="f(a)" format="HTML" />
-      </div>
+      <MathML input="lim(x→a-)f(x) = f(a)" isAnExpression />
       <b>
         In order for a function to be treated as continuous overall, it needs to be both
         right-continuous and left-continuous at the point which x approaches.
@@ -87,19 +75,19 @@ export const Continuity = () => {
         <li>Polynomials - for example f(x) = 3x + 5.</li>
         <li>
           <div style={{ display: "flex", gap: "5px" }}>
-            <MathML input="a^x" format="HTML" />
+            <MathML input="a^x" />
             <div>when a {">"} 0.</div>
           </div>
         </li>
         <li>
           <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <MathML input="sqrt(x)" format="HTML" />
+            <MathML input="sqrt(x)" />
             <div>when x {">"} 0 or = 0.</div>
           </div>
         </li>
         <li>
           <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <MathML input="log(a,x)" format="HTML" />
+            <MathML input="log(a,x)" />
             <div>
               when x {">"} 0 and a {">"} 0.
             </div>

@@ -11,7 +11,7 @@ export const LimitsThatAreInfinite = () => {
         is that.
       </div>
       <div>For instance:</div>
-      <MathML input="lim(x→0+)1/x" format="HTML" />
+      <MathML input="lim(x→0+)1/x" />
       <div>
         We can tell the limit doesn't actually exist, but what actually happens to the function as x
         gets closer and closer to 0?

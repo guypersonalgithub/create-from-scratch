@@ -1,5 +1,7 @@
+import { unicodes } from "./uniqueUnicodes";
+
 export const basicOperators = new Set(["+", "-", "*", "/"]);
-export const nonConsecutiveOperators = new Set([...basicOperators, "^", "!", ")", "|", "="])
+export const nonConsecutiveOperators = new Set([...basicOperators, "^", "!", ")", "|", "="]);
 export const operators = new Set<string>(["+", "-", "*", "/", "^"]);
 export const uniqueTokens = new Set<string>([...operators, "(", ")", "=", "|", "!"]);
 export const trigonometricFunctions = new Set<string>([
@@ -32,4 +34,14 @@ export const hyperbolicFunctions = new Set<string>([
 ]);
 export const uniqueFunctions = new Set([...trigonometricFunctions, ...hyperbolicFunctions, "ln"]);
 export const uniqueWords = new Set([...uniqueFunctions, "sqrt", "log"]);
-export const nonStarterTokens = new Set(["+", "*", "/", "^", ")"]);
+export const nonStarterTokens = new Set([
+  "+",
+  "*",
+  "/",
+  "^",
+  ")",
+  ">",
+  "<",
+  unicodes.javascript.lessThanEqual,
+  unicodes.javascript.greaterThanEqual,
+]);

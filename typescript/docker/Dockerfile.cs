@@ -12,6 +12,7 @@ COPY ./packages/url/package.json ./packages/url/package.json
 COPY ./packages/environment/package.json ./packages/environment/package.json
 COPY ./packages/design-patterns/package.json ./packages/design-patterns/package.json
 COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
+COPY ./packages/hooks/package.json ./packages/hooks/package.json
 COPY ./packages/sidebar/package.json ./packages/sidebar/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
 COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
@@ -23,7 +24,6 @@ COPY ./packages/typeahead/package.json ./packages/typeahead/package.json
 COPY ./packages/input/package.json ./packages/input/package.json
 COPY ./packages/loading/package.json ./packages/loading/package.json
 COPY ./packages/virtual-list/package.json ./packages/virtual-list/package.json
-COPY ./packages/hooks/package.json ./packages/hooks/package.json
 COPY ./packages/table/package.json ./packages/table/package.json
 COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
@@ -48,6 +48,7 @@ COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/randomizer ./packages/randomizer
+COPY ./packages/hooks ./packages/hooks
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -59,7 +60,6 @@ COPY ./packages/typeahead ./packages/typeahead
 COPY ./packages/input ./packages/input
 COPY ./packages/loading ./packages/loading
 COPY ./packages/virtual-list ./packages/virtual-list
-COPY ./packages/hooks ./packages/hooks
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
@@ -85,6 +85,7 @@ COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/randomizer ./packages/randomizer
+COPY ./packages/hooks ./packages/hooks
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -96,7 +97,6 @@ COPY ./packages/typeahead ./packages/typeahead
 COPY ./packages/input ./packages/input
 COPY ./packages/loading ./packages/loading
 COPY ./packages/virtual-list ./packages/virtual-list
-COPY ./packages/hooks ./packages/hooks
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
@@ -122,6 +122,7 @@ COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/design-patterns ./packages/design-patterns
 COPY ./packages/randomizer ./packages/randomizer
+COPY ./packages/hooks ./packages/hooks
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -133,7 +134,6 @@ COPY ./packages/typeahead ./packages/typeahead
 COPY ./packages/input ./packages/input
 COPY ./packages/loading ./packages/loading
 COPY ./packages/virtual-list ./packages/virtual-list
-COPY ./packages/hooks ./packages/hooks
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
