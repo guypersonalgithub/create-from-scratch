@@ -7,3 +7,8 @@ export type SidebarLink = {
   pathname: string;
   queryParams?: QueryParams;
 };
+
+export type SidebarLinkGroup = {
+  category: string;
+  links: (SidebarLink | SidebarLinkGroup)[];
+};

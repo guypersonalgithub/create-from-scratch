@@ -159,7 +159,6 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
     >
       <Input
         style={{ width: "100%", textAlign: "center" }}
-        className="focus:outline-none"
         externalState={{
           value: filter,
           onChange: onInputChange,

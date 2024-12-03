@@ -27,6 +27,14 @@ export type LimitToken = {
     values: ParsedToken[][];
   };
 };
+export type RootToken = {
+  type: UniqueMathMLTokens;
+  value: {
+    base: ParsedToken[];
+    value: ParsedToken[];
+  };
+};
+
 export type ParsedToken =
   | BaseToken
   | TokenGroup
@@ -34,4 +42,5 @@ export type ParsedToken =
   | PowerToken
   | UniqueFunctionToken
   | LogToken
-  | LimitToken;
+  | LimitToken
+  | RootToken;

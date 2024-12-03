@@ -1,4 +1,4 @@
-import { CSSProperties, InputHTMLAttributes, ReactNode, useState } from "react";
+import { CSSProperties, InputHTMLAttributes, ReactNode, useEffect, useState } from "react";
 import { Spinner } from "@packages/loading";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -29,6 +29,10 @@ export const Input = ({
   const [isHovered, setIsHovered] = useState(false);
   const onFocusStyle: CSSProperties = isFocused && onFocusCSS ? onFocusCSS() : {};
   const onHoverStyle: CSSProperties = isHovered && onHoverCSS ? onHoverCSS() : {};
+
+  useEffect(() => {
+    setValue(rest.value as string);
+  }, [rest.value]);
 
   return (
     <div

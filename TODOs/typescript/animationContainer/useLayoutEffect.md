@@ -1,0 +1,1 @@
+- Check if useLayoutEffect is needed in more places.

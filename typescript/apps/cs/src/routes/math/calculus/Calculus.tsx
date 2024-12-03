@@ -1,4 +1,4 @@
-import { Link } from "@packages/router";
+import { StyledLink } from "../../../styledComponents/StyledLink";
 
 export const Calculus = () => {
   return (
@@ -31,15 +31,9 @@ export const Calculus = () => {
         The integral is the limit of the total area of the rectangles as the width tends to zero.
       </div>
       <div style={{ display: "flex", gap: "5px" }}>
-        <Link pathname="/math/calculus/limit" style={{ color: "#5662F6" }}>
-          Limit
-        </Link>
-        <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
-          Continuity
-        </Link>
-        <Link pathname="/math/calculus/derivative" style={{ color: "#5662F6" }}>
-          Derivative
-        </Link>
+        <StyledLink pathname="/math/calculus/limit">Limit</StyledLink>
+        <StyledLink pathname="/math/calculus/continuity">Continuity</StyledLink>
+        <StyledLink pathname="/math/calculus/derivative">Derivative</StyledLink>
       </div>
     </div>
   );

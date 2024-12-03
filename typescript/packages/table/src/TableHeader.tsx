@@ -33,7 +33,6 @@ export const TableHeader = ({
       style={{
         display: "flex",
         alignItems: "center",
-        height: "fit-content",
         textAlign: "left",
         flexGrow: staticColumn ? 0 : 1,
         whiteSpace: "nowrap",

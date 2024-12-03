@@ -1,6 +1,6 @@
 import { TokenTypes } from "@packages/math-parser";
 import { ParsedToken } from "../types";
-import { detectParenthesisTokens } from "./detectParenthesisOrAbsolute";
+import { detectParenthesisTokens } from "./detectContaineredTokens";
 import { UniqueMathMLTokens } from "../constants";
 import { uniqueFunctionWithPower } from "./uniqueFunctionWithPower";
 

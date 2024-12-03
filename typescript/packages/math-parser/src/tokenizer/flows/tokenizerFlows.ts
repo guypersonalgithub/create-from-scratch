@@ -15,6 +15,8 @@ import { equalSignFlow } from "./equalSignFlow";
 import { limitFlow } from "./limitFlow";
 import { derivativeSignFlow } from "./derivativeSignFlow";
 import { inequalitySignsFlow } from "./inequalitySignsFlow";
+import { rootFlow } from "./rootFlow";
+import { floorFlow } from "./floorFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -24,6 +26,7 @@ type TokenizerFlowsArgs = {
   isWithinLog?: boolean;
   isWithinLimit?: boolean;
   isAnExpression?: boolean;
+  isWithinRoot?: boolean;
 };
 
 export const tokenizerFlows = ({
@@ -34,6 +37,7 @@ export const tokenizerFlows = ({
   isWithinLog,
   isWithinLimit,
   isAnExpression,
+  isWithinRoot,
 }: TokenizerFlowsArgs) => {
   const currentChar = input.charAt(0);
 
@@ -50,6 +54,7 @@ export const tokenizerFlows = ({
         isWithinLog,
         isWithinLimit,
         isAnExpression,
+        isWithinRoot,
       });
     },
     () => {
@@ -57,7 +62,7 @@ export const tokenizerFlows = ({
         return;
       }
 
-      return basicOperatorFlow({ input, currentIndex, isWithinLimit });
+      return basicOperatorFlow({ input, currentIndex, isWithinLimit, isAnExpression });
     },
     () => {
       if (currentChar !== "^") {
@@ -131,7 +136,14 @@ export const tokenizerFlows = ({
         return;
       }
 
-      return parenthesisFlow({ input, currentIndex, isWithinLog, isWithinLimit, isAnExpression });
+      return parenthesisFlow({
+        input,
+        currentIndex,
+        isWithinLog,
+        isWithinLimit,
+        isAnExpression,
+        isWithinRoot,
+      });
     },
     () => {
       if (currentChar !== "|") {
@@ -166,17 +178,16 @@ export const tokenizerFlows = ({
     let { tokens: parsedTokens, newInput, updatedIndex } = response;
     tokens.push(...parsedTokens);
 
-    if (parsedTokens[0].value === "log") {
-      input = newInput;
-      currentIndex = updatedIndex;
+    const result = uniqueFunctionsFlows({ firstToken: parsedTokens[0], newInput, updatedIndex, isAnExpression });
+    if (result) {
       const {
         tokens: parsedTokens,
-        newInput: newLogInput,
-        updatedIndex: updatedLogIndex,
-      } = logFlow({ input, currentIndex });
+        newInput: updatedNewInput,
+        updatedIndex: updatedNewIndex,
+      } = result;
       tokens.push(...parsedTokens);
-      newInput = newLogInput;
-      updatedIndex = updatedLogIndex;
+      newInput = updatedNewInput;
+      updatedIndex = updatedNewIndex;
     }
 
     return {
@@ -186,4 +197,37 @@ export const tokenizerFlows = ({
   }
 
   return {};
+};
+
+type UniqueFunctionsFlowsArgs = {
+  firstToken: BaseToken;
+  newInput: string;
+  updatedIndex: number;
+  isAnExpression?: boolean;
+};
+
+const uniqueFunctionsFlows = ({ firstToken, newInput, updatedIndex, isAnExpression }: UniqueFunctionsFlowsArgs) => {
+  const firstTokenValue = firstToken.value;
+  if (!isAnExpression && firstTokenValue === "floor") {
+    return;
+  }
+
+  const callbacks: Record<
+    string,
+    (args: { input: string; currentIndex: number }) => {
+      tokens: BaseToken[];
+      newInput: string;
+      updatedIndex: number;
+    }
+  > = {
+    log: logFlow,
+    root: rootFlow,
+    floor: floorFlow,
+  };
+
+  if (!callbacks[firstTokenValue]) {
+    return;
+  }
+
+  return callbacks[firstTokenValue]({ input: newInput, currentIndex: updatedIndex });
 };

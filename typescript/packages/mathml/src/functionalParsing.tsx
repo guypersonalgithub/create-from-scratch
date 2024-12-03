@@ -5,6 +5,7 @@ import {
   LogToken,
   ParsedToken,
   PowerToken,
+  RootToken,
   TokenGroup,
 } from "./utils/parseTokens/types";
 import { UniqueMathMLTokens } from "./utils/parseTokens/constants";
@@ -63,6 +64,11 @@ const recursiveMathMLToken = ({ token }: RecursiveMathMLTokenArgs) => {
   } else if (type === UniqueMathMLTokens.LIMIT) {
     const { lim, arrow, variables, values } = value as LimitToken["value"];
     return limitTemplate({ lim, arrow, variables, values });
+  } else if (type === UniqueMathMLTokens.ROOT) {
+    const { base, value: rootValue } = value as RootToken["value"];
+    return rootTemplate({ base, value: rootValue });
+  } else if (type === UniqueMathMLTokens.FLOOR) {
+    return floorTemplate({ value: value as ParsedToken[] });
   }
 
   return "";
@@ -128,11 +134,6 @@ const squareRootTemplate = ({ value }: SquareRootTemplateArgs): string => {
         })
         .join(" ")}
     </msqrt>`;
-  // reference for root template
-  //   <mroot>
-  //   <mi>x</mi>
-  //   <mn>3</mn>
-  // </mroot>
 };
 
 type UniqueFunctionTemplateArgs = {
@@ -171,7 +172,7 @@ type LogTemplateArgs = {
   value: ParsedToken[];
 };
 
-export const logTemplate = ({ func, base, value }: LogTemplateArgs): string => {
+const logTemplate = ({ func, base, value }: LogTemplateArgs): string => {
   return `<msub>
         ${recursiveMathMLToken({ token: func })}
         ${base
@@ -194,7 +195,7 @@ type LimitTemplateProps = {
   values: ParsedToken[][];
 };
 
-export const limitTemplate = ({ lim, arrow, variables, values }: LimitTemplateProps): string => {
+const limitTemplate = ({ lim, arrow, variables, values }: LimitTemplateProps): string => {
   return `<msub>
         ${recursiveMathMLToken({ token: lim })}
       <mrow>
@@ -222,4 +223,36 @@ export const limitTemplate = ({ lim, arrow, variables, values }: LimitTemplatePr
         })}
       </mrow>
     </msub>`;
+};
+
+type RootTemplateArgs = {
+  base: ParsedToken[];
+  value: ParsedToken[];
+};
+
+const rootTemplate = ({ base, value }: RootTemplateArgs): string => {
+  return `<mroot>
+      <mrow>
+        ${base.map((parsedToken) => {
+          return recursiveMathMLToken({ token: parsedToken });
+        })}
+      </mrow>
+      <mrow>
+        ${value.map((parsedToken) => {
+          return recursiveMathMLToken({ token: parsedToken });
+        })}
+      </mrow>
+    </mroot>`;
+};
+
+type FloorTemplateArgs = {
+  value: ParsedToken[];
+};
+
+const floorTemplate = ({ value }: FloorTemplateArgs): string => {
+  return `<mrow>
+       ${value.map((parsedToken) => {
+         return recursiveMathMLToken({ token: parsedToken });
+       })}
+    </mrow>`;
 };

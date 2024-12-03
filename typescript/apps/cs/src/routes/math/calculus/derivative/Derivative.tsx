@@ -1,5 +1,5 @@
 import { MathML, unicodes } from "@packages/mathml";
-import { Link } from "@packages/router";
+import { StyledLink } from "../../../../styledComponents/StyledLink";
 
 export const Derivative = () => {
   return (
@@ -126,11 +126,9 @@ export const Derivative = () => {
       />
       <div>
         Since after calculations this is a polynomial, we can tell the function is{" "}
-        <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
-          continuous
-        </Link>
-        and from that we can tell that the limit at b = 1 is equivalent to f(1), so we can just
-        calculate the value of f(1) in order to know the exact velocity.
+        <StyledLink pathname="/math/calculus/continuity">continuous</StyledLink> and from that we
+        can tell that the limit at b = 1 is equivalent to f(1), so we can just calculate the value
+        of f(1) in order to know the exact velocity.
       </div>
       <MathML input="lim(b→1)-5(b-3) = -5(-2) = 10(m)/(s)" isAnExpression />
       <div>Lets now calculate the average and instant velocities of t=3</div>
@@ -142,11 +140,8 @@ export const Derivative = () => {
         isAnExpression
       />
       <div>
-        Once again,{" "}
-        <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
-          continuous
-        </Link>
-        , so we can tell what's the velocity from f(3)
+        Once again, <StyledLink pathname="/math/calculus/continuity">continuous</StyledLink>, so we
+        can tell what's the velocity from f(3)
       </div>
       <MathML input="lim(b→3)-5(b-1) = -5(2) = -10(m)/(s)" isAnExpression />
       <div>
@@ -180,10 +175,8 @@ export const Derivative = () => {
       />
       <div>
         Same thing, polynomial ={" "}
-        <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
-          continuous
-        </Link>
-        , so lets calculate f(2):
+        <StyledLink pathname="/math/calculus/continuity">continuous</StyledLink>, so lets calculate
+        f(2):
       </div>
       <MathML input="lim(b→2)-5(b-2) = -5(0) = 0(m)/(s)" isAnExpression />
       <div>What does a 0 derivative mean?</div>
@@ -192,16 +185,22 @@ export const Derivative = () => {
         derivative is 0, that means the object reached the top of its trajectory, has stopped going
         up, but hasn't quite started to go down.
       </div>
+      <b>
+        The derivative at a point is related to the tangent line at that point, but it is not the
+        line itself - it is the line's slope. That's a number.
+      </b>
+      <b>
+        The derivative overall takes in numbers and yields outputs which are numbers. Therefore, it
+        is a function. It is not necessarily a linear function, however.
+      </b>
       <div style={{ display: "flex", gap: "5px" }}>
-        <Link pathname="/math/calculus/limit" style={{ color: "#5662F6" }}>
-          Limit
-        </Link>
-        <Link
-          pathname="/math/calculus/derivative/geometric-derivative-interpretation"
-          style={{ color: "#5662F6" }}
-        >
+        <StyledLink pathname="/math/calculus/limit">Limit</StyledLink>
+        <StyledLink pathname="/math/calculus/derivative/geometric-derivative-interpretation">
           Geometric derivative interpretation
-        </Link>
+        </StyledLink>
+        <StyledLink pathname="/math/calculus/derivative/derivative-as-a-function">
+          Derivative as a function
+        </StyledLink>
       </div>
     </div>
   );

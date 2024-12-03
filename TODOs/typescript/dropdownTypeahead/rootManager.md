@@ -1,0 +1,1 @@
+- Consider adding a root manager in order to be able to display the dropdown content even if the component is wrapped by a container with overflow hidden.

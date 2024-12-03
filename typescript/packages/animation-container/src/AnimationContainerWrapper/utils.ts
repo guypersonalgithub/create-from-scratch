@@ -110,7 +110,10 @@ export const continueReversedStoppedAnimation = ({
   });
 
   const previousStoppedFrame = keyframes[stoppedFrame];
-  return [{ ...styles, offset: previousStoppedFrame.offset }, ...keyframes.slice(stoppedFrame + 1)];
+  return [
+    { ...styles, offset: previousStoppedFrame?.offset },
+    ...keyframes.slice(stoppedFrame + 1),
+  ];
 };
 
 export function isComponentType(type: any): type is React.ComponentType<any> {

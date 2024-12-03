@@ -1,5 +1,5 @@
 import { MathML } from "@packages/mathml";
-import { Link } from "@packages/router";
+import { StyledLink } from "../../styledComponents/StyledLink";
 
 export const TangentLine = () => {
   return (
@@ -32,9 +32,7 @@ export const TangentLine = () => {
         </div>
       </div>
       <div style={{ display: "flex", gap: "5px" }}>
-        <Link pathname="/math/secant-line" style={{ color: "#5662F6" }}>
-          Secant line
-        </Link>
+        <StyledLink pathname="/math/secant-line">Secant line</StyledLink>
       </div>
     </div>
   );

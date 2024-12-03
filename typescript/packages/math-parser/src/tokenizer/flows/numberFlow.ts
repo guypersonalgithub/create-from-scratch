@@ -10,6 +10,7 @@ type NumberFlowArgs = {
   isWithinLog?: boolean;
   isWithinLimit?: boolean;
   isAnExpression?: boolean;
+  isWithinRoot?: boolean;
 };
 
 export const numberFlow = ({
@@ -19,6 +20,7 @@ export const numberFlow = ({
   isWithinLog,
   isWithinLimit,
   isAnExpression,
+  isWithinRoot,
 }: NumberFlowArgs) => {
   let hasDot = false;
   let value = "";
@@ -37,7 +39,7 @@ export const numberFlow = ({
       }
 
       hasDot = true;
-    } else if (hasDot) {
+    } else if (isDot && hasDot) {
       throw new Error(`Encountered a second dot for one number on index ${currentIndex}`);
     }
 
@@ -60,6 +62,7 @@ export const numberFlow = ({
       isWithinLog,
       isWithinLimit,
       isAnExpression,
+      isWithinRoot,
     });
   }
 
@@ -82,6 +85,7 @@ type IsValidFollowingTokenArgs = {
   isWithinLog?: boolean;
   isWithinLimit?: boolean;
   isAnExpression?: boolean;
+  isWithinRoot?: boolean;
 };
 
 const isValidFollowingToken = ({
@@ -91,6 +95,7 @@ const isValidFollowingToken = ({
   isWithinLog,
   isWithinLimit,
   isAnExpression,
+  isWithinRoot,
 }: IsValidFollowingTokenArgs) => {
   if (!isWithinParenthesis && followingChar === ")") {
     throw new Error(`Encountered an unexpected closing parenthesis on index ${currentIndex}`);
@@ -99,7 +104,7 @@ const isValidFollowingToken = ({
   const isValid =
     uniqueTokens.has(followingChar) ||
     isCharacterLetter({ currentChar: followingChar }) ||
-    (isWithinLog || isWithinLimit
+    (isWithinLog || isWithinLimit || isWithinRoot
       ? followingChar === ","
       : false || isAnExpression
         ? followingChar === ">" ||

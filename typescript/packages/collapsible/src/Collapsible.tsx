@@ -1,4 +1,12 @@
-import { ReactNode, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  CSSProperties,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
@@ -7,29 +15,50 @@ import {
 type CollapsibleProps = {
   title: string;
   isOpenInitially?: boolean;
-  // maximumContentHeight: number;
+  containerStyle?: CSSProperties;
+  titleStyle?: CSSProperties;
   children: ReactNode;
 };
 
-export const Collapsible = ({ title, isOpenInitially = false, children }: CollapsibleProps) => {
+export const Collapsible = ({
+  title,
+  isOpenInitially = false,
+  containerStyle = {},
+  titleStyle = {},
+  children,
+}: CollapsibleProps) => {
   const [isOpen, setIsOpen] = useState(isOpenInitially);
   const [height, setHeight] = useState(0);
   const initiallyAnimatedOnFirstOpening = useRef(false);
+  const previousAnimationFrameRef = useRef<Keyframe[]>([]);
 
   const animationFrames = useMemo(() => {
     if (!isOpen || height === 0 || initiallyAnimatedOnFirstOpening.current) {
       return;
     }
 
-    return [{ height: "0px" }, { height: `${height}px` }];
+    const frames = [{ height: "0px" }, { height: `${height}px` }];
+    previousAnimationFrameRef.current = frames;
+    return frames;
   }, [isOpen, height]);
 
+  const postChildChangeAnimationFrames = useMemo(() => {
+    if (!isOpen || !initiallyAnimatedOnFirstOpening.current) {
+      return;
+    }
+
+    const lastStoppedAnimation =
+      previousAnimationFrameRef.current[previousAnimationFrameRef.current.length - 1];
+    const frames = [lastStoppedAnimation, { height: `${height}px` }];
+    previousAnimationFrameRef.current = frames;
+    return frames;
+  }, [height, isOpen]);
+
   return (
-    <div>
+    <div style={{ width: "fit-content", ...containerStyle }}>
       <div
         style={{
           cursor: "pointer",
-          width: "fit-content",
         }}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -39,6 +68,7 @@ export const Collapsible = ({ title, isOpenInitially = false, children }: Collap
             alignItems: "center",
             gap: "10px",
             fontWeight: "bold",
+            ...titleStyle,
           }}
         >
           {title}
@@ -61,14 +91,19 @@ export const Collapsible = ({ title, isOpenInitially = false, children }: Collap
             key="collapsible"
             changeMethod="fullPhase"
             onMount={[{ height: "0px" }, { height: `${height}px` }]}
-            animation={animationFrames}
+            animation={postChildChangeAnimationFrames || animationFrames}
             onAnimationEnd={() => {
               initiallyAnimatedOnFirstOpening.current = true;
             }}
             style={{ overflow: "hidden" }}
-            disableAnimation={height === 0}
+            disableAnimation={!initiallyAnimatedOnFirstOpening.current && height === 0}
           >
-            <CollapsiableChildren height={height} setHeight={setHeight}>
+            <CollapsiableChildren
+              key="collapsible-content"
+              isOpen={isOpen}
+              height={height}
+              setHeight={setHeight}
+            >
               {children}
             </CollapsiableChildren>
           </AnimationContainerWrapper>
@@ -81,26 +116,63 @@ export const Collapsible = ({ title, isOpenInitially = false, children }: Collap
 };
 
 type CollapsiableChildrenProps = {
+  isOpen: boolean;
   height: number;
   setHeight: (height: number) => void;
   children: ReactNode;
 };
 
-const CollapsiableChildren = ({ height, setHeight, children }: CollapsiableChildrenProps) => {
+const CollapsiableChildren = ({
+  isOpen,
+  height,
+  setHeight,
+  children,
+}: CollapsiableChildrenProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const containerHeight = useRef<number>(0);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!ref.current) {
       return;
     }
 
     const { height } = ref.current.getBoundingClientRect();
     setHeight(height);
+    containerHeight.current = height;
+
+    return () => {
+      setHeight(height);
+    };
   }, []);
+
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      let totalHeight: number = 0;
+      for (let entry of entries) {
+        if (entry.target === ref.current) {
+          const newHeight = entry.contentRect.height;
+          totalHeight += newHeight;
+        }
+      }
+
+      if (totalHeight > containerHeight.current) {
+        setHeight(totalHeight);
+      }
+    });
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [isOpen]);
 
   return (
     <div
-      ref={ref}
       style={
         height === 0
           ? {
@@ -110,7 +182,7 @@ const CollapsiableChildren = ({ height, setHeight, children }: CollapsiableChild
           : undefined
       }
     >
-      {children}
+      <div ref={ref}>{children}</div>
     </div>
   );
 };

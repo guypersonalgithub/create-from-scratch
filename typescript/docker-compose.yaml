@@ -90,6 +90,9 @@ services:
         source: ./packages/edge-intersection
         target: /usr/src/app/packages/edge-intersection
       - type: bind
+        source: ./packages/collapsible
+        target: /usr/src/app/packages/collapsible
+      - type: bind
         source: ./packages/auto-complete-input
         target: /usr/src/app/packages/auto-complete-input
       - type: bind

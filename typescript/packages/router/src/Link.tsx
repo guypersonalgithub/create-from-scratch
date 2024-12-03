@@ -17,12 +17,9 @@ type ExternalLinkProps = LinkProps & {
   href: string;
 };
 
-export const Link = ({
-  pathname,
-  href,
-  children,
-  style,
-}: InternalLinkProps | ExternalLinkProps) => {
+export type CompleteLinkProps = InternalLinkProps | ExternalLinkProps;
+
+export const Link = ({ pathname, href, children, style }: CompleteLinkProps) => {
   if (pathname) {
     return (
       <InternalLink pathname={pathname} style={style}>

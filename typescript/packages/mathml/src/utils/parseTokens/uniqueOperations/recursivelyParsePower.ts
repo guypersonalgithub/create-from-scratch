@@ -1,6 +1,6 @@
 import { TokenTypes } from "@packages/math-parser";
 import { ParsedToken } from "../types";
-import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectParenthesisOrAbsolute";
+import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
 import { recursiveOperations } from "./recursiveOperations";
 import { UniqueMathMLTokens } from "../constants";
 
@@ -40,9 +40,7 @@ export const recursivelyParsePower = ({
       throw new Error("Unexpected syntax!");
     }
 
-    if (token.value !== "(" && token.value !== "^") {
-      power.push(initialToken);
-    }
+    recursiveOperations({ tokens, token, parsedTokensOfTheSameLevel: power });
 
     while (
       (token = tokens.shift()) &&

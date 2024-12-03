@@ -8,6 +8,7 @@ import {
   LogToken,
   ParsedToken,
   PowerToken,
+  RootToken,
   TokenGroup,
 } from "../utils/parseTokens/types";
 import { UniqueMathMLTokens } from "../utils/parseTokens/constants";
@@ -15,6 +16,8 @@ import { TokenTypes } from "@packages/math-parser";
 import { Factorial } from "./Factorial";
 import { Log } from "./Log";
 import { Limit } from "./Limit";
+import { Root } from "./Root";
+import { Floor } from "./Floor";
 
 type RecursiveMathMLTokenProps = {
   token: ParsedToken;
@@ -54,6 +57,11 @@ export const RecursiveMathMLToken = ({ token }: RecursiveMathMLTokenProps) => {
   } else if (type === UniqueMathMLTokens.LIMIT) {
     const { lim, arrow, variables, values } = value as LimitToken["value"];
     return <Limit lim={lim} arrow={arrow} variables={variables} values={values} />;
+  } else if (type === UniqueMathMLTokens.ROOT) {
+    const { base, value: rootValue } = value as RootToken["value"];
+    return <Root base={base} value={rootValue} />;
+  } else if (type === UniqueMathMLTokens.FLOOR) {
+    return <Floor value={value as ParsedToken[]} />;
   }
 
   return null;

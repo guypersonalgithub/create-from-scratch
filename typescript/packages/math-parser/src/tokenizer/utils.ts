@@ -58,7 +58,8 @@ export const isValidSectionStartingCharacter = ({
   isAnExpression,
 }: IsValidSectionStartingCharacterArgs) => {
   const currentChar = input.charAt(0);
-  const isValid = currentChar && !nonStarterTokens.has(currentChar) && currentChar !== ",";
+  const isValid =
+    currentChar && !nonStarterTokens.has(currentChar);
   const isFormulaValid = isAnExpression ? currentChar === unicodes.javascript.capitalDelta : false;
   if (!isValid && !isFormulaValid) {
     throw new Error(`Encountered an unexpected character ${currentChar} on index ${currentIndex}`);

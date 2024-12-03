@@ -1,7 +1,7 @@
 import { MathML, unicodes } from "@packages/mathml";
-import { Link } from "@packages/router";
 import { useState } from "react";
 import { CopyToClipboardWithTooltip } from "@packages/copy-to-clipboard";
+import { StyledLink } from "../../styledComponents/StyledLink";
 
 const printableUnicodes = Object.values(unicodes.javascript).map((unicode) => unicode);
 
@@ -13,15 +13,9 @@ export const Math = () => {
   return (
     <>
       <div style={{ display: "flex", gap: "5px" }}>
-        <Link pathname="/math/calculus" style={{ color: "#5662F6" }}>
-          Calculus
-        </Link>
-        <Link pathname="/math/floor-function" style={{ color: "#5662F6" }}>
-          Floor function
-        </Link>
-        <Link pathname="/math/tangent-line" style={{ color: "#5662F6" }}>
-          Tangent line
-        </Link>
+        <StyledLink pathname="/math/calculus">Calculus</StyledLink>
+        <StyledLink pathname="/math/floor-function">Floor function</StyledLink>
+        <StyledLink pathname="/math/tangent-line">Tangent line</StyledLink>
       </div>
       <div>
         <h3>Helper unicodes:</h3>

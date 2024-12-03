@@ -1,5 +1,5 @@
 import { MathML } from "@packages/mathml";
-import { Link } from "@packages/router";
+import { StyledLink } from "../../../../styledComponents/StyledLink";
 
 export const LimitLaws = () => {
   return (
@@ -73,9 +73,9 @@ export const LimitLaws = () => {
         <div>.</div>
         <div style={{ display: "flex", gap: "3px" }}>
           <div>For division between limits where the denominator is equal to 0, head to the</div>
-          <Link pathname="/math/calculus/limit/limits-of-quotients" style={{ color: "#5662F6" }}>
+          <StyledLink pathname="/math/calculus/limit/limits-of-quotients">
             limits of quotients
-          </Link>
+          </StyledLink>
           <div>page.</div>
         </div>
       </div>
@@ -141,10 +141,7 @@ export const LimitLaws = () => {
       </div>
       <h4>
         In functions created out of{" "}
-        <Link pathname="/math/composition-of-functions" style={{ color: "#5662F6" }}>
-          composition of functions
-        </Link>
-        :
+        <StyledLink pathname="/math/composition-of-functions">composition of functions</StyledLink>:
       </h4>
       <div>
         If all of the functions within the composition of functions are continuous everywhere, so
@@ -153,7 +150,7 @@ export const LimitLaws = () => {
       <h4>
         The sum of functions that have discontinuity won't necessarily have a discontinuity aswell:
       </h4>
-      <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+      <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
         <div>For instance:</div>
         <MathML input="f(x) = 1/x" isAnExpression />
         <div>and</div>
@@ -172,15 +169,11 @@ export const LimitLaws = () => {
         <div>are continuous everywhere.</div>
       </div>
       <div style={{ display: "flex", gap: "5px" }}>
-        <Link pathname="/math/calculus/limit" style={{ color: "#5662F6" }}>
-          Limit
-        </Link>
-        <Link pathname="/math/calculus/limit/limits-of-quotients" style={{ color: "#5662F6" }}>
+        <StyledLink pathname="/math/calculus/limit">Limit</StyledLink>
+        <StyledLink pathname="/math/calculus/limit/limits-of-quotients">
           Limits of quotients
-        </Link>
-        <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
-          Continuity
-        </Link>
+        </StyledLink>
+        <StyledLink pathname="/math/calculus/continuity">Continuity</StyledLink>
       </div>
     </div>
   );

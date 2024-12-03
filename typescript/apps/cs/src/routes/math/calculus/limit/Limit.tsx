@@ -1,6 +1,6 @@
 import { CalculationsTable } from "@packages/calculations-table";
 import { MathML } from "@packages/mathml";
-import { Link } from "@packages/router";
+import { StyledLink } from "../../../../styledComponents/StyledLink";
 
 export const Limit = () => {
   return (
@@ -110,15 +110,9 @@ export const Limit = () => {
         </b>
       </div>
       <div style={{ display: "flex", gap: "5px" }}>
-        <Link pathname="/math/calculus/limit/laws" style={{ color: "#5662F6" }}>
-          Limit laws
-        </Link>
-        <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
-          Continuity
-        </Link>
-        <Link pathname="/math/calculus/derivative" style={{ color: "#5662F6" }}>
-          Derivative
-        </Link>
+        <StyledLink pathname="/math/calculus/limit/laws">Limit laws</StyledLink>
+        <StyledLink pathname="/math/calculus/continuity">Continuity</StyledLink>
+        <StyledLink pathname="/math/calculus/derivative">Derivative</StyledLink>
       </div>
     </div>
   );

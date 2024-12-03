@@ -1,5 +1,5 @@
 import { MathML } from "@packages/mathml";
-import { Link } from "@packages/router";
+import { StyledLink } from "../../../../styledComponents/StyledLink";
 
 export const IntermediateValueTheorem = () => {
   return (
@@ -37,9 +37,7 @@ export const IntermediateValueTheorem = () => {
         By assigning some values, we can see that f(1) = -1, and f(2) = 13, and from that, with the
         IVT, as mentioned earlier, we can tell the function has at the very least 1 root.
       </div>
-      <Link pathname="/math/calculus/continuity" style={{ color: "#5662F6" }}>
-        Continuity
-      </Link>
+      <StyledLink pathname="/math/calculus/continuity">Continuity</StyledLink>
     </div>
   );
 };

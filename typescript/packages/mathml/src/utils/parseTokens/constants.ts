@@ -6,4 +6,6 @@ export enum UniqueMathMLTokens {
   FACTORIAL = "factorial",
   LOG = "log",
   LIMIT = "limit",
+  ROOT = "root",
+  FLOOR = "floor",
 }

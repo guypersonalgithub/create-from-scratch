@@ -46,7 +46,7 @@ export const Table = <T extends Record<string, unknown>>({
           <div
             style={{
               display: "flex",
-              alignItems: "center",
+              alignItems: "stretch",
               minWidth: "fit-content",
               maxWidth: "100%",
               height: headerRow?.size ? `${headerRow.size}px` : undefined,

@@ -18,6 +18,7 @@ import { Derivative } from "./routes/math/calculus/derivative/Derivative";
 import { GeometricDerivativeInterpretation } from "./routes/math/calculus/derivative/GeometricDerivativeInterpretation";
 import { TangentLine } from "./routes/math/TangentLine";
 import { SecantLine } from "./routes/math/SecantLine";
+import { DerivativeAsAFunction } from "./routes/math/calculus/derivative/DerivativeAsAFunction";
 
 const searchableRoutes = [
   {
@@ -80,6 +81,10 @@ const searchableRoutes = [
     label: "Secant line",
     value: "/math/secant-line",
   },
+  {
+    label: "Derivative as a function",
+    value: "/math/calculus/derivative/derivative-as-a-function",
+  },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
 const App = () => {
@@ -131,6 +136,7 @@ const App = () => {
                   "/derivative": {
                     "/": <Derivative />,
                     "/geometric-derivative-interpretation": <GeometricDerivativeInterpretation />,
+                    "/derivative-as-a-function": <DerivativeAsAFunction />,
                   },
                 },
                 "/floor-function": <FloorFunction />,
@@ -157,6 +163,13 @@ const SidebarWrapper = () => {
       links={[
         { icon: <Home />, label: "Home", pathname: "/" },
         { icon: <Calculator />, label: "Math", pathname: "/math" },
+        {
+          category: "test",
+          links: [
+            { icon: <Home />, label: "Home", pathname: "/" },
+            { icon: <Calculator />, label: "Math", pathname: "/math" },
+          ],
+        },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}

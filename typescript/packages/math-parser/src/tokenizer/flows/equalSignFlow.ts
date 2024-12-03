@@ -50,7 +50,10 @@ const isValidFollowingToken = ({
   followingChar,
   currentIndex,
 }: IsValidFollowingTokenArgs) => {
-  const isValid = followingChar !== "-" ? !nonConsecutiveOperators.has(followingChar) : true;
+  const isValid =
+    followingChar !== "-" && followingChar !== "|"
+      ? !nonConsecutiveOperators.has(followingChar)
+      : true;
   if (!isValid) {
     throw new Error(
       `Encountered an unexpected character ${followingChar} after ${currentChar} on index ${currentIndex}.`,

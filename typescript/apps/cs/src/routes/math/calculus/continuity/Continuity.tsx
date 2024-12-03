@@ -1,5 +1,5 @@
 import { MathML } from "@packages/mathml";
-import { Link } from "@packages/router";
+import { StyledLink } from "../../../../styledComponents/StyledLink";
 
 export const Continuity = () => {
   return (
@@ -63,10 +63,16 @@ export const Continuity = () => {
       </div>
       <h4>Functions that can always be treated as continuous everywhere at all real numbers:</h4>
       <ul>
-        <li>Constant functions - for example f(x) = 3.</li>
-        <li>Functions similar to f(x) = x.</li>
+        <li>
+          Constant functions - for example <MathML input="f(x) = 3" isAnExpression />.
+        </li>
+        <li>
+          Functions similar to <MathML input="f(x) = x" isAnExpression />.
+        </li>
         <li>Functions similar to f(x) = |x|.</li>
-        {/*root(x,3)*/}
+        <li>
+          <MathML input="f(x) = root(x,3)" isAnExpression />
+        </li>
         <li>
           Trignometric functions such as sinx or cosx. tanx isn't continuous everywhere as when x
           equals half a pi, cos equals 0, which means that there are points where tanx is not
@@ -95,18 +101,11 @@ export const Continuity = () => {
         </li>
       </ul>
       <div style={{ display: "flex", gap: "5px" }}>
-        <Link pathname="/math/calculus/limit/laws" style={{ color: "#5662F6" }}>
-          Limit laws
-        </Link>
-        <Link pathname="/math/calculus/limit" style={{ color: "#5662F6" }}>
-          Limit
-        </Link>
-        <Link
-          pathname="/math/calculus/continuity/intermediate-value-theorem"
-          style={{ color: "#5662F6" }}
-        >
+        <StyledLink pathname="/math/calculus/limit/laws">Limit laws</StyledLink>
+        <StyledLink pathname="/math/calculus/limit">Limit</StyledLink>
+        <StyledLink pathname="/math/calculus/continuity/intermediate-value-theorem">
           Intermediate value theorem
-        </Link>
+        </StyledLink>
       </div>
     </div>
   );

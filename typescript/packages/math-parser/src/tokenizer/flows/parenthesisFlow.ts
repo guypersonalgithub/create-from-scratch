@@ -9,6 +9,7 @@ type ParenthesisFlowArgs = {
   isWithinLog?: boolean;
   isWithinLimit?: boolean;
   isAnExpression?: boolean;
+  isWithinRoot?: boolean;
 };
 
 export const parenthesisFlow = ({
@@ -17,8 +18,8 @@ export const parenthesisFlow = ({
   isWithinLog,
   isWithinLimit,
   isAnExpression,
+  isWithinRoot,
 }: ParenthesisFlowArgs) => {
-  0.0;
   const innerTokens: BaseToken[] = [
     {
       type: TokenTypes.UNIQUE_TOKEN,
@@ -40,19 +41,28 @@ export const parenthesisFlow = ({
   let currentChar = duplicatedInput.charAt(0);
 
   while (duplicatedInput.length > 0 && currentChar !== ")") {
-    if (currentChar === "," && isWithinLog) {
+    if (currentChar === "," && (isWithinLog || isWithinRoot)) {
       if (hasComa) {
-        throw new Error(`Unexpected second coma within a log on index ${currentIndex}`);
+        throw new Error(
+          `Unexpected second coma within a ${isWithinLog ? "log" : "root"} on index ${currentIndex}`,
+        );
       }
 
       hasComa = true;
 
       innerTokens.push({
-        type: TokenTypes.LOG_SPREAD,
+        type: TokenTypes.SPREAD,
         value: ",",
       });
+
       currentIndex++;
       duplicatedInput = duplicatedInput.slice(1);
+
+      isValidSectionStartingCharacter({
+        input: duplicatedInput,
+        currentIndex,
+        isAnExpression,
+      });
 
       const { skippedIndexes } = getNextNonSpaceCharIndex({ input: duplicatedInput });
       if (skippedIndexes === undefined) {
@@ -74,6 +84,7 @@ export const parenthesisFlow = ({
         isWithinLog,
         isWithinLimit,
         isAnExpression,
+        isWithinRoot,
       });
 
       if (newInput === undefined || !updatedIndex) {

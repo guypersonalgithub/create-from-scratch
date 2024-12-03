@@ -33,7 +33,7 @@ export const hyperbolicFunctions = new Set<string>([
   "arccoth",
 ]);
 export const uniqueFunctions = new Set([...trigonometricFunctions, ...hyperbolicFunctions, "ln"]);
-export const uniqueWords = new Set([...uniqueFunctions, "sqrt", "log"]);
+export const uniqueWords = new Set([...uniqueFunctions, "sqrt", "log", "root", "floor"]);
 export const nonStarterTokens = new Set([
   "+",
   "*",
@@ -44,4 +44,5 @@ export const nonStarterTokens = new Set([
   "<",
   unicodes.javascript.lessThanEqual,
   unicodes.javascript.greaterThanEqual,
+  ",",
 ]);

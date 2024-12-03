@@ -24,6 +24,7 @@ on:
       - typescript/packages/button/**
       - typescript/packages/tooltip/**
       - typescript/packages/edge-intersection/**
+      - typescript/packages/collapsible/**
       - typescript/packages/auto-complete-input/**
       - typescript/packages/typeahead/**
       - typescript/packages/input/**
@@ -73,6 +74,7 @@ jobs:
           cp -r ./packages/button ./full-application/packages
           cp -r ./packages/tooltip ./full-application/packages
           cp -r ./packages/edge-intersection ./full-application/packages
+          cp -r ./packages/collapsible ./full-application/packages
           cp -r ./packages/auto-complete-input ./full-application/packages
           cp -r ./packages/typeahead ./full-application/packages
           cp -r ./packages/input ./full-application/packages

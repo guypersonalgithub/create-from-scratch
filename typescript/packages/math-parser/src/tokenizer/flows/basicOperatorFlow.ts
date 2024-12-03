@@ -6,12 +6,14 @@ type BasicOperatorFlowArgs = {
   input: string;
   currentIndex: number;
   isWithinLimit?: boolean;
+  isAnExpression?: boolean;
 };
 
 export const basicOperatorFlow = ({
   input,
   currentIndex,
   isWithinLimit,
+  isAnExpression,
 }: BasicOperatorFlowArgs) => {
   let duplicatedInput = input.slice();
   let value = duplicatedInput.charAt(0);
@@ -28,6 +30,7 @@ export const basicOperatorFlow = ({
       followingChar,
       currentIndex,
       isWithinLimit,
+      isAnExpression,
     });
 
     if (replacedValue) {
@@ -55,6 +58,7 @@ type IsValidFollowingTokenArgs = {
   followingChar: string;
   currentIndex: number;
   isWithinLimit?: boolean;
+  isAnExpression?: boolean;
 };
 
 const isValidFollowingToken = ({
@@ -62,10 +66,14 @@ const isValidFollowingToken = ({
   followingChar,
   currentIndex,
   isWithinLimit,
+  isAnExpression,
 }: IsValidFollowingTokenArgs) => {
   const isValid = followingChar !== "-" ? !nonConsecutiveOperators.has(followingChar) : true;
+  const isValidExpression = isAnExpression
+    ? followingChar === ")" && (currentChar === "+" || currentChar === "-")
+    : false;
   if (
-    !isValid || followingChar === ","
+    (!isValid && !isValidExpression) || followingChar === ","
       ? !isValidFollowingComaToken({ currentChar, isWithinLimit })
       : false
   ) {
@@ -107,5 +115,5 @@ const isValidFollowingComaToken = ({
     return false;
   }
 
-  return currentChar === "+" || currentChar === "-";
+  return currentChar === "+" || currentChar === "-"; // TODO: Check if "+" is right.
 };

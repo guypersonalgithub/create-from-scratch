@@ -4,7 +4,7 @@ export enum TokenTypes {
   UNIQUE_OPERATION = "uniqueOperation",
   VARIABLE = "variable",
   KEYWORD = "keyword",
-  LOG_SPREAD = "logSpread",
+  SPREAD = "spread",
   LIMIT_SPREAD = "limitSpread",
   LIMIT_ARROW = "limitArrow",
   LIMIT_DIRECTION = "limitDirection",

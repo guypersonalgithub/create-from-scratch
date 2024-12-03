@@ -1,6 +1,6 @@
 import { TokenTypes } from "@packages/math-parser";
 import { ParsedToken } from "../types";
-import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectParenthesisOrAbsolute";
+import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
 import { UniqueMathMLTokens } from "../constants";
 
 type RecursivelyParseFactorialArgs = {

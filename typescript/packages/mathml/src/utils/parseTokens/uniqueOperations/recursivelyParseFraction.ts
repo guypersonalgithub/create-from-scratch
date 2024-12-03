@@ -1,6 +1,6 @@
 import { TokenTypes } from "@packages/math-parser";
 import { ParsedToken } from "../types";
-import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectParenthesisOrAbsolute";
+import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
 import { recursiveOperations } from "./recursiveOperations";
 import { UniqueMathMLTokens } from "../constants";
 
@@ -30,9 +30,7 @@ export const recursivelyParseFraction = ({
       throw new Error("Unexpected syntax!");
     }
 
-    if (token.value !== "(" && token.value !== "/") {
-      denominator.push(initialToken);
-    }
+    recursiveOperations({ tokens, token, parsedTokensOfTheSameLevel: denominator });
 
     while (
       (token = tokens.shift()) &&

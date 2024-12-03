@@ -1,6 +1,3 @@
 - Create a popover component.
 - Create accordion component.
-- Create dropdown component.
-- Create sidebar component.
 - Create a sliding button component.
-- Create a typeahead component.

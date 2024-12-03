@@ -1,5 +1,5 @@
 import { TokenTypes } from "@packages/math-parser";
-import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectParenthesisOrAbsolute";
+import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
 import { ParsedToken } from "../types";
 import { recursiveOperations } from "./recursiveOperations";
 import { UniqueMathMLTokens } from "../constants";
@@ -26,9 +26,7 @@ export const recursivelyParseSqrt = ({ tokens }: RecursivelyParseSqrtArgs) => {
       throw new Error("Unexpected syntax!");
     }
 
-    if (token.value !== "(" && token.value !== "sqrt") {
-      value.push(initialToken);
-    }
+    recursiveOperations({ tokens, token, parsedTokensOfTheSameLevel: value });
 
     while (
       (token = tokens.shift()) &&

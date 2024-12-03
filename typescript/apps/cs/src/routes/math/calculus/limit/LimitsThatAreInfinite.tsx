@@ -1,6 +1,6 @@
-import { Link } from "@packages/router";
 import { MathML } from "@packages/mathml";
 import { CalculationsTable } from "@packages/calculations-table";
+import { StyledLink } from "../../../../styledComponents/StyledLink";
 
 export const LimitsThatAreInfinite = () => {
   return (
@@ -39,9 +39,9 @@ export const LimitsThatAreInfinite = () => {
         Because of that, we will have to check what happens to the function when x approaches the
         value from both sides and check if both limits are the same or not.
       </div>
-      <Link pathname="/math/calculus/limit/limits-of-quotients" style={{ color: "#5662F6" }}>
+      <StyledLink pathname="/math/calculus/limit/limits-of-quotients">
         Limits of quotients
-      </Link>
+      </StyledLink>
     </div>
   );
 };

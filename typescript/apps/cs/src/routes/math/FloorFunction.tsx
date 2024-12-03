@@ -1,4 +1,4 @@
-import { unicodes } from "@packages/mathml";
+import { MathML, unicodes } from "@packages/mathml";
 
 export const FloorFunction = () => {
   return (
@@ -14,6 +14,8 @@ export const FloorFunction = () => {
         <div>{unicodes.javascript.rightFloor}</div>
       </div>
       <div>If we assign 2.5 to x, then the result would be 2.</div>
+      <MathML input="f(x) = floor(x)" isAnExpression />
+      <MathML input="f(2.5) = floor(2.5) = 2" isAnExpression />
     </div>
   );
 };

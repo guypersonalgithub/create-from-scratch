@@ -1,5 +1,5 @@
-import { Link } from "@packages/router";
 import { MathML } from "@packages/mathml";
+import { StyledLink } from "../../../../styledComponents/StyledLink";
 
 export const LimitsOfQuotients = () => {
   return (
@@ -7,7 +7,7 @@ export const LimitsOfQuotients = () => {
       <h3>Limits of quotients</h3>
       <div style={{ display: "flex", gap: "3px", flexWrap: "wrap" }}>
         <div>On the</div>
-        <Link pathname="/math/calculus/limit/laws">Limits laws</Link>
+        <StyledLink pathname="/math/calculus/limit/laws">Limits laws</StyledLink>
         <div>
           page we mentioned that the division of two limits is working as one would expect as long
           as the denominator isn't equal to 0.
@@ -22,9 +22,9 @@ export const LimitsOfQuotients = () => {
       </div>
       <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
         <div>For further explanations and examples, you can visit the</div>
-        <Link pathname="/math/calculus/limit/limits-that-are-infinite">
+        <StyledLink pathname="/math/calculus/limit/limits-that-are-infinite">
           Limits that are infinite
-        </Link>
+        </StyledLink>
         <div>page.</div>
       </div>
       <div>
