@@ -1,6 +1,7 @@
 import { TokenTypes } from "../constants";
 import { unicodes } from "../uniqueUnicodes";
-import { getNextNonSpaceCharIndex, isCharacterLetter } from "../utils";
+import { isCharacterLetter } from "../utils";
+import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type DeltaFlowArgs = {
   input: string;

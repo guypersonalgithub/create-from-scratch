@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
 import { Tab } from "./types";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 
@@ -54,12 +54,10 @@ function Tabs<T extends Tab[]>({
   return (
     <div
       style={{
-        position: "relative",
-        display: "flex",
         marginBottom: "10px",
       }}
     >
-      <>
+      <div style={{ display: "flex" }}>
         {tabs.map((tab, index) => {
           const handleClick = () => {
             const callback =
@@ -80,6 +78,7 @@ function Tabs<T extends Tab[]>({
                 paddingTop: "5px",
                 paddingBottom: "5px",
                 backgroundColor: tab.value === selected ? "" : undefined,
+                whiteSpace: "nowrap",
               }}
               onClick={handleClick}
             >
@@ -87,12 +86,12 @@ function Tabs<T extends Tab[]>({
             </div>
           );
         })}
-        <HighlightBar
-          refs={refs}
-          selectedIndex={selectedIndex.current}
-          isInitialState={isInitialState.current}
-        />
-      </>
+      </div>
+      <HighlightBar
+        refs={refs}
+        selectedIndex={selectedIndex.current}
+        isInitialState={isInitialState.current}
+      />
     </div>
   );
 }
@@ -104,7 +103,8 @@ type HighlightBarProps = {
 };
 
 const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps) => {
-  const firstTabLeftPosition = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const containerLeft = useRef<number>(0);
   const lastTab = useRef<TabProperties>({
     width: 0,
     left: 0,
@@ -114,8 +114,39 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
     left: 0,
   });
 
-  useLayoutEffect(() => {
-    firstTabLeftPosition.current = refs.current?.[0]?.getBoundingClientRect()?.left ?? 0;
+  useEffect(() => {
+    if (!containerRef.current) {
+      return;
+    }
+
+    const setContainerLeft = () => {
+      if (!containerRef.current) {
+        return;
+      }
+
+      const { left } = containerRef.current.getBoundingClientRect();
+      containerLeft.current = left;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.target === containerRef.current) {
+          setContainerLeft();
+        }
+      }
+    });
+
+    observer.observe(containerRef.current);
+
+    setContainerLeft();
+
+    return () => {
+      if (!containerRef.current) {
+        return;
+      }
+
+      observer.unobserve(containerRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -127,7 +158,7 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
 
       return {
         width,
-        left: left - firstTabLeftPosition.current,
+        left: left - containerLeft.current,
       };
     };
 
@@ -146,19 +177,21 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
   }, [tabProperties]);
 
   return (
-    <AnimationContainerWrapper
-      animation={animation}
-      animationOptions={{ duration: 300, easing: "ease-out" }}
-      style={{
-        position: "absolute",
-        width: `${tabProperties.width}px`,
-        bottom: "-5px",
-        left: `${tabProperties.left}px`,
-      }}
-      disableAnimation={isInitialState}
-    >
-      <div key="bar" style={{ height: "5px", backgroundColor: "#5662F6" }} />
-    </AnimationContainerWrapper>
+    <div ref={containerRef} style={{ position: "relative" }}>
+      <AnimationContainerWrapper
+        animation={animation}
+        animationOptions={{ duration: 300, easing: "ease-out" }}
+        style={{
+          position: "absolute",
+          width: `${tabProperties.width}px`,
+          bottom: "-5px",
+          left: `${tabProperties.left}px`,
+        }}
+        disableAnimation={isInitialState}
+      >
+        <div key="bar" style={{ height: "5px", backgroundColor: "#5662F6" }} />
+      </AnimationContainerWrapper>
+    </div>
   );
 };
 

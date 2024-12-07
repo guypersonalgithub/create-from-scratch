@@ -1,11 +1,4 @@
-import {
-  useState,
-  useRef,
-  KeyboardEvent,
-  Fragment,
-  ReactNode,
-  CSSProperties,
-} from "react";
+import { useState, useRef, KeyboardEvent, Fragment, ReactNode, CSSProperties } from "react";
 import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
@@ -23,6 +16,8 @@ type DropdownProps<T extends BaseDropdownOption> = {
   customInputSuffix?: ReactNode;
   inputWrapperStyle?: CSSProperties;
   inputPlaceholder?: string;
+  optionContainerStyle?: (args: { isSelected: boolean; isHovered: boolean }) => CSSProperties;
+  optionContent?: (args: { option: T }) => ReactNode;
 };
 
 export const Dropdown = <T extends BaseDropdownOption>({
@@ -37,6 +32,8 @@ export const Dropdown = <T extends BaseDropdownOption>({
   customInputSuffix,
   inputWrapperStyle,
   inputPlaceholder,
+  optionContainerStyle,
+  optionContent,
 }: DropdownProps<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const [picked, setPicked] = useState<string>(initialValue);
@@ -121,24 +118,27 @@ export const Dropdown = <T extends BaseDropdownOption>({
         {isOpen ? (
           <VirtualList containerHeight={150} itemHeight={40} backgroundColor="rgba(20, 12, 12)">
             {options.map((option: T, index: number) => {
+              const isSelected = index === currentIndex;
+              const isHovered = index === hoveredIndex;
+
               return (
                 <Fragment key={`${option.label}-${index}`}>
                   <div
                     style={{
                       zIndex: 20,
                       cursor: "pointer",
-                      backgroundColor:
-                        index === currentIndex || index === hoveredIndex
-                          ? "black"
-                          : "rgba(20, 12, 12)",
+                      backgroundColor: isSelected || isHovered ? "black" : "rgba(20, 12, 12)",
                       padding: "8px",
                       fontWeight: "bold",
                       color: "white",
+                      ...(optionContainerStyle
+                        ? optionContainerStyle({ isSelected, isHovered })
+                        : {}),
                     }}
                     onClick={() => onResultClick({ option })}
                     onMouseEnter={() => setHoveredIndex(index)}
                   >
-                    {option.label}
+                    {optionContent ? optionContent({ option }) : option.label}
                   </div>
                   {withSeperators ? (
                     <hr

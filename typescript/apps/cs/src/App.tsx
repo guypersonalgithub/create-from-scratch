@@ -1,7 +1,7 @@
 import { MinimizableSidebar } from "@packages/sidebar";
 import { Calculator, Home } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
-import { TooltipManager } from "@packages/tooltip";
+import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
 import { Math } from "./routes/math/Math";
 import { AutoCompleteInput } from "@packages/auto-complete-input";
 import { ComponentProps } from "react";
@@ -98,11 +98,14 @@ const App = () => {
               position: "relative",
               display: "flex",
               justifyContent: "end",
-              marginRight: "20px",
-              marginTop: "10px",
+              paddingRight: "10px",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              height: "30px",
+              backgroundColor: "#1f1616",
             }}
           >
-            <div style={{ position: "fixed", top: "10px" }}>
+            <div style={{ position: "fixed", zIndex: "3" }}>
               <AutoComplete />
             </div>
           </div>
@@ -177,6 +180,7 @@ const SidebarWrapper = () => {
       iconSize={20}
       selected={path}
       selectedStyle={{ backgroundColor: "#160e0e" }}
+      containerStyle={{ borderTopRightRadius: "0px" }}
     />
   );
 };
@@ -185,7 +189,7 @@ const AutoComplete = () => {
   const { moveTo } = usePath();
 
   return (
-    <div style={{ maxWidth: "300px" }}>
+    <div style={{ width: "200px" }}>
       <AutoCompleteInput
         debounceDelay={300}
         autocompleteOptionsCallback={(text) => {
@@ -204,6 +208,14 @@ const AutoComplete = () => {
           alignItems: "center",
         }}
         inputPlaceholder="Search"
+        optionContent={({ result }) => {
+          return (
+            <EllipsisTooltip content={result.label} style={{ width: "175px" }}>
+              {result.label}
+            </EllipsisTooltip>
+          );
+        }}
+        clearInputOnPick
       />
     </div>
   );

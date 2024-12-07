@@ -11,7 +11,7 @@ export const convertObjectToString = ({
   const entries = Object.entries(obj);
 
   const formattedEntries = entries.map(([key, value]) => {
-  let formattedValue;
+    let formattedValue;
 
     if (typeof value === "object" && value !== null) {
       formattedValue = `\n${convertObjectToString({
@@ -21,12 +21,11 @@ export const convertObjectToString = ({
     } else {
       formattedValue = value;
     }
-    return `${indent}${key}: ${formattedValue}`;
+
+    const shouldHaveQuotationMarks = key.includes("-") || key.includes("/") || key === "@";
+    const fullKey = shouldHaveQuotationMarks ? `${indent}"${key}"` : `${indent}${key}`;
+    return `${fullKey}: ${formattedValue}`;
   });
 
-  return `{${
-    formattedEntries.length > 0
-      ? `\n${formattedEntries.join(",\n")}\n${indent}`
-      : ""
-  }}`;
+  return `{${formattedEntries.length > 0 ? `\n${formattedEntries.join(",\n")}\n${indent}` : ""}}`;
 };

@@ -26,26 +26,6 @@ export const isCharacterLetter = ({ currentChar }: IsCharacterLetterArgs) => {
   return (characterCode > 64 && characterCode < 91) || (characterCode > 96 && characterCode < 123);
 };
 
-type GetNextNonSpaceCharIndexArgs = {
-  input: string;
-};
-
-export const getNextNonSpaceCharIndex = ({ input }: GetNextNonSpaceCharIndexArgs) => {
-  let skippedIndexes = 0;
-
-  while (skippedIndexes < input.length && input[skippedIndexes] === " ") {
-    skippedIndexes++;
-  }
-
-  if (skippedIndexes === input.length) {
-    return {};
-  }
-
-  return {
-    skippedIndexes,
-  };
-};
-
 type IsValidSectionStartingCharacterArgs = {
   input: string;
   currentIndex: number;

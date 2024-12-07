@@ -51,11 +51,11 @@ services:
         source: ./packages/math-parser
         target: /usr/src/app/packages/math-parser
       - type: bind
-        source: ./packages/router
-        target: /usr/src/app/packages/router
-      - type: bind
         source: ./packages/utils
         target: /usr/src/app/packages/utils
+      - type: bind
+        source: ./packages/router
+        target: /usr/src/app/packages/router
       - type: bind
         source: ./packages/url
         target: /usr/src/app/packages/url

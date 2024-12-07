@@ -1,17 +1,24 @@
-import { readFileSync, readdirSync, writeFileSync } from "fs";
+import { readdirSync, writeFileSync } from "fs";
 import { getProjectAbsolutePath, getRelativePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "@packages/packages";
-import ts from "typescript";
-import { addNewImport, extractExportDefault, generateObjectProperties } from "@packages/typescript";
 import { formatCodeWithESLint } from "@packages/eslint";
+import { extractObject, getExportDefaultIndex } from "@packages/typescript-file-manipulation";
+import {
+  convertObjectToString,
+  convertStringToObjectWithStringProperties,
+  replaceOrInsertCharactersInRange,
+} from "@packages/utils";
+import { addOrRemovePathImport } from "./addOrRemovePathImport";
 
 type UpdateViteConfigLocalDependenciesAliasesArgs = {
-  folders: string[];
+  folders?: string[];
+  localPackagesIdentifiers?: string[];
 };
 
-export const updateViteConfigLocalDependenciesAliases = async (
-  { folders }: UpdateViteConfigLocalDependenciesAliasesArgs = { folders: ["apps"] },
-) => {
+export const updateViteConfigLocalDependenciesAliases = async ({
+  folders = ["apps"],
+  localPackagesIdentifiers = [],
+}: UpdateViteConfigLocalDependenciesAliasesArgs) => {
   const projectAbsolutePath = getProjectAbsolutePath();
 
   for await (const folder of folders) {
@@ -20,12 +27,6 @@ export const updateViteConfigLocalDependenciesAliases = async (
 
     for await (const workspace of workspaces) {
       try {
-        const path = `${folderPath}/${workspace}/vite.config.ts`;
-        const file = readFileSync(path, {
-          encoding: "utf-8",
-          flag: "r",
-        });
-
         const workspacePackages = detectUsedLocalPackages({
           workspace: `${folder}/${workspace}`,
           projectAbsolutePath,
@@ -35,138 +36,93 @@ export const updateViteConfigLocalDependenciesAliases = async (
           return workspacePackage.path;
         });
 
-        let sourceFile = ts.createSourceFile(
-          path,
-          file,
-          ts.ScriptTarget.Latest,
-          true,
-          ts.ScriptKind.TS,
-        );
-
-        sourceFile = addNewImport({
-          node: sourceFile,
-          importedFrom: "path",
-          defaultImport: "path",
+        const { filePath, file, startingIndex, isFunction } = getExportDefaultIndex({
+          folderPath: `${folderPath}/${workspace}`,
+          fileName: "vite.config.ts",
         });
 
-        const exportDefaultExpression = extractExportDefault({ sourceFile });
-        if (!exportDefaultExpression) {
+        if (!file) {
+          continue;
+        }
+
+        if (!isFunction) {
+          console.error("Expected to find an export default defineConfig function.");
           return;
         }
 
-        const relativePath = getRelativePath({
-          from: `${folderPath}/${workspace}`,
-          to: `${projectAbsolutePath}/packages`,
-        });
+        const defineConfigLength = "defineConfig".length;
+        const functionNameIndex = startingIndex - defineConfigLength;
+        if (file.slice(functionNameIndex, startingIndex) !== "defineConfig") {
+          console.error("Expected to find an export default defineConfig function.");
+          return;
+        }
 
-        const updatedExportDefault = transformExportDefault({
-          sourceFile,
-          node: exportDefaultExpression,
-          workspacePackages: workspacePackagesPaths,
-          relativePath,
-        });
+        const startOfObject = startingIndex + 1;
 
-        const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-        const modifiedCode = printer.printNode(
-          ts.EmitHint.Unspecified,
-          updatedExportDefault,
-          sourceFile,
-        );
+        let isObjectWithinDefineConfig = file.charAt(startOfObject) === "{";
+        if (!isObjectWithinDefineConfig) {
+          console.error(
+            "Expected to find an export default defineConfig function argument as object.",
+          );
+        }
 
-        const { output } = await formatCodeWithESLint({ code: modifiedCode });
-        writeFileSync(path, output);
-      } catch (error) {}
-    }
-  }
-};
-
-type TransformExportDefaultArgs = {
-  sourceFile: ts.SourceFile;
-  node: ts.Node;
-  workspacePackages: string[];
-  relativePath: string;
-};
-
-const transformExportDefault = ({
-  sourceFile,
-  node,
-  workspacePackages,
-  relativePath,
-}: TransformExportDefaultArgs) => {
-  const exportAssignment = node as ts.ExportAssignment;
-  const expression = exportAssignment.expression;
-
-  const newExportDefault: {
-    resolve: {
-      alias: Record<
-        string,
-        {
-          __expression: {
-            callee: string;
-            arguments: string[];
+        const { obj } = extractObject({ file, startIndex: startOfObject });
+        const { object } = convertStringToObjectWithStringProperties({ str: obj });
+        if (!object.resolve) {
+          object.resolve = {
+            alias: {},
           };
         }
-      >;
-    };
-  } = {
-    resolve: {
-      alias: {},
-    },
-  };
-
-  workspacePackages.forEach((pack) => {
-    const packageName = pack.split("/")?.[1];
-    newExportDefault.resolve.alias[pack] = {
-      __expression: {
-        callee: "path.resolve",
-        arguments: ["__dirname", `${relativePath}/${packageName}/src/index.ts`],
-      },
-    };
-  });
-
-  let newExpression: ts.Expression;
-  if (ts.isObjectLiteralExpression(expression)) {
-    newExpression = generateObjectProperties({
-      baseExpression: expression,
-      objectStructure: newExportDefault,
-    });
-  } else if (ts.isCallExpression(expression)) {
-    const args = expression.arguments.map((arg) => {
-      if (ts.isObjectLiteralExpression(arg)) {
-        return generateObjectProperties({ baseExpression: arg, objectStructure: newExportDefault });
-      }
-      return arg;
-    });
-
-    newExpression = ts.factory.updateCallExpression(
-      expression,
-      expression.expression,
-      expression.typeArguments,
-      args,
-    );
-  } else {
-    return sourceFile;
-  }
-
-  const newExportAssignment = ts.factory.updateExportAssignment(
-    exportAssignment,
-    exportAssignment.modifiers,
-    newExpression,
-  );
-
-  // Replace the old node with the new node
-  const transformer =
-    <T extends ts.Node>(context: ts.TransformationContext) =>
-    (rootNode: T) => {
-      function visit(node: ts.Node): ts.Node {
-        if (node === exportAssignment) {
-          return newExportAssignment;
+        const resolve = object.resolve;
+        if (typeof resolve === "string") {
+          continue;
         }
-        return ts.visitEachChild(node, visit, context);
-      }
-      return ts.visitNode(rootNode, visit);
-    };
 
-  const result = ts.transform(sourceFile, [transformer]);
-  return result.transformed[0] as ts.SourceFile;
+        const alias = resolve.alias;
+        if (typeof alias === "string") {
+          continue;
+        }
+
+        for (const property in alias) {
+          for (let i = 0; i < localPackagesIdentifiers.length; i++) {
+            const current = localPackagesIdentifiers[i];
+            if (property.startsWith(current)) {
+              delete alias[property];
+              break;
+            }
+          }
+        }
+
+        workspacePackagesPaths.forEach((workspacePackagePath) => {
+          const [localPackageIdentifier, packageName] = workspacePackagePath.split("/");
+
+          const relativePath = getRelativePath({
+            from: `${folderPath}/${workspace}`,
+            to: `${projectAbsolutePath}/${localPackageIdentifier}`,
+          });
+
+          alias[workspacePackagePath] =
+            `path.resolve("__dirname", "${relativePath}/${packageName}/src/index.ts")`;
+        });
+
+        let updatedFile = replaceOrInsertCharactersInRange({
+          str: file,
+          startIndex: startOfObject,
+          endIndex: startOfObject + obj.length - 1,
+          newChars: convertObjectToString({ obj: object }),
+        });
+
+        updatedFile = addOrRemovePathImport({
+          file: updatedFile,
+          importPackage: "path",
+          importStatement: 'import path from "path"',
+        });
+
+        const { output } = await formatCodeWithESLint({ code: updatedFile });
+        writeFileSync(filePath, output);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 };

@@ -23,6 +23,27 @@ export const SpecificDependencyTable = ({
   const paginationValue = Array.isArray(pagination) ? 1 : Number(pagination ?? 1);
   const { showTriggerPopper, hideTriggerPopper } = useControlTriggerPopper();
 
+  const trigger = () => {
+    return (
+      <>
+        <div style={{ display: "flex", justifyContent: "center", fontSize: "20px" }}>
+          Update versions
+        </div>
+        <SelectedTriggerPopper
+          name={name}
+          versions={versions}
+          hideTriggerPopper={hideTriggerPopper}
+          valueCallbacksRef={valueCallbacksRef}
+          checked={checked}
+          setChecked={setChecked}
+          instances={depedencyDetails?.instances}
+          changedDependencies={changedDependencies}
+          updateChangedDependencies={updateChangedDependencies}
+        />
+      </>
+    );
+  };
+
   useEffect(() => {
     return () => {
       hideTriggerPopper();
@@ -51,29 +72,12 @@ export const SpecificDependencyTable = ({
     };
 
     showTriggerPopper({
-      content: (
-        <>
-          <div style={{ display: "flex", justifyContent: "center", fontSize: "20px" }}>
-            Update versions
-          </div>
-          <SelectedTriggerPopper
-            name={name}
-            versions={versions}
-            hideTriggerPopper={hideTriggerPopper}
-            valueCallbacksRef={valueCallbacksRef}
-            checked={checked}
-            setChecked={setChecked}
-            instances={depedencyDetails?.instances}
-            changedDependencies={changedDependencies}
-            updateChangedDependencies={updateChangedDependencies}
-          />
-        </>
-      ),
+      content: trigger(),
       style,
       onMount,
       mountOptions,
     });
-  }, [checked]);
+  }, [checked, trigger]);
 
   return (
     <Table
@@ -82,7 +86,7 @@ export const SpecificDependencyTable = ({
         borderBottom: "1px solid #383232",
       }}
       rowContainer={{
-        height: "250px",
+        height: "100%",
       }}
       rows={{
         dataRow: {

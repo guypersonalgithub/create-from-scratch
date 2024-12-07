@@ -1,15 +1,19 @@
-import { BaseTypeaheadOption, Typeahead } from "@packages/typeahead";
+import { BaseTypeaheadOption, Typeahead, TypeaheadProperties } from "@packages/typeahead";
 import { useDebounce } from "@packages/hooks";
 import { MagnifyingGlass } from "@packages/icons";
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useRef, useState } from "react";
 
-type AutoCompleteInputProps<T extends BaseTypeaheadOption> = {
+type AutoCompleteInputProps<T extends BaseTypeaheadOption> = Pick<
+  TypeaheadProperties<T>,
+  "optionContainerStyle" | "optionContent"
+> & {
   debounceDelay?: number;
   autocompleteOptionsCallback: (text: string) => T[];
   callback: (text: T) => void;
   isLoading?: boolean;
   inputWrapperStyle?: CSSProperties;
   inputPlaceholder?: string;
+  clearInputOnPick?: boolean;
 };
 
 export const AutoCompleteInput = <T extends BaseTypeaheadOption>({
@@ -19,6 +23,9 @@ export const AutoCompleteInput = <T extends BaseTypeaheadOption>({
   isLoading,
   inputWrapperStyle,
   inputPlaceholder,
+  optionContainerStyle,
+  optionContent,
+  clearInputOnPick
 }: AutoCompleteInputProps<T>) => {
   const [options, setOptions] = useState<T[]>([]);
   const [innerIsLoading, setInnerIsLoading] = useState(false);
@@ -65,6 +72,9 @@ export const AutoCompleteInput = <T extends BaseTypeaheadOption>({
       customInputPrefix={<MagnifyingGlass width={22} style={{ color: "black" }} />}
       inputWrapperStyle={inputWrapperStyle}
       inputPlaceholder={inputPlaceholder}
+      optionContainerStyle={optionContainerStyle}
+      optionContent={optionContent}
+      clearInputOnPick={clearInputOnPick}
     />
   );
 };

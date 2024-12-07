@@ -37,6 +37,10 @@ export const SpecificDependencyContent = ({
 
     const { version, dependencyType } = currentPath;
 
+    if (!changedDependencies.current[path]) {
+      changedDependencies.current[path] = [];
+    }
+
     if (version === newVersion) {
       const updatedDependencies = changedDependencies.current[path].filter(
         (updated) => updated.dependency !== name,
@@ -48,10 +52,6 @@ export const SpecificDependencyContent = ({
       }
 
       return;
-    }
-
-    if (!changedDependencies.current[path]) {
-      changedDependencies.current[path] = [];
     }
 
     const currentChanged = changedDependencies.current[path];

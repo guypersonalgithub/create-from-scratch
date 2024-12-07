@@ -146,6 +146,10 @@ const CollapsiableChildren = ({
   }, []);
 
   useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
     const observer = new ResizeObserver((entries) => {
       let totalHeight: number = 0;
       for (let entry of entries) {
@@ -160,14 +164,14 @@ const CollapsiableChildren = ({
       }
     });
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    observer.observe(ref.current);
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (!ref.current) {
+        return;
       }
+
+      observer.unobserve(ref.current);
     };
   }, [isOpen]);
 

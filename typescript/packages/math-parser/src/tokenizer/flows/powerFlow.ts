@@ -1,5 +1,6 @@
 import { TokenTypes } from "../constants";
-import { getNextNonSpaceCharIndex, isValidSectionStartingCharacter } from "../utils";
+import { isValidSectionStartingCharacter } from "../utils";
+import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type PowerFlowArgs = {
   input: string;

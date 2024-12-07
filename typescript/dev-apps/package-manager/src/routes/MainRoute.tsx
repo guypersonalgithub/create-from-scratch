@@ -9,6 +9,7 @@ import { useFetchDependencies } from "../useFetchDependencies";
 import { getSemVer } from "../utils";
 import { ParsedData } from "../types";
 import { LatestVersion } from "@packages/detect-repository-dependencies-types";
+import { useMoveToSpecificDependencyPage } from "./useMoveToSpecificDependencyPage";
 
 type IsDependencyUpToDateArgs = {
   row: ParsedData[number];
@@ -40,6 +41,7 @@ export const MainRoute = () => {
   const { pagination, tab } = useQueryParamsState({ specificParams: ["pagination", "tab"] });
   const paginationValue = Array.isArray(pagination) ? 1 : Number(pagination ?? 1);
   const { data, isLoading, isError } = useFetchDependencies({ paginationValue });
+  const { moveToDependencyPage } = useMoveToSpecificDependencyPage();
 
   const {
     data: versionsData,
@@ -48,7 +50,7 @@ export const MainRoute = () => {
     fetchData,
   } = useRequestState({ id: "dependencyVersions" });
 
-  const tabValue = Array.isArray(tab) ? "all" : tab ?? "all";
+  const tabValue = Array.isArray(tab) ? "all" : (tab ?? "all");
   const rowsPerPage = 10;
 
   if (isLoading) {
@@ -261,12 +263,7 @@ export const MainRoute = () => {
             },
           },
         }}
-        onRowClick={(row) => {
-          moveTo({
-            pathname: `/dependency/${encodeURIComponent(row.name)}`,
-            overrideParams: true,
-          });
-        }}
+        onRowClick={(row) => moveToDependencyPage({ name: row.name })}
       />
     </>
   );

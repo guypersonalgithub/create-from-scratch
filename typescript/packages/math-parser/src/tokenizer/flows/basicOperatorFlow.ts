@@ -1,6 +1,6 @@
 import { TokenTypes } from "../constants";
 import { nonConsecutiveOperators } from "../uniqueTokens";
-import { getNextNonSpaceCharIndex } from "../utils";
+import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type BasicOperatorFlowArgs = {
   input: string;

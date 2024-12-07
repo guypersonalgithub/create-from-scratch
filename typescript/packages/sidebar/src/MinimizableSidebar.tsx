@@ -17,6 +17,7 @@ type MinimizableSidebarProps = {
   iconSize?: number;
   selected?: string;
   selectedStyle?: CSSProperties;
+  containerStyle?: CSSProperties;
 };
 
 export const MinimizableSidebar = ({
@@ -29,6 +30,7 @@ export const MinimizableSidebar = ({
   iconSize,
   selected,
   selectedStyle = {},
+  containerStyle = {},
 }: MinimizableSidebarProps) => {
   const disableAnimation = useRef(true);
   const [isOpen, setIsOpen] = useState(isOpenInitially);
@@ -48,6 +50,7 @@ export const MinimizableSidebar = ({
         backgroundColor: "#1f1616",
         boxSizing: "border-box",
         borderRadius: "20px",
+        ...containerStyle,
       }}
       disableAnimation={disableAnimation.current}
       disableLifeCycleAnimations

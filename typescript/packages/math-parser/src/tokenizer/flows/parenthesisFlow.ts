@@ -1,7 +1,8 @@
 import { TokenTypes } from "../constants";
 import { tokenizerFlows } from "./tokenizerFlows";
 import { BaseToken } from "../types";
-import { getNextNonSpaceCharIndex, isValidSectionStartingCharacter } from "../utils";
+import { isValidSectionStartingCharacter } from "../utils";
+import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type ParenthesisFlowArgs = {
   input: string;

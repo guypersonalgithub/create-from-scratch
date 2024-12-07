@@ -1,1 +1,1 @@
-export * from "./updateViteConfigLocalDependenciesAliases";
+export * from "./updateViteConfigLocalDependenciesAliases"

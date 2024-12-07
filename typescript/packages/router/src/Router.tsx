@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState, isValidElement, CSSProperties } from "react";
+import { ReactNode, useEffect, useState, isValidElement, CSSProperties, useRef } from "react";
 import { RouterPathGuard, RouterPaths } from "./types";
 import { useInnerRouteParams } from "./useRouterParams";
 import { grabFirstPath } from "./utils";
@@ -9,34 +9,32 @@ type RouterProps = {
   wrapperStyle?: CSSProperties;
 };
 
+type GetRouteDataArgs = {
+  path: `/${string}`;
+};
+
 export const Router = ({ paths, wrapperStyle }: RouterProps) => {
-  const { setRouterParams, resetRouterParams } = useInnerRouteParams();
-  const [path, setPath] = useState<`/${string}`>(window.location.pathname as `/${string}`);
+  const { setRouterParams } = useInnerRouteParams();
+  const [route, setRoute] = useState<ReactNode>(null);
 
-  useEffect(() => {
-    const onLocationChange = () => {
-      resetRouterParams();
-      setPath(window.location.pathname as `/${string}`);
-    };
+  const getRouteData = ({
+    path,
+  }: GetRouteDataArgs): { component: ReactNode; routeParams: Record<string, string> } => {
+    const routeParams: Record<string, string> = {};
 
-    window.addEventListener("popstate", onLocationChange);
-    return () => window.removeEventListener("popstate", onLocationChange);
-  }, []);
-
-  const getCurrentRoute = () => {
-    return (basicPath() || pathBreaker() || paths["404"]) as ReactNode;
-  };
-
-  const basicPath = () => {
     const currentPath = paths[path];
     if (isValidElement(currentPath)) {
-      return currentPath;
+      return { component: currentPath, routeParams };
     }
-  };
 
-  const pathBreaker = () => {
     const nestedLevels = path.split("/");
     let currentStage = paths;
+
+    const updateRouteParams = (path: string, nestedLevel: string) => {
+      const currentKey = path.slice(2, path.length);
+      routeParams[currentKey] = nestedLevel;
+    };
+
     for (let i = 1; i < nestedLevels.length; i++) {
       if (!currentStage) {
         break;
@@ -51,7 +49,7 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
           if (nestedLevels[i].length === 0) {
             currentStage = currentStage["/"] as RouterPaths;
           } else {
-            setRouterParams(firstPath, nestedLevels[i]);
+            updateRouteParams(firstPath, nestedLevels[i]);
             currentStage = currentStage[firstPath] as RouterPaths;
           }
         } else {
@@ -65,19 +63,36 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
     }
 
     if (!currentStage) {
-      return;
+      return { component: null, routeParams };
     }
 
     if (isValidElement(currentStage)) {
-      return currentStage;
+      return { component: currentStage, routeParams };
     }
 
-    return isValidElement(currentStage["/"]) ? currentStage["/"] : null;
+    const component = isValidElement(currentStage["/"]) ? currentStage["/"] : null;
+
+    return { component: component || (paths["404"] as ReactNode) || null, routeParams };
   };
+
+  useEffect(() => {
+    const onLocationChange = () => {
+      const { component, routeParams } = getRouteData({
+        path: window.location.pathname as `/${string}`,
+      });
+      setRouterParams(routeParams);
+      setRoute(component);
+    };
+
+    onLocationChange();
+
+    window.addEventListener("popstate", onLocationChange);
+    return () => window.removeEventListener("popstate", onLocationChange);
+  }, []);
 
   return (
     <RouterContext.Provider value={true}>
-      <div style={wrapperStyle}>{getCurrentRoute()}</div>
+      <div style={wrapperStyle}>{route}</div>
     </RouterContext.Provider>
   );
 };

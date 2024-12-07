@@ -84,9 +84,8 @@ export const getRouteParams = ({ onChange }: UseGetRouteParamsArgs) => {
 };
 
 export const useInnerRouteParams = () => {
-  const setRouterParams = (path: string, nestedLevel: string) => {
-    const currentKey = path.slice(2, path.length);
-    sharedState.setState({ [currentKey]: nestedLevel });
+  const setRouterParams = (params: Record<string, string>) => {
+    sharedState.setState(params);
   };
 
   const resetRouterParams = () => {

@@ -10,8 +10,8 @@ export default defineConfig({
       "packages/icons": path.resolve("__dirname", "../../packages/icons/src/index.ts"),
       "packages/mathml": path.resolve("__dirname", "../../packages/mathml/src/index.ts"),
       "packages/math-parser": path.resolve("__dirname", "../../packages/math-parser/src/index.ts"),
-      "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
       "packages/utils": path.resolve("__dirname", "../../packages/utils/src/index.ts"),
+      "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
       "packages/url": path.resolve("__dirname", "../../packages/url/src/index.ts"),
       "packages/environment": path.resolve("__dirname", "../../packages/environment/src/index.ts"),
       "packages/design-patterns": path.resolve(
@@ -19,6 +19,7 @@ export default defineConfig({
         "../../packages/design-patterns/src/index.ts",
       ),
       "packages/randomizer": path.resolve("__dirname", "../../packages/randomizer/src/index.ts"),
+      "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
       "packages/sidebar": path.resolve("__dirname", "../../packages/sidebar/src/index.ts"),
       "packages/animation-container": path.resolve(
         "__dirname",
@@ -31,18 +32,18 @@ export default defineConfig({
         "__dirname",
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "packages/collapsible": path.resolve("__dirname", "../../packages/collapsible/src/index.ts"),
       "packages/auto-complete-input": path.resolve(
         "__dirname",
         "../../packages/auto-complete-input/src/index.ts",
       ),
       "packages/typeahead": path.resolve("__dirname", "../../packages/typeahead/src/index.ts"),
       "packages/input": path.resolve("__dirname", "../../packages/input/src/index.ts"),
+      "packages/loading": path.resolve("__dirname", "../../packages/loading/src/index.ts"),
       "packages/virtual-list": path.resolve(
         "__dirname",
         "../../packages/virtual-list/src/index.ts",
       ),
-      "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
-      "packages/loading": path.resolve("__dirname", "../../packages/loading/src/index.ts"),
       "packages/table": path.resolve("__dirname", "../../packages/table/src/index.ts"),
       "packages/pagination": path.resolve("__dirname", "../../packages/pagination/src/index.ts"),
       "packages/copy-to-clipboard": path.resolve(

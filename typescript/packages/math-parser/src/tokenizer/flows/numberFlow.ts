@@ -1,7 +1,8 @@
 import { TokenTypes } from "../constants";
 import { uniqueTokens } from "../uniqueTokens";
 import { unicodes } from "../uniqueUnicodes";
-import { getNextNonSpaceCharIndex, isCharacterLetter, isCharacterNumber } from "../utils";
+import { isCharacterLetter, isCharacterNumber } from "../utils";
+import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type NumberFlowArgs = {
   input: string;

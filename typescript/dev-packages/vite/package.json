@@ -10,7 +10,9 @@
     "@packages/paths": "*",
     "@packages/packages": "*",
     "@packages/typescript": "*",
-    "@packages/eslint": "*"
+    "@packages/eslint": "*",
+    "@packages/typescript-file-manipulation": "*",
+    "@packages/utils": "*"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

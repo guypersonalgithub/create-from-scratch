@@ -11,8 +11,8 @@ on:
       - typescript/packages/icons/**
       - typescript/packages/mathml/**
       - typescript/packages/math-parser/**
-      - typescript/packages/router/**
       - typescript/packages/utils/**
+      - typescript/packages/router/**
       - typescript/packages/url/**
       - typescript/packages/environment/**
       - typescript/packages/design-patterns/**
@@ -61,8 +61,8 @@ jobs:
           cp -r ./packages/icons ./full-application/packages
           cp -r ./packages/mathml ./full-application/packages
           cp -r ./packages/math-parser ./full-application/packages
-          cp -r ./packages/router ./full-application/packages
           cp -r ./packages/utils ./full-application/packages
+          cp -r ./packages/router ./full-application/packages
           cp -r ./packages/url ./full-application/packages
           cp -r ./packages/environment ./full-application/packages
           cp -r ./packages/design-patterns ./full-application/packages

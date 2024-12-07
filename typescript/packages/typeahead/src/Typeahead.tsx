@@ -13,7 +13,7 @@ import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
 import { BaseTypeaheadOption } from "./types";
 
-type TypeaheadProperties<T extends BaseTypeaheadOption> = {
+export type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   options: T[];
   disabled?: boolean;
   className?: string;
@@ -27,6 +27,9 @@ type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   customInputSuffix?: ReactNode;
   inputWrapperStyle?: CSSProperties;
   inputPlaceholder?: string;
+  optionContainerStyle?: (args: { isSelected: boolean; isHovered: boolean }) => CSSProperties;
+  optionContent?: (args: { result: T }) => ReactNode;
+  clearInputOnPick?: boolean;
 };
 
 const ResultsNotFound = "Results not found";
@@ -45,6 +48,9 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
   customInputSuffix,
   inputWrapperStyle,
   inputPlaceholder,
+  optionContainerStyle,
+  optionContent,
+  clearInputOnPick,
 }: TypeaheadProperties<T>) => {
   const [filter, setFilter] = useState<string>(initialValue);
   const [results, setResults] = useState<T[]>([]);
@@ -114,7 +120,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
 
   const onNameSelected = ({ selected }: { selected: T }) => {
     callback(selected);
-    setFilter(selected.label);
+    setFilter(!clearInputOnPick ? selected.label : "");
     setResults([]);
   };
 
@@ -212,24 +218,27 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
         {results.length > 0 ? (
           <VirtualList containerHeight={150} itemHeight={40} backgroundColor="rgba(20, 12, 12)">
             {results.map((result: T, index: number) => {
+              const isSelected = index === currentIndex;
+              const isHovered = index === hoveredIndex;
+
               return (
                 <Fragment key={`${result.label}-${index}`}>
                   <div
                     style={{
                       zIndex: 20,
                       cursor: result.label !== ResultsNotFound ? "pointer" : "default",
-                      backgroundColor:
-                        index === currentIndex || index === hoveredIndex
-                          ? "black"
-                          : "rgba(20, 12, 12)",
+                      backgroundColor: isSelected || isHovered ? "black" : "rgba(20, 12, 12)",
                       padding: "8px",
                       fontWeight: "bold",
                       color: "white",
+                      ...(optionContainerStyle
+                        ? optionContainerStyle({ isSelected, isHovered })
+                        : {}),
                     }}
                     onClick={() => onResultClick({ result })}
                     onMouseEnter={() => setHoveredIndex(index)}
                   >
-                    {result.label}
+                    {optionContent ? optionContent({ result }) : result.label}
                   </div>
                   {withSeperators ? (
                     <hr

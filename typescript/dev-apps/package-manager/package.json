@@ -26,6 +26,7 @@
     "@packages/trigger-popper": "*",
     "@packages/typeahead": "*",
     "@packages/utils": "*",
+    "@packages/auto-complete-input": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
