@@ -3,7 +3,7 @@ import { CSSProperties, MutableRefObject, RefObject, useEffect, useRef } from "r
 import {
   convertKeyframeToCSSProperties,
   detectStoppedFrame,
-} from "./AnimationContainerWrapper/utils";
+} from "~/AnimationContainerWrapper/utils";
 
 type UseAnimationArgs = {
   animation?: Keyframe[];

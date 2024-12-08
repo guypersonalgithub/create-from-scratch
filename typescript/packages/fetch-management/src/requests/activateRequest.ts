@@ -6,12 +6,12 @@ import {
   ExtractedCallbackArg,
   PseudoData,
   UpdateStates,
-} from "../types";
+} from "~/types";
 import {
   fetchManagement,
   updateRequestsObserver,
   updateRequestsObserverMultiple,
-} from "../observer";
+} from "~/observer";
 import { MutableRefObject } from "react";
 
 type ActivateRequestArgs<K extends keyof ExtendedRequestTypeRegistry> = {

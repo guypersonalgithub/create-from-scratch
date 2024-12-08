@@ -1,6 +1,6 @@
 import type { Meta } from "@storybook/react";
-import { TriggerPopperManager } from "./TriggerPopperManager";
-import { useControlTriggerPopper } from "./useControlTriggerPopper";
+import { TriggerPopperManager } from "~/TriggerPopperManager";
+import { useControlTriggerPopper } from "~/useControlTriggerPopper";
 
 const meta = {
   title: "TriggerPopperManager",

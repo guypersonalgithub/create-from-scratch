@@ -1,9 +1,9 @@
-import { AnimationContainerWrapperProps } from "./types";
-import { SingleChildContainerWrapper } from "./SingleChildContainerWrapper";
-import { MultiChildrenContainerWrapper } from "./MultiChildrenContainerWrapper";
+import { AnimationContainerWrapperProps } from "~/AnimationContainerWrapper/types";
+import { SingleChildContainerWrapper } from "~/AnimationContainerWrapper/SingleChildContainerWrapper";
+import { MultiChildrenContainerWrapper } from "~/AnimationContainerWrapper/MultiChildrenContainerWrapper";
 import { useContext, useEffect, useRef } from "react";
 import { useIsDev } from "@packages/is-dev";
-import { UnmountContext } from "./AnimationContainerUnmountWrapper/unmountContext";
+import { UnmountContext } from "~/AnimationContainerWrapper/AnimationContainerUnmountWrapper/unmountContext";
 
 export const AnimationContainerWrapper = ({
   children,

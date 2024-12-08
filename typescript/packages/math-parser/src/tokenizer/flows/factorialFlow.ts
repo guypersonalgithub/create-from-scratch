@@ -1,4 +1,4 @@
-import { TokenTypes } from "../constants";
+import { TokenTypes } from "~/tokenizer/constants";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type FactorialFlowArgs = {

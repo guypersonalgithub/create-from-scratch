@@ -1,4 +1,4 @@
-import { unicodes } from "./uniqueUnicodes";
+import { unicodes } from "~/tokenizer/uniqueUnicodes";
 
 export const basicOperators = new Set(["+", "-", "*", "/"]);
 export const nonConsecutiveOperators = new Set([...basicOperators, "^", "!", ")", "|", "="]);

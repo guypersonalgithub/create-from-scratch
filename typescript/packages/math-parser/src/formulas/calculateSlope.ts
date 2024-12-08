@@ -1,4 +1,4 @@
-import { TwoDimensionalPoint } from "./types";
+import { TwoDimensionalPoint } from "~/formulas/types";
 
 type CalculateSlopeArgs = {
   point1: TwoDimensionalPoint;

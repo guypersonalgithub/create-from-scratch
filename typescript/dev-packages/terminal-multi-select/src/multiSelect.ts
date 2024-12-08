@@ -6,8 +6,8 @@ import {
   calculateLogLines,
   keyInputs,
 } from "@packages/terminal-utils";
-import { Option } from "./types";
-import { displayOption } from "./displayOption";
+import { Option } from "~/types";
+import { displayOption } from "~/displayOption";
 
 type DisplayOptionsArgs = {
   previousIndex?: number;

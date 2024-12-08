@@ -1,4 +1,4 @@
-import { RouterPaths } from "./types";
+import { RouterPaths } from "~/types";
 import { areStringArraysEqual } from "@packages/utils";
 
 type GrabFirstPathsArgs = {

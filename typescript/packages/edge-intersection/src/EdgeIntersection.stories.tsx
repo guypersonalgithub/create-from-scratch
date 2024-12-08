@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react";
-import { EdgeIntersection } from "./EdgeIntersection";
+import { EdgeIntersection } from "~/EdgeIntersection";
 import { createRef } from "react";
-import { EdgeWrapperRefs } from "./types";
+import { EdgeWrapperRefs } from "~/types";
 
 const meta = {
   title: "EdgeIntersection",

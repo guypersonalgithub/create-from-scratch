@@ -1,8 +1,8 @@
 import { Collapsible } from "@packages/collapsible";
-import { SidebarLink, SidebarLinkGroup } from "./types";
-import { LinkContent } from "./LinkContent";
+import { SidebarLink, SidebarLinkGroup } from "~/types";
+import { LinkContent } from "~/LinkContent";
 import { CSSProperties } from "react";
-import { isLinkGroup } from "./utils";
+import { isLinkGroup } from "~/utils";
 
 type LinkGroupProps = SidebarLinkGroup & {
   isOpen: boolean;

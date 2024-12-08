@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { isTheSameURL } from "./utils";
+import { isTheSameURL } from "~/utils";
 import { generateURL, FrontendArgs } from "@packages/url";
 
 export const usePathState = () => {

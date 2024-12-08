@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { generateSecureRandomString } from "@packages/randomizer";
-import { ModalDisplayProps } from "./types";
+import { ModalDisplayProps } from "~/types";
 
 export const useControlModal = () => {
   const id = useRef(generateSecureRandomString());

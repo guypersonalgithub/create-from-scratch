@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, ReactNode, RefObject } from "react";
-import { TooltipDisplayProps } from "./types";
+import { TooltipDisplayProps } from "~/types";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 import { capitalizeFirstChar, observeElementsVisibility } from "@packages/utils";
-import { calculateTooltipPosition } from "./utils";
+import { calculateTooltipPosition } from "~/utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
 
 type TooltipManagerProps = Partial<

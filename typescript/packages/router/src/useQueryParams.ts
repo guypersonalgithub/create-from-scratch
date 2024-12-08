@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { parseURLQueryParams } from "./utils";
+import { parseURLQueryParams } from "~/utils";
 
 type UseQueryParamsStateArgs = {
   specificParams: string[];

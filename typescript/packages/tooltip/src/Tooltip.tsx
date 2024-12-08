@@ -1,8 +1,8 @@
 import { CSSProperties, ReactNode, useRef } from "react";
-import { useControlTooltip } from "./useControlTooltip";
-import { TooltipDisplayProps } from "./types";
-import { TooltipContent } from "./TooltipContent";
-import { useTooltipIntersectionRefs } from "./useTooltipIntersectionRefs";
+import { useControlTooltip } from "~/useControlTooltip";
+import { TooltipDisplayProps } from "~/types";
+import { TooltipContent } from "~/TooltipContent";
+import { useTooltipIntersectionRefs } from "~/useTooltipIntersectionRefs";
 
 export type TooltipProps = Pick<
   TooltipDisplayProps,

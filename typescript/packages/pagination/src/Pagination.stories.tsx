@@ -1,5 +1,5 @@
 import type { Meta } from "@storybook/react";
-import { Pagination } from "./Pagination";
+import { Pagination } from "~/Pagination";
 import { useState } from "react";
 
 const meta = {

@@ -1,5 +1,5 @@
-import { ParsedToken } from "../types";
-import { recursiveOperations } from "./recursiveOperations";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { recursiveOperations } from "~/utils/parseTokens/uniqueOperations/recursiveOperations";
 
 type DetectParenthesisTokensArgs = {
   tokens: ParsedToken[];

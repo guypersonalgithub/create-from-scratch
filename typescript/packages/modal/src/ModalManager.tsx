@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ModalDisplayProps } from "./types";
+import { ModalDisplayProps } from "~/types";
 import {
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,

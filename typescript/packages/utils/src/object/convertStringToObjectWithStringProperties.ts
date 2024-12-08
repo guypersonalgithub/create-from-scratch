@@ -1,4 +1,4 @@
-import { setNestedKey } from "./setNestedKey";
+import { setNestedKey } from "~/object/setNestedKey";
 
 type ConvertStringToObjectWithStringPropertiesArgs = {
   str: string;

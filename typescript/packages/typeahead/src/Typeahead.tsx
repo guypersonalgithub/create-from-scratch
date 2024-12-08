@@ -11,7 +11,7 @@ import {
 import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
-import { BaseTypeaheadOption } from "./types";
+import { BaseTypeaheadOption } from "~/types";
 
 export type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   options: T[];

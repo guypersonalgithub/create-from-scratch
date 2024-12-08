@@ -1,5 +1,5 @@
-import { ParsedToken } from "../types";
-import { recursivelyParsePower } from "./recursivelyParsePower";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { recursivelyParsePower } from "~/utils/parseTokens/uniqueOperations/recursivelyParsePower";
 
 type UniqueFunctionWithPowerArgs = {
   value: ParsedToken[];
@@ -24,7 +24,7 @@ export const uniqueFunctionWithPower = ({
   const parsedPowerTokens = recursivelyParsePower({
     tokens,
     parsedTokensOfTheSameLevel: [funcToken],
-    isRoot: false
+    isRoot: false,
   });
 
   value.shift();

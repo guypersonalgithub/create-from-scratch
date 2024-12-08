@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { CanvasMathGraph } from "./CanvasMathGraph";
+import { CanvasMathGraph } from "~/CanvasMathGraph";
 
 const meta = {
   title: "CanvasMathGraph",

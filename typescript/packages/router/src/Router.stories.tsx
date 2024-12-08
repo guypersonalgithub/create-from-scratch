@@ -1,6 +1,6 @@
 import type { Meta } from "@storybook/react";
-import { Router } from "./Router";
-import { usePath } from "./usePath";
+import { Router } from "~/Router";
+import { usePath } from "~/usePath";
 
 const meta = {
   title: "Router",

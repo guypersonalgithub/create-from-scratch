@@ -1,4 +1,4 @@
-import { Flag } from "./types";
+import { Flag } from "~/flags/types";
 
 type ConvertFlagsArrayToObjectArgs = {
   flags: Flag[];

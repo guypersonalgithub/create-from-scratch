@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { CopyToClipboardWithTooltip } from "./CopyToClipboardWithTooltip";
+import { CopyToClipboardWithTooltip } from "~/CopyToClipboardWithTooltip";
 import { TooltipManager } from "@packages/tooltip";
 
 const meta = {

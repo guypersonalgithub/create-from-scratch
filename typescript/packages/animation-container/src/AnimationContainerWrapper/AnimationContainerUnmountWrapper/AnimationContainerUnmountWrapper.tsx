@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
-import { AnimationContainerSingleUnmountWrapper } from "./AnimationContainerSingleUnmountWrapper";
-import { AnimationContainerMultiUnmountWrapper } from "./AnimationContainerMultiUnmountWrapper";
-import { ChangeMethod } from "../types";
+import { AnimationContainerSingleUnmountWrapper } from "~/AnimationContainerWrapper/AnimationContainerUnmountWrapper/AnimationContainerSingleUnmountWrapper";
+import { AnimationContainerMultiUnmountWrapper } from "~/AnimationContainerWrapper/AnimationContainerUnmountWrapper/AnimationContainerMultiUnmountWrapper";
+import { ChangeMethod } from "~/AnimationContainerWrapper/types";
 
 type AnimationContainerUnmountWrapperProps = {
   changeMethod: ChangeMethod;

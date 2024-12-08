@@ -1,5 +1,5 @@
 import type { Meta } from "@storybook/react";
-import { AutomaticTooltip } from "./AutomaticTooltip";
+import { AutomaticTooltip } from "~/AutomaticTooltip";
 import { useState } from "react";
 
 const meta = {

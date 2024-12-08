@@ -1,4 +1,4 @@
-import { RequestResponse } from "./types";
+import { RequestResponse } from "~/types";
 
 type SetupURLArgs<T> = Pick<SendRequestArgs<T>, "url" | "params">;
 

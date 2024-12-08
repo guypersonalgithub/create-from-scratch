@@ -1,4 +1,4 @@
-import { AxisProperties } from "./types";
+import { AxisProperties } from "~/types";
 
 export class AxesSpikes {
   private spikeLength = 20;

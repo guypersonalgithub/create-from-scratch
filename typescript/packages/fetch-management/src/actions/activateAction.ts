@@ -1,8 +1,13 @@
 import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
-import { ExtractedCallbackArg, PreviousRequestProperties } from "../types";
-import { updateActionsObserver, updateRequestsObserverMultiple } from "../observer";
+import {
+  ExtractedCallbackArg,
+  PreviousRequestProperties,
+  ActionCallback,
+  ExtendedActionTypeRegistry,
+  ExtractedBody,
+} from "~/types";
+import { updateActionsObserver, updateRequestsObserverMultiple } from "~/observer";
 import { MutableRefObject } from "react";
-import { ActionCallback, ExtendedActionTypeRegistry, ExtractedBody } from "../types";
 
 type ActivateRequestArgs<K extends keyof ExtendedActionTypeRegistry> = {
   id: K;

@@ -1,7 +1,7 @@
-import { TokenTypes } from "../constants";
-import { tokenizerFlows } from "./tokenizerFlows";
-import { BaseToken } from "../types";
-import { isValidSectionStartingCharacter } from "../utils";
+import { TokenTypes } from "~/tokenizer/constants";
+import { tokenizerFlows } from "~/tokenizer/flows/tokenizerFlows";
+import { BaseToken } from "~/tokenizer/types";
+import { isValidSectionStartingCharacter } from "~/tokenizer/utils";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type ParenthesisFlowArgs = {

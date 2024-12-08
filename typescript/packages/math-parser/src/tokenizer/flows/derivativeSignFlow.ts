@@ -1,5 +1,5 @@
-import { TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { TokenTypes } from "~/tokenizer/constants";
+import { BaseToken } from "~/tokenizer/types";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type DerivativeSignFlowArgs = {

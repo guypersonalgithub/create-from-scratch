@@ -1,7 +1,7 @@
-import { TokenTypes } from "../constants";
-import { uniqueTokens } from "../uniqueTokens";
-import { unicodes } from "../uniqueUnicodes";
-import { isCharacterLetter, isCharacterNumber } from "../utils";
+import { TokenTypes } from "~/tokenizer/constants";
+import { uniqueTokens } from "~/tokenizer/uniqueTokens";
+import { unicodes } from "~/tokenizer/uniqueUnicodes";
+import { isCharacterLetter, isCharacterNumber } from "~/tokenizer/utils";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type NumberFlowArgs = {

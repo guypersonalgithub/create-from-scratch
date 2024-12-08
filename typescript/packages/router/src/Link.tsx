@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
-import { usePath } from "./usePath";
+import { usePath } from "~/usePath";
 import { useScrollToTheTop } from "@packages/hooks";
 
 type LinkProps = {

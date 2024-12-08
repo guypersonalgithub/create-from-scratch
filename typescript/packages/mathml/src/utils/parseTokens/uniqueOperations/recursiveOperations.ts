@@ -1,5 +1,5 @@
-import { ParsedToken } from "../types";
-import { uniqueOperationsFlow } from "./uniqueOperationsFlow";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { uniqueOperationsFlow } from "~/utils/parseTokens/uniqueOperations/uniqueOperationsFlow";
 
 type RecursiveOperationsArgs = {
   tokens: ParsedToken[];

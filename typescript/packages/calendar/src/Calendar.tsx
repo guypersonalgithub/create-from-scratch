@@ -6,11 +6,11 @@ import {
   splitDate,
 } from "@packages/date";
 import { ArrowRight, ArrowLeft } from "@packages/icons";
-import { CalendarHeader } from "./CalendarHeader";
+import { CalendarHeader } from "~/CalendarHeader";
 import { CSSProperties, useRef, useState } from "react";
-import { monthDetails } from "./constants";
-import { CalendarContent } from "./CalendarContent";
-import { CalendarFormat, Days } from "./types";
+import { monthDetails } from "~/constants";
+import { CalendarContent } from "~/CalendarContent";
+import { CalendarFormat, Days } from "~/types";
 
 type CalendarProps = {
   startDate?: string;

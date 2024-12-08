@@ -1,7 +1,7 @@
 import { TokenTypes, unicodes } from "@packages/math-parser";
-import { ParsedToken } from "../types";
-import { UniqueMathMLTokens } from "../constants";
-import { detectParenthesisTokens } from "./detectContaineredTokens";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { UniqueMathMLTokens } from "~/utils/parseTokens/constants";
+import { detectParenthesisTokens } from "~/utils/parseTokens/uniqueOperations/detectContaineredTokens";
 
 type RecursivelyParseLimitArgs = {
   tokens: ParsedToken[];

@@ -1,6 +1,6 @@
 import { CSSProperties, forwardRef, ReactNode } from "react";
 import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
-import { TooltipDisplayProps } from "./types";
+import { TooltipDisplayProps } from "~/types";
 
 type TooltipContentProps = Pick<TooltipDisplayProps, "offset"> & {
   id: string;

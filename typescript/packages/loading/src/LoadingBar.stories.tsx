@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { LoadingBar } from "./LoadingBar";
+import { LoadingBar } from "~/LoadingBar";
 
 const meta = {
   title: "LoadingBar",

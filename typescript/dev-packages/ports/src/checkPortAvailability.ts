@@ -1,6 +1,6 @@
 import { getOperatingSystem, mainOperatingSystems } from "@packages/os";
 import { executeTerminalCommandWithResponse } from "@packages/terminal-utils";
-import { getPortCommand } from "./getPortCommand";
+import { getPortCommand } from "~/getPortCommand";
 
 type CheckPortAvailabilityArgs = {
   port: number;

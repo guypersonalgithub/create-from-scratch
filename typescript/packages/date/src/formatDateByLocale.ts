@@ -1,5 +1,5 @@
-import { SpecificLocales } from "./types";
-import { getLocale } from "./utils";
+import { SpecificLocales } from "~/types";
+import { getLocale } from "~/utils";
 
 type FormatDateByLocaleArgs = {
   dateString: string;

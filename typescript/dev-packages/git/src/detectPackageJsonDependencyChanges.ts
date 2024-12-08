@@ -1,5 +1,5 @@
-import { listChangedFiles } from "./listChangedFiles";
-import { compareChangesInJsonsBetweenVersions } from "./compareChangesInJsonsBetweenVersions";
+import { listChangedFiles } from "~/listChangedFiles";
+import { compareChangesInJsonsBetweenVersions } from "~/compareChangesInJsonsBetweenVersions";
 import { getProjectAbsolutePath } from "@packages/paths";
 
 export const detectPackageJsonDependencyChanges = async () => {

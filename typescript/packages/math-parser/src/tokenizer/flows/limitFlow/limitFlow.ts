@@ -1,6 +1,6 @@
-import { TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
-import { variableLimit } from "./variableLimit";
+import { TokenTypes } from "~/tokenizer/constants";
+import { BaseToken } from "~/tokenizer/types";
+import { variableLimit } from "~/tokenizer/flows/limitFlow/variableLimit";
 
 type LimitFlowArgs = {
   input: string;

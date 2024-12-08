@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { RouterContext } from "./routerContext";
+import { RouterContext } from "~/routerContext";
 
 export const useRouteParamsState = () => {
   const withinRouter = useContext(RouterContext);

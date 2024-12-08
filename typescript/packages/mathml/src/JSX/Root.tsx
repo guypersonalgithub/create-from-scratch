@@ -1,5 +1,5 @@
-import { ParsedToken } from "../utils/parseTokens/types";
-import { RecursiveMathMLToken } from "./RecursiveMathMLToken";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { RecursiveMathMLToken } from "~/JSX/RecursiveMathMLToken";
 
 type RootProps = {
   base: ParsedToken[];

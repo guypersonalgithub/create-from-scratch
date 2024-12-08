@@ -1,7 +1,7 @@
-import { Fraction } from "./Fraction";
-import { Power } from "./Power";
-import { SquareRoot } from "./SquareRoot";
-import { UniqueFunction } from "./UniqueFunction";
+import { Fraction } from "~/JSX/Fraction";
+import { Power } from "~/JSX/Power";
+import { SquareRoot } from "~/JSX/SquareRoot";
+import { UniqueFunction } from "~/JSX/UniqueFunction";
 import {
   FracionToken,
   LimitToken,
@@ -10,14 +10,14 @@ import {
   PowerToken,
   RootToken,
   TokenGroup,
-} from "../utils/parseTokens/types";
-import { UniqueMathMLTokens } from "../utils/parseTokens/constants";
+} from "~/utils/parseTokens/types";
+import { UniqueMathMLTokens } from "~/utils/parseTokens/constants";
 import { TokenTypes } from "@packages/math-parser";
-import { Factorial } from "./Factorial";
-import { Log } from "./Log";
-import { Limit } from "./Limit";
-import { Root } from "./Root";
-import { Floor } from "./Floor";
+import { Factorial } from "~/JSX/Factorial";
+import { Log } from "~/JSX/Log";
+import { Limit } from "~/JSX/Limit";
+import { Root } from "~/JSX/Root";
+import { Floor } from "~/JSX/Floor";
 
 type RecursiveMathMLTokenProps = {
   token: ParsedToken;

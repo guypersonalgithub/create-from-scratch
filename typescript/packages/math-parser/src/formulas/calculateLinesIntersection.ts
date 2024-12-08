@@ -1,4 +1,4 @@
-import { tokenizer } from "../tokenizer";
+import { tokenizer } from "~/tokenizer";
 
 type CalculateLinesIntersectionArgs = {
   line1: string;

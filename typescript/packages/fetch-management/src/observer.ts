@@ -7,10 +7,10 @@ import {
   ExtractedData,
   PseudoData,
   UpdateStates,
-} from "./types";
-import { calculateExpiredDate } from "./utils";
+} from "~/types";
+import { calculateExpiredDate } from "~/utils";
 import { SendAbortableRequestArgs } from "@packages/request";
-import { ExtendedActionTypeRegistry } from "./types/actions";
+import { ExtendedActionTypeRegistry } from "~/types/actions";
 
 export const fetchManagement = {
   requests: new Observer<ExtendedRequestTypeRegistry>({}),

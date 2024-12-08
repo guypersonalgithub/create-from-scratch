@@ -1,8 +1,8 @@
 import { SpecificLocales } from "@packages/date";
-import { arrangeDays, setupCurrentMonthDays } from "./utils";
-import { CalendarFormat, Days } from "./types";
-import { CalendarContentBody } from "./CalendarContentBody";
-import { FillerCell } from "./FillerCell";
+import { arrangeDays, setupCurrentMonthDays } from "~/utils";
+import { CalendarFormat, Days } from "~/types";
+import { CalendarContentBody } from "~/CalendarContentBody";
+import { FillerCell } from "~/FillerCell";
 
 type CalendarContentProps = {
   days: number;

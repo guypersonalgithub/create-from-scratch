@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { useControlTooltip } from "./useControlTooltip";
-import { TooltipContent } from "./TooltipContent";
-import { useTooltipIntersectionRefs } from "./useTooltipIntersectionRefs";
-import { TooltipProps } from "./Tooltip";
+import { useControlTooltip } from "~/useControlTooltip";
+import { TooltipContent } from "~/TooltipContent";
+import { useTooltipIntersectionRefs } from "~/useTooltipIntersectionRefs";
+import { TooltipProps } from "~/Tooltip";
 
 export const AutomaticTooltip = ({
   content,

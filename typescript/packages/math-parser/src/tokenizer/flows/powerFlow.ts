@@ -1,5 +1,5 @@
-import { TokenTypes } from "../constants";
-import { isValidSectionStartingCharacter } from "../utils";
+import { TokenTypes } from "~/tokenizer/constants";
+import { isValidSectionStartingCharacter } from "~/tokenizer/utils";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type PowerFlowArgs = {

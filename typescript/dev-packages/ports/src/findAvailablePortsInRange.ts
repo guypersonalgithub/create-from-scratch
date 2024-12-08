@@ -1,5 +1,5 @@
 import { getOperatingSystem, mainOperatingSystems } from "@packages/os";
-import { checkPortAvailability } from "./checkPortAvailability";
+import { checkPortAvailability } from "~/checkPortAvailability";
 
 type FindAvailablePortsInRangeArgs = {
   startPort: number;

@@ -1,4 +1,4 @@
-import { ObjectType } from "./types";
+import { ObjectType } from "~/types";
 
 type ConvertYamlToObjectArgs = {
   str: string;

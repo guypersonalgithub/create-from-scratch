@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { TooltipDisplayProps } from "./types";
+import { TooltipDisplayProps } from "~/types";
 import { CustomEdges, Edges, EdgeWrapperRefs } from "@packages/edge-intersection";
 
 type CalculateTooltipPositionArgs = Required<

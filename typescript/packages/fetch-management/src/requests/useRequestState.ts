@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
-import { fetchManagement } from "../observer";
+import { fetchManagement } from "~/observer";
 import {
   ExpiredAfter,
   ExtendedRequestTypeRegistry,
@@ -8,11 +8,11 @@ import {
   ExtractedData,
   ExtractedCallback,
   PseudoData,
-} from "../types";
-import { useRequestStateUpdater } from "./useRequestStateUpdater";
-import { activateRequest } from "./activateRequest";
-import { useShouldFetch } from "./useShouldFetch";
-import { dictateIsLoadingInitially, shouldAvoidSendingRequest } from "../utils";
+} from "~/types";
+import { useRequestStateUpdater } from "~/requests/useRequestStateUpdater";
+import { activateRequest } from "~/requests/activateRequest";
+import { useShouldFetch } from "~/requests/useShouldFetch";
+import { dictateIsLoadingInitially, shouldAvoidSendingRequest } from "~/utils";
 
 type UseRequestStateArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;

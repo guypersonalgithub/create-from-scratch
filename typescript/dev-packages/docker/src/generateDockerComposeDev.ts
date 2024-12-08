@@ -1,9 +1,9 @@
 import { readdirSync, writeFileSync } from "fs";
 import { detectUsedLocalPackages } from "@packages/packages";
-import { DockerComposeData, Profiles, WorkspaceContainerProperties } from "./types";
+import { DockerComposeData, Profiles, WorkspaceContainerProperties } from "~/types";
 import { getProjectAbsolutePath } from "@packages/paths";
-import { getContainerProperties } from "./getContainerProperties";
-import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
+import { getContainerProperties } from "~/getContainerProperties";
+import { generateNoneWorkspacePackageJsons } from "~/generateNoneWorkspacePackageJsons";
 import { convertObjectToYaml } from "@packages/yaml";
 
 export const generateDockerComposeDev = () => {

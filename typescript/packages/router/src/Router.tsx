@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState, isValidElement, CSSProperties, useRef } from "react";
-import { RouterPathGuard, RouterPaths } from "./types";
-import { grabFirstPath } from "./utils";
-import { RouterContext } from "./routerContext";
+import { RouterPathGuard, RouterPaths } from "~/types";
+import { grabFirstPath } from "~/utils";
+import { RouterContext } from "~/routerContext";
 
 type RouterProps = {
   paths: RouterPaths;

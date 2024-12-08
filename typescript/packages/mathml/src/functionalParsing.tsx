@@ -7,8 +7,8 @@ import {
   PowerToken,
   RootToken,
   TokenGroup,
-} from "./utils/parseTokens/types";
-import { UniqueMathMLTokens } from "./utils/parseTokens/constants";
+} from "~/utils/parseTokens/types";
+import { UniqueMathMLTokens } from "~/utils/parseTokens/constants";
 
 type FunctionalParsingArgs = {
   parsedTokens: ParsedToken[];

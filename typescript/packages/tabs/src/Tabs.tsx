@@ -1,5 +1,5 @@
 import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
-import { Tab } from "./types";
+import { Tab } from "~/types";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 
 type TabValues<T extends Tab[]> = T[number]["value"];
@@ -126,7 +126,7 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
 
       const { left } = containerRef.current.getBoundingClientRect();
       containerLeft.current = left;
-    }
+    };
 
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {

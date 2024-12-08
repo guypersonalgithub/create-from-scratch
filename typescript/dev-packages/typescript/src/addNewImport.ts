@@ -1,5 +1,5 @@
 import ts from "typescript";
-import { importAlreadyExists } from "./importAlreadyExists";
+import { importAlreadyExists } from "~/importAlreadyExists";
 
 type AddNewImportArgs = {
   node: ts.SourceFile;

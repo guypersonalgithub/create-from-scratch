@@ -1,4 +1,4 @@
-import { SVGIconProps } from "./types";
+import { SVGIconProps } from "~/types";
 
 export const Home = ({ size, width = size, height = size, style }: SVGIconProps) => {
   return (

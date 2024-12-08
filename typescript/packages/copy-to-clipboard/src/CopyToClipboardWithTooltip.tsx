@@ -1,5 +1,5 @@
 import { Button } from "@packages/button";
-import { useCopyToClipboard } from "./useCopyToClipboard";
+import { useCopyToClipboard } from "~/useCopyToClipboard";
 import { AutomaticTooltip, TooltipProps } from "@packages/tooltip";
 import { ReactNode } from "react";
 

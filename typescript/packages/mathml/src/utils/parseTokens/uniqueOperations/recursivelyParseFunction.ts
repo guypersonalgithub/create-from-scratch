@@ -1,9 +1,12 @@
 import { TokenTypes } from "@packages/math-parser";
-import { ParsedToken } from "../types";
-import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
-import { recursiveOperations } from "./recursiveOperations";
-import { UniqueMathMLTokens } from "../constants";
-import { uniqueFunctionWithPower } from "./uniqueFunctionWithPower";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import {
+  detectAbsoluteTokens,
+  detectParenthesisTokens,
+} from "~/utils/parseTokens/uniqueOperations/detectContaineredTokens";
+import { recursiveOperations } from "~/utils/parseTokens/uniqueOperations/recursiveOperations";
+import { UniqueMathMLTokens } from "~/utils/parseTokens/constants";
+import { uniqueFunctionWithPower } from "~/utils/parseTokens/uniqueOperations/uniqueFunctionWithPower";
 
 type RecursivelyParseUniqueFunctionArgs = {
   func: string;

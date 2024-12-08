@@ -1,6 +1,6 @@
 import type { Meta } from "@storybook/react";
-import { ToastManager } from "./ToastManager";
-import { useControlToast } from "./useControlToast";
+import { ToastManager } from "~/ToastManager";
+import { useControlToast } from "~/useControlToast";
 
 const meta = {
   title: "ToastManager",

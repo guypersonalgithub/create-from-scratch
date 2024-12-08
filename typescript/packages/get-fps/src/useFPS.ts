@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { calculateAverageFPS, calculateMaxFPS } from "./utils";
+import { calculateAverageFPS, calculateMaxFPS } from "~/utils";
 
 type UseFPSArgs = {
   numberOfRecordsLimit: number;

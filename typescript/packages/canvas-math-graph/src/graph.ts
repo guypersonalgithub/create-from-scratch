@@ -1,4 +1,4 @@
-import { Axes } from "./axes";
+import { Axes } from "~/axes";
 
 export class Graph {
   height: number;

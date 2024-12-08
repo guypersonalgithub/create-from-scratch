@@ -1,7 +1,10 @@
 import { TokenTypes } from "@packages/math-parser";
-import { ParsedToken } from "../types";
-import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
-import { UniqueMathMLTokens } from "../constants";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import {
+  detectAbsoluteTokens,
+  detectParenthesisTokens,
+} from "~/utils/parseTokens/uniqueOperations/detectContaineredTokens";
+import { UniqueMathMLTokens } from "~/utils/parseTokens/constants";
 
 type RecursivelyParseFactorialArgs = {
   parsedTokensOfTheSameLevel: ParsedToken[];

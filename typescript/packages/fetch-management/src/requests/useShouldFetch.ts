@@ -1,7 +1,7 @@
 import { SendAbortableRequestArgs } from "@packages/request";
-import { ExtendedRequestTypeRegistry, ExtractedCallbackArg, PseudoData } from "../types";
-import { fetchManagement } from "../observer";
-import { compareCurrentAndNewRequests } from "../utils";
+import { ExtendedRequestTypeRegistry, ExtractedCallbackArg, PseudoData } from "~/types";
+import { fetchManagement } from "~/observer";
+import { compareCurrentAndNewRequests } from "~/utils";
 
 type UseShouldFetchArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;

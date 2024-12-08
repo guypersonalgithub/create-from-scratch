@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { WorkspaceContainerProperties } from "./types";
+import { WorkspaceContainerProperties } from "~/types";
 
 type GetContainerPropertiesArgs = {
   folderPath: string;

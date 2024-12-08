@@ -1,11 +1,11 @@
 import { CSSProperties, ReactNode, useRef, useState } from "react";
-import { SidebarLink, SidebarLinkGroup } from "./types";
+import { SidebarLink, SidebarLinkGroup } from "~/types";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { DoubleArrowRightFull } from "@packages/icons";
-import { LinkContent } from "./LinkContent";
-import { isLinkGroup } from "./utils";
-import { LinkGroup } from "./LinkGroup";
+import { LinkContent } from "~/LinkContent";
+import { isLinkGroup } from "~/utils";
+import { LinkGroup } from "~/LinkGroup";
 
 type MinimizableSidebarProps = {
   title: ReactNode;

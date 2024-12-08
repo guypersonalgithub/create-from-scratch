@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Typeahead } from "./Typeahead";
+import { Typeahead } from "~/Typeahead";
 
 const meta = {
   title: "Typeahead",

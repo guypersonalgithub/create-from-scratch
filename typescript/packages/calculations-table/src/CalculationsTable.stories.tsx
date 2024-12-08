@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { CalculationsTable } from "./CalculationsTable";
+import { CalculationsTable } from "~/CalculationsTable";
 
 const meta = {
   title: "CalculationsTable",

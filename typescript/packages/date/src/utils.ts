@@ -1,4 +1,4 @@
-import { SpecificLocales } from "./types";
+import { SpecificLocales } from "~/types";
 
 export const getLocale = () => {
   return Intl.DateTimeFormat().resolvedOptions().locale;

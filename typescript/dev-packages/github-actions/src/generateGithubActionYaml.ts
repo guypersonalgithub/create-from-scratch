@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync, writeFileSync } from "fs";
-import { GithubActionYaml } from "./types";
+import { GithubActionYaml } from "~/types";
 import { getProjectAbsolutePath, completeRootAbsolutePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "@packages/packages";
 import { convertObjectToYaml } from "@packages/yaml";

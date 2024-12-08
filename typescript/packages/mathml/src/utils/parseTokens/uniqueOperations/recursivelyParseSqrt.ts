@@ -1,8 +1,11 @@
 import { TokenTypes } from "@packages/math-parser";
-import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
-import { ParsedToken } from "../types";
-import { recursiveOperations } from "./recursiveOperations";
-import { UniqueMathMLTokens } from "../constants";
+import {
+  detectAbsoluteTokens,
+  detectParenthesisTokens,
+} from "~/utils/parseTokens/uniqueOperations/detectContaineredTokens";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { recursiveOperations } from "~/utils/parseTokens/uniqueOperations/recursiveOperations";
+import { UniqueMathMLTokens } from "~/utils/parseTokens/constants";
 
 type RecursivelyParseSqrtArgs = {
   tokens: ParsedToken[];

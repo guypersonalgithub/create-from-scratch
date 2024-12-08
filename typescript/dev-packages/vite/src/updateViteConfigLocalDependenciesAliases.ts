@@ -8,7 +8,7 @@ import {
   convertStringToObjectWithStringProperties,
   replaceOrInsertCharactersInRange,
 } from "@packages/utils";
-import { addOrRemovePathImport } from "./addOrRemovePathImport";
+import { addOrRemovePathImport } from "~/addOrRemovePathImport";
 
 type UpdateViteConfigLocalDependenciesAliasesArgs = {
   folders?: string[];

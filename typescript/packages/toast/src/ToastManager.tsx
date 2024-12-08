@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ToastDisplayProps } from "./types";
+import { ToastDisplayProps } from "~/types";
 import {
   AnimationContainerWrapper,
   AnimationContainerWrapperProps,

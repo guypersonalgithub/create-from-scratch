@@ -1,4 +1,4 @@
-import { recursiveLocalPackagesDetection } from "./detectUsedLocalPackages";
+import { recursiveLocalPackagesDetection } from "~/detectUsedLocalPackages";
 
 type getPrivatePackageDependenciesArgs = {
   dependencies: Record<string, string>;

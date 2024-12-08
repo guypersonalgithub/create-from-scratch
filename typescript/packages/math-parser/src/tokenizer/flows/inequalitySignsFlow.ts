@@ -1,5 +1,5 @@
-import { TokenTypes } from "../constants";
-import { nonConsecutiveOperators } from "../uniqueTokens";
+import { TokenTypes } from "~/tokenizer/constants";
+import { nonConsecutiveOperators } from "~/tokenizer/uniqueTokens";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type InequalitySignsFlow = {

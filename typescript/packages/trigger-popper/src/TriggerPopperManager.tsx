@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { TriggerPopperDisplayProps } from "./types";
+import { TriggerPopperDisplayProps } from "~/types";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,

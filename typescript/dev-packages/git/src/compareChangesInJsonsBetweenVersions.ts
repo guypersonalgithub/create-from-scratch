@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { readFileAtRevision } from "./readFileAtRevision";
+import { readFileAtRevision } from "~/readFileAtRevision";
 import { mergePaths } from "@packages/paths";
 
 type GetCurrentAndPreviousFilePathsArgs = {

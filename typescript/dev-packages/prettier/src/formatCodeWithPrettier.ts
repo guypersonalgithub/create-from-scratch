@@ -1,5 +1,5 @@
 import prettier from "prettier";
-import { getPrettierConfig } from "./getPrettierConfig";
+import { getPrettierConfig } from "~/getPrettierConfig";
 
 type FormatCodeWithPrettierArgs = {
   code: string;

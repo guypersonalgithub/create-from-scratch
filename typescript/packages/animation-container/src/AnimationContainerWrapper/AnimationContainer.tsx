@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, ReactElement, CSSProperties } from "react";
-import { AnimationContainerWrapperProps } from "./types";
-import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
-import { useAnimation } from "../useAnimation";
+import { AnimationContainerWrapperProps } from "~/AnimationContainerWrapper/types";
+import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "~/AnimationContainerWrapper/utils";
+import { useAnimation } from "~/useAnimation";
 
 type AnimationWrapperProps = Omit<AnimationContainerWrapperProps, "children" | "changeMethod"> & {
   index: number;

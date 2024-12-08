@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from "react";
-import { CustomEdges, EdgeWrapperRefs } from "./types";
-import { calculateBaseWithOffset } from "./utils";
+import { CustomEdges, EdgeWrapperRefs } from "~/types";
+import { calculateBaseWithOffset } from "~/utils";
 import { capitalizeFirstChar, type OmitByPattern } from "@packages/utils";
 
 type EdgeIntersectionProps = {

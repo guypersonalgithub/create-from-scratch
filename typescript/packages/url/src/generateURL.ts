@@ -1,6 +1,6 @@
 import { detectEnvironment } from "@packages/environment";
-import { BackendArgs, FrontendArgs } from "./types";
-import { getBackendBaseURL, getFrontendBaseURL } from "./utils";
+import { BackendArgs, FrontendArgs } from "~/types";
+import { getBackendBaseURL, getFrontendBaseURL } from "~/utils";
 
 function generateURL(args: FrontendArgs): URL;
 function generateURL(args: BackendArgs): URL;

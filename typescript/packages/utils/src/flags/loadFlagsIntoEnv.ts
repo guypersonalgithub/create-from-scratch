@@ -1,4 +1,4 @@
-import { getFlags } from "./getFlags";
+import { getFlags } from "~/flags/getFlags";
 
 export const loadFlagsIntoEnv = () => {
   const flags = getFlags();

@@ -1,6 +1,6 @@
-import { TokenTypes } from "../constants";
-import { unicodes } from "../uniqueUnicodes";
-import { isCharacterLetter } from "../utils";
+import { TokenTypes } from "~/tokenizer/constants";
+import { unicodes } from "~/tokenizer/uniqueUnicodes";
+import { isCharacterLetter } from "~/tokenizer/utils";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type DeltaFlowArgs = {

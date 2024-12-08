@@ -1,16 +1,17 @@
 import { useRef, useState } from "react";
 import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
-import { ExtractedCallbackArg, PreviousRequestProperties } from "../types";
 import {
+  ExtractedCallbackArg,
+  PreviousRequestProperties,
   ActionCallback,
   ExtendedActionTypeRegistry,
   ExtractedBody,
   PseudoActionData,
-} from "../types";
-import { activateAction } from "./activateAction";
-import { fetchManagement } from "../observer";
-import { useActionStateUpdater } from "./useActionStateUpdater";
-import { shouldAvoidSendingAction } from "../utils";
+} from "~/types";
+import { activateAction } from "~/actions/activateAction";
+import { fetchManagement } from "~/observer";
+import { useActionStateUpdater } from "~/actions/useActionStateUpdater";
+import { shouldAvoidSendingAction } from "~/utils";
 
 type UseMountRequestStateArgs<K extends keyof ExtendedActionTypeRegistry> = {
   id: K;

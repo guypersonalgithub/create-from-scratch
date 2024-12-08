@@ -1,4 +1,4 @@
-import { days } from "./constants";
+import { days } from "~/constants";
 
 export type CalendarFormat = "single" | "range";
 export type Days = (typeof days)[number];

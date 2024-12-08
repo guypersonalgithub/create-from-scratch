@@ -1,5 +1,5 @@
 import { replaceOrInsertCharactersInRange } from "@packages/utils";
-import { getImportsInFile } from "./getImportsInFile";
+import { getImportsInFile } from "~/getImportsInFile";
 
 type AddImportIfNotExistsArgs = {
   file: string;

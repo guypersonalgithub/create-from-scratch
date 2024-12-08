@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { VaryingVirtualList } from "./VaryingVirtualList";
+import { VaryingVirtualList } from "~/VaryingVirtualList";
 
 const meta = {
   title: "VaryingVirtualList",

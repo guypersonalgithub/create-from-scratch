@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ToastDisplayProps } from "./types";
+import { ToastDisplayProps } from "~/types";
 import { generateSecureRandomString } from "@packages/randomizer";
 
 export const useControlToast = () => {

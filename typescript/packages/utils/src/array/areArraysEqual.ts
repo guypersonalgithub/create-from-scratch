@@ -1,4 +1,4 @@
-import { areObjectsEqual } from "../object";
+import { areObjectsEqual } from "~/object";
 
 type AreArraysEqualArgs = {
   array1: unknown[];

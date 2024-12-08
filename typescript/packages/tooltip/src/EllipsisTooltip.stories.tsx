@@ -1,5 +1,5 @@
 import type { Meta } from "@storybook/react";
-import { EllipsisTooltip } from "./EllipsisTooltip";
+import { EllipsisTooltip } from "~/EllipsisTooltip";
 
 const meta = {
   title: "EllipsisTooltip",

@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { AnimationContainerWrapperProps, ChangeMethod } from "./types";
-import { AnimationWrapper } from "./AnimationContainer";
-import { getChildKeys } from "./utils";
+import { AnimationContainerWrapperProps, ChangeMethod } from "~/AnimationContainerWrapper/types";
+import { AnimationWrapper } from "~/AnimationContainerWrapper/AnimationContainer";
+import { getChildKeys } from "~/AnimationContainerWrapper/utils";
 import { areSetsEqual } from "@packages/utils";
 
 type MultiChildrenContainerWrapper = AnimationContainerWrapperProps & {

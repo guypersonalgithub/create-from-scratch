@@ -1,4 +1,4 @@
-import { BackendArgs, FrontendArgs, QueryParams } from "./types";
+import { BackendArgs, FrontendArgs, QueryParams } from "~/types";
 
 type ArrangeSearchParamsArgs = {
   queryParams?: QueryParams;

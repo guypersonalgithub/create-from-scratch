@@ -1,6 +1,6 @@
 import { TokenTypes } from "@packages/math-parser";
-import { ParsedToken } from "../utils/parseTokens/types";
-import { RecursiveMathMLToken } from "./RecursiveMathMLToken";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { RecursiveMathMLToken } from "~/JSX/RecursiveMathMLToken";
 
 type LimitProps = {
   lim: ParsedToken;

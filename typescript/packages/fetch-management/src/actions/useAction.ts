@@ -1,12 +1,13 @@
-import { useRef } from "react";
+import { MutableRefObject, useRef } from "react";
 import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
 import {
   ExtendedActionTypeRegistry,
   ExtractedCallbackArg,
   ExtractedBody,
   ActionCallback,
-} from "../types";
-import { activateAction } from "./activateAction";
+  PreviousRequestProperties,
+} from "~/types";
+import { activateAction } from "~/actions/activateAction";
 
 // TODO: Consider adding isLoading and isError with useRefs.
 
@@ -17,6 +18,8 @@ type UseActionArgs<K extends keyof ExtendedActionTypeRegistry> = {
 type InitiateActionArgs<K extends keyof ExtendedActionTypeRegistry> = {
   body: ExtractedBody<K>;
   callback: ActionCallback<K>;
+  amountOfAttemptsForCurrentRequest: MutableRefObject<number>;
+  previousRequestProperties: MutableRefObject<PreviousRequestProperties<K>>;
 } & Omit<SendAbortableRequestArgs<ExtractedCallbackArg<K>>, "fallback" | "body">;
 
 export const useAction = <K extends keyof ExtendedActionTypeRegistry>({ id }: UseActionArgs<K>) => {

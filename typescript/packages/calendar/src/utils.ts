@@ -4,8 +4,8 @@ import {
   getDateDay,
   SpecificLocales,
 } from "@packages/date";
-import { Days, FormattedDay } from "./types";
-import { days, monthDetails } from "./constants";
+import { Days, FormattedDay } from "~/types";
+import { days, monthDetails } from "~/constants";
 
 type ArrangeDaysArgs = {
   monthStartOnDay: Days;

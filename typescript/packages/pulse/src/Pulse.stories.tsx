@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Pulse } from "./Pulse";
+import { Pulse } from "~/Pulse";
 
 const meta = {
   title: "Pulse",
@@ -28,4 +28,3 @@ export const CircularPulse: Story = {
     return <Pulse {...args} />;
   },
 };
-

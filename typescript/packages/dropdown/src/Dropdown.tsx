@@ -2,7 +2,7 @@ import { useState, useRef, KeyboardEvent, Fragment, ReactNode, CSSProperties } f
 import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
-import { BaseDropdownOption } from "./types";
+import { BaseDropdownOption } from "~/types";
 
 type DropdownProps<T extends BaseDropdownOption> = {
   options: T[];

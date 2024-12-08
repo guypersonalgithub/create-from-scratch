@@ -1,8 +1,8 @@
 import { ReactElement, useEffect, useState, useRef } from "react";
-import { getAnimationWrapperChildKeys, getChildKeys, isAnimationWrapperChild } from "../utils";
-import { UnmountContext } from "./unmountContext";
+import { getAnimationWrapperChildKeys, getChildKeys, isAnimationWrapperChild } from "~/AnimationContainerWrapper/utils";
+import { UnmountContext } from "~/AnimationContainerWrapper/AnimationContainerUnmountWrapper/unmountContext";
 import { areSetsEqual } from "@packages/utils";
-import { ChangeMethod } from "../types";
+import { ChangeMethod } from "~/AnimationContainerWrapper/types";
 
 type AnimationContainerMultiUnmountWrapperProps = {
   changeMethod: ChangeMethod;

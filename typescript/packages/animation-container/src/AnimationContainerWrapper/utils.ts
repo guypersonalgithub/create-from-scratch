@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
-import { CSSPropertiesWithIndex } from "./types";
+import { CSSPropertiesWithIndex } from "~/AnimationContainerWrapper/types";
 import { convertStringFormat } from "@packages/utils";
-import { IS_ANIMATION_CONTAINER_WRAPPER } from "./AnimationContainerWrapper";
+import { IS_ANIMATION_CONTAINER_WRAPPER } from "~/AnimationContainerWrapper/AnimationContainerWrapper";
 
 type ReverseKeyframesArgs = {
   keyframes: Keyframe[];

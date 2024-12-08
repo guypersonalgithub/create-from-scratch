@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { CanvasTooltipActions } from "./types";
-import { Tooltip } from "./tooltip";
+import { CanvasTooltipActions } from "~/types";
+import { Tooltip } from "~/tooltip";
 
 type CanvasTooltipProps = {
   height: number;

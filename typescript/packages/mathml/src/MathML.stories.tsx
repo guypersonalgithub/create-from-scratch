@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { MathML } from "./MathML";
+import { MathML } from "~/MathML";
 
 const meta = {
   title: "MathML",

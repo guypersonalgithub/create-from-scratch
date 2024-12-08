@@ -1,15 +1,15 @@
 import { uniqueFunctions } from "@packages/math-parser";
-import { ParsedToken } from "../types";
-import { recursivelyParseFactorial } from "./recursivelyParseFactorial";
-import { recursivelyParseFraction } from "./recursivelyParseFraction";
-import { recursivelyParseUniqueFunction } from "./recursivelyParseFunction";
-import { recursivelyParseLog } from "./recursivelyParseLog";
-import { recursivelyParsePower } from "./recursivelyParsePower";
-import { recursivelyParseSqrt } from "./recursivelyParseSqrt";
-import { recursivelyParseLimit } from "./recursivelyParseLimit";
-import { recursivelyParseRoot } from "./recursivelyParseRoot";
-import { recursivelyParseFloor } from "./recursivelyParseFloor";
-import { recursivelyParseCancel } from "./recursivelyParseCancel";
+import { ParsedToken } from "~/utils/parseTokens/types";
+import { recursivelyParseFactorial } from "~/utils/parseTokens/uniqueOperations/recursivelyParseFactorial";
+import { recursivelyParseFraction } from "~/utils/parseTokens/uniqueOperations/recursivelyParseFraction";
+import { recursivelyParseUniqueFunction } from "~/utils/parseTokens/uniqueOperations/recursivelyParseFunction";
+import { recursivelyParseLog } from "~/utils/parseTokens/uniqueOperations/recursivelyParseLog";
+import { recursivelyParsePower } from "~/utils/parseTokens/uniqueOperations/recursivelyParsePower";
+import { recursivelyParseSqrt } from "~/utils/parseTokens/uniqueOperations/recursivelyParseSqrt";
+import { recursivelyParseLimit } from "~/utils/parseTokens/uniqueOperations/recursivelyParseLimit";
+import { recursivelyParseRoot } from "~/utils/parseTokens/uniqueOperations/recursivelyParseRoot";
+import { recursivelyParseFloor } from "~/utils/parseTokens/uniqueOperations/recursivelyParseFloor";
+import { recursivelyParseCancel } from "~/utils/parseTokens/uniqueOperations/recursivelyParseCancel";
 
 type UniqueOperationsFlowArgs = {
   tokens: ParsedToken[];

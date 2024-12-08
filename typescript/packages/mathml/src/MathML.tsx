@@ -1,8 +1,8 @@
 import { tokenizer } from "@packages/math-parser";
-import { RecursiveMathMLToken } from "./JSX/RecursiveMathMLToken";
+import { RecursiveMathMLToken } from "~/JSX/RecursiveMathMLToken";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { functionalParsing } from "./functionalParsing";
-import { parseTokens } from "./utils/parseTokens";
+import { functionalParsing } from "~/functionalParsing";
+import { parseTokens } from "~/utils/parseTokens";
 import "./styles.css";
 
 type MathMLProps = {

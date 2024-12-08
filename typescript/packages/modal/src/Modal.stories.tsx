@@ -1,6 +1,6 @@
 import type { Meta } from "@storybook/react";
-import { ModalManager } from "./ModalManager";
-import { useControlModal } from "./useControlModal";
+import { ModalManager } from "~/ModalManager";
+import { useControlModal } from "~/useControlModal";
 
 const meta = {
   title: "ModalManager",

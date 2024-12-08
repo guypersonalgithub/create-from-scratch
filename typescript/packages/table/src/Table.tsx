@@ -1,8 +1,8 @@
-import { TableHeader } from "./TableHeader";
-import { TableCell } from "./TableCell";
+import { TableHeader } from "~/TableHeader";
+import { TableCell } from "~/TableCell";
 import { Pagination } from "@packages/pagination";
-import { getDisplayedRows } from "./utils";
-import { Column, TableProps } from "./types";
+import { getDisplayedRows } from "~/utils";
+import { Column, TableProps } from "~/types";
 import { combineStringsWithSpaces } from "@packages/utils";
 
 export const Table = <T extends Record<string, unknown>>({

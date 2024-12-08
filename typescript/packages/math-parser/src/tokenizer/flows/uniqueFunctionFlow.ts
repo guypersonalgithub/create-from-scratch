@@ -1,7 +1,7 @@
-import { TokenTypes } from "../constants";
-import { BaseToken } from "../types";
-import { uniqueWords } from "../uniqueTokens";
-import { isCharacterLetter, isValidSectionStartingCharacter } from "../utils";
+import { TokenTypes } from "~/tokenizer/constants";
+import { BaseToken } from "~/tokenizer/types";
+import { uniqueWords } from "~/tokenizer/uniqueTokens";
+import { isCharacterLetter, isValidSectionStartingCharacter } from "~/tokenizer/utils";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type UniqueFunctionFlowArgs = {

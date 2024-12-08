@@ -1,5 +1,5 @@
 import { BaseToken } from "@packages/math-parser";
-import { UniqueMathMLTokens } from "./constants";
+import { UniqueMathMLTokens } from "~/utils/parseTokens/constants";
 
 export type TokenGroup = { type: UniqueMathMLTokens; value: ParsedToken[] };
 export type FracionToken = {

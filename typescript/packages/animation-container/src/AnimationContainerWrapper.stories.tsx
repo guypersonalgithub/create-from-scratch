@@ -3,7 +3,7 @@ import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
   ChangeMethod,
-} from "./AnimationContainerWrapper";
+} from "~/AnimationContainerWrapper";
 import { useState } from "react";
 
 const meta = {

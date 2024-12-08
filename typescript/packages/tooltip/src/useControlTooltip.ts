@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { TooltipDisplayProps } from "./types";
+import { TooltipDisplayProps } from "~/types";
 import { generateSecureRandomString } from "@packages/randomizer";
 
 export const useControlTooltip = () => {

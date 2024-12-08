@@ -4,13 +4,13 @@ import {
   ExtendedRequestTypeRegistry,
   ExtractedCallbackArg,
   PseudoData,
-} from "./types";
+} from "~/types";
 import {
   ExtendedActionTypeRegistry,
   ExtractedBody,
   PreviousRequestProperties,
-} from "./types/actions";
-import { fetchManagement } from "./observer";
+} from "~/types/actions";
+import { fetchManagement } from "~/observer";
 import { areObjectsEqual } from "@packages/utils";
 
 type CalculateExpiredDateArgs = {
