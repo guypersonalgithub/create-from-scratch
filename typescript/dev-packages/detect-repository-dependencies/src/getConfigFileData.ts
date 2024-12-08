@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { ConfigProperties } from "./types";
+import { ConfigProperties } from "~/types";
 
 type GetConfigFileDataArgs = {
   projectAbsolutePath: string;

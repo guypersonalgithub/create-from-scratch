@@ -1,5 +1,5 @@
 import { useMountRequestState } from "@packages/fetch-management";
-import { parseDependenciesData } from "./utils";
+import { parseDependenciesData } from "~/utils";
 
 type UseFetchDependenciesArgs = {
   paginationValue: number;

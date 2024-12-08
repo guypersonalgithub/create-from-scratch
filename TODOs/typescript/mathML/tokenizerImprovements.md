@@ -1,1 +1,2 @@
 - Add support for a derivative with and without parenthesis and a numeric direction if it exists, similarly to the limit one.
+- Add support for canceling displayment for the JSX version (currently only the HTML supports that).

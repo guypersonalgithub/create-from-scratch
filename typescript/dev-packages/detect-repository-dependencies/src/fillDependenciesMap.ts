@@ -1,4 +1,4 @@
-import { DependenciesMap, ParsedPackageLock } from "./types";
+import { DependenciesMap, ParsedPackageLock } from "~/types";
 
 type FillDependenciesMapArgs = {
   name: string;

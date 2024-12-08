@@ -23,7 +23,7 @@ export const parenthesisFlow = ({
 }: ParenthesisFlowArgs) => {
   const innerTokens: BaseToken[] = [
     {
-      type: TokenTypes.UNIQUE_TOKEN,
+      type: TokenTypes.PARENTHESIS,
       value: "(",
     },
   ];
@@ -123,7 +123,7 @@ export const parenthesisFlow = ({
   }
 
   innerTokens.push({
-    type: TokenTypes.UNIQUE_TOKEN,
+    type: TokenTypes.PARENTHESIS,
     value: ")",
   });
 

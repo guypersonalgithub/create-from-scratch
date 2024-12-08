@@ -1,13 +1,13 @@
 import { NPMRegistry } from "@packages/detect-repository-dependencies-types";
-import { ParsedData } from "../../types";
+import { ParsedData } from "~/types";
 import { usePath } from "@packages/router";
-import { SpecificDependencyTable } from "./SpecificDependencyTable";
+import { SpecificDependencyTable } from "~/routes/SpecificDependency/SpecificDependencyTable";
 import { Button } from "@packages/button";
 import { useRef } from "react";
 import { DependenciesToChange } from "@packages/alter-package-versions-types";
-import { UpdateChangedDependenciesArgs } from "./types";
+import { UpdateChangedDependenciesArgs } from "~/routes/SpecificDependency/types";
 import { useActionState } from "@packages/fetch-management";
-import { parseDependenciesData } from "../../utils";
+import { parseDependenciesData } from "~/utils";
 
 type SpecificDependencyContentProps = {
   data?: NPMRegistry;

@@ -8,4 +8,5 @@ export enum UniqueMathMLTokens {
   LIMIT = "limit",
   ROOT = "root",
   FLOOR = "floor",
+  CANCEL = "cancel",
 }

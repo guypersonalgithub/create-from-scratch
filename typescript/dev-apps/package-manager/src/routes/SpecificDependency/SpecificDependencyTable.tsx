@@ -2,12 +2,15 @@ import { useQueryParamsState } from "@packages/router";
 import { usePath } from "@packages/router";
 import { Table } from "@packages/table";
 import { EllipsisTooltip } from "@packages/tooltip";
-import { getSemVer } from "../../utils";
-import { SpecificDependencyTableProps } from "./types";
+import { getSemVer } from "~/utils";
+import { SpecificDependencyTableProps } from "~/routes/SpecificDependency/types";
 import { CSSProperties, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Checkbox } from "@packages/checkbox";
 import { useControlTriggerPopper } from "@packages/trigger-popper";
-import { SelectedTriggerPopper, VersionTypeAheads } from "./VersionTypeAheads";
+import {
+  SelectedTriggerPopper,
+  VersionTypeAheads,
+} from "~/routes/SpecificDependency/VersionTypeAheads";
 
 export const SpecificDependencyTable = ({
   name,

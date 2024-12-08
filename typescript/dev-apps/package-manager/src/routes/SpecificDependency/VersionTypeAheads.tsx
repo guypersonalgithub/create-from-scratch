@@ -1,7 +1,7 @@
 import { Typeahead } from "@packages/typeahead";
-import { semverOptions } from "../../constants";
-import { getSemVer } from "../../utils";
-import { InstancesType, SpecificDependencyTableProps } from "./types";
+import { semverOptions } from "~/constants";
+import { getSemVer } from "~/utils";
+import { InstancesType, SpecificDependencyTableProps } from "~/routes/SpecificDependency/types";
 import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button } from "@packages/button";
 import { DependenciesToChange } from "@packages/alter-package-versions-types";

@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      "~": path.resolve(__dirname, "src"),
       "packages/animation-container": path.resolve(
         "__dirname",
         "../../packages/animation-container/src/index.ts",

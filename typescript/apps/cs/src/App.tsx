@@ -2,23 +2,25 @@ import { MinimizableSidebar } from "@packages/sidebar";
 import { Calculator, Home } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
-import { Math } from "./routes/math/Math";
+import { Math } from "~/routes/math/Math";
 import { AutoCompleteInput } from "@packages/auto-complete-input";
 import { ComponentProps } from "react";
-import { Calculus } from "./routes/math/calculus/Calculus";
-import { Limit } from "./routes/math/calculus/limit/Limit";
-import { FloorFunction } from "./routes/math/FloorFunction";
-import { LimitLaws } from "./routes/math/calculus/limit/LimitLaws";
-import { Continuity } from "./routes/math/calculus/continuity/Continuity";
-import { CompositionOfFunctions } from "./routes/math/CompositionOfFunctions";
-import { IntermediateValueTheorem } from "./routes/math/calculus/continuity/IntermediateValueTheorem";
-import { LimitsOfQuotients } from "./routes/math/calculus/limit/LimitsOfQuotients";
-import { LimitsThatAreInfinite } from "./routes/math/calculus/limit/LimitsThatAreInfinite";
-import { Derivative } from "./routes/math/calculus/derivative/Derivative";
-import { GeometricDerivativeInterpretation } from "./routes/math/calculus/derivative/GeometricDerivativeInterpretation";
-import { TangentLine } from "./routes/math/TangentLine";
-import { SecantLine } from "./routes/math/SecantLine";
-import { DerivativeAsAFunction } from "./routes/math/calculus/derivative/DerivativeAsAFunction";
+import { Calculus } from "~/routes/math/calculus/Calculus";
+import { Limit } from "~/routes/math/calculus/limit/Limit";
+import { FloorFunction } from "~/routes/math/FloorFunction";
+import { LimitLaws } from "~/routes/math/calculus/limit/LimitLaws";
+import { Continuity } from "~/routes/math/calculus/continuity/Continuity";
+import { CompositionOfFunctions } from "~/routes/math/CompositionOfFunctions";
+import { IntermediateValueTheorem } from "~/routes/math/calculus/continuity/IntermediateValueTheorem";
+import { LimitsOfQuotients } from "~/routes/math/calculus/limit/LimitsOfQuotients";
+import { LimitsThatAreInfinite } from "~/routes/math/calculus/limit/LimitsThatAreInfinite";
+import { Derivative } from "~/routes/math/calculus/derivative/Derivative";
+import { GeometricDerivativeInterpretation } from "~/routes/math/calculus/derivative/GeometricDerivativeInterpretation";
+import { TangentLine } from "~/routes/math/TangentLine";
+import { SecantLine } from "~/routes/math/SecantLine";
+import { DerivativeAsAFunction } from "~/routes/math/calculus/derivative/DerivativeAsAFunction";
+import { CalculatingDerivatives } from "~/routes/math/calculus/derivative/calculatingDerivatives/CalculatingDerivatives";
+import { StyledMainTitle } from "~/styledComponents/StyledMainTitle";
 
 const searchableRoutes = [
   {
@@ -85,6 +87,10 @@ const searchableRoutes = [
     label: "Derivative as a function",
     value: "/math/calculus/derivative/derivative-as-a-function",
   },
+  {
+    label: "Calculating derivatives",
+    value: "/math/calculus/derivative/calculating-derivatives",
+  },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
 const App = () => {
@@ -115,10 +121,10 @@ const App = () => {
               "/": () => {
                 return (
                   <div>
-                    <h3>
+                    <StyledMainTitle>
                       Navigate to your desirable interests through the sidebar or the auto complete
                       search
-                    </h3>
+                    </StyledMainTitle>
                   </div>
                 );
               },
@@ -140,6 +146,9 @@ const App = () => {
                     "/": <Derivative />,
                     "/geometric-derivative-interpretation": <GeometricDerivativeInterpretation />,
                     "/derivative-as-a-function": <DerivativeAsAFunction />,
+                    "/calculating-derivatives": {
+                      "/": <CalculatingDerivatives />,
+                    },
                   },
                 },
                 "/floor-function": <FloorFunction />,
@@ -166,13 +175,6 @@ const SidebarWrapper = () => {
       links={[
         { icon: <Home />, label: "Home", pathname: "/" },
         { icon: <Calculator />, label: "Math", pathname: "/math" },
-        {
-          category: "test",
-          links: [
-            { icon: <Home />, label: "Home", pathname: "/" },
-            { icon: <Calculator />, label: "Math", pathname: "/math" },
-          ],
-        },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}

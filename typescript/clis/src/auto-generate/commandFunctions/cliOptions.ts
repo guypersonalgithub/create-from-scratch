@@ -1,9 +1,9 @@
 import { generateDockerComposeDev, generateDockerfileDev } from "@packages/docker";
-import { SupportedCommands } from "./supportedCommands";
-import { printHelp } from "./printHelp";
-import { runDockerContainers } from "./runDockerContainers";
-import { generateAndInstallPackage } from "./generateAndInstallPackage";
-import { generatePostgresTypes } from "./generatePostgresTypes";
+import { SupportedCommands } from "~/auto-generate/commandFunctions/supportedCommands";
+import { printHelp } from "~/auto-generate/commandFunctions/printHelp";
+import { runDockerContainers } from "~/auto-generate/commandFunctions/runDockerContainers";
+import { generateAndInstallPackage } from "~/auto-generate/commandFunctions/generateAndInstallPackage";
+import { generatePostgresTypes } from "~/auto-generate/commandFunctions/generatePostgresTypes";
 import { updateViteConfigLocalDependenciesAliases } from "@packages/vite";
 import { detectChangedDependencies } from "@packages/git";
 import { Flag } from "@packages/utils";

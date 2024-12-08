@@ -1,5 +1,5 @@
 import { DependenciesMap } from "@packages/detect-repository-dependencies-types";
-import { semverOptions } from "./constants";
+import { semverOptions } from "~/constants";
 
 type GetSemVerArgs = {
   version: string;

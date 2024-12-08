@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      "~": path.resolve(__dirname, "src"),
       "packages/icons": path.resolve("__dirname", "../../packages/icons/src/index.ts"),
       "packages/mathml": path.resolve("__dirname", "../../packages/mathml/src/index.ts"),
       "packages/math-parser": path.resolve("__dirname", "../../packages/math-parser/src/index.ts"),
@@ -14,11 +15,6 @@ export default defineConfig({
       "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
       "packages/url": path.resolve("__dirname", "../../packages/url/src/index.ts"),
       "packages/environment": path.resolve("__dirname", "../../packages/environment/src/index.ts"),
-      "packages/design-patterns": path.resolve(
-        "__dirname",
-        "../../packages/design-patterns/src/index.ts",
-      ),
-      "packages/randomizer": path.resolve("__dirname", "../../packages/randomizer/src/index.ts"),
       "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
       "packages/sidebar": path.resolve("__dirname", "../../packages/sidebar/src/index.ts"),
       "packages/animation-container": path.resolve(
@@ -28,6 +24,7 @@ export default defineConfig({
       "packages/is-dev": path.resolve("__dirname", "../../packages/is-dev/src/index.ts"),
       "packages/button": path.resolve("__dirname", "../../packages/button/src/index.ts"),
       "packages/tooltip": path.resolve("__dirname", "../../packages/tooltip/src/index.ts"),
+      "packages/randomizer": path.resolve("__dirname", "../../packages/randomizer/src/index.ts"),
       "packages/edge-intersection": path.resolve(
         "__dirname",
         "../../packages/edge-intersection/src/index.ts",
@@ -54,6 +51,7 @@ export default defineConfig({
         "__dirname",
         "../../packages/calculations-table/src/index.ts",
       ),
+      "packages/title": path.resolve("__dirname", "../../packages/title/src/index.ts"),
     },
   },
 });

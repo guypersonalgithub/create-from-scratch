@@ -1,5 +1,5 @@
 import { getAvailableDockerProfiles } from "@packages/docker";
-import { SupportedCommands } from "./supportedCommands";
+import { SupportedCommands } from "~/auto-generate/commandFunctions/supportedCommands";
 import { FilterEnums } from "@packages/utils";
 
 export const printHelp = () => {

@@ -68,6 +68,7 @@ export const updateViteConfigLocalDependenciesAliases = async ({
 
         const { obj } = extractObject({ file, startIndex: startOfObject });
         const { object } = convertStringToObjectWithStringProperties({ str: obj });
+
         if (!object.resolve) {
           object.resolve = {
             alias: {},

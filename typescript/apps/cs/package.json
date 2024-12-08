@@ -19,6 +19,8 @@
     "@packages/table": "*",
     "@packages/copy-to-clipboard": "*",
     "@packages/calculations-table": "*",
+    "@packages/input": "*",
+    "@packages/title": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

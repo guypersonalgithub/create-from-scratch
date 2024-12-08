@@ -22,7 +22,8 @@ export const convertObjectToString = ({
       formattedValue = value;
     }
 
-    const shouldHaveQuotationMarks = key.includes("-") || key.includes("/") || key === "@";
+    const shouldHaveQuotationMarks =
+      key.includes("-") || key.includes("/") || key === "@" || key === "~";
     const fullKey = shouldHaveQuotationMarks ? `${indent}"${key}"` : `${indent}${key}`;
     return `${fullKey}: ${formattedValue}`;
   });

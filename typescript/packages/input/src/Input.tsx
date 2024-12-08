@@ -65,6 +65,7 @@ export const Input = ({
           setIsHovered(true);
         }}
         style={{
+          width: "100%",
           ...rest.style,
           ...(isFocused ? { outline: "none" } : {}),
           ...onFocusStyle,

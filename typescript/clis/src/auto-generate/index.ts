@@ -1,6 +1,6 @@
 import { Option, multiSelect } from "@packages/terminal-multi-select";
-import { cliOptions } from "./commandFunctions/cliOptions";
-import { SupportedCommands } from "./commandFunctions/supportedCommands";
+import { cliOptions } from "~/auto-generate/commandFunctions/cliOptions";
+import { SupportedCommands } from "~/auto-generate/commandFunctions/supportedCommands";
 import { getFlags } from "@packages/utils";
 
 const entryPoint = async () => {

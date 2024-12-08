@@ -1,16 +1,16 @@
 import { Router, useQueryParamsState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
 import { ModalManager } from "@packages/modal";
-import { NotFound } from "./routes/NotFound";
-import { MainRoute } from "./routes/MainRoute";
+import { NotFound } from "~/routes/NotFound";
+import { MainRoute } from "~/routes/MainRoute";
 import { ToastManager } from "@packages/toast";
-import { SpecificDependency } from "./routes/SpecificDependency";
-import { Testing } from "./routes/Testing";
+import { SpecificDependency } from "~/routes/SpecificDependency";
+import { Testing } from "~/routes/Testing";
 import { TriggerPopperManager } from "@packages/trigger-popper";
 import { MinimizableSidebar } from "@packages/sidebar";
 import { AutoCompleteInput } from "@packages/auto-complete-input";
-import { useFetchDependencies } from "./useFetchDependencies";
-import { useMoveToSpecificDependencyPage } from "./routes/useMoveToSpecificDependencyPage";
+import { useFetchDependencies } from "~/useFetchDependencies";
+import { useMoveToSpecificDependencyPage } from "~/routes/useMoveToSpecificDependencyPage";
 
 const App = () => {
   return (

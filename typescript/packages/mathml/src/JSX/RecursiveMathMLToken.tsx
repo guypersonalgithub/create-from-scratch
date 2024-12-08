@@ -26,7 +26,7 @@ type RecursiveMathMLTokenProps = {
 export const RecursiveMathMLToken = ({ token }: RecursiveMathMLTokenProps) => {
   const { type, value } = token;
 
-  if (type === TokenTypes.VALUE) {
+  if (type === TokenTypes.VALUE || type === TokenTypes.PARENTHESIS) {
     return <mn>{value as string}</mn>;
   } else if (type === TokenTypes.VARIABLE) {
     return <mi>{value as string}</mi>;

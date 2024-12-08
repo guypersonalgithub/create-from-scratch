@@ -6,6 +6,10 @@
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
-      "types": ["node"]  // <-- Add this line if it's missing
+      "types": ["node"],  // <-- Add this line if it's missing
+      "baseUrl": ".",
+      "paths": {
+        "~/*": ["src/*"]
+      }
     }
 }

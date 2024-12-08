@@ -13,7 +13,7 @@ import { getFile } from "@packages/files";
 import {
   fetchPackageLatestVersions,
   getVersionsOfCurrentPagination,
-} from "./getVersionsOfCurrentPagination";
+} from "~/getVersionsOfCurrentPagination";
 import { alterPackageVersions, DependenciesToChange } from "@packages/alter-package-versions";
 
 // loadFlagsIntoEnv();

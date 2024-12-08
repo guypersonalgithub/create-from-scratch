@@ -63,12 +63,6 @@ services:
         source: ./packages/environment
         target: /usr/src/app/packages/environment
       - type: bind
-        source: ./packages/design-patterns
-        target: /usr/src/app/packages/design-patterns
-      - type: bind
-        source: ./packages/randomizer
-        target: /usr/src/app/packages/randomizer
-      - type: bind
         source: ./packages/hooks
         target: /usr/src/app/packages/hooks
       - type: bind
@@ -86,6 +80,9 @@ services:
       - type: bind
         source: ./packages/tooltip
         target: /usr/src/app/packages/tooltip
+      - type: bind
+        source: ./packages/randomizer
+        target: /usr/src/app/packages/randomizer
       - type: bind
         source: ./packages/edge-intersection
         target: /usr/src/app/packages/edge-intersection
@@ -119,6 +116,9 @@ services:
       - type: bind
         source: ./packages/calculations-table
         target: /usr/src/app/packages/calculations-table
+      - type: bind
+        source: ./packages/title
+        target: /usr/src/app/packages/title
       - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
@@ -267,9 +267,6 @@ services:
       - type: bind
         source: ./packages/environment
         target: /usr/src/app/packages/environment
-      - type: bind
-        source: ./packages/design-patterns
-        target: /usr/src/app/packages/design-patterns
       - type: bind
         source: ./packages/hooks
         target: /usr/src/app/packages/hooks

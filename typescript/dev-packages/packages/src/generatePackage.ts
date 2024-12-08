@@ -60,6 +60,10 @@ export const generatePackage = ({ packageName, folder }: GeneratePackageArgs) =>
           strict: true,
           skipLibCheck: true,
           declaration: true,
+          baseUrl: ".",
+          paths: {
+            "~/*": ["src/*"],
+          },
         },
         include: ["./src"],
       },

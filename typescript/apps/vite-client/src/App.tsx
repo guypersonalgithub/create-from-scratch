@@ -1,10 +1,10 @@
 import "./App.css";
 import { Link, Router, usePath } from "@packages/router";
-import { MainRoute } from "./MainRoute";
-import { NotFound } from "./NotFound";
-import { RouteParam } from "./RouteParam";
+import { MainRoute } from "~/MainRoute";
+import { NotFound } from "~/NotFound";
+import { RouteParam } from "~/RouteParam";
 import { TooltipManager } from "@packages/tooltip";
-import { MathRoute } from "./MathRoute";
+import { MathRoute } from "~/MathRoute";
 
 const App = () => {
   const { moveTo } = usePath();

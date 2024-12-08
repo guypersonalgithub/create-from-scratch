@@ -1,5 +1,5 @@
 import { DependenciesToChange } from "@packages/alter-package-versions-types";
-import { ParsedData } from "../../types";
+import { ParsedData } from "~/types";
 
 export type UpdateChangedDependenciesArgs = {
   path: string;

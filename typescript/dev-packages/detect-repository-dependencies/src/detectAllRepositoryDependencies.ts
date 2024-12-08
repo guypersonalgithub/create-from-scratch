@@ -1,10 +1,10 @@
 import { generateRegexOffPattern } from "@packages/regex";
-import { getConfigFileData } from "./getConfigFileData";
+import { getConfigFileData } from "~/getConfigFileData";
 import { getProjectAbsolutePath } from "@packages/paths";
-import { iterateOverAllFiles } from "./iterateOverAllFiles";
+import { iterateOverAllFiles } from "~/iterateOverAllFiles";
 import { getFile } from "@packages/files";
 import { detectRepositoryPackageManager } from "@packages/package-manager";
-import { ParsedPackageLock } from "./types";
+import { ParsedPackageLock } from "~/types";
 
 type DetectAllRepositoryDependenciesArgs = {
   skipDependencies?: boolean;

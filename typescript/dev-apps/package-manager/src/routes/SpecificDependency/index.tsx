@@ -1,8 +1,8 @@
 import { useRouteParamsState } from "@packages/router";
 import { Spinner } from "@packages/loading";
 import { useMountRequestState } from "@packages/fetch-management";
-import { useFetchDependencies } from "../../useFetchDependencies";
-import { SpecificDependencyContent } from "./SpecificDependencyContent";
+import { useFetchDependencies } from "~/useFetchDependencies";
+import { SpecificDependencyContent } from "~/routes/SpecificDependency/SpecificDependencyContent";
 
 export const SpecificDependency = () => {
   const { dependency } = useRouteParamsState();

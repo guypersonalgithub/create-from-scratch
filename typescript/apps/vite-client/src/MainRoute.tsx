@@ -1,8 +1,8 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import reactLogo from "~/assets/react.svg";
 import viteLogo from "/vite.svg";
-import { useRequestExample } from "./hooks";
-import { PostMessage } from "./PostMessage";
+import { useRequestExample } from "~/hooks";
+import { PostMessage } from "~/PostMessage";
 import { useFPS } from "@packages/get-fps";
 import { Table } from "@packages/table";
 import { EllipsisTooltip, Tooltip } from "@packages/tooltip";

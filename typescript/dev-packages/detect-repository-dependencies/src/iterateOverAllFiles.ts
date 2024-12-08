@@ -1,7 +1,7 @@
 import { readdirSync } from "fs";
-import { DependenciesMap, ParsedPackageLock } from "./types";
-import { shouldSkipFile } from "./skipFile";
-import { mapPackageJsonDependencies } from "./mapPackageJsonDependencies";
+import { DependenciesMap, ParsedPackageLock } from "~/types";
+import { shouldSkipFile } from "~/skipFile";
+import { mapPackageJsonDependencies } from "~/mapPackageJsonDependencies";
 
 type IterateOverAllFilesArgs = {
   projectAbsolutePath: string;

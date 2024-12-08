@@ -1,9 +1,9 @@
 import { getFile } from "@packages/files";
 import { detectRepositoryPackageManager } from "@packages/package-manager";
 import { getProjectAbsolutePath } from "@packages/paths";
-import { DependenciesMap, ParsedPackageLock } from "./types";
-import { getConfigFileData } from "./getConfigFileData";
-import { mapPackageJsonDependencies } from "./mapPackageJsonDependencies";
+import { DependenciesMap, ParsedPackageLock } from "~/types";
+import { getConfigFileData } from "~/getConfigFileData";
+import { mapPackageJsonDependencies } from "~/mapPackageJsonDependencies";
 
 type IterateOverPackageJsonsArgs = {
   packageJsonPaths: string[];

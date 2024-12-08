@@ -13,6 +13,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      "~": path.resolve(__dirname, "src"),
       "packages/micro-frontends": path.resolve(
         "__dirname",
         "../../packages/micro-frontends/src/index.ts",
@@ -35,10 +36,6 @@ export default defineConfig({
       "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
       "packages/url": path.resolve("__dirname", "../../packages/url/src/index.ts"),
       "packages/environment": path.resolve("__dirname", "../../packages/environment/src/index.ts"),
-      "packages/design-patterns": path.resolve(
-        "__dirname",
-        "../../packages/design-patterns/src/index.ts",
-      ),
       "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
       "packages/request": path.resolve("__dirname", "../../packages/request/src/index.ts"),
       "packages/collapsible": path.resolve("__dirname", "../../packages/collapsible/src/index.ts"),
