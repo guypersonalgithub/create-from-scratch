@@ -1,57 +1,86 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { existsSync, statSync } from "fs";
 
-// https://vitejs.dev/config/
+const root = path.resolve(__dirname, "../..");
+const resolvedPathCache = new Map();
+
+let count = 0;
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: "vite-plugin-dynamic-alias",
+      resolveId(source, importer) {
+        count++;
+
+        if (!importer) {
+          return source;
+        }
+
+        if (source.startsWith("~")) {
+          const shortenedPath = importer.slice(root.length);
+          const packageMatch =
+            shortenedPath.startsWith(`/packages`) || shortenedPath.startsWith(`/dev-packages`);
+          const packageMatch2 =
+            shortenedPath.startsWith("\\packages") || shortenedPath.startsWith("\\dev-packages");
+
+          let resolvedPath;
+
+          if (packageMatch) {
+            const packageName = shortenedPath.split("/")[2];
+            resolvedPath = path.join(
+              path.resolve(__dirname, `../../packages/${packageName}/src`),
+              source.slice(1),
+            );
+          } else if (packageMatch2) {
+            const packageName = shortenedPath.split("\\")[2];
+            resolvedPath = path.join(
+              path.resolve(__dirname, `../../packages/${packageName}/src`),
+              source.slice(1),
+            );
+          } else {
+            resolvedPath = path.join(__dirname, "src", source.slice(1)).replaceAll("\\", "/");
+          }
+
+          // Check for file extensions directly
+          const extensions = [".tsx", ".ts", ".jsx", ".js"];
+          for (const ext of extensions) {
+            const attemptPath = resolvedPath + ext;
+            if (existsSync(attemptPath)) {
+              resolvedPathCache.set(resolvedPath, attemptPath);
+              return attemptPath;
+            }
+          }
+
+          if (existsSync(resolvedPath) && statSync(resolvedPath).isDirectory()) {
+            for (const ext of extensions) {
+              const indexPath = path.join(resolvedPath, `index${ext}`);
+              if (existsSync(indexPath)) {
+                resolvedPathCache.set(resolvedPath, indexPath);
+                return indexPath;
+              }
+            }
+          }
+
+          console.error(
+            `Could not resolve ${source} to a valid file or directory in ${resolvedPath}`,
+          );
+        }
+
+        return source;
+      },
+    },
+  ],
   resolve: {
-    alias: {
-      "~": path.resolve(__dirname, "src"),
-      "packages/icons": path.resolve("__dirname", "../../packages/icons/src/index.ts"),
-      "packages/mathml": path.resolve("__dirname", "../../packages/mathml/src/index.ts"),
-      "packages/math-parser": path.resolve("__dirname", "../../packages/math-parser/src/index.ts"),
-      "packages/utils": path.resolve("__dirname", "../../packages/utils/src/index.ts"),
-      "packages/router": path.resolve("__dirname", "../../packages/router/src/index.ts"),
-      "packages/url": path.resolve("__dirname", "../../packages/url/src/index.ts"),
-      "packages/environment": path.resolve("__dirname", "../../packages/environment/src/index.ts"),
-      "packages/hooks": path.resolve("__dirname", "../../packages/hooks/src/index.ts"),
-      "packages/sidebar": path.resolve("__dirname", "../../packages/sidebar/src/index.ts"),
-      "packages/animation-container": path.resolve(
-        "__dirname",
-        "../../packages/animation-container/src/index.ts",
-      ),
-      "packages/is-dev": path.resolve("__dirname", "../../packages/is-dev/src/index.ts"),
-      "packages/button": path.resolve("__dirname", "../../packages/button/src/index.ts"),
-      "packages/tooltip": path.resolve("__dirname", "../../packages/tooltip/src/index.ts"),
-      "packages/randomizer": path.resolve("__dirname", "../../packages/randomizer/src/index.ts"),
-      "packages/edge-intersection": path.resolve(
-        "__dirname",
-        "../../packages/edge-intersection/src/index.ts",
-      ),
-      "packages/collapsible": path.resolve("__dirname", "../../packages/collapsible/src/index.ts"),
-      "packages/auto-complete-input": path.resolve(
-        "__dirname",
-        "../../packages/auto-complete-input/src/index.ts",
-      ),
-      "packages/typeahead": path.resolve("__dirname", "../../packages/typeahead/src/index.ts"),
-      "packages/input": path.resolve("__dirname", "../../packages/input/src/index.ts"),
-      "packages/loading": path.resolve("__dirname", "../../packages/loading/src/index.ts"),
-      "packages/virtual-list": path.resolve(
-        "__dirname",
-        "../../packages/virtual-list/src/index.ts",
-      ),
-      "packages/table": path.resolve("__dirname", "../../packages/table/src/index.ts"),
-      "packages/pagination": path.resolve("__dirname", "../../packages/pagination/src/index.ts"),
-      "packages/copy-to-clipboard": path.resolve(
-        "__dirname",
-        "../../packages/copy-to-clipboard/src/index.ts",
-      ),
-      "packages/calculations-table": path.resolve(
-        "__dirname",
-        "../../packages/calculations-table/src/index.ts",
-      ),
-      "packages/title": path.resolve("__dirname", "../../packages/title/src/index.ts"),
+    alias: {},
+    extensions: [".tsx", ".ts", ".jsx", ".js"],
+  },
+  server: {
+    fs: {
+      allow: [path.join(__dirname, "src"), path.join(__dirname, "../../packages")],
     },
   },
 });
