@@ -1,10 +1,11 @@
 import { MathML, unicodes } from "@packages/mathml";
 import { StyledLink } from "../../styledComponents/StyledLink";
+import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
 
 export const SecantLine = () => {
   return (
     <div>
-      <h3>Secant line</h3>
+      <StyledMainTitle>Secant line</StyledMainTitle>
       <div>The secant line is a straight line created by two points of a curve.</div>
       <div>As both are brought together, the secant line tends to the tangent line.</div>
       <div>

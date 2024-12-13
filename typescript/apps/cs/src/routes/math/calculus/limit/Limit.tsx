@@ -1,11 +1,12 @@
 import { CalculationsTable } from "@packages/calculations-table";
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const Limit = () => {
   return (
     <div>
-      <h3>Limits</h3>
+      <StyledMainTitle>Limits</StyledMainTitle>
       <div>
         A limit is the value received when a variable of a function is approaching a certain value
         through a range of values.
@@ -19,8 +20,8 @@ export const Limit = () => {
         get closer and closer to the approaching value, could get us to figure out the function's
         limit when x approaches the value.
       </div>
-      <h4>One sided limits</h4>
-      <h5>Right-handed limit</h5>
+      <StyledSubTitle>One sided limits</StyledSubTitle>
+      <StyledSubTitle>Right-handed limit</StyledSubTitle>
       <div>
         When the variable is approaching from the right, it is referred as a{" "}
         <b>right-handed limit</b>.<div>For example:</div>
@@ -43,7 +44,7 @@ export const Limit = () => {
           We can deduce from that, the while x is approaching 1 from the right, f of x approaches 2.
         </div>
       </div>
-      <h5>Left-handed limit</h5>
+      <StyledSubTitle>Left-handed limit</StyledSubTitle>
       <div>
         When the variable is approaching from the left, it is referred as a <b>left-handed limit</b>
         .<div>Let's take the same example from last time, and calculate its left-handed limit:</div>
@@ -71,7 +72,7 @@ export const Limit = () => {
         function itself on the same value to be undefined or be equal to a completely different
         number.
       </b>
-      <h3>The definition of limit</h3>
+      <StyledMainTitle>The definition of limit</StyledMainTitle>
       <div>
         If a function approaches the same value from both left and right then the limit of the
         function exists and it is equal to the value on both ends.
@@ -80,7 +81,7 @@ export const Limit = () => {
       <MathML input="lim(x→a+)f(x) = lim(x→a-)f(x) = L" isAnExpression />
       <div>Then:</div>
       <MathML input="lim(x→a)f(x) = L" isAnExpression />
-      <h5>Formal definition:</h5>
+      <StyledSubTitle>Formal definition:</StyledSubTitle>
       <div style={{ display: "flex", gap: "1px" }}>
         For all ε{">"}0, there exists some δ{">"}0 such as if 0 {"<"}
         <MathML input="|x - a|" />

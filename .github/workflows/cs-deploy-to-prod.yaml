@@ -15,14 +15,13 @@ on:
       - typescript/packages/router/**
       - typescript/packages/url/**
       - typescript/packages/environment/**
-      - typescript/packages/design-patterns/**
-      - typescript/packages/randomizer/**
       - typescript/packages/hooks/**
       - typescript/packages/sidebar/**
       - typescript/packages/animation-container/**
       - typescript/packages/is-dev/**
       - typescript/packages/button/**
       - typescript/packages/tooltip/**
+      - typescript/packages/randomizer/**
       - typescript/packages/edge-intersection/**
       - typescript/packages/collapsible/**
       - typescript/packages/auto-complete-input/**
@@ -34,6 +33,7 @@ on:
       - typescript/packages/pagination/**
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/calculations-table/**
+      - typescript/packages/title/**
   workflow_dispatch: 
 jobs:
   Deploy-Production:
@@ -65,14 +65,13 @@ jobs:
           cp -r ./packages/router ./full-application/packages
           cp -r ./packages/url ./full-application/packages
           cp -r ./packages/environment ./full-application/packages
-          cp -r ./packages/design-patterns ./full-application/packages
-          cp -r ./packages/randomizer ./full-application/packages
           cp -r ./packages/hooks ./full-application/packages
           cp -r ./packages/sidebar ./full-application/packages
           cp -r ./packages/animation-container ./full-application/packages
           cp -r ./packages/is-dev ./full-application/packages
           cp -r ./packages/button ./full-application/packages
           cp -r ./packages/tooltip ./full-application/packages
+          cp -r ./packages/randomizer ./full-application/packages
           cp -r ./packages/edge-intersection ./full-application/packages
           cp -r ./packages/collapsible ./full-application/packages
           cp -r ./packages/auto-complete-input ./full-application/packages
@@ -84,6 +83,7 @@ jobs:
           cp -r ./packages/pagination ./full-application/packages
           cp -r ./packages/copy-to-clipboard ./full-application/packages
           cp -r ./packages/calculations-table ./full-application/packages
+          cp -r ./packages/title ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

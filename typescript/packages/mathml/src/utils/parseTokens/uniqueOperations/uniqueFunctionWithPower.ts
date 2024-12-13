@@ -24,7 +24,7 @@ export const uniqueFunctionWithPower = ({
   const parsedPowerTokens = recursivelyParsePower({
     tokens,
     parsedTokensOfTheSameLevel: [funcToken],
-    isRoot: false
+    isRoot: false,
   });
 
   value.shift();

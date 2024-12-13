@@ -1,16 +1,17 @@
 import { StyledLink } from "../../../styledComponents/StyledLink";
+import { StyledMainTitle } from "../../../styledComponents/StyledMainTitle";
 
 export const Calculus = () => {
   return (
     <div>
-      <h1>Calculus</h1>
+      <StyledMainTitle titleWrapper="h1">Calculus</StyledMainTitle>
       <div>
         Calculus' is mainly based on <b>derivaties</b> and <b>integrals</b>.
       </div>
       <div>
         In order to fully understand them, it is required first to learn about <b>limits</b>.
       </div>
-      <h2>Relation to derivatives</h2>
+      <StyledMainTitle>Relation to derivatives</StyledMainTitle>
       <div>
         If we draw two dots on a curve and move one of them closer and closer to the other, which is
         an example of a limit.
@@ -20,7 +21,7 @@ export const Calculus = () => {
         the location of the first point that wasn't moved.
       </div>
       <div>The slope of that line, is the derivative at that point.</div>
-      <h2>Relation to integrals</h2>
+      <StyledMainTitle>Relation to integrals</StyledMainTitle>
       <div>Integrals are used to measure areas of curvy regions.</div>
       <div>
         As calculating the size of rectangle areas is easier, we can fill the curvy areas with

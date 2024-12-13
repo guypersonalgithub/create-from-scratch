@@ -9,6 +9,7 @@ import { recursivelyParseSqrt } from "./recursivelyParseSqrt";
 import { recursivelyParseLimit } from "./recursivelyParseLimit";
 import { recursivelyParseRoot } from "./recursivelyParseRoot";
 import { recursivelyParseFloor } from "./recursivelyParseFloor";
+import { recursivelyParseCancel } from "./recursivelyParseCancel";
 
 type UniqueOperationsFlowArgs = {
   tokens: ParsedToken[];
@@ -52,6 +53,8 @@ export const uniqueOperationsFlow = ({
     parsedTokens.push(recursivelyParseLimit({ tokens }));
   } else if (value === "floor") {
     parsedTokens.push(recursivelyParseFloor({ tokens }));
+  } else if (value === "cancel") {
+    parsedTokens.push(recursivelyParseCancel({ tokens }));
   } else if (typeof value === "string" && uniqueFunctions.has(value)) {
     const { changedPowerLocation, isRootFunction, ...newToken } = recursivelyParseUniqueFunction({
       func: value,

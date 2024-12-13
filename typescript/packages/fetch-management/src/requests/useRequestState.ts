@@ -44,7 +44,7 @@ export const useRequestStateInner = <K extends keyof ExtendedRequestTypeRegistry
     });
 
     amountOfAttemptsForCurrentRequest.current = attempts;
-    
+
     if (!shouldFetch || shouldAvoid) {
       return;
     }

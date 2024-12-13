@@ -1,6 +1,5 @@
 import { ReactNode, useEffect, useState, isValidElement, CSSProperties, useRef } from "react";
 import { RouterPathGuard, RouterPaths } from "./types";
-import { useInnerRouteParams } from "./useRouterParams";
 import { grabFirstPath } from "./utils";
 import { RouterContext } from "./routerContext";
 
@@ -9,22 +8,25 @@ type RouterProps = {
   wrapperStyle?: CSSProperties;
 };
 
-type GetRouteDataArgs = {
-  path: `/${string}`;
-};
-
 export const Router = ({ paths, wrapperStyle }: RouterProps) => {
-  const { setRouterParams } = useInnerRouteParams();
-  const [route, setRoute] = useState<ReactNode>(null);
+  const [path, setPath] = useState<`/${string}`>(window.location.pathname as `/${string}`);
+  const routeParams = useRef<Record<string, string>>({});
 
-  const getRouteData = ({
-    path,
-  }: GetRouteDataArgs): { component: ReactNode; routeParams: Record<string, string> } => {
-    const routeParams: Record<string, string> = {};
+  useEffect(() => {
+    const onLocationChange = () => {
+      setPath(window.location.pathname as `/${string}`);
+    };
+
+    window.addEventListener("popstate", onLocationChange);
+    return () => window.removeEventListener("popstate", onLocationChange);
+  }, []);
+
+  const getRouteData = () => {
+    const newRouteParams: Record<string, string> = {};
 
     const currentPath = paths[path];
     if (isValidElement(currentPath)) {
-      return { component: currentPath, routeParams };
+      return currentPath;
     }
 
     const nestedLevels = path.split("/");
@@ -32,7 +34,7 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
 
     const updateRouteParams = (path: string, nestedLevel: string) => {
       const currentKey = path.slice(2, path.length);
-      routeParams[currentKey] = nestedLevel;
+      newRouteParams[currentKey] = nestedLevel;
     };
 
     for (let i = 1; i < nestedLevels.length; i++) {
@@ -62,37 +64,24 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
       }
     }
 
+    routeParams.current = newRouteParams;
+
     if (!currentStage) {
-      return { component: null, routeParams };
+      return (paths["404"] as ReactNode) || null;
     }
 
     if (isValidElement(currentStage)) {
-      return { component: currentStage, routeParams };
+      return currentStage;
     }
 
     const component = isValidElement(currentStage["/"]) ? currentStage["/"] : null;
 
-    return { component: component || (paths["404"] as ReactNode) || null, routeParams };
+    return component || (paths["404"] as ReactNode) || null;
   };
 
-  useEffect(() => {
-    const onLocationChange = () => {
-      const { component, routeParams } = getRouteData({
-        path: window.location.pathname as `/${string}`,
-      });
-      setRouterParams(routeParams);
-      setRoute(component);
-    };
-
-    onLocationChange();
-
-    window.addEventListener("popstate", onLocationChange);
-    return () => window.removeEventListener("popstate", onLocationChange);
-  }, []);
-
   return (
-    <RouterContext.Provider value={true}>
-      <div style={wrapperStyle}>{route}</div>
+    <RouterContext.Provider value={{ routeParams: routeParams.current }}>
+      <div style={wrapperStyle}>{getRouteData()}</div>
     </RouterContext.Provider>
   );
 };

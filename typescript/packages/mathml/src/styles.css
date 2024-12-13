@@ -1,0 +1,23 @@
+.mathContainer {
+    display: grid;
+    width: fit-content;
+}
+
+.mathContainer > * {
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
+
+.mathCancelSign {
+    border: "1px solid purple"
+}
+
+.mathCancelSignLine {
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: red;
+    transform: rotate(var(--cancel-angle, 0deg));
+    pointer-events: none;
+    position: fixed;
+}

@@ -1,11 +1,12 @@
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const IntermediateValueTheorem = () => {
   return (
     <div>
-      <h3>Intermediate value theorem</h3>
-      <h4>Formal definition:</h4>
+      <StyledMainTitle>Intermediate value theorem</StyledMainTitle>
+      <StyledSubTitle>Formal definition:</StyledSubTitle>
       <div>
         If f is a function which is continuous on the interval [a,b], and M lies between the values
         of f(a) and f(b), then there is at least one point c between a and b such that (f)c = M.
@@ -18,7 +19,7 @@ export const IntermediateValueTheorem = () => {
       <div>
         <b>In that scenario, there is atleast one point where f(x) = M.</b>
       </div>
-      <h4>Using the IVT example:</h4>
+      <StyledSubTitle>Using the IVT example:</StyledSubTitle>
       <div>Let's assume we have the following function:</div>
       <div style={{ display: "flex", gap: "5px" }}>
         <MathML input="x^4 - x - 1" />

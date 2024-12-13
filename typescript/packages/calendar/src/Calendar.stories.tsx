@@ -16,7 +16,7 @@ export const Primary: Story = {
   args: {
     format: "range",
     monthStartOnDay: "Sunday",
-    containerStyle: { width: "fit-content", height: "fit-content"}
+    containerStyle: { width: "fit-content", height: "fit-content" },
   },
   render: (args) => {
     return <Calendar {...args} />;

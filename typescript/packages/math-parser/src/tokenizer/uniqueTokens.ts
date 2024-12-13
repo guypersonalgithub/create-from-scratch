@@ -33,7 +33,7 @@ export const hyperbolicFunctions = new Set<string>([
   "arccoth",
 ]);
 export const uniqueFunctions = new Set([...trigonometricFunctions, ...hyperbolicFunctions, "ln"]);
-export const uniqueWords = new Set([...uniqueFunctions, "sqrt", "log", "root", "floor"]);
+export const uniqueWords = new Set([...uniqueFunctions, "sqrt", "log", "root", "floor", "cancel"]);
 export const nonStarterTokens = new Set([
   "+",
   "*",

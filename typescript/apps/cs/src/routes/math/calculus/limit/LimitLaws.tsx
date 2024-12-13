@@ -1,11 +1,12 @@
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const LimitLaws = () => {
   return (
     <div>
-      <h3>Limit laws</h3>
-      <h4>Addition between limits:</h4>
+      <StyledMainTitle>Limit laws</StyledMainTitle>
+      <StyledSubTitle>Addition between limits:</StyledSubTitle>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <div>Let's assume that we have two functions with defined limits on value a:</div>
         <MathML input="lim(x→a)f(x) = 4" isAnExpression />
@@ -25,7 +26,7 @@ export const LimitLaws = () => {
         <MathML input="lim(x→a)f(x)+g(x) = 11" isAnExpression />
         <div>.</div>
       </div>
-      <h4>Substraction between limits:</h4>
+      <StyledSubTitle>Substraction between limits:</StyledSubTitle>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <div>
           Similarly to addition, substraction works the same. That's why, the substraction between
@@ -37,7 +38,7 @@ export const LimitLaws = () => {
         <MathML input="lim(x→a)f(x)-g(x) = -3" isAnExpression />
         <div>as one would expect.</div>
       </div>
-      <h4>Multiplication between limits:</h4>
+      <StyledSubTitle>Multiplication between limits:</StyledSubTitle>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         <div>Once again, similarly to the previous examples, multiplication works the same.</div>
         <div>The multiplication between</div>
@@ -48,7 +49,7 @@ export const LimitLaws = () => {
         <MathML input="lim(x→a)f(x)*g(x) = 28" isAnExpression />
         <div>.</div>
       </div>
-      <h4>Division between limits:</h4>
+      <StyledSubTitle>Division between limits:</StyledSubTitle>
       <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <div>
           Unlike the previous rules, division between limits is a bit different. If, for instance,
@@ -79,8 +80,8 @@ export const LimitLaws = () => {
           <div>page.</div>
         </div>
       </div>
-      <h3>Limit laws with continuity</h3>
-      <h4>Addition between continuous functions:</h4>
+      <StyledMainTitle>Limit laws with continuity</StyledMainTitle>
+      <StyledSubTitle>Addition between continuous functions:</StyledSubTitle>
       <div>
         If two functions are continuous everywhere, their sum is <b>continuous everywhere.</b>
       </div>
@@ -100,7 +101,7 @@ export const LimitLaws = () => {
         Keep in mind, that the values may change, depending on the value of x, as the functions
         aren't constants.
       </div>
-      <h4>Substraction between continuous functions:</h4>
+      <StyledSubTitle>Substraction between continuous functions:</StyledSubTitle>
       <div>
         Similarly to addition, substraction also works the same, and the substraction between two
         functions that are continuous everywhere, is also <b>continuous everywhere</b>:
@@ -113,7 +114,7 @@ export const LimitLaws = () => {
         <MathML input="f(x)-g(x) = -3" isAnExpression />
         <div>.</div>
       </div>
-      <h4>Multiplication between continuous functions:</h4>
+      <StyledSubTitle>Multiplication between continuous functions:</StyledSubTitle>
       <div>
         And the same goes for multiplication, and the multiplication between two functions that are
         continuous everywhere is also <b>continous everywhere</b>:
@@ -126,7 +127,7 @@ export const LimitLaws = () => {
         <MathML input="f(x)*g(x) = 28" isAnExpression />
         <div>.</div>
       </div>
-      <h4>Division between continuous functions:</h4>
+      <StyledSubTitle>Division between continuous functions:</StyledSubTitle>
       <div>
         Like regular limit laws, as long as the denominator isn't equal to zero, the division
         between two functions that are continuous everywhere is continuous <b>where its defined</b>:
@@ -139,17 +140,17 @@ export const LimitLaws = () => {
         <MathML input="(f(x))/(g(x)) = 4/7" isAnExpression />
         <div>.</div>
       </div>
-      <h4>
+      <StyledSubTitle>
         In functions created out of{" "}
         <StyledLink pathname="/math/composition-of-functions">composition of functions</StyledLink>:
-      </h4>
+      </StyledSubTitle>
       <div>
         If all of the functions within the composition of functions are continuous everywhere, so
         will be the functions made out of them.
       </div>
-      <h4>
+      <StyledSubTitle>
         The sum of functions that have discontinuity won't necessarily have a discontinuity aswell:
-      </h4>
+      </StyledSubTitle>
       <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
         <div>For instance:</div>
         <MathML input="f(x) = 1/x" isAnExpression />

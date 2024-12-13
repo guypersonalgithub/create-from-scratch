@@ -8,4 +8,5 @@ export enum TokenTypes {
   LIMIT_SPREAD = "limitSpread",
   LIMIT_ARROW = "limitArrow",
   LIMIT_DIRECTION = "limitDirection",
+  PARENTHESIS = "parenthesis",
 }

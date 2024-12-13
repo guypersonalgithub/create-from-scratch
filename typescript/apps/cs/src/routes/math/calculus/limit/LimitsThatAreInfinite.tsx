@@ -1,11 +1,12 @@
 import { MathML } from "@packages/mathml";
 import { CalculationsTable } from "@packages/calculations-table";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const LimitsThatAreInfinite = () => {
   return (
     <div>
-      <h3>Limits that are infinite</h3>
+      <StyledMainTitle>Limits that are infinite</StyledMainTitle>
       <div>
         Limits that aren't numbers technically don't exist, however, we sometimes want to know why
         is that.
@@ -30,7 +31,7 @@ export const LimitsThatAreInfinite = () => {
         We can see that the smaller x gets, the higher the value becomes. Because of that, we can
         say that the theoretical limit of the function when x approaches 0 from the right is +∞
       </div>
-      <h3>Figuring out if the limit actually exists</h3>
+      <StyledMainTitle>Figuring out if the limit actually exists</StyledMainTitle>
       <div>
         As mentioned earlier in the limit page, in order to dictate if a function has a limit or
         not, both sides of the limit should be approaching the same value.

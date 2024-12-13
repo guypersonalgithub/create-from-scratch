@@ -29,7 +29,7 @@ export const convertStringToObjectWithStringProperties = ({
       continue;
     }
 
-    const keyValueMatch = trimmed.match(/^"?([\w@./-]+)"?:\s*(.*?),?\s*$/);
+    const keyValueMatch = trimmed.match(/^"?([~\w@./-]+)"?:\s*(.*?),?\s*$/);
     if (keyValueMatch) {
       currentKey = keyValueMatch[1].replace(/^"|"$/g, "");
       currentValue = keyValueMatch[2];

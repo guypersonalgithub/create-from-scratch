@@ -1,10 +1,11 @@
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const Continuity = () => {
   return (
     <div>
-      <h3>Continuity</h3>
+      <StyledMainTitle>Continuity</StyledMainTitle>
       <div>
         A function can be called continuous at the point x equals to a if the <b>limit</b> of f(x)
         is equal to the same value of the value of f(x).
@@ -14,14 +15,14 @@ export const Continuity = () => {
         If we know that a function is continuous when x equals a, we can just calculate f(a) instead
         of calculating the limit in order to know what the limit is.
       </div>
-      <h4>One sided continuity</h4>
-      <h5>Right-continuous function:</h5>
+      <StyledSubTitle titleWrapper="h4">One sided continuity</StyledSubTitle>
+      <StyledSubTitle>Right-continuous function:</StyledSubTitle>
       <div>
         A function that its limit from the right of a is equal to the value of the function when x
         equals a means that the function is right-continuous at a.
       </div>
       <MathML input="lim(x→a+)f(x) = f(a)" isAnExpression />
-      <h5>Left-contiuous function:</h5>
+      <StyledSubTitle>Left-contiuous function:</StyledSubTitle>
       <div>
         Similarly to the right-continuous explanation, a function that its limit fro mthe left of a
         is equal to the value of the function when x equals a means that the function is
@@ -32,7 +33,7 @@ export const Continuity = () => {
         In order for a function to be treated as continuous overall, it needs to be both
         right-continuous and left-continuous at the point which x approaches.
       </b>
-      <h3>Discontinuity</h3>
+      <StyledMainTitle>Discontinuity</StyledMainTitle>
       <div>
         Due to the previous explanations mentioned, we can deduce that if a function's graph is
         going to jump at a certain point then that means it cannot be called a continuous function
@@ -47,7 +48,7 @@ export const Continuity = () => {
         not equal the function's value when x = a, then we can say the function has a{" "}
         <b>removable discontinuity</b> at x = a.
       </div>
-      <h3>Overall continuity</h3>
+      <StyledMainTitle>Overall continuity</StyledMainTitle>
       <div>
         If a function happens to be continuous at every point, it can be called continuous on the
         real line, or continuous everywhere.
@@ -61,7 +62,9 @@ export const Continuity = () => {
         function that its limit on any point would be equal to the value of the function at that
         point.
       </div>
-      <h4>Functions that can always be treated as continuous everywhere at all real numbers:</h4>
+      <StyledSubTitle titleWrapper="h4">
+        Functions that can always be treated as continuous everywhere at all real numbers:
+      </StyledSubTitle>
       <ul>
         <li>
           Constant functions - for example <MathML input="f(x) = 3" isAnExpression />.

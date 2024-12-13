@@ -1,0 +1,19 @@
+{
+  "name": "@packages/vite-dynamic-alias-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "devDependencies": {
+    "vite": "^5.4.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

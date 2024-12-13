@@ -1,9 +1,10 @@
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const DerivativeAsAFunction = () => {
   return (
     <div>
-      <h3>Derivative as a function</h3>
+      <StyledMainTitle>Derivative as a function</StyledMainTitle>
       <div>
         In order to figure out the function structure of a derivative, there are a couple of things
         one should ensure:

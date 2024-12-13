@@ -1,4 +1,4 @@
-import { convertDateToISO, formatDateByLocale, SpecificLocales } from "@packages/date";
+import { convertDateToISO, SpecificLocales } from "@packages/date";
 import { CalendarCell } from "./CalendarCell";
 import { FillerCell } from "./FillerCell";
 import { CalendarFormat, FormattedDay } from "./types";

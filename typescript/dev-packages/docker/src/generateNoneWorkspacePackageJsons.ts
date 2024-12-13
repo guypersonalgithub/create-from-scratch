@@ -22,20 +22,13 @@ export const generateNoneWorkspacePackageJsons = ({
     return;
   }
 
-  const workspacePackageJson = readFileSync(
-    `${folderPath}/${workspace}/package.json`,
-    {
-      encoding: "utf-8",
-      flag: "r",
-    }
-  );
+  const workspacePackageJson = readFileSync(`${folderPath}/${workspace}/package.json`, {
+    encoding: "utf-8",
+    flag: "r",
+  });
 
   const parsedData = JSON.parse(workspacePackageJson);
-  const {
-    dependencies = {},
-    devDependencies = {},
-    peerDependencies = {},
-  } = parsedData;
+  const { dependencies = {}, devDependencies = {}, peerDependencies = {} } = parsedData;
   const existingPackageVersions: Record<string, string> = {
     ...dependencies,
     ...devDependencies,
@@ -80,8 +73,8 @@ export const generateNoneWorkspacePackageJsons = ({
           }),
         },
         null,
-        2
-      )
+        2,
+      ),
     );
   }
 };
@@ -90,9 +83,7 @@ type PackageJsonContainerExistsArgs = {
   containerProperties: WorkspaceContainerProperties;
 };
 
-const packageJsonContainerExists = ({
-  containerProperties,
-}: PackageJsonContainerExistsArgs) => {
+const packageJsonContainerExists = ({ containerProperties }: PackageJsonContainerExistsArgs) => {
   for (const container in containerProperties) {
     if (container === "main") {
       continue;
@@ -113,17 +104,9 @@ type RequiresPackageJsonArgs = {
 };
 
 const requiresPackageJson = ({ containerData }: RequiresPackageJsonArgs) => {
-  const {
-    dependencies = [],
-    devDependencies = [],
-    peerDependencies = [],
-  } = containerData;
+  const { dependencies = [], devDependencies = [], peerDependencies = [] } = containerData;
 
-  return (
-    dependencies.length > 0 ||
-    devDependencies.length > 0 ||
-    peerDependencies.length > 0
-  );
+  return dependencies.length > 0 || devDependencies.length > 0 || peerDependencies.length > 0;
 };
 
 type GetDependencyDictionaryArgs = {

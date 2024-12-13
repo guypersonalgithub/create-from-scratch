@@ -33,7 +33,7 @@ type RecursiveMathMLTokenArgs = {
 const recursiveMathMLToken = ({ token }: RecursiveMathMLTokenArgs) => {
   const { type, value } = token;
 
-  if (type === TokenTypes.VALUE) {
+  if (type === TokenTypes.VALUE || type === TokenTypes.PARENTHESIS) {
     return `<mn>${value as string}</mn>`;
   } else if (type === TokenTypes.VARIABLE) {
     return `<mi>${value as string}</mi>`;
@@ -69,6 +69,8 @@ const recursiveMathMLToken = ({ token }: RecursiveMathMLTokenArgs) => {
     return rootTemplate({ base, value: rootValue });
   } else if (type === UniqueMathMLTokens.FLOOR) {
     return floorTemplate({ value: value as ParsedToken[] });
+  } else if (type === UniqueMathMLTokens.CANCEL) {
+    return cancelTemplate({ value: value as ParsedToken[] });
   }
 
   return "";
@@ -205,22 +207,26 @@ const limitTemplate = ({ lim, arrow, variables, values }: LimitTemplateProps): s
           })
           .join(" ")}
         ${recursiveMathMLToken({ token: arrow })}
-        ${values.map((parsedTokens) => {
-          const lastToken = parsedTokens[parsedTokens.length - 1];
-          const hasDirection = lastToken.type === TokenTypes.LIMIT_DIRECTION;
-          const value = hasDirection
-            ? parsedTokens.slice(0, parsedTokens.length - 1)
-            : parsedTokens;
+        ${values
+          .map((parsedTokens) => {
+            const lastToken = parsedTokens[parsedTokens.length - 1];
+            const hasDirection = lastToken.type === TokenTypes.LIMIT_DIRECTION;
+            const value = hasDirection
+              ? parsedTokens.slice(0, parsedTokens.length - 1)
+              : parsedTokens;
 
-          return `<msup>
+            return `<msup>
             <mrow>
-              ${value.map((parsedToken) => {
-                return recursiveMathMLToken({ token: parsedToken });
-              })}
+              ${value
+                .map((parsedToken) => {
+                  return recursiveMathMLToken({ token: parsedToken });
+                })
+                .join(" ")}
             </mrow>
             ${hasDirection ? recursiveMathMLToken({ token: lastToken }) : ""}
           </msup>`;
-        })}
+          })
+          .join(" ")}
       </mrow>
     </msub>`;
 };
@@ -233,14 +239,18 @@ type RootTemplateArgs = {
 const rootTemplate = ({ base, value }: RootTemplateArgs): string => {
   return `<mroot>
       <mrow>
-        ${base.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${base
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </mrow>
       <mrow>
-        ${value.map((parsedToken) => {
-          return recursiveMathMLToken({ token: parsedToken });
-        })}
+        ${value
+          .map((parsedToken) => {
+            return recursiveMathMLToken({ token: parsedToken });
+          })
+          .join(" ")}
       </mrow>
     </mroot>`;
 };
@@ -251,8 +261,22 @@ type FloorTemplateArgs = {
 
 const floorTemplate = ({ value }: FloorTemplateArgs): string => {
   return `<mrow>
-       ${value.map((parsedToken) => {
-         return recursiveMathMLToken({ token: parsedToken });
-       })}
+       ${value
+         .map((parsedToken) => {
+           return recursiveMathMLToken({ token: parsedToken });
+         })
+         .join(" ")}
     </mrow>`;
+};
+
+type CancelTemplateArgs = {
+  value: ParsedToken[];
+};
+
+const cancelTemplate = ({ value }: CancelTemplateArgs): string => {
+  return `<mrow class="mathCancelSign"> ${value
+    .map((parsedToken) => {
+      return recursiveMathMLToken({ token: parsedToken });
+    })
+    .join(" ")}</mrow>`;
 };

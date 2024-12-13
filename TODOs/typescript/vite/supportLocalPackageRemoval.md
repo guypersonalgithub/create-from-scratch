@@ -1,1 +1,1 @@
-- Support updating vite config on local package uninstall.
+- Add vite caching to only trigger on changes.

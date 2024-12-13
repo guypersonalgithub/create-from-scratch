@@ -1,9 +1,10 @@
 import { MathML, unicodes } from "@packages/mathml";
+import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
 
 export const FloorFunction = () => {
   return (
     <div>
-      <h3>Floor function</h3>
+      <StyledMainTitle>Floor function</StyledMainTitle>
       <div>
         A floor function is defined as the largest integer less than or equal to the variable. For
         instance,

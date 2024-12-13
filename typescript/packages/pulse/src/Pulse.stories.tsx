@@ -28,4 +28,3 @@ export const CircularPulse: Story = {
     return <Pulse {...args} />;
   },
 };
-

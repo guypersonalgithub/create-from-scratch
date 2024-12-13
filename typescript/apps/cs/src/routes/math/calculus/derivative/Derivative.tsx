@@ -1,15 +1,16 @@
 import { MathML, unicodes } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const Derivative = () => {
   return (
     <div>
-      <h3>Derivative</h3>
+      <StyledMainTitle>Derivative</StyledMainTitle>
       <div>
         A derivative at a point is the <b>instantaneous rate of change</b>, and can be found through
         limits.
       </div>
-      <h4>Example</h4>
+      <StyledSubTitle>Example</StyledSubTitle>
       <div>
         Let's assume we want to find the average velocity of a car between 8:00 to 10:00 am if we
         know the position in 8:00 was 50 miles and at 10:00 220 miles.
@@ -48,7 +49,7 @@ export const Derivative = () => {
         input="(1miles)/(1minutes) = 1(miles)/(minutes) * 60(minutes/hours) = 60(miles/hours)"
         isAnExpression
       />
-      <h4>Average rate of change</h4>
+      <StyledSubTitle>Average rate of change</StyledSubTitle>
       <div>
         In general when having any function f with some input variable, then we can talk about the
         average rate of change of f of the variable with respect to the variable, as the variable
@@ -67,7 +68,7 @@ export const Derivative = () => {
         input={`(${unicodes.javascript.capitalDelta}f)/(${unicodes.javascript.capitalDelta}t) = (f(b) - f(a))/(b - a)`}
         isAnExpression
       />
-      <h4>Instantaneous rate of change - the derivative of a point</h4>
+      <StyledSubTitle>Instantaneous rate of change - the derivative of a point</StyledSubTitle>
       <div>
         But what if the want to know the <b>exact</b> value of such at a very specific point?
       </div>
@@ -103,7 +104,7 @@ export const Derivative = () => {
       </div>
       <div>Alternative definition:</div>
       <MathML input="f'(a) = lim(h→0)(f(a + h)-f(a))/(h)" isAnExpression />
-      <h5>Example:</h5>
+      <StyledSubTitle>Example:</StyledSubTitle>
       <div>
         Let's assume an object is thrown from a 100m building, and we want to the average velocity
         and instant velocity after 1 second.
@@ -200,6 +201,9 @@ export const Derivative = () => {
         </StyledLink>
         <StyledLink pathname="/math/calculus/derivative/derivative-as-a-function">
           Derivative as a function
+        </StyledLink>
+        <StyledLink pathname="/math/calculus/derivative/calculating-derivatives">
+          Calculating derivatives
         </StyledLink>
       </div>
     </div>

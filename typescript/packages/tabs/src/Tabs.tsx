@@ -126,7 +126,7 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
 
       const { left } = containerRef.current.getBoundingClientRect();
       containerLeft.current = left;
-    }
+    };
 
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {

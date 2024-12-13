@@ -14,6 +14,9 @@ export const buildContent = async ({ entryPoints = ["./src/index.ts"], ...rest }
         ".png": "file",
         ".webp": "file",
       },
+      alias: {
+        // "~": "./src",
+      },
       ...rest,
     });
 

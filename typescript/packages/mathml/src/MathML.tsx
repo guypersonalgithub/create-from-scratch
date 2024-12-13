@@ -3,6 +3,7 @@ import { RecursiveMathMLToken } from "./JSX/RecursiveMathMLToken";
 import { useLayoutEffect, useRef, useState } from "react";
 import { functionalParsing } from "./functionalParsing";
 import { parseTokens } from "./utils/parseTokens";
+import "./styles.css";
 
 type MathMLProps = {
   input: string;
@@ -53,10 +54,11 @@ type FormatProps = Omit<MathMLProps, "format">;
 
 const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: FormatProps) => {
   const ref = useRef<HTMLDivElement>(null);
+  const cancelContainerRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<string | undefined>();
 
   useLayoutEffect(() => {
-    if (!ref.current) {
+    if (!ref.current || !cancelContainerRef.current) {
       return;
     }
 
@@ -73,10 +75,65 @@ const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: Forma
     ref.current.innerHTML = functionalParsing({ parsedTokens });
   }, [input]);
 
+  useEffect(() => {
+    if (!ref.current || !cancelContainerRef.current || !isAnExpression) {
+      return;
+    }
+
+    const clearCancelLines = () => {
+      if (!cancelContainerRef.current) {
+        return;
+      }
+
+      cancelContainerRef.current.innerHTML = "";
+    };
+
+    clearCancelLines();
+
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        if (entry.target === ref.current) {
+          clearCancelLines();
+
+          const cancelElements = ref.current.querySelectorAll(".mathCancelSign");
+
+          cancelElements.forEach((el) => {
+            const element = el as HTMLElement;
+            const rect = element.getBoundingClientRect();
+            const angle = Math.atan(rect.height / rect.width) * (180 / Math.PI);
+
+            const line = document.createElement("div");
+            line.classList.add("mathCancelSignLine");
+
+            line.style.left = `${rect.left}px`;
+            line.style.top = `${rect.top + rect.height / 2}px`;
+            line.style.width = `${rect.width}px`;
+            line.style.transform = `rotate(${-angle}deg)`;
+
+            element.style.position = "relative";
+
+            cancelContainerRef.current?.appendChild(line);
+          });
+        }
+      }
+    });
+
+    observer.observe(ref.current);
+
+    return () => {
+      if (!ref.current) {
+        return;
+      }
+
+      observer.unobserve(ref.current);
+    };
+  }, [isAnExpression]);
+
   return (
     <>
       {displayError ? <div>{error}</div> : null}
       <div ref={ref} style={{ visibility: error ? "hidden" : "visible" }} />
+      <div ref={cancelContainerRef} />
     </>
   );
 };

@@ -71,10 +71,10 @@ export const generatePackageLock = async ({ value }: GeneratePackageLockArgs) =>
       requiresPackageLockChange = changedPackageJsons.has(relativeWorkspacePackageJsonPath);
     }
 
-    // if (!requiresPackageLockChange) {
-    //   console.log(`Skipping ${workspace} as nothing was changed.`);
-    //   return;
-    // }
+    if (!requiresPackageLockChange) {
+      console.log(`Skipping ${workspace} as nothing was changed.`);
+      return;
+    }
 
     const workspacePackageLockPath = `${workspacePath}/package-lock.json`;
     const tempFolder = `${temporaryFolderPath}/temp-${workspace}`;

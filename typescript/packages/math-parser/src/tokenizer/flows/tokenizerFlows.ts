@@ -17,6 +17,7 @@ import { derivativeSignFlow } from "./derivativeSignFlow";
 import { inequalitySignsFlow } from "./inequalitySignsFlow";
 import { rootFlow } from "./rootFlow";
 import { floorFlow } from "./floorFlow";
+import { cancelFlow } from "./cancelFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -178,7 +179,12 @@ export const tokenizerFlows = ({
     let { tokens: parsedTokens, newInput, updatedIndex } = response;
     tokens.push(...parsedTokens);
 
-    const result = uniqueFunctionsFlows({ firstToken: parsedTokens[0], newInput, updatedIndex, isAnExpression });
+    const result = uniqueFunctionsFlows({
+      firstToken: parsedTokens[0],
+      newInput,
+      updatedIndex,
+      isAnExpression,
+    });
     if (result) {
       const {
         tokens: parsedTokens,
@@ -206,9 +212,14 @@ type UniqueFunctionsFlowsArgs = {
   isAnExpression?: boolean;
 };
 
-const uniqueFunctionsFlows = ({ firstToken, newInput, updatedIndex, isAnExpression }: UniqueFunctionsFlowsArgs) => {
+const uniqueFunctionsFlows = ({
+  firstToken,
+  newInput,
+  updatedIndex,
+  isAnExpression,
+}: UniqueFunctionsFlowsArgs) => {
   const firstTokenValue = firstToken.value;
-  if (!isAnExpression && firstTokenValue === "floor") {
+  if (!isAnExpression && (firstTokenValue === "floor" || firstTokenValue === "cancel")) {
     return;
   }
 
@@ -223,6 +234,7 @@ const uniqueFunctionsFlows = ({ firstToken, newInput, updatedIndex, isAnExpressi
     log: logFlow,
     root: rootFlow,
     floor: floorFlow,
+    cancel: cancelFlow,
   };
 
   if (!callbacks[firstTokenValue]) {

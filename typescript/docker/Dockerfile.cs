@@ -10,14 +10,13 @@ COPY ./packages/utils/package.json ./packages/utils/package.json
 COPY ./packages/router/package.json ./packages/router/package.json
 COPY ./packages/url/package.json ./packages/url/package.json
 COPY ./packages/environment/package.json ./packages/environment/package.json
-COPY ./packages/design-patterns/package.json ./packages/design-patterns/package.json
-COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/hooks/package.json ./packages/hooks/package.json
 COPY ./packages/sidebar/package.json ./packages/sidebar/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
 COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
 COPY ./packages/button/package.json ./packages/button/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
+COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/package.json
 COPY ./packages/collapsible/package.json ./packages/collapsible/package.json
 COPY ./packages/auto-complete-input/package.json ./packages/auto-complete-input/package.json
@@ -29,6 +28,7 @@ COPY ./packages/table/package.json ./packages/table/package.json
 COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
+COPY ./packages/title/package.json ./packages/title/package.json
 
 
 
@@ -47,14 +47,13 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
-COPY ./packages/design-patterns ./packages/design-patterns
-COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
+COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
@@ -66,6 +65,7 @@ COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
+COPY ./packages/title ./packages/title
 CMD ["npm", "run", "dev"]
 
 
@@ -85,14 +85,13 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
-COPY ./packages/design-patterns ./packages/design-patterns
-COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
+COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
@@ -104,6 +103,7 @@ COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
+COPY ./packages/title ./packages/title
 CMD ["npm", "run", "build"]
 
 
@@ -123,14 +123,13 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
-COPY ./packages/design-patterns ./packages/design-patterns
-COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
 COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
+COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
@@ -142,4 +141,5 @@ COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
+COPY ./packages/title ./packages/title
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

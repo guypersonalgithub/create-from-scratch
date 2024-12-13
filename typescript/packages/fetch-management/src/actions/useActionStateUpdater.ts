@@ -17,7 +17,7 @@ export const useActionStateUpdater = <K extends keyof ExtendedActionTypeRegistry
     const unsubscribe = fetchManagement.actions.subscribe({
       callback: (value) => {
         const { isLoading, isError } = (value?.[id] ?? {}) as PseudoActionData<K>;
-        
+
         setIsLoading(isLoading ?? false);
         setIsError(isError ?? false);
       },

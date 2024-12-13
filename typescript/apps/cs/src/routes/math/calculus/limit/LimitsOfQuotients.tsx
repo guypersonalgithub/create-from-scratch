@@ -1,10 +1,11 @@
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const LimitsOfQuotients = () => {
   return (
     <div>
-      <h3>Limits of quotients</h3>
+      <StyledMainTitle>Limits of quotients</StyledMainTitle>
       <div style={{ display: "flex", gap: "3px", flexWrap: "wrap" }}>
         <div>On the</div>
         <StyledLink pathname="/math/calculus/limit/laws">Limits laws</StyledLink>
@@ -14,7 +15,9 @@ export const LimitsOfQuotients = () => {
         </div>
         <div>On other cases, we have to take different approaches in order to calculate them:</div>
       </div>
-      <h4>If the limit of the denominator is 0 but the limit of the numerator isn't zero:</h4>
+      <StyledSubTitle>
+        If the limit of the denominator is 0 but the limit of the numerator isn't zero:
+      </StyledSubTitle>
       <div>
         We end up dividing a non-zero value by a value that gets smaller and smaller (that gets
         closer and closer to zero), which means that the quotient gets larger and larger as x
@@ -31,7 +34,9 @@ export const LimitsOfQuotients = () => {
         Due to that, we can make sure that the quotient isn't approaching any fixed number, and
         thus, we can deduce from that that the limit does not exist.
       </div>
-      <h4>If the limits of both the denominator and numerator are equal to zero:</h4>
+      <StyledSubTitle>
+        If the limits of both the denominator and numerator are equal to zero:
+      </StyledSubTitle>
       <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
         <div>We can take for example the following quotient:</div>
         <MathML input="lim(x→0)2x/x" />
@@ -45,7 +50,7 @@ export const LimitsOfQuotients = () => {
           work is necessary to determine that.
         </div>
       </div>
-      <h5>Let's take an example:</h5>
+      <StyledSubTitle>Let's take an example:</StyledSubTitle>
       <MathML input="lim(x→1)(x^2+2x-3)/(x^2-3x+2)" />
       <div>
         Both denominator and numerators' limits are equal to 0. Since both of them are polynomials,
@@ -54,7 +59,7 @@ export const LimitsOfQuotients = () => {
       <MathML input="lim(x→1)((x-1)(x+3))/((x-1)(x-2))" />
       <div>Since both have a common factor, we can remove it:</div>
       <MathML input="lim(x→1)((x+3))/((x-2)) = -4" isAnExpression />
-      <h5>And another one:</h5>
+      <StyledSubTitle>And another one:</StyledSubTitle>
       <MathML input="lim(x→-1)(x+1)/(x+1/x+2)" />
       <div>
         Both denominator and numerators' limits are equal to 0. We need to slightly adjust both of

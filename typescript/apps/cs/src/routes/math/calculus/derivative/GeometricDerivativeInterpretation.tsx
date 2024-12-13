@@ -1,11 +1,12 @@
 import { MathML, unicodes } from "@packages/mathml";
 import { Table } from "@packages/table";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
+import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 
 export const GeometricDerivativeInterpretation = () => {
   return (
     <div>
-      <h3>Geometric derivative interpretation</h3>
+      <StyledMainTitle>Geometric derivative interpretation</StyledMainTitle>
       <div>
         Following the description in{" "}
         <StyledLink pathname="/math/tangent-line">Tangent line</StyledLink>
@@ -37,7 +38,6 @@ export const GeometricDerivativeInterpretation = () => {
         <div>= average rate of change of f(x) with respect to x.</div>
       </div>
       <div>The closer the points get, the closer the secant line becomes to the tangent line.</div>
-      <h4></h4>
       <Table
         containerStyle={{ width: "fit-content" }}
         headerContainer={{
@@ -127,12 +127,12 @@ export const GeometricDerivativeInterpretation = () => {
         the thrown object. With some calculations, we can tell that the slope of the tangent is
         equivalent to the derivative of the function on each point calculated.
       </div>
-      <h4>Secant line for a line</h4>
+      <StyledSubTitle>Secant line for a line</StyledSubTitle>
       <div>
         If the graph of f is a line, the slope of its secant line would be equivalent to the slope
         of the line itself. Same could be said about the slope of its tangent.
       </div>
-      <h4>When the tangent line doesn't exist</h4>
+      <StyledSubTitle>When the tangent line doesn't exist</StyledSubTitle>
       <div>
         The slope of a tangent line which is known as the derivative{" "}
         <b>only exists if the tangent line exists</b>.
@@ -145,7 +145,7 @@ export const GeometricDerivativeInterpretation = () => {
           point.
         </div>
       </div>
-      <h4>Right and left limits</h4>
+      <StyledSubTitle>Right and left limits</StyledSubTitle>
       <div>
         Let's take the previous function and find its left and right handed{" "}
         <StyledLink pathname="/math/calculus/limit">limits</StyledLink> of the secant:
@@ -182,13 +182,13 @@ export const GeometricDerivativeInterpretation = () => {
       </div>
       <MathML input="lim(x→0+)=(f(x)-f(0))/(x-0) = f'(0+)" isAnExpression />
       <MathML input="lim(x→0-)=(f(x)-f(0))/(x-0) = f'(0-)" isAnExpression />
-      <h4>Jump discontinuity</h4>
+      <StyledSubTitle>Jump discontinuity</StyledSubTitle>
       <div>Corners aren't the only points where a function might not be differentiable.</div>
       <div>
         Step functions such as f(x) = {unicodes.javascript.leftFloor}x
         {unicodes.javascript.rightFloor} don't have a tangent at the start of each step.
       </div>
-      <h4>Important derivative/tangent rules</h4>
+      <StyledSubTitle>Important derivative/tangent rules</StyledSubTitle>
       <div>If a function f is not continuous a x = a, then f is not differentiable at a.</div>
       <div>
         In other words - if a function has a discontinuty at a point, it can't have a tangent line

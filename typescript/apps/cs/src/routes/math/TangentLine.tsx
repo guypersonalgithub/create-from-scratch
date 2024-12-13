@@ -1,10 +1,11 @@
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../styledComponents/StyledLink";
+import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
 
 export const TangentLine = () => {
   return (
     <div>
-      <h3>Tangent line</h3>
+      <StyledMainTitle>Tangent line</StyledMainTitle>
       <div>In order to get a tangent's line equation, we need both a point and its slope.</div>
       <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
         <div>A tangent line for the function</div>

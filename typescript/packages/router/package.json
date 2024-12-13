@@ -9,7 +9,6 @@
   "dependencies": {
     "@packages/utils": "*",
     "@packages/url": "*",
-    "@packages/design-patterns": "*",
     "@packages/hooks": "*"
   },
   "peerDependencies": {

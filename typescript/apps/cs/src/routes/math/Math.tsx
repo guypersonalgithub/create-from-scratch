@@ -1,7 +1,9 @@
 import { MathML, unicodes } from "@packages/mathml";
 import { useState } from "react";
 import { CopyToClipboardWithTooltip } from "@packages/copy-to-clipboard";
+import { Input } from "@packages/input";
 import { StyledLink } from "../../styledComponents/StyledLink";
+import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
 
 const printableUnicodes = Object.values(unicodes.javascript).map((unicode) => unicode);
 
@@ -18,7 +20,7 @@ export const Math = () => {
         <StyledLink pathname="/math/tangent-line">Tangent line</StyledLink>
       </div>
       <div>
-        <h3>Helper unicodes:</h3>
+        <StyledMainTitle>Helper unicodes:</StyledMainTitle>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "5px", marginBottom: "20px" }}>
           {printableUnicodes.map((unicode) => (
             <CopyToClipboardWithTooltip key={unicode} textToCopy={unicode}>
@@ -27,7 +29,7 @@ export const Math = () => {
           ))}
         </div>
       </div>
-      <input type="string" value={input} onChange={(e) => setInput(e.target.value)} />
+      <Input type="string" value={input} onChange={(e) => setInput(e.target.value)} />
       <MathML input={input} isAnExpression />
     </>
   );

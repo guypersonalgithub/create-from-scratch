@@ -1,7 +1,9 @@
+import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
+
 export const CompositionOfFunctions = () => {
   return (
     <div>
-      <h3>Composition Of Functions</h3>
+      <StyledMainTitle>Composition Of Functions</StyledMainTitle>
       <div>
         A composition of functions is an operation where two or more functions generate a new
         function.

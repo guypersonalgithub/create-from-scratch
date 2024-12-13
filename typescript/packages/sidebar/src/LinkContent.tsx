@@ -11,6 +11,7 @@ type LinkContentProps = {
   iconSize?: number;
   selected?: string;
   selectedStyle?: CSSProperties;
+  tooltipDistanceFromViewport?: number;
 };
 
 export const LinkContent = ({
@@ -21,6 +22,7 @@ export const LinkContent = ({
   iconSize,
   selected,
   selectedStyle,
+  tooltipDistanceFromViewport,
 }: LinkContentProps) => {
   return (
     <Tooltip
@@ -35,6 +37,7 @@ export const LinkContent = ({
       offset={{
         y: iconSize ? iconSize / 2 : undefined,
       }}
+      distanceFromViewport={tooltipDistanceFromViewport}
     >
       <Button
         key={link.label}
