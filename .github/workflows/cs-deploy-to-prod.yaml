@@ -46,10 +46,12 @@ jobs:
       - uses: actions/checkout@v3
       - name: Install Netlify CLI
         run: npm i --save-dev netlify-cli
+      - name: Create _redirects file
+        run: node ./ci-scripts/createCSRRedirects.js cs
       - name: Create working folder
         run: mkdir full-application
       - name: Remove postinstall
-        run: node removePostInstall.js cs
+        run: node ./ci-scripts/removePostInstall.js cs
       - name: Copy root package.json
         run: cp -r package.json ./full-application/
       - name: Copy workspace

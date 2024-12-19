@@ -8,8 +8,9 @@
     "packages/*",
     "clis",
     "dev-apps/*",
-    "dev-tools",
-    "dev-packages/*"
+    "dev-packages/*",
+    "scripts",
+    "c-scripts"
   ],
   "scripts": {
     "packagemanager": "npm run --workspace=dev-apps/package-manager dev",
