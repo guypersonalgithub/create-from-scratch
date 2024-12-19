@@ -29,6 +29,7 @@ COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
 COPY ./packages/title/package.json ./packages/title/package.json
+COPY ./packages/pseudo-terminal-visuals/package.json ./packages/pseudo-terminal-visuals/package.json
 
 
 
@@ -66,6 +67,7 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
+COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
 CMD ["npm", "run", "dev"]
 
 
@@ -104,6 +106,7 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
+COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
 CMD ["npm", "run", "build"]
 
 
@@ -142,4 +145,5 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
+COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

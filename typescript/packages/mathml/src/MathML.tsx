@@ -1,6 +1,6 @@
 import { tokenizer } from "@packages/math-parser";
 import { RecursiveMathMLToken } from "./JSX/RecursiveMathMLToken";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { functionalParsing } from "./functionalParsing";
 import { parseTokens } from "./utils/parseTokens";
 import "./styles.css";

@@ -1,23 +1,12 @@
 import { recursiveLocalPackagesDetection } from "./detectUsedLocalPackages";
+import { LocalPackageMetadata, PackageLockPackages } from "./types";
 
 type getPrivatePackageDependenciesArgs = {
   dependencies: Record<string, string>;
-  privatePackages: Map<
-    string,
-    {
-      path: string;
-      name: string;
-    }
-  >;
+  privatePackages: Map<string, LocalPackageMetadata>;
   localPackage: string;
   projectAbsolutePath: string;
-  parsedRootPackageLock: Record<
-    string,
-    {
-      resolved: string;
-      link: boolean;
-    }
-  >;
+  parsedRootPackageLock: PackageLockPackages;
 };
 
 export const getPrivatePackageDependencies = ({

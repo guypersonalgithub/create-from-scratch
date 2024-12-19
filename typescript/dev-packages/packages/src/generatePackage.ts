@@ -49,17 +49,10 @@ export const generatePackage = ({ packageName, folder }: GeneratePackageArgs) =>
     packageTSConfig,
     JSON.stringify(
       {
+        extends: "../../tsconfig.json",
         compilerOptions: {
-          target: "es6",
-          module: "ES2020",
           rootDir: "./src",
-          moduleResolution: "node",
           outDir: "./dist",
-          esModuleInterop: true,
-          forceConsistentCasingInFileNames: true,
-          strict: true,
-          skipLibCheck: true,
-          declaration: true,
         },
         include: ["./src"],
       },

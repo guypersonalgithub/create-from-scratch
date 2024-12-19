@@ -120,6 +120,9 @@ services:
         source: ./packages/title
         target: /usr/src/app/packages/title
       - type: bind
+        source: ./packages/pseudo-terminal-visuals
+        target: /usr/src/app/packages/pseudo-terminal-visuals
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:

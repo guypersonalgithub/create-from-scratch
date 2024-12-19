@@ -4,3 +4,4 @@ export * from "./Home";
 export * from "./Calculator";
 export * from "./ArrowRight";
 export * from "./ArrowLeft";
+export * from "./Typescript";

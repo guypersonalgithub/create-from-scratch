@@ -1,14 +1,10 @@
 {
-  "name": "@packages/packages",
+  "name": "@packages/form",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
-  },
-  "dependencies": {
-    "@packages/paths": "*",
-    "@packages/terminal-utils": "*"
   },
   "author": "",
   "license": "ISC",

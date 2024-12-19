@@ -34,6 +34,7 @@ on:
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/calculations-table/**
       - typescript/packages/title/**
+      - typescript/packages/pseudo-terminal-visuals/**
   workflow_dispatch: 
 jobs:
   Deploy-Production:
@@ -84,6 +85,7 @@ jobs:
           cp -r ./packages/copy-to-clipboard ./full-application/packages
           cp -r ./packages/calculations-table ./full-application/packages
           cp -r ./packages/title ./full-application/packages
+          cp -r ./packages/pseudo-terminal-visuals ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

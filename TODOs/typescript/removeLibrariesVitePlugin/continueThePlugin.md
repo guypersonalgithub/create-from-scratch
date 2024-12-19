@@ -1,1 +1,0 @@
-- The plugin is currently unfinished - continue it when possible.

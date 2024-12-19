@@ -9,6 +9,7 @@ import { detectChangedDependencies } from "@packages/git";
 import { Flag } from "@packages/utils";
 import { generatePackageLock } from "@packages/package-lock";
 import { generateGithubActionYaml } from "@packages/github-actions";
+import { detectCircularDependencies } from "@packages/packages";
 
 type CliOptionsArgs = {
   command: Flag;
@@ -60,6 +61,10 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.GENERATE_GITHUB_ACTION_YAMLS: {
       await generateGithubActionYaml();
+      break;
+    }
+    case SupportedCommands.DETECT_CIRCULAR_DEPENDENCIES: {
+      detectCircularDependencies({ mapProblematicPackageImports: true });
       break;
     }
     default: {

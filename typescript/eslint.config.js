@@ -20,6 +20,7 @@ export default [
       "react-hooks": eslintPluginReactHooks,
     },
     rules: {
+      // "prettier/prettier": ["error", { endOfLine: "lf" }],
       "prettier/prettier": "error",
       "@stylistic/js/padding-line-between-statements": [
         "error",
@@ -29,6 +30,7 @@ export default [
       ],
       "newline-before-return": "error",
       "react-hooks/exhaustive-deps": "off",
+      // "@typescript-eslint/no-unused-vars": "error",
     },
     // env: {
     //   node: true,

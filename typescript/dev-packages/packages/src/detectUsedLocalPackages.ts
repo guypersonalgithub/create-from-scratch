@@ -1,21 +1,12 @@
 import { readFileSync } from "fs";
 import { getPrivatePackageDependencies } from "./getPrivatePackageDependencies";
+import { getRootPackageLock } from "./getRootPackageLock";
+import { LocalPackageMetadata, PackageJsonDependencies, PackageLockPackages } from "./types";
 
 type DetectUsedLocalPackagesArgs = {
   workspace?: string;
-  includeOnly?: (
-    | "dependencies"
-    | "devDependencies"
-    | "peerDependencies"
-    | "optionalDependencies"
-  )[];
-  existingPrivatePackages?: Map<
-    string,
-    {
-      path: string;
-      name: string;
-    }
-  >;
+  includeOnly?: PackageJsonDependencies[];
+  existingPrivatePackages?: Map<string, LocalPackageMetadata>;
   projectAbsolutePath: string;
   fileName?: string;
 };
@@ -27,12 +18,7 @@ export const detectUsedLocalPackages = ({
   projectAbsolutePath,
   fileName,
 }: DetectUsedLocalPackagesArgs) => {
-  const rootPackageLock = readFileSync(`${projectAbsolutePath}/package-lock.json`, {
-    encoding: "utf-8",
-    flag: "r",
-  });
-
-  const parsedRootPackageLock = JSON.parse(rootPackageLock);
+  const parsedRootPackageLock = getRootPackageLock({ projectAbsolutePath });
 
   const usedLocalPackages =
     recursiveLocalPackagesDetection({
@@ -69,13 +55,7 @@ export const recursiveLocalPackagesDetection = ({
   fileName = "package.json",
   parsedRootPackageLock,
 }: DetectUsedLocalPackagesArgs & {
-  parsedRootPackageLock: Record<
-    string,
-    {
-      resolved: string;
-      link: boolean;
-    }
-  >;
+  parsedRootPackageLock: PackageLockPackages;
 }) => {
   try {
     const file = readFileSync(`${projectAbsolutePath}/${workspace}/${fileName}`, {

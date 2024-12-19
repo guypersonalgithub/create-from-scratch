@@ -3,3 +3,4 @@ export * from "./generatePackage";
 export * from "./detectPackage";
 export * from "./insertPackageTypes";
 export * from "./getPrivatePackageDependencies";
+export * from "./detectCircularDependencies";

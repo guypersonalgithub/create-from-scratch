@@ -1,6 +1,5 @@
 import { CSSProperties, ReactNode } from "react";
 import { usePath } from "./usePath";
-import { useScrollToTheTop } from "@packages/hooks";
 
 type LinkProps = {
   children: ReactNode;
@@ -41,7 +40,6 @@ export const Link = ({ pathname, href, children, style }: CompleteLinkProps) => 
 
 const InternalLink = ({ pathname, children, style }: InternalLinkProps) => {
   const { moveTo } = usePath();
-  useScrollToTheTop();
 
   return (
     <a

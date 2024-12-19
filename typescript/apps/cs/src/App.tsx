@@ -4,7 +4,7 @@ import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
 import { Math } from "./routes/math/Math";
 import { AutoCompleteInput } from "@packages/auto-complete-input";
-import { ComponentProps } from "react";
+import { ComponentProps, useLayoutEffect, useRef } from "react";
 import { Calculus } from "./routes/math/calculus/Calculus";
 import { Limit } from "./routes/math/calculus/limit/Limit";
 import { FloorFunction } from "./routes/math/FloorFunction";
@@ -21,6 +21,13 @@ import { SecantLine } from "./routes/math/SecantLine";
 import { DerivativeAsAFunction } from "./routes/math/calculus/derivative/DerivativeAsAFunction";
 import { StyledMainTitle } from "./styledComponents/StyledMainTitle";
 import { CalculatingDerivatives } from "./routes/math/calculus/derivative/calculatingDerivatives/CalculatingDerivatives";
+import { Typescript } from "./routes/typescript/Typescript";
+import { Generics } from "./routes/typescript/Generics/Generics";
+import { Typescript as TypescriptIcon } from "@packages/icons";
+import { TypeArguments } from "./routes/typescript/Generics/TypeArguments";
+import { GenericsAtDifferentLevels } from "./routes/typescript/Generics/GenericsAtDifferentLevels";
+import { AdvancedGenerics } from "./routes/typescript/Generics/AdvancedGenerics";
+import { FunctionOverloads } from "./routes/typescript/Generics/FunctionOverloads";
 
 const searchableRoutes = [
   {
@@ -91,6 +98,30 @@ const searchableRoutes = [
     label: "Calculating derivatives",
     value: "/math/calculus/derivative/calculating-derivatives",
   },
+  {
+    label: "Typescript",
+    value: "/typescript",
+  },
+  {
+    label: "Generics",
+    value: "/typescript/generics",
+  },
+  {
+    label: "Type arguments",
+    value: "/typescript/generics/type-arguments",
+  },
+  {
+    label: "Generics at different levels",
+    value: "/typescript/generics/generics-at-different-levels",
+  },
+  {
+    label: "Advanced generics",
+    value: "/typescript/generics/advanced-generics",
+  },
+  {
+    label: "Function overloads",
+    value: "/typescript/generics/function-overloads",
+  },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
 const App = () => {
@@ -99,22 +130,7 @@ const App = () => {
       <div style={{ width: "100%", height: "100vh", display: "flex", overflow: "hidden" }}>
         <SidebarWrapper />
         <div style={{ width: "100%", overflow: "auto" }}>
-          <div
-            style={{
-              position: "relative",
-              display: "flex",
-              justifyContent: "end",
-              paddingRight: "10px",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              height: "30px",
-              backgroundColor: "#1f1616",
-            }}
-          >
-            <div style={{ position: "fixed", zIndex: "3" }}>
-              <AutoComplete />
-            </div>
-          </div>
+          <AutoComplete />
           <Router
             wrapperStyle={{ margin: "20px" }}
             paths={{
@@ -156,6 +172,16 @@ const App = () => {
                 "/tangent-line": <TangentLine />,
                 "/secant-line": <SecantLine />,
               },
+              "/typescript": {
+                "/": <Typescript />,
+                "/generics": {
+                  "/": <Generics />,
+                  "/type-arguments": <TypeArguments />,
+                  "/generics-at-different-levels": <GenericsAtDifferentLevels />,
+                  "/advanced-generics": <AdvancedGenerics />,
+                  "/function-overloads": <FunctionOverloads />,
+                },
+              },
             }}
           />
         </div>
@@ -175,6 +201,7 @@ const SidebarWrapper = () => {
       links={[
         { icon: <Home />, label: "Home", pathname: "/" },
         { icon: <Calculator />, label: "Math", pathname: "/math" },
+        { icon: <TypescriptIcon />, label: "Typescript", pathname: "/typescript" },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}
@@ -189,36 +216,95 @@ const SidebarWrapper = () => {
 
 const AutoComplete = () => {
   const { moveTo } = usePath();
+  const ref = useRef<HTMLDivElement>(null);
+  const childRef = useRef<HTMLDivElement>(null);
+  const minWidth = 200;
+
+  useLayoutEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      if (!childRef.current) {
+        return;
+      }
+
+      for (let entry of entries) {
+        if (entry.target === ref.current) {
+          const { left, width } = ref.current.getBoundingClientRect();
+          const displayedWidth = width < minWidth ? minWidth : width;
+          childRef.current.style.left = `${left}px`;
+          childRef.current.style.width = `${displayedWidth}px`;
+          break;
+        }
+      }
+    });
+
+    observer.observe(ref.current);
+
+    return () => {
+      if (!ref.current) {
+        return;
+      }
+
+      observer.unobserve(ref.current);
+    };
+  }, []);
 
   return (
-    <div style={{ width: "200px" }}>
-      <AutoCompleteInput
-        debounceDelay={300}
-        autocompleteOptionsCallback={(text) => {
-          const lowercaseText = text.toLowerCase();
-          return searchableRoutes.filter((searchable) =>
-            searchable.label.toLowerCase().includes(lowercaseText),
-          );
+    <div
+      ref={ref}
+      style={{
+        position: "relative",
+        paddingRight: "0px",
+        overflow: "hidden",
+        height: "30px",
+        paddingBottom: "10px",
+      }}
+    >
+      <div
+        ref={childRef}
+        style={{
+          position: "fixed",
+          zIndex: "3",
+          display: "flex",
+          justifyContent: "end",
+          paddingTop: "10px",
+          paddingBottom: "10px",
+          backgroundColor: "#1f1616",
         }}
-        callback={(option) => moveTo({ pathname: option.value })}
-        inputWrapperStyle={{
-          borderTopLeftRadius: "10px",
-          borderTopRightRadius: "10px",
-          borderBottomLeftRadius: "0px",
-          borderBottomRightRadius: "0px",
-          height: "30px",
-          alignItems: "center",
-        }}
-        inputPlaceholder="Search"
-        optionContent={({ result }) => {
-          return (
-            <EllipsisTooltip content={result.label} style={{ width: "175px" }}>
-              {result.label}
-            </EllipsisTooltip>
-          );
-        }}
-        clearInputOnPick
-      />
+      >
+        <div style={{ width: "200px", paddingRight: "10px" }}>
+          <AutoCompleteInput
+            debounceDelay={300}
+            autocompleteOptionsCallback={(text) => {
+              const lowercaseText = text.toLowerCase();
+              return searchableRoutes.filter((searchable) =>
+                searchable.label.toLowerCase().includes(lowercaseText),
+              );
+            }}
+            callback={(option) => moveTo({ pathname: option.value })}
+            inputWrapperStyle={{
+              borderTopLeftRadius: "10px",
+              borderTopRightRadius: "10px",
+              borderBottomLeftRadius: "0px",
+              borderBottomRightRadius: "0px",
+              height: "30px",
+              alignItems: "center",
+            }}
+            inputPlaceholder="Search"
+            optionContent={({ result }) => {
+              return (
+                <EllipsisTooltip content={result.label} style={{ width: "170px" }}>
+                  {result.label}
+                </EllipsisTooltip>
+              );
+            }}
+            clearInputOnPick
+          />
+        </div>
+      </div>
     </div>
   );
 };

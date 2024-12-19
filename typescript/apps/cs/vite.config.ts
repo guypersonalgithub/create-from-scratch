@@ -51,6 +51,10 @@ export default defineConfig({
         "../../packages/calculations-table/src/index.ts",
       ),
       "packages/title": path.resolve("__dirname", "../../packages/title/src/index.ts"),
+      "packages/pseudo-terminal-visuals": path.resolve(
+        "__dirname",
+        "../../packages/pseudo-terminal-visuals/src/index.ts",
+      ),
     },
   },
 });

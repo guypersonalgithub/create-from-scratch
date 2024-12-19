@@ -29,6 +29,8 @@ export const printHelp = () => {
     [SupportedCommands.CHANGED_FILES]: "Lists all of the files that were changed in the repository",
     [SupportedCommands.GENERATE_GITHUB_ACTION_YAMLS]:
       "Generates github action yamls to workspaces if they contain appropriate github cicd config files",
+    [SupportedCommands.DETECT_CIRCULAR_DEPENDENCIES]:
+      "Detects circular dependencies for local packages",
   };
 
   for (const command in commandDescriptions) {

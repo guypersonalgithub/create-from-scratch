@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState, isValidElement, CSSProperties, useRef }
 import { RouterPathGuard, RouterPaths } from "./types";
 import { grabFirstPath } from "./utils";
 import { RouterContext } from "./routerContext";
+import { useScrollToTheTopManual } from "@packages/hooks";
 
 type RouterProps = {
   paths: RouterPaths;
@@ -74,14 +75,45 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
       return currentStage;
     }
 
-    const component = isValidElement(currentStage["/"]) ? currentStage["/"] : null;
+    const defaultCurrentStageRoute = currentStage["/"];
+    let component: ReactNode = null;
+    if (isValidElement(defaultCurrentStageRoute)) {
+      component = defaultCurrentStageRoute;
+    } else if (typeof defaultCurrentStageRoute === "function") {
+      component = defaultCurrentStageRoute() as ReactNode;
+    }
 
     return component || (paths["404"] as ReactNode) || null;
   };
 
   return (
     <RouterContext.Provider value={{ routeParams: routeParams.current }}>
-      <div style={wrapperStyle}>{getRouteData()}</div>
+      <RouterContent path={path} getRouteData={getRouteData} wrapperStyle={wrapperStyle} />
     </RouterContext.Provider>
+  );
+};
+
+type RouterContentProps = {
+  path: string;
+  getRouteData: () => ReactNode;
+  wrapperStyle?: CSSProperties;
+};
+
+const RouterContent = ({ path, getRouteData, wrapperStyle }: RouterContentProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollFirstOverflowedParentToTop } = useScrollToTheTopManual();
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    scrollFirstOverflowedParentToTop({ element: ref.current });
+  }, [path]);
+
+  return (
+    <div ref={ref} style={wrapperStyle}>
+      {getRouteData()}
+    </div>
   );
 };

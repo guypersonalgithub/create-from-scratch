@@ -37,7 +37,8 @@
     "@packages/tooltip": "*",
     "@packages/trigger-popper": "*",
     "@packages/typeahead": "*",
-    "@packages/virtual-list": "*"
+    "@packages/virtual-list": "*",
+    "@packages/pseudo-terminal-visuals": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

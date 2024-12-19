@@ -22,6 +22,7 @@
     "@packages/calculations-table": "*",
     "@packages/input": "*",
     "@packages/title": "*",
+    "@packages/pseudo-terminal-visuals": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
