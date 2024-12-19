@@ -49,7 +49,7 @@ jobs:
       - name: Create working folder
         run: mkdir full-application
       - name: Remove postinstall
-        run: node removePostInstall.js cs
+        run: node ./ci-scripts/removePostInstall.js cs
       - name: Copy root package.json
         run: cp -r package.json ./full-application/
       - name: Copy workspace
@@ -90,5 +90,7 @@ jobs:
         run: npm ci
       - name: Build application
         run: npm run build
+      - name: Create netlify.toml file
+        run: node ./ci-scripts/createNetlifyToml.js cs
       - name: Deploy
         run: netlify deploy --prod --dir=./apps/cs/dist
