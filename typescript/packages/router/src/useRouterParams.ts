@@ -1,13 +1,7 @@
-import { useContext } from "react";
-import { RouterContext } from "./routerContext";
+import { useRouterContext } from "./useRouterContext";
 
 export const useRouteParamsState = () => {
-  const withinRouter = useContext(RouterContext);
-  if (!withinRouter) {
-    throw new Error("Attempted to use useRouteParamsState on a level above a router.");
-  }
-
+  const withinRouter = useRouterContext();
   const { routeParams } = withinRouter;
-
-  return routeParams;
+  return routeParams.current;
 };

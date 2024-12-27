@@ -1,10 +1,18 @@
 import { MathML } from "@packages/mathml";
-import { StyledLink } from "../../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
+import { useStickSubRouterLinksToTop } from "../../../../useStickSubRouterLinksToTop";
+import { StyledLinksContainer } from "../../../../styledComponents/StyledLinksContainer";
 
 export const IntermediateValueTheorem = () => {
+  const { ref, childRef } = useStickSubRouterLinksToTop();
+
   return (
-    <div>
+    <div ref={ref}>
+      <StyledLinksContainer
+        ref={childRef}
+        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        links={[{ path: "/math/calculus/continuity", children: "Continuity" }]}
+      />
       <StyledMainTitle>Intermediate value theorem</StyledMainTitle>
       <StyledSubTitle>Formal definition:</StyledSubTitle>
       <div>
@@ -38,7 +46,6 @@ export const IntermediateValueTheorem = () => {
         By assigning some values, we can see that f(1) = -1, and f(2) = 13, and from that, with the
         IVT, as mentioned earlier, we can tell the function has at the very least 1 root.
       </div>
-      <StyledLink pathname="/math/calculus/continuity">Continuity</StyledLink>
     </div>
   );
 };

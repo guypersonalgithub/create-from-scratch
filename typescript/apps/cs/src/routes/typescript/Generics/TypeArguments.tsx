@@ -1,4 +1,3 @@
-import { StyledLink } from "../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
 import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
 
@@ -94,12 +93,6 @@ const cloned = cloneExample(example);`}
         If, for example, we have a recursive type that creates some sort of a type result
         dynamically, we can just add an additional argument, assign the computation into it, and
         reuse it whenever necessary.
-      </div>
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/typescript/generics">Generics</StyledLink>
-        <StyledLink pathname="/typescript/generics/generics-at-different-levels">
-          Generics at different levels
-        </StyledLink>
       </div>
     </div>
   );

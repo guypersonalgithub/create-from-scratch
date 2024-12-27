@@ -1,10 +1,18 @@
 import { MathML, unicodes } from "@packages/mathml";
-import { StyledLink } from "../../styledComponents/StyledLink";
 import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
+import { StyledLinksContainer } from "../../styledComponents/StyledLinksContainer";
+import { useStickSubRouterLinksToTop } from "../../useStickSubRouterLinksToTop";
 
 export const SecantLine = () => {
+  const { ref, childRef } = useStickSubRouterLinksToTop();
+
   return (
-    <div>
+    <div ref={ref}>
+      <StyledLinksContainer
+        ref={childRef}
+        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        links={[{ path: "/math/tangent-line", children: "Tangent line" }]}
+      />
       <StyledMainTitle>Secant line</StyledMainTitle>
       <div>The secant line is a straight line created by two points of a curve.</div>
       <div>As both are brought together, the secant line tends to the tangent line.</div>
@@ -22,9 +30,6 @@ export const SecantLine = () => {
           input={`(${unicodes.javascript.capitalDelta}y)/(${unicodes.javascript.capitalDelta}x)`}
           isAnExpression
         />
-      </div>
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/math/tangent-line">Tangent line</StyledLink>
       </div>
     </div>
   );

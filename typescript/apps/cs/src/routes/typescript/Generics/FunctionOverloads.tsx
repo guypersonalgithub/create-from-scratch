@@ -191,9 +191,6 @@ function getValue(key: Key = "a") {
         animatedWriting
         withCursor
       />
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/typescript/generics">Generics</StyledLink>
-      </div>
     </div>
   );
 };

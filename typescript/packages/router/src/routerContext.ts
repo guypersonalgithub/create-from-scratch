@@ -1,5 +1,10 @@
-import { createContext } from "react";
+import { createContext, CSSProperties, MutableRefObject } from "react";
 
-export const RouterContext = createContext<{ routeParams: Record<string, string> }>({
-  routeParams: {},
-});
+export const RouterContext = createContext<{
+  routeParams: MutableRefObject<Record<string, string>>;
+} | null>(null);
+
+export const SubRouterContext = createContext<{
+  shortenedPath: `/${string}`;
+  parentPassedPath: string;
+} | null>(null);

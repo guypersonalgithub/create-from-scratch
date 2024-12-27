@@ -1,6 +1,5 @@
 import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
-import { StyledLink } from "../../../styledComponents/StyledLink";
 
 export const GenericsAtDifferentLevels = () => {
   return (
@@ -72,9 +71,6 @@ const result = example(["1", "2", "3", "4"] as const); // result's type is resul
         animatedWriting
         withCursor
       />
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/typescript/generics/type-arguments">Type arguments</StyledLink>
-      </div>
     </div>
   );
 };

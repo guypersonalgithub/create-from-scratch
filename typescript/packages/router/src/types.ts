@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { CSSProperties, ReactElement, ReactNode } from "react";
 
 export type RouterPaths = {
   [key: `/${string}`]: ReactElement | RouterPaths | RouterPathGuard;
@@ -6,3 +6,15 @@ export type RouterPaths = {
 };
 
 export type RouterPathGuard = () => ReactElement | RouterPaths;
+
+export type RouterProps = {
+  paths: RouterPaths;
+  wrapperStyle?: CSSProperties;
+};
+
+export type RouterContentProps = {
+  passedPath: string;
+  paths: RouterPaths;
+  route: ReactNode;
+  wrapperStyle?: CSSProperties;
+};

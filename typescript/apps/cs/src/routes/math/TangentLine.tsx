@@ -1,10 +1,18 @@
 import { MathML } from "@packages/mathml";
-import { StyledLink } from "../../styledComponents/StyledLink";
 import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
+import { useStickSubRouterLinksToTop } from "../../useStickSubRouterLinksToTop";
+import { StyledLinksContainer } from "../../styledComponents/StyledLinksContainer";
 
 export const TangentLine = () => {
+  const { ref, childRef } = useStickSubRouterLinksToTop();
+
   return (
-    <div>
+    <div ref={ref}>
+      <StyledLinksContainer
+        ref={childRef}
+        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        links={[{ path: "/math/secant-line", children: "Secant line" }]}
+      />
       <StyledMainTitle>Tangent line</StyledMainTitle>
       <div>In order to get a tangent's line equation, we need both a point and its slope.</div>
       <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
@@ -31,9 +39,6 @@ export const TangentLine = () => {
           to the tangent line at the same point, and they are supposed to have the same slope at the
           same point and point at the same direction.
         </div>
-      </div>
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/math/secant-line">Secant line</StyledLink>
       </div>
     </div>
   );

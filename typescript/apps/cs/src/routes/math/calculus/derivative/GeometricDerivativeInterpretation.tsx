@@ -208,12 +208,6 @@ export const GeometricDerivativeInterpretation = () => {
           at x = 0 there is a vertical line, so as the slope is infinite there is no derivative.
         </div>
       </div>
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/math/calculus/derivative">Derivative</StyledLink>
-        <StyledLink pathname="/math/calculus/derivative/derivative-as-a-function">
-          Derivative as a function
-        </StyledLink>
-      </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 export * from "./Router";
+export * from "./SubRouter";
 export * from "./usePath";
 export { useRouteParamsState } from "./useRouterParams";
 export { getQueryParams, useQueryParamsState } from "./useQueryParams";

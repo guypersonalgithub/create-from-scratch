@@ -1,6 +1,5 @@
 import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
-import { StyledLink } from "../../../styledComponents/StyledLink";
 
 export const AdvancedGenerics = () => {
   return (
@@ -384,9 +383,6 @@ const callbacks = example<Args>()({
         withCursor
       />
       <div>That way, typescript is able of inferring the appropriate types.</div>
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/typescript/generics">Generics</StyledLink>
-      </div>
     </div>
   );
 };

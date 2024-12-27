@@ -169,13 +169,6 @@ export const LimitLaws = () => {
         <MathML input="x^2 + 1" />
         <div>are continuous everywhere.</div>
       </div>
-      <div style={{ display: "flex", gap: "5px" }}>
-        <StyledLink pathname="/math/calculus/limit">Limit</StyledLink>
-        <StyledLink pathname="/math/calculus/limit/limits-of-quotients">
-          Limits of quotients
-        </StyledLink>
-        <StyledLink pathname="/math/calculus/continuity">Continuity</StyledLink>
-      </div>
     </div>
   );
 };
