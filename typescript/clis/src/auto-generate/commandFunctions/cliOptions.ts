@@ -66,7 +66,7 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
       break;
     }
     case SupportedCommands.GENERATE_GITHUB_ACTION_YAMLS: {
-      await generateGithubActionYaml();
+      generateGithubActionYaml({ uniqueFolders: ["cicd-configs"] });
       break;
     }
     case SupportedCommands.DETECT_CIRCULAR_DEPENDENCIES: {

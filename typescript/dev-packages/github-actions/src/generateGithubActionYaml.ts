@@ -1,90 +1,75 @@
-import { readFileSync, readdirSync, writeFileSync } from "fs";
-import { GithubActionYaml } from "./types";
+import { readdirSync } from "fs";
 import { getProjectAbsolutePath, completeRootAbsolutePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "@packages/packages";
-import { convertObjectToYaml } from "@packages/yaml";
+import { parseGithubActionContent } from "./parseGithubActionContent";
 
-export const generateGithubActionYaml = async () => {
+type GenerateGithubActionYamlArgs = {
+  folders?: string[];
+  uniqueFolders?: string[];
+};
+
+export const generateGithubActionYaml = ({
+  folders = ["apps"],
+  uniqueFolders = [],
+}: GenerateGithubActionYamlArgs) => {
   console.log("Generating new github action yaml files");
 
   const projectAbsolutePath = getProjectAbsolutePath();
   const projectCompleteRootAbsolutePath = completeRootAbsolutePath();
-  const folderPath = `${projectAbsolutePath}/apps`;
-  const workspaces = readdirSync(folderPath);
+  folders.forEach((folder) => {
+    const folderPath = `${projectAbsolutePath}/${folder}`;
+    const workspaces = readdirSync(folderPath);
 
-  workspaces.forEach((workspace) => {
-    try {
-      const workspacePackages = detectUsedLocalPackages({
-        workspace: `apps/${workspace}`,
-        projectAbsolutePath,
-        fileName: "package.json",
-      });
+    workspaces.forEach((workspace) => {
+      try {
+        const workspacePackages = detectUsedLocalPackages({
+          workspace: `${folder}/${workspace}`,
+          projectAbsolutePath,
+          fileName: "package.json",
+        });
 
-      const config = readFileSync(
-        `${projectAbsolutePath}/apps/${workspace}/github.cicd.config.json`,
-        {
-          encoding: "utf-8",
-        },
-      );
+        parseGithubActionContent({
+          filePath: `${projectAbsolutePath}/${folder}/${workspace}/github.cicd.config.json`,
+          projectCompleteRootAbsolutePath,
+          onPushCallback: ({ onPush }) => {
+            onPush.paths = [
+              `typescript/${folder}/${workspace}/**`, // Temporary solution - adding typescript as a prefix
+              ...workspacePackages.map((workspacePackage) => {
+                return `typescript/${workspacePackage.path}/**`;
+              }),
+            ];
+          },
+          stepCallbacks: {
+            "Copy dependencies": ({ step }) => {
+              const { name, run } = step;
+              if (!run || !Array.isArray(run)) {
+                return;
+              }
 
-      const parsedConfig = JSON.parse(config);
-      for (const fileName in parsedConfig) {
-        const {
-          name,
-          env,
-          on,
-          jobs,
-          dependencies: { step: dependenciesStep },
-        } = parsedConfig[fileName] as Omit<GithubActionYaml, "fileName"> & {
-          dependencies: {
-            step: string;
-          };
-        };
+              if (name === "Copy dependencies") {
+                workspacePackages.forEach((workspacePackage) => {
+                  run.push(`cp -r ./${workspacePackage.path} ./full-application/packages`);
+                });
+              }
+            },
+          },
+        });
+      } catch (error) {}
+    });
+  });
 
-        const { push } = on;
-        if (push) {
-          (on.push as Record<string, string[]>).paths = [
-            `typescript/apps/${workspace}/**`, // Temporary solution
-            ...workspacePackages.map((workspacePackage) => {
-              return `typescript/${workspacePackage.path}/**`;
-            }),
-          ];
-        }
+  uniqueFolders.forEach((uniqueFolder) => {
+    const folderPath = `${projectAbsolutePath}/${uniqueFolder}`;
+    const uniqueFiles = readdirSync(folderPath);
 
-        on.workflow_dispatch = "";
-
-        for (const job in jobs) {
-          const { steps = [] } = jobs[job];
-          (steps as Record<string, string>[]).forEach((step, index) => {
-            const { name, run } = step;
-            if (!run || !Array.isArray(run)) {
-              return;
-            }
-
-            if (name === dependenciesStep) {
-              workspacePackages.forEach((workspacePackage) => {
-                run.push(`cp -r ./${workspacePackage.path} ./full-application/packages`);
-              });
-            }
-
-            parsedConfig[fileName].jobs[job].steps[index].run = run.join("\n");
-          });
-        }
-
-        const githubActionYaml: GithubActionYaml = {
-          name,
-          env,
-          on,
-          jobs,
-        };
-
-        const yamlFormat = convertObjectToYaml({ obj: githubActionYaml });
-
-        writeFileSync(
-          `${projectCompleteRootAbsolutePath}/.github/workflows/${fileName}.yaml`,
-          yamlFormat,
-        );
+    uniqueFiles.forEach((uniqueFile) => {
+      try {
+        parseGithubActionContent({
+          filePath: `${folderPath}/${uniqueFile}`,
+          projectCompleteRootAbsolutePath,
+        });
+      } catch (error) {
       }
-    } catch (error) {}
+    });
   });
 };

@@ -1,0 +1,17 @@
+name: Bump version
+env: 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: 
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add an automated commit
+        run: sh ./ci-scripts/addGithubActionCommit.sh "Automated commit message"
