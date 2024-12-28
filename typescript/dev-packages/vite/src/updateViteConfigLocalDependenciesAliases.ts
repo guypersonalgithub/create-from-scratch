@@ -13,11 +13,13 @@ import { addOrRemovePathImport } from "./addOrRemovePathImport";
 type UpdateViteConfigLocalDependenciesAliasesArgs = {
   folders?: string[];
   localPackagesIdentifiers?: string[];
+  localPackagePrefix?: string;
 };
 
 export const updateViteConfigLocalDependenciesAliases = async ({
   folders = ["apps"],
   localPackagesIdentifiers = [],
+  localPackagePrefix = "",
 }: UpdateViteConfigLocalDependenciesAliasesArgs) => {
   const projectAbsolutePath = getProjectAbsolutePath();
 
@@ -85,7 +87,7 @@ export const updateViteConfigLocalDependenciesAliases = async ({
 
         for (const property in alias) {
           for (let i = 0; i < localPackagesIdentifiers.length; i++) {
-            const current = localPackagesIdentifiers[i];
+            const current = `${localPackagePrefix}${localPackagesIdentifiers[i]}`;
             if (property.startsWith(current)) {
               delete alias[property];
               break;
@@ -95,14 +97,15 @@ export const updateViteConfigLocalDependenciesAliases = async ({
 
         workspacePackagesPaths.forEach((workspacePackagePath) => {
           const [localPackageIdentifier, packageName] = workspacePackagePath.split("/");
+          const completePackageIdentifier = `${localPackagePrefix}${workspacePackagePath}`;
 
           const relativePath = getRelativePath({
             from: `${folderPath}/${workspace}`,
             to: `${projectAbsolutePath}/${localPackageIdentifier}`,
           });
 
-          alias[workspacePackagePath] =
-            `path.resolve("__dirname", "${relativePath}/${packageName}/src/index.ts")`;
+          alias[completePackageIdentifier] =
+            `path.resolve(__dirname, "${relativePath}/${packageName}/src/index.ts")`;
         });
 
         let updatedFile = replaceOrInsertCharactersInRange({

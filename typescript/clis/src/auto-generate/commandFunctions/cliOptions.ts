@@ -47,11 +47,17 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
       await updateViteConfigLocalDependenciesAliases({
         folders: ["apps", "dev-apps"],
         localPackagesIdentifiers: ["packages", "dev-packages"],
+        localPackagePrefix: "@",
       });
       break;
     }
     case SupportedCommands.PACKAGE_LOCK: {
-      await generatePackageLock({ value });
+      const forceUpdate = value.length > 0 ? value[0] === "force-update" : false;
+      await generatePackageLock({
+        workspacesFolders: ["apps", "dev-apps"],
+        packagesFolders: ["packages", "dev-packages"],
+        forceUpdate,
+      });
       break;
     }
     case SupportedCommands.CHANGED_FILES: {

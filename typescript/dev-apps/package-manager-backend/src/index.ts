@@ -48,7 +48,7 @@ app.get("/detectDependencies", async (req, res) => {
       cachedDependencies = dependencies;
     } else {
       const { packageJsonPaths } = detectAllRepositoryDependencies({
-        skipPackageJsonPaths: true,
+        skipDependencies: true,
       });
 
       const packageJsonPathsArray = [...packageJsonPaths];

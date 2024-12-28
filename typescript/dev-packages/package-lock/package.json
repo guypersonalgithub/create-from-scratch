@@ -12,7 +12,10 @@
     "@packages/git": "*",
     "@packages/package-manager": "*",
     "@packages/terminal-utils": "*",
-    "@packages/terminal-multi-select": "*"
+    "@packages/terminal-multi-select": "*",
+    "@packages/detect-repository-dependencies": "*",
+    "@packages/detect-file-changes": "*",
+    "@packages/files": "*"
   },
   "author": "",
   "license": "ISC",
