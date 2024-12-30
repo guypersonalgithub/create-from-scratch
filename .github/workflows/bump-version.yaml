@@ -1,17 +1,30 @@
 name: Bump version
-env: 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: 
+description: Updates a pull request with automated commits.
+inputs:
+  pull_request_ref:
+    description: The branch ref of the pull request.
+    required: true
+  message:
+    description: The commit message.
+    required: true
+permissions:
+  contents: write
 jobs:
-  Deploy-Production:
+  Bump-version:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./typescript
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.pull_request_ref }}
+      - name: Set up Git properties for commit
+        run: |
+          git config --global user.name 'Automated'
+          git config --global user.email 'automated@users.noreply.github.com'
       - name: Add an automated commit
-        run: sh ./ci-scripts/addGithubActionCommit.sh "Automated commit message"
+        run: |
+          git add -A
+          git commit -m "Automated commit message" --allow-empty
+          git push origin ${{ inputs.pull_request_ref }}
