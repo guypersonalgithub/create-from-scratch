@@ -30,6 +30,8 @@ COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/pack
 COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
 COPY ./packages/title/package.json ./packages/title/package.json
 COPY ./packages/pseudo-terminal-visuals/package.json ./packages/pseudo-terminal-visuals/package.json
+COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
+COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
 
 
 
@@ -68,6 +70,8 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/ui-theme ./packages/ui-theme
 CMD ["npm", "run", "dev"]
 
 
@@ -107,6 +111,8 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/ui-theme ./packages/ui-theme
 CMD ["npm", "run", "build"]
 
 
@@ -146,4 +152,6 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/ui-theme ./packages/ui-theme
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

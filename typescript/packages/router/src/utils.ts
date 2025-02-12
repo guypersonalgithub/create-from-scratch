@@ -1,11 +1,11 @@
 import { RouterPaths } from "./types";
 import { areStringArraysEqual } from "@packages/utils";
 
-type GrabFirstPathsArgs = {
+type GetFirstPathsArgs = {
   currentStage: RouterPaths;
 };
 
-export const grabFirstPath = ({ currentStage }: GrabFirstPathsArgs) => {
+export const getFirstPath = ({ currentStage }: GetFirstPathsArgs) => {
   for (const path in currentStage) {
     return path;
   }

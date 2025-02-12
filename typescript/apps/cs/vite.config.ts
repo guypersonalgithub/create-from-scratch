@@ -52,6 +52,11 @@ export default defineConfig({
         __dirname,
         "../../packages/pseudo-terminal-visuals/src/index.ts",
       ),
+      "@packages/syntax-highlighter": path.resolve(
+        __dirname,
+        "../../packages/syntax-highlighter/src/index.ts",
+      ),
+      "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
     },
   },
 });

@@ -44,12 +44,12 @@ export const generatePackageLock = async ({
       filePaths: packageJsonPathsArray,
       compareCacheAndCurrentCallback: (current = {}, previously = "{}") => {
         const parsedCachedChanges = JSON.parse(previously);
-        const differentAmountOfPackageJsons =
-          Object.keys(current).length !== Object.keys(parsedCachedChanges).length;
+        // const differentAmountOfPackageJsons =
+        //   Object.keys(current).length !== Object.keys(parsedCachedChanges).length;
 
-        if (differentAmountOfPackageJsons) {
-          return true;
-        }
+        // if (differentAmountOfPackageJsons) {
+        //   return true;
+        // }
 
         for (const property in current) {
           const currentLastChange = current[property];
@@ -68,7 +68,8 @@ export const generatePackageLock = async ({
 
             if (!areEqual) {
               pathsThatWereChanged.add(
-                property.replace(`${projectAbsolutePath}/`, "").replace("/package.json", ""),
+                property.replace(`${projectAbsolutePath}/`, ""),
+                // .replace("/package.json", ""),
               );
             }
           }
@@ -111,7 +112,7 @@ export const generatePackageLock = async ({
 
       if (!requiresPackageLockChange) {
         console.log(`Skipping ${workspace} as nothing was changed.`);
-        return;
+        continue;
       }
 
       const workspacePackageLockPath = `${workspacePath}/package-lock.json`;

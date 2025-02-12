@@ -1,9 +1,11 @@
-import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { CSSProperties, Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./styles.css";
 import { getComptuedStyleProperties } from "@packages/utils";
+import { parseTypescript, colorizeTokens } from "@packages/syntax-highlighter";
 
 type PseudoTerminalVisualsProps = {
   code: string;
+  highlightCode?: boolean;
   style?: CSSProperties;
 } & Animated;
 
@@ -21,6 +23,7 @@ type Animated =
 
 export const PseudoTerminalVisuals = ({
   code,
+  highlightCode,
   withCursor,
   animatedWriting,
   pacing,
@@ -29,6 +32,20 @@ export const PseudoTerminalVisuals = ({
   if (animatedWriting) {
     return (
       <PseudoTerminalAnimation code={code} withCursor={withCursor} pacing={pacing} style={style} />
+    );
+  }
+
+  if (highlightCode) {
+    const tokens = parseTypescript({ input: code });
+    const highlighted = colorizeTokens({ tokens });
+
+    return (
+      <pre className="pseudoTerminalVisuals" style={style}>
+        {highlighted.map((ele, index) => (
+          <Fragment key={index}>{ele}</Fragment>
+        ))}
+        {withCursor ? <span className="terminalCursor">|</span> : null}
+      </pre>
     );
   }
 

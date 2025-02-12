@@ -1,0 +1,146 @@
+.theme-toggle {
+    position: relative;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 999px;
+    transition: background-color 0.3s;
+  }
+  
+  /* Size Variants */
+  .theme-toggle.small {
+    width: 56px;
+    height: 28px;
+  }
+  
+  .theme-toggle.default {
+    width: 64px;
+    height: 32px;
+  }
+  
+  .theme-toggle.large {
+    width: 80px;
+    height: 40px;
+  }
+  
+  /* Background */
+  .toggle-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background-color: #e5e7eb;
+    transition: background-color 0.3s;
+  }
+  
+  .theme-toggle.dark .toggle-background {
+    background-color: #374151;
+  }
+  
+  /* Circle and Icons */
+  .toggle-circle {
+    position: relative;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Circle sizes */
+  .theme-toggle.small .toggle-circle {
+    width: 20px;
+    height: 20px;
+    margin: 4px;
+  }
+  
+  .theme-toggle.default .toggle-circle {
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+  }
+  
+  .theme-toggle.large .toggle-circle {
+    width: 32px;
+    height: 32px;
+    margin: 4px;
+  }
+  
+  /* Circle movement */
+  .theme-toggle.dark .toggle-circle {
+    transform: translateX(calc(100% + 8px));
+  }
+  
+  /* Icons */
+  .icon {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    transition: opacity 0.3s;
+  }
+  
+  .sun-icon {
+    opacity: 1;
+    color: #f59e0b;
+  }
+  
+  .moon-icon {
+    opacity: 0;
+    color: #60a5fa;
+  }
+  
+  .theme-toggle.dark .sun-icon {
+    opacity: 0;
+  }
+  
+  .theme-toggle.dark .moon-icon {
+    opacity: 1;
+  }
+  
+  /* Focus styles */
+  .theme-toggle:focus {
+    outline: none;
+  }
+  
+  .theme-toggle:focus-visible {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #3b82f6;
+  }
+  
+  /* Example container styles */
+  .toggle-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .toggle-example {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .toggle-label {
+    font-size: 14px;
+    color: #4b5563;
+  }
+  
+  /* Screen reader only class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }

@@ -123,6 +123,12 @@ services:
         source: ./packages/pseudo-terminal-visuals
         target: /usr/src/app/packages/pseudo-terminal-visuals
       - type: bind
+        source: ./packages/syntax-highlighter
+        target: /usr/src/app/packages/syntax-highlighter
+      - type: bind
+        source: ./packages/ui-theme
+        target: /usr/src/app/packages/ui-theme
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:

@@ -29,7 +29,7 @@ export const uniqueOperationsFlow = ({
   if (value === "sqrt") {
     parsedTokens.push(recursivelyParseSqrt({ tokens }));
   }
-  if (value === "root") {
+  else if (value === "root") {
     parsedTokens.push(recursivelyParseRoot({ tokens }));
   } else if (value === "^") {
     parsedTokens.push(recursivelyParsePower({ tokens, parsedTokensOfTheSameLevel: parsedTokens }));

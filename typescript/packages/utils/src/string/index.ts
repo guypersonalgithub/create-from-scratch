@@ -8,3 +8,5 @@ export * from "./replaceOrInsertCharactersInRange";
 export * from "./getAllIndexesOfChar";
 export * from "./convertStringFormat";
 export * from "./getNextNonSpaceCharIndex";
+export * from "./isCharacter";
+export * from "./isString";

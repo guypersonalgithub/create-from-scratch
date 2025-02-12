@@ -1,8 +1,8 @@
 import { TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { uniqueWords } from "../uniqueTokens";
-import { isCharacterLetter, isValidSectionStartingCharacter } from "../utils";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { isValidSectionStartingCharacter } from "../utils";
+import { getNextNonSpaceCharIndex, isCharacterLetter } from "@packages/utils";
 
 type UniqueFunctionFlowArgs = {
   input: string;

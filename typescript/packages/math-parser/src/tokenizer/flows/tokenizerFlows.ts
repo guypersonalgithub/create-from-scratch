@@ -4,7 +4,7 @@ import { parenthesisFlow } from "./parenthesisFlow";
 import { BaseToken } from "../types";
 import { basicOperators } from "../uniqueTokens";
 import { basicOperatorFlow } from "./basicOperatorFlow";
-import { isCharacterLetter, isCharacterNumber, isValidLimit } from "../utils";
+import { isValidLimit } from "../utils";
 import { powerFlow } from "./powerFlow";
 import { uniqueFunctionFlow } from "./uniqueFunctionFlow";
 import { logFlow } from "./logFlow";
@@ -18,6 +18,7 @@ import { inequalitySignsFlow } from "./inequalitySignsFlow";
 import { rootFlow } from "./rootFlow";
 import { floorFlow } from "./floorFlow";
 import { cancelFlow } from "./cancelFlow";
+import { isCharacterLetter, isCharacterNumber } from "@packages/utils";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];

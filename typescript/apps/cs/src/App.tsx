@@ -8,6 +8,9 @@ import { ComponentProps, useLayoutEffect, useRef } from "react";
 import { StyledMainTitle } from "./styledComponents/StyledMainTitle";
 import { Typescript } from "./routes/typescript/Typescript";
 import { Typescript as TypescriptIcon } from "@packages/icons";
+import { UIThemeProvider } from "@packages/ui-theme";
+import { customThemes } from "./UIThemes";
+import { Test } from "./Test";
 
 const searchableRoutes = [
   {
@@ -106,7 +109,7 @@ const searchableRoutes = [
 
 const App = () => {
   return (
-    <>
+    <UIThemeProvider themes={customThemes}>
       <div style={{ width: "100%", height: "100vh", display: "flex", overflow: "hidden" }}>
         <SidebarWrapper />
         <div style={{ width: "100%", overflow: "auto" }}>
@@ -126,12 +129,13 @@ const App = () => {
               },
               "/math!": <Math />,
               "/typescript!": <Typescript />,
+              "/test": <Test />,
             }}
           />
         </div>
       </div>
       <TooltipManager />
-    </>
+    </UIThemeProvider>
   );
 };
 

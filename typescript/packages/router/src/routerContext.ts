@@ -1,4 +1,4 @@
-import { createContext, CSSProperties, MutableRefObject } from "react";
+import { createContext, MutableRefObject } from "react";
 
 export const RouterContext = createContext<{
   routeParams: MutableRefObject<Record<string, string>>;

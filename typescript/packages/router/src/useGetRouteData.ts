@@ -1,6 +1,6 @@
 import { isValidElement, MutableRefObject, ReactNode } from "react";
 import { RouterPaths } from "./types";
-import { grabFirstPath } from "./utils";
+import { getFirstPath } from "./utils";
 
 type UseGetRouteDataArgs = {
   parentPassedPath?: string;
@@ -16,7 +16,7 @@ export const useGetRouteData = ({
   routeParams,
 }: UseGetRouteDataArgs) => {
   let passedPath = "";
-  const basePath = path.slice(parentPassedPath.length) as `/${string}` || "/";
+  const basePath = (path.slice(parentPassedPath.length) as `/${string}`) || "/";
 
   const getRoute = (): ReactNode | (() => ReactNode) => {
     const potentialPaths = [paths[`${basePath}!`], paths[basePath]];
@@ -55,7 +55,7 @@ export const useGetRouteData = ({
       } else if (currentStage[currentPath]) {
         currentStage = currentStage[currentPath] as RouterPaths;
       } else {
-        const firstPath = grabFirstPath({ currentStage }) as `/${string}`;
+        const firstPath = getFirstPath({ currentStage }) as `/${string}`;
         if (firstPath && firstPath.slice(0, 2) === "/:") {
           updateRouteParams(firstPath, nestedLevels[i]);
           if (currentStage[`${firstPath}!`]) {
