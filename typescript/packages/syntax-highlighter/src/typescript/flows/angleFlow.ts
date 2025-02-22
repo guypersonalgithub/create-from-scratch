@@ -1,11 +1,12 @@
-import { isCharacterUpperCase, isStringOnlyWithLetters } from "@packages/utils";
-import { htmlTags, TokenTypeOptions, TokenTypes } from "../constants";
+import { isStringOnlyWithLetters } from "@packages/utils";
+import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
-import { findLastNonPreviousSpaceToken, findNextBreakpoint, shouldBreak } from "../utils";
+import { findLastNonPreviousSpaceToken, findNextBreakpoint } from "../utils";
 import { spaceFollowUpFlow } from "./spaceFlow";
 import { genericTypeFlow } from "./genericTypeFlow";
 import { tagFlow } from "./tagFlow";
 import { parenthesisFlow } from "./parenthesisFlow";
+import { JSXFlow } from "./JSXFlow";
 
 type AngleFlowArgs = {
   tokens: BaseToken[];
@@ -13,7 +14,20 @@ type AngleFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedFunctions: string[];
+  isFromDefinitionFlow?: boolean;
+  expectingArrow?: boolean;
+  isExpectedToBeType?: boolean;
 };
+
+type AngleFlowReturnType =
+  | {
+      isFunction?: boolean;
+      updatedIndex: number;
+      stop: boolean;
+      hasArrow?: boolean;
+    }
+  | undefined;
 
 export const angleFlow = ({
   tokens,
@@ -21,7 +35,11 @@ export const angleFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-}: AngleFlowArgs) => {
+  openedFunctions,
+  isFromDefinitionFlow,
+  expectingArrow,
+  isExpectedToBeType,
+}: AngleFlowArgs): AngleFlowReturnType => {
   if (newTokenValue !== "<") {
     return;
   }
@@ -42,7 +60,7 @@ export const angleFlow = ({
   const lastNonPreviousSpaceToken = findLastNonPreviousSpaceToken({ previousTokensSummary });
   const isMathRelated =
     lastNonPreviousSpaceToken === TokenTypes.VARIABLE ||
-    lastNonPreviousSpaceToken === TokenTypes.FUNCTION ||
+    lastNonPreviousSpaceToken === TokenTypes.FUNCTION_NAME ||
     lastNonPreviousSpaceToken === TokenTypes.NUMBER;
   if (isMathRelated) {
     return {
@@ -72,18 +90,27 @@ export const angleFlow = ({
       updatedIndex,
       stop,
       isType = false,
+      isJSX,
     } = genericTypeFlow({
       tokens,
       input,
       currentIndex: breakpoint.currentIndex,
       previousTokensSummary,
       propertyIndex,
+      isExpectedToBeType,
     });
 
     if (stop) {
       return {
         updatedIndex,
         stop,
+      };
+    }
+
+    if (isJSX) {
+      return {
+        updatedIndex,
+        stop: false,
       };
     }
 
@@ -106,13 +133,29 @@ export const angleFlow = ({
   });
 
   if (nextBreakpoint.newTokenValue !== ">") {
-    return {
-      updatedIndex: currentIndex,
-      stop: true,
-    };
+    if (isExpectedToBeType) {
+      return {
+        updatedIndex: currentIndex,
+        stop: true,
+      };
+    }
+
+    const jsxFlow = JSXFlow({ tokens, input, previousTokensSummary, currentIndex }); // Consider some optimization
+    if (jsxFlow.stop) {
+      return {
+        updatedIndex: currentIndex,
+        stop: true,
+      };
+    }
+
+    return jsxFlow;
   }
 
   tokens.push({ type: TokenTypes.ANGLE, value: nextBreakpoint.newTokenValue });
+
+  if (isExpectedToBeType) {
+    isAngleType = true;
+  }
 
   if (!isAngleType) {
     const {
@@ -143,7 +186,16 @@ export const angleFlow = ({
     previousTokensSummary,
   });
 
-  const parenthesis = parenthesisFlow({ tokens, input, previousTokensSummary, ...followUp });
+  const parenthesis = parenthesisFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedFunctions,
+    isFromDefinitionFlow,
+    expectingFunction: true,
+    expectingArrow,
+    ...followUp,
+  });
 
   if (!parenthesis) {
     return {
@@ -152,56 +204,16 @@ export const angleFlow = ({
     };
   }
 
+  if (parenthesis.stop || (expectingArrow && !parenthesis.hasArrow)) {
+    return {
+      updatedIndex: parenthesis.updatedIndex,
+      stop: true,
+    };
+  }
+
   if (propertyIndex !== undefined) {
     tokens[propertyIndex].type = TokenTypes.TYPE;
   }
 
   return { ...parenthesis, isFunction: true };
-};
-
-type IdentifyFirstTagValueArgs = {
-  input: string;
-  currentIndex: number;
-  tokens: BaseToken[];
-};
-
-const identifyFirstTagValue = ({ input, currentIndex, tokens }: IdentifyFirstTagValueArgs) => {
-  const firstBreakpoint = findNextBreakpoint({ input, currentIndex });
-  const firstChar = firstBreakpoint.newTokenValue[0];
-  const isFirstCharacterAcceptable =
-    !shouldBreak({ currentChar: firstChar }) &&
-    (isStringOnlyWithLetters({ str: firstChar }) || firstChar === "_");
-
-  if (!isFirstCharacterAcceptable && firstChar !== ">") {
-    return {
-      input,
-      currentIndex,
-      isType: false,
-      isTag: false,
-      stop: true,
-    };
-  }
-
-  const isFirstCharUpperCase = isCharacterUpperCase({ currentChar: firstChar });
-  if (!isFirstCharUpperCase) {
-    const isKnownHTMLTag = htmlTags.has(firstBreakpoint.newTokenValue);
-    if (!isKnownHTMLTag) {
-      tokens.push({ type: TokenTypes.TYPE, value: firstBreakpoint.newTokenValue });
-
-      return {
-        ...firstBreakpoint,
-        isType: true,
-        isTag: false,
-        stop: false,
-      };
-    }
-  }
-
-  return {
-    input,
-    currentIndex,
-    isType: false,
-    isTag: false,
-    stop: false,
-  };
 };

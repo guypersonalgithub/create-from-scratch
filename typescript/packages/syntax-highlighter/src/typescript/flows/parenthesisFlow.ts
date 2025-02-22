@@ -1,16 +1,11 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { asFlow } from "./asFlow";
-import {
-  iterateOverSteps,
-  spaceCallback,
-  StepCallback,
-  findNextBreakpoint,
-  definitionSpaceHelper,
-} from "../utils";
+import { iterateOverSteps, spaceCallback, StepCallback, findNextBreakpoint } from "../utils";
 import { typeFlow } from "./typeFlow";
 import { valueFlow } from "./valueFlow";
 import { arrowFlow } from "./arrowFlow";
+import { spaceFollowUpFlow } from "./spaceFlow";
 
 type ParenthesisFlowArgs = {
   tokens: BaseToken[];
@@ -18,13 +13,30 @@ type ParenthesisFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedFunctions: string[];
+  isFromDefinitionFlow?: boolean;
   // context: Context;
   // currentLayeredContexts: CurrentLayeredContexts;
-};
+} & ExpectingFunction;
+
+type ExpectingFunction =
+  | {
+      expectingFunction?: true;
+      expectingArrow?: boolean;
+    }
+  | {
+      expectingFunction?: false;
+      expectingArrow?: never;
+    }
+  | {
+      expectingFunction?: never;
+      expectingArrow?: never;
+    };
 
 type SharedStageData = {
   hasComma?: boolean;
   hasString?: boolean;
+  hasBoolean?: boolean;
   hasAs?: boolean;
 };
 
@@ -34,6 +46,10 @@ export const parenthesisFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedFunctions,
+  isFromDefinitionFlow,
+  expectingFunction,
+  expectingArrow,
   // context,
   // currentLayeredContexts,
 }: ParenthesisFlowArgs) => {
@@ -67,13 +83,16 @@ export const parenthesisFlow = ({
           };
         }
 
-        const lastTokenIsString = tokens[tokens.length - 1].type === TokenTypes.STRING;
-        const shouldStop = lastTokenIsString && !!sharedData?.hasComma;
+        const lastToken = tokens.length - 1;
+        const lastTokenIsString = tokens[lastToken].type === TokenTypes.STRING;
+        const lastTokenIsBoolean = tokens[lastToken].type === TokenTypes.BOOLEAN;
+        const shouldStop = (lastTokenIsString || lastTokenIsBoolean) && !!sharedData?.hasComma;
 
         return {
           updatedIndex: value.updatedIndex,
           stop: shouldStop,
           hasString: lastTokenIsString,
+          hasBoolean: lastTokenIsBoolean,
         };
       },
       stop: true,
@@ -93,7 +112,7 @@ export const parenthesisFlow = ({
           return {
             updatedIndex: currentIndex - newTokenValue.length,
             stop: false,
-            exit: !!sharedData?.hasString,
+            exit: !!sharedData?.hasString || !!sharedData?.hasBoolean,
           };
         }
 
@@ -159,9 +178,13 @@ export const parenthesisFlow = ({
     },
   ];
 
+  if (expectingFunction) {
+    stepCallbacks.splice(3, 2);
+  }
+
   let shouldStop = false;
   let previousSharedData: SharedStageData = {};
-  let isntExpectedToBeFunction = false;
+  let isntExpectedToBeFunction = !expectingFunction || false;
 
   while (currentIndex < input.length) {
     const { updatedIndex, stop, exit, sharedData, i } = iterateOverSteps({
@@ -173,7 +196,10 @@ export const parenthesisFlow = ({
     currentIndex = updatedIndex;
 
     if (exit) {
-      isntExpectedToBeFunction = !!sharedData.hasAs || !!sharedData.hasString;
+      if (expectingFunction === undefined) {
+        isntExpectedToBeFunction =
+          !!sharedData.hasAs || !!sharedData.hasString || !!sharedData.hasBoolean;
+      }
       break;
     }
 
@@ -212,20 +238,16 @@ export const parenthesisFlow = ({
     };
   }
 
-  const potentialSpace = findNextBreakpoint({
-    input,
-    currentIndex: expectedParenthesisEnd.currentIndex,
-  });
-  const { updatedIndex } = definitionSpaceHelper({
-    ...potentialSpace,
+  const { breakpoint: potentialColon } = spaceFollowUpFlow({
     tokens,
     input,
+    currentIndex: expectedParenthesisEnd.currentIndex,
     previousTokensSummary,
   });
-  const potentialColon = findNextBreakpoint({ input, currentIndex: updatedIndex });
-  let followingIndex = updatedIndex;
+
+  let followingIndex = potentialColon.currentIndex - potentialColon.newTokenValue.length;
   if (potentialColon.newTokenValue === ":") {
-    tokens.push({ type: TokenTypes.TYPE_COLON, value: newTokenValue });
+    tokens.push({ type: TokenTypes.TYPE_COLON, value: potentialColon.newTokenValue });
     previousTokensSummary.push(TokenTypes.TYPE_COLON);
 
     const { updatedIndex, stop } = typeFlow({
@@ -245,15 +267,69 @@ export const parenthesisFlow = ({
     followingIndex = updatedIndex;
   }
 
-  const potentialArrow = findNextBreakpoint({ input, currentIndex: followingIndex });
-  const arrow = arrowFlow({ ...potentialArrow, tokens, input, previousTokensSummary });
+  let followingBreakpoint: ReturnType<typeof findNextBreakpoint> & { stop?: boolean } =
+    findNextBreakpoint({ input, currentIndex: followingIndex });
 
-  if (!arrow) {
+  if (expectingArrow) {
+    const arrow = arrowFlow({ ...followingBreakpoint, tokens, input, previousTokensSummary });
+
+    if (!arrow) {
+      return {
+        updatedIndex: followingIndex,
+        stop: true,
+        hasArrow: false,
+      };
+    }
+
+    followingBreakpoint.currentIndex = arrow.updatedIndex;
+    followingBreakpoint.stop = arrow.stop;
+  } else {
+    if (followingBreakpoint.newTokenValue === "{") {
+      tokens.push({
+        type: TokenTypes.FUNCTION_CURLY_BRACKET,
+        value: followingBreakpoint.newTokenValue,
+      });
+
+      if (!isFromDefinitionFlow) {
+        // TODO: Add an indication for already taken anonymous function names/numbers, in order
+        // to avoid taking the same "anonymous" name again and again, incase some sort of a context feature will be implemented later on.
+        openedFunctions.push("anonymous");
+      }
+
+      return {
+        updatedIndex: followingBreakpoint.currentIndex,
+        stop: false,
+        hasArrow: false,
+      };
+    }
+  }
+
+  const { breakpoint } = spaceFollowUpFlow({
+    tokens,
+    input,
+    currentIndex: followingBreakpoint.currentIndex,
+    previousTokensSummary,
+  });
+
+  if (breakpoint.newTokenValue === "{") {
+    tokens.push({ type: TokenTypes.FUNCTION_CURLY_BRACKET, value: breakpoint.newTokenValue });
+
+    if (!isFromDefinitionFlow) {
+      // TODO: Add an indication for already taken anonymous function names/numbers, in order
+      // to avoid taking the same "anonymous" name again and again, incase some sort of a context feature will be implemented later on.
+      openedFunctions.push("anonymous");
+    }
+
     return {
-      updatedIndex: followingIndex,
-      stop: true,
+      updatedIndex: breakpoint.currentIndex,
+      stop: false,
+      hasArrow: true,
     };
   }
 
-  return arrow;
+  return {
+    updatedIndex: followingBreakpoint.currentIndex,
+    stop: followingBreakpoint?.stop ?? false,
+    hasArrow: true,
+  };
 };

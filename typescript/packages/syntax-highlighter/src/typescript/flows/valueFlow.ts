@@ -1,7 +1,12 @@
 import { TokenTypeOptions } from "../constants";
 import { BaseToken, FlowCallback } from "../types";
+import { arrayFlow } from "./arrayFlow";
+import { booleanFlow } from "./booleanFlow";
+import { nullFlow } from "./nullFlow";
+import { numericFlow } from "./numericFlow";
 import { objectFlow } from "./objectFlow";
 import { stringFlow } from "./stringFlow";
+import { undefinedFlow } from "./undefinedFlow";
 import { variableFlow } from "./variableFlow";
 
 type ValueFlowArgs = {
@@ -30,8 +35,20 @@ export const valueFlow = ({
         // context,
         // currentLayeredContexts,
       }),
+    () =>
+      arrayFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+      }),
     () => stringFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
-    () => variableFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
+    () => booleanFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
+    () => undefinedFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
+    () => nullFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
+    () => numericFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
+    () => variableFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
   ];
 
   for (let i = 0; i < callbacks.length; i++) {

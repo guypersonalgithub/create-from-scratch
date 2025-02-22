@@ -15,13 +15,21 @@ import { stringFlow } from "./stringFlow";
 import { variableFlow } from "./variableFlow";
 import { angleFlow } from "./angleFlow";
 import { TokenTypeOptions } from "../constants";
+import { numericFlow } from "./numericFlow";
+import { returnFlow } from "./returnFlow";
+import { closeFunctionFlow } from "./closeFunctionFlow";
+import { booleanFlow } from "./booleanFlow";
+import { undefinedFlow } from "./undefinedFlow";
+import { nullFlow } from "./nullFlow";
+import { arrayFlow } from "./arrayFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
   input: string;
   currentIndex: number;
-  isDefinitionValue?: boolean;
+  // isDefinitionValue?: boolean;
   previousTokensSummary: TokenTypeOptions[];
+  openedFunctions: string[];
   // context: Context;
   // currentLayeredContexts: CurrentLayeredContexts;
 };
@@ -30,18 +38,19 @@ export const tokenizerFlows = ({
   tokens,
   input,
   currentIndex,
-  isDefinitionValue,
+  // isDefinitionValue,
   previousTokensSummary,
+  openedFunctions,
   // context,
   // currentLayeredContexts,
 }: TokenizerFlowsArgs): {
   updatedIndex: number;
   addedNewToken: boolean;
-  definitionValueFunction?: boolean;
+  // definitionValueFunction?: boolean;
 } => {
   let { currentIndex: updatedIndex, newTokenValue } = findNextBreakpoint({ input, currentIndex });
 
-  let definitionValueFunction = isDefinitionValue ? false : undefined;
+  // let definitionValueFunction = isDefinitionValue ? false : undefined;
 
   const callbacks: FlowCallback[] = [
     () =>
@@ -51,6 +60,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex: updatedIndex,
         previousTokensSummary,
+        openedFunctions,
         // context,
         // currentLayeredContexts,
       }),
@@ -71,6 +81,8 @@ export const tokenizerFlows = ({
         input,
         currentIndex: updatedIndex,
         previousTokensSummary,
+        openedFunctions,
+        expectingFunction: false,
         // context,
         // currentLayeredContexts,
       }),
@@ -81,6 +93,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex: updatedIndex,
         previousTokensSummary,
+        openedFunctions,
       }),
     () =>
       spaceFlow({
@@ -106,14 +119,23 @@ export const tokenizerFlows = ({
         currentIndex: updatedIndex,
         previousTokensSummary,
       }),
-    // () =>
-    //   functionFlow({
-    //     tokens,
-    //     newTokenValue,
-    //     input,
-    //     currentIndex: updatedIndex,
-    //     isDefinitionValue,
-    //   }),
+    () =>
+      functionFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+        openedFunctions,
+      }),
+    () =>
+      arrayFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+      }),
     () =>
       endOfLineFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () => commentFlow({ tokens, newTokenValue, input, currentIndex: updatedIndex }),
@@ -126,11 +148,38 @@ export const tokenizerFlows = ({
         previousTokensSummary,
       }),
     () =>
+      closeFunctionFlow({
+        tokens,
+        newTokenValue,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+        openedFunctions,
+      }),
+    () =>
       operatorFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () =>
       asFlow({ tokens, newTokenValue, input, currentIndex: updatedIndex, previousTokensSummary }),
+    () => booleanFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () =>
-      variableFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
+      undefinedFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
+    () => nullFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
+    () =>
+      numericFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+      }),
+    () => returnFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
+    () =>
+      variableFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+      }),
   ];
 
   for (let i = 0; i < callbacks.length; i++) {
@@ -148,14 +197,14 @@ export const tokenizerFlows = ({
       };
     }
 
-    if ((response as Exclude<ReturnType<typeof functionFlow>, undefined>).isFunction) {
-      definitionValueFunction = true;
-    }
+    // if ((response as Exclude<ReturnType<typeof functionFlow>, undefined>).isFunction) {
+    //   definitionValueFunction = true;
+    // }
 
     return {
       updatedIndex: newIndex,
       addedNewToken: true,
-      definitionValueFunction,
+      // definitionValueFunction,
     };
   }
 

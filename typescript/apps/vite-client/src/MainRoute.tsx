@@ -1,38 +1,43 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import { useRequestExample } from "./hooks";
-import { PostMessage } from "./PostMessage";
-import { useFPS } from "@packages/get-fps";
-import { Table } from "@packages/table";
-import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
-import {
-  AnimationContainerUnmountWrapper,
-  AnimationContainerWrapper,
-} from "@packages/animation-container";
-import { Collapsible } from "@packages/collapsible";
-import { CopyToClipboard } from "@packages/copy-to-clipboard";
+// import { useState } from "react";
+// import reactLogo from "./assets/react.svg";
+// import viteLogo from "/vite.svg";
+// import { useRequestExample } from "./hooks";
+// import { PostMessage } from "./PostMessage";
+// import { useFPS } from "@packages/get-fps";
+// import { Table } from "@packages/table";
+// import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
+// import {
+//   AnimationContainerUnmountWrapper,
+//   AnimationContainerWrapper,
+// } from "@packages/animation-container";
+// import { Collapsible } from "@packages/collapsible";
+// import { CopyToClipboard } from "@packages/copy-to-clipboard";
+import { TestAnswersShuffler } from "./testAnswersShuffler/TestAnswersShuffler";
 
 export const MainRoute = () => {
-  const [count, setCount] = useState(0);
-  const [test, setTest] = useState(["test", "test1", "test2"]);
-  useRequestExample();
-  const fps = useFPS();
+  // const [count, setCount] = useState(0);
+  // const [test, setTest] = useState(["test", "test1", "test2"]);
+  // useRequestExample();
+  // const fps = useFPS();
 
-  const switchTest = () => {
-    setTest((previous) => {
-      if (previous.length > 2) {
-        return ["test4"];
-      }
+  // const switchTest = () => {
+  //   setTest((previous) => {
+  //     if (previous.length > 2) {
+  //       return ["test4"];
+  //     }
 
-      return ["test", "test1", "test2"];
-    });
-  };
+  //     return ["test", "test1", "test2"];
+  //   });
+  // };
 
   return (
-    <div>
-      <Collapsible title="Toggle">testhi</Collapsible>
-      <CopyToClipboard textToCopy="Test123" />
+    <div dir="rtl" style={{ margin: "0 auto", width: "580px" }}>
+      {/* <Collapsible title="Toggle">testhi</Collapsible> */}
+      <TestAnswersShuffler />
+      {/* <button onClick={reorder} style={{ marginTop: "20px" }}>
+        Reorder
+      </button> */}
+      {/* <CopyToClipboard textToCopy="Test123" />
       <Test />
       <PostMessage />
       <div>
@@ -121,42 +126,42 @@ export const MainRoute = () => {
             version: "1234dfsfdsfds",
           },
         ]}
-      />
+      /> */}
     </div>
   );
 };
 
-const Test = () => {
-  const [curr, setCurr] = useState(["hello", "hello2"]);
-  const testing = ["1", "2"];
+// const Test = () => {
+//   const [curr, setCurr] = useState(["hello", "hello2"]);
+//   const testing = ["1", "2"];
 
-  return (
-    <>
-      <button
-        onClick={() =>
-          setCurr((prev) => {
-            return prev.length === 2 ? ["hello3"] : ["hello", "hello2"];
-          })
-        }
-      >
-        Test
-      </button>
-      <AnimationContainerUnmountWrapper changeMethod="fullPhase">
-        {testing.map((c, index) => {
-          return (
-            <AnimationContainerWrapper
-              key={c}
-              onMount={[{ opacity: 0 }, { opacity: 1 }]}
-              mountOptions={{ duration: (index + 1) * 300 }}
-              changeMethod="gradual"
-            >
-              {curr.map((cu) => {
-                return <div key={cu}>{cu}</div>;
-              })}
-            </AnimationContainerWrapper>
-          );
-        })}
-      </AnimationContainerUnmountWrapper>
-    </>
-  );
-};
+//   return (
+//     <>
+//       <button
+//         onClick={() =>
+//           setCurr((prev) => {
+//             return prev.length === 2 ? ["hello3"] : ["hello", "hello2"];
+//           })
+//         }
+//       >
+//         Test
+//       </button>
+//       <AnimationContainerUnmountWrapper changeMethod="fullPhase">
+//         {testing.map((c, index) => {
+//           return (
+//             <AnimationContainerWrapper
+//               key={c}
+//               onMount={[{ opacity: 0 }, { opacity: 1 }]}
+//               mountOptions={{ duration: (index + 1) * 300 }}
+//               changeMethod="gradual"
+//             >
+//               {curr.map((cu) => {
+//                 return <div key={cu}>{cu}</div>;
+//               })}
+//             </AnimationContainerWrapper>
+//           );
+//         })}
+//       </AnimationContainerUnmountWrapper>
+//     </>
+//   );
+// };

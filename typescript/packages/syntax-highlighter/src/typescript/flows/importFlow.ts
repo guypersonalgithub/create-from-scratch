@@ -49,8 +49,8 @@ export const importFlow = ({
           };
         }
 
-        tokens.push({ type: TokenTypes.VARIABLE, value: newTokenValue });
-        previousTokensSummary.push(TokenTypes.VARIABLE);
+        tokens.push({ type: TokenTypes.IMPORT_VARIABLE, value: newTokenValue });
+        previousTokensSummary.push(TokenTypes.IMPORT_VARIABLE);
 
         const potentialSpace = findNextBreakpoint({ input, currentIndex });
         const { updatedIndex } = definitionSpaceHelper({

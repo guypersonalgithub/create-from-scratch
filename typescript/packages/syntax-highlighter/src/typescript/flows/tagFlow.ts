@@ -36,7 +36,7 @@ export const tagFlow = ({
       if (previous === "=") {
         return {
           updatedIndex: currentIndex,
-          stop: !isParenthesis,
+          stop: !isParenthesis && !nested,
           isType: isParenthesis,
         };
       } else if (previous === "/") {

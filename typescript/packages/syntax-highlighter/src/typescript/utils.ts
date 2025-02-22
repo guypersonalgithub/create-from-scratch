@@ -88,7 +88,11 @@ export const iterateOverSteps = <SharedData extends Record<string, unknown> = {}
     const breakpoint = findNextBreakpoint({ input, currentIndex });
     const currentStep = stepCallbacks[i];
 
-    if (breakpoint.currentIndex >= input.length) {
+    // if (breakpoint.currentIndex >= input.length) {
+    //   break;
+    // }
+
+    if (breakpoint.currentIndex > input.length) {
       break;
     }
 

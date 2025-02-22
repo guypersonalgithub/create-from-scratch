@@ -12,6 +12,7 @@ type DefinitionFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedFunctions: string[];
   // context: Context;
   // currentLayeredContexts: CurrentLayeredContexts;
 };
@@ -22,6 +23,7 @@ export const definitionFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedFunctions,
   // context,
   // currentLayeredContexts,
 }: DefinitionFlowArgs) => {
@@ -140,43 +142,45 @@ export const definitionFlow = ({
         const newAmount = tokens.length;
 
         if (amountOfTokens === newAmount) {
-          let hasCallback:
-            | {
-                updatedIndex: number;
-                stop: boolean;
-              }
-            | undefined;
-
-          const potentialGenericTypeFunction = angleFlow({
-            tokens,
-            newTokenValue,
-            input,
-            currentIndex,
-            previousTokensSummary,
-          });
-
-          hasCallback = potentialGenericTypeFunction;
-
-          if (!hasCallback) {
-            hasCallback = parenthesisFlow({
+          const hasCallback =
+            angleFlow({
               tokens,
               newTokenValue,
               input,
               currentIndex,
               previousTokensSummary,
+              openedFunctions,
+              isFromDefinitionFlow: true,
+              expectingArrow: true,
+            }) ||
+            parenthesisFlow({
+              tokens,
+              newTokenValue,
+              input,
+              currentIndex,
+              previousTokensSummary,
+              openedFunctions,
+              isFromDefinitionFlow: true,
+              expectingFunction: true,
+              expectingArrow: true,
             });
-          }
 
           if (hasCallback) {
-            const isLastTokenArrow = tokens[tokens.length - 1].type === TokenTypes.ARROW;
+            if (hasCallback.stop) {
+              return hasCallback;
+            }
+
+            const isFunction =
+              hasCallback.hasArrow || (hasCallback as ReturnType<typeof angleFlow>)!.isFunction;
             if (
-              isLastTokenArrow &&
+              isFunction &&
               sharedData?.definitionNameIndex !== undefined &&
               sharedData?.previousTokensSummaryDefinitionNameIndex !== undefined
             ) {
-              tokens[sharedData.definitionNameIndex].type = TokenTypes.FUNCTION;
+              tokens[sharedData.definitionNameIndex].type = TokenTypes.FUNCTION_NAME;
               previousTokensSummary[sharedData.previousTokensSummaryDefinitionNameIndex] =
-                TokenTypes.FUNCTION;
+                TokenTypes.FUNCTION_NAME;
+              openedFunctions.push(tokens[sharedData.definitionNameIndex].value);
             }
 
             return {

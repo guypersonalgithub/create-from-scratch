@@ -1,10 +1,10 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
-import { spaceCallback, StepCallback, findNextBreakpoint, iterateOverSteps } from "../utils";
+import { findNextBreakpoint, iterateOverSteps, spaceCallback, StepCallback } from "../utils";
 import { asFlow } from "./asFlow";
 import { valueFlow } from "./valueFlow";
 
-type ArrayFlowArgs = {
+type FunctionCallFlowArgs = {
   tokens: BaseToken[];
   newTokenValue: string;
   input: string;
@@ -12,24 +12,23 @@ type ArrayFlowArgs = {
   previousTokensSummary: TokenTypeOptions[];
 };
 
-type SharedStageData = {
-  hasValue?: boolean;
-};
-
-export const arrayFlow = ({
+export const functionCallFlow = ({
   tokens,
   newTokenValue,
   input,
   currentIndex,
   previousTokensSummary,
-}: ArrayFlowArgs) => {
-  if (newTokenValue !== "[") {
+}: FunctionCallFlowArgs) => {
+  if (
+    newTokenValue !== "(" ||
+    previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.VARIABLE
+  ) {
     return;
   }
 
-  tokens.push({ type: TokenTypes.ARRAY_SQUARE_BRACKET, value: newTokenValue });
+  tokens.push({ type: TokenTypes.PARENTHESIS, value: newTokenValue });
 
-  const stepCallbacks: StepCallback<SharedStageData>[] = [
+  const stepCallbacks: StepCallback[] = [
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
@@ -43,24 +42,23 @@ export const arrayFlow = ({
           // currentLayeredContexts,
         });
 
+        if (!value.addedNewToken) {
+          return {
+            updatedIndex: currentIndex - newTokenValue.length,
+            stop: input[value.updatedIndex] !== ")",
+          };
+        }
+
         return {
           updatedIndex: value.updatedIndex,
-          stop: value.stop,
-          hasValue: value.addedNewToken,
+          stop: false,
         };
       },
       stop: true,
     },
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
-      callback: ({ currentIndex, newTokenValue }, sharedData) => {
-        if (!sharedData?.hasValue) {
-          return {
-            updatedIndex: currentIndex - newTokenValue.length,
-            stop: false,
-          };
-        }
-
+      callback: ({ currentIndex, newTokenValue }) => {
         const as = asFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary });
         if (!as) {
           return {
@@ -83,6 +81,7 @@ export const arrayFlow = ({
       },
       stop: true,
     },
+    spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
         if (newTokenValue !== ",") {
@@ -99,6 +98,7 @@ export const arrayFlow = ({
         return {
           updatedIndex: currentIndex,
           stop: false,
+          hasComma: true,
         };
       },
       stop: false,
@@ -106,23 +106,16 @@ export const arrayFlow = ({
   ];
 
   let shouldStop = false;
-  let previousSharedData: SharedStageData = {};
-
   while (currentIndex < input.length) {
-    const { updatedIndex, stop, exit, sharedData } = iterateOverSteps({
+    const { updatedIndex, stop, exit } = iterateOverSteps({
       input,
       currentIndex,
       stepCallbacks,
-      previousSharedData,
     });
     currentIndex = updatedIndex;
 
     if (exit) {
       break;
-    }
-
-    if (sharedData) {
-      previousSharedData = sharedData;
     }
 
     if (stop) {
@@ -138,18 +131,19 @@ export const arrayFlow = ({
     };
   }
 
-  const last = findNextBreakpoint({ input, currentIndex });
-  if (last.newTokenValue !== "]") {
+  const expectedParenthesisEnd = findNextBreakpoint({ input, currentIndex });
+
+  if (expectedParenthesisEnd.newTokenValue !== ")") {
     return {
       updatedIndex: currentIndex,
       stop: true,
     };
   }
 
-  tokens.push({ type: TokenTypes.ARRAY_SQUARE_BRACKET, value: last.newTokenValue });
+  tokens.push({ type: TokenTypes.PARENTHESIS, value: expectedParenthesisEnd.newTokenValue });
 
   return {
-    updatedIndex: last.currentIndex,
+    updatedIndex: expectedParenthesisEnd.currentIndex,
     stop: false,
   };
 };

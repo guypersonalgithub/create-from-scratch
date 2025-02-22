@@ -9,6 +9,7 @@ type ParseTypescriptArgs = {
 export const parseTypescript = ({ input }: ParseTypescriptArgs) => {
   const tokens: BaseToken[] = [];
   const previousTokensSummary: TokenTypeOptions[] = [];
+  const openedFunctions: string[] = [];
   let currentIndex = 0;
   // const context: Context = {
   //   global: { variables: new Set<string>(), functions: new Set<string>() },
@@ -21,6 +22,7 @@ export const parseTypescript = ({ input }: ParseTypescriptArgs) => {
       input,
       currentIndex,
       previousTokensSummary,
+      openedFunctions,
       // context,
       // currentLayeredContexts,
     });

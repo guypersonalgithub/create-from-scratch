@@ -2,7 +2,7 @@ export const TokenTypes = {
   DEFINITION: "definition",
   VARIABLE: "variable",
   CONST_VARIABLE: "const-variable",
-  FUNCTION: "function",
+  FUNCTION_NAME: "function-name",
   STRING: "string",
   TYPE: "type",
   WHITESPACE: "whitespace",
@@ -32,13 +32,20 @@ export const TokenTypes = {
   JSX: "jsx",
   JSX_PROPERTY: "jsx-property",
   TAG_CONTENT: "tag-content",
+  FUNCTION_CURLY_BRACKET: "function-curly-bracket",
+  RETURN: "return",
+  BOOLEAN: "boolean",
+  FUNCTION: "function",
+  JSX_PROPERTY_EXPRESSION_INTERPOLATION: "jsx-property-expression-interpolation",
+  UNDEFINED: "undefined",
+  NULL: "null",
 } as const;
 
 export type TokenTypeOptions = (typeof TokenTypes)[keyof typeof TokenTypes];
 
 export const definitionKeywords = new Set<string>(["var", "let", "const"]);
 export const stringDefinitions = new Set<string>(["'", '"']);
-export const operators = new Set<string>([".", ":", ",", ";", "+", "-", "*", "/", "="]);
+export const operators = new Set<string>([".", ":", ",", ";", "+", "-", "*", "/", "^", "=", "!"]);
 export const breakpoints = new Set<string>([
   " ",
   "{",
@@ -51,9 +58,28 @@ export const breakpoints = new Set<string>([
   "\n",
   "<",
   ">",
+  "[",
+  "]",
   ...operators,
   ...stringDefinitions,
 ]);
+
+export const acceptableCharactersAfterANumber = new Set<string>([
+  "+",
+  "-",
+  "*",
+  "/",
+  "%",
+  "^",
+  "&",
+  "|",
+  ">",
+  "<",
+  "=",
+  " ",
+  ";",
+]);
+
 export const htmlTags = new Set([
   "a",
   "abbr",

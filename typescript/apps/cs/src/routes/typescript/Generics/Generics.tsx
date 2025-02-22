@@ -54,8 +54,9 @@ export const Generics = () => {
   return arg;
 };
 const res = example("test");`}
-                  animatedWriting
-                  withCursor
+                  // animatedWriting
+                  // withCursor
+                  highlightCode
                 />
                 <StyledSubTitle>Restricting generics</StyledSubTitle>
                 <div>
@@ -69,8 +70,9 @@ const res = example("test");`}
 };
 const res = example("test"); // works without potential warnings
 const res2 = example(1); // has a typescript warning, as 1 isn't a string`}
-                  animatedWriting
-                  withCursor
+                  // animatedWriting
+                  // withCursor
+                  highlightCode
                 />
                 <StyledSubTitle>Multiple generics</StyledSubTitle>
                 <div>
@@ -89,8 +91,9 @@ const res2 = example(1); // has a typescript warning, as 1 isn't a string`}
   return { arg, arg2 };
 };
 const res = example("test", 1);`}
-                  animatedWriting
-                  withCursor
+                  // animatedWriting
+                  // withCursor
+                  highlightCode
                 />
                 <StyledSubTitle>Generics with classes</StyledSubTitle>
                 <div>

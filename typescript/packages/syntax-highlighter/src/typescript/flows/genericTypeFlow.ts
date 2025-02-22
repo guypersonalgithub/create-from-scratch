@@ -3,6 +3,7 @@ import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { extendsFlow, genericTypeCommaFlow, genericTypeEqualFlow } from "./genericTypeUtils";
 import { spaceFollowUpFlow } from "./spaceFlow";
+import { JSXFlow } from "./JSXFlow";
 
 type GenericTypeFlowArgs = {
   tokens: BaseToken[];
@@ -10,6 +11,7 @@ type GenericTypeFlowArgs = {
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
   propertyIndex: number;
+  isExpectedToBeType?: boolean;
 };
 
 export const genericTypeFlow = ({
@@ -18,9 +20,17 @@ export const genericTypeFlow = ({
   currentIndex,
   previousTokensSummary,
   propertyIndex,
+  isExpectedToBeType,
 }: GenericTypeFlowArgs) => {
-  const { updatedIndex, stop, potentialExtends, potentialEqual, potentialComma } =
-    singleExtendsFlow({ tokens, input, currentIndex, previousTokensSummary, isFirst: true });
+  const { updatedIndex, stop, isJSX, potentialExtends, potentialEqual, potentialComma } =
+    singleExtendsFlow({
+      tokens,
+      input,
+      currentIndex,
+      previousTokensSummary,
+      isFirst: true,
+      isExpectedToBeType,
+    });
 
   if (stop) {
     return {
@@ -29,17 +39,26 @@ export const genericTypeFlow = ({
     };
   }
 
+  if (isJSX) {
+    return {
+      updatedIndex,
+      stop,
+      isJSX,
+    };
+  }
+
   const hasExtends = potentialExtends?.completeExtends;
   const hasEqual = potentialEqual?.hasEqual;
   const hasComma = potentialComma?.hasComma;
   const isType = hasExtends || hasEqual || hasComma;
+  currentIndex = updatedIndex;
 
   if (isType) {
     tokens[propertyIndex].type = TokenTypes.TYPE;
   }
 
   if (hasComma) {
-    currentIndex = potentialComma.updatedIndex;
+    // currentIndex = potentialComma.updatedIndex;
 
     while (currentIndex < input.length && input[currentIndex] !== ">") {
       const { breakpoint } = spaceFollowUpFlow({
@@ -50,7 +69,7 @@ export const genericTypeFlow = ({
       });
 
       if (
-        !isStringOnlyWithLetters({ str: breakpoint.newTokenValue }) ||
+        !isStringOnlyWithLetters({ str: breakpoint.newTokenValue }) &&
         breakpoint.newTokenValue[0] !== "_"
       ) {
         return {
@@ -58,6 +77,8 @@ export const genericTypeFlow = ({
           stop: true,
         };
       }
+
+      tokens.push({ type: TokenTypes.TYPE, value: breakpoint.newTokenValue });
 
       const { updatedIndex, stop, potentialComma } = singleExtendsFlow({
         tokens,
@@ -78,12 +99,26 @@ export const genericTypeFlow = ({
       }
     }
 
-    currentIndex = potentialComma.updatedIndex ?? updatedIndex;
-  } else if (hasEqual) {
-    currentIndex = potentialEqual.updatedIndex;
-  } else if (hasExtends) {
-    currentIndex = potentialExtends.updatedIndex;
+    if (currentIndex === updatedIndex) {
+      const { breakpoint } = spaceFollowUpFlow({
+        tokens,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+      });
+
+      currentIndex = breakpoint.currentIndex;
+    } else {
+      currentIndex = updatedIndex;
+    }
   }
+
+  //   currentIndex = potentialComma.updatedIndex ?? updatedIndex;
+  // } else if (hasEqual) {
+  //   currentIndex = potentialEqual.updatedIndex;
+  // } else if (hasExtends) {
+  //   currentIndex = potentialExtends.updatedIndex;
+  // }
 
   return {
     updatedIndex: currentIndex,
@@ -98,6 +133,7 @@ type SingleExtendsFlowArgs = {
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
   isFirst?: boolean;
+  isExpectedToBeType?: boolean;
 };
 
 const singleExtendsFlow = ({
@@ -106,7 +142,15 @@ const singleExtendsFlow = ({
   currentIndex,
   previousTokensSummary,
   isFirst,
-}: SingleExtendsFlowArgs) => {
+  isExpectedToBeType,
+}: SingleExtendsFlowArgs): {
+  isJSX?: boolean;
+  updatedIndex: number;
+  stop?: boolean;
+  potentialExtends?: ReturnType<typeof extendsFlow>;
+  potentialEqual?: ReturnType<typeof genericTypeEqualFlow>;
+  potentialComma?: ReturnType<typeof genericTypeCommaFlow>;
+} => {
   const potentialExtends = extendsFlow({
     tokens,
     input,
@@ -123,10 +167,23 @@ const singleExtendsFlow = ({
 
   if (potentialExtends.hasExtends && !potentialExtends.completeExtends) {
     if (isFirst) {
-      // return tagFlow
+      if (isExpectedToBeType) {
+        return {
+          updatedIndex: potentialExtends.updatedIndex,
+          stop: true,
+        };
+      }
+
+      const jsx = JSXFlow({
+        tokens,
+        input,
+        currentIndex: potentialExtends.updatedIndex,
+        previousTokensSummary,
+      });
+
       return {
-        updatedIndex: potentialExtends.updatedIndex,
-        stop: false,
+        ...jsx,
+        isJSX: true,
       };
     }
 
@@ -157,7 +214,15 @@ const singleExtendsFlow = ({
     previousTokensSummary,
   });
 
+  const updatedIndex = Math.max(
+    currentIndex,
+    potentialExtends.updatedIndex,
+    potentialEqual.updatedIndex,
+    potentialComma.updatedIndex,
+  );
+
   return {
+    updatedIndex,
     potentialExtends,
     potentialEqual,
     potentialComma,
