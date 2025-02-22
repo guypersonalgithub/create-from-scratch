@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Netlify CLI
-        run: npm i --save-dev netlify-cli
+        run: npm i -g netlify-cli
       - name: Create _redirects file
         run: node ./ci-scripts/createCSRRedirects.js cs
       - name: Create working folder

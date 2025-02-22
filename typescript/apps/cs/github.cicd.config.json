@@ -24,7 +24,7 @@
           },
           {
             "name": "Install Netlify CLI",
-            "run": "npm i --save-dev netlify-cli"
+            "run": "npm i -g netlify-cli"
           },
           {
             "name": "Create _redirects file",
