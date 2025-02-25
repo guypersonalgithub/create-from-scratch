@@ -1,4 +1,4 @@
-import { areArraysEqual } from "@packages/utils";
+import { areArraysEqual } from "@packages/array-utils";
 import { CSSProperties, MutableRefObject, RefObject, useEffect, useRef } from "react";
 import {
   convertKeyframeToCSSProperties,

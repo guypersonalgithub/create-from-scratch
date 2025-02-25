@@ -1,3 +1,5 @@
+// TODO: consider deleting as its no longer needed.
+
 type SetNestedKeyArgs = {
   obj: Record<string, unknown>;
   keys: string[];
@@ -8,7 +10,10 @@ type SetNestedKeyArgs = {
 export const setNestedKey = ({ obj, keys, valueKey, value }: SetNestedKeyArgs) => {
   let current: Record<string, unknown> = obj;
 
-  keys.forEach((key) => {
+  const iterationKeys =
+    valueKey && keys[keys.length - 1] === valueKey ? keys.slice(0, keys.length - 1) : keys;
+
+  iterationKeys.forEach((key) => {
     if (!current[key]) {
       current[key] = {};
     } else if (typeof current[key] !== "object") {

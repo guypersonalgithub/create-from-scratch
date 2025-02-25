@@ -2,6 +2,7 @@ import { BaseToken } from "./types";
 import { spaceFlow } from "./flows/spaceFlow";
 import { TokenTypeOptions, TokenTypes, breakpoints } from "./constants";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { variablePropertyFlow } from "./flows/variablePropertyFlow";
 
 type FindNextBreakpointArgs = {
   input: string;
@@ -158,6 +159,87 @@ export const spaceCallback = ({
     },
     stop,
   };
+};
+
+type DotCallbackArgs = {
+  tokens: BaseToken[];
+  stop: boolean;
+  previousTokensSummary: TokenTypeOptions[];
+  exit?: boolean;
+};
+
+export const dotCallback = ({
+  tokens,
+  stop,
+  previousTokensSummary,
+  exit,
+}: DotCallbackArgs): StepCallback => {
+  return {
+    callback: ({ currentIndex, newTokenValue }) => {
+      const hasDot = definitionDotHelper({
+        tokens,
+        newTokenValue,
+        currentIndex,
+        previousTokensSummary,
+      });
+
+      if (!hasDot.stop) {
+        return {
+          ...hasDot,
+          exit,
+        };
+      }
+
+      return hasDot;
+
+      // if (newTokenValue !== ".") {
+      //   return {
+      //     updatedIndex: currentIndex - newTokenValue.length,
+      //     stop: true,
+      //   };
+      // }
+
+      // tokens.push({ type: TokenTypes.OPERATOR, value: newTokenValue });
+      // previousTokensSummary.push(TokenTypes.OPERATOR);
+
+      // return {
+      //   updatedIndex: currentIndex,
+      //   stop: false,
+      //   exit,
+      // };
+    },
+    stop,
+  };
+};
+
+type DefinitionDotHelperArgs = {
+  tokens: BaseToken[];
+  newTokenValue: string;
+  currentIndex: number;
+  previousTokensSummary: TokenTypeOptions[];
+};
+
+const definitionDotHelper = ({
+  tokens,
+  newTokenValue,
+  currentIndex,
+  previousTokensSummary,
+}: DefinitionDotHelperArgs) => {
+  const dotProperties = variablePropertyFlow({
+    tokens,
+    newTokenValue,
+    currentIndex,
+    previousTokensSummary,
+  });
+
+  if (!dotProperties) {
+    return {
+      updatedIndex: currentIndex - newTokenValue.length,
+      stop: true,
+    };
+  }
+
+  return dotProperties;
 };
 
 type DefinitionSpaceHelperArgs = {

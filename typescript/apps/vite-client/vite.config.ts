@@ -28,6 +28,12 @@ export default defineConfig({
         "../../packages/animation-container/src/index.ts",
       ),
       "@packages/is-dev": path.resolve(__dirname, "../../packages/is-dev/src/index.ts"),
+      "@packages/array-utils": path.resolve(__dirname, "../../packages/array-utils/src/index.ts"),
+      "@packages/object-utils": path.resolve(__dirname, "../../packages/object-utils/src/index.ts"),
+      "@packages/syntax-highlighter": path.resolve(
+        __dirname,
+        "../../packages/syntax-highlighter/src/index.ts",
+      ),
       "@packages/randomizer": path.resolve(__dirname, "../../packages/randomizer/src/index.ts"),
       "@packages/edge-intersection": path.resolve(
         __dirname,

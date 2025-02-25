@@ -2,6 +2,7 @@ import { TokenTypeOptions } from "../constants";
 import { BaseToken, FlowCallback } from "../types";
 import { arrayFlow } from "./arrayFlow";
 import { booleanFlow } from "./booleanFlow";
+import { initializeClassFlow } from "./initializeClassFlow";
 import { nullFlow } from "./nullFlow";
 import { numericFlow } from "./numericFlow";
 import { objectFlow } from "./objectFlow";
@@ -47,6 +48,14 @@ export const valueFlow = ({
     () => booleanFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () => undefinedFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () => nullFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
+    () =>
+      initializeClassFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+      }),
     () => numericFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
     () => variableFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
   ];

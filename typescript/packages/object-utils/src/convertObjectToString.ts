@@ -7,6 +7,10 @@ export const convertObjectToString = ({
   obj,
   indentLevel = 0,
 }: ConvertObjectToStringArgs): string => {
+  if (Array.isArray(obj)) {
+    return convertArrayToString({ arr: obj });
+  }
+
   const indent = "  ".repeat(indentLevel);
   const entries = Object.entries(obj);
 
@@ -29,4 +33,24 @@ export const convertObjectToString = ({
   });
 
   return `{${formattedEntries.length > 0 ? `\n${formattedEntries.join(",\n")}\n${indent}` : ""}}`;
+};
+
+type ConvertArrayToStringArgs = {
+  arr: unknown[];
+};
+
+export const convertArrayToString = ({ arr }: ConvertArrayToStringArgs): string => {
+  const formatted = arr
+    .map((cell) => {
+      if (Array.isArray(cell)) {
+        return convertArrayToString({ arr: cell });
+      } else if (typeof cell === "object" && cell !== null) {
+        return convertObjectToString({ obj: cell });
+      } else {
+        return `${cell}`;
+      }
+    })
+    .join(", ");
+
+  return `[${formatted}]`;
 };

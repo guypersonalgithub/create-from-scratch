@@ -15,6 +15,12 @@ export default defineConfig({
       "@packages/url": path.resolve(__dirname, "../../packages/url/src/index.ts"),
       "@packages/environment": path.resolve(__dirname, "../../packages/environment/src/index.ts"),
       "@packages/hooks": path.resolve(__dirname, "../../packages/hooks/src/index.ts"),
+      "@packages/array-utils": path.resolve(__dirname, "../../packages/array-utils/src/index.ts"),
+      "@packages/object-utils": path.resolve(__dirname, "../../packages/object-utils/src/index.ts"),
+      "@packages/syntax-highlighter": path.resolve(
+        __dirname,
+        "../../packages/syntax-highlighter/src/index.ts",
+      ),
       "@packages/sidebar": path.resolve(__dirname, "../../packages/sidebar/src/index.ts"),
       "@packages/animation-container": path.resolve(
         __dirname,
@@ -51,10 +57,6 @@ export default defineConfig({
       "@packages/pseudo-terminal-visuals": path.resolve(
         __dirname,
         "../../packages/pseudo-terminal-visuals/src/index.ts",
-      ),
-      "@packages/syntax-highlighter": path.resolve(
-        __dirname,
-        "../../packages/syntax-highlighter/src/index.ts",
       ),
       "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
     },

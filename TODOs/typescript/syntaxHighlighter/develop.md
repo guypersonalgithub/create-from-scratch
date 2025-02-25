@@ -4,3 +4,4 @@
 - "<" type appears only after a type defintion/type name/type generic right next to a parenthesis that ends with an arrow/type generic right after a function's name.
 - Also, extends/commas, etc are also types.
 - TODO: Add support for type extends ? a : b with recursion.
+- TODO: Add support to import export defaults of \* as name.

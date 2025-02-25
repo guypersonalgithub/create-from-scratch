@@ -9,7 +9,11 @@
   "dependencies": {
     "@packages/yaml": "*",
     "@packages/paths": "*",
-    "@packages/packages": "*"
+    "@packages/packages": "*",
+    "@packages/typescript-file-manipulation": "*",
+    "@packages/utils": "*",
+    "@packages/object-utils": "*",
+    "@packages/files": "*"
   },
   "author": "",
   "license": "ISC",

@@ -4,7 +4,7 @@ import { findNextBreakpoint, iterateOverSteps, spaceCallback, StepCallback } fro
 import { asFlow } from "./asFlow";
 import { valueFlow } from "./valueFlow";
 
-type FunctionCallFlowArgs = {
+type InvocationFlowArgs = {
   tokens: BaseToken[];
   newTokenValue: string;
   input: string;
@@ -12,13 +12,13 @@ type FunctionCallFlowArgs = {
   previousTokensSummary: TokenTypeOptions[];
 };
 
-export const functionCallFlow = ({
+export const invocationFlow = ({
   tokens,
   newTokenValue,
   input,
   currentIndex,
   previousTokensSummary,
-}: FunctionCallFlowArgs) => {
+}: InvocationFlowArgs) => {
   if (
     newTokenValue !== "(" ||
     previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.VARIABLE

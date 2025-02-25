@@ -3,12 +3,12 @@ import { getProjectAbsolutePath, getRelativePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "@packages/packages";
 import { formatCodeWithESLint } from "@packages/eslint";
 import { extractObject, getExportDefaultIndex } from "@packages/typescript-file-manipulation";
+import { replaceOrInsertCharactersInRange } from "@packages/utils";
+import { addOrRemovePathImport } from "./addOrRemovePathImport";
 import {
   convertObjectToString,
   convertStringToObjectWithStringProperties,
-  replaceOrInsertCharactersInRange,
-} from "@packages/utils";
-import { addOrRemovePathImport } from "./addOrRemovePathImport";
+} from "@packages/object-utils";
 
 type UpdateViteConfigLocalDependenciesAliasesArgs = {
   folders?: string[];
@@ -38,9 +38,9 @@ export const updateViteConfigLocalDependenciesAliases = async ({
           return workspacePackage.path;
         });
 
-        const { filePath, file, startingIndex, isFunction } = getExportDefaultIndex({
-          folderPath: `${folderPath}/${workspace}`,
-          fileName: "vite.config.ts",
+        const filePath = `${folderPath}/${workspace}/vite.config.ts`;
+        const { file, startingIndex, isFunction } = getExportDefaultIndex({
+          filePath,
         });
 
         if (!file) {
@@ -61,7 +61,7 @@ export const updateViteConfigLocalDependenciesAliases = async ({
 
         const startOfObject = startingIndex + 1;
 
-        let isObjectWithinDefineConfig = file.charAt(startOfObject) === "{";
+        const isObjectWithinDefineConfig = file.charAt(startOfObject) === "{";
         if (!isObjectWithinDefineConfig) {
           console.error(
             "Expected to find an export default defineConfig function argument as object.",
@@ -69,19 +69,23 @@ export const updateViteConfigLocalDependenciesAliases = async ({
         }
 
         const { obj } = extractObject({ file, startIndex: startOfObject });
-        const { object } = convertStringToObjectWithStringProperties({ str: obj });
+        const { object } = convertStringToObjectWithStringProperties({
+          str: obj,
+          removeKeyQuotations: true,
+          removeValueQuotations: true,
+        });
         if (!object.resolve) {
           object.resolve = {
             alias: {},
           };
         }
         const resolve = object.resolve;
-        if (typeof resolve === "string") {
+        if (typeof resolve === "string" || Array.isArray(resolve)) {
           continue;
         }
 
         const alias = resolve.alias;
-        if (typeof alias === "string") {
+        if (typeof alias === "string" || Array.isArray(alias)) {
           continue;
         }
 

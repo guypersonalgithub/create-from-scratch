@@ -7,6 +7,7 @@ type StringFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  isObjectKey?: boolean;
 };
 
 export const stringFlow = ({
@@ -15,6 +16,7 @@ export const stringFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  isObjectKey,
 }: StringFlowArgs) => {
   const firstChar = newTokenValue.charAt(0);
   if (!stringDefinitions.has(firstChar)) {
@@ -50,11 +52,13 @@ export const stringFlow = ({
     currentIndex++;
   }
 
+  const tokenType = !isObjectKey ? TokenTypes.STRING : TokenTypes.OBJECT_STRING_PROPERTY;
+
   tokens.push({
-    type: TokenTypes.STRING,
+    type: tokenType,
     value: completeValue,
   });
-  previousTokensSummary.push(TokenTypes.STRING);
+  previousTokensSummary.push(tokenType);
 
   return {
     updatedIndex: currentIndex,

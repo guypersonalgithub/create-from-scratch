@@ -27,7 +27,8 @@ const testing5 = null;
 function testing2() {};
 const testing6 = test("hello");
 const testing7 = ["test" as string,,,,,,,,,,, , , true, false, hi, "hello", 'hey'];
-`;
+const initial = new Test();
+import.meta;`;
 
   return (
     <PseudoTerminalVisuals

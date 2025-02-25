@@ -12,7 +12,8 @@
     "@packages/typescript": "*",
     "@packages/eslint": "*",
     "@packages/typescript-file-manipulation": "*",
-    "@packages/utils": "*"
+    "@packages/utils": "*",
+    "@packages/object-utils": "*"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

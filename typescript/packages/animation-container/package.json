@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "@packages/utils": "*",
-    "@packages/is-dev": "*"
+    "@packages/is-dev": "*",
+    "@packages/array-utils": "*"
   },
   "peerDependencies": {
     "react": "^18.3.1",

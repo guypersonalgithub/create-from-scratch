@@ -11,3 +11,4 @@ export * from "./getNextNonSpaceCharIndex";
 export * from "./isCharacter";
 export * from "./isString";
 export * from "./isNumeric";
+export * from "./removeQuotationMarks";

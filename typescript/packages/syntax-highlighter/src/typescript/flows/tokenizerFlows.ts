@@ -22,6 +22,7 @@ import { booleanFlow } from "./booleanFlow";
 import { undefinedFlow } from "./undefinedFlow";
 import { nullFlow } from "./nullFlow";
 import { arrayFlow } from "./arrayFlow";
+import { initializeClassFlow } from "./initializeClassFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -163,6 +164,14 @@ export const tokenizerFlows = ({
     () =>
       undefinedFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () => nullFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
+    () =>
+      initializeClassFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+      }),
     () =>
       numericFlow({
         tokens,

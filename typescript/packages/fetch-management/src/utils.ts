@@ -11,7 +11,7 @@ import {
   PreviousRequestProperties,
 } from "./types/actions";
 import { fetchManagement } from "./observer";
-import { areObjectsEqual } from "@packages/utils";
+import { areObjectsEqual } from "@packages/object-utils";
 
 type CalculateExpiredDateArgs = {
   expiredAfter?: ExpiredAfter;
