@@ -1,4 +1,4 @@
-import { areObjectsEqual } from "@packages/utils";
+import { areObjectsEqual } from "@packages/object-utils";
 import { generateSecureRandomString } from "@packages/randomizer";
 
 type Listener<T> = (value: T) => void;

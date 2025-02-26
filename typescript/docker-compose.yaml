@@ -66,6 +66,15 @@ services:
         source: ./packages/hooks
         target: /usr/src/app/packages/hooks
       - type: bind
+        source: ./packages/array-utils
+        target: /usr/src/app/packages/array-utils
+      - type: bind
+        source: ./packages/object-utils
+        target: /usr/src/app/packages/object-utils
+      - type: bind
+        source: ./packages/syntax-highlighter
+        target: /usr/src/app/packages/syntax-highlighter
+      - type: bind
         source: ./packages/sidebar
         target: /usr/src/app/packages/sidebar
       - type: bind
@@ -122,9 +131,6 @@ services:
       - type: bind
         source: ./packages/pseudo-terminal-visuals
         target: /usr/src/app/packages/pseudo-terminal-visuals
-      - type: bind
-        source: ./packages/syntax-highlighter
-        target: /usr/src/app/packages/syntax-highlighter
       - type: bind
         source: ./packages/ui-theme
         target: /usr/src/app/packages/ui-theme
@@ -261,6 +267,15 @@ services:
       - type: bind
         source: ./packages/is-dev
         target: /usr/src/app/packages/is-dev
+      - type: bind
+        source: ./packages/array-utils
+        target: /usr/src/app/packages/array-utils
+      - type: bind
+        source: ./packages/object-utils
+        target: /usr/src/app/packages/object-utils
+      - type: bind
+        source: ./packages/syntax-highlighter
+        target: /usr/src/app/packages/syntax-highlighter
       - type: bind
         source: ./packages/randomizer
         target: /usr/src/app/packages/randomizer

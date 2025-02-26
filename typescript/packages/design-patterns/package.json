@@ -7,8 +7,8 @@
     "build": "tsc -b ."
   },
   "dependencies": {
-    "@packages/utils": "*",
-    "@packages/randomizer": "*"
+    "@packages/randomizer": "*",
+    "@packages/object-utils": "*"
   },
   "author": "",
   "license": "ISC",

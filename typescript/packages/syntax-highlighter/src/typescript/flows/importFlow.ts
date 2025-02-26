@@ -7,6 +7,7 @@ import {
   StepCallback,
   findNextBreakpoint,
   shouldBreak,
+  dotCallback,
 } from "../utils";
 import { stringFlow } from "./stringFlow";
 
@@ -33,7 +34,9 @@ export const importFlow = ({
   previousTokensSummary.push(TokenTypes.IMPORT);
 
   const stepCallbacks: StepCallback[] = [
+    dotCallback({ tokens, stop: false, previousTokensSummary, exit: true }),
     spaceCallback({ tokens, input, stop: true, previousTokensSummary }),
+    dotCallback({ tokens, stop: false, previousTokensSummary, exit: true }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
         const firstChar = newTokenValue.charAt(0);

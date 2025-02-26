@@ -14,7 +14,8 @@
     "repository-file-count-ts": "tsx ./scripts/repositoryFileCount.ts",
     "parser": "tsx ./typescript/scripts/parser.ts",
     "slope": "tsx ./typescript/scripts/calculateSlope.ts",
-    "lines-intersection": "tsx ./typescript/scripts/calculateLinesIntersection.ts"
+    "lines-intersection": "tsx ./typescript/scripts/calculateLinesIntersection.ts",
+    "read": "tsx ./typescript/scripts/read.ts"
   },
   "devDependencies": {
     "tsx": "^4.7.2"

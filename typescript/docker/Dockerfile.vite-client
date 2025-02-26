@@ -11,6 +11,9 @@ COPY ./packages/utils/package.json ./packages/utils/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
 COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
+COPY ./packages/array-utils/package.json ./packages/array-utils/package.json
+COPY ./packages/object-utils/package.json ./packages/object-utils/package.json
+COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
 COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/package.json
 COPY ./packages/router/package.json ./packages/router/package.json
@@ -44,6 +47,9 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
+COPY ./packages/array-utils ./packages/array-utils
+COPY ./packages/object-utils ./packages/object-utils
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/router ./packages/router
@@ -79,6 +85,9 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
+COPY ./packages/array-utils ./packages/array-utils
+COPY ./packages/object-utils ./packages/object-utils
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/router ./packages/router
@@ -114,6 +123,9 @@ COPY ./packages/utils ./packages/utils
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
+COPY ./packages/array-utils ./packages/array-utils
+COPY ./packages/object-utils ./packages/object-utils
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
 COPY ./packages/router ./packages/router

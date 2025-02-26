@@ -1,10 +1,10 @@
 import { isStringOnlyWithLetters } from "@packages/utils";
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
-import { findLastNonPreviousSpaceToken, findNextBreakpoint } from "../utils";
+import { findLastNonPreviousSpaceToken } from "../utils";
 import { spaceFollowUpFlow } from "./spaceFlow";
 import { genericTypeFlow } from "./genericTypeFlow";
-import { tagFlow } from "./tagFlow";
+import { tagContentFlow } from "./tagContentFlow";
 import { parenthesisFlow } from "./parenthesisFlow";
 import { JSXFlow } from "./JSXFlow";
 
@@ -162,7 +162,7 @@ export const angleFlow = ({
       updatedIndex,
       stop,
       isType = false,
-    } = tagFlow({
+    } = tagContentFlow({
       tokens,
       input,
       currentIndex: nextBreakpoint.currentIndex,

@@ -4,7 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "tsc -b ."
+    "build": "tsc -b .",
+    "test": "vitest --no-cache"
   },
   "dependencies": {
     "@packages/utils": "*"

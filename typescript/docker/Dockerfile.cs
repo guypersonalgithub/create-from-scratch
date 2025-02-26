@@ -11,6 +11,9 @@ COPY ./packages/router/package.json ./packages/router/package.json
 COPY ./packages/url/package.json ./packages/url/package.json
 COPY ./packages/environment/package.json ./packages/environment/package.json
 COPY ./packages/hooks/package.json ./packages/hooks/package.json
+COPY ./packages/array-utils/package.json ./packages/array-utils/package.json
+COPY ./packages/object-utils/package.json ./packages/object-utils/package.json
+COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
 COPY ./packages/sidebar/package.json ./packages/sidebar/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
 COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
@@ -30,7 +33,6 @@ COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/pack
 COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
 COPY ./packages/title/package.json ./packages/title/package.json
 COPY ./packages/pseudo-terminal-visuals/package.json ./packages/pseudo-terminal-visuals/package.json
-COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
 COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
 
 
@@ -51,6 +53,9 @@ COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
+COPY ./packages/array-utils ./packages/array-utils
+COPY ./packages/object-utils ./packages/object-utils
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -70,7 +75,6 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
-COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/ui-theme ./packages/ui-theme
 CMD ["npm", "run", "dev"]
 
@@ -92,6 +96,9 @@ COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
+COPY ./packages/array-utils ./packages/array-utils
+COPY ./packages/object-utils ./packages/object-utils
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -111,7 +118,6 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
-COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/ui-theme ./packages/ui-theme
 CMD ["npm", "run", "build"]
 
@@ -133,6 +139,9 @@ COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
+COPY ./packages/array-utils ./packages/array-utils
+COPY ./packages/object-utils ./packages/object-utils
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -152,6 +161,5 @@ COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
-COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/ui-theme ./packages/ui-theme
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

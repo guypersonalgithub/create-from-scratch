@@ -1,5 +1,5 @@
 import { RouterPaths } from "./types";
-import { areStringArraysEqual } from "@packages/utils";
+import { areStringArraysEqual } from "@packages/array-utils";
 
 type GetFirstPathsArgs = {
   currentStage: RouterPaths;

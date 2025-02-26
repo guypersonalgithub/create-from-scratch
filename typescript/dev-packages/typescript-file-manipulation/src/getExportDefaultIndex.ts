@@ -2,14 +2,12 @@ import { readFileSync } from "fs";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type GetExportDefaultIndexArgs = {
-  folderPath: string;
-  fileName: string;
+    filePath: string;
 };
 
-export const getExportDefaultIndex = ({ folderPath, fileName }: GetExportDefaultIndexArgs) => {
+export const getExportDefaultIndex = ({ filePath }: GetExportDefaultIndexArgs) => {
   try {
     const exportDefaultIdentifier = "export default";
-    const filePath = `${folderPath}/${fileName}`;
     const file = readFileSync(filePath, {
       encoding: "utf-8",
       flag: "r",
@@ -44,7 +42,6 @@ export const getExportDefaultIndex = ({ folderPath, fileName }: GetExportDefault
     }
 
     return {
-      filePath,
       file,
       startingIndex,
       isObject,

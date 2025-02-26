@@ -9,7 +9,8 @@
   "dependencies": {
     "@packages/design-patterns": "*",
     "@packages/request": "*",
-    "@packages/utils": "*"
+    "@packages/utils": "*",
+    "@packages/object-utils": "*"
   },
   "peerDependencies": {
     "react": "^18.3.1",

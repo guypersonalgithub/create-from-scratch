@@ -17,6 +17,7 @@ export const TokenTypes = {
   ARRAY_SQUARE_BRACKET: "array-square-bracket",
   OBJECT_CURLY_BRACKET: "object-curly-bracket",
   OBJECT_PROPERTY: "object-property",
+  OBJECT_STRING_PROPERTY: "object-string-property",
   OBJECT_COLON: "object-colon",
   PARENTHESIS: "parenthesis",
   ANGLE: "angle",
@@ -39,6 +40,8 @@ export const TokenTypes = {
   JSX_PROPERTY_EXPRESSION_INTERPOLATION: "jsx-property-expression-interpolation",
   UNDEFINED: "undefined",
   NULL: "null",
+  NEW: "new",
+  CLASS: "class",
 } as const;
 
 export type TokenTypeOptions = (typeof TokenTypes)[keyof typeof TokenTypes];

@@ -1,106 +1,133 @@
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { GithubActionYaml } from "./types";
 import { convertObjectToYaml } from "@packages/yaml";
+import { getConfiguration } from "./getConfiguration";
+import { removeQuotationMarks } from "@packages/utils";
 
 type ParseGithubActionContentArgs = {
-  filePath: string;
+  file: string;
+  folderPath: string;
   projectCompleteRootAbsolutePath: string;
   onPushCallback?: (args: { onPush: Record<string, string[]> }) => void;
-  stepCallbacks?: Record<string, (args: { step: Record<string, string | Record<string, string>> }) => void>;
+  onPullRequest?: (args: { onPull: Record<string, string[]> }) => void;
+  stepCallbacks?: Record<
+    string,
+    (args: {
+      step: {
+        name?: string;
+        run?: string | string[];
+        uses?: string;
+      };
+    }) => void
+  >;
 };
 
 export const parseGithubActionContent = ({
-  filePath,
+  file,
+  folderPath,
   projectCompleteRootAbsolutePath,
   onPushCallback,
+  onPullRequest,
   stepCallbacks = {},
 }: ParseGithubActionContentArgs) => {
-  const config = readFileSync(filePath, { encoding: "utf-8" });
-
-  const parsedConfig = JSON.parse(config);
-  for (const fileName in parsedConfig) {
-    const {
-      name,
-      description,
-      inputs = {},
-      outputs = {},
-      env = {},
-      on = {},
-      permissions = {},
-      jobs,
-    } = parsedConfig[fileName] as Omit<GithubActionYaml, "fileName"> & {
-      dependencies: {
-        step: string;
-      };
-    };
-
-    const hasNoOnProperties = Object.keys(on).length === 0;
-
-    const { push } = on;
-    if (push && onPushCallback) {
-      onPushCallback({ onPush: on.push as Record<string, string[]> });
-    }
-
-    if (!hasNoOnProperties) {
-      on.workflow_dispatch = "";
-    }
-
-    for (const job in jobs) {
-      const { steps = [] } = jobs[job];
-      (steps as Record<string, string | Record<string, string>>[]).forEach((step, index) => {
-        const { name, run } = step;
-        if (typeof name !== "string") {
-          return;
-        }
-
-        const stepCallback = stepCallbacks[name];
-        stepCallback?.({ step });
-        if (Array.isArray(run)) {
-          parsedConfig[fileName].jobs[job].steps[index].run = run.join("\n");
-        }
-      });
-    }
-
-    const githubActionYaml: GithubActionYaml = {
-      name,
-      description,
-      inputs,
-      outputs,
-      env,
-      on,
-      permissions,
-      jobs,
-    };
-
-    if (!description) {
-      delete githubActionYaml.description;
-    }
-
-    if (Object.keys(inputs).length === 0) {
-      delete githubActionYaml.inputs;
-    }
-
-    if (Object.keys(outputs).length === 0) {
-      delete githubActionYaml.outputs;
-    }
-
-    if (Object.keys(env).length === 0) {
-      delete githubActionYaml.env;
-    }
-
-    if (hasNoOnProperties) {
-      delete githubActionYaml.on;
-    }
-
-    if (Object.keys(permissions).length === 0) {
-      delete githubActionYaml.permissions;
-    }
-
-    const yamlFormat = convertObjectToYaml({ obj: githubActionYaml });
-
-    writeFileSync(
-      `${projectCompleteRootAbsolutePath}/.github/workflows/${fileName}.yaml`,
-      yamlFormat,
-    );
+  const filePath = `${folderPath}/${file}`;
+  const config = getConfiguration({ filePath });
+  if (!config) {
+    return;
   }
+
+  const {
+    name,
+    description,
+    inputs = {},
+    outputs = {},
+    env = {},
+    on = {},
+    permissions = {},
+    jobs,
+    fileName = file,
+  } = config;
+
+  const hasNoOnProperties = Object.keys(on).length === 0;
+
+  const { push, pull_request } = on;
+  if (push && onPushCallback && typeof push !== "string") {
+    onPushCallback({ onPush: push });
+  }
+
+  if (pull_request && onPullRequest && typeof pull_request !== "string") {
+    onPullRequest({ onPull: pull_request });
+  }
+
+  // if (!hasNoOnProperties) {
+  //   on.workflow_dispatch = "";
+  // }
+
+  for (const job in jobs) {
+    const { steps } = jobs[job];
+    if (!Array.isArray(steps)) {
+      continue;
+    }
+
+    steps.forEach((step, index) => {
+      const { name, run } = step;
+      if (typeof name !== "string") {
+        return;
+      }
+
+      const stepCallback = stepCallbacks[name];
+      stepCallback?.({ step });
+
+      const currentStep = config.jobs?.[job].steps?.[index];
+      if (!currentStep || !Array.isArray(run) || typeof currentStep === "string") {
+        return;
+      }
+
+      currentStep.run = run.join("\n");
+    });
+  }
+
+  const githubActionYaml: GithubActionYaml = {
+    name,
+    description,
+    inputs,
+    outputs,
+    env,
+    on,
+    permissions,
+    jobs,
+  };
+
+  if (!description) {
+    delete githubActionYaml.description;
+  }
+
+  if (Object.keys(inputs).length === 0) {
+    delete githubActionYaml.inputs;
+  }
+
+  if (Object.keys(outputs).length === 0) {
+    delete githubActionYaml.outputs;
+  }
+
+  if (Object.keys(env).length === 0) {
+    delete githubActionYaml.env;
+  }
+
+  if (hasNoOnProperties) {
+    delete githubActionYaml.on;
+  }
+
+  if (Object.keys(permissions).length === 0) {
+    delete githubActionYaml.permissions;
+  }
+
+  const yamlFormat = convertObjectToYaml({ obj: githubActionYaml });
+
+  const fileNameWithoutQuotationMarks = removeQuotationMarks({ str: fileName });
+
+  writeFileSync(
+    `${projectCompleteRootAbsolutePath}/.github/workflows/${fileNameWithoutQuotationMarks}.yaml`,
+    yamlFormat,
+  );
 };

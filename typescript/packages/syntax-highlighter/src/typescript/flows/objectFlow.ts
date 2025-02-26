@@ -10,6 +10,7 @@ import {
   shouldBreak,
 } from "../utils";
 import { valueFlow } from "./valueFlow";
+import { stringFlow } from "./stringFlow";
 
 type ObjectFlowArgs = {
   tokens: BaseToken[];
@@ -46,7 +47,25 @@ export const objectFlow = ({
             currentChar: firstChar,
           }) && firstChar !== "_";
 
-        if (isIncorrectPropertyName) {
+        if ((isIncorrectPropertyName && firstChar === '"') || firstChar === "'") {
+          const key = stringFlow({
+            tokens,
+            newTokenValue,
+            input,
+            currentIndex,
+            previousTokensSummary,
+            isObjectKey: true,
+          });
+
+          if (key) {
+            return key;
+          }
+
+          return {
+            updatedIndex: currentIndex,
+            stop: true,
+          };
+        } else if (isIncorrectPropertyName) {
           const isProperSyntax = newTokenValue === "}";
 
           return {

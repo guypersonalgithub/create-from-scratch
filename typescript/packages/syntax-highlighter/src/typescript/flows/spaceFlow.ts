@@ -18,7 +18,7 @@ export const spaceFlow = ({
   previousTokensSummary,
 }: SpaceFlowArgs) => {
   const firstChar = newTokenValue.charAt(0);
-  if (firstChar !== " " && firstChar !== "\n") {
+  if (firstChar !== " " && firstChar !== "\n" && firstChar !== "\r") {
     return;
   }
 
@@ -26,16 +26,16 @@ export const spaceFlow = ({
 
   let fullSpace = newTokenValue;
 
-  if (newTokenValue === "\n") {
+  if (newTokenValue === "\n" || newTokenValue === "\r") {
     hasNewLine = true;
   }
 
   while (
-    (input[currentIndex] === " " || input[currentIndex] === "\n") &&
+    (input[currentIndex] === " " || input[currentIndex] === "\n" || input[currentIndex] === "\r") &&
     currentIndex < input.length
   ) {
     const current = input[currentIndex];
-    if (current === "\n") {
+    if (current === "\n" || current === "\r") {
       hasNewLine = true;
     }
 

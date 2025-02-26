@@ -16,6 +16,9 @@ on:
       - typescript/packages/url/**
       - typescript/packages/environment/**
       - typescript/packages/hooks/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/syntax-highlighter/**
       - typescript/packages/sidebar/**
       - typescript/packages/animation-container/**
       - typescript/packages/is-dev/**
@@ -35,9 +38,7 @@ on:
       - typescript/packages/calculations-table/**
       - typescript/packages/title/**
       - typescript/packages/pseudo-terminal-visuals/**
-      - typescript/packages/syntax-highlighter/**
       - typescript/packages/ui-theme/**
-  workflow_dispatch: 
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -47,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Netlify CLI
-        run: npm i --save-dev netlify-cli
+        run: npm i -g netlify-cli
       - name: Create _redirects file
         run: node ./ci-scripts/createCSRRedirects.js cs
       - name: Create working folder
@@ -71,6 +72,9 @@ jobs:
           cp -r ./packages/url ./full-application/packages
           cp -r ./packages/environment ./full-application/packages
           cp -r ./packages/hooks ./full-application/packages
+          cp -r ./packages/array-utils ./full-application/packages
+          cp -r ./packages/object-utils ./full-application/packages
+          cp -r ./packages/syntax-highlighter ./full-application/packages
           cp -r ./packages/sidebar ./full-application/packages
           cp -r ./packages/animation-container ./full-application/packages
           cp -r ./packages/is-dev ./full-application/packages
@@ -90,7 +94,6 @@ jobs:
           cp -r ./packages/calculations-table ./full-application/packages
           cp -r ./packages/title ./full-application/packages
           cp -r ./packages/pseudo-terminal-visuals ./full-application/packages
-          cp -r ./packages/syntax-highlighter ./full-application/packages
           cp -r ./packages/ui-theme ./full-application/packages
       - name: Install dependencies
         run: npm ci

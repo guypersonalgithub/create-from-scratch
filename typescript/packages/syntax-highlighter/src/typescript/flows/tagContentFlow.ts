@@ -1,7 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 
-type TagFlowArgs = {
+type TagContentFlowArgs = {
   tokens: BaseToken[];
   input: string;
   currentIndex: number;
@@ -9,13 +9,13 @@ type TagFlowArgs = {
   nested?: boolean;
 };
 
-export const tagFlow = ({
+export const tagContentFlow = ({
   tokens,
   input,
   currentIndex,
   previousTokensSummary,
   nested,
-}: TagFlowArgs) => {
+}: TagContentFlowArgs) => {
   const currentTokens: BaseToken[] = [];
   let currentTokenValue = "";
   let updatedIndex = currentIndex;
@@ -24,7 +24,7 @@ export const tagFlow = ({
   while (updatedIndex < input.length) {
     let current = input.charAt(updatedIndex);
     if (current === "<") {
-      const nestedTag = tagFlow({
+      const nestedTag = tagContentFlow({
         tokens,
         input,
         currentIndex: updatedIndex,

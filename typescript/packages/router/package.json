@@ -9,7 +9,8 @@
   "dependencies": {
     "@packages/utils": "*",
     "@packages/url": "*",
-    "@packages/hooks": "*"
+    "@packages/hooks": "*",
+    "@packages/array-utils": "*"
   },
   "peerDependencies": {
     "react": "^18.3.1",

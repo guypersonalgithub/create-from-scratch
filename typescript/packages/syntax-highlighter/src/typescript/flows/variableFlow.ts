@@ -1,8 +1,9 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { shouldBreak } from "../utils";
-import { functionCallFlow } from "./functionCallFlow";
+import { invocationFlow } from "./invocationFlow";
 import { spaceFollowUpFlow } from "./spaceFlow";
+import { variablePropertyFlow } from "./variablePropertyFlow";
 
 type VariableFlowArgs = {
   tokens: BaseToken[];
@@ -18,7 +19,12 @@ export const variableFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-}: VariableFlowArgs) => {
+}: VariableFlowArgs):
+  | {
+      updatedIndex: number;
+      stop: boolean;
+    }
+  | undefined => {
   const firstChar = newTokenValue.charAt(0);
   const isIncorrectVariableName =
     shouldBreak({
@@ -33,7 +39,7 @@ export const variableFlow = ({
   previousTokensSummary.push(TokenTypes.VARIABLE);
   const variableIndex = tokens.length - 1;
 
-  const { breakpoint, space } = spaceFollowUpFlow({
+  let { breakpoint, space } = spaceFollowUpFlow({
     tokens,
     input,
     currentIndex,
@@ -42,13 +48,44 @@ export const variableFlow = ({
 
   // TODO: Add optional generic type for function calls, with type extends ? a : b support.
 
-  const functionCall = functionCallFlow({ tokens, input, previousTokensSummary, ...breakpoint });
-  if (functionCall) {
+  const invocation = invocationFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  if (invocation) {
     tokens[variableIndex].type = TokenTypes.FUNCTION_NAME;
+
+    const following = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: invocation.updatedIndex,
+      previousTokensSummary,
+    });
+
+    breakpoint = following.breakpoint;
+    space = following.space;
+  }
+
+  const variableProperty = variablePropertyFlow({ tokens, previousTokensSummary, ...breakpoint });
+  if (variableProperty) {
+    const { breakpoint: following, space } = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: variableProperty.updatedIndex,
+      previousTokensSummary,
+    });
+
+    const property = variableFlow({ tokens, input, previousTokensSummary, ...following });
+
+    if (!property) {
+      return {
+        updatedIndex: space?.updatedIndex ?? variableProperty.updatedIndex,
+        stop: true,
+      };
+    }
+
+    return property;
   }
 
   return (
-    functionCall ||
+    invocation ||
     space || {
       updatedIndex: currentIndex,
       stop: false,
