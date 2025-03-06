@@ -5,7 +5,7 @@ type ColorizeTokensArgs = {
   tokens: BaseToken[];
 };
 
-export const colorizeTypescriptTokens = ({ tokens }: ColorizeTokensArgs) => {
+export const colorizeYamlTokens = ({ tokens }: ColorizeTokensArgs) => {
   return tokens.map((current) => {
     const { type, value } = current;
     const color = baseColors[type];

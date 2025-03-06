@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { parseTypescript } from "../src";
+import { parseTypescript } from "../../src";
 
 test("Basic variable with properties", () => {
   expect(parseTypescript({ input: "test.testing.test2;" })).toStrictEqual([
@@ -58,7 +58,7 @@ test("Basic variable with properties and function calls", () => {
         value: ".",
       },
       {
-        type: "function-name",
+        type: "invoked-function",
         value: "test3",
       },
       {
@@ -82,7 +82,7 @@ test("Basic variable with properties and function calls", () => {
         value: ".",
       },
       {
-        type: "function-name",
+        type: "invoked-function",
         value: "test5",
       },
       {

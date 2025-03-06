@@ -28,13 +28,69 @@ function testing2() {};
 const testing6 = test("hello");
 const testing7 = ["test" as string,,,,,,,,,,, , , true, false, hi, "hello", 'hey'];
 const initial = new Test();
-import.meta;`;
+import.meta;
+test.test.test.test<T extends "" ? "" : "">().test.testing.test();
+class Example<T> {
+  private props: T;
+  static props2: T;
+  public props3: T;
+  a;
+  a2: number
+  2
+  3 = "a" as any;
 
+  constructor(props: T) {
+    this.props = props;
+  }
+
+  test(test: string) {
+    return test;
+  }
+
+  testing = () => {
+    console.log("test");
+  }
+}
+
+abstract class Example2 {}
+
+const example = new Example<T extends "" ? "" extends "??" ? "test" : "" : "" extends "" ? string : null>("test");
+const testing = 1 === 2 ? 4 : 5;`;
+
+  const yamlCode = `name: Syntax-Highlighter tests
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/packages/syntax-highlighter/**
+      - typescript/packages/utils/**
+jobs:
+  Syntax-Highlighter-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js cs
+      - name: Install dependencies
+        run: npm i
+      - name: Run tests
+        run: cd packages/syntax-highlighter && npm run test`;
   return (
-    <PseudoTerminalVisuals
-      code={code}
-      // code={`(1 + 2) < 3 + 4;`}
-      highlightCode
-    />
+    <>
+      <PseudoTerminalVisuals
+        code={code}
+        // code={`(1 + 2) < 3 + 4;`}
+        highlightCode
+      />
+      <PseudoTerminalVisuals code={yamlCode} highlightCode language="yaml" />
+    </>
   );
 };

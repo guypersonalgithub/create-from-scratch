@@ -12,6 +12,7 @@ type TypeFlowArgs = {
 };
 
 export const typeFlow = ({ tokens, input, currentIndex, previousTokensSummary }: TypeFlowArgs) => {
+  // types can start with & or | without some type value before them
   const stepCallbacks: StepCallback<{ hasType?: boolean }>[] = [
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {

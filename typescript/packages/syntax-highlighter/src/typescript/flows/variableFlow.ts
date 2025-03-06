@@ -3,6 +3,7 @@ import { BaseToken } from "../types";
 import { shouldBreak } from "../utils";
 import { invocationFlow } from "./invocationFlow";
 import { spaceFollowUpFlow } from "./spaceFlow";
+import { typedInvocationFlow } from "./typedInvocationFlow";
 import { variablePropertyFlow } from "./variablePropertyFlow";
 
 type VariableFlowArgs = {
@@ -37,7 +38,16 @@ export const variableFlow = ({
 
   tokens.push({ type: TokenTypes.VARIABLE, value: newTokenValue });
   previousTokensSummary.push(TokenTypes.VARIABLE);
+
+  if (currentIndex === input.length) {
+    return {
+      updatedIndex: currentIndex,
+      stop: false,
+    };
+  }
+
   const variableIndex = tokens.length - 1;
+  const previousVariableIndex = previousTokensSummary.length - 1;
 
   let { breakpoint, space } = spaceFollowUpFlow({
     tokens,
@@ -48,9 +58,13 @@ export const variableFlow = ({
 
   // TODO: Add optional generic type for function calls, with type extends ? a : b support.
 
-  const invocation = invocationFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const invocation =
+    typedInvocationFlow({ tokens, input, previousTokensSummary, ...breakpoint }) ||
+    invocationFlow({ tokens, input, previousTokensSummary, ...breakpoint });
   if (invocation) {
-    tokens[variableIndex].type = TokenTypes.FUNCTION_NAME;
+    tokens[variableIndex].type = TokenTypes.INVOKED_FUNCTION;
+    previousTokensSummary[previousVariableIndex] = TokenTypes.INVOKED_FUNCTION;
+    previousTokensSummary.push(TokenTypes.INVOKED_FUNCTION);
 
     const following = spaceFollowUpFlow({
       tokens,
@@ -85,8 +99,8 @@ export const variableFlow = ({
   }
 
   return (
-    invocation ||
-    space || {
+    space ||
+    invocation || {
       updatedIndex: currentIndex,
       stop: false,
     }

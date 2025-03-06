@@ -1,8 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { nameFlow } from "../nameFlow";
-import { BaseToken } from "../types";
-import { angleFlow } from "./angleFlow";
-import { parenthesisFlow } from "./parenthesisFlow";
+import { BaseToken, OpenedContext } from "../types";
+import { partialFunctionFlow } from "./partialFunctionFlow";
 import { spaceFollowUpFlow } from "./spaceFlow";
 
 type FunctionFlowArgs = {
@@ -11,7 +10,7 @@ type FunctionFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  openedFunctions: string[];
+  openedContexts: OpenedContext[];
 };
 
 export const functionFlow = ({
@@ -20,7 +19,7 @@ export const functionFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-  openedFunctions,
+  openedContexts,
 }: FunctionFlowArgs) => {
   if (newTokenValue !== "function") {
     return;
@@ -42,51 +41,12 @@ export const functionFlow = ({
 
   tokens.push({ type: TokenTypes.FUNCTION_NAME, value: breakpoint.newTokenValue });
 
-  const { breakpoint: followUp } = spaceFollowUpFlow({
+  return partialFunctionFlow({
     tokens,
     input,
     currentIndex: breakpoint.currentIndex,
     previousTokensSummary,
+    openedContexts,
+    functionName: breakpoint.newTokenValue,
   });
-
-  const functionContinuation =
-    angleFlow({
-      tokens,
-      input,
-      previousTokensSummary,
-      openedFunctions,
-      isFromDefinitionFlow: true,
-      isExpectedToBeType: true,
-      ...followUp,
-    }) ||
-    parenthesisFlow({
-      tokens,
-      input,
-      previousTokensSummary,
-      openedFunctions,
-      isFromDefinitionFlow: true,
-      expectingFunction: true,
-      ...followUp,
-    });
-
-  if (!functionContinuation) {
-    return {
-      updatedIndex: followUp.currentIndex,
-      stop: true,
-    };
-  }
-
-  if (functionContinuation.stop) {
-    return {
-      updatedIndex: functionContinuation.updatedIndex,
-      stop: true,
-    };
-  }
-
-  openedFunctions.push(breakpoint.newTokenValue);
-
-  return {
-    updatedIndex: functionContinuation.updatedIndex,
-    stop: false,
-  };
 };

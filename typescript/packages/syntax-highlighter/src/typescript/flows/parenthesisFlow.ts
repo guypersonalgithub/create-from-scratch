@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { BaseToken, OpenedContext } from "../types";
 import { asFlow } from "./asFlow";
 import { iterateOverSteps, spaceCallback, StepCallback, findNextBreakpoint } from "../utils";
 import { typeFlow } from "./typeFlow";
@@ -13,7 +13,7 @@ type ParenthesisFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  openedFunctions: string[];
+  openedContexts: OpenedContext[];
   isFromDefinitionFlow?: boolean;
   // context: Context;
   // currentLayeredContexts: CurrentLayeredContexts;
@@ -46,7 +46,7 @@ export const parenthesisFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-  openedFunctions,
+  openedContexts,
   isFromDefinitionFlow,
   expectingFunction,
   expectingArrow,
@@ -293,7 +293,7 @@ export const parenthesisFlow = ({
       if (!isFromDefinitionFlow) {
         // TODO: Add an indication for already taken anonymous function names/numbers, in order
         // to avoid taking the same "anonymous" name again and again, incase some sort of a context feature will be implemented later on.
-        openedFunctions.push("anonymous");
+        openedContexts.push({ name: "anonymous", type: "function" });
       }
 
       return {
@@ -317,7 +317,7 @@ export const parenthesisFlow = ({
     if (!isFromDefinitionFlow) {
       // TODO: Add an indication for already taken anonymous function names/numbers, in order
       // to avoid taking the same "anonymous" name again and again, incase some sort of a context feature will be implemented later on.
-      openedFunctions.push("anonymous");
+      openedContexts.push({ name: "anonymous", type: "function" });
     }
 
     return {

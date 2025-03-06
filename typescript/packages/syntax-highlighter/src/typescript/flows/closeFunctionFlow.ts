@@ -1,12 +1,12 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { BaseToken, OpenedContext } from "../types";
 
 type CloseFunctionFlowArgs = {
   tokens: BaseToken[];
   newTokenValue: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  openedFunctions: string[];
+  openedContexts: OpenedContext[];
 };
 
 export const closeFunctionFlow = ({
@@ -14,15 +14,15 @@ export const closeFunctionFlow = ({
   newTokenValue,
   currentIndex,
   previousTokensSummary,
-  openedFunctions,
+  openedContexts,
 }: CloseFunctionFlowArgs) => {
-  if (newTokenValue !== "}" || openedFunctions.length === 0) {
+  if (newTokenValue !== "}" || openedContexts.length === 0) {
     return;
   }
 
   tokens.push({ type: TokenTypes.FUNCTION_CURLY_BRACKET, value: newTokenValue });
   previousTokensSummary.push(TokenTypes.FUNCTION_CURLY_BRACKET);
-  openedFunctions.pop();
+  openedContexts.pop();
 
   return {
     updatedIndex: currentIndex,

@@ -1,4 +1,4 @@
-import { BaseToken, FlowCallback } from "../types";
+import { BaseToken, FlowCallback, OpenedContext } from "../types";
 import { arrowFlow } from "./arrowFlow";
 import { asFlow } from "./asFlow";
 import { commentFlow } from "./commentFlow";
@@ -23,6 +23,13 @@ import { undefinedFlow } from "./undefinedFlow";
 import { nullFlow } from "./nullFlow";
 import { arrayFlow } from "./arrayFlow";
 import { initializeClassFlow } from "./initializeClassFlow";
+import { classFlow } from "./classFlow";
+import { publicPrivateStaticFlow } from "./publicPrivateStaticFlow";
+import { partialDefinitionFlow } from "./partialDefinitionFlow";
+import { classConstructorFlow } from "./classConstructorFlow";
+import { thisFlow } from "./thisFlow";
+import { equalFlow } from "./equalFlow";
+import { abstractClassFlow } from "./abstractClassFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -30,7 +37,7 @@ type TokenizerFlowsArgs = {
   currentIndex: number;
   // isDefinitionValue?: boolean;
   previousTokensSummary: TokenTypeOptions[];
-  openedFunctions: string[];
+  openedContexts: OpenedContext[];
   // context: Context;
   // currentLayeredContexts: CurrentLayeredContexts;
 };
@@ -41,7 +48,7 @@ export const tokenizerFlows = ({
   currentIndex,
   // isDefinitionValue,
   previousTokensSummary,
-  openedFunctions,
+  openedContexts,
   // context,
   // currentLayeredContexts,
 }: TokenizerFlowsArgs): {
@@ -61,7 +68,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex: updatedIndex,
         previousTokensSummary,
-        openedFunctions,
+        openedContexts,
         // context,
         // currentLayeredContexts,
       }),
@@ -82,7 +89,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex: updatedIndex,
         previousTokensSummary,
-        openedFunctions,
+        openedContexts,
         expectingFunction: false,
         // context,
         // currentLayeredContexts,
@@ -94,7 +101,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex: updatedIndex,
         previousTokensSummary,
-        openedFunctions,
+        openedContexts,
       }),
     () =>
       spaceFlow({
@@ -127,7 +134,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex: updatedIndex,
         previousTokensSummary,
-        openedFunctions,
+        openedContexts,
       }),
     () =>
       arrayFlow({
@@ -154,8 +161,9 @@ export const tokenizerFlows = ({
         newTokenValue,
         currentIndex: updatedIndex,
         previousTokensSummary,
-        openedFunctions,
+        openedContexts,
       }),
+    () => equalFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () =>
       operatorFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () =>
@@ -164,6 +172,25 @@ export const tokenizerFlows = ({
     () =>
       undefinedFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () => nullFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
+    () => thisFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
+    () =>
+      abstractClassFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+        openedContexts,
+      }),
+    () =>
+      classFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+        openedContexts,
+      }),
     () =>
       initializeClassFlow({
         tokens,
@@ -172,6 +199,7 @@ export const tokenizerFlows = ({
         currentIndex: updatedIndex,
         previousTokensSummary,
       }),
+    () => returnFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () =>
       numericFlow({
         tokens,
@@ -180,7 +208,6 @@ export const tokenizerFlows = ({
         currentIndex: updatedIndex,
         previousTokensSummary,
       }),
-    () => returnFlow({ tokens, newTokenValue, currentIndex: updatedIndex, previousTokensSummary }),
     () =>
       variableFlow({
         tokens,
@@ -190,6 +217,46 @@ export const tokenizerFlows = ({
         previousTokensSummary,
       }),
   ];
+
+  if (openedContexts.length > 0 && openedContexts[openedContexts.length - 1].type === "class") {
+    // definitionFlow
+    callbacks.splice(0, 1, () =>
+      publicPrivateStaticFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+        openedContexts,
+      }),
+    );
+
+    callbacks.splice(7, 1); // functionFlow
+
+    callbacks.splice(
+      callbacks.length - 2,
+      2,
+      () =>
+        classConstructorFlow({
+          tokens,
+          newTokenValue,
+          input,
+          currentIndex: updatedIndex,
+          previousTokensSummary,
+          openedContexts,
+        }),
+      () =>
+        partialDefinitionFlow({
+          tokens,
+          input,
+          currentIndex: updatedIndex - newTokenValue.length,
+          previousTokensSummary,
+          openedContexts,
+          isWithinClassContext: true,
+          withoutPreviousKeyword: true,
+        }),
+    );
+  }
 
   for (let i = 0; i < callbacks.length; i++) {
     const current = callbacks[i];

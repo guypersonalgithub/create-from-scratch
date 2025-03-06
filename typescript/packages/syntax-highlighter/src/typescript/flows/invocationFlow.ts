@@ -21,7 +21,8 @@ export const invocationFlow = ({
 }: InvocationFlowArgs) => {
   if (
     newTokenValue !== "(" ||
-    previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.VARIABLE
+    (previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.VARIABLE &&
+      previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.CLASS_NAME)
   ) {
     return;
   }

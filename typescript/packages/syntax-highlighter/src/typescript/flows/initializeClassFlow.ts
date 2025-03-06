@@ -2,6 +2,7 @@ import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { invocationFlow } from "./invocationFlow";
 import { spaceFollowUpFlow } from "./spaceFlow";
+import { typedInvocationFlow } from "./typedInvocationFlow";
 
 type InitializeClassFlowArgs = {
   tokens: BaseToken[];
@@ -23,6 +24,7 @@ export const initializeClassFlow = ({
   }
 
   tokens.push({ type: TokenTypes.NEW, value: newTokenValue });
+  previousTokensSummary.push(TokenTypes.NEW);
 
   const { breakpoint, space } = spaceFollowUpFlow({
     tokens,
@@ -40,7 +42,8 @@ export const initializeClassFlow = ({
     );
   }
 
-  tokens.push({ type: TokenTypes.CLASS, value: breakpoint.newTokenValue });
+  tokens.push({ type: TokenTypes.CLASS_NAME, value: breakpoint.newTokenValue });
+  previousTokensSummary.push(TokenTypes.CLASS_NAME);
 
   const { breakpoint: followingBreakpoint } = spaceFollowUpFlow({
     tokens,
@@ -49,12 +52,14 @@ export const initializeClassFlow = ({
     previousTokensSummary,
   });
 
-  const invocation = invocationFlow({
-    tokens,
-    input,
-    previousTokensSummary,
-    ...followingBreakpoint,
-  });
+  const invocation =
+    typedInvocationFlow({ tokens, input, previousTokensSummary, ...followingBreakpoint }) ||
+    invocationFlow({
+      tokens,
+      input,
+      previousTokensSummary,
+      ...followingBreakpoint,
+    });
 
   if (!invocation) {
     return {

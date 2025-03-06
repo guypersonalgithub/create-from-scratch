@@ -115,8 +115,9 @@ const res = example("test", 1);`}
 }
 
 const example = new Example("test");`}
-                  animatedWriting
-                  withCursor
+                  // animatedWriting
+                  // withCursor
+                  highlightCode
                 />
                 <div>Constraints can also work with unions.</div>
                 <div style={{ display: "flex", gap: "5px" }}>
