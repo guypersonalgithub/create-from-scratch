@@ -41,14 +41,24 @@ export const TokenTypes = {
   UNDEFINED: "undefined",
   NULL: "null",
   NEW: "new",
+  CLASS_NAME: "class-name",
   CLASS: "class",
+  CLASS_CURLY_BRACKET: "class-curly-bracket",
+  PUBLIC: "public",
+  PRIVATE: "private",
+  STATIC: "static",
+  ABSTRACT: "abstract",
+  CLASS_CONSTRUCTOR: "class-constructor",
+  NUMERIC_CLASS_VARIABLE: "numeric-class-variable",
+  THIS: "this",
+  INVOKED_FUNCTION: "invoked-function",
 } as const;
 
 export type TokenTypeOptions = (typeof TokenTypes)[keyof typeof TokenTypes];
 
 export const definitionKeywords = new Set<string>(["var", "let", "const"]);
 export const stringDefinitions = new Set<string>(["'", '"']);
-export const operators = new Set<string>([".", ":", ",", ";", "+", "-", "*", "/", "^", "=", "!"]);
+export const operators = new Set<string>([".", ":", ",", ";", "+", "-", "*", "/", "^", "=", "!", "?"]);
 export const breakpoints = new Set<string>([
   " ",
   "{",
@@ -82,6 +92,8 @@ export const acceptableCharactersAfterANumber = new Set<string>([
   " ",
   ";",
 ]);
+
+export const classSpecificKeywords = new Set(["public", "private", "static"]);
 
 export const htmlTags = new Set([
   "a",

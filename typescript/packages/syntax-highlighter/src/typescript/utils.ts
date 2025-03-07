@@ -10,6 +10,7 @@ type FindNextBreakpointArgs = {
 };
 
 export const findNextBreakpoint = ({ input, currentIndex }: FindNextBreakpointArgs) => {
+  // Consider adding a case where input.length === currentIndex.
   const { skippedIndexes } = getNextNonSpaceCharIndex({ input });
   if (skippedIndexes) {
     return {

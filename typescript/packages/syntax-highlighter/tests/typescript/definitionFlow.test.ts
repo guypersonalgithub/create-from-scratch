@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { parseTypescript } from "../src";
+import { parseTypescript } from "../../src";
 
 test("Define variable flow with string value", () => {
   expect(
@@ -603,7 +603,7 @@ test("Define variable flow with function call value", () => {
       value: " ",
     },
     {
-      type: "function-name",
+      type: "invoked-function",
       value: "test",
     },
     {
@@ -912,6 +912,250 @@ test("Define variable flow with arrow function value, props, return type and gen
     {
       type: "function-curly-bracket",
       value: "}",
+    },
+  ]);
+});
+
+test("Define variable flow with arrow function value, props, return type and multiple generic types", () => {
+  expect(
+    parseTypescript({
+      input: `const example = <T, S>(arg: T, arg2: S) => {
+  return { arg, arg2 };
+};
+const res = example("test", 1);`,
+    }),
+  ).toStrictEqual([
+    {
+      type: "definition",
+      value: "const",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "function-name",
+      value: "example",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "equal",
+      value: "=",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "angle",
+      value: "<",
+    },
+    {
+      type: "type",
+      value: "T",
+    },
+    {
+      type: "comma",
+      value: ",",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "type",
+      value: "S",
+    },
+    {
+      type: "angle",
+      value: ">",
+    },
+    {
+      type: "parenthesis",
+      value: "(",
+    },
+    {
+      type: "variable",
+      value: "arg",
+    },
+    {
+      type: "type-colon",
+      value: ":",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "type",
+      value: "T",
+    },
+    {
+      type: "comma",
+      value: ",",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "variable",
+      value: "arg2",
+    },
+    {
+      type: "type-colon",
+      value: ":",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "type",
+      value: "S",
+    },
+    {
+      type: "parenthesis",
+      value: ")",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "arrow",
+      value: "=>",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "function-curly-bracket",
+      value: "{",
+    },
+    {
+      type: "whitespace",
+      value: "\n  ",
+    },
+    {
+      type: "return",
+      value: "return",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "object-curly-bracket",
+      value: "{",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "object-property",
+      value: "arg",
+    },
+    {
+      type: "comma",
+      value: ",",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "object-property",
+      value: "arg2",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "object-curly-bracket",
+      value: "}",
+    },
+    {
+      type: "end-of-line",
+      value: ";",
+    },
+    {
+      type: "whitespace",
+      value: "\n",
+    },
+    {
+      type: "function-curly-bracket",
+      value: "}",
+    },
+    {
+      type: "end-of-line",
+      value: ";",
+    },
+    {
+      type: "whitespace",
+      value: "\n",
+    },
+    {
+      type: "definition",
+      value: "const",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "variable",
+      value: "res",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "equal",
+      value: "=",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "invoked-function",
+      value: "example",
+    },
+    {
+      type: "parenthesis",
+      value: "(",
+    },
+    {
+      type: "string",
+      value: '"test"',
+    },
+    {
+      type: "comma",
+      value: ",",
+    },
+    {
+      type: "whitespace",
+      value: " ",
+    },
+    {
+      type: "number",
+      value: "1",
+    },
+    {
+      type: "parenthesis",
+      value: ")",
+    },
+    {
+      type: "end-of-line",
+      value: ";",
     },
   ]);
 });
@@ -1336,7 +1580,7 @@ test("Define variable flow with class initialization", () => {
       value: " ",
     },
     {
-      type: "class",
+      type: "class-name",
       value: "Test",
     },
     {

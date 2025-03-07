@@ -1,12 +1,18 @@
 import { CSSProperties, Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./styles.css";
 import { getComptuedStyleProperties } from "@packages/utils";
-import { parseTypescript, colorizeTokens } from "@packages/syntax-highlighter";
+import {
+  parseTypescript,
+  colorizeTypescriptTokens,
+  parseYaml,
+  colorizeYamlTokens,
+} from "@packages/syntax-highlighter";
 
 type PseudoTerminalVisualsProps = {
   code: string;
   highlightCode?: boolean;
   style?: CSSProperties;
+  language?: "typescript" | "yaml";
 } & Animated;
 
 type Animated =
@@ -28,6 +34,7 @@ export const PseudoTerminalVisuals = ({
   animatedWriting,
   pacing,
   style,
+  language = "typescript",
 }: PseudoTerminalVisualsProps) => {
   if (animatedWriting) {
     return (
@@ -36,17 +43,30 @@ export const PseudoTerminalVisuals = ({
   }
 
   if (highlightCode) {
-    const tokens = parseTypescript({ input: code });
-    const highlighted = colorizeTokens({ tokens });
+    if (language === "typescript") {
+      const tokens = parseTypescript({ input: code });
+      const highlighted = colorizeTypescriptTokens({ tokens });
 
-    return (
-      <pre className="pseudoTerminalVisuals" style={style}>
-        {highlighted.map((ele, index) => (
-          <Fragment key={index}>{ele}</Fragment>
-        ))}
-        {withCursor ? <span className="terminalCursor">|</span> : null}
-      </pre>
-    );
+      return (
+        <pre className="pseudoTerminalVisuals" style={style}>
+          {highlighted.map((ele, index) => (
+            <Fragment key={index}>{ele}</Fragment>
+          ))}
+          {withCursor ? <span className="terminalCursor">|</span> : null}
+        </pre>
+      );
+    } else {
+      const tokens = parseYaml({ input: code });
+      const highlighted = colorizeYamlTokens({ tokens });
+      return (
+        <pre className="pseudoTerminalVisuals" style={style}>
+          {highlighted.map((ele, index) => (
+            <Fragment key={index}>{ele}</Fragment>
+          ))}
+          {withCursor ? <span className="terminalCursor">|</span> : null}
+        </pre>
+      );
+    }
   }
 
   return (

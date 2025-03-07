@@ -26,9 +26,9 @@ export const Math = () => {
           { path: "/math", children: "Math" },
           { path: "/math/calculus", children: "Calculus" },
           { path: "/math/floor-function", children: "Floor function" },
-          { path: "/composition-of-functions", children: "Composition Of Functions" },
+          { path: "/math/composition-of-functions", children: "Composition Of Functions" },
           { path: "/math/tangent-line", children: "Tangent line" },
-          { path: "/secant-line", children: "Secant line" },
+          { path: "/math/secant-line", children: "Secant line" },
         ]}
       />
       <SubRouter

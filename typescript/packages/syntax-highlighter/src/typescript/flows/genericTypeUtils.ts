@@ -1,6 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { spaceFollowUpFlow } from "./spaceFlow";
+import { typeFlow } from "./typeFlow";
 import { valueFlow } from "./valueFlow";
 
 type ExtendsFlowArgs = {
@@ -50,11 +51,10 @@ export const extendsFlow = ({
     };
   }
 
-  const valueTokens = valueFlow({
+  const valueTokens = typeFlow({
     tokens,
     input,
-    newTokenValue: breakpoint2.newTokenValue,
-    currentIndex: breakpoint2.currentIndex,
+    currentIndex: space2?.updatedIndex ?? breakpoint.currentIndex,
     previousTokensSummary,
   });
 
@@ -67,14 +67,14 @@ export const extendsFlow = ({
     };
   }
 
-  if (!valueTokens.addedNewToken) {
-    return {
-      updatedIndex: space2?.updatedIndex ?? breakpoint.currentIndex,
-      stop: false,
-      hasExtends: true,
-      completeExtends: false,
-    };
-  }
+  // if (!valueTokens.addedNewToken) {
+  //   return {
+  //     updatedIndex: space2?.updatedIndex ?? breakpoint.currentIndex,
+  //     stop: false,
+  //     hasExtends: true,
+  //     completeExtends: false,
+  //   };
+  // }
 
   tokens[extendsIndex].type = TokenTypes.EXTENDS;
 

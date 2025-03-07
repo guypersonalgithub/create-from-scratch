@@ -1,32 +1,31 @@
-import { TokenTypeOptions, TokenTypes } from "./constants";
+import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { BaseToken, OpenedContextsIdentation } from "./types";
 import { tokenizerFlows } from "./flows/tokenizerFlows";
-import { BaseToken, OpenedContext } from "./types";
+import { TokenTypes } from "./constants";
 
-type ParseTypescriptArgs = {
+type parseYamlArgs = {
   input: string;
 };
 
-export const parseTypescript = ({ input }: ParseTypescriptArgs) => {
+export const parseYaml = ({ input }: parseYamlArgs) => {
   const tokens: BaseToken[] = [];
-  const previousTokensSummary: TokenTypeOptions[] = [];
-  const openedContexts: OpenedContext[] = [];
+  const { skippedIndexes = 0 } = getNextNonSpaceCharIndex({ input });
+
   let currentIndex = 0;
-  // const context: Context = {
-  //   global: { variables: new Set<string>(), functions: new Set<string>() },
-  // };
-  // const currentLayeredContexts: CurrentLayeredContexts = [];
+  const identations = {
+    lowestIdentation: skippedIndexes,
+    currentIdentation: 0,
+  };
+  const openedContextsIdentations: OpenedContextsIdentation[] = [];
 
   while (currentIndex < input.length) {
     const { updatedIndex, addedNewToken } = tokenizerFlows({
       tokens,
       input,
       currentIndex,
-      previousTokensSummary,
-      openedContexts,
-      // context,
-      // currentLayeredContexts,
+      identations,
+      openedContextsIdentations,
     });
-
     if (addedNewToken && tokens.length <= input.length) {
       currentIndex = updatedIndex;
     } else {

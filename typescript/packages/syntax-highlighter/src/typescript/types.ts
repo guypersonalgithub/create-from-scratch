@@ -17,9 +17,14 @@ export type FlowReturnType = {
   stop: boolean;
 };
 
-export type FlowCallback = (() =>
+export type FlowCallback = () =>
   | {
       updatedIndex: number;
       stop: boolean;
     }
-  | undefined);
+  | undefined;
+
+export type OpenedContext = {
+  name: string;
+  type: "function" | "class";
+};

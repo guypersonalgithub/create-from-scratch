@@ -10,7 +10,7 @@ type GenericTypeFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  propertyIndex: number;
+  propertyIndex?: number;
   isExpectedToBeType?: boolean;
 };
 
@@ -53,7 +53,7 @@ export const genericTypeFlow = ({
   const isType = hasExtends || hasEqual || hasComma;
   currentIndex = updatedIndex;
 
-  if (isType) {
+  if (isType && propertyIndex !== undefined) {
     tokens[propertyIndex].type = TokenTypes.TYPE;
   }
 
@@ -61,14 +61,17 @@ export const genericTypeFlow = ({
     // currentIndex = potentialComma.updatedIndex;
 
     while (currentIndex < input.length && input[currentIndex] !== ">") {
-      const { breakpoint } = spaceFollowUpFlow({
+      const { breakpoint, space } = spaceFollowUpFlow({
         tokens,
         input,
         currentIndex,
         previousTokensSummary,
       });
 
-      if (
+      if (breakpoint.newTokenValue === ">") {
+        currentIndex = space?.updatedIndex ?? currentIndex;
+        break;
+      } else if (
         !isStringOnlyWithLetters({ str: breakpoint.newTokenValue }) &&
         breakpoint.newTokenValue[0] !== "_"
       ) {
@@ -94,22 +97,11 @@ export const genericTypeFlow = ({
         };
       }
 
+      currentIndex = updatedIndex;
+
       if (!potentialComma?.hasComma) {
         break;
       }
-    }
-
-    if (currentIndex === updatedIndex) {
-      const { breakpoint } = spaceFollowUpFlow({
-        tokens,
-        input,
-        currentIndex: updatedIndex,
-        previousTokensSummary,
-      });
-
-      currentIndex = breakpoint.currentIndex;
-    } else {
-      currentIndex = updatedIndex;
     }
   }
 

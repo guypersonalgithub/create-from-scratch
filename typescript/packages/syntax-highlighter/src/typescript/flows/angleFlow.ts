@@ -1,6 +1,6 @@
 import { isStringOnlyWithLetters } from "@packages/utils";
 import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { BaseToken, OpenedContext } from "../types";
 import { findLastNonPreviousSpaceToken } from "../utils";
 import { spaceFollowUpFlow } from "./spaceFlow";
 import { genericTypeFlow } from "./genericTypeFlow";
@@ -14,7 +14,7 @@ type AngleFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  openedFunctions: string[];
+  openedContexts: OpenedContext[];
   isFromDefinitionFlow?: boolean;
   expectingArrow?: boolean;
   isExpectedToBeType?: boolean;
@@ -35,7 +35,7 @@ export const angleFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-  openedFunctions,
+  openedContexts,
   isFromDefinitionFlow,
   expectingArrow,
   isExpectedToBeType,
@@ -60,7 +60,7 @@ export const angleFlow = ({
   const lastNonPreviousSpaceToken = findLastNonPreviousSpaceToken({ previousTokensSummary });
   const isMathRelated =
     lastNonPreviousSpaceToken === TokenTypes.VARIABLE ||
-    lastNonPreviousSpaceToken === TokenTypes.FUNCTION_NAME ||
+    lastNonPreviousSpaceToken === TokenTypes.INVOKED_FUNCTION ||
     lastNonPreviousSpaceToken === TokenTypes.NUMBER;
   if (isMathRelated) {
     return {
@@ -190,7 +190,7 @@ export const angleFlow = ({
     tokens,
     input,
     previousTokensSummary,
-    openedFunctions,
+    openedContexts,
     isFromDefinitionFlow,
     expectingFunction: true,
     expectingArrow,
