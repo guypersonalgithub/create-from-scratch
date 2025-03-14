@@ -26,5 +26,5 @@ export type FlowCallback = () =>
 
 export type OpenedContext = {
   name: string;
-  type: "function" | "class";
+  type: "function" | "class" | "if";
 };

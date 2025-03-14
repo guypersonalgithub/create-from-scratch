@@ -16,28 +16,32 @@ export const parseTypescript = ({ input }: ParseTypescriptArgs) => {
   // };
   // const currentLayeredContexts: CurrentLayeredContexts = [];
 
-  while (currentIndex < input.length) {
-    const { updatedIndex, addedNewToken } = tokenizerFlows({
-      tokens,
-      input,
-      currentIndex,
-      previousTokensSummary,
-      openedContexts,
-      // context,
-      // currentLayeredContexts,
-    });
+  try {
+    while (currentIndex < input.length) {
+      const { updatedIndex, addedNewToken } = tokenizerFlows({
+        tokens,
+        input,
+        currentIndex,
+        previousTokensSummary,
+        openedContexts,
+        // context,
+        // currentLayeredContexts,
+      });
 
-    if (addedNewToken && tokens.length <= input.length) {
-      currentIndex = updatedIndex;
-    } else {
-      const stoppedAt = input.slice(updatedIndex);
-      console.log(`Stopped at: ${stoppedAt}`);
-      tokens.push({ type: TokenTypes.UNKNOWN, value: stoppedAt });
-      console.error(
-        `Encountered unsupported character ${stoppedAt.charAt(0)} on index ${updatedIndex}.`,
-      );
-      break;
+      if (addedNewToken && tokens.length <= input.length) {
+        currentIndex = updatedIndex;
+      } else {
+        const stoppedAt = input.slice(updatedIndex);
+        console.log(`Stopped at: ${stoppedAt}`);
+        tokens.push({ type: TokenTypes.UNKNOWN, value: stoppedAt });
+        console.error(
+          `Encountered unsupported character ${stoppedAt.charAt(0)} on index ${updatedIndex}.`,
+        );
+        break;
+      }
     }
+  } catch (error) {
+    console.error(error);
   }
 
   return tokens;

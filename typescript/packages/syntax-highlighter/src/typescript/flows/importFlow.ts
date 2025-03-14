@@ -9,7 +9,7 @@ import {
   shouldBreak,
   dotCallback,
 } from "../utils";
-import { stringFlow } from "./stringFlow";
+import { stringFlow } from "./stringFlows";
 
 type ImportFlowArgs = {
   tokens: BaseToken[];

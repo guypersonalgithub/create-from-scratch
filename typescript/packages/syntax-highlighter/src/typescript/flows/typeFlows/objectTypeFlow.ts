@@ -1,41 +1,36 @@
-import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
-import { asFlow } from "./asFlow";
+import { TokenTypeOptions, TokenTypes } from "../../constants";
+import { BaseToken } from "../../types";
 import {
-  definitionSpaceHelper,
+  findNextBreakpoint,
   iterateOverSteps,
+  shouldBreak,
   spaceCallback,
   StepCallback,
-  findNextBreakpoint,
-  shouldBreak,
-} from "../utils";
-import { valueFlow } from "./valueFlow";
-import { stringFlow } from "./stringFlows";
+} from "../../utils";
+import { spaceFlow, spaceFollowUpFlow } from "../spaceFlow";
+import { stringFlow } from "../stringFlows";
+import { typeValueFlow } from "./typeValueFlow";
 
-type ObjectFlowArgs = {
+type ObjectTypeFlowArgs = {
   tokens: BaseToken[];
   newTokenValue: string;
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  // context: Context;
-  // currentLayeredContexts: CurrentLayeredContexts;
 };
 
-export const objectFlow = ({
+export const objectTypeFlow = ({
   tokens,
   newTokenValue,
   input,
   currentIndex,
   previousTokensSummary,
-  // context,
-  // currentLayeredContexts,
-}: ObjectFlowArgs) => {
+}: ObjectTypeFlowArgs) => {
   if (newTokenValue !== "{") {
     return;
   }
 
-  tokens.push({ type: TokenTypes.OBJECT_CURLY_BRACKET, value: newTokenValue });
+  tokens.push({ type: TokenTypes.OBJECT_CURLY_TYPE_BRACKET, value: newTokenValue });
 
   const stepCallbacks: StepCallback[] = [
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
@@ -88,107 +83,90 @@ export const objectFlow = ({
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
-        if (newTokenValue !== ":") {
+        if (newTokenValue !== "?") {
           return {
             updatedIndex: currentIndex - newTokenValue.length,
             stop: false,
+          };
+        }
+
+        tokens.push({ type: TokenTypes.OPERATOR, value: newTokenValue });
+
+        return {
+          updatedIndex: currentIndex,
+          stop: false,
+        };
+      },
+      stop: false,
+    },
+    spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
+    {
+      callback: ({ currentIndex, newTokenValue }) => {
+        if (newTokenValue !== ":") {
+          return {
+            updatedIndex: currentIndex - newTokenValue.length,
+            stop: true,
           };
         }
 
         tokens.push({ type: TokenTypes.OBJECT_COLON, value: newTokenValue });
         previousTokensSummary.push(TokenTypes.OBJECT_COLON);
 
-        const potentialSpace = findNextBreakpoint({
-          input,
-          currentIndex,
-        });
-        const { updatedIndex } = definitionSpaceHelper({
-          ...potentialSpace,
-          tokens,
-          input,
-          previousTokensSummary,
-        });
-
-        const potentialValue = findNextBreakpoint({ input, currentIndex: updatedIndex });
-        const valueTokens = valueFlow({
-          ...potentialValue,
-          tokens,
-          input,
-          previousTokensSummary,
-          // context,
-          // currentLayeredContexts,
-        });
-
-        if (valueTokens.addedNewToken) {
-          const potentialSpace = findNextBreakpoint({
-            input,
-            currentIndex: valueTokens.updatedIndex,
-          });
-          const { updatedIndex } = definitionSpaceHelper({
-            ...potentialSpace,
-            tokens,
-            input,
-            previousTokensSummary,
-          });
-
-          const potentialAs = findNextBreakpoint({ input, currentIndex: updatedIndex });
-          const as = asFlow({ ...potentialAs, tokens, input, previousTokensSummary });
-
-          if (!as) {
-            return {
-              updatedIndex,
-              stop: false,
-            };
-          }
-
-          if (as.stop) {
-            return {
-              updatedIndex: as.updatedIndex,
-              stop: true,
-            };
-          }
-
-          const potentialSpace2 = findNextBreakpoint({
-            input,
-            currentIndex: as.updatedIndex,
-          });
-          const { updatedIndex: updatedIndex2 } = definitionSpaceHelper({
-            ...potentialSpace2,
-            tokens,
-            input,
-            previousTokensSummary,
-          });
-
-          return {
-            updatedIndex: updatedIndex2,
-            stop: false,
-          };
-        }
-
         return {
-          updatedIndex: valueTokens.updatedIndex,
+          updatedIndex: currentIndex,
           stop: false,
         };
       },
       stop: true,
     },
+    spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
-        if (newTokenValue !== ",") {
+        const typeValue = typeValueFlow({
+          tokens,
+          newTokenValue,
+          input,
+          currentIndex,
+          previousTokensSummary,
+        });
+        if (!typeValue.addedNewToken) {
           return {
-            updatedIndex: currentIndex - newTokenValue.length,
-            stop: false,
-            exit: true,
+            updatedIndex: typeValue.updatedIndex,
+            stop: true,
           };
         }
 
-        tokens.push({ type: TokenTypes.COMMA, value: newTokenValue });
-        previousTokensSummary.push(TokenTypes.COMMA);
-
         return {
-          updatedIndex: currentIndex,
-          stop: false,
+          updatedIndex: typeValue.updatedIndex,
+          stop: typeValue.stop,
         };
+      },
+      stop: true,
+    },
+    spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
+    {
+      callback: ({ currentIndex, newTokenValue }) => {
+        const isComma = newTokenValue === ",";
+        const isEndOfLine = newTokenValue === ";";
+        if (!isComma && !isEndOfLine) {
+          return {
+            updatedIndex: currentIndex - newTokenValue.length,
+            stop: false,
+          };
+        }
+
+        const type = isComma ? TokenTypes.COMMA : TokenTypes.END_OF_LINE;
+        tokens.push({ type, value: newTokenValue });
+
+        const next = findNextBreakpoint({ input, currentIndex });
+        const potentialSpace = spaceFlow({ tokens, input, previousTokensSummary, ...next });
+
+        return (
+          potentialSpace || {
+            updatedIndex: currentIndex,
+            stop: false,
+          }
+        );
       },
       stop: false,
     },
@@ -198,7 +176,7 @@ export const objectFlow = ({
   // let previousSharedData = {};
 
   while (currentIndex < input.length) {
-    const { updatedIndex, stop, exit } = iterateOverSteps({
+    const { updatedIndex, stop, exit, } = iterateOverSteps({
       input,
       currentIndex,
       stepCallbacks,
@@ -227,18 +205,18 @@ export const objectFlow = ({
     };
   }
 
-  const last = findNextBreakpoint({ input, currentIndex });
-  if (last.newTokenValue !== "}") {
+  const last = spaceFollowUpFlow({ tokens, input, currentIndex, previousTokensSummary });
+  if (last.breakpoint.newTokenValue !== "}") {
     return {
-      updatedIndex: currentIndex,
+      updatedIndex: last.space?.updatedIndex ?? currentIndex,
       stop: true,
     };
   }
 
-  tokens.push({ type: TokenTypes.OBJECT_CURLY_BRACKET, value: last.newTokenValue });
+  tokens.push({ type: TokenTypes.OBJECT_CURLY_TYPE_BRACKET, value: last.breakpoint.newTokenValue });
 
   return {
-    updatedIndex: last.currentIndex,
+    updatedIndex: last.breakpoint.currentIndex,
     stop: false,
   };
 };

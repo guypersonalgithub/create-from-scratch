@@ -14,8 +14,9 @@ export const AdvancedGenerics = () => {
         code={`const example = <T extends "test1" | "test2">(arg: T) => {
   return arg === "test1" ? "test2" : "test1";
 };`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>
         The returned value, according to typescript is either "test1" or "test2" regardless of what

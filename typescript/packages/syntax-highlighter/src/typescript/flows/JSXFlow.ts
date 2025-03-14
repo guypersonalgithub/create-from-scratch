@@ -4,7 +4,7 @@ import { BaseToken } from "../types";
 import { iterateOverSteps, spaceCallback, StepCallback } from "../utils";
 import { expressionInterpolationFlow } from "./expressionInterpolationFlow";
 import { spaceFollowUpFlow } from "./spaceFlow";
-import { stringFlow } from "./stringFlow";
+import { stringFlow } from "./stringFlows";
 
 type JSXFlowArgs = {
   tokens: BaseToken[];
@@ -144,4 +144,3 @@ export const JSXFlow = ({ tokens, input, currentIndex, previousTokensSummary }: 
     stop: false,
   };
 };
-
