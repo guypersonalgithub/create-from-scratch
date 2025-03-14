@@ -375,6 +375,7 @@ const parseNestedArray = ({
     } else if (
       current.type === "variable" ||
       current.type === "function-name" ||
+      current.type === "invoked-function" ||
       current.type === "boolean"
     ) {
       const parsedValue = removeValueQuotations

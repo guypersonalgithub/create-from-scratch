@@ -1,8 +1,6 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken, OpenedContext } from "../types";
-import { iterateOverSteps, shouldBreak, spaceCallback, StepCallback } from "../utils";
 import { classFlow } from "./classFlow";
-import { genericTypeTemplateFlow } from "./genericTypeTemplateFlow";
 import { spaceFollowUpFlow } from "./spaceFlow";
 
 type AbstractClassFlowArgs = {

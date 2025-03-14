@@ -1,6 +1,8 @@
 import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
 
 export const Test = () => {
+  const templateLiteral = "`${123} testing`";
+
   const code = `import test, { whatever as test , nice } from "hello";
 const test: string = "hello" as any as any as "hi"; //test
 const testing = { test: "what" as string as string, testing: { test: { whatever }}};
@@ -55,7 +57,26 @@ class Example<T> {
 abstract class Example2 {}
 
 const example = new Example<T extends "" ? "" extends "??" ? "test" : "" : "" extends "" ? string : null>("test");
-const testing = 1 === 2 ? 4 : 5;`;
+const testing = 1 === 2 ? 4 : 5;
+if (test) {
+  return "test";
+}
+${templateLiteral};
+type Test = | {
+  test: string;
+  testing: keyof any;
+  testing2?: {
+    test: number;
+    testing2: {
+      testing3: {
+        testing4: {
+          testing5: [string[][], any,];
+          testing6: (test: string, test?: test) => any;
+        }
+      }
+    }
+  }
+} | testing | string[] | [string];`;
 
   const yamlCode = `name: Syntax-Highlighter tests
 on:

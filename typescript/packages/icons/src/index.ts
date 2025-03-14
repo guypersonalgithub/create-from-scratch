@@ -5,3 +5,6 @@ export * from "./Calculator";
 export * from "./ArrowRight";
 export * from "./ArrowLeft";
 export * from "./Typescript";
+export * from "./Sun";
+export * from "./Moon";
+export * from "./ArrowRightHead";

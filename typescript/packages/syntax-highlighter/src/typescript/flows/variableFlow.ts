@@ -56,8 +56,6 @@ export const variableFlow = ({
     previousTokensSummary,
   });
 
-  // TODO: Add optional generic type for function calls, with type extends ? a : b support.
-
   const invocation =
     typedInvocationFlow({ tokens, input, previousTokensSummary, ...breakpoint }) ||
     invocationFlow({ tokens, input, previousTokensSummary, ...breakpoint });

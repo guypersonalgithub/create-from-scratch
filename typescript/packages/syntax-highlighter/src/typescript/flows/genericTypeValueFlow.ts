@@ -1,9 +1,9 @@
-import { isStringOnlyWithLetters } from "@packages/utils";
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { spaceFlow, spaceFollowUpFlow } from "./spaceFlow";
 import { extendsTypeFlow } from "./extendsTypeFlow";
 import { findNextBreakpoint } from "../utils";
+import { typeValueFlow } from "./typeFlows/typeValueFlow";
 
 type GenericTypeValueFlowArgs = {
   tokens: BaseToken[];
@@ -26,29 +26,26 @@ export const genericTypeValueFlow = ({
 
   tokens.push({ type: TokenTypes.ANGLE, value: newTokenValue });
 
-  const { breakpoint, space } = spaceFollowUpFlow({
+  const { breakpoint } = spaceFollowUpFlow({
     tokens,
     input,
     currentIndex,
     previousTokensSummary,
   });
 
-  if (
-    !isStringOnlyWithLetters({ str: breakpoint.newTokenValue }) &&
-    breakpoint.newTokenValue[0] !== "_"
-  ) {
+  const initial = typeValueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+
+  if (!initial.addedNewToken || initial.stop) {
     return {
-      updatedIndex: space?.updatedIndex ?? currentIndex,
+      updatedIndex: initial.updatedIndex,
       stop: true,
     };
   }
 
-  tokens.push({ type: TokenTypes.TYPE, value: breakpoint.newTokenValue });
-
   const { breakpoint: followUp, space: followUpSpace } = spaceFollowUpFlow({
     tokens,
     input,
-    currentIndex: breakpoint.currentIndex,
+    currentIndex: initial.updatedIndex,
     previousTokensSummary,
   });
 
@@ -57,7 +54,7 @@ export const genericTypeValueFlow = ({
   if (!possibleExtends) {
     if (followUp.newTokenValue !== ">") {
       return {
-        updatedIndex: followUpSpace?.updatedIndex ?? breakpoint.currentIndex,
+        updatedIndex: followUpSpace?.updatedIndex ?? initial.updatedIndex,
         stop: true,
       };
     }

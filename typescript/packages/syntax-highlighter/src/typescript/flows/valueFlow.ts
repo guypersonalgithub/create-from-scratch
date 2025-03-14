@@ -6,7 +6,7 @@ import { initializeClassFlow } from "./initializeClassFlow";
 import { nullFlow } from "./nullFlow";
 import { numericFlow } from "./numericFlow";
 import { objectFlow } from "./objectFlow";
-import { stringFlow } from "./stringFlow";
+import { stringFlow, templateLiteralFlow } from "./stringFlows";
 import { undefinedFlow } from "./undefinedFlow";
 import { variableFlow } from "./variableFlow";
 
@@ -45,6 +45,14 @@ export const valueFlow = ({
         previousTokensSummary,
       }),
     () => stringFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
+    () =>
+      templateLiteralFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+      }),
     () => booleanFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () => undefinedFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () => nullFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
@@ -74,10 +82,6 @@ export const valueFlow = ({
         stop: true,
       };
     }
-
-    // if ((response as Exclude<ReturnType<typeof functionFlow>, undefined>).isFunction) {
-    //   definitionValueFunction = true;
-    // }
 
     return {
       updatedIndex: newIndex,

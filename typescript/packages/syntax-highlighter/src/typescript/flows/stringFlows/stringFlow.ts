@@ -1,5 +1,5 @@
-import { stringDefinitions, TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { stringDefinitions, TokenTypeOptions, TokenTypes } from "../../constants";
+import { BaseToken } from "../../types";
 
 type StringFlowArgs = {
   tokens: BaseToken[];
@@ -8,6 +8,7 @@ type StringFlowArgs = {
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
   isObjectKey?: boolean;
+  isType?: boolean;
 };
 
 export const stringFlow = ({
@@ -17,6 +18,7 @@ export const stringFlow = ({
   currentIndex,
   previousTokensSummary,
   isObjectKey,
+  isType,
 }: StringFlowArgs) => {
   const firstChar = newTokenValue.charAt(0);
   if (!stringDefinitions.has(firstChar)) {
@@ -52,7 +54,13 @@ export const stringFlow = ({
     currentIndex++;
   }
 
-  const tokenType = !isObjectKey ? TokenTypes.STRING : TokenTypes.OBJECT_STRING_PROPERTY;
+  let tokenType;
+
+  if (!isType) {
+    tokenType = !isObjectKey ? TokenTypes.STRING : TokenTypes.OBJECT_STRING_PROPERTY;
+  } else {
+    tokenType = !isObjectKey ? TokenTypes.STRING_TYPE : TokenTypes.OBJECT_STRING_TYPE_PROPERTY;
+  }
 
   tokens.push({
     type: tokenType,

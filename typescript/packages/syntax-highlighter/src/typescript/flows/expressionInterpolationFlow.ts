@@ -1,7 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { spaceFollowUpFlow } from "./spaceFlow";
-import { stringFlow } from "./stringFlow";
+import { typeValueFlow } from "./typeFlows/typeValueFlow";
 import { valueFlow } from "./valueFlow";
 
 type ExpressionInterpolationFlowArgs = {
@@ -10,6 +10,8 @@ type ExpressionInterpolationFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  withinTemplateLiteral?: boolean;
+  isType?: boolean;
 };
 
 export const expressionInterpolationFlow = ({
@@ -18,16 +20,23 @@ export const expressionInterpolationFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  withinTemplateLiteral,
+  isType,
 }: ExpressionInterpolationFlowArgs) => {
   if (newTokenValue !== "{") {
     return;
   }
 
-  tokens.push({ type: TokenTypes.JSX_PROPERTY_EXPRESSION_INTERPOLATION, value: newTokenValue });
+  const type = !withinTemplateLiteral
+    ? TokenTypes.JSX_PROPERTY_EXPRESSION_INTERPOLATION
+    : TokenTypes.TEMPLATE_LITERAL_EXPRESSION_INTERPOLATION;
+
+  tokens.push({ type, value: newTokenValue });
 
   const following = spaceFollowUpFlow({ tokens, input, currentIndex, previousTokensSummary });
 
-  const value = valueFlow({ tokens, input, previousTokensSummary, ...following.breakpoint });
+  const valueCallack = !isType ? valueFlow : typeValueFlow;
+  const value = valueCallack({ tokens, input, previousTokensSummary, ...following.breakpoint });
   if (value.stop) {
     return {
       updatedIndex: following.space?.updatedIndex ?? currentIndex,
@@ -44,15 +53,12 @@ export const expressionInterpolationFlow = ({
 
   if (potentialCloseInterpolation.breakpoint.newTokenValue !== "}") {
     return {
-      updatedIndex: value.updatedIndex,
+      updatedIndex: potentialCloseInterpolation.space?.updatedIndex ?? value.updatedIndex,
       stop: true,
     };
   }
 
-  tokens.push({
-    type: TokenTypes.JSX_PROPERTY_EXPRESSION_INTERPOLATION,
-    value: potentialCloseInterpolation.breakpoint.newTokenValue,
-  });
+  tokens.push({ type, value: potentialCloseInterpolation.breakpoint.newTokenValue });
 
   return {
     updatedIndex: potentialCloseInterpolation.breakpoint.currentIndex,

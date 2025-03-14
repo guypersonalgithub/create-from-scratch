@@ -4,7 +4,9 @@ export const TokenTypes = {
   CONST_VARIABLE: "const-variable",
   FUNCTION_NAME: "function-name",
   STRING: "string",
+  TYPE_DEFINITION: "type-definition",
   TYPE: "type",
+  STRING_TYPE: "string-type",
   WHITESPACE: "whitespace",
   EQUAL: "equal",
   END_OF_LINE: "end-of-line",
@@ -18,6 +20,7 @@ export const TokenTypes = {
   OBJECT_CURLY_BRACKET: "object-curly-bracket",
   OBJECT_PROPERTY: "object-property",
   OBJECT_STRING_PROPERTY: "object-string-property",
+  OBJECT_STRING_TYPE_PROPERTY: "object-string-type-property",
   OBJECT_COLON: "object-colon",
   PARENTHESIS: "parenthesis",
   ANGLE: "angle",
@@ -52,13 +55,34 @@ export const TokenTypes = {
   NUMERIC_CLASS_VARIABLE: "numeric-class-variable",
   THIS: "this",
   INVOKED_FUNCTION: "invoked-function",
+  IF: "if",
+  IF_CURLY_BRACKET: "if-curly-bracket",
+  TEMPLATE_LITERAL_EXPRESSION_INTERPOLATION: "template-literal-expression-interpolation",
+  KEYOF: "keyof",
+  TYPEOF: "typeof",
+  OBJECT_CURLY_TYPE_BRACKET: "object-curly-type-bracket",
+  ARRAY_SQUARE_TYPE_BRACKET: "array-square-type-bracket",
+  TYPE_PARENTHESIS: "type-parenthesis",
 } as const;
 
 export type TokenTypeOptions = (typeof TokenTypes)[keyof typeof TokenTypes];
 
 export const definitionKeywords = new Set<string>(["var", "let", "const"]);
 export const stringDefinitions = new Set<string>(["'", '"']);
-export const operators = new Set<string>([".", ":", ",", ";", "+", "-", "*", "/", "^", "=", "!", "?"]);
+export const operators = new Set<string>([
+  ".",
+  ":",
+  ",",
+  ";",
+  "+",
+  "-",
+  "*",
+  "/",
+  "^",
+  "=",
+  "!",
+  "?",
+]);
 export const breakpoints = new Set<string>([
   " ",
   "{",
@@ -91,6 +115,7 @@ export const acceptableCharactersAfterANumber = new Set<string>([
   "=",
   " ",
   ";",
+  "}",
 ]);
 
 export const classSpecificKeywords = new Set(["public", "private", "static"]);

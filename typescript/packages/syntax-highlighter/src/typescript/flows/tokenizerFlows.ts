@@ -11,7 +11,7 @@ import { objectFlow } from "./objectFlow";
 import { operatorFlow } from "./operatorFlow";
 import { parenthesisFlow } from "./parenthesisFlow";
 import { spaceFlow } from "./spaceFlow";
-import { stringFlow } from "./stringFlow";
+import { stringFlow, templateLiteralFlow } from "./stringFlows";
 import { variableFlow } from "./variableFlow";
 import { angleFlow } from "./angleFlow";
 import { TokenTypeOptions } from "../constants";
@@ -30,6 +30,8 @@ import { classConstructorFlow } from "./classConstructorFlow";
 import { thisFlow } from "./thisFlow";
 import { equalFlow } from "./equalFlow";
 import { abstractClassFlow } from "./abstractClassFlow";
+import { ifFlow } from "./ifFlow";
+import { typeDefinitionFlow } from "./typeFlows";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -135,6 +137,31 @@ export const tokenizerFlows = ({
         currentIndex: updatedIndex,
         previousTokensSummary,
         openedContexts,
+      }),
+    () =>
+      typeDefinitionFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+      }),
+    () =>
+      ifFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
+        openedContexts,
+      }),
+    () =>
+      templateLiteralFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex: updatedIndex,
+        previousTokensSummary,
       }),
     () =>
       arrayFlow({

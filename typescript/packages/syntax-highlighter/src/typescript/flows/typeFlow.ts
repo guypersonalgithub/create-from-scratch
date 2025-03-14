@@ -2,7 +2,7 @@ import { isCharacterLetter } from "@packages/utils";
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { findLastNonSpaceToken, iterateOverSteps, spaceCallback, StepCallback } from "../utils";
-import { stringFlow } from "./stringFlow";
+import { stringFlow } from "./stringFlows";
 
 type TypeFlowArgs = {
   tokens: BaseToken[];
