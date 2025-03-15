@@ -1,37 +1,38 @@
 import { BaseToken, FlowCallback, OpenedContext } from "../types";
-import { arrowFlow } from "./arrowFlow";
-import { asFlow } from "./asFlow";
-import { commentFlow } from "./commentFlow";
+import { functionFlow, arrowFlow, closeFunctionFlow } from "./functionFlows";
+import { typeDefinitionFlow, asFlow } from "./typeFlows";
+import {
+  spaceFlow,
+  commentFlow,
+  thisFlow,
+  endOfLineFlow,
+  equalFlow,
+  nullFlow,
+  numericFlow,
+  returnFlow,
+  operatorFlow,
+  undefinedFlow,
+  booleanFlow,
+} from "./genericFlows";
 import { definitionFlow } from "./definitionFlow";
-import { endOfLineFlow } from "./endOfLineFlow";
 import { findNextBreakpoint } from "../utils";
-import { functionFlow } from "./functionFlow";
 import { importFlow } from "./importFlow";
 import { objectFlow } from "./objectFlow";
-import { operatorFlow } from "./operatorFlow";
 import { parenthesisFlow } from "./parenthesisFlow";
-import { spaceFlow } from "./spaceFlow";
 import { stringFlow, templateLiteralFlow } from "./stringFlows";
 import { variableFlow } from "./variableFlow";
 import { angleFlow } from "./angleFlow";
 import { TokenTypeOptions } from "../constants";
-import { numericFlow } from "./numericFlow";
-import { returnFlow } from "./returnFlow";
-import { closeFunctionFlow } from "./closeFunctionFlow";
-import { booleanFlow } from "./booleanFlow";
-import { undefinedFlow } from "./undefinedFlow";
-import { nullFlow } from "./nullFlow";
 import { arrayFlow } from "./arrayFlow";
-import { initializeClassFlow } from "./initializeClassFlow";
-import { classFlow } from "./classFlow";
-import { publicPrivateStaticFlow } from "./publicPrivateStaticFlow";
+import {
+  classFlow,
+  abstractClassFlow,
+  publicPrivateStaticFlow,
+  classConstructorFlow,
+  initializeClassFlow,
+} from "./classFlows";
 import { partialDefinitionFlow } from "./partialDefinitionFlow";
-import { classConstructorFlow } from "./classConstructorFlow";
-import { thisFlow } from "./thisFlow";
-import { equalFlow } from "./equalFlow";
-import { abstractClassFlow } from "./abstractClassFlow";
 import { ifFlow } from "./ifFlow";
-import { typeDefinitionFlow } from "./typeFlows";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];

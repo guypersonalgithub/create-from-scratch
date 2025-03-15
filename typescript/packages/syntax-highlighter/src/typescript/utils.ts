@@ -1,5 +1,5 @@
 import { BaseToken } from "./types";
-import { spaceFlow } from "./flows/spaceFlow";
+import { spaceFlow } from "./flows/genericFlows";
 import { TokenTypeOptions, TokenTypes, breakpoints } from "./constants";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 import { variablePropertyFlow } from "./flows/variablePropertyFlow";

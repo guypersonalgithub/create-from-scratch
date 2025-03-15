@@ -1,7 +1,6 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
-import { spaceFollowUpFlow } from "../spaceFlow";
-import { typeFlow } from "./typeFlow";
+import { spaceFollowUpFlow } from "../genericFlows";
 import { typeValueFlow } from "./typeValueFlow";
 
 type TypeAndOrFlowArgs = {
@@ -47,7 +46,12 @@ export const typeAndOrFlow = ({
 
   const followup = spaceFollowUpFlow({ tokens, input, currentIndex, previousTokensSummary });
 
-  const followingType = typeValueFlow({ tokens, input, previousTokensSummary, ...followup.breakpoint });
+  const followingType = typeValueFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    ...followup.breakpoint,
+  });
 
   if (!followingType.addedNewToken || followingType.stop) {
     return {

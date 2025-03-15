@@ -1,6 +1,6 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
-import { asFlow } from "./asFlow";
+import { asFlow } from "./typeFlows";
 import {
   definitionSpaceHelper,
   iterateOverSteps,

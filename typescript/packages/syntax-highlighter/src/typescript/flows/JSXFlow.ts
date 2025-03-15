@@ -3,7 +3,7 @@ import { nameFlow } from "../nameFlow";
 import { BaseToken } from "../types";
 import { iterateOverSteps, spaceCallback, StepCallback } from "../utils";
 import { expressionInterpolationFlow } from "./expressionInterpolationFlow";
-import { spaceFollowUpFlow } from "./spaceFlow";
+import { spaceFollowUpFlow } from "./genericFlows";
 import { stringFlow } from "./stringFlows";
 
 type JSXFlowArgs = {

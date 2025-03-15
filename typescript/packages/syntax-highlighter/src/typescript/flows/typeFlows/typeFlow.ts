@@ -1,7 +1,8 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
 import { shouldBreak } from "../../utils";
-import { spaceFollowUpFlow } from "../spaceFlow";
+import { spaceFollowUpFlow } from "../genericFlows";
+import { genericTypeTemplateFlow } from "./genericTypeTemplateFlow";
 import { typeAndOrFlow } from "./typeAndOrFlow";
 
 type TypeFlowArgs = {
@@ -40,6 +41,25 @@ export const typeFlow = ({
     currentIndex,
     previousTokensSummary,
   });
+
+  const potentialGenericTemplate = genericTypeTemplateFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    ...breakpoint,
+  });
+  if (potentialGenericTemplate) {
+    currentIndex = potentialGenericTemplate.updatedIndex;
+
+    const followup = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: potentialGenericTemplate.updatedIndex,
+      previousTokensSummary,
+    });
+    breakpoint = followup.breakpoint;
+    space = followup.space;
+  }
 
   while (breakpoint.newTokenValue === "[") {
     tokens.push({ type: TokenTypes.ARRAY_SQUARE_TYPE_BRACKET, value: breakpoint.newTokenValue });

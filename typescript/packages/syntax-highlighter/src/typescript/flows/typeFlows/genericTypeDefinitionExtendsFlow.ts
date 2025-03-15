@@ -1,10 +1,9 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
-import { typeofFlow } from "./typeofFlow";
 import { typeValueFlow } from "./typeValueFlow";
 
-type KeyofFlowArgs = {
+type GenericTypeDefinitionExtendsFlowArgs = {
   tokens: BaseToken[];
   newTokenValue: string;
   input: string;
@@ -12,18 +11,18 @@ type KeyofFlowArgs = {
   previousTokensSummary: TokenTypeOptions[];
 };
 
-export const keyofFlow = ({
+export const genericTypeDefinitionExtendsFlow = ({
   tokens,
   newTokenValue,
   input,
   currentIndex,
   previousTokensSummary,
-}: KeyofFlowArgs) => {
-  if (newTokenValue !== "keyof") {
+}: GenericTypeDefinitionExtendsFlowArgs) => {
+  if (newTokenValue !== "extends") {
     return;
   }
 
-  tokens.push({ type: TokenTypes.KEYOF, value: newTokenValue });
+  tokens.push({ type: TokenTypes.EXTENDS, value: newTokenValue });
 
   const { breakpoint, space } = spaceFollowUpFlow({
     tokens,
@@ -32,27 +31,15 @@ export const keyofFlow = ({
     previousTokensSummary,
   });
 
-  if (!space) {
+  const type = typeValueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  if (!type) {
     return {
-      updatedIndex: currentIndex,
+      updatedIndex: space?.updatedIndex ?? currentIndex,
       stop: true,
     };
   }
 
-  const followup = typeofFlow({ tokens, input, previousTokensSummary, ...breakpoint });
-  if (followup) {
-    return followup;
-  }
-
-  const type = typeValueFlow({
-    tokens,
-    input,
-    previousTokensSummary,
-    isKeyof: true,
-    ...breakpoint,
-  });
-
-  if (!type.addedNewToken || type.stop) {
+  if (type.stop) {
     return {
       updatedIndex: type.updatedIndex,
       stop: true,

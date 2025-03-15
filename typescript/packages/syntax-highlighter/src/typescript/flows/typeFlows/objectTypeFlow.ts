@@ -7,7 +7,7 @@ import {
   spaceCallback,
   StepCallback,
 } from "../../utils";
-import { spaceFlow, spaceFollowUpFlow } from "../spaceFlow";
+import { spaceFlow, spaceFollowUpFlow } from "../genericFlows";
 import { stringFlow } from "../stringFlows";
 import { typeValueFlow } from "./typeValueFlow";
 
@@ -176,7 +176,7 @@ export const objectTypeFlow = ({
   // let previousSharedData = {};
 
   while (currentIndex < input.length) {
-    const { updatedIndex, stop, exit, } = iterateOverSteps({
+    const { updatedIndex, stop, exit } = iterateOverSteps({
       input,
       currentIndex,
       stepCallbacks,

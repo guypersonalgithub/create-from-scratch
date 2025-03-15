@@ -2,8 +2,8 @@ import { isStringOnlyWithLetters } from "@packages/utils";
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken, OpenedContext } from "../types";
 import { findLastNonPreviousSpaceToken } from "../utils";
-import { spaceFollowUpFlow } from "./spaceFlow";
-import { genericTypeFlow } from "./genericTypeFlow";
+import { spaceFollowUpFlow } from "./genericFlows";
+import { ambiguousTagFlow } from "./ambiguousFlows";
 import { tagContentFlow } from "./tagContentFlow";
 import { parenthesisFlow } from "./parenthesisFlow";
 import { JSXFlow } from "./JSXFlow";
@@ -91,7 +91,7 @@ export const angleFlow = ({
       stop,
       isType = false,
       isJSX,
-    } = genericTypeFlow({
+    } = ambiguousTagFlow({
       tokens,
       input,
       currentIndex: breakpoint.currentIndex,

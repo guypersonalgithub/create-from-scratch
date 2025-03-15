@@ -4,9 +4,10 @@ import { BaseToken, OpenedContext } from "../types";
 import { iterateOverSteps, spaceCallback, StepCallback, shouldBreak } from "../utils";
 import { angleFlow } from "./angleFlow";
 import { parenthesisFlow } from "./parenthesisFlow";
-import { typeFlow } from "./typeFlow";
+import { typeFlow } from "./typeFlows";
 import { valueFlow } from "./valueFlow";
-import { partialFunctionFlow } from "./partialFunctionFlow";
+import { partialFunctionFlow } from "./functionFlows";
+import { spaceFollowUpFlow } from "./genericFlows";
 
 type PartialDefinitionFlowArgs = {
   tokens: BaseToken[];
@@ -121,12 +122,28 @@ export const partialDefinitionFlow = ({
         tokens.push({ type: TokenTypes.TYPE_COLON, value: newTokenValue });
         previousTokensSummary.push(TokenTypes.TYPE_COLON);
 
-        return typeFlow({
+        const { breakpoint, space } = spaceFollowUpFlow({
           tokens,
           input,
           currentIndex,
           previousTokensSummary,
         });
+
+        const type = typeFlow({
+          tokens,
+          input,
+          previousTokensSummary,
+          ...breakpoint,
+        });
+
+        if (!type) {
+          return {
+            updatedIndex: space?.updatedIndex ?? currentIndex,
+            stop: true,
+          };
+        }
+
+        return type;
       },
       stop: true,
     },

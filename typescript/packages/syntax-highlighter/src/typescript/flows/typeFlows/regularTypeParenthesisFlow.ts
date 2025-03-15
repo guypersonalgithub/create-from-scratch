@@ -1,6 +1,6 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
-import { spaceFollowUpFlow } from "../spaceFlow";
+import { spaceFollowUpFlow } from "../genericFlows";
 import { typeValueFlow } from "./typeValueFlow";
 
 type RegularTypeParenthesisFlowArgs = {
