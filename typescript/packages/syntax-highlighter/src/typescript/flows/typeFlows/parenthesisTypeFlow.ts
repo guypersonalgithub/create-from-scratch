@@ -1,7 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
-import { arrowFlow } from "../arrowFlow";
-import { spaceFollowUpFlow } from "../spaceFlow";
+import { arrowFlow } from "../functionFlows";
+import { spaceFollowUpFlow } from "../genericFlows";
 import { functionTypeAdditionalParamsFlow } from "./functionTypeAdditionalParamsFlow";
 import { regularTypeParenthesisFlow } from "./regularTypeParenthesisFlow";
 import { typeValueFlow } from "./typeValueFlow";
@@ -183,7 +183,7 @@ export const parenthesisTypeFlow = ({
       });
 
       if (endOfParams) {
-        if(endOfParams.stop) {
+        if (endOfParams.stop) {
           return endOfParams;
         }
 

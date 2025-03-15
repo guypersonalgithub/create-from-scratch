@@ -1,11 +1,11 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken, OpenedContext } from "../types";
-import { asFlow } from "./asFlow";
+import { asFlow } from "./typeFlows";
 import { iterateOverSteps, spaceCallback, StepCallback, findNextBreakpoint } from "../utils";
-import { typeFlow } from "./typeFlow";
+import { typeFlow } from "./typeFlows";
 import { valueFlow } from "./valueFlow";
-import { arrowFlow } from "./arrowFlow";
-import { spaceFollowUpFlow } from "./spaceFlow";
+import { arrowFlow } from "./functionFlows";
+import { spaceFollowUpFlow } from "./genericFlows";
 
 type ParenthesisFlowArgs = {
   tokens: BaseToken[];
@@ -33,6 +33,15 @@ type ExpectingFunction =
       expectingArrow?: never;
     };
 
+type ParenthesisFlowReturnType =
+  | {
+      isFunction?: boolean;
+      updatedIndex: number;
+      stop: boolean;
+      hasArrow?: boolean;
+    }
+  | undefined;
+
 type SharedStageData = {
   hasComma?: boolean;
   hasString?: boolean;
@@ -52,7 +61,7 @@ export const parenthesisFlow = ({
   expectingArrow,
   // context,
   // currentLayeredContexts,
-}: ParenthesisFlowArgs) => {
+}: ParenthesisFlowArgs): ParenthesisFlowReturnType => {
   if (newTokenValue !== "(") {
     return;
   }
@@ -145,12 +154,28 @@ export const parenthesisFlow = ({
         tokens.push({ type: TokenTypes.TYPE_COLON, value: newTokenValue });
         previousTokensSummary.push(TokenTypes.TYPE_COLON);
 
-        return typeFlow({
+        const { breakpoint, space } = spaceFollowUpFlow({
           tokens,
           input,
           currentIndex,
           previousTokensSummary,
         });
+
+        const type = typeFlow({
+          tokens,
+          input,
+          previousTokensSummary,
+          ...breakpoint,
+        });
+
+        if (!type) {
+          return {
+            updatedIndex: space?.updatedIndex ?? currentIndex,
+            stop: true,
+          };
+        }
+
+        return type;
       },
       stop: true,
     },
@@ -250,21 +275,32 @@ export const parenthesisFlow = ({
     tokens.push({ type: TokenTypes.TYPE_COLON, value: potentialColon.newTokenValue });
     previousTokensSummary.push(TokenTypes.TYPE_COLON);
 
-    const { updatedIndex, stop } = typeFlow({
+    const followup = spaceFollowUpFlow({
       tokens,
       input,
       currentIndex: potentialColon.currentIndex,
       previousTokensSummary,
     });
 
-    if (stop) {
+    const type = typeFlow({
+      tokens,
+      input,
+      previousTokensSummary,
+      ...followup.breakpoint,
+    });
+
+    if (!type) {
       return {
-        updatedIndex: potentialColon.currentIndex,
+        updatedIndex: followup.space?.updatedIndex ?? potentialColon.currentIndex,
         stop: true,
       };
     }
 
-    followingIndex = updatedIndex;
+    if (type.stop) {
+      return type;
+    }
+
+    followingIndex = type.updatedIndex;
   }
 
   let followingBreakpoint: ReturnType<typeof findNextBreakpoint> & { stop?: boolean } =

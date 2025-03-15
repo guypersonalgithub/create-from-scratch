@@ -1,13 +1,10 @@
 import { TokenTypeOptions } from "../constants";
 import { BaseToken, FlowCallback } from "../types";
 import { arrayFlow } from "./arrayFlow";
-import { booleanFlow } from "./booleanFlow";
-import { initializeClassFlow } from "./initializeClassFlow";
-import { nullFlow } from "./nullFlow";
-import { numericFlow } from "./numericFlow";
+import { initializeClassFlow } from "./classFlows";
+import { nullFlow, numericFlow, undefinedFlow, booleanFlow } from "./genericFlows";
 import { objectFlow } from "./objectFlow";
 import { stringFlow, templateLiteralFlow } from "./stringFlows";
-import { undefinedFlow } from "./undefinedFlow";
 import { variableFlow } from "./variableFlow";
 
 type ValueFlowArgs = {

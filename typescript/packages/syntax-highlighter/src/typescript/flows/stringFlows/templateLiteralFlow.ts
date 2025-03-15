@@ -1,7 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
 import { expressionInterpolationFlow } from "../expressionInterpolationFlow";
-import { spaceFollowUpFlow } from "../spaceFlow";
+import { spaceFollowUpFlow } from "../genericFlows";
 
 type TemplateLiteralFlowArgs = {
   tokens: BaseToken[];

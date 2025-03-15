@@ -32,8 +32,9 @@ export const TypeArguments = () => {
 };
 const test = example("test");
 const test2 = example<number>(1);`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <StyledSubTitle>Infer types from type arguments</StyledSubTitle>
       <div>
@@ -62,8 +63,9 @@ const cloneExample = <T,>(component: Example<T>) => {
 const example = new Example({ a: 1, b: 2, c: 3 });
 
 const cloned = cloneExample(example);`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>
         Common functions often have a type argument. For example, a reduce function has one for the

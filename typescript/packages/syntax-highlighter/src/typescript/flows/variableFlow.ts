@@ -1,9 +1,8 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { shouldBreak } from "../utils";
-import { invocationFlow } from "./invocationFlow";
-import { spaceFollowUpFlow } from "./spaceFlow";
-import { typedInvocationFlow } from "./typedInvocationFlow";
+import { invocationFlow, typedInvocationFlow } from "./invocationFlows";
+import { spaceFollowUpFlow } from "./genericFlows";
 import { variablePropertyFlow } from "./variablePropertyFlow";
 
 type VariableFlowArgs = {
