@@ -1,6 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "./constants";
 import { tokenizerFlows } from "./flows/tokenizerFlows";
 import { BaseToken, OpenedContext } from "./types";
+import { findNextBreakpoint } from "./utils";
 
 type ParseTypescriptArgs = {
   input: string;
@@ -18,10 +19,12 @@ export const parseTypescript = ({ input }: ParseTypescriptArgs) => {
 
   try {
     while (currentIndex < input.length) {
+      const { currentIndex: newIndex, newTokenValue } = findNextBreakpoint({ input, currentIndex });
       const { updatedIndex, addedNewToken } = tokenizerFlows({
         tokens,
+        newTokenValue,
         input,
-        currentIndex,
+        currentIndex: newIndex,
         previousTokensSummary,
         openedContexts,
         // context,

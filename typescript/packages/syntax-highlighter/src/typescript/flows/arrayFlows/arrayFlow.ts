@@ -1,11 +1,11 @@
-import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
-import { spaceCallback, StepCallback, findNextBreakpoint, iterateOverSteps } from "../utils";
-import { spaceFollowUpFlow } from "./genericFlows";
-import { asFlow } from "./typeFlows";
-import { valueFlow } from "./valueFlow";
-import { variableFlow } from "./variableFlow";
-import { variablePropertyFlow } from "./variablePropertyFlow";
+import { TokenTypeOptions, TokenTypes } from "../../constants";
+import { BaseToken } from "../../types";
+import { spaceCallback, StepCallback, iterateOverSteps } from "../../utils";
+import { spaceFollowUpFlow } from "../genericFlows";
+import { asFlow } from "../typeFlows";
+import { valueFlow } from "../valueFlows";
+import { variableFlow } from "../variableFlow";
+import { variablePropertyFlow } from "../variablePropertyFlow";
 
 type ArrayFlowArgs = {
   tokens: BaseToken[];
@@ -141,20 +141,26 @@ export const arrayFlow = ({
     };
   }
 
-  const last = findNextBreakpoint({ input, currentIndex });
-  if (last.newTokenValue !== "]") {
+  const last = spaceFollowUpFlow({
+    tokens,
+    input,
+    currentIndex,
+    previousTokensSummary,
+  });
+
+  if (last.breakpoint.newTokenValue !== "]") {
     return {
-      updatedIndex: currentIndex,
+      updatedIndex: last.space?.updatedIndex ?? currentIndex,
       stop: true,
     };
   }
 
-  tokens.push({ type: TokenTypes.ARRAY_SQUARE_BRACKET, value: last.newTokenValue });
+  tokens.push({ type: TokenTypes.ARRAY_SQUARE_BRACKET, value: last.breakpoint.newTokenValue });
 
   const { breakpoint, space } = spaceFollowUpFlow({
     tokens,
     input,
-    currentIndex: last.currentIndex,
+    currentIndex: last.breakpoint.currentIndex,
     previousTokensSummary,
   });
 
@@ -180,7 +186,7 @@ export const arrayFlow = ({
   }
 
   return {
-    updatedIndex: space?.updatedIndex ?? last.currentIndex,
+    updatedIndex: space?.updatedIndex ?? last.breakpoint.currentIndex,
     stop: false,
   };
 };

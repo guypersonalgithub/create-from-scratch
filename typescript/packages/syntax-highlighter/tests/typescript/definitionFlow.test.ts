@@ -1318,7 +1318,7 @@ test("Define variable flow with arrow function value, props, return type, generi
       value: " ",
     },
     {
-      type: "operator",
+      type: "arithmetic-operator",
       value: "+",
     },
     {

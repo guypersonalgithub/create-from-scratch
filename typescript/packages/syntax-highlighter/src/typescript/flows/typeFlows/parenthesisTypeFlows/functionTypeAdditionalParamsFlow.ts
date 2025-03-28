@@ -1,8 +1,8 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
-import { iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
-import { variableFlow } from "../variableFlow";
-import { typeValueFlow } from "./typeValueFlow";
+import { TokenTypeOptions, TokenTypes } from "../../../constants";
+import { BaseToken } from "../../../types";
+import { iterateOverSteps, spaceCallback, StepCallback } from "../../../utils";
+import { variableOnlyValueFlow } from "../../variableOnlyValueFlow";
+import { typeValueFlow } from "../typeValueFlow";
 
 type FunctionTypeAdditionalParamsFlowArgs = {
   tokens: BaseToken[];
@@ -10,6 +10,7 @@ type FunctionTypeAdditionalParamsFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  hasOptionalArgument?: boolean;
 };
 
 export const functionTypeAdditionalParamsFlow = ({
@@ -18,6 +19,7 @@ export const functionTypeAdditionalParamsFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  hasOptionalArgument = false,
 }: FunctionTypeAdditionalParamsFlowArgs) => {
   if (newTokenValue !== ",") {
     return;
@@ -25,11 +27,11 @@ export const functionTypeAdditionalParamsFlow = ({
 
   tokens.push({ type: TokenTypes.COMMA, value: newTokenValue });
 
-  const stepCallbacks: StepCallback[] = [
+  const stepCallbacks: StepCallback<{ hasOptionalArgument?: boolean }>[] = [
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
-        const variable = variableFlow({
+        const variable = variableOnlyValueFlow({
           tokens,
           newTokenValue,
           input,
@@ -51,22 +53,23 @@ export const functionTypeAdditionalParamsFlow = ({
     },
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
-      callback: ({ currentIndex, newTokenValue }) => {
+      callback: ({ currentIndex, newTokenValue }, sharedData) => {
         if (newTokenValue !== "?") {
           return {
             updatedIndex: currentIndex - newTokenValue.length,
-            stop: false,
+            stop: sharedData?.hasOptionalArgument ?? hasOptionalArgument,
           };
         }
 
-        tokens.push({ type: TokenTypes.OPERATOR, value: newTokenValue });
+        tokens.push({ type: TokenTypes.TYPE_OPTIONAL_ARGUMENT, value: newTokenValue });
 
         return {
           updatedIndex: currentIndex,
           stop: false,
+          hasOptionalArgument: true,
         };
       },
-      stop: false,
+      stop: true,
     },
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
@@ -135,14 +138,14 @@ export const functionTypeAdditionalParamsFlow = ({
   ];
 
   let shouldStop = false;
-  // let previousSharedData = {};
+  let previousSharedData = {};
 
   while (currentIndex < input.length) {
-    const { updatedIndex, stop, exit } = iterateOverSteps({
+    const { updatedIndex, stop, exit, sharedData } = iterateOverSteps({
       input,
       currentIndex,
       stepCallbacks,
-      // previousSharedData,
+      previousSharedData,
     });
     currentIndex = updatedIndex;
 
@@ -150,9 +153,9 @@ export const functionTypeAdditionalParamsFlow = ({
       break;
     }
 
-    // if (sharedData) {
-    //   previousSharedData = sharedData;
-    // }
+    if (sharedData) {
+      previousSharedData = sharedData;
+    }
 
     if (stop) {
       shouldStop = true;

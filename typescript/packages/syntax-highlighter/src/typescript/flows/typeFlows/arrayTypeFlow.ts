@@ -25,7 +25,7 @@ export const arrayTypeFlow = ({
 
   tokens.push({ type: TokenTypes.ARRAY_SQUARE_TYPE_BRACKET, value: newTokenValue });
 
-  const stepCallbacks: StepCallback[] = [
+  const stepCallbacks: StepCallback<{ missingTypeInObject?: boolean }>[] = [
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
@@ -44,6 +44,7 @@ export const arrayTypeFlow = ({
             updatedIndex: isArrayEnd ? currentIndex - newTokenValue.length : typeValue.updatedIndex,
             stop: !isArrayEnd,
             exit: isArrayEnd,
+            missingTypeInObject: typeValue.missingTypeInObject,
           };
         }
 
@@ -77,10 +78,11 @@ export const arrayTypeFlow = ({
   ];
 
   let shouldStop = false;
+  let missingTypeInObject = false;
   // let previousSharedData = {};
 
   while (currentIndex < input.length) {
-    const { updatedIndex, stop, exit } = iterateOverSteps({
+    const { updatedIndex, stop, exit, sharedData } = iterateOverSteps({
       input,
       currentIndex,
       stepCallbacks,
@@ -95,6 +97,9 @@ export const arrayTypeFlow = ({
     // if (sharedData) {
     //   previousSharedData = sharedData;
     // }
+    if (sharedData?.missingTypeInObject) {
+      missingTypeInObject = true;
+    }
 
     if (stop) {
       shouldStop = true;
@@ -106,6 +111,7 @@ export const arrayTypeFlow = ({
     return {
       updatedIndex: currentIndex,
       stop: shouldStop,
+      missingTypeInObject,
     };
   }
 

@@ -2,7 +2,7 @@ import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { nameFlow } from "../../nameFlow";
 import { BaseToken, OpenedContext } from "../../types";
 import { angleFlow } from "../angleFlow";
-import { parenthesisFlow } from "../parenthesisFlow";
+import { parenthesisFlow } from "../parenthesisFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 
 type PartialFunctionFlowArgs = {
@@ -45,7 +45,7 @@ export const partialFunctionFlow = ({
       previousTokensSummary,
       openedContexts,
       isFromDefinitionFlow: true,
-      expectingFunction: true,
+      expectedToBeAFunction: true,
       ...breakpoint,
     });
 

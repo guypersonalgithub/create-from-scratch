@@ -5,12 +5,15 @@ import { invocationFlow, typedInvocationFlow } from "./invocationFlows";
 import { spaceFollowUpFlow } from "./genericFlows";
 import { variablePropertyFlow } from "./variablePropertyFlow";
 
+// TODO: Add support for optional chaining, currently it doesn't check whether something follows up or not.
+
 type VariableFlowArgs = {
   tokens: BaseToken[];
   newTokenValue: string;
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  variableOnly?: boolean;
 };
 
 export const variableFlow = ({
@@ -19,6 +22,7 @@ export const variableFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  variableOnly,
 }: VariableFlowArgs):
   | {
       updatedIndex: number;
@@ -38,7 +42,7 @@ export const variableFlow = ({
   tokens.push({ type: TokenTypes.VARIABLE, value: newTokenValue });
   previousTokensSummary.push(TokenTypes.VARIABLE);
 
-  if (currentIndex === input.length) {
+  if (currentIndex === input.length || variableOnly) {
     return {
       updatedIndex: currentIndex,
       stop: false,

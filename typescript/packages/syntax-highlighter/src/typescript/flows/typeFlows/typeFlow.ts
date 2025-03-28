@@ -3,7 +3,7 @@ import { BaseToken } from "../../types";
 import { shouldBreak } from "../../utils";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { genericTypeTemplateFlow } from "./genericTypeTemplateFlow";
-import { typeAndOrFlow } from "./typeAndOrFlow";
+// import { typeAndOrFlow } from "./typeAndOrFlow";
 
 type TypeFlowArgs = {
   tokens: BaseToken[];
@@ -32,8 +32,6 @@ export const typeFlow = ({
 
   tokens.push({ type: TokenTypes.TYPE, value: newTokenValue });
   previousTokensSummary.push(TokenTypes.TYPE);
-
-  // TODO: Add type generics optional checking.
 
   let { breakpoint, space } = spaceFollowUpFlow({
     tokens,
@@ -94,15 +92,20 @@ export const typeFlow = ({
     space = following.space;
   }
 
-  const typeAndOr = typeAndOrFlow({ tokens, input, previousTokensSummary, ...breakpoint });
-  if (!typeAndOr) {
-    return {
-      updatedIndex: space?.updatedIndex ?? currentIndex,
-      stop: false,
-    };
-  }
+  // const typeAndOr = typeAndOrFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  // if (!typeAndOr) {
+  //   return {
+  //     updatedIndex: space?.updatedIndex ?? currentIndex,
+  //     stop: false,
+  //   };
+  // }
 
-  if (typeAndOr) {
-    return typeAndOr;
+  // if (typeAndOr) {
+  //   return typeAndOr;
+  // }
+
+  return {
+    updatedIndex: space?.updatedIndex ?? currentIndex,
+    stop: false,
   }
 };

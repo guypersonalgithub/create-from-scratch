@@ -1,7 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
-import { typeValueFlow } from "../typeFlows/typeValueFlow";
+import { typeValueFlow } from "../typeFlows";
 
 type AmbiguousExtendsFlowArgs = {
   tokens: BaseToken[];

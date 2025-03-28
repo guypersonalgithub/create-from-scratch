@@ -357,7 +357,7 @@ test("Function flow with props, return type, generic type and function body", ()
       value: " ",
     },
     {
-      type: "operator",
+      type: "arithmetic-operator",
       value: "+",
     },
     {
@@ -409,7 +409,7 @@ test("Function flow with props, return type, generic type and function body", ()
       value: " ",
     },
     {
-      type: "operator",
+      type: "arithmetic-operator",
       value: "+",
     },
     {

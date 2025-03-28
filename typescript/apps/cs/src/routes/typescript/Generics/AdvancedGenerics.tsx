@@ -216,8 +216,9 @@ const obj = {
 }
 
 const result = example(obj, "a");`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>
         While auto complete works, return obj[key] as mentioned earlier, represents all possible
@@ -242,8 +243,9 @@ const obj = {
 };
 
 const result = example(obj, "a");`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>Now, typescript knows that result's type is number only.</div>
       <StyledSubTitle>Refactoring generics for a cleaner API</StyledSubTitle>

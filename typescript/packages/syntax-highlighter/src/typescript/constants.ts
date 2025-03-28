@@ -63,26 +63,28 @@ export const TokenTypes = {
   OBJECT_CURLY_TYPE_BRACKET: "object-curly-type-bracket",
   ARRAY_SQUARE_TYPE_BRACKET: "array-square-type-bracket",
   TYPE_PARENTHESIS: "type-parenthesis",
+  TYPE_OPTIONAL_ARGUMENT: "optional-argument",
+  AND: "and",
+  OR: "or",
+  LOWER_THAN: "lower-than",
+  HIGHTER_THAN: "higher-than",
+  LOWER_THAN_EQUAL: "lower-than-equal",
+  HIGHER_THAN_EQUAL: "higher-than-equal",
+  TERINARY_QUESTION_MARK: "terinary-question-mark",
+  TERINARY_COLON: "terinary-colon",
+  ARITHMETIC_OPERATOR: "arithmetic-operator",
+  IS_EQUAL: "is-equal",
+  IS_UNEQUAL: "is-unequal",
+  IS_DEEP_EQUAL: "is-deep-equal",
+  IS_DEEP_UNEQUAL: "is-deep-unequal",
 } as const;
 
 export type TokenTypeOptions = (typeof TokenTypes)[keyof typeof TokenTypes];
 
 export const definitionKeywords = new Set<string>(["var", "let", "const"]);
 export const stringDefinitions = new Set<string>(["'", '"']);
-export const operators = new Set<string>([
-  ".",
-  ":",
-  ",",
-  ";",
-  "+",
-  "-",
-  "*",
-  "/",
-  "^",
-  "=",
-  "!",
-  "?",
-]);
+export const valueArithmetics = new Set<string>(["+", "-", "*", "/", "^", "%"]);
+export const operators = new Set<string>([".", ":", ",", ";", "=", "!", "?", ...valueArithmetics]);
 export const breakpoints = new Set<string>([
   " ",
   "{",

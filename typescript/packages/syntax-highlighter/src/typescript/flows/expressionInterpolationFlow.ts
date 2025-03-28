@@ -2,7 +2,7 @@ import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken } from "../types";
 import { spaceFollowUpFlow } from "./genericFlows";
 import { typeValueFlow } from "./typeFlows/typeValueFlow";
-import { valueFlow } from "./valueFlow";
+import { valueFlow } from "./valueFlows/valueFlow";
 
 type ExpressionInterpolationFlowArgs = {
   tokens: BaseToken[];

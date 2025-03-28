@@ -1,0 +1,13 @@
+.UIThemeProviderWrapper {
+    --theme-color: black;
+    --theme-bg: white;
+    transition: color 0.5s ease, background-color 0.5s ease;
+    color: var(--theme-color);
+    background-color: var(--theme-bg);
+}
+
+.UIThemeProviderWrapper * {
+    transition: color 0.5s ease, background-color 0.5s ease;
+    color: var(--theme-color);
+    background-color: var(--theme-bg);
+}

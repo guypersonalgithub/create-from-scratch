@@ -1,11 +1,12 @@
 import { TokenTypeOptions } from "../../constants";
-import { BaseToken, FlowCallback } from "../../types";
+import { BaseToken, TypeFlowCallback } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { stringFlow, templateLiteralFlow } from "../stringFlows";
 import { arrayTypeFlow } from "./arrayTypeFlow";
 import { keyofFlow } from "./keyofFlow";
 import { objectTypeFlow } from "./objectTypeFlow";
-import { parenthesisTypeFlow } from "./parenthesisTypeFlow";
+import { parenthesisTypeFlow } from "./parenthesisTypeFlows";
+import { genericTypeFunctionTypeFlow } from "./parenthesisTypeFlows/genericTypeFunctionTypeFlow";
 import { typeAndOrFlow } from "./typeAndOrFlow";
 import { typeAndOrFollowupFlow } from "./typeAndOrFollowupFlow";
 import { typeFlow } from "./typeFlow";
@@ -28,7 +29,7 @@ export const typeValueFlow = ({
   previousTokensSummary,
   isKeyof,
 }: TypeValueFlowArgs) => {
-  const callbacks: FlowCallback[] = [
+  const callbacks: TypeFlowCallback[] = [
     () =>
       stringFlow({
         tokens,
@@ -46,6 +47,14 @@ export const typeValueFlow = ({
         currentIndex,
         previousTokensSummary,
         isType: true,
+      }),
+    () =>
+      genericTypeFunctionTypeFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
       }),
     () =>
       parenthesisTypeFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
@@ -68,11 +77,12 @@ export const typeValueFlow = ({
       continue;
     }
 
-    const { updatedIndex: newIndex, stop } = response;
+    const { updatedIndex: newIndex, stop, missingTypeInObject } = response;
     if (stop) {
       return {
         updatedIndex: newIndex,
         stop: true,
+        missingTypeInObject,
       };
     }
 

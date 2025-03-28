@@ -21,6 +21,15 @@ export type FlowCallback = () =>
   | {
       updatedIndex: number;
       stop: boolean;
+      hasArrow?: boolean;
+    }
+  | undefined;
+
+export type TypeFlowCallback = () =>
+  | {
+      updatedIndex: number;
+      stop: boolean;
+      missingTypeInObject?: boolean;
     }
   | undefined;
 

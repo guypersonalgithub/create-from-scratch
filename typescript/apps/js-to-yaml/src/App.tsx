@@ -6,7 +6,11 @@ import { Header } from "./Layout";
 
 function App() {
   return (
-    <UIThemeProvider themes={customThemes}>
+    <UIThemeProvider
+      themes={customThemes}
+      // style={{ transition: "color 0.5s ease, background-color 0.5s ease" }}
+      autoApplyTheme
+    >
       <div
         style={{
           height: "100vh",
