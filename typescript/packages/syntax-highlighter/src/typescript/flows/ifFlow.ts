@@ -1,7 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken, OpenedContext } from "../types";
 import { spaceFollowUpFlow } from "./genericFlows";
-import { valueFlow } from "./valueFlow";
+import { valueFlow } from "./valueFlows";
 
 type IfFlowArgs = {
   tokens: BaseToken[];
@@ -63,7 +63,7 @@ export const ifFlow = ({
     };
   }
 
-  const value = valueFlow({ tokens, input, previousTokensSummary, openedContexts, ...followup });
+  const value = valueFlow({ tokens, input, previousTokensSummary, ...followup });
   if (!value.addedNewToken) {
     return {
       updatedIndex: spaceFollowup?.updatedIndex ?? breakpoint.currentIndex,
@@ -109,13 +109,7 @@ export const ifFlow = ({
   }
 
   if (followup3.newTokenValue !== "{") {
-    const ifAction = valueFlow({
-      tokens,
-      input,
-      previousTokensSummary,
-      openedContexts,
-      ...followup3,
-    });
+    const ifAction = valueFlow({ tokens, input, previousTokensSummary, ...followup3 });
     if (ifAction.stop || !ifAction.addedNewToken) {
       return {
         updatedIndex: ifAction.updatedIndex,

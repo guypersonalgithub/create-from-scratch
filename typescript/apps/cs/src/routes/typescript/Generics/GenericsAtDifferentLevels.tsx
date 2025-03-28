@@ -19,8 +19,9 @@ export const GenericsAtDifferentLevels = () => {
 ) => {
   return callback(obj.level1.level2.level3);
 };`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>than this approach:</div>
       <PseudoTerminalVisuals
@@ -58,8 +59,9 @@ export const GenericsAtDifferentLevels = () => {
 };
 
 const result = example(["1", "2", "3", "4"]); // result's type is result: ("1" | "2" | "3" | "4")[], as opposed to string[]. This way, Typescript can infer types of array members.`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>is cleaner than this example, even though both end up with the same result:</div>
       <PseudoTerminalVisuals

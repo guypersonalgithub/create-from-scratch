@@ -1,5 +1,6 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
+import { findLastNonSpaceToken } from "../../utils";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { typeValueFlow } from "./typeValueFlow";
 
@@ -27,9 +28,12 @@ export const typeAndOrFlow = ({
     return;
   }
 
-  const lastToken = previousTokensSummary[previousTokensSummary.length - 1];
+  const lastNonSpace = findLastNonSpaceToken({ tokens });
 
-  if (lastToken === TokenTypes.TYPE_AND || lastToken === TokenTypes.TYPE_OR) {
+  if (
+    lastNonSpace &&
+    (lastNonSpace.type === TokenTypes.TYPE_AND || lastNonSpace.type === TokenTypes.TYPE_OR)
+  ) {
     return {
       updatedIndex: currentIndex - newTokenValue.length,
       stop: true,

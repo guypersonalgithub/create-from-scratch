@@ -233,7 +233,7 @@ test("Basic type definition flow with object value", () => {
       value: "prop3",
     },
     {
-      type: "operator",
+      type: "optional-argument",
       value: "?",
     },
     {

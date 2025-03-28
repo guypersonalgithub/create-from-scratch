@@ -6,3 +6,4 @@ export * from "./genericTypeEqualFlow";
 export * from "./genericTypeCommaFlow";
 export * from "./genericTypeTemplateFlow";
 export * from "./genericTypeDefinitionExtendsFlow";
+export { typeValueFlow } from "./typeValueFlow";

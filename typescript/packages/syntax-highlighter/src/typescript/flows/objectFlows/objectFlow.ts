@@ -1,6 +1,6 @@
-import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
-import { asFlow } from "./typeFlows";
+import { TokenTypeOptions, TokenTypes } from "../../constants";
+import { BaseToken } from "../../types";
+import { asFlow } from "../typeFlows";
 import {
   definitionSpaceHelper,
   iterateOverSteps,
@@ -8,9 +8,10 @@ import {
   StepCallback,
   findNextBreakpoint,
   shouldBreak,
-} from "../utils";
-import { valueFlow } from "./valueFlow";
-import { stringFlow } from "./stringFlows";
+} from "../../utils";
+import { valueFlow } from "../valueFlows";
+import { stringFlow } from "../stringFlows";
+import { spaceFollowUpFlow } from "../genericFlows";
 
 type ObjectFlowArgs = {
   tokens: BaseToken[];
@@ -18,8 +19,6 @@ type ObjectFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  // context: Context;
-  // currentLayeredContexts: CurrentLayeredContexts;
 };
 
 export const objectFlow = ({
@@ -28,8 +27,6 @@ export const objectFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-  // context,
-  // currentLayeredContexts,
 }: ObjectFlowArgs) => {
   if (newTokenValue !== "{") {
     return;
@@ -115,8 +112,6 @@ export const objectFlow = ({
           tokens,
           input,
           previousTokensSummary,
-          // context,
-          // currentLayeredContexts,
         });
 
         if (valueTokens.addedNewToken) {
@@ -227,18 +222,23 @@ export const objectFlow = ({
     };
   }
 
-  const last = findNextBreakpoint({ input, currentIndex });
-  if (last.newTokenValue !== "}") {
+  const { breakpoint, space } = spaceFollowUpFlow({
+    tokens,
+    input,
+    currentIndex,
+    previousTokensSummary,
+  });
+  if (breakpoint.newTokenValue !== "}") {
     return {
-      updatedIndex: currentIndex,
+      updatedIndex: space?.updatedIndex ?? currentIndex,
       stop: true,
     };
   }
 
-  tokens.push({ type: TokenTypes.OBJECT_CURLY_BRACKET, value: last.newTokenValue });
+  tokens.push({ type: TokenTypes.OBJECT_CURLY_BRACKET, value: breakpoint.newTokenValue });
 
   return {
-    updatedIndex: last.currentIndex,
+    updatedIndex: breakpoint.currentIndex,
     stop: false,
   };
 };

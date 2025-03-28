@@ -2,7 +2,7 @@ import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
 import { findNextBreakpoint, iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
 import { asFlow } from "../typeFlows";
-import { valueFlow } from "../valueFlow";
+import { valueFlow } from "../valueFlows";
 
 type InvocationFlowArgs = {
   tokens: BaseToken[];

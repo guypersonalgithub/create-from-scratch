@@ -32,7 +32,7 @@ export const objectTypeFlow = ({
 
   tokens.push({ type: TokenTypes.OBJECT_CURLY_TYPE_BRACKET, value: newTokenValue });
 
-  const stepCallbacks: StepCallback[] = [
+  const stepCallbacks: StepCallback<{ missingTypeInObject?: boolean }>[] = [
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
@@ -90,7 +90,8 @@ export const objectTypeFlow = ({
           };
         }
 
-        tokens.push({ type: TokenTypes.OPERATOR, value: newTokenValue });
+        tokens.push({ type: TokenTypes.TYPE_OPTIONAL_ARGUMENT, value: newTokenValue });
+        previousTokensSummary.push(TokenTypes.TYPE_OPTIONAL_ARGUMENT);
 
         return {
           updatedIndex: currentIndex,
@@ -106,6 +107,7 @@ export const objectTypeFlow = ({
           return {
             updatedIndex: currentIndex - newTokenValue.length,
             stop: true,
+            missingTypeInObject: true,
           };
         }
 
@@ -139,6 +141,7 @@ export const objectTypeFlow = ({
         return {
           updatedIndex: typeValue.updatedIndex,
           stop: typeValue.stop,
+          missingTypeInObject: typeValue.missingTypeInObject,
         };
       },
       stop: true,
@@ -173,10 +176,11 @@ export const objectTypeFlow = ({
   ];
 
   let shouldStop = false;
+  let missingTypeInObject = false;
   // let previousSharedData = {};
 
   while (currentIndex < input.length) {
-    const { updatedIndex, stop, exit } = iterateOverSteps({
+    const { updatedIndex, stop, exit, sharedData } = iterateOverSteps({
       input,
       currentIndex,
       stepCallbacks,
@@ -186,6 +190,10 @@ export const objectTypeFlow = ({
 
     if (exit) {
       break;
+    }
+
+    if (sharedData?.missingTypeInObject) {
+      missingTypeInObject = true;
     }
 
     // if (sharedData) {
@@ -202,6 +210,7 @@ export const objectTypeFlow = ({
     return {
       updatedIndex: currentIndex,
       stop: shouldStop,
+      missingTypeInObject,
     };
   }
 

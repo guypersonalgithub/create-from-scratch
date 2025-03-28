@@ -1,0 +1,1 @@
+- Specify all exports per file for better tree shaking as opposed to the export \* from "x" format.

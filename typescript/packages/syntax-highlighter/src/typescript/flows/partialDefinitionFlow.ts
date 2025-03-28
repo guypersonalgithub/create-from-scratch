@@ -3,9 +3,9 @@ import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken, OpenedContext } from "../types";
 import { iterateOverSteps, spaceCallback, StepCallback, shouldBreak } from "../utils";
 import { angleFlow } from "./angleFlow";
-import { parenthesisFlow } from "./parenthesisFlow";
+import { parenthesisFlow } from "./parenthesisFlows";
 import { typeFlow } from "./typeFlows";
-import { valueFlow } from "./valueFlow";
+import { valueFlow } from "./valueFlows";
 import { partialFunctionFlow } from "./functionFlows";
 import { spaceFollowUpFlow } from "./genericFlows";
 
@@ -215,7 +215,7 @@ export const partialDefinitionFlow = ({
               previousTokensSummary,
               openedContexts,
               isFromDefinitionFlow: true,
-              expectingFunction: true,
+              expectedToBeAFunction: true,
               expectingArrow: true,
             });
 

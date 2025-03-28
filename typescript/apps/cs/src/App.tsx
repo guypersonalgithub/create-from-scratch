@@ -1,5 +1,5 @@
 import { MinimizableSidebar } from "@packages/sidebar";
-import { Calculator, Home } from "@packages/icons";
+import { Calculator, Container, Home } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
 import { Math } from "./routes/math/Math";
@@ -11,6 +11,7 @@ import { Typescript as TypescriptIcon } from "@packages/icons";
 import { UIThemeProvider } from "@packages/ui-theme";
 import { customThemes } from "./UIThemes";
 import { Test } from "./Test";
+import { Containers } from "./routes/containers/Containers";
 
 const searchableRoutes = [
   {
@@ -105,6 +106,10 @@ const searchableRoutes = [
     label: "Function overloads",
     value: "/typescript/generics/function-overloads",
   },
+  {
+    label: "Containers",
+    value: "/containers",
+  },
 ] satisfies ReturnType<ComponentProps<typeof AutoCompleteInput>["autocompleteOptionsCallback"]>;
 
 const App = () => {
@@ -129,6 +134,7 @@ const App = () => {
               },
               "/math!": <Math />,
               "/typescript!": <Typescript />,
+              "/containers!": <Containers />,
               "/test": <Test />,
             }}
           />
@@ -150,6 +156,7 @@ const SidebarWrapper = () => {
         { icon: <Home />, label: "Home", pathname: "/" },
         { icon: <Calculator />, label: "Math", pathname: "/math" },
         { icon: <TypescriptIcon />, label: "Typescript", pathname: "/typescript" },
+        { icon: <Container />, label: "Containers", pathname: "/containers" },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}

@@ -5,7 +5,7 @@ import { findLastNonPreviousSpaceToken } from "../utils";
 import { spaceFollowUpFlow } from "./genericFlows";
 import { ambiguousTagFlow } from "./ambiguousFlows";
 import { tagContentFlow } from "./tagContentFlow";
-import { parenthesisFlow } from "./parenthesisFlow";
+import { parenthesisFlow } from "./parenthesisFlows";
 import { JSXFlow } from "./JSXFlow";
 
 type AngleFlowArgs = {
@@ -192,7 +192,7 @@ export const angleFlow = ({
     previousTokensSummary,
     openedContexts,
     isFromDefinitionFlow,
-    expectingFunction: true,
+    expectedToBeAFunction: true,
     expectingArrow,
     ...followUp,
   });

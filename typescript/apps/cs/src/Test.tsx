@@ -76,7 +76,8 @@ type Test = | {
       }
     }
   }
-} | testing | string[] | [string];`;
+} | testing | string[] | [string];
+type Test = (string?: string, { string}?: number, [test, {any}, any]?: string) => void`;
 
   const yamlCode = `name: Syntax-Highlighter tests
 on:

@@ -1,6 +1,6 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken, OpenedContext } from "../../types";
-import { parenthesisFlow } from "../parenthesisFlow";
+import { parenthesisFlow } from "../parenthesisFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 
 type ClassConstructorFlowArgs = {
@@ -52,7 +52,7 @@ export const classConstructorFlow = ({
     input,
     previousTokensSummary,
     openedContexts,
-    expectingFunction: true,
+    expectedToBeAFunction: true,
     ...breakpoint,
   });
 };

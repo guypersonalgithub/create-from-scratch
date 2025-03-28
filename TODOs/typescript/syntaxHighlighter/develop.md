@@ -6,4 +6,4 @@
 
 - TODO: Add support for type extends ? a : b with recursion.
 - TODO: Add support to import export defaults of \* as name.
-- TODO: Add support for ifs, for, while, break, and more common flows/keywords.
+- TODO: Add support for and while while, break, and more common flows/keywords.

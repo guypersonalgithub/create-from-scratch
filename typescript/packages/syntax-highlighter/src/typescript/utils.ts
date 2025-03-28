@@ -122,6 +122,7 @@ export const iterateOverSteps = <SharedData extends Record<string, unknown> = {}
         updatedIndex,
         stop,
         i,
+        sharedData
       };
     }
 

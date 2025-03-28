@@ -1,11 +1,12 @@
-import { TokenTypeOptions } from "../constants";
-import { BaseToken, FlowCallback } from "../types";
-import { arrayFlow } from "./arrayFlow";
-import { initializeClassFlow } from "./classFlows";
-import { nullFlow, numericFlow, undefinedFlow, booleanFlow } from "./genericFlows";
-import { objectFlow } from "./objectFlow";
-import { stringFlow, templateLiteralFlow } from "./stringFlows";
-import { variableFlow } from "./variableFlow";
+import { TokenTypeOptions } from "../../constants";
+import { BaseToken, FlowCallback, OpenedContext } from "../../types";
+import { arrayFlow } from "../arrayFlows";
+import { initializeClassFlow } from "../classFlows";
+import { nullFlow, numericFlow, undefinedFlow, booleanFlow } from "../genericFlows";
+import { objectFlow } from "../objectFlows";
+import { stringFlow, templateLiteralFlow } from "../stringFlows";
+import { variableFlow } from "../variableFlow";
+import { valueAdditionsFlow } from "./valueAdditionsFlow";
 
 type ValueFlowArgs = {
   tokens: BaseToken[];
@@ -13,6 +14,23 @@ type ValueFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  // openedContexts: OpenedContext[];
+  // isFromDefinitionFlow?: boolean;
+  // expectedToBeAFunction?: boolean;
+  // expectingArrow?: boolean;
+};
+
+type Return = {
+  addedNewToken: boolean;
+  updatedIndex: number;
+  stop: boolean;
+  addedAs?: boolean;
+  addedAndOr?: boolean;
+  addedTernary?: boolean;
+  addedLowerHigherThan?: boolean;
+  addedArithmetic?: boolean;
+  addedEqualUnequal?: boolean;
+  hasArrow?: boolean;
 };
 
 export const valueFlow = ({
@@ -21,7 +39,11 @@ export const valueFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-}: ValueFlowArgs) => {
+  // openedContexts,
+  // isFromDefinitionFlow,
+  // expectedToBeAFunction,
+  // expectingArrow,
+}: ValueFlowArgs): Return => {
   const callbacks: FlowCallback[] = [
     () =>
       objectFlow({
@@ -72,11 +94,36 @@ export const valueFlow = ({
       continue;
     }
 
-    const { updatedIndex: newIndex, stop } = response;
+    const { updatedIndex: newIndex, stop, hasArrow } = response;
     if (stop) {
       return {
         updatedIndex: newIndex,
         stop: true,
+        addedNewToken: false,
+      };
+    }
+
+    const additions = valueAdditionsFlow({
+      tokens,
+      input,
+      currentIndex: newIndex,
+      previousTokensSummary,
+    });
+
+    if (additions) {
+      const { updatedIndex, stop } = additions;
+
+      if (stop) {
+        return {
+          updatedIndex,
+          stop: true,
+          addedNewToken: false,
+        };
+      }
+
+      return {
+        ...additions,
+        addedNewToken: true,
       };
     }
 
@@ -84,6 +131,7 @@ export const valueFlow = ({
       updatedIndex: newIndex,
       stop: false,
       addedNewToken: true,
+      hasArrow,
     };
   }
 

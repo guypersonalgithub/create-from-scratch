@@ -12,12 +12,12 @@ type SpaceFlowArgs = {
 
 export const spaceFlow = ({
   tokens,
-  newTokenValue,
+  newTokenValue = "",
   input,
   currentIndex,
   previousTokensSummary,
 }: SpaceFlowArgs) => {
-  const firstChar = newTokenValue.charAt(0);
+  const firstChar = newTokenValue[0];
   if (firstChar !== " " && firstChar !== "\n" && firstChar !== "\r") {
     return;
   }
