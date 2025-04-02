@@ -8,6 +8,7 @@ type TypeAndOrFollowupFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  isAsFlow?: boolean;
 };
 
 export const typeAndOrFollowupFlow = ({
@@ -16,7 +17,15 @@ export const typeAndOrFollowupFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  isAsFlow,
 }: TypeAndOrFollowupFlowArgs) => {
+  if (isAsFlow) {
+    const followup = input[currentIndex];
+    if ((newTokenValue === "|" || newTokenValue === "&") && newTokenValue === followup) {
+      return;
+    }
+  }
+
   const potentialAndOr = typeAndOrFlow({
     tokens,
     input,

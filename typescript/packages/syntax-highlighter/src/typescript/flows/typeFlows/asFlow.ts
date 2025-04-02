@@ -54,6 +54,7 @@ export const asFlow = ({
           tokens,
           input,
           previousTokensSummary,
+          isAsFlow: true,
           ...breakpoint,
         });
 

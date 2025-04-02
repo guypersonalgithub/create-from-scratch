@@ -15,7 +15,7 @@ export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme =
   themes,
   defaultTheme = getFirstTheme({ themes }) ?? "",
   children,
-  style,
+  style = {},
   autoApplyTheme,
 }: UIThemeProviderProps<T>) => {
   const [currentTheme, setCurrentTheme] = useState<keyof T>(defaultTheme);
@@ -33,18 +33,19 @@ export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme =
   return (
     <UIThemeContext.Provider value={contextValue}>
       <div
-        // className="UIThemeProviderWrapper"
-        // style={{
-        //   ...style,
-        //   "--theme-color": themes[currentTheme].color,
-        //   "--theme-bg": themes[currentTheme].background,
-        //   // ...(autoApplyTheme ? themes[currentTheme] : {})
-        // } as CSSProperties}
+        className={autoApplyTheme ? "UIThemeProviderWrapper" : undefined}
+        style={{
+          ...style,
+          ...(autoApplyTheme
+            ? {
+                "--theme-color": themes[currentTheme].color,
+                "--theme-bg": themes[currentTheme].background,
+              }
+            : {}),
+        }}
       >
         {children}
       </div>
     </UIThemeContext.Provider>
   );
 };
-
-type Test = ({ test: { testing: { testing: [] }}}) => {}

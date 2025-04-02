@@ -1,9 +1,12 @@
 import { TokenTypeOptions } from "../../constants";
 import { BaseToken, FlowCallback, OpenedContext } from "../../types";
+import { angleFlow } from "../angleFlow";
 import { arrayFlow } from "../arrayFlows";
 import { initializeClassFlow } from "../classFlows";
+import { functionFlow } from "../functionFlows";
 import { nullFlow, numericFlow, undefinedFlow, booleanFlow } from "../genericFlows";
 import { objectFlow } from "../objectFlows";
+import { parenthesisFlow } from "../parenthesisFlows";
 import { stringFlow, templateLiteralFlow } from "../stringFlows";
 import { variableFlow } from "../variableFlow";
 import { valueAdditionsFlow } from "./valueAdditionsFlow";
@@ -14,11 +17,13 @@ type ValueFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  // openedContexts: OpenedContext[];
-  // isFromDefinitionFlow?: boolean;
-  // expectedToBeAFunction?: boolean;
-  // expectingArrow?: boolean;
+  openedContexts: OpenedContext[];
+  isFromDefinitionFlow?: boolean;
+  isType?: boolean;
+  isFromAndOrValueFlow?: boolean;
 };
+
+// TODO: isType should remove functions as they don't exist in an expression interpolation inside a type.
 
 type Return = {
   addedNewToken: boolean;
@@ -31,6 +36,7 @@ type Return = {
   addedArithmetic?: boolean;
   addedEqualUnequal?: boolean;
   hasArrow?: boolean;
+  hasFunction?: boolean;
 };
 
 export const valueFlow = ({
@@ -39,10 +45,10 @@ export const valueFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-  // openedContexts,
-  // isFromDefinitionFlow,
-  // expectedToBeAFunction,
-  // expectingArrow,
+  openedContexts,
+  isFromDefinitionFlow,
+  isType,
+  isFromAndOrValueFlow,
 }: ValueFlowArgs): Return => {
   const callbacks: FlowCallback[] = [
     () =>
@@ -52,6 +58,7 @@ export const valueFlow = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
         // context,
         // currentLayeredContexts,
       }),
@@ -62,6 +69,39 @@ export const valueFlow = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
+      }),
+    () =>
+      angleFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+        openedContexts,
+        isFromDefinitionFlow,
+        expectingArrow: true,
+      }),
+    () =>
+      parenthesisFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+        openedContexts,
+        isFromDefinitionFlow,
+        // expectedToBeAFunction: true,
+        expectingArrow: true,
+      }),
+    () =>
+      functionFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+        openedContexts,
       }),
     () => stringFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
     () =>
@@ -71,6 +111,7 @@ export const valueFlow = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
       }),
     () => booleanFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () => undefinedFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
@@ -82,9 +123,18 @@ export const valueFlow = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
       }),
     () => numericFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
-    () => variableFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary }),
+    () =>
+      variableFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+        openedContexts,
+      }),
   ];
 
   for (let i = 0; i < callbacks.length; i++) {
@@ -94,7 +144,8 @@ export const valueFlow = ({
       continue;
     }
 
-    const { updatedIndex: newIndex, stop, hasArrow } = response;
+    const { updatedIndex: newIndex, stop, hasArrow, hasFunction } = response;
+
     if (stop) {
       return {
         updatedIndex: newIndex,
@@ -108,22 +159,31 @@ export const valueFlow = ({
       input,
       currentIndex: newIndex,
       previousTokensSummary,
+      openedContexts,
+      isFromAndOrValueFlow,
     });
 
     if (additions) {
-      const { updatedIndex, stop } = additions;
+      const { updatedIndex, stop, hasArrow: innerArrow, hasFunction: innerFunction } = additions;
+
+      const arrow = hasArrow || innerArrow;
+      const func = hasFunction || innerFunction;
 
       if (stop) {
         return {
           updatedIndex,
           stop: true,
           addedNewToken: false,
+          hasArrow: arrow,
+          hasFunction: func,
         };
       }
 
       return {
         ...additions,
         addedNewToken: true,
+        hasArrow: arrow,
+        hasFunction: func,
       };
     }
 
@@ -132,11 +192,12 @@ export const valueFlow = ({
       stop: false,
       addedNewToken: true,
       hasArrow,
+      hasFunction,
     };
   }
 
   return {
-    updatedIndex: currentIndex - newTokenValue.length,
+    updatedIndex: currentIndex - (newTokenValue?.length ?? 0),
     stop: false,
     addedNewToken: false,
   };

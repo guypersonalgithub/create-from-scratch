@@ -33,16 +33,18 @@ export const AdvancedGenerics = () => {
   // Type '"test1"' is not assignable to type 'T extends "test1" ? "test2" : "test1"'. ;
   // By adding the "as any" we tell typescript that we know better than typescript in this situation, as it isn't able to infer on its own.
 };`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>Or</div>
       <PseudoTerminalVisuals
         code={`const example = <T extends "test1" | "test2">(arg: T) => {
   return (arg === "test1" ? "test2" : "test1") as T extends "test1" ? "test2" : "test1";
 };`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>Personally, I prefer the second option as it avoids using any.</div>
       <div>
@@ -87,8 +89,9 @@ export const AdvancedGenerics = () => {
   };
 
 const response = example(1)("test")(3);`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>
         We can fix the issue by either adding all type arguments to the first function (as
@@ -107,8 +110,9 @@ const response = example(1)("test")(3);`}
   };
 
 const response = example<number, string, number>(1)("test")(3);`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>
         Or, move the other generic arguments to the functions they are supposed to be associated
@@ -128,8 +132,9 @@ const response = example<number, string, number>(1)("test")(3);`}
   };
 
 const response = example(1)("test")(3);`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>That way, each function can capture its own generic inference.</div>
       <div>

@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { valueFlow } from "./valueFlow";
 
@@ -9,6 +9,7 @@ type EqualUnequalValueFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 export const equalUnequalValueFlow = ({
@@ -17,6 +18,7 @@ export const equalUnequalValueFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: EqualUnequalValueFlowArgs) => {
   if (newTokenValue !== "=" && newTokenValue !== "!") {
     return;
@@ -59,7 +61,13 @@ export const equalUnequalValueFlow = ({
     previousTokensSummary,
   });
 
-  const followingValue = valueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const followingValue = valueFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedContexts,
+    ...breakpoint,
+  });
   if (!followingValue.addedNewToken || followingValue.stop) {
     return {
       updatedIndex: followingValue.updatedIndex,

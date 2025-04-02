@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "@packages/utils": "*",
-    "@packages/syntax-highlighter": "*"
+    "@packages/syntax-highlighter": "*",
+    "@packages/copy-to-clipboard": "*"
   },
   "peerDependencies": {
     "react": "^18.3.1",

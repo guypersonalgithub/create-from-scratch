@@ -30,7 +30,7 @@ const example = new Example();`,
       value: "{",
     },
     {
-      type: "function-curly-bracket",
+      type: "class-curly-bracket",
       value: "}",
     },
     {
@@ -46,7 +46,7 @@ const example = new Example();`,
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "example",
     },
     {
@@ -321,7 +321,7 @@ const example = new Example();`,
       value: "\n",
     },
     {
-      type: "function-curly-bracket",
+      type: "class-curly-bracket",
       value: "}",
     },
     {
@@ -337,7 +337,7 @@ const example = new Example();`,
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "example",
     },
     {
@@ -701,7 +701,7 @@ const example = new Example();`,
       value: "\n\n",
     },
     {
-      type: "function-curly-bracket",
+      type: "class-curly-bracket",
       value: "}",
     },
     {
@@ -717,7 +717,7 @@ const example = new Example();`,
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "example",
     },
     {
@@ -1240,7 +1240,7 @@ const example = new Example();`,
       value: "\n",
     },
     {
-      type: "function-curly-bracket",
+      type: "class-curly-bracket",
       value: "}",
     },
     {
@@ -1256,7 +1256,7 @@ const example = new Example();`,
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "example",
     },
     {
@@ -1787,7 +1787,7 @@ const example = new Example();`,
       value: "\n",
     },
     {
-      type: "function-curly-bracket",
+      type: "class-curly-bracket",
       value: "}",
     },
     {
@@ -1803,7 +1803,7 @@ const example = new Example();`,
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "example",
     },
     {

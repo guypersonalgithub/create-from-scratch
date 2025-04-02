@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { valueFlow } from "../valueFlows";
 
@@ -9,6 +9,7 @@ type TernaryValueFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 export const ternaryValueFlow = ({
@@ -17,6 +18,7 @@ export const ternaryValueFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: TernaryValueFlowArgs) => {
   if (newTokenValue !== "?") {
     return;
@@ -31,7 +33,13 @@ export const ternaryValueFlow = ({
     previousTokensSummary,
   });
 
-  const firstValue = valueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const firstValue = valueFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedContexts,
+    ...breakpoint,
+  });
 
   if (!firstValue.addedNewToken || firstValue.stop) {
     return {
@@ -67,6 +75,7 @@ export const ternaryValueFlow = ({
     tokens,
     input,
     previousTokensSummary,
+    openedContexts,
     ...potentialNextValue.breakpoint,
   });
 

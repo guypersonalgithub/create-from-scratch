@@ -4,6 +4,7 @@ import { valueFlow } from "../valueFlows";
 import { arrowFlow } from "../functionFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { functionReturnTypeFlow } from "../typeFlows/functionReturnTypeFlow";
+import { nestedContextFlow } from "../nestedContextFlow";
 
 type ParenthesisFunctionEndFlowArgs = {
   tokens: BaseToken[];
@@ -62,7 +63,7 @@ export const parenthesisFunctionEndFlow = ({
 
   let hasFunctionReturnType = false;
   if (nextInLine.breakpoint.newTokenValue === ":") {
-    if (!expectedToBeAFunction || !canBeAnArgument) {
+    if (expectedToBeAFunction === false || !canBeAnArgument) {
       return {
         updatedIndex: nextInLine.space?.updatedIndex ?? currentIndex,
         stop: true,
@@ -147,6 +148,7 @@ export const parenthesisFunctionEndFlow = ({
       tokens,
       input,
       previousTokensSummary,
+      openedContexts,
       ...nextInLine.breakpoint,
     });
 
@@ -160,6 +162,7 @@ export const parenthesisFunctionEndFlow = ({
     return {
       updatedIndex: returnValue.updatedIndex,
       stop: false,
+      hasArrow,
     };
   }
 
@@ -172,6 +175,19 @@ export const parenthesisFunctionEndFlow = ({
     // TODO: Add an indication for already taken anonymous function names/numbers, in order
     // to avoid taking the same "anonymous" name again and again, incase some sort of a context feature will be implemented later on.
     openedContexts.push({ name: "anonymous", type: "function" });
+
+    const nestedContext = nestedContextFlow({
+      tokens,
+      input,
+      currentIndex: nextInLine.breakpoint.currentIndex,
+      previousTokensSummary,
+      openedContexts,
+    });
+
+    return {
+      ...nestedContext,
+      hasArrow,
+    };
   }
 
   return {

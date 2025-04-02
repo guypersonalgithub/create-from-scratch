@@ -1,9 +1,9 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
-import { spaceFlow, spaceFollowUpFlow } from "../genericFlows";
+import { spaceFollowUpFlow } from "../genericFlows";
 import { extendsTernaryOperatorTypeFlow } from "./extendsTernaryOperatorTypeFlow";
-import { findNextBreakpoint } from "../../utils";
 import { typeValueFlow } from "./typeValueFlow";
+import { genericTypeCommaFlow } from "./genericTypeCommaFlow";
 
 type GenericTypeValueFlowArgs = {
   tokens: BaseToken[];
@@ -33,19 +33,80 @@ export const genericTypeValueFlow = ({
     previousTokensSummary,
   });
 
-  const initial = typeValueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const values = genericTypeValueFlowContent({
+    tokens,
+    input,
+    previousTokensSummary,
+    ...breakpoint,
+  });
 
-  if (!initial.addedNewToken || initial.stop) {
+  if (values.stop) {
+    return values;
+  }
+
+  const followup = spaceFollowUpFlow({
+    tokens,
+    input,
+    currentIndex: values.updatedIndex,
+    previousTokensSummary,
+  });
+
+  if (followup.breakpoint.newTokenValue !== ">") {
     return {
-      updatedIndex: initial.updatedIndex,
+      updatedIndex: followup.space?.updatedIndex ?? values.updatedIndex,
       stop: true,
     };
   }
 
-  const { breakpoint: followUp, space: followUpSpace } = spaceFollowUpFlow({
+  tokens.push({ type: TokenTypes.ANGLE, value: followup.breakpoint.newTokenValue });
+
+  return {
+    updatedIndex: followup.breakpoint.currentIndex,
+    stop: false,
+  };
+};
+
+type GenericTypeValueContentArgs = {
+  tokens: BaseToken[];
+  newTokenValue: string;
+  input: string;
+  currentIndex: number;
+  previousTokensSummary: TokenTypeOptions[];
+  beyondFirstGeneric?: boolean;
+};
+
+type Return = {
+  updatedIndex: number;
+  stop: boolean;
+};
+
+const genericTypeValueFlowContent = ({
+  tokens,
+  newTokenValue,
+  input,
+  currentIndex,
+  previousTokensSummary,
+  beyondFirstGeneric,
+}: GenericTypeValueContentArgs): Return => {
+  const generic = typeValueFlow({
+    tokens,
+    newTokenValue,
+    input,
+    currentIndex,
+    previousTokensSummary,
+  });
+
+  if ((!generic.addedNewToken && !beyondFirstGeneric) || generic.stop) {
+    return {
+      updatedIndex: generic.updatedIndex,
+      stop: true,
+    };
+  }
+
+  let { breakpoint, space } = spaceFollowUpFlow({
     tokens,
     input,
-    currentIndex: initial.updatedIndex,
+    currentIndex: generic.updatedIndex,
     previousTokensSummary,
   });
 
@@ -53,50 +114,58 @@ export const genericTypeValueFlow = ({
     tokens,
     input,
     previousTokensSummary,
-    ...followUp,
+    ...breakpoint,
   });
 
-  if (!possibleExtends) {
-    if (followUp.newTokenValue !== ">") {
-      return {
-        updatedIndex: followUpSpace?.updatedIndex ?? initial.updatedIndex,
-        stop: true,
-      };
+  if (possibleExtends) {
+    if (possibleExtends.stop) {
+      return possibleExtends;
     }
 
-    tokens.push({ type: TokenTypes.ANGLE, value: followUp.newTokenValue });
+    const followup = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: possibleExtends.updatedIndex,
+      previousTokensSummary,
+    });
 
-    const following = findNextBreakpoint({ input, currentIndex: followUp.currentIndex });
-    const potentialSpace = spaceFlow({ tokens, input, previousTokensSummary, ...following });
-
-    return {
-      updatedIndex: potentialSpace?.updatedIndex ?? followUp.currentIndex,
-      stop: false,
-    };
+    breakpoint = followup.breakpoint;
+    space = followup.space;
   }
 
-  if (possibleExtends.stop) {
-    return possibleExtends;
+  const potentialComma = genericTypeCommaFlow({ tokens, ...breakpoint });
+  let updatedIndex =
+    potentialComma?.updatedIndex ??
+    space?.updatedIndex ??
+    possibleExtends?.updatedIndex ??
+    generic.updatedIndex;
+
+  if (potentialComma) {
+    const { breakpoint, space } = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: potentialComma.updatedIndex,
+      previousTokensSummary,
+    });
+    const followup = genericTypeValueFlowContent({
+      tokens,
+      input,
+      previousTokensSummary,
+      beyondFirstGeneric: true,
+      ...breakpoint,
+    });
+
+    if (followup) {
+      if (followup.stop) {
+        return followup;
+      }
+
+      updatedIndex = followup.updatedIndex;
+    }
   }
-
-  const { breakpoint: followUp2, space: followUpSpace2 } = spaceFollowUpFlow({
-    tokens,
-    input,
-    currentIndex: possibleExtends.updatedIndex,
-    previousTokensSummary,
-  });
-
-  if (followUp2.newTokenValue !== ">") {
-    return {
-      updatedIndex: followUpSpace2?.updatedIndex ?? possibleExtends.updatedIndex,
-      stop: true,
-    };
-  }
-
-  tokens.push({ type: TokenTypes.ANGLE, value: followUp2.newTokenValue });
 
   return {
-    updatedIndex: followUp2.currentIndex,
+    updatedIndex,
     stop: false,
   };
 };

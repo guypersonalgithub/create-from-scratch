@@ -31,12 +31,7 @@ export const genericTypeEqualFlow = ({
     previousTokensSummary,
   });
 
-  const valueTokens = typeValueFlow({
-    tokens,
-    input,
-    previousTokensSummary,
-    ...breakpoint,
-  });
+  const valueTokens = typeValueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
 
   if (valueTokens.stop) {
     return {

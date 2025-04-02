@@ -1,9 +1,9 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { nameFlow } from "../../nameFlow";
+import { TokenTypeOptions } from "../../constants";
 import { BaseToken, OpenedContext } from "../../types";
 import { angleFlow } from "../angleFlow";
 import { parenthesisFlow } from "../parenthesisFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
+import { nestedContextFlow } from "../nestedContextFlow";
 
 type PartialFunctionFlowArgs = {
   tokens: BaseToken[];
@@ -65,8 +65,11 @@ export const partialFunctionFlow = ({
 
   openedContexts.push({ name: functionName, type: "function" });
 
-  return {
-    updatedIndex: functionContinuation.updatedIndex,
-    stop: false,
-  };
+  return nestedContextFlow({
+    tokens,
+    input,
+    currentIndex: functionContinuation.updatedIndex,
+    previousTokensSummary,
+    openedContexts,
+  });
 };

@@ -1,6 +1,6 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { nameFlow } from "../nameFlow";
-import { BaseToken } from "../types";
+import { BaseToken, OpenedContext } from "../types";
 import { iterateOverSteps, spaceCallback, StepCallback } from "../utils";
 import { expressionInterpolationFlow } from "./expressionInterpolationFlow";
 import { spaceFollowUpFlow } from "./genericFlows";
@@ -11,9 +11,16 @@ type JSXFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
-export const JSXFlow = ({ tokens, input, currentIndex, previousTokensSummary }: JSXFlowArgs) => {
+export const JSXFlow = ({
+  tokens,
+  input,
+  currentIndex,
+  previousTokensSummary,
+  openedContexts,
+}: JSXFlowArgs) => {
   const stepCallbacks: StepCallback[] = [
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
@@ -60,6 +67,7 @@ export const JSXFlow = ({ tokens, input, currentIndex, previousTokensSummary }: 
             tokens,
             input,
             previousTokensSummary,
+            openedContexts,
             ...breakpoint,
           }) || stringFlow({ tokens, input, previousTokensSummary, ...breakpoint });
 

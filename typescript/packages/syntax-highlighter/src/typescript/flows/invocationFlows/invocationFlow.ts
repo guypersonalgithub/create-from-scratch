@@ -1,8 +1,10 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { findNextBreakpoint, iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
+import { spaceFollowUpFlow } from "../genericFlows";
 import { asFlow } from "../typeFlows";
 import { valueFlow } from "../valueFlows";
+import { typedInvocationFlow } from "./typedInvocationFlow";
 
 type InvocationFlowArgs = {
   tokens: BaseToken[];
@@ -10,7 +12,17 @@ type InvocationFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
+  isFromClassFlow?: boolean;
+  invocationChaining?: boolean;
 };
+
+type Return =
+  | {
+      updatedIndex: number;
+      stop: boolean;
+    }
+  | undefined;
 
 export const invocationFlow = ({
   tokens,
@@ -18,11 +30,15 @@ export const invocationFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
-}: InvocationFlowArgs) => {
+  openedContexts,
+  isFromClassFlow,
+  invocationChaining,
+}: InvocationFlowArgs): Return => {
   if (
     newTokenValue !== "(" ||
     (previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.VARIABLE &&
-      previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.CLASS_NAME)
+      previousTokensSummary[previousTokensSummary.length - 1] !== TokenTypes.CLASS_NAME &&
+      !invocationChaining)
   ) {
     return;
   }
@@ -39,6 +55,7 @@ export const invocationFlow = ({
           newTokenValue,
           currentIndex,
           previousTokensSummary,
+          openedContexts,
           // context,
           // currentLayeredContexts,
         });
@@ -142,6 +159,42 @@ export const invocationFlow = ({
   }
 
   tokens.push({ type: TokenTypes.PARENTHESIS, value: expectedParenthesisEnd.newTokenValue });
+
+  if (!isFromClassFlow) {
+    const nextInLine = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: expectedParenthesisEnd.currentIndex,
+      previousTokensSummary,
+    });
+
+    const invocation =
+      typedInvocationFlow({
+        tokens,
+        input,
+        previousTokensSummary,
+        openedContexts,
+        invocationChaining: true,
+        ...nextInLine.breakpoint,
+      }) ||
+      invocationFlow({
+        tokens,
+        input,
+        previousTokensSummary,
+        openedContexts,
+        invocationChaining: true,
+        ...nextInLine.breakpoint,
+      });
+
+    if (invocation) {
+      return invocation;
+    }
+
+    return {
+      updatedIndex: nextInLine.space?.updatedIndex ?? expectedParenthesisEnd.currentIndex,
+      stop: false,
+    };
+  }
 
   return {
     updatedIndex: expectedParenthesisEnd.currentIndex,

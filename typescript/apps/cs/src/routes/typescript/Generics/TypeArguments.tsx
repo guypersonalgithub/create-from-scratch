@@ -17,8 +17,9 @@ export const TypeArguments = () => {
       </div>
       <PseudoTerminalVisuals
         code={`const [value, setValue] = useState<string>();`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <StyledSubTitle>Default type arguments</StyledSubTitle>
       <div>We can set a default type for a type argument, incase a type argument is passed.</div>
@@ -79,8 +80,9 @@ const cloned = cloneExample(example);`}
   },
   {},
 );`}
-        animatedWriting
-        withCursor
+        // animatedWriting
+        // withCursor
+        highlightCode
       />
       <div>
         And typescript would be able to infer from that, what is the expected type of example and

@@ -2,7 +2,7 @@ import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
 import { iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
 import { spaceFollowUpFlow } from "../genericFlows";
-import { variableFlow } from "../variableFlow";
+import { simplifiedVariableFlow } from "../variableFlows";
 import { variableOnlyValueFlow } from "../variableOnlyValueFlow";
 
 type VariableOnlyObjectFlowArgs = {
@@ -32,13 +32,11 @@ export const variableOnlyObjectFlow = ({
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
-        const property = variableFlow({
+        const property = simplifiedVariableFlow({
           tokens,
           newTokenValue,
-          input,
           currentIndex,
           previousTokensSummary,
-          variableOnly: true,
         });
 
         if (!property) {

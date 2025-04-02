@@ -1,6 +1,6 @@
 import { isStringOnlyWithLetters } from "@packages/utils";
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { JSXFlow } from "../JSXFlow";
 import { ambiguousExtendsFlow } from "./ambiguousExtendsFlow";
@@ -11,6 +11,7 @@ type AmbiguousTagFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
   propertyIndex?: number;
   isExpectedToBeType?: boolean;
 };
@@ -20,18 +21,19 @@ export const ambiguousTagFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
   propertyIndex,
   isExpectedToBeType,
 }: AmbiguousTagFlowArgs) => {
-  const { updatedIndex, stop, isJSX, potentialExtends, hasEqual, hasComma } =
-    singleExtendsFlow({
-      tokens,
-      input,
-      currentIndex,
-      previousTokensSummary,
-      isFirst: true,
-      isExpectedToBeType,
-    });
+  const { updatedIndex, stop, isJSX, potentialExtends, hasEqual, hasComma } = singleExtendsFlow({
+    tokens,
+    input,
+    currentIndex,
+    previousTokensSummary,
+    openedContexts,
+    isFirst: true,
+    isExpectedToBeType,
+  });
 
   if (stop) {
     return {
@@ -87,6 +89,7 @@ export const ambiguousTagFlow = ({
         input,
         currentIndex: breakpoint.currentIndex,
         previousTokensSummary,
+        openedContexts,
       });
 
       if (stop) {
@@ -123,6 +126,7 @@ type SingleExtendsFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
   isFirst?: boolean;
   isExpectedToBeType?: boolean;
 };
@@ -132,6 +136,7 @@ const singleExtendsFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
   isFirst,
   isExpectedToBeType,
 }: SingleExtendsFlowArgs): {
@@ -170,6 +175,7 @@ const singleExtendsFlow = ({
         input,
         currentIndex: potentialExtends.updatedIndex,
         previousTokensSummary,
+        openedContexts,
       });
 
       return {

@@ -2,7 +2,7 @@ import { TokenTypeOptions } from "../constants";
 import { BaseToken, FlowCallback } from "../types";
 import { variableOnlyArrayFlow } from "./arrayFlows";
 import { variableOnlyObjectFlow } from "./objectFlows";
-import { variableFlow } from "./variableFlow";
+import { simplifiedVariableFlow } from "./variableFlows";
 
 type VariableOnlyValueFlowArgs = {
   tokens: BaseToken[];
@@ -43,13 +43,11 @@ export const variableOnlyValueFlow = ({
         isType,
       }),
     () =>
-      variableFlow({
+      simplifiedVariableFlow({
         tokens,
         newTokenValue,
-        input,
         currentIndex,
         previousTokensSummary,
-        variableOnly: true,
       }),
   ];
 
@@ -65,10 +63,12 @@ export const variableOnlyValueFlow = ({
     }
 
     const { updatedIndex: newIndex, stop } = response;
+    const isOnlyAVariable = i === callbacks.length - 1;
     if (stop) {
       return {
         updatedIndex: newIndex,
         stop: true,
+        isOnlyAVariable,
       };
     }
 
@@ -76,6 +76,7 @@ export const variableOnlyValueFlow = ({
       updatedIndex: newIndex,
       stop: false,
       addedNewToken: true,
+      isOnlyAVariable,
     };
   }
 

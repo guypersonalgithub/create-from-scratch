@@ -333,7 +333,7 @@ test("Function flow with props, return type, generic type and function body", ()
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "var1",
     },
     {
@@ -385,7 +385,7 @@ test("Function flow with props, return type, generic type and function body", ()
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "var2",
     },
     {

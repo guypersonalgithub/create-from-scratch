@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { spaceCallback, StepCallback, iterateOverSteps } from "../../utils";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { asFlow } from "../typeFlows";
@@ -13,6 +13,7 @@ type ArrayFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 type SharedStageData = {
@@ -25,6 +26,7 @@ export const arrayFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: ArrayFlowArgs) => {
   if (newTokenValue !== "[") {
     return;
@@ -42,6 +44,7 @@ export const arrayFlow = ({
           newTokenValue,
           currentIndex,
           previousTokensSummary,
+          openedContexts,
           // context,
           // currentLayeredContexts,
         });
@@ -173,7 +176,13 @@ export const arrayFlow = ({
       previousTokensSummary,
     });
 
-    const property = variableFlow({ tokens, input, previousTokensSummary, ...following });
+    const property = variableFlow({
+      tokens,
+      input,
+      previousTokensSummary,
+      openedContexts,
+      ...following,
+    });
 
     if (!property) {
       return {

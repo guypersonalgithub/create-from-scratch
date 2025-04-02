@@ -1,6 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
 import { iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
+import { spaceFollowUpFlow } from "../genericFlows";
 import { typeValueFlow } from "../typeFlows";
 import { variableOnlyValueFlow } from "../variableOnlyValueFlow";
 
@@ -57,7 +58,10 @@ export const functionAdditionalParamsFlow = ({
           };
         }
 
-        return variable;
+        return {
+          updatedIndex: variable.updatedIndex,
+          stop: false,
+        };
       },
       stop: true,
     },
@@ -94,23 +98,15 @@ export const functionAdditionalParamsFlow = ({
         tokens.push({ type: TokenTypes.TYPE_COLON, value: newTokenValue });
         previousTokensSummary.push(TokenTypes.TYPE_COLON);
 
-        return {
-          updatedIndex: currentIndex,
-          stop: false,
-        };
-      },
-      stop: true,
-    },
-    spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
-    {
-      callback: ({ currentIndex, newTokenValue }) => {
+        const { breakpoint, space } = spaceFollowUpFlow({ tokens, input, currentIndex, previousTokensSummary });
+
         const typeValue = typeValueFlow({
           tokens,
-          newTokenValue,
           input,
-          currentIndex,
           previousTokensSummary,
+          ...breakpoint,
         });
+
         if (!typeValue.addedNewToken) {
           return {
             updatedIndex: typeValue.updatedIndex,

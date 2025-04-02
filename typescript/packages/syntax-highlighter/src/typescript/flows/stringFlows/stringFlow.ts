@@ -20,6 +20,10 @@ export const stringFlow = ({
   isObjectKey,
   isType,
 }: StringFlowArgs) => {
+  if (!newTokenValue) {
+    return;
+  }
+
   const firstChar = newTokenValue.charAt(0);
   if (!stringDefinitions.has(firstChar)) {
     return;

@@ -62,7 +62,7 @@ test("Basic if flow", () => {
       value: "\n",
     },
     {
-      type: "function-curly-bracket",
+      type: "if-curly-bracket",
       value: "}",
     },
   ]);

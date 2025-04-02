@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { valueFlow } from "../valueFlows";
 
@@ -9,7 +9,10 @@ type AndOrValueFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
+
+// TODO: Split and or for the sake of highlightnig function values incase of an or value flow that has atleast one function values in it.
 
 export const andOrValueFlow = ({
   tokens,
@@ -17,13 +20,13 @@ export const andOrValueFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: AndOrValueFlowArgs):
   | {
       updatedIndex: number;
       stop: boolean;
     }
   | undefined => {
-  const followingChar = input[currentIndex + 1];
   if (newTokenValue !== "|" && newTokenValue !== "&") {
     return;
   }
@@ -35,6 +38,8 @@ export const andOrValueFlow = ({
       stop: true,
     };
   }
+
+  const followingChar = input[currentIndex];
 
   const isOr = newTokenValue === "|";
   if ((isOr && followingChar !== "|") || (!isOr && followingChar !== "&")) {
@@ -56,38 +61,24 @@ export const andOrValueFlow = ({
     previousTokensSummary,
   });
 
-  const followingValue = valueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const followingValue = valueFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedContexts,
+    isFromAndOrValueFlow: true,
+    ...breakpoint,
+  });
+
   if (!followingValue.addedNewToken || followingValue.stop) {
     return {
-      updatedIndex: breakpoint.currentIndex,
+      updatedIndex: followingValue.updatedIndex,
       stop: true,
     };
   }
 
   return {
-    updatedIndex: breakpoint.currentIndex,
+    updatedIndex: followingValue.updatedIndex,
     stop: false,
   };
-
-  // const followup = spaceFollowUpFlow({
-  //   tokens,
-  //   input,
-  //   currentIndex: breakpoint.currentIndex,
-  //   previousTokensSummary,
-  // });
-
-  // const potentialAndOr = andOrValueFlow({
-  //   tokens,
-  //   input,
-  //   previousTokensSummary,
-  //   ...followup.breakpoint,
-  // });
-  // if (!potentialAndOr) {
-  //   return {
-  //     updatedIndex: followup.space?.updatedIndex ?? breakpoint.currentIndex,
-  //     stop: false,
-  //   };
-  // }
-
-  // return potentialAndOr;
 };

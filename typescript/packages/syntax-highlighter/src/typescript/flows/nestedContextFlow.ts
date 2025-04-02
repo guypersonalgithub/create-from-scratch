@@ -24,6 +24,19 @@ export const nestedContextFlow = ({
 
   while (currentIndex < input.length) {
     const { currentIndex: newIndex, newTokenValue } = findNextBreakpoint({ input, currentIndex });
+
+    if (newTokenValue === "}") {
+      const type = getAppropriateCurlyBracket({ type: currentContext.type });
+
+      tokens.push({ type, value: newTokenValue });
+      openedContexts.pop();
+
+      return {
+        updatedIndex: newIndex,
+        stop: false,
+      };
+    }
+
     const { updatedIndex, addedNewToken } = tokenizerFlows({
       tokens,
       newTokenValue,
@@ -48,8 +61,6 @@ export const nestedContextFlow = ({
         const lastContext = openedContexts[openedContexts.length - 1];
         const currentContextCount = openedContexts.length;
 
-        // console.log({ lastContext, currentContextCount, currentContext, contextCount });
-
         if (
           lastContext.name !== currentContext.name ||
           lastContext.type !== currentContext.type ||
@@ -61,16 +72,12 @@ export const nestedContextFlow = ({
           };
         }
 
-        const appropriateType: Record<OpenedContext["type"], TokenTypeOptions> = {
-          function: TokenTypes.FUNCTION_CURLY_BRACKET,
-          class: TokenTypes.CLASS_CURLY_BRACKET,
-          if: TokenTypes.IF_CURLY_BRACKET,
-        };
-
-        const type = appropriateType[lastContext.type];
+        const type = getAppropriateCurlyBracket({ type: lastContext.type });
 
         tokens.push({ type, value: breakpoint.newTokenValue });
         currentIndex = breakpoint.currentIndex;
+
+        openedContexts.pop();
         break;
       } else if (space) {
         currentIndex = space.updatedIndex;
@@ -87,4 +94,18 @@ export const nestedContextFlow = ({
     updatedIndex: currentIndex,
     stop: false,
   };
+};
+
+type GetAppropriateCurlyBracketArgs = {
+  type: OpenedContext["type"];
+};
+
+const getAppropriateCurlyBracket = ({ type }: GetAppropriateCurlyBracketArgs) => {
+  const appropriateType: Record<OpenedContext["type"], TokenTypeOptions> = {
+    function: TokenTypes.FUNCTION_CURLY_BRACKET,
+    class: TokenTypes.CLASS_CURLY_BRACKET,
+    if: TokenTypes.IF_CURLY_BRACKET,
+  };
+
+  return appropriateType[type];
 };

@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { asFlow } from "../typeFlows";
 import {
   definitionSpaceHelper,
@@ -19,6 +19,7 @@ type ObjectFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 export const objectFlow = ({
@@ -27,6 +28,7 @@ export const objectFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: ObjectFlowArgs) => {
   if (newTokenValue !== "{") {
     return;
@@ -112,6 +114,7 @@ export const objectFlow = ({
           tokens,
           input,
           previousTokensSummary,
+          openedContexts,
         });
 
         if (valueTokens.addedNewToken) {

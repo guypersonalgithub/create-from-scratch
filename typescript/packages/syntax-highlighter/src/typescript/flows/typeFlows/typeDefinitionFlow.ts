@@ -1,6 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken } from "../../types";
-import { iterateOverSteps, shouldBreak, spaceCallback, StepCallback } from "../../utils";
+import { iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
+import { typeFlow } from "./typeFlow";
 import { typeValueFlow } from "./typeValueFlow";
 
 type TypeDefinitionFlowArgs = {
@@ -28,13 +29,15 @@ export const typeDefinitionFlow = ({
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
-        const firstChar = newTokenValue.charAt(0);
-        const isIncorrectDefinitionName =
-          shouldBreak({
-            currentChar: firstChar,
-          }) && firstChar !== "_";
+        const type = typeFlow({
+          tokens,
+          newTokenValue,
+          input,
+          currentIndex,
+          previousTokensSummary,
+        });
 
-        if (isIncorrectDefinitionName) {
+        if (!type) {
           return {
             updatedIndex: currentIndex - newTokenValue.length,
             stop: false, // there may be a variable named "type", so this isn't necessarily a mandatory step for correct syntax.
@@ -42,13 +45,7 @@ export const typeDefinitionFlow = ({
           };
         }
 
-        tokens.push({ type: TokenTypes.TYPE, value: newTokenValue });
-        previousTokensSummary.push(TokenTypes.TYPE);
-
-        return {
-          updatedIndex: currentIndex,
-          stop: false,
-        };
+        return type;
       },
       stop: true,
     },
@@ -84,7 +81,7 @@ export const typeDefinitionFlow = ({
           currentIndex,
           previousTokensSummary,
         });
-        
+
         return {
           updatedIndex: typeValue.updatedIndex,
           stop: typeValue.stop || !typeValue.addedNewToken,
