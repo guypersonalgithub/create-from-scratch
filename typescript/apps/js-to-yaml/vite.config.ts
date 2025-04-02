@@ -21,6 +21,26 @@ export default defineConfig({
       "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
       "@packages/icons": path.resolve(__dirname, "../../packages/icons/src/index.ts"),
       "@packages/button": path.resolve(__dirname, "../../packages/button/src/index.ts"),
+      "@packages/pseudo-terminal-visuals": path.resolve(
+        __dirname,
+        "../../packages/pseudo-terminal-visuals/src/index.ts",
+      ),
+      "@packages/copy-to-clipboard": path.resolve(
+        __dirname,
+        "../../packages/copy-to-clipboard/src/index.ts",
+      ),
+      "@packages/tooltip": path.resolve(__dirname, "../../packages/tooltip/src/index.ts"),
+      "@packages/animation-container": path.resolve(
+        __dirname,
+        "../../packages/animation-container/src/index.ts",
+      ),
+      "@packages/is-dev": path.resolve(__dirname, "../../packages/is-dev/src/index.ts"),
+      "@packages/randomizer": path.resolve(__dirname, "../../packages/randomizer/src/index.ts"),
+      "@packages/edge-intersection": path.resolve(
+        __dirname,
+        "../../packages/edge-intersection/src/index.ts",
+      ),
+      "@dev-packages/yaml": path.resolve(__dirname, "../../dev-packages/yaml/src/index.ts"),
     },
   },
 });

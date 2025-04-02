@@ -1,13 +1,19 @@
 import { isNumeric } from "@packages/utils";
 import { TokenTypeOptions, TokenTypes } from "../constants";
 import { BaseToken, OpenedContext } from "../types";
-import { iterateOverSteps, spaceCallback, StepCallback, shouldBreak } from "../utils";
-import { angleFlow } from "./angleFlow";
-import { parenthesisFlow } from "./parenthesisFlows";
+import {
+  iterateOverSteps,
+  spaceCallback,
+  StepCallback,
+  shouldBreak,
+  findLastNonSpaceToken,
+} from "../utils";
 import { typeFlow } from "./typeFlows";
 import { valueFlow } from "./valueFlows";
 import { partialFunctionFlow } from "./functionFlows";
 import { spaceFollowUpFlow } from "./genericFlows";
+import { nestedContextFlow } from "./nestedContextFlow";
+import { variableOnlyValueFlow } from "./variableOnlyValueFlow";
 
 type PartialDefinitionFlowArgs = {
   tokens: BaseToken[];
@@ -40,12 +46,63 @@ export const partialDefinitionFlow = ({
     }),
     {
       callback: ({ currentIndex, newTokenValue }) => {
+        if (!isWithinClassContext) {
+          const previousToken = findLastNonSpaceToken({ tokens });
+          if (!previousToken) {
+            return {
+              updatedIndex: currentIndex - newTokenValue.length,
+              stop: true,
+            };
+          }
+          const isDefinitionConst = previousToken.value === "const";
+          const currentAmountOfTokens = tokens.length;
+
+          const identifiers = variableOnlyValueFlow({
+            tokens,
+            newTokenValue,
+            input,
+            currentIndex,
+            previousTokensSummary,
+          });
+
+          if (!identifiers.addedNewToken || identifiers.stop) {
+            return {
+              updatedIndex: identifiers.updatedIndex,
+              stop: true,
+            };
+          }
+
+          let definitionNameIndex: number | undefined;
+          let previousTokensSummaryDefinitionNameIndex: number | undefined;
+
+          if (isDefinitionConst) {
+            for (let i = currentAmountOfTokens; i < tokens.length; i++) {
+              const current = tokens[i];
+              if (current.type === TokenTypes.VARIABLE) {
+                current.type = TokenTypes.CONST_VARIABLE;
+              }
+            }
+          }
+
+          if (identifiers.isOnlyAVariable) {
+            definitionNameIndex = tokens.length - 1;
+            previousTokensSummaryDefinitionNameIndex = previousTokensSummary.length - 1;
+          }
+
+          return {
+            updatedIndex: identifiers.updatedIndex,
+            stop: false,
+            definitionNameIndex,
+            previousTokensSummaryDefinitionNameIndex,
+          };
+        }
+
         const firstChar = newTokenValue.charAt(0);
         const isIncorrectDefinitionName =
           shouldBreak({
             currentChar: firstChar,
           }) && firstChar !== "_";
-        const isntNumericInClass = isWithinClassContext ? !isNumeric({ str: firstChar }) : false;
+        const isntNumericInClass = !isNumeric({ str: firstChar });
 
         if (isIncorrectDefinitionName && isntNumericInClass) {
           return {
@@ -53,51 +110,35 @@ export const partialDefinitionFlow = ({
             stop: true,
           };
         }
+        
+        const tokenType = isntNumericInClass
+          ? TokenTypes.VARIABLE
+          : TokenTypes.NUMERIC_CLASS_VARIABLE;
+        tokens.push({ type: tokenType, value: newTokenValue });
+        previousTokensSummary.push(tokenType);
+        const definitionNameIndex = tokens.length - 1;
+        const previousTokensSummaryDefinitionNameIndex = previousTokensSummary.length - 1;
+        const nameIndex = tokens.length - 1;
+        const previousIndex = previousTokensSummary.length - 1;
 
-        let definitionNameIndex: number | undefined;
-        let previousTokensSummaryDefinitionNameIndex: number | undefined;
+        const partialFunction = partialFunctionFlow({
+          tokens,
+          input,
+          currentIndex,
+          previousTokensSummary,
+          openedContexts,
+          functionName: newTokenValue,
+        });
+        if (!partialFunction.stop) {
+          tokens[nameIndex].type = TokenTypes.FUNCTION_NAME;
+          previousTokensSummary[previousIndex] = TokenTypes.FUNCTION_NAME;
 
-        if (!isWithinClassContext) {
-          const previousToken = tokens[tokens.length - 1];
-          const isDefinitionConst = previousToken.value === "const";
-          const token = {
-            type: isDefinitionConst ? TokenTypes.CONST_VARIABLE : TokenTypes.VARIABLE,
-            value: newTokenValue,
+          return {
+            ...partialFunction,
+            exit: true,
           };
-          tokens.push(token);
-          previousTokensSummary.push(token.type);
-          definitionNameIndex = tokens.length - 1;
-          previousTokensSummaryDefinitionNameIndex = previousTokensSummary.length - 1;
         } else {
-          const tokenType = isntNumericInClass
-            ? TokenTypes.VARIABLE
-            : TokenTypes.NUMERIC_CLASS_VARIABLE;
-          tokens.push({ type: tokenType, value: newTokenValue });
-          previousTokensSummary.push(tokenType);
-          definitionNameIndex = tokens.length - 1;
-          previousTokensSummaryDefinitionNameIndex = previousTokensSummary.length - 1;
-          const nameIndex = tokens.length - 1;
-          const previousIndex = previousTokensSummary.length - 1;
-
-          const partialFunction = partialFunctionFlow({
-            tokens,
-            input,
-            currentIndex,
-            previousTokensSummary,
-            openedContexts,
-            functionName: newTokenValue,
-          });
-          if (!partialFunction.stop) {
-            tokens[nameIndex].type = TokenTypes.FUNCTION_NAME;
-            previousTokensSummary[previousIndex] = TokenTypes.FUNCTION_NAME;
-
-            return {
-              ...partialFunction,
-              exit: true,
-            };
-          } else {
-            currentIndex = partialFunction.updatedIndex;
-          }
+          currentIndex = partialFunction.updatedIndex;
         }
 
         return {
@@ -175,13 +216,14 @@ export const partialDefinitionFlow = ({
     spaceCallback({ tokens, input, stop: false, previousTokensSummary }),
     {
       callback: ({ currentIndex, newTokenValue }, sharedData) => {
-        const amountOfTokens = tokens.length;
         const valueTokens = valueFlow({
           tokens,
           input,
           newTokenValue,
           currentIndex,
           previousTokensSummary,
+          openedContexts,
+          isFromDefinitionFlow: true,
           // context,
           // currentLayeredContexts,
         });
@@ -193,58 +235,27 @@ export const partialDefinitionFlow = ({
           };
         }
 
-        const newAmount = tokens.length;
+        const isFunction = valueTokens.hasArrow;
+        if (
+          isFunction &&
+          sharedData?.definitionNameIndex !== undefined &&
+          sharedData?.previousTokensSummaryDefinitionNameIndex !== undefined
+        ) {
+          tokens[sharedData.definitionNameIndex].type = TokenTypes.FUNCTION_NAME;
+          previousTokensSummary[sharedData.previousTokensSummaryDefinitionNameIndex] =
+            TokenTypes.FUNCTION_NAME;
+          openedContexts.push({
+            name: tokens[sharedData.definitionNameIndex].value,
+            type: "function",
+          });
 
-        if (amountOfTokens === newAmount) {
-          const hasCallback =
-            angleFlow({
-              tokens,
-              newTokenValue,
-              input,
-              currentIndex,
-              previousTokensSummary,
-              openedContexts,
-              isFromDefinitionFlow: true,
-              expectingArrow: true,
-            }) ||
-            parenthesisFlow({
-              tokens,
-              newTokenValue,
-              input,
-              currentIndex,
-              previousTokensSummary,
-              openedContexts,
-              isFromDefinitionFlow: true,
-              expectedToBeAFunction: true,
-              expectingArrow: true,
-            });
-
-          if (hasCallback) {
-            if (hasCallback.stop) {
-              return hasCallback;
-            }
-
-            const isFunction =
-              hasCallback.hasArrow || (hasCallback as ReturnType<typeof angleFlow>)!.isFunction;
-            if (
-              isFunction &&
-              sharedData?.definitionNameIndex !== undefined &&
-              sharedData?.previousTokensSummaryDefinitionNameIndex !== undefined
-            ) {
-              tokens[sharedData.definitionNameIndex].type = TokenTypes.FUNCTION_NAME;
-              previousTokensSummary[sharedData.previousTokensSummaryDefinitionNameIndex] =
-                TokenTypes.FUNCTION_NAME;
-              openedContexts.push({
-                name: tokens[sharedData.definitionNameIndex].value,
-                type: "function",
-              });
-            }
-
-            return {
-              updatedIndex: hasCallback.updatedIndex,
-              stop: false,
-            };
-          }
+          return nestedContextFlow({
+            tokens,
+            input,
+            currentIndex: valueTokens.updatedIndex,
+            previousTokensSummary,
+            openedContexts,
+          });
         }
 
         return {

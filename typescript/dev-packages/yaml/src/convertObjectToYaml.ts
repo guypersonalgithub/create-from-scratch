@@ -2,15 +2,17 @@ import { ObjectType } from "./types";
 
 type ConvertObjectToYamlArgs = {
   obj: ObjectType;
+};
+
+export const convertObjectToYaml = ({ obj }: ConvertObjectToYamlArgs) => parseObjectToYaml({ obj });
+
+type ParseObjectToYamlArgs = {
+  obj: ObjectType;
   indentLevel?: number;
   isObject?: boolean;
 };
 
-export const convertObjectToYaml = ({
-  obj,
-  indentLevel = 0,
-  isObject,
-}: ConvertObjectToYamlArgs) => {
+const parseObjectToYaml = ({ obj, indentLevel = 0, isObject }: ParseObjectToYamlArgs) => {
   let yamlStr = "";
   const indent = "  ".repeat(indentLevel);
   let index = 0;
@@ -19,12 +21,12 @@ export const convertObjectToYaml = ({
     const value = obj[key];
 
     if (typeof value === "object" && !Array.isArray(value)) {
-      yamlStr += `${indent}${key}:\n${convertObjectToYaml({ obj: value as ObjectType, indentLevel: indentLevel + 1 })}`;
+      yamlStr += `${indent}${key}:\n${parseObjectToYaml({ obj: value as ObjectType, indentLevel: indentLevel + 1 })}`;
     } else if (Array.isArray(value)) {
       yamlStr += `${indent}${key}:\n`;
       value.forEach((item: unknown) => {
         if (typeof item === "object") {
-          yamlStr += `${indent}  - ${convertObjectToYaml({ obj: item as ObjectType, indentLevel: indentLevel + 2, isObject: true })}`;
+          yamlStr += `${indent}  - ${parseObjectToYaml({ obj: item as ObjectType, indentLevel: indentLevel + 2, isObject: true })}`;
         } else {
           yamlStr += `${indent}  - ${escapeValue({ value: item })}\n`;
         }

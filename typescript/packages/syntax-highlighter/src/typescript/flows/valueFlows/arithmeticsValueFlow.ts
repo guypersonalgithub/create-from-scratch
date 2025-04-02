@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes, valueArithmetics } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { valueFlow } from "./valueFlow";
 
@@ -9,6 +9,7 @@ type ArithmeticsValueFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 export const arithmeticsValueFlow = ({
@@ -17,6 +18,7 @@ export const arithmeticsValueFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: ArithmeticsValueFlowArgs) => {
   if (!valueArithmetics.has(newTokenValue)) {
     return;
@@ -45,7 +47,13 @@ export const arithmeticsValueFlow = ({
     space = followup.space;
   }
 
-  const followingValue = valueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const followingValue = valueFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedContexts,
+    ...breakpoint,
+  });
   if (!followingValue.addedNewToken || followingValue.stop) {
     return {
       updatedIndex: breakpoint.currentIndex,

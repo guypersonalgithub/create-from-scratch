@@ -16,7 +16,7 @@ test("Define variable flow with string value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -53,7 +53,7 @@ test("Define variable flow with numeric value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -90,7 +90,7 @@ test("Define variable flow with boolean value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -127,7 +127,7 @@ test("Define variable flow with null value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -164,7 +164,7 @@ test("Define variable flow with undefined value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -203,7 +203,7 @@ test("Define variable flow with object value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -332,7 +332,7 @@ test("Define variable flow with object value and property value type casting", (
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -473,7 +473,7 @@ test("Define variable flow with type", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -522,7 +522,7 @@ test("Define variable flow with type and type casting", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -587,7 +587,7 @@ test("Define variable flow with function call value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -1110,7 +1110,7 @@ const res = example("test", 1);`,
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "res",
     },
     {
@@ -1294,7 +1294,7 @@ test("Define variable flow with arrow function value, props, return type, generi
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "test",
     },
     {
@@ -1379,7 +1379,7 @@ test("Define variable flow with array value", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "testing",
     },
     {
@@ -1556,7 +1556,7 @@ test("Define variable flow with class initialization", () => {
       value: " ",
     },
     {
-      type: "variable",
+      type: "const-variable",
       value: "test",
     },
     {

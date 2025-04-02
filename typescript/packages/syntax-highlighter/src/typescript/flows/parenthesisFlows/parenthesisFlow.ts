@@ -4,7 +4,7 @@ import { valueFlow } from "../valueFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { typeValueFlow } from "../typeFlows";
 import { parenthesisFunctionEndFlow } from "./parenthesisFunctionEndFlow";
-import { regularParenthesisFlow } from "./regularParenthesisFlow";
+// import { regularParenthesisFlow } from "./regularParenthesisFlow"; // TODO: Check if this function is even necessary anymore.
 import { canValueBeAnArgumentFlow } from "./canValueBeAnArgumentFlow";
 import { functionAdditionalParamsFlow } from "./functionAdditionalParamsFlow";
 
@@ -53,14 +53,48 @@ export const parenthesisFlow = ({
   });
 
   if (breakpoint.newTokenValue === "(") {
-    if (expectedToBeAFunction) {
+    const nestedParenthesis = parenthesisFlow({
+      tokens,
+      input,
+      previousTokensSummary,
+      openedContexts,
+      expectedToBeAFunction,
+      expectingArrow,
+      ...breakpoint,
+    });
+
+    if (!nestedParenthesis) {
       return {
         updatedIndex: space?.updatedIndex ?? currentIndex,
         stop: true,
       };
     }
 
-    return regularParenthesisFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+    if (nestedParenthesis.stop) {
+      return nestedParenthesis;
+    }
+
+    const followup = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: nestedParenthesis.updatedIndex,
+      previousTokensSummary,
+    });
+
+    if (followup.breakpoint.newTokenValue !== ")") {
+      return {
+        updatedIndex: followup.space?.updatedIndex ?? nestedParenthesis.updatedIndex,
+        stop: true,
+      };
+    }
+
+    tokens.push({ type: TokenTypes.PARENTHESIS, value: followup.breakpoint.newTokenValue });
+
+    return {
+      updatedIndex: followup.breakpoint.currentIndex,
+      stop: false,
+      hasArrow: nestedParenthesis.hasArrow,
+    };
   } else if (breakpoint.newTokenValue === ")") {
     // Empty parenthesis cannot be used other than an indication of a function.
     return parenthesisFunctionEndFlow({
@@ -78,7 +112,7 @@ export const parenthesisFlow = ({
 
   const amountOfTokens = tokens.length;
   let currentSavedIndex = breakpoint.currentIndex;
-  const value = valueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const value = valueFlow({ tokens, input, previousTokensSummary, openedContexts, ...breakpoint });
 
   if (!value.addedNewToken || value.stop) {
     return {
@@ -109,7 +143,19 @@ export const parenthesisFlow = ({
       previousTokensSummary,
     });
 
-    return regularParenthesisFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+    if (breakpoint.newTokenValue !== ")") {
+      return {
+        updatedIndex: space?.updatedIndex ?? value.updatedIndex,
+        stop: true,
+      };
+    }
+
+    tokens.push({ type: TokenTypes.PARENTHESIS, value: breakpoint.newTokenValue });
+
+    return {
+      updatedIndex: breakpoint.currentIndex,
+      stop: false,
+    };
   }
 
   let hasOptionalArgument = false;

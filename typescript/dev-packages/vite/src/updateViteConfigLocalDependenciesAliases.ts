@@ -79,6 +79,7 @@ export const updateViteConfigLocalDependenciesAliases = async ({
             alias: {},
           };
         }
+
         const resolve = object.resolve;
         if (typeof resolve === "string" || Array.isArray(resolve)) {
           continue;

@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { valueFlow } from "../valueFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 
@@ -9,6 +9,7 @@ type RegularParenthesisFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 export const regularParenthesisFlow = ({
@@ -17,6 +18,7 @@ export const regularParenthesisFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: RegularParenthesisFlowArgs): {
   updatedIndex: number;
   stop: boolean;
@@ -38,6 +40,7 @@ export const regularParenthesisFlow = ({
         tokens,
         input,
         previousTokensSummary,
+        openedContexts,
         ...breakpoint,
       });
 
@@ -57,7 +60,14 @@ export const regularParenthesisFlow = ({
     }
   }
 
-  const value = valueFlow({ tokens, newTokenValue, input, currentIndex, previousTokensSummary });
+  const value = valueFlow({
+    tokens,
+    newTokenValue,
+    input,
+    currentIndex,
+    openedContexts,
+    previousTokensSummary,
+  });
 
   if ((!startsWithParenthesis && !value.addedNewToken) || value.stop) {
     return {

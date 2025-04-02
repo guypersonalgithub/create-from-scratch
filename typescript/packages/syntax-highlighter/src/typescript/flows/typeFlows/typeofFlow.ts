@@ -39,7 +39,13 @@ export const typeofFlow = ({
     };
   }
 
-  const variable = variableFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const variable = variableFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    invocationLess: true,
+    ...breakpoint,
+  });
   if (variable) {
     return variable;
   }

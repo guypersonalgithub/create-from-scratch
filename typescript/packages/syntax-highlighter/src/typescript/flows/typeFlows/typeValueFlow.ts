@@ -19,6 +19,7 @@ type TypeValueFlowArgs = {
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
   isKeyof?: boolean;
+  isAsFlow?: boolean;
 };
 
 export const typeValueFlow = ({
@@ -28,6 +29,7 @@ export const typeValueFlow = ({
   currentIndex,
   previousTokensSummary,
   isKeyof,
+  isAsFlow,
 }: TypeValueFlowArgs) => {
   const callbacks: TypeFlowCallback[] = [
     () =>
@@ -98,6 +100,7 @@ export const typeValueFlow = ({
         tokens,
         input,
         previousTokensSummary,
+        isAsFlow,
         ...breakpoint,
       });
 

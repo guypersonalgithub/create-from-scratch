@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { invocationFlow, typedInvocationFlow } from "../invocationFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 
@@ -9,6 +9,7 @@ type InitializeClassFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 export const initializeClassFlow = ({
@@ -17,6 +18,7 @@ export const initializeClassFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: InitializeClassFlowArgs) => {
   if (newTokenValue !== "new") {
     return;
@@ -52,11 +54,20 @@ export const initializeClassFlow = ({
   });
 
   const invocation =
-    typedInvocationFlow({ tokens, input, previousTokensSummary, ...followingBreakpoint }) ||
+    typedInvocationFlow({
+      tokens,
+      input,
+      previousTokensSummary,
+      openedContexts,
+      isFromClassFlow: true,
+      ...followingBreakpoint,
+    }) ||
     invocationFlow({
       tokens,
       input,
       previousTokensSummary,
+      openedContexts,
+      isFromClassFlow: true,
       ...followingBreakpoint,
     });
 

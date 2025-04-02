@@ -1,6 +1,7 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
 import { BaseToken, OpenedContext } from "../../types";
 import { iterateOverSteps, shouldBreak, spaceCallback, StepCallback } from "../../utils";
+import { nestedContextFlow } from "../nestedContextFlow";
 import { genericTypeTemplateFlow } from "../typeFlows";
 
 type ClassFlowArgs = {
@@ -100,6 +101,14 @@ export const classFlow = ({
         if (sharedData?.classNameIndex !== undefined) {
           const name = tokens[sharedData.classNameIndex].value;
           openedContexts.push({ name, type: "class" });
+
+            return nestedContextFlow({
+              tokens,
+              input,
+              currentIndex,
+              previousTokensSummary,
+              openedContexts,
+            });
         }
 
         return {

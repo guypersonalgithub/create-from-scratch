@@ -1,4 +1,4 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
+import { TokenTypeOptions } from "../../constants";
 import { BaseToken } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { extendsTernaryOperatorTypeFlow } from "./extendsTernaryOperatorTypeFlow";

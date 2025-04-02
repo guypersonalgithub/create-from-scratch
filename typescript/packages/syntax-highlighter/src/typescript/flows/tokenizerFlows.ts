@@ -1,5 +1,5 @@
 import { BaseToken, FlowCallback, OpenedContext } from "../types";
-import { functionFlow, arrowFlow, closeFunctionFlow } from "./functionFlows";
+import { functionFlow, arrowFlow } from "./functionFlows";
 import { typeDefinitionFlow, asFlow } from "./typeFlows";
 import {
   spaceFlow,
@@ -76,6 +76,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
         // context,
         // currentLayeredContexts,
       }),
@@ -156,6 +157,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
       }),
     () =>
       arrayFlow({
@@ -164,6 +166,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
       }),
     () => endOfLineFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () => commentFlow({ tokens, newTokenValue, input, currentIndex }),
@@ -174,14 +177,6 @@ export const tokenizerFlows = ({
         input,
         currentIndex,
         previousTokensSummary,
-      }),
-    () =>
-      closeFunctionFlow({
-        tokens,
-        newTokenValue,
-        currentIndex,
-        previousTokensSummary,
-        openedContexts,
       }),
     () => equalFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () => operatorFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
@@ -215,6 +210,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
       }),
     () => returnFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
     () =>
@@ -232,6 +228,7 @@ export const tokenizerFlows = ({
         input,
         currentIndex,
         previousTokensSummary,
+        openedContexts,
       }),
   ];
 

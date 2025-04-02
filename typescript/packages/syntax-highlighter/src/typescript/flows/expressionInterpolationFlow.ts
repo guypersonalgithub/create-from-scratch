@@ -1,18 +1,27 @@
 import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { BaseToken, OpenedContext } from "../types";
 import { spaceFollowUpFlow } from "./genericFlows";
 import { typeValueFlow } from "./typeFlows/typeValueFlow";
 import { valueFlow } from "./valueFlows/valueFlow";
 
-type ExpressionInterpolationFlowArgs = {
+export type ExpressionInterpolationFlowArgs = {
   tokens: BaseToken[];
   newTokenValue: string;
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
   withinTemplateLiteral?: boolean;
-  isType?: boolean;
-};
+} & TypedFlow;
+
+type TypedFlow =
+  | {
+      isType?: boolean;
+      openedContexts?: never;
+    }
+  | {
+      isType?: never;
+      openedContexts: OpenedContext[];
+    };
 
 export const expressionInterpolationFlow = ({
   tokens,
@@ -20,6 +29,7 @@ export const expressionInterpolationFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
   withinTemplateLiteral,
   isType,
 }: ExpressionInterpolationFlowArgs) => {
@@ -36,7 +46,13 @@ export const expressionInterpolationFlow = ({
   const following = spaceFollowUpFlow({ tokens, input, currentIndex, previousTokensSummary });
 
   const valueCallack = !isType ? valueFlow : typeValueFlow;
-  const value = valueCallack({ tokens, input, previousTokensSummary, ...following.breakpoint });
+  const value = valueCallack({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedContexts: openedContexts ?? [],
+    ...following.breakpoint,
+  });
   if (value.stop) {
     return {
       updatedIndex: following.space?.updatedIndex ?? currentIndex,

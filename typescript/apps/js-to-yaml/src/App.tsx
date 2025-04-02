@@ -3,6 +3,7 @@ import { UIThemeProvider } from "@packages/ui-theme";
 import { customThemes } from "./UIThemes";
 import { Main } from "./routes/Main";
 import { Header } from "./Layout";
+import { TooltipManager } from "@packages/tooltip";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           }}
         />
       </div>
+      <TooltipManager />
     </UIThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { TokenTypeOptions } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, FlowCallback, OpenedContext } from "../../types";
 import { andOrValueFlow } from "./andOrValueFlow";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { lowerHigherThanValueFlow } from "./lowerHigherThanValueFlow";
@@ -13,27 +13,62 @@ type ValueAdditionsFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
+  isFromAndOrValueFlow?: boolean;
 };
 
-type Return =
-  | {
-      updatedIndex: number;
-      stop: boolean;
-      addedAs?: boolean;
-      addedAndOr?: boolean;
-      addedTernary?: boolean;
-      addedLowerHigherThan?: boolean;
-      addedArithmetic?: boolean;
-      addedEqualUnequal?: boolean;
-    }
-  | undefined;
+type Return = {
+  updatedIndex: number;
+  stop: boolean;
+  addedAs?: boolean;
+  addedAndOr?: boolean;
+  addedTernary?: boolean;
+  addedLowerHigherThan?: boolean;
+  addedArithmetic?: boolean;
+  addedEqualUnequal?: boolean;
+  hasArrow?: boolean;
+  hasFunction?: boolean;
+};
 
 export const valueAdditionsFlow = ({
   tokens,
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
+  isFromAndOrValueFlow,
 }: ValueAdditionsFlowArgs): Return => {
+  const { breakpoint, space } = spaceFollowUpFlow({
+    tokens,
+    input,
+    currentIndex,
+    previousTokensSummary,
+  });
+
+  const callbacks: FlowCallback[] = [
+    () => asFlow({ tokens, input, previousTokensSummary, ...breakpoint }),
+    () => andOrValueFlow({ tokens, input, previousTokensSummary, openedContexts, ...breakpoint }),
+    () => ternaryValueFlow({ tokens, input, previousTokensSummary, openedContexts, ...breakpoint }),
+    () =>
+      lowerHigherThanValueFlow({
+        tokens,
+        input,
+        previousTokensSummary,
+        openedContexts,
+        ...breakpoint,
+      }),
+    () =>
+      arithmeticsValueFlow({ tokens, input, previousTokensSummary, openedContexts, ...breakpoint }),
+    () =>
+      equalUnequalValueFlow({
+        tokens,
+        input,
+        previousTokensSummary,
+        openedContexts,
+        ...breakpoint,
+      }),
+  ];
+
   let addedAs = false;
   let addedAndOr = false;
   let addedTernary = false;
@@ -41,184 +76,106 @@ export const valueAdditionsFlow = ({
   let addedArithmetic = false;
   let addedEqualUnequal = false;
 
-  let { breakpoint, space } = spaceFollowUpFlow({
-    tokens,
-    input,
-    currentIndex,
-    previousTokensSummary,
-  });
-
-  const as = asFlow({ tokens, input, previousTokensSummary, ...breakpoint });
-
-  if (as) {
-    if (as.stop) {
-      return as;
+  for (let i = 0; i < callbacks.length; i++) {
+    if (isFromAndOrValueFlow && i === 1) {
+      continue;
     }
 
-    addedAs = true;
-
-    const followup = spaceFollowUpFlow({
-      tokens,
-      input,
-      currentIndex: as.updatedIndex,
-      previousTokensSummary,
-    });
-
-    breakpoint = followup.breakpoint;
-    space = followup.space;
-  }
-
-  const andOr = andOrValueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
-
-  if (andOr) {
-    if (andOr.stop) {
-      return andOr;
+    const current = callbacks[i];
+    const response = current();
+    if (!response) {
+      continue;
     }
 
-    addedAndOr = true;
+    const { updatedIndex: newIndex, stop, hasArrow, hasFunction } = response;
 
-    const followup = spaceFollowUpFlow({
-      tokens,
-      input,
-      currentIndex: andOr.updatedIndex,
-      previousTokensSummary,
-    });
-
-    breakpoint = followup.breakpoint;
-    space = followup.space;
-  }
-
-  const ternary = ternaryValueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
-
-  if (ternary) {
-    if (ternary.stop) {
-      return ternary;
+    if (stop) {
+      return {
+        updatedIndex: newIndex,
+        stop: true,
+      };
     }
 
-    addedTernary = true;
-
-    const followup = spaceFollowUpFlow({
-      tokens,
-      input,
-      currentIndex: ternary.updatedIndex,
-      previousTokensSummary,
-    });
-
-    breakpoint = followup.breakpoint;
-    space = followup.space;
-  }
-
-  const lowerHigherThan = lowerHigherThanValueFlow({
-    tokens,
-    input,
-    previousTokensSummary,
-    ...breakpoint,
-  });
-
-  if (lowerHigherThan) {
-    if (lowerHigherThan.stop) {
-      return lowerHigherThan;
-    }
-
-    addedLowerHigherThan = true;
-
-    const followup = spaceFollowUpFlow({
-      tokens,
-      input,
-      currentIndex: lowerHigherThan.updatedIndex,
-      previousTokensSummary,
-    });
-
-    breakpoint = followup.breakpoint;
-    space = followup.space;
-  }
-
-  const arithmetic = arithmeticsValueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
-
-  if (arithmetic) {
-    if (arithmetic.stop) {
-      return arithmetic;
-    }
-
-    addedArithmetic = true;
-
-    const followup = spaceFollowUpFlow({
-      tokens,
-      input,
-      currentIndex: arithmetic.updatedIndex,
-      previousTokensSummary,
-    });
-
-    breakpoint = followup.breakpoint;
-    space = followup.space;
-  }
-
-  const equalUnequal = equalUnequalValueFlow({
-    tokens,
-    input,
-    previousTokensSummary,
-    ...breakpoint,
-  });
-
-  if (equalUnequal) {
-    if (equalUnequal.stop) {
-      return equalUnequal;
-    }
-
-    addedEqualUnequal = true;
-  }
-
-  let updatedIndex =
-    equalUnequal?.updatedIndex ??
-    arithmetic?.updatedIndex ??
-    lowerHigherThan?.updatedIndex ??
-    ternary?.updatedIndex ??
-    andOr?.updatedIndex ??
-    as?.updatedIndex ??
-    space?.updatedIndex ??
-    currentIndex;
-
-  if (
-    addedAs ||
-    addedAndOr ||
-    addedTernary ||
-    addedLowerHigherThan ||
-    addedArithmetic ||
-    addedEqualUnequal
-  ) {
-    const followup = valueAdditionsFlow({
-      tokens,
-      input,
-      currentIndex: updatedIndex,
-      previousTokensSummary,
-    });
-
-    if (followup) {
-      if (followup.stop) {
-        return {
-          updatedIndex: followup.updatedIndex,
-          stop: true,
-        };
+    switch (i) {
+      case 0: {
+        addedAs = true;
+        break;
       }
-
-      updatedIndex = followup.updatedIndex;
-      addedAs = followup.addedAs || addedAs;
-      addedAndOr = followup.addedAndOr || addedAndOr;
-      addedTernary = followup.addedTernary || addedTernary;
-      addedLowerHigherThan = followup.addedLowerHigherThan || addedLowerHigherThan;
-      addedArithmetic = followup.addedArithmetic || addedArithmetic;
-      addedEqualUnequal = followup.addedEqualUnequal || addedEqualUnequal;
+      case 1: {
+        addedAndOr = true;
+        break;
+      }
+      case 2: {
+        addedTernary = true;
+        break;
+      }
+      case 3: {
+        addedLowerHigherThan = true;
+        break;
+      }
+      case 4: {
+        addedArithmetic = true;
+        break;
+      }
+      case 5: {
+        addedEqualUnequal = true;
+        break;
+      }
     }
+
+    currentIndex = newIndex;
+
+    const hasAddition =
+      addedAs ||
+      addedAndOr ||
+      addedTernary ||
+      addedLowerHigherThan ||
+      addedArithmetic ||
+      addedEqualUnequal;
+
+    if (hasAddition) {
+      const followup = valueAdditionsFlow({
+        tokens,
+        input,
+        currentIndex,
+        previousTokensSummary,
+        openedContexts,
+      });
+
+      if (followup) {
+        if (followup.stop) {
+          return {
+            updatedIndex: followup.updatedIndex,
+            stop: true,
+          };
+        }
+
+        currentIndex = followup.updatedIndex;
+        addedAs = followup.addedAs || addedAs;
+        addedAndOr = followup.addedAndOr || addedAndOr;
+        addedTernary = followup.addedTernary || addedTernary;
+        addedLowerHigherThan = followup.addedLowerHigherThan || addedLowerHigherThan;
+        addedArithmetic = followup.addedArithmetic || addedArithmetic;
+        addedEqualUnequal = followup.addedEqualUnequal || addedEqualUnequal;
+      }
+    }
+
+    return {
+      updatedIndex: currentIndex,
+      stop: false,
+      hasArrow,
+      hasFunction,
+      addedAs,
+      addedAndOr,
+      addedTernary,
+      addedLowerHigherThan,
+      addedArithmetic,
+      addedEqualUnequal,
+    };
   }
 
   return {
-    updatedIndex,
+    updatedIndex: space?.updatedIndex ?? currentIndex,
     stop: false,
-    addedAs,
-    addedAndOr,
-    addedTernary,
-    addedLowerHigherThan,
-    addedArithmetic,
-    addedEqualUnequal,
   };
 };

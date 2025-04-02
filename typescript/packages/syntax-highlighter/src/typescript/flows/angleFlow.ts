@@ -96,6 +96,7 @@ export const angleFlow = ({
       input,
       currentIndex: breakpoint.currentIndex,
       previousTokensSummary,
+      openedContexts,
       propertyIndex,
       isExpectedToBeType,
     });
@@ -140,7 +141,7 @@ export const angleFlow = ({
       };
     }
 
-    const jsxFlow = JSXFlow({ tokens, input, previousTokensSummary, currentIndex }); // Consider some optimization
+    const jsxFlow = JSXFlow({ tokens, input, currentIndex, openedContexts, previousTokensSummary }); // Consider some optimization
     if (jsxFlow.stop) {
       return {
         updatedIndex: currentIndex,
@@ -158,6 +159,36 @@ export const angleFlow = ({
   }
 
   if (!isAngleType) {
+    const tokensAmount = tokens.length;
+
+    const { breakpoint: followUp } = spaceFollowUpFlow({
+      tokens,
+      input,
+      currentIndex: nextBreakpoint.currentIndex,
+      previousTokensSummary,
+    });
+
+    const parenthesis = parenthesisFlow({
+      tokens,
+      input,
+      previousTokensSummary,
+      openedContexts,
+      isFromDefinitionFlow,
+      expectedToBeAFunction: true,
+      expectingArrow,
+      ...followUp,
+    });
+
+    if (parenthesis && !parenthesis.stop && parenthesis.hasArrow) {
+      if (propertyIndex !== undefined) {
+        tokens[propertyIndex].type = TokenTypes.TYPE;
+      }
+
+      return parenthesis;
+    }
+
+    tokens = tokens.slice(0, tokensAmount);
+
     const {
       updatedIndex,
       stop,
@@ -215,5 +246,5 @@ export const angleFlow = ({
     tokens[propertyIndex].type = TokenTypes.TYPE;
   }
 
-  return { ...parenthesis, isFunction: true };
+  return { ...parenthesis, hasArrow: true };
 };

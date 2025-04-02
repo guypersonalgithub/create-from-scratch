@@ -22,6 +22,7 @@ export type FlowCallback = () =>
       updatedIndex: number;
       stop: boolean;
       hasArrow?: boolean;
+      hasFunction?: boolean;
     }
   | undefined;
 

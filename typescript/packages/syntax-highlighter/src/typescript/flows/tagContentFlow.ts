@@ -19,10 +19,10 @@ export const tagContentFlow = ({
   const currentTokens: BaseToken[] = [];
   let currentTokenValue = "";
   let updatedIndex = currentIndex;
-  let isParenthesis = input.charAt(currentIndex) === "(";
+  const startsWithParenthesis = input.charAt(currentIndex) === "(";
 
   while (updatedIndex < input.length) {
-    let current = input.charAt(updatedIndex);
+    const current = input.charAt(updatedIndex);
     if (current === "<") {
       const nestedTag = tagContentFlow({
         tokens,
@@ -36,8 +36,8 @@ export const tagContentFlow = ({
       if (previous === "=") {
         return {
           updatedIndex: currentIndex,
-          stop: !isParenthesis && !nested,
-          isType: isParenthesis,
+          stop: !startsWithParenthesis && !nested,
+          isType: startsWithParenthesis,
         };
       } else if (previous === "/") {
         return {

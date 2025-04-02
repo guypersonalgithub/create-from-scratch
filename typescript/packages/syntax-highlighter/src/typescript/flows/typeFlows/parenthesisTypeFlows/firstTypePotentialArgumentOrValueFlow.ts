@@ -49,7 +49,7 @@ export const firstTypePotentialArgumentOrValueFlow = ({
     missingTypeInObject?: boolean;
     addedNewToken?: boolean;
     addedAndOr?: boolean;
-  } = typeValueFlow({ tokens, input, previousTokensSummary, currentIndex, newTokenValue });
+  } = typeValueFlow({ tokens, input, currentIndex, previousTokensSummary, newTokenValue });
 
   if (potentialType.missingTypeInObject) {
     const newAmount = tokens.length;

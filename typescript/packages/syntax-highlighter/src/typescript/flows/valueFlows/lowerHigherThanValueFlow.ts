@@ -1,5 +1,5 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { valueFlow } from "../valueFlows";
 
@@ -9,6 +9,7 @@ type LowerHigherThanValueFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
 };
 
 export const lowerHigherThanValueFlow = ({
@@ -17,6 +18,7 @@ export const lowerHigherThanValueFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
 }: LowerHigherThanValueFlowArgs) => {
   if (newTokenValue !== "<" && newTokenValue !== ">") {
     return;
@@ -52,7 +54,13 @@ export const lowerHigherThanValueFlow = ({
     });
   }
 
-  const followingValue = valueFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const followingValue = valueFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedContexts,
+    ...breakpoint,
+  });
   if (!followingValue.addedNewToken || followingValue.stop) {
     return {
       updatedIndex: followingValue.updatedIndex,

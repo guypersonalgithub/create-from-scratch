@@ -1,6 +1,9 @@
 import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
-import { expressionInterpolationFlow } from "../expressionInterpolationFlow";
+import { BaseToken, OpenedContext } from "../../types";
+import {
+  expressionInterpolationFlow,
+  ExpressionInterpolationFlowArgs,
+} from "../expressionInterpolationFlow";
 import { spaceFollowUpFlow } from "../genericFlows";
 
 type TemplateLiteralFlowArgs = {
@@ -9,8 +12,17 @@ type TemplateLiteralFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
-  isType?: boolean;
-};
+} & TypedFlow;
+
+type TypedFlow =
+  | {
+      isType?: boolean;
+      openedContexts?: never;
+    }
+  | {
+      isType?: never;
+      openedContexts: OpenedContext[];
+    };
 
 export const templateLiteralFlow = ({
   tokens,
@@ -18,6 +30,7 @@ export const templateLiteralFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
   isType,
 }: TemplateLiteralFlowArgs) => {
   if (newTokenValue !== "`") {
@@ -57,10 +70,11 @@ export const templateLiteralFlow = ({
           tokens,
           input,
           previousTokensSummary,
+          openedContexts,
           withinTemplateLiteral: true,
           isType,
           ...breakpoint,
-        });
+        } as ExpressionInterpolationFlowArgs);
         if (!value) {
           return {
             updatedIndex: space?.updatedIndex ?? currentIndex,

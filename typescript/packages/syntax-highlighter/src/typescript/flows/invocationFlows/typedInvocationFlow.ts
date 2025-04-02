@@ -1,5 +1,5 @@
 import { TokenTypeOptions } from "../../constants";
-import { BaseToken } from "../../types";
+import { BaseToken, OpenedContext } from "../../types";
 import { genericTypeValueFlow } from "../typeFlows";
 import { invocationFlow } from "./invocationFlow";
 import { spaceFollowUpFlow } from "../genericFlows";
@@ -10,6 +10,9 @@ type TypedInvocationFlowArgs = {
   input: string;
   currentIndex: number;
   previousTokensSummary: TokenTypeOptions[];
+  openedContexts: OpenedContext[];
+  isFromClassFlow?: boolean;
+  invocationChaining?: boolean;
 };
 
 export const typedInvocationFlow = ({
@@ -18,6 +21,9 @@ export const typedInvocationFlow = ({
   input,
   currentIndex,
   previousTokensSummary,
+  openedContexts,
+  isFromClassFlow,
+  invocationChaining,
 }: TypedInvocationFlowArgs) => {
   const lastToken = previousTokensSummary[previousTokensSummary.length - 1];
   const genericType = genericTypeValueFlow({
@@ -48,7 +54,15 @@ export const typedInvocationFlow = ({
     previousTokensSummary,
   });
 
-  const invocation = invocationFlow({ tokens, input, previousTokensSummary, ...breakpoint });
+  const invocation = invocationFlow({
+    tokens,
+    input,
+    previousTokensSummary,
+    openedContexts,
+    isFromClassFlow,
+    invocationChaining,
+    ...breakpoint,
+  });
 
   if (!invocation) {
     return {
