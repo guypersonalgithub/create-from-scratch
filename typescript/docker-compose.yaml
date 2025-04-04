@@ -304,6 +304,9 @@ services:
         source: ./packages/copy-to-clipboard
         target: /usr/src/app/packages/copy-to-clipboard
       - type: bind
+        source: ./packages/icons
+        target: /usr/src/app/packages/icons
+      - type: bind
         source: ./packages/mathml
         target: /usr/src/app/packages/mathml
       - type: bind

@@ -9,6 +9,9 @@ export const Header = () => {
   return (
     <div
       style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
         height: "60px",
         display: "flex",
         justifyContent: "end",
@@ -16,6 +19,8 @@ export const Header = () => {
         paddingLeft: "10px",
         paddingRight: "10px",
         borderBottom: `1px solid ${theme.color}`,
+        backgroundColor: theme.background,
+        opacity: 0.5
       }}
     >
       <button

@@ -7,7 +7,7 @@ import {
   parseYaml,
   colorizeYamlTokens,
 } from "@packages/syntax-highlighter";
-import { CopyToClipboardWithTooltip } from "@packages/copy-to-clipboard";
+import { CopyToClipboard } from "@packages/copy-to-clipboard";
 
 type PseudoTerminalVisualsProps = {
   code: string;
@@ -51,7 +51,7 @@ export const PseudoTerminalVisuals = ({
       return (
         <pre className="pseudoTerminalVisuals" style={{ ...style, position: "relative" }}>
           <div style={{ position: "absolute", right: "10px" }}>
-            <CopyToClipboardWithTooltip textToCopy={code}>Copy</CopyToClipboardWithTooltip>
+            <CopyToClipboard textToCopy={code} withIcons />
           </div>
           {highlighted.map((ele, index) => (
             <Fragment key={index}>{ele}</Fragment>
@@ -65,7 +65,7 @@ export const PseudoTerminalVisuals = ({
       return (
         <pre className="pseudoTerminalVisuals" style={{ ...style, position: "relative" }}>
           <div style={{ position: "absolute", right: "10px" }}>
-            <CopyToClipboardWithTooltip textToCopy={code}>Copy</CopyToClipboardWithTooltip>
+            <CopyToClipboard textToCopy={code} withIcons />
           </div>
           {highlighted.map((ele, index) => (
             <Fragment key={index}>{ele}</Fragment>
