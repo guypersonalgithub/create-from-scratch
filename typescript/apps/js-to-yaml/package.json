@@ -18,7 +18,11 @@
     "@packages/button": "*",
     "@packages/pseudo-terminal-visuals": "*",
     "@packages/yaml": "*",
-    "@packages/tooltip": "*"
+    "@packages/tooltip": "*",
+    "@packages/alert": "*",
+    "@packages/card": "*",
+    "@packages/command-box": "*",
+    "@packages/object-utils": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

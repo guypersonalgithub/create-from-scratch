@@ -13,6 +13,8 @@ export const StyledButton = ({ style, children }: StyledButtonProps) => {
       style={{
         borderRadius: "10px",
         padding: "10px",
+        paddingLeft: "30px",
+        paddingRight: "30px",
         minWidth: "150px",
         minHeight: "44px",
         backgroundColor: "rgba(0, 119, 184, 0.976)",
@@ -22,16 +24,16 @@ export const StyledButton = ({ style, children }: StyledButtonProps) => {
         cursor: "pointer",
         display: "flex",
         gap: "10px",
-        justifyContent: "center",
         alignItems: "center",
+        justifyContent: "space-between",
         position: "relative",
         ...style,
       }}
     >
       {children}
-      <div style={{ position: "absolute", right: "15px", top: "12px" }}>
-        <ArrowRightHead />
-      </div>
+      {/* <div style={{ position: "absolute", right: "15px", top: "12px" }}> */}
+      <ArrowRightHead />
+      {/* </div> */}
     </Button>
   );
 };

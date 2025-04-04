@@ -1,5 +1,5 @@
 {
-  "name": "@packages/copy-to-clipboard",
+  "name": "@packages/command-box",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -7,10 +7,7 @@
     "build": "tsc -b ."
   },
   "dependencies": {
-    "@packages/button": "*",
-    "@packages/tooltip": "*",
-    "@packages/hooks": "*",
-    "@packages/icons": "*"
+    "@packages/copy-to-clipboard": "*"
   },
   "peerDependencies": {
     "react": "^18.3.1",

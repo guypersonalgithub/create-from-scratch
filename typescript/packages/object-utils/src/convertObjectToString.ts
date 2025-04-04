@@ -1,22 +1,30 @@
 type ConvertObjectToStringArgs = {
   obj: Object;
   indentLevel?: number;
+  baseIndent?: string;
 };
 
 export const convertObjectToString = ({
   obj,
   indentLevel = 0,
+  baseIndent = "  ",
 }: ConvertObjectToStringArgs): string => {
-  if (Array.isArray(obj)) {
-    return convertArrayToString({ arr: obj });
-  }
+  const indent = baseIndent.repeat(indentLevel);
 
-  const indent = "  ".repeat(indentLevel);
   const entries = Object.entries(obj);
 
   const formattedEntries = entries.map(([key, value]) => {
-    let formattedValue;
+    let formattedValue = "";
 
+    const shouldHaveQuotationMarks =
+      key.includes("-") || key.includes("/") || key === "@" || key === "~";
+    const fullKey = shouldHaveQuotationMarks ? `${indent}"${key}"` : `${indent}${key}`;
+
+    if (typeof value === "object") {
+      if (Array.isArray(value)) {
+        return `${fullKey}: ${convertArrayToString({ arr: value })} \n`;
+      }
+    }
     if (typeof value === "object" && value !== null) {
       formattedValue = `\n${convertObjectToString({
         obj: value,
@@ -26,13 +34,10 @@ export const convertObjectToString = ({
       formattedValue = value;
     }
 
-    const shouldHaveQuotationMarks =
-      key.includes("-") || key.includes("/") || key === "@" || key === "~";
-    const fullKey = shouldHaveQuotationMarks ? `${indent}"${key}"` : `${indent}${key}`;
-    return `${fullKey}: ${formattedValue}`;
+    return `${fullKey}: ${formattedValue} \n`;
   });
 
-  return `{${formattedEntries.length > 0 ? `\n${formattedEntries.join(",\n")}\n${indent}` : ""}}`;
+  return `${indent}{${formattedEntries.length > 0 ? `\n${indent}${formattedEntries.join(",\n")}${indent}` : ""}}`;
 };
 
 type ConvertArrayToStringArgs = {
