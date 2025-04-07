@@ -1,6 +1,5 @@
-import { Fragment, useState } from "react";
 import { StyledMainTitle } from "../../../styledComponents/StyledMainTitle";
-import { Input } from "@packages/input";
+import { SearchableCommands } from "../../../SearchableCommands";
 
 export const Commands = () => {
   return (
@@ -9,39 +8,38 @@ export const Commands = () => {
       <div>
         <b>docker run</b> - each docker related command should start with docker run.
       </div>
-      <SearchableCommands />
-    </div>
-  );
-};
-
-const commands: { command: string; description: string }[] = [];
-
-const SearchableCommands = () => {
-  const [displayedCommands, setDisplayedCommands] = useState(commands);
-
-  return (
-    <div>
-      <Input
-        onChange={(e) => {
-          const value = e.target.value.toLowerCase();
-          const filteredCommands = commands.filter(
-            (command) =>
-              command.command.toLowerCase().includes(value) ||
-              command.description.toLowerCase().includes(value),
-          );
-          setDisplayedCommands(filteredCommands);
-        }}
+      <SearchableCommands
+        commands={[
+          {
+            command: "run",
+            description:
+              "This is how to run a container. Running a docker container with a distribution that wasn't cached locally would require docker to download the associated files.",
+          },
+          {
+            command: "--it",
+            description: "Make the container interactive.",
+          },
+          {
+            command: "--name",
+            description:
+              "Assigns a name to the container, otherwise a random name would be generated.",
+          },
+          {
+            command: "--rm",
+            description: "Whenever the container is stopped, delete everything associated with it.",
+          },
+          {
+            command: "--privileged",
+            description:
+              "Elevates the container to the root privilege. Normally we don't want to use that for the sake of security reasons.",
+          },
+          {
+            command: `{distribution}:{version}`,
+            description:
+              "The distribution the the type of distribution the container will be running with, and the version is the version of said distribution.",
+          },
+        ]}
       />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-        {displayedCommands.map((display) => {
-          return (
-            <Fragment key={display.command}>
-              <div>{display.command}</div>
-              <div>{display.description}</div>
-            </Fragment>
-          );
-        })}
-      </div>
     </div>
   );
 };

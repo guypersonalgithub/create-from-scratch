@@ -261,7 +261,7 @@ const parseNestedObject = ({
                 ? removeWrapperQuotationMarks({ str: value.value })
                 : value.value;
               let fullValue = parsedValue;
-              let following = tokens.pop();
+              let following: (typeof tokens)[number] | undefined;
               const parenthesis = [];
               while (tokens.length > 0 && (following = tokens.shift())) {
                 if (following?.type === "object-curly-bracket" && following.value === "{") {
@@ -382,7 +382,7 @@ const parseNestedArray = ({
         ? removeWrapperQuotationMarks({ str: current.value })
         : current.value;
       let fullValue = parsedValue;
-      let following = tokens.pop();
+      let following: (typeof tokens)[number] | undefined;
       while (tokens.length > 0 && (following = tokens.shift())) {
         if (following?.type === "object-curly-bracket" && following.value === "{") {
           const nested = parseNestedObject({

@@ -39,6 +39,8 @@ on:
       - typescript/packages/title/**
       - typescript/packages/pseudo-terminal-visuals/**
       - typescript/packages/ui-theme/**
+      - typescript/packages/css-utils/**
+      - typescript/packages/radio-button/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -95,6 +97,8 @@ jobs:
           cp -r ./packages/title ./full-application/packages
           cp -r ./packages/pseudo-terminal-visuals ./full-application/packages
           cp -r ./packages/ui-theme ./full-application/packages
+          cp -r ./packages/css-utils ./full-application/packages
+          cp -r ./packages/radio-button ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

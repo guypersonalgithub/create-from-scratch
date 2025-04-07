@@ -8,7 +8,6 @@ interface UIThemeProviderProps<T extends Record<string, Th>, Th extends Theme = 
   defaultTheme?: keyof T;
   children: ReactNode;
   style?: CSSProperties;
-  autoApplyTheme?: boolean;
 }
 
 export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme = Theme>({
@@ -16,7 +15,6 @@ export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme =
   defaultTheme = getFirstTheme({ themes }) ?? "",
   children,
   style = {},
-  autoApplyTheme,
 }: UIThemeProviderProps<T>) => {
   const [currentTheme, setCurrentTheme] = useState<keyof T>(defaultTheme);
 
@@ -33,15 +31,13 @@ export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme =
   return (
     <UIThemeContext.Provider value={contextValue}>
       <div
-        className={autoApplyTheme ? "UIThemeProviderWrapper" : undefined}
         style={{
           ...style,
-          ...(autoApplyTheme
-            ? {
-                "--theme-color": themes[currentTheme].color,
-                "--theme-bg": themes[currentTheme].background,
-              }
-            : {}),
+          ...{
+            "--theme-color": themes[currentTheme].color,
+            "--theme-bg": themes[currentTheme].background,
+            "--theme-transition": style.transition,
+          },
         }}
       >
         {children}

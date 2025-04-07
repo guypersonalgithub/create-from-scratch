@@ -1,38 +1,60 @@
 type ConvertObjectToStringArgs = {
   obj: Object;
-  indentLevel?: number;
+  stringifyValues?: boolean;
 };
 
-export const convertObjectToString = ({
+export const convertObjectToString = ({ obj, stringifyValues }: ConvertObjectToStringArgs) =>
+  convertObjectContentToString({ obj, stringifyValues });
+
+type ConvertObjectContentToString = {
+  obj: Object;
+  indentLevel?: number;
+  baseIndent?: string;
+  stringifyValues?: boolean;
+};
+
+const convertObjectContentToString = ({
   obj,
   indentLevel = 0,
-}: ConvertObjectToStringArgs): string => {
-  if (Array.isArray(obj)) {
-    return convertArrayToString({ arr: obj });
-  }
+  baseIndent = "  ",
+  stringifyValues,
+}: ConvertObjectContentToString): string => {
+  const indent = baseIndent.repeat(indentLevel);
+  const valueIndent = indent + baseIndent;
 
-  const indent = "  ".repeat(indentLevel);
   const entries = Object.entries(obj);
 
   const formattedEntries = entries.map(([key, value]) => {
-    let formattedValue;
-
-    if (typeof value === "object" && value !== null) {
-      formattedValue = `\n${convertObjectToString({
-        obj: value,
-        indentLevel: indentLevel + 1,
-      })}\n${indent}`;
-    } else {
-      formattedValue = value;
-    }
+    let formattedValue = "";
 
     const shouldHaveQuotationMarks =
       key.includes("-") || key.includes("/") || key === "@" || key === "~";
-    const fullKey = shouldHaveQuotationMarks ? `${indent}"${key}"` : `${indent}${key}`;
-    return `${fullKey}: ${formattedValue}`;
+    const fullKey = shouldHaveQuotationMarks ? `${valueIndent}"${key}"` : `${valueIndent}${key}`;
+
+    if (typeof value === "object") {
+      if (Array.isArray(value)) {
+        formattedValue = `${convertArrayToString({ arr: value })},`;
+      } else if (value !== null) {
+        formattedValue = `${convertObjectContentToString({
+          obj: value,
+          indentLevel: indentLevel + 1,
+        })},`;
+      }
+    } else {
+      if (stringifyValues) {
+        const isString = typeof value === "string";
+        const adjustedValue = isString ? `"${value}"` : value;
+
+        formattedValue = `${adjustedValue},`;
+      } else {
+        formattedValue = `${value},`;
+      }
+    }
+
+    return `${fullKey}: ${formattedValue} \n`;
   });
 
-  return `{${formattedEntries.length > 0 ? `\n${formattedEntries.join(",\n")}\n${indent}` : ""}}`;
+  return `{${formattedEntries.length > 0 ? `\n${formattedEntries.join("")}${indent}` : ""}}`;
 };
 
 type ConvertArrayToStringArgs = {
@@ -45,7 +67,7 @@ export const convertArrayToString = ({ arr }: ConvertArrayToStringArgs): string 
       if (Array.isArray(cell)) {
         return convertArrayToString({ arr: cell });
       } else if (typeof cell === "object" && cell !== null) {
-        return convertObjectToString({ obj: cell });
+        return convertObjectContentToString({ obj: cell });
       } else {
         return `${cell}`;
       }
