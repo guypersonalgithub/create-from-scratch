@@ -41,6 +41,10 @@ export default defineConfig({
         "../../packages/edge-intersection/src/index.ts",
       ),
       "@dev-packages/yaml": path.resolve(__dirname, "../../dev-packages/yaml/src/index.ts"),
+      "@packages/alert": path.resolve(__dirname, "../../packages/alert/src/index.ts"),
+      "@packages/card": path.resolve(__dirname, "../../packages/card/src/index.ts"),
+      "@packages/command-box": path.resolve(__dirname, "../../packages/command-box/src/index.ts"),
+      "@packages/css-utils": path.resolve(__dirname, "../../packages/css-utils/src/index.ts"),
     },
   },
 });

@@ -59,6 +59,8 @@ export default defineConfig({
         "../../packages/pseudo-terminal-visuals/src/index.ts",
       ),
       "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
+      "@packages/css-utils": path.resolve(__dirname, "../../packages/css-utils/src/index.ts"),
+      "@packages/radio-button": path.resolve(__dirname, "../../packages/radio-button/src/index.ts"),
     },
   },
 });

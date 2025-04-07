@@ -25,6 +25,8 @@
     "@packages/pseudo-terminal-visuals": "*",
     "@packages/ui-theme": "*",
     "@packages/syntax-highlighter": "*",
+    "@packages/css-utils": "*",
+    "@packages/radio-button": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

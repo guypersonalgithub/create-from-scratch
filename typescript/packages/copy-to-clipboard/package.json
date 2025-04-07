@@ -9,7 +9,8 @@
   "dependencies": {
     "@packages/button": "*",
     "@packages/tooltip": "*",
-    "@packages/hooks": "*"
+    "@packages/hooks": "*",
+    "@packages/icons": "*"
   },
   "peerDependencies": {
     "react": "^18.3.1",

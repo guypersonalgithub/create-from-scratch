@@ -11,3 +11,12 @@
     color: var(--theme-color);
     background-color: var(--theme-bg);
 }
+
+.UIThemeProviderTransitionWrapper {
+    --theme-transition:  color 0 ease, background-color 0 ease;
+    transition: var(--theme-transition);
+}
+
+.UIThemeProviderTransitionWrapper * {
+    transition: var(--theme-transition);
+}

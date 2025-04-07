@@ -135,6 +135,12 @@ services:
         source: ./packages/ui-theme
         target: /usr/src/app/packages/ui-theme
       - type: bind
+        source: ./packages/css-utils
+        target: /usr/src/app/packages/css-utils
+      - type: bind
+        source: ./packages/radio-button
+        target: /usr/src/app/packages/radio-button
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:
@@ -303,6 +309,9 @@ services:
       - type: bind
         source: ./packages/copy-to-clipboard
         target: /usr/src/app/packages/copy-to-clipboard
+      - type: bind
+        source: ./packages/icons
+        target: /usr/src/app/packages/icons
       - type: bind
         source: ./packages/mathml
         target: /usr/src/app/packages/mathml

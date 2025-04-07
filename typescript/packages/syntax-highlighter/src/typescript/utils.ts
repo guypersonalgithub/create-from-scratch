@@ -11,11 +11,11 @@ type FindNextBreakpointArgs = {
 
 export const findNextBreakpoint = ({ input, currentIndex }: FindNextBreakpointArgs) => {
   // Consider adding a case where input.length === currentIndex.
-  const { skippedIndexes } = getNextNonSpaceCharIndex({ input });
+  const { skippedIndexes } = getNextNonSpaceCharIndex({ input: input.slice(currentIndex) });
   if (skippedIndexes) {
     return {
       currentIndex: currentIndex + skippedIndexes,
-      newTokenValue: input.slice(currentIndex, skippedIndexes),
+      newTokenValue: input.slice(currentIndex, currentIndex + skippedIndexes),
     };
   }
 

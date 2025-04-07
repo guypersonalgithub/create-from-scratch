@@ -17,6 +17,10 @@ export const Chroot = () => {
         In the container use case, this is used to dictate where the container's root directory will
         be.
       </div>
+      <div>
+        chroot [new root] [after] - used to change the root directory of the current environment to
+        the [new root], and then tells it what to do [after].
+      </div>
     </div>
   );
 };

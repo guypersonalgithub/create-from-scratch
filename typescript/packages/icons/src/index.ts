@@ -9,3 +9,8 @@ export * from "./Sun";
 export * from "./Moon";
 export * from "./ArrowRightHead";
 export * from "./Container";
+export * from "./Copy";
+export * from "./Check";
+export * from "./Terminal";
+export * from "./CSS";
+export * from "./Linux";

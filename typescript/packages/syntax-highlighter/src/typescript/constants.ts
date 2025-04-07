@@ -118,6 +118,8 @@ export const acceptableCharactersAfterANumber = new Set<string>([
   " ",
   ";",
   "}",
+  ",",
+  "]",
 ]);
 
 export const classSpecificKeywords = new Set(["public", "private", "static"]);

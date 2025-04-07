@@ -34,6 +34,8 @@ COPY ./packages/calculations-table/package.json ./packages/calculations-table/pa
 COPY ./packages/title/package.json ./packages/title/package.json
 COPY ./packages/pseudo-terminal-visuals/package.json ./packages/pseudo-terminal-visuals/package.json
 COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
+COPY ./packages/css-utils/package.json ./packages/css-utils/package.json
+COPY ./packages/radio-button/package.json ./packages/radio-button/package.json
 
 
 
@@ -76,6 +78,8 @@ COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
 COPY ./packages/ui-theme ./packages/ui-theme
+COPY ./packages/css-utils ./packages/css-utils
+COPY ./packages/radio-button ./packages/radio-button
 CMD ["npm", "run", "dev"]
 
 
@@ -119,6 +123,8 @@ COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
 COPY ./packages/ui-theme ./packages/ui-theme
+COPY ./packages/css-utils ./packages/css-utils
+COPY ./packages/radio-button ./packages/radio-button
 CMD ["npm", "run", "build"]
 
 
@@ -162,4 +168,6 @@ COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
 COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
 COPY ./packages/ui-theme ./packages/ui-theme
+COPY ./packages/css-utils ./packages/css-utils
+COPY ./packages/radio-button ./packages/radio-button
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

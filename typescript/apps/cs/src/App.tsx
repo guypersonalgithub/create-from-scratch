@@ -1,5 +1,12 @@
 import { MinimizableSidebar } from "@packages/sidebar";
-import { Calculator, Container, Home } from "@packages/icons";
+import {
+  Calculator,
+  Container,
+  Home,
+  Typescript as TypescriptIcon,
+  CSS as CSSIcon,
+  Linux as LinuxIcon,
+} from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
 import { Math } from "./routes/math/Math";
@@ -7,11 +14,12 @@ import { AutoCompleteInput } from "@packages/auto-complete-input";
 import { ComponentProps, useLayoutEffect, useRef } from "react";
 import { StyledMainTitle } from "./styledComponents/StyledMainTitle";
 import { Typescript } from "./routes/typescript/Typescript";
-import { Typescript as TypescriptIcon } from "@packages/icons";
 import { UIThemeProvider } from "@packages/ui-theme";
 import { customThemes } from "./UIThemes";
 import { Test } from "./Test";
 import { Containers } from "./routes/containers/Containers";
+import { CSS } from "./routes/css/CSS";
+import { Linux } from "./routes/Linux/Linux";
 
 const searchableRoutes = [
   {
@@ -135,6 +143,8 @@ const App = () => {
               "/math!": <Math />,
               "/typescript!": <Typescript />,
               "/containers!": <Containers />,
+              "/css!": <CSS />,
+              "/linux!": <Linux />,
               "/test": <Test />,
             }}
           />
@@ -157,6 +167,8 @@ const SidebarWrapper = () => {
         { icon: <Calculator />, label: "Math", pathname: "/math" },
         { icon: <TypescriptIcon />, label: "Typescript", pathname: "/typescript" },
         { icon: <Container />, label: "Containers", pathname: "/containers" },
+        { icon: <CSSIcon />, label: "CSS", pathname: "/css" },
+        { icon: <LinuxIcon />, label: "Linux", pathname: "/linux" },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}
