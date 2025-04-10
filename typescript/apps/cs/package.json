@@ -22,9 +22,8 @@
     "@packages/calculations-table": "*",
     "@packages/input": "*",
     "@packages/title": "*",
-    "@packages/pseudo-terminal-visuals": "*",
-    "@packages/ui-theme": "*",
     "@packages/syntax-highlighter": "*",
+    "@packages/ui-theme": "*",
     "@packages/css-utils": "*",
     "@packages/radio-button": "*",
     "react": "^18.3.1",
@@ -38,6 +37,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "@packages/route-mapper": "*"
   }
 }

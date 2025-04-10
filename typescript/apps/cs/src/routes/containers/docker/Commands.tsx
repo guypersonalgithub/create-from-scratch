@@ -38,6 +38,10 @@ export const Commands = () => {
             description:
               "The distribution the the type of distribution the container will be running with, and the version is the version of said distribution.",
           },
+          {
+            command: "exec",
+            description: "Exec executes a command within a running Docker container.",
+          },
         ]}
       />
     </div>

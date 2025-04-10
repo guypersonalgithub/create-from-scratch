@@ -14,17 +14,18 @@ export default defineConfig({
       "@packages/hooks": path.resolve(__dirname, "../../packages/hooks/src/index.ts"),
       "@packages/array-utils": path.resolve(__dirname, "../../packages/array-utils/src/index.ts"),
       "@packages/object-utils": path.resolve(__dirname, "../../packages/object-utils/src/index.ts"),
-      "@packages/syntax-highlighter": path.resolve(
+      "@packages/parse-typescript": path.resolve(
         __dirname,
-        "../../packages/syntax-highlighter/src/index.ts",
+        "../../packages/parse-typescript/src/index.ts",
       ),
       "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
       "@packages/icons": path.resolve(__dirname, "../../packages/icons/src/index.ts"),
       "@packages/button": path.resolve(__dirname, "../../packages/button/src/index.ts"),
-      "@packages/pseudo-terminal-visuals": path.resolve(
+      "@packages/syntax-highlighter": path.resolve(
         __dirname,
-        "../../packages/pseudo-terminal-visuals/src/index.ts",
+        "../../packages/syntax-highlighter/src/index.ts",
       ),
+      "@packages/parse-yaml": path.resolve(__dirname, "../../packages/parse-yaml/src/index.ts"),
       "@packages/copy-to-clipboard": path.resolve(
         __dirname,
         "../../packages/copy-to-clipboard/src/index.ts",

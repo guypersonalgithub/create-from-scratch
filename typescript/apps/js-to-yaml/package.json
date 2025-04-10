@@ -16,7 +16,7 @@
     "@packages/ui-theme": "*",
     "@packages/icons": "*",
     "@packages/button": "*",
-    "@packages/pseudo-terminal-visuals": "*",
+    "@packages/syntax-highlighter": "*",
     "@packages/yaml": "*",
     "@packages/tooltip": "*",
     "@packages/alert": "*",

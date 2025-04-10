@@ -20,6 +20,7 @@ import { Test } from "./Test";
 import { Containers } from "./routes/containers/Containers";
 import { CSS } from "./routes/css/CSS";
 import { Linux } from "./routes/Linux/Linux";
+import { mapRoutes } from "@packages/route-mapper";
 
 const searchableRoutes = [
   {
@@ -277,3 +278,5 @@ const AutoComplete = () => {
 };
 
 export default App;
+
+mapRoutes({ root: App() });

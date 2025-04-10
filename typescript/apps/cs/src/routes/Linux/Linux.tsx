@@ -1,7 +1,7 @@
 import { SubRouter } from "@packages/router";
 import { StyledLinksContainer } from "../../styledComponents/StyledLinksContainer";
 import { useStickSubRouterLinksToTop } from "../../useStickSubRouterLinksToTop";
-import { Commands } from "./Commands";
+import { Commands } from "./Commands/Commands";
 
 export const Linux = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -19,7 +19,7 @@ export const Linux = () => {
       <SubRouter
         paths={{
           "/": <></>,
-          "/commands": <Commands />,
+          "/commands!": <Commands />,
         }}
       />
     </div>

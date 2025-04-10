@@ -72,8 +72,8 @@ services:
         source: ./packages/object-utils
         target: /usr/src/app/packages/object-utils
       - type: bind
-        source: ./packages/syntax-highlighter
-        target: /usr/src/app/packages/syntax-highlighter
+        source: ./packages/parse-typescript
+        target: /usr/src/app/packages/parse-typescript
       - type: bind
         source: ./packages/sidebar
         target: /usr/src/app/packages/sidebar
@@ -129,8 +129,11 @@ services:
         source: ./packages/title
         target: /usr/src/app/packages/title
       - type: bind
-        source: ./packages/pseudo-terminal-visuals
-        target: /usr/src/app/packages/pseudo-terminal-visuals
+        source: ./packages/syntax-highlighter
+        target: /usr/src/app/packages/syntax-highlighter
+      - type: bind
+        source: ./packages/parse-yaml
+        target: /usr/src/app/packages/parse-yaml
       - type: bind
         source: ./packages/ui-theme
         target: /usr/src/app/packages/ui-theme
@@ -140,6 +143,9 @@ services:
       - type: bind
         source: ./packages/radio-button
         target: /usr/src/app/packages/radio-button
+      - type: bind
+        source: ./dev-packages/route-mapper
+        target: /usr/src/app/dev-packages/route-mapper
       - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
@@ -280,8 +286,8 @@ services:
         source: ./packages/object-utils
         target: /usr/src/app/packages/object-utils
       - type: bind
-        source: ./packages/syntax-highlighter
-        target: /usr/src/app/packages/syntax-highlighter
+        source: ./packages/parse-typescript
+        target: /usr/src/app/packages/parse-typescript
       - type: bind
         source: ./packages/randomizer
         target: /usr/src/app/packages/randomizer

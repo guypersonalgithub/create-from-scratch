@@ -1,13 +1,13 @@
 {
-  "name": "@packages/object-utils",
+  "name": "@packages/parse-typescript",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "tsc -b ."
+    "build": "tsc -b .",
+    "test": "vitest --no-cache"
   },
   "dependencies": {
-    "@packages/parse-typescript": "*",
     "@packages/utils": "*"
   },
   "author": "",

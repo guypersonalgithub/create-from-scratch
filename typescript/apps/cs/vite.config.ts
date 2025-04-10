@@ -17,9 +17,9 @@ export default defineConfig({
       "@packages/hooks": path.resolve(__dirname, "../../packages/hooks/src/index.ts"),
       "@packages/array-utils": path.resolve(__dirname, "../../packages/array-utils/src/index.ts"),
       "@packages/object-utils": path.resolve(__dirname, "../../packages/object-utils/src/index.ts"),
-      "@packages/syntax-highlighter": path.resolve(
+      "@packages/parse-typescript": path.resolve(
         __dirname,
-        "../../packages/syntax-highlighter/src/index.ts",
+        "../../packages/parse-typescript/src/index.ts",
       ),
       "@packages/sidebar": path.resolve(__dirname, "../../packages/sidebar/src/index.ts"),
       "@packages/animation-container": path.resolve(
@@ -54,13 +54,18 @@ export default defineConfig({
         "../../packages/calculations-table/src/index.ts",
       ),
       "@packages/title": path.resolve(__dirname, "../../packages/title/src/index.ts"),
-      "@packages/pseudo-terminal-visuals": path.resolve(
+      "@packages/syntax-highlighter": path.resolve(
         __dirname,
-        "../../packages/pseudo-terminal-visuals/src/index.ts",
+        "../../packages/syntax-highlighter/src/index.ts",
       ),
+      "@packages/parse-yaml": path.resolve(__dirname, "../../packages/parse-yaml/src/index.ts"),
       "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
       "@packages/css-utils": path.resolve(__dirname, "../../packages/css-utils/src/index.ts"),
       "@packages/radio-button": path.resolve(__dirname, "../../packages/radio-button/src/index.ts"),
+      "@dev-packages/route-mapper": path.resolve(
+        __dirname,
+        "../../dev-packages/route-mapper/src/index.ts",
+      ),
     },
   },
 });

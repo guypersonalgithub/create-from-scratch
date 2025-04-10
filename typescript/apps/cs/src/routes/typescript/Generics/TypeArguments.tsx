@@ -1,5 +1,5 @@
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 
 export const TypeArguments = () => {
   return (
@@ -15,7 +15,7 @@ export const TypeArguments = () => {
         On the following example, we limit the value of the following state to only expect strings
         (or undefined since the initial value is optional and we don't pass any argument).
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const [value, setValue] = useState<string>();`}
         // animatedWriting
         // withCursor
@@ -27,7 +27,7 @@ export const TypeArguments = () => {
         For example, in the following function, if no type argument is passed, we expect the
         argument to be of type string.
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T = string>(arg: T) => {
   return arg;
 };
@@ -46,7 +46,7 @@ const test2 = example<number>(1);`}
         In the following example, typescript will be able to understand the type of cloned due to
         passing the generic type the cloning function receives as an argument.
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`class Example<T> {
   private props: T;
 
@@ -72,7 +72,7 @@ const cloned = cloneExample(example);`}
         Common functions often have a type argument. For example, a reduce function has one for the
         expected returned value, so we can apply the following:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = [{ label: "1" }, { label: "2" }].reduce<Record<string, { label: string }>>(
   (acc, current) => {
     acc[current.label] = current;

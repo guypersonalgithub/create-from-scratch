@@ -1,2 +1,1 @@
-export * from "./typescript";
-export * from "./yaml";
+export * from "./SyntaxHighlighter";

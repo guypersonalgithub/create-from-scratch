@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { parseTypescript } from "../../src";
+import { parseTypescript } from "../src";
 
 test("Define variable flow with string value", () => {
   expect(

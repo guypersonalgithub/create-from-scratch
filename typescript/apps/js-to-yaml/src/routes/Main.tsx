@@ -1,5 +1,5 @@
 import { StyledButton } from "../StyledButton";
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 import { javascriptOutput, output, stringifiedObject } from "../yamlExample";
 import { Alert } from "@packages/alert";
 import { Card } from "@packages/card";
@@ -7,7 +7,6 @@ import { Terminal } from "@packages/icons";
 import { CommandBox } from "@packages/command-box";
 
 export const Main = () => {
-
   return (
     <div>
       <div
@@ -34,8 +33,8 @@ export const Main = () => {
           margin: "0 auto",
         }}
       >
-        <PseudoTerminalVisuals code={stringifiedObject} highlightCode />
-        <PseudoTerminalVisuals code={output} highlightCode language="yaml" />
+        <SyntaxHighlighter code={stringifiedObject} highlightCode />
+        <SyntaxHighlighter code={output} highlightCode language="yaml" />
       </div>
       <div
         style={{
@@ -47,8 +46,8 @@ export const Main = () => {
           margin: "0 auto",
         }}
       >
-        <PseudoTerminalVisuals code={output} highlightCode language="yaml" />
-        <PseudoTerminalVisuals code={`${javascriptOutput}`} highlightCode />
+        <SyntaxHighlighter code={output} highlightCode language="yaml" />
+        <SyntaxHighlighter code={`${javascriptOutput}`} highlightCode />
       </div>
       <Card style={{ width: "50vw", margin: "0 auto" }}>
         <div

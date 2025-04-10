@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { parseYaml } from "../../src";
+import { parseYaml } from "../src";
 
 test("Basic flow", () => {
   expect(

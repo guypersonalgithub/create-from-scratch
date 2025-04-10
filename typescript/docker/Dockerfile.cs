@@ -13,7 +13,7 @@ COPY ./packages/environment/package.json ./packages/environment/package.json
 COPY ./packages/hooks/package.json ./packages/hooks/package.json
 COPY ./packages/array-utils/package.json ./packages/array-utils/package.json
 COPY ./packages/object-utils/package.json ./packages/object-utils/package.json
-COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
+COPY ./packages/parse-typescript/package.json ./packages/parse-typescript/package.json
 COPY ./packages/sidebar/package.json ./packages/sidebar/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
 COPY ./packages/is-dev/package.json ./packages/is-dev/package.json
@@ -32,10 +32,12 @@ COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
 COPY ./packages/title/package.json ./packages/title/package.json
-COPY ./packages/pseudo-terminal-visuals/package.json ./packages/pseudo-terminal-visuals/package.json
+COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
+COPY ./packages/parse-yaml/package.json ./packages/parse-yaml/package.json
 COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
 COPY ./packages/css-utils/package.json ./packages/css-utils/package.json
 COPY ./packages/radio-button/package.json ./packages/radio-button/package.json
+COPY ./dev-packages/route-mapper/package.json ./dev-packages/route-mapper/package.json
 
 
 
@@ -57,7 +59,7 @@ COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/array-utils ./packages/array-utils
 COPY ./packages/object-utils ./packages/object-utils
-COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -76,10 +78,12 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
-COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/radio-button ./packages/radio-button
+COPY ./dev-packages/route-mapper ./dev-packages/route-mapper
 CMD ["npm", "run", "dev"]
 
 
@@ -102,7 +106,7 @@ COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/array-utils ./packages/array-utils
 COPY ./packages/object-utils ./packages/object-utils
-COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -121,10 +125,12 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
-COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/radio-button ./packages/radio-button
+COPY ./dev-packages/route-mapper ./dev-packages/route-mapper
 CMD ["npm", "run", "build"]
 
 
@@ -147,7 +153,7 @@ COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
 COPY ./packages/array-utils ./packages/array-utils
 COPY ./packages/object-utils ./packages/object-utils
-COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/sidebar ./packages/sidebar
 COPY ./packages/animation-container ./packages/animation-container
 COPY ./packages/is-dev ./packages/is-dev
@@ -166,8 +172,10 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
-COPY ./packages/pseudo-terminal-visuals ./packages/pseudo-terminal-visuals
+COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
+COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/radio-button ./packages/radio-button
+COPY ./dev-packages/route-mapper ./dev-packages/route-mapper
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

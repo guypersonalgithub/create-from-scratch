@@ -1,4 +1,4 @@
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 
 export const Test = () => {
   const templateLiteral = "`${123} testing`";
@@ -108,12 +108,12 @@ jobs:
         run: cd packages/syntax-highlighter && npm run test`;
   return (
     <>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={code}
         // code={`(1 + 2) < 3 + 4;`}
         highlightCode
       />
-      <PseudoTerminalVisuals code={yamlCode} highlightCode language="yaml" />
+      <SyntaxHighlighter code={yamlCode} highlightCode language="yaml" />
     </>
   );
 };

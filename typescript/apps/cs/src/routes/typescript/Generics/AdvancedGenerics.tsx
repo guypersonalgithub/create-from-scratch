@@ -1,4 +1,4 @@
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
 
 export const AdvancedGenerics = () => {
@@ -10,7 +10,7 @@ export const AdvancedGenerics = () => {
         somewhere on it.
       </div>
       <div>For example, let's take the following example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T extends "test1" | "test2">(arg: T) => {
   return arg === "test1" ? "test2" : "test1";
 };`}
@@ -26,7 +26,7 @@ export const AdvancedGenerics = () => {
         In order to have more accurate return types, based off the argument received, we can use one
         of the following options:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T extends "test1" | "test2">(arg: T): T extends "test1" ? "test2" : "test1" => {
   return (arg === "test1" ? "test2" : "test1") as any; // without the "as any" typescript would add the following warning:
   // Type '"test1" | "test2"' is not assignable to type 'T extends "test1" ? "test2" : "test1"'.
@@ -38,7 +38,7 @@ export const AdvancedGenerics = () => {
         highlightCode
       />
       <div>Or</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T extends "test1" | "test2">(arg: T) => {
   return (arg === "test1" ? "test2" : "test1") as T extends "test1" ? "test2" : "test1";
 };`}
@@ -56,7 +56,7 @@ export const AdvancedGenerics = () => {
         some of its limitations, due to not being able to trust that a key breaks down at that
         specific level (due to different keys having different values).
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <Property extends keyof Example>(
   prop: Property,
   value: Example[Property],
@@ -76,7 +76,7 @@ export const AdvancedGenerics = () => {
         In the following example, typescript cannot infer the types of the second and third
         function's arguments, because the type arguments are attached to the first function:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example =
   <One, Two, Three>(one: One) =>
   (two: Two) =>
@@ -97,7 +97,7 @@ const response = example(1)("test")(3);`}
         We can fix the issue by either adding all type arguments to the first function (as
         typescript is incapable of infering them on its own)
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example =
   <One, Two, Three>(one: One) =>
   (two: Two) =>
@@ -119,7 +119,7 @@ const response = example<number, string, number>(1)("test")(3);`}
         with, and in that case, typescript would be able to infer the accurate types without adding
         explicit type arguments:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example =
   <One>(one: One) =>
   <Two>(two: Two) =>
@@ -142,7 +142,7 @@ const response = example(1)("test")(3);`}
         are functions, without having to explicitly mention them on initialization.
       </div>
       <div>For example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`type Object<T> = {
   get: (key: string) => T | undefined;
   set: (key: string, value: T) => void;
@@ -182,7 +182,7 @@ const clone = example.clone((element) => String(element));`}
         Sometimes programmers use too many generic arguments when less could serve the same purpose.
         For example:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T1, T2>(arg1: T1, arg2: T2): [T1, T2] => {
   return [arg1, arg2];
 };`}
@@ -190,7 +190,7 @@ const clone = example.clone((element) => String(element));`}
         withCursor
       />
       <div>and</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T extends { arg1: unknown; arg2: unknown }>(args: T): [T["arg1"], T["arg2"]] => {
   return [args.arg1, args.arg2];
 };`}
@@ -208,7 +208,7 @@ const clone = example.clone((element) => String(element));`}
         return as the union of all possible options the function returns.
       </div>
       <div>For example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T>(obj: T, key: keyof T) => {
   return obj[key];
 };
@@ -235,7 +235,7 @@ const result = example(obj, "a");`}
         constraint into it) we can help typescript infer better, so that we would get accurate types
         instead of a complete union of types.
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T, Key extends keyof T>(obj: T, key: Key) => {
   return obj[key];
 };
@@ -264,7 +264,7 @@ const result = example(obj, "a");`}
         everytime we use it, if we want to consistently have the same shared type over and over.
       </div>
       <div>For example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const getMode = <Mode = {}>(callback: (mode: Mode) => CSSProperties) => {
   // Assume we fetch some css properties regarding variants of a global light / dark mode for example.
   return {} as CSSProperties;
@@ -295,7 +295,7 @@ const example2 = getMode<SpecificMode>((mode) => ({
         following example lets us initialize the getMode function with the specific type we want,
         and reuse it everywhere we desire:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const generateGetMode = <Mode = {}>() => {
   const getMode = (callback: (mode: Mode) => CSSProperties) => {
     // Assume we fetch some css properties regarding variants of a global light / dark mode for example.
@@ -341,7 +341,7 @@ const example2 = getMode((mode) => ({
         type arguments, typescript fails to infer them at the same function call.
       </div>
       <div>For example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`type Args = {
   first: string;
   second: string;
@@ -370,7 +370,7 @@ const callbacks = example<Args>({
         The way to fix that, is by splitting the function into two different function calls, for as
         long as typescript doesn't support partial inferences.
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`type Args = {
   first: string;
   second: string;

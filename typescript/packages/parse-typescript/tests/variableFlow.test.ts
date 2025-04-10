@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { parseTypescript } from "../../src";
+import { parseTypescript } from "../src";
 
 test("Basic variable with properties", () => {
   expect(parseTypescript({ input: "test.testing.test2;" })).toStrictEqual([

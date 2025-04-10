@@ -51,3 +51,7 @@ const RouterContent = ({ passedPath, paths, route, wrapperStyle }: RouterContent
     </div>
   );
 };
+
+export const IS_ROUTER = Symbol("isRouter");
+
+Router[IS_ROUTER] = true;

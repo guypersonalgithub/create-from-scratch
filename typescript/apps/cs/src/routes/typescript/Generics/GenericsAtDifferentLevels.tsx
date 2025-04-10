@@ -1,4 +1,4 @@
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
 
 export const GenericsAtDifferentLevels = () => {
@@ -12,7 +12,7 @@ export const GenericsAtDifferentLevels = () => {
         throughout the function/type/class/etc.
       </div>
       <div>For example, this, is a cleaner approach:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T,>(
   obj: { level1: { level2: { level3: T } } },
   callback: (nestedValue: T) => T,
@@ -24,7 +24,7 @@ export const GenericsAtDifferentLevels = () => {
         highlightCode
       />
       <div>than this approach:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T extends { level1: { level2: { level3: unknown } } }>(
   obj: T,
   callback: (nestedValue: T["level1"]["level2"]["level3"]) => T["level1"]["level2"]["level3"],
@@ -53,7 +53,7 @@ export const GenericsAtDifferentLevels = () => {
         part of the type, in order to let typescript infer the generic value easier.
       </div>
       <div>That's why, the following example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T extends string>(statuses: T[]) => {
   return statuses;
 };
@@ -64,7 +64,7 @@ const result = example(["1", "2", "3", "4"]); // result's type is result: ("1" |
         highlightCode
       />
       <div>is cleaner than this example, even though both end up with the same result:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const example = <T extends string[]>(statuses: T) => {
   return statuses as T[number][];
 };
