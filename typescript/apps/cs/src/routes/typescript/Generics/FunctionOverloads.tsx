@@ -1,4 +1,4 @@
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 import { StyledLink } from "../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
 
@@ -12,7 +12,7 @@ export const FunctionOverloads = () => {
         function keyword is required for this.
       </div>
       <div>Example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`function example(arg: "test"): "test";
 function example(arg: 1): 1;
 function example(arg: unknown) {
@@ -32,7 +32,7 @@ const second = example("test");`}
         , we can make typescript infer correctly return types of functions that conditionally return
         different things, with function overloads:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`function example(arg: "test1"): "test2";
 function example(arg: "test2"): "test1";
 // When having overloaded functions, the implementation signature is not exposed outside of the function, so the type "test1" | "test2" becomes an internal signature.
@@ -59,7 +59,7 @@ const test2 = example("test2");`}
       </div>
       <StyledSubTitle>Generics in function overloads</StyledSubTitle>
       <div>We can also use generics in function overloads, for example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`function example(arg: 1): 2;
 function example<T>(arg: T): T;
 function example(arg: unknown): unknown {
@@ -83,7 +83,7 @@ function example(arg: unknown): unknown {
       </div>
       <StyledSubTitle>Declaring overload functions on interfaces</StyledSubTitle>
       <div>We can declare overload functions on interfaces, for example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`interface Example {
   callback(): 1;
   callback(arg: "test"): 2;
@@ -101,7 +101,7 @@ function example(arg: unknown): unknown {
         With overload functions, we can make the types more precise. So that instead of the
         following:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`function getData<T>(callback: () => Promise<T>, initialData?: T) {
   let data = initialData;
 
@@ -120,7 +120,7 @@ const data = getData(() => Promise.resolve(1), 2).receiveData(); // typescript i
         withCursor
       />
       <div>We can use overload functions:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`function getData<T>(callback: () => Promise<T>): { receiveData: () => T | undefined };
 function getData<T>(callback: () => Promise<T>, initialData: T): { receiveData: () => T};
 function getData<T>(callback: () => Promise<T>, initialData?: T) {
@@ -151,7 +151,7 @@ const data = getData(() => Promise.resolve(1), 2).receiveData(); // typescript i
         between a generic type constraint and a default value that makes the argument optional).
       </div>
       <div>For example:</div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const obj = {
   a: 1,
   b: 2,
@@ -173,7 +173,7 @@ function getValue<T extends Key>(key: T = "a") {
         In order to fix the error and help typescript infer properly, we can use overload functions
         the following way:
       </div>
-      <PseudoTerminalVisuals
+      <SyntaxHighlighter
         code={`const obj = {
   a: 1,
   b: 2,

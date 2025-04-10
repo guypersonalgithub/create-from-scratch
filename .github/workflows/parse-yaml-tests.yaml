@@ -1,4 +1,4 @@
-name: Syntax-Highlighter tests
+name: parse-yaml tests
 on:
   pull_request:
     branches:
@@ -8,10 +8,10 @@ on:
       - synchronize
       - reopened
     paths:
-      - typescript/packages/syntax-highlighter/**
+      - typescript/packages/parse-yaml/**
       - typescript/packages/utils/**
 jobs:
-  Syntax-Highlighter-tests:
+  Parse-Yaml-tests:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,4 +23,4 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Run tests
-        run: cd packages/syntax-highlighter && npm run test
+        run: cd packages/parse-yaml && npm run test

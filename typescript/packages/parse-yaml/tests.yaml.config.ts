@@ -1,8 +1,8 @@
 import { ActionYamlConfigProps } from "@packages/github-actions";
 
 export default {
-  fileName: "syntax-highlighter-tests",
-  name: "Syntax-Highlighter tests",
+  fileName: "parse-yaml-tests",
+  name: "parse-yaml tests",
   on: {
     pull_request: {
       branches: ["main"],
@@ -10,7 +10,7 @@ export default {
     },
   },
   jobs: {
-    "Syntax-Highlighter-tests": {
+    "Parse-Yaml-tests": {
       "runs-on": "ubuntu-latest",
       defaults: {
         run: {
@@ -31,7 +31,7 @@ export default {
         },
         {
           name: "Run tests",
-          run: "cd packages/syntax-highlighter && npm run test",
+          run: "cd packages/parse-yaml && npm run test",
         },
       ],
     },

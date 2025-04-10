@@ -1,15 +1,11 @@
 import { CSSProperties, Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./styles.css";
 import { getComptuedStyleProperties } from "@packages/utils";
-import {
-  parseTypescript,
-  colorizeTypescriptTokens,
-  parseYaml,
-  colorizeYamlTokens,
-} from "@packages/syntax-highlighter";
+import { parseTypescript, colorizeTypescriptTokens } from "@packages/parse-typescript";
+import { parseYaml, colorizeYamlTokens } from "@packages/parse-yaml";
 import { CopyToClipboard } from "@packages/copy-to-clipboard";
 
-type PseudoTerminalVisualsProps = {
+type SyntaxHighlighterProps = {
   code: string;
   highlightCode?: boolean;
   style?: CSSProperties;
@@ -28,7 +24,7 @@ type Animated =
       pacing?: never;
     };
 
-export const PseudoTerminalVisuals = ({
+export const SyntaxHighlighter = ({
   code,
   highlightCode,
   withCursor,
@@ -36,11 +32,9 @@ export const PseudoTerminalVisuals = ({
   pacing,
   style,
   language = "typescript",
-}: PseudoTerminalVisualsProps) => {
+}: SyntaxHighlighterProps) => {
   if (animatedWriting) {
-    return (
-      <PseudoTerminalAnimation code={code} withCursor={withCursor} pacing={pacing} style={style} />
-    );
+    return <AnimatedCode code={code} withCursor={withCursor} pacing={pacing} style={style} />;
   }
 
   if (highlightCode) {
@@ -49,7 +43,7 @@ export const PseudoTerminalVisuals = ({
       const highlighted = colorizeTypescriptTokens({ tokens });
 
       return (
-        <pre className="pseudoTerminalVisuals" style={{ ...style, position: "relative" }}>
+        <pre className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
           <div style={{ position: "absolute", right: "10px" }}>
             <CopyToClipboard textToCopy={code} withIcons />
           </div>
@@ -63,7 +57,7 @@ export const PseudoTerminalVisuals = ({
       const tokens = parseYaml({ input: code });
       const highlighted = colorizeYamlTokens({ tokens });
       return (
-        <pre className="pseudoTerminalVisuals" style={{ ...style, position: "relative" }}>
+        <pre className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
           <div style={{ position: "absolute", right: "10px" }}>
             <CopyToClipboard textToCopy={code} withIcons />
           </div>
@@ -77,19 +71,19 @@ export const PseudoTerminalVisuals = ({
   }
 
   return (
-    <pre className="pseudoTerminalVisuals" style={style}>
+    <pre className="syntaxHighlighter" style={style}>
       {code}
       {withCursor ? <span className="terminalCursor">|</span> : null}
     </pre>
   );
 };
 
-const PseudoTerminalAnimation = ({
+const AnimatedCode = ({
   code,
   withCursor,
   pacing = 100,
   style,
-}: Omit<PseudoTerminalVisualsProps, "animatedWriting">) => {
+}: Omit<SyntaxHighlighterProps, "animatedWriting">) => {
   const amountOfLines = useRef<number>(1);
   const [displayedCode, setDisplayedCode] = useState("");
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -161,7 +155,7 @@ const PseudoTerminalAnimation = ({
   return (
     <pre
       ref={ref}
-      className="pseudoTerminalVisuals"
+      className="syntaxHighlighter"
       style={
         style?.height
           ? style

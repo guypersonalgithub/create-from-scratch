@@ -5,6 +5,7 @@ import { Root } from "./Root";
 import { Chroot } from "./Chroot";
 import { Docker } from "./docker/Docker";
 import { Namespaces } from "./Namespaces";
+import { Cgroups } from "./Cgroups";
 
 export const Containers = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -18,6 +19,8 @@ export const Containers = () => {
           { path: "/containers", children: "Containers" },
           { path: "/containers/chroot", children: "Chroot" },
           { path: "/containers/docker", children: "Docker" },
+          { path: "/containers/namespaces", children: "Namepsaces " },
+          { path: "/containers/cgroups", children: "Cgroups" },
         ]}
       />
       <SubRouter
@@ -26,6 +29,7 @@ export const Containers = () => {
           "/chroot": <Chroot />,
           "/docker!": <Docker />,
           "/namespaces": <Namespaces />,
+          "/cgroups": <Cgroups />,
         }}
       />
     </div>

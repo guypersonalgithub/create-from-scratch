@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 
 const meta = {
-  title: "PseudoTerminalVisuals",
-  component: PseudoTerminalVisuals,
+  title: "SyntaxHighlighter",
+  component: SyntaxHighlighter,
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof PseudoTerminalVisuals>;
+} satisfies Meta<typeof SyntaxHighlighter>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -19,5 +19,5 @@ console.log(firstMessage);`,
     animatedWriting: true,
     withCursor: true,
   },
-  render: (args) => <PseudoTerminalVisuals {...args} />,
+  render: (args) => <SyntaxHighlighter {...args} />,
 };

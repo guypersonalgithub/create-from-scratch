@@ -1,4 +1,4 @@
-import { parseTypescript } from "@packages/syntax-highlighter";
+import { parseTypescript } from "@packages/parse-typescript";
 import { removeWrapperQuotationMarks } from "@packages/utils";
 
 type ConvertStringToObjectWithStringPropertiesArgs = {

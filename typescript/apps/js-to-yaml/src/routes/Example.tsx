@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 
 export const Example = () => {
   const [code, setCode] = useState("");
@@ -7,7 +7,7 @@ export const Example = () => {
   return (
     <div>
       <textarea value={code} onChange={(e) => setCode(e.target.value)} />
-      <PseudoTerminalVisuals code={""} highlightCode language="yaml" />
+      <SyntaxHighlighter code={""} highlightCode language="yaml" />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { StyledLink } from "../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
-import { PseudoTerminalVisuals } from "@packages/pseudo-terminal-visuals";
+import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 import { useStickSubRouterLinksToTop } from "../../../useStickSubRouterLinksToTop";
 import { StyledLinksContainer } from "../../../styledComponents/StyledLinksContainer";
 import { SubRouter } from "@packages/router";
@@ -49,7 +49,7 @@ export const Generics = () => {
                   In the following example, res' type is equal to the return type, so res' type is
                   "test".
                 </div>
-                <PseudoTerminalVisuals
+                <SyntaxHighlighter
                   code={`const example = <T>(arg: T) => {
   return arg;
 };
@@ -64,7 +64,7 @@ const res = example("test");`}
                   receive and yet still use a generic type. By having adding a constraint, we can
                   limit what types of values the generic potentially supports.
                 </div>
-                <PseudoTerminalVisuals
+                <SyntaxHighlighter
                   code={`const example = <T extends string>(arg: T) => {
   return arg;
 };
@@ -86,7 +86,7 @@ const res2 = example(1); // has a typescript warning, as 1 isn't a string`}
                   to infer deeply, it would require adding constraints similarly to the previous
                   example.
                 </div>
-                <PseudoTerminalVisuals
+                <SyntaxHighlighter
                   code={`const example = <T, S>(arg: T, arg2: S) => {
   return { arg, arg2 };
 };
@@ -105,7 +105,7 @@ const res = example("test", 1);`}
                   For example, in the following example, typescript would infer the example as
                   "string" instead of as as "test".
                 </div>
-                <PseudoTerminalVisuals
+                <SyntaxHighlighter
                   code={`class Example<T> {
   private props: T;
 
