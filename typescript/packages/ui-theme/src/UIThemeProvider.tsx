@@ -3,12 +3,12 @@ import { Theme, UIThemeContext, UIThemeContextType } from "./UIThemeContext";
 import { getFirstTheme } from "./utils";
 import "./styles.css";
 
-interface UIThemeProviderProps<T extends Record<string, Th>, Th extends Theme = Theme> {
+type UIThemeProviderProps<T extends Record<string, Th>, Th extends Theme = Theme> = {
   themes: T;
   defaultTheme?: keyof T;
   children: ReactNode;
   style?: CSSProperties;
-}
+};
 
 export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme = Theme>({
   themes,
@@ -28,20 +28,19 @@ export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme =
     },
   };
 
+  const themeStyle: CSSProperties & { [key: string]: string | number | undefined } = {
+    ...style,
+    "--theme-transition": style.transition,
+  };
+  for (const property in themes[currentTheme]) {
+    const value = themes[currentTheme][property];
+    const key = `--theme-${property}`;
+    themeStyle[key] = value;
+  }
+
   return (
     <UIThemeContext.Provider value={contextValue}>
-      <div
-        style={{
-          ...style,
-          ...{
-            "--theme-color": themes[currentTheme].color,
-            "--theme-bg": themes[currentTheme].background,
-            "--theme-transition": style.transition,
-          },
-        }}
-      >
-        {children}
-      </div>
+      <div style={themeStyle}>{children}</div>
     </UIThemeContext.Provider>
   );
 };

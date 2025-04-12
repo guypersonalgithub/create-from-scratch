@@ -4,10 +4,11 @@ import { CSSProperties, ReactNode } from "react";
 
 type StyledButtonProps = {
   style?: CSSProperties;
+  onClick?: () => void;
   children: ReactNode;
 };
 
-export const StyledButton = ({ style, children }: StyledButtonProps) => {
+export const StyledButton = ({ style, onClick, children }: StyledButtonProps) => {
   return (
     <Button
       style={{
@@ -29,6 +30,7 @@ export const StyledButton = ({ style, children }: StyledButtonProps) => {
         position: "relative",
         ...style,
       }}
+      onClick={onClick}
     >
       {children}
       {/* <div style={{ position: "absolute", right: "15px", top: "12px" }}> */}

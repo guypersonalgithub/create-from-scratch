@@ -122,7 +122,7 @@ export const iterateOverSteps = <SharedData extends Record<string, unknown> = {}
         updatedIndex,
         stop,
         i,
-        sharedData
+        sharedData,
       };
     }
 
@@ -269,7 +269,7 @@ export const definitionSpaceHelper = ({
 
   if (!spaceProperties) {
     return {
-      updatedIndex: currentIndex - newTokenValue.length,
+      updatedIndex: currentIndex - (newTokenValue?.length ?? 0),
       stop: true,
     };
   }

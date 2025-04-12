@@ -5,12 +5,14 @@ import { CSSProperties } from "react";
 import { isLinkGroup } from "./utils";
 
 type LinkGroupProps = SidebarLinkGroup & {
-  isOpen: boolean;
+  isOpen?: boolean;
   onLinkClick: ({ pathname, queryParams }: Pick<SidebarLink, "pathname" | "queryParams">) => void;
-  openedWidth: number;
+  openedWidth?: number;
   iconSize?: number;
   selected?: string;
   selectedStyle?: CSSProperties;
+  linkStyle?: CSSProperties;
+  disabledTooltip?: boolean;
 };
 
 export const LinkGroup = ({
@@ -22,6 +24,8 @@ export const LinkGroup = ({
   iconSize,
   selected,
   selectedStyle,
+  linkStyle,
+  disabledTooltip,
 }: LinkGroupProps) => {
   return (
     <Collapsible title={category} containerStyle={{ width: "100%" }}>
@@ -36,6 +40,8 @@ export const LinkGroup = ({
               onLinkClick={onLinkClick}
               selected={selected}
               selectedStyle={selectedStyle}
+              linkStyle={linkStyle}
+              disabledTooltip={disabledTooltip}
               {...link}
             />
           );
@@ -51,6 +57,8 @@ export const LinkGroup = ({
             onLinkClick={onLinkClick}
             selected={selected}
             selectedStyle={selectedStyle}
+            linkStyle={linkStyle}
+            disabledTooltip={disabledTooltip}
           />
         );
       })}
