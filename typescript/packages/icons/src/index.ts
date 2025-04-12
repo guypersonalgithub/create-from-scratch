@@ -14,3 +14,4 @@ export * from "./Check";
 export * from "./Terminal";
 export * from "./CSS";
 export * from "./Linux";
+export * from "./Info";

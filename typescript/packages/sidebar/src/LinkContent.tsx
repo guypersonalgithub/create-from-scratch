@@ -5,13 +5,15 @@ import { CSSProperties } from "react";
 
 type LinkContentProps = {
   link: SidebarLink;
-  isOpen: boolean;
+  isOpen?: boolean;
   onLinkClick: ({ pathname, queryParams }: Pick<SidebarLink, "pathname" | "queryParams">) => void;
-  openedWidth: number;
+  openedWidth?: number;
   iconSize?: number;
   selected?: string;
   selectedStyle?: CSSProperties;
   tooltipDistanceFromViewport?: number;
+  linkStyle?: CSSProperties;
+  disabledTooltip?: boolean;
 };
 
 export const LinkContent = ({
@@ -23,6 +25,8 @@ export const LinkContent = ({
   selected,
   selectedStyle,
   tooltipDistanceFromViewport,
+  linkStyle,
+  disabledTooltip
 }: LinkContentProps) => {
   return (
     <Tooltip
@@ -32,7 +36,7 @@ export const LinkContent = ({
         transition: "width 0.3s ease",
         width: isOpen ? "100%" : `${iconSize ? iconSize + 6 : undefined}px`,
       }}
-      disabled={isOpen}
+      disabled={disabledTooltip || isOpen}
       side="right"
       offset={{
         y: iconSize ? iconSize / 2 : undefined,
@@ -56,6 +60,7 @@ export const LinkContent = ({
           padding: 0,
           paddingTop: "2px",
           backgroundColor: "inherit",
+          ...linkStyle,
           ...(selected === link.pathname ? selectedStyle : {}),
         }}
         onClick={() => onLinkClick({ pathname: link.pathname, queryParams: link.queryParams })}

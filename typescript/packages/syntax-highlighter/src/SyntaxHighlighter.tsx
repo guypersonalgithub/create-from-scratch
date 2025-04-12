@@ -43,29 +43,33 @@ export const SyntaxHighlighter = ({
       const highlighted = colorizeTypescriptTokens({ tokens });
 
       return (
-        <pre className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
-          <div style={{ position: "absolute", right: "10px" }}>
-            <CopyToClipboard textToCopy={code} withIcons />
-          </div>
-          {highlighted.map((ele, index) => (
-            <Fragment key={index}>{ele}</Fragment>
-          ))}
-          {withCursor ? <span className="terminalCursor">|</span> : null}
-        </pre>
+        <div className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
+          <pre>
+            <div style={{ position: "absolute", right: "10px" }}>
+              <CopyToClipboard textToCopy={code} withIcons />
+            </div>
+            {highlighted.map((ele, index) => (
+              <Fragment key={index}>{ele}</Fragment>
+            ))}
+            {withCursor ? <span className="terminalCursor">|</span> : null}
+          </pre>
+        </div>
       );
     } else {
       const tokens = parseYaml({ input: code });
       const highlighted = colorizeYamlTokens({ tokens });
       return (
-        <pre className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
-          <div style={{ position: "absolute", right: "10px" }}>
-            <CopyToClipboard textToCopy={code} withIcons />
-          </div>
-          {highlighted.map((ele, index) => (
-            <Fragment key={index}>{ele}</Fragment>
-          ))}
-          {withCursor ? <span className="terminalCursor">|</span> : null}
-        </pre>
+        <div className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
+          <pre>
+            <div style={{ position: "absolute", right: "10px" }}>
+              <CopyToClipboard textToCopy={code} withIcons />
+            </div>
+            {highlighted.map((ele, index) => (
+              <Fragment key={index}>{ele}</Fragment>
+            ))}
+            {withCursor ? <span className="terminalCursor">|</span> : null}
+          </pre>
+        </div>
       );
     }
   }

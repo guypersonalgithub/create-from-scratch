@@ -5,6 +5,7 @@ type ConvertStringToObjectWithStringPropertiesArgs = {
   str: string;
   removeKeyQuotations?: boolean;
   removeValueQuotations?: boolean;
+  returnObjectOnIncorrectToken?: boolean;
 };
 
 export type ParsedObject =
@@ -17,178 +18,52 @@ export const convertStringToObjectWithStringProperties = ({
   str,
   removeKeyQuotations,
   removeValueQuotations,
+  returnObjectOnIncorrectToken,
 }: ConvertStringToObjectWithStringPropertiesArgs) => {
   const tokens = parseTypescript({ input: str });
   const tokensCopy = tokens.slice();
   const object: ParsedObject = {};
 
-  while (tokensCopy.length > 0) {
-    const current = tokensCopy.shift();
-    if (!current) {
-      break;
-    }
+  try {
+    while (tokensCopy.length > 0) {
+      const current = tokensCopy.shift();
+      if (!current) {
+        break;
+      }
 
-    if (current.type === "object-curly-bracket" && current.value === "{") {
-      const nestedObject = parseNestedObject({
-        tokens: tokensCopy,
-        removeKeyQuotations,
-        removeValueQuotations,
-      });
-      if (nestedObject) {
-        for (const key in nestedObject) {
-          const value = nestedObject[key];
-          object[key] = value;
+      if (current.type === "object-curly-bracket" && current.value === "{") {
+        const nestedObject = parseNestedObject({
+          tokens: tokensCopy,
+          removeKeyQuotations,
+          removeValueQuotations,
+          returnObjectOnIncorrectToken,
+        });
+        if (nestedObject) {
+          for (const key in nestedObject) {
+            const value = nestedObject[key];
+            object[key] = value;
+          }
         }
+      } else if (current.type === "array-square-bracket" && current.value === "[") {
+        const array = parseNestedArray({
+          tokens,
+          removeKeyQuotations,
+          removeValueQuotations,
+          returnObjectOnIncorrectToken,
+        });
+        if (array) {
+          const key = removeKeyQuotations
+            ? removeWrapperQuotationMarks({ str: current.value })
+            : current.value;
+          object[key] = array;
+        }
+      } else {
+        // console.log(current);
       }
-    } else if (current.type === "array-square-bracket" && current.value === "[") {
-      const array = parseNestedArray({
-        tokens,
-        removeKeyQuotations,
-        removeValueQuotations,
-      });
-      if (array) {
-        const key = removeKeyQuotations
-          ? removeWrapperQuotationMarks({ str: current.value })
-          : current.value;
-        object[key] = array;
-      }
-    } else {
-      // console.log(current);
     }
+  } catch (error) {
+    console.error(error);
   }
-
-  // const object: ParsedObject = {};
-  // const nestingKeys: string[] = [];
-  // let arrayCell: ParsedObject = {};
-  // const nestingArrayKeys: string[] = [];
-  // let isWithinArray = false;
-  // const first = tokens[0];
-  // if (first.value !== "{") {
-  //   return object;
-  // }
-
-  // for (let i = 1; i < 100; i++) {
-  //   const current = tokens[i];
-  //   const currentKeys = isWithinArray ? nestingArrayKeys : nestingKeys;
-  //   const currentObject = isWithinArray ? arrayCell : object;
-  //   if (current.type === "object-property" || current.type === "object-string-property") {
-  //     currentKeys.push(current.value);
-  //     i++;
-  //     let next = tokens[i];
-
-  //     if (next.type === "whitespace") {
-  //       i++;
-  //       next = tokens[i];
-  //     }
-
-  //     if (next.type === "object-colon") {
-  //       i++;
-  //       let value = tokens[i];
-  //       if (value.type === "whitespace") {
-  //         i++;
-  //         value = tokens[i];
-
-  //         if (value.type !== "object-curly-bracket") {
-  //           if (value.type === "array-square-bracket") {
-  //             isWithinArray = value.value === "[";
-  //           } else {
-  //             setNestedKey({
-  //               obj: currentObject,
-  //               keys: currentKeys,
-  //               value: value.value,
-  //               valueKey: current.value,
-  //             });
-
-  //             currentKeys.pop();
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       throw "Unexpected syntax, expected object colon";
-  //     }
-  //   } else if (current.type === "object-curly-bracket" && current.value === "}") {
-  //     if (isWithinArray) {
-  //     }
-
-  //     currentKeys.pop();
-  //   }
-
-  //   // setNestedKey({
-  //   //   obj: object,
-  //   //   keys: nestingKeys,
-  //   // });
-  // }
-
-  // for (let i = 0; i < lines.length; i++) {
-  //   const line = lines[i];
-  //   const trimmed = line.trim();
-
-  //   if (trimmed === "}" || trimmed === "},") {
-  //     nestingKeys.pop();
-  //     continue;
-  //   }
-
-  //   const keyValueMatch = trimmed.match(/^"?([~\w@./-]+)"?:\s*(.*?),?\s*$/);
-  //   if (keyValueMatch) {
-  //     currentKey = keyValueMatch[1].replace(/^"|"$/g, "");
-  //     currentValue = keyValueMatch[2];
-  //     isInValue = !keyValueMatch[0].endsWith(",") && !keyValueMatch[0].endsWith("{");
-  //     if (keyValueMatch[0].endsWith("(")) {
-  //       isInParenthesis = true;
-  //     }
-
-  //     if (currentValue === "{}") {
-  //       if (currentKey) {
-  //         nestingKeys.push(currentKey);
-  //       }
-
-  //       setNestedKey({
-  //         obj: object,
-  //         keys: nestingKeys,
-  //       });
-
-  //       if (currentKey) {
-  //         nestingKeys.pop();
-  //       }
-
-  //       continue;
-  //     }
-
-  //     if (currentKey && currentValue !== "{" && !isInValue) {
-  //       const trimmedValue = currentValue.trim();
-  //       setNestedKey({
-  //         obj: object,
-  //         keys: nestingKeys,
-  //         valueKey: currentKey,
-  //         value: trimmedValue,
-  //       });
-  //     } else if (currentValue === "{") {
-  //       nestingKeys.push(currentKey);
-  //       currentValue = "";
-  //     }
-  //   } else if (isInValue || isInParenthesis) {
-  //     currentValue += ` ${trimmed}`;
-  //     if (trimmed.endsWith(",")) {
-  //       if (trimmed[trimmed.length - 2] === ")") {
-  //         isInParenthesis = false;
-  //       }
-
-  //       isInValue = false;
-  //     } else if (trimmed.endsWith(")")) {
-  //       isInParenthesis = false;
-  //     }
-
-  //     if (!isInValue && !isInParenthesis) {
-  //       const trimmedValue = currentValue.trim();
-  //       setNestedKey({
-  //         obj: object,
-  //         keys: nestingKeys,
-  //         valueKey: currentKey,
-  //         value: trimmedValue,
-  //       });
-  //     }
-  //   }
-  // }
 
   return { object };
 };
@@ -197,12 +72,14 @@ type ParseNestedObjectArgs = {
   tokens: ReturnType<typeof parseTypescript>;
   removeKeyQuotations?: boolean;
   removeValueQuotations?: boolean;
+  returnObjectOnIncorrectToken?: boolean;
 };
 
 const parseNestedObject = ({
   tokens,
   removeKeyQuotations,
   removeValueQuotations,
+  returnObjectOnIncorrectToken,
 }: ParseNestedObjectArgs) => {
   const object: ParsedObject = {};
 
@@ -247,6 +124,7 @@ const parseNestedObject = ({
                 tokens,
                 removeKeyQuotations,
                 removeValueQuotations,
+                returnObjectOnIncorrectToken,
               });
               if (array) {
                 object[key] = array;
@@ -269,6 +147,7 @@ const parseNestedObject = ({
                     tokens,
                     removeKeyQuotations,
                     removeValueQuotations,
+                    returnObjectOnIncorrectToken,
                   });
                   if (nested) {
                     fullValue += nested;
@@ -286,6 +165,7 @@ const parseNestedObject = ({
                     tokens,
                     removeKeyQuotations,
                     removeValueQuotations,
+                    returnObjectOnIncorrectToken,
                   });
                   if (array) {
                     fullValue += array;
@@ -311,6 +191,7 @@ const parseNestedObject = ({
               tokens,
               removeKeyQuotations,
               removeValueQuotations,
+              returnObjectOnIncorrectToken,
             });
             if (nested) {
               object[key] = nested;
@@ -318,7 +199,11 @@ const parseNestedObject = ({
           }
         }
       } else {
-        throw "Unexpected syntax, expected object colon";
+        if (returnObjectOnIncorrectToken) {
+          return object;
+        }
+
+        return;
       }
     } else if (current.type === "object-curly-bracket" && current.value === "}") {
       return object;
@@ -332,12 +217,14 @@ type ParseNestedArrayArgs = {
   tokens: ReturnType<typeof parseTypescript>;
   removeKeyQuotations?: boolean;
   removeValueQuotations?: boolean;
+  returnObjectOnIncorrectToken?: boolean;
 };
 
 const parseNestedArray = ({
   tokens,
   removeKeyQuotations,
   removeValueQuotations,
+  returnObjectOnIncorrectToken,
 }: ParseNestedArrayArgs) => {
   const array: (ParsedObject | string)[] = [];
 
@@ -352,6 +239,7 @@ const parseNestedArray = ({
         tokens,
         removeKeyQuotations,
         removeValueQuotations,
+        returnObjectOnIncorrectToken,
       });
       if (object) {
         array.push(object);
@@ -361,6 +249,7 @@ const parseNestedArray = ({
         tokens,
         removeKeyQuotations,
         removeValueQuotations,
+        returnObjectOnIncorrectToken,
       });
       if (nestedArray) {
         array.push(nestedArray);
@@ -372,6 +261,8 @@ const parseNestedArray = ({
         ? removeWrapperQuotationMarks({ str: current.value })
         : current.value;
       array.push(value);
+    } else if (current.type === "number") {
+      array.push(current.value);
     } else if (
       current.type === "variable" ||
       current.type === "function-name" ||
@@ -389,6 +280,7 @@ const parseNestedArray = ({
             tokens,
             removeKeyQuotations,
             removeValueQuotations,
+            returnObjectOnIncorrectToken,
           });
           if (nested) {
             fullValue += nested;
@@ -407,6 +299,7 @@ const parseNestedArray = ({
             tokens,
             removeKeyQuotations,
             removeValueQuotations,
+            returnObjectOnIncorrectToken,
           });
           if (array) {
             fullValue += array;

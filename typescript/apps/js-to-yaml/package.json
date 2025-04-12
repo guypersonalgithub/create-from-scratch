@@ -23,7 +23,11 @@
     "@packages/card": "*",
     "@packages/command-box": "*",
     "@packages/object-utils": "*",
-    "@packages/css-utils": "*"
+    "@packages/css-utils": "*",
+    "@packages/breakpoints": "*",
+    "@packages/animation-container": "*",
+    "@packages/textarea": "*",
+    "@packages/sidebar": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

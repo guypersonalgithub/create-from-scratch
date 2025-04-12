@@ -16,8 +16,6 @@
 
 @keyframes terminalCursorAnimation {
     50% {
-
         opacity: 0;
-
     }
 }

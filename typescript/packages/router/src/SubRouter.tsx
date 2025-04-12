@@ -46,3 +46,7 @@ const RouterContent = ({
     </div>
   );
 };
+
+export const IS_SUB_ROUTER = Symbol("isSubRouter");
+
+SubRouter[IS_SUB_ROUTER] = true;

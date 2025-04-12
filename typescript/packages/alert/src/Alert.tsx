@@ -1,11 +1,11 @@
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 type AlertType = "success" | "error" | "info" | "warning";
 
 type AlertProps = {
   style?: CSSProperties;
   type: AlertType;
-  message: string;
+  message: ReactNode;
   onClose?: () => void;
 };
 

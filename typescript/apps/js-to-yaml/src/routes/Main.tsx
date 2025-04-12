@@ -1,12 +1,14 @@
-import { StyledButton } from "../StyledButton";
-import { SyntaxHighlighter } from "@packages/syntax-highlighter";
-import { javascriptOutput, output, stringifiedObject } from "../yamlExample";
+import { StyledButton, StyledCard, StyledCommandBox } from "../styledComponents";
 import { Alert } from "@packages/alert";
-import { Card } from "@packages/card";
 import { Terminal } from "@packages/icons";
-import { CommandBox } from "@packages/command-box";
+import { useGetBreakpoint } from "../breakpoints";
+import { usePath } from "@packages/router";
 
 export const Main = () => {
+  const { moveTo } = usePath();
+  const { breakpoint } = useGetBreakpoint();
+  const isMobile = breakpoint === "mobile";
+
   return (
     <div>
       <div
@@ -14,71 +16,64 @@ export const Main = () => {
           textAlign: "center",
           color: "var(--theme-color)",
           transition: "var(--theme-transition)",
-          // backgroundColor: "var(--theme-bg)",
-          // transition: "var(--theme-transition)",
-          // transition: "color 0.1s ease, background-color 0.5s ease",
         }}
       >
         <h1>JS to YAML</h1>
-        <h3>An easy to use library that converts Javascript objects to YAMLs and vice versa.</h3>
-        <StyledButton style={{ margin: "0 auto" }}>testing</StyledButton>
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "20px",
-          justifyContent: "center",
-          width: "60%",
-          margin: "0 auto",
-        }}
-      >
-        <SyntaxHighlighter code={stringifiedObject} highlightCode />
-        <SyntaxHighlighter code={output} highlightCode language="yaml" />
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "20px",
-          justifyContent: "center",
-          width: "60%",
-          margin: "0 auto",
-        }}
-      >
-        <SyntaxHighlighter code={output} highlightCode language="yaml" />
-        <SyntaxHighlighter code={`${javascriptOutput}`} highlightCode />
-      </div>
-      <Card style={{ width: "50vw", margin: "0 auto" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "5px",
-          }}
-        >
-          <Terminal
+        <h3>
+          JS to YAML lets you avoid mundane repetitive YAML management tasks and lets you automate
+          the process with ease.
+        </h3>
+        <StyledCard style={{ ...(!isMobile ? { width: "50vw" } : {}), margin: "0 auto" }}>
+          <div
             style={{
-              width: "24px",
-              height: "24px",
-              color: "rgba(0, 119, 184, 0.976)",
-              marginTop: "4px",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
             }}
-          />
-          <span style={{ fontWeight: "bold", fontSize: "25px" }}>Get Started</span>
-        </div>
-        <div>Install JS-to-YAML in your project with the following command:</div>
-        <div style={{ display: "flex", alignItems: "center", marginTop: "10px", gap: "20px" }}>
-          <CommandBox command="npm install js-to-yaml" copyToClipboard withIcons />
-          <StyledButton style={{ whiteSpace: "nowrap", width: "200px" }}>Read docs</StyledButton>
-        </div>
-        <div style={{ marginTop: "10px" }}>
-          <Alert
-            type="info"
-            message="Once installed, you can easily convert javascript objects to yaml and vice versa."
-          />
-        </div>
-      </Card>
+          >
+            <Terminal
+              style={{
+                width: "24px",
+                height: "24px",
+                color: "rgba(0, 119, 184, 0.976)",
+                marginTop: "4px",
+              }}
+            />
+            <span style={{ fontWeight: "bold", fontSize: "25px" }}>Get Started</span>
+          </div>
+          <div style={{ textAlign: "left" }}>
+            Install JS-to-YAML in your project with the following command:
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: "10px",
+              gap: "20px",
+              flexWrap: "wrap",
+            }}
+          >
+            <StyledCommandBox
+              style={{ flex: 1, minWidth: "230px" }}
+              command="npm install js-to-yaml"
+              copyToClipboard
+              withIcons
+            />
+            <StyledButton
+              style={{ whiteSpace: "nowrap", width: "220px", flexShrink: 0 }}
+              onClick={() => moveTo({ pathname: "/documentation" })}
+            >
+              Read docs
+            </StyledButton>
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            <Alert
+              type="info"
+              message="Once installed, you can easily convert javascript objects to yaml and vice versa."
+            />
+          </div>
+        </StyledCard>
+      </div>
     </div>
   );
 };
