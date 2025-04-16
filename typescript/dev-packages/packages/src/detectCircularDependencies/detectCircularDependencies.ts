@@ -23,6 +23,8 @@ export const detectCircularDependencies = (args?: DetectCircularDependenciesArgs
     localPackageIdentifier = "@packages",
     specificPackages,
     mapProblematicPackageImports,
+    hideLogs,
+    parsePaths,
   } = args ?? {};
 
   try {
@@ -49,6 +51,7 @@ export const detectCircularDependencies = (args?: DetectCircularDependenciesArgs
         localPackageIdentifier,
         problematicPackagesPaths,
         projectAbsolutePath,
+        hideLogs,
       });
     }
 
@@ -58,19 +61,31 @@ export const detectCircularDependencies = (args?: DetectCircularDependenciesArgs
         localPackageFolders,
         localPackageIdentifier,
         problematicPackagesPaths,
+        hideLogs,
       });
     } else {
-      setTerminalTextColors({ textColor: TerminalTextColors.Red });
+      if (!hideLogs) {
+        setTerminalTextColors({ textColor: TerminalTextColors.Red });
 
-      problematicPackagesPaths.forEach((problematicPath) => {
-        const { packageName } = getCurrentCircularDependencyPackageName({ problematicPath });
-        const fullPath = problematicPackagesPaths.find((path) => path.startsWith(packageName));
-        console.error(`Circular dependency was found in ${packageName}`);
-        console.error(`Full path: ${fullPath}`);
-      });
+        problematicPackagesPaths.forEach((problematicPath) => {
+          const { packageName } = getCurrentCircularDependencyPackageName({ problematicPath });
+          const fullPath = problematicPackagesPaths.find((path) => path.startsWith(packageName));
+          console.error(`Circular dependency was found in ${packageName}`);
+          console.error(`Full path: ${fullPath}`);
+        });
 
-      resetTerminalAttributes();
+        resetTerminalAttributes();
+      }
     }
+
+    if (parsePaths) {
+      return problematicPackagesPaths.map((problematicPath) => {
+        const { packageName } = getCurrentCircularDependencyPackageName({ problematicPath });
+        return packageName;
+      });
+    }
+
+    return problematicPackagesPaths;
   } catch (error) {
     console.error(error);
   }
@@ -81,6 +96,7 @@ type ProblematicPackageImportsMappingArgs = {
   localPackageFolders: string[];
   localPackageIdentifier: string;
   problematicPackagesPaths: string[];
+  hideLogs?: boolean;
 };
 
 const problematicPackageImportsMapping = ({
@@ -88,6 +104,7 @@ const problematicPackageImportsMapping = ({
   localPackageFolders,
   localPackageIdentifier,
   problematicPackagesPaths,
+  hideLogs,
 }: ProblematicPackageImportsMappingArgs) => {
   problematicPackagesPaths.forEach((problematicPath) => {
     const { packageName: dependencyToLookFor, splitProblematicPath } =
@@ -114,18 +131,22 @@ const problematicPackageImportsMapping = ({
       fullPath: existingPath.slice(0, endIndex),
       usedFiles,
     });
-    setTerminalTextColors({ textColor: TerminalTextColors.Red });
-    const fullPath = problematicPackagesPaths.find((path) => path.startsWith(dependencyToLookFor));
-    console.error(`Circular dependency was found in ${dependencyToLookFor}`);
-    console.error(`Full path: ${fullPath}`);
-    resetTerminalAttributes();
-    console.error("Problematic dependency encountered at:");
-    if (usedFiles.length > 0) {
-      usedFiles.forEach((usedFile) => {
-        console.log(usedFile);
-      });
-    } else {
-      console.log("No files were found with the problematic dependency.");
+    if (!hideLogs) {
+      setTerminalTextColors({ textColor: TerminalTextColors.Red });
+      const fullPath = problematicPackagesPaths.find((path) =>
+        path.startsWith(dependencyToLookFor),
+      );
+      console.error(`Circular dependency was found in ${dependencyToLookFor}`);
+      console.error(`Full path: ${fullPath}`);
+      resetTerminalAttributes();
+      console.error("Problematic dependency encountered at:");
+      if (usedFiles.length > 0) {
+        usedFiles.forEach((usedFile) => {
+          console.log(usedFile);
+        });
+      } else {
+        console.log("No files were found with the problematic dependency.");
+      }
     }
   });
 };

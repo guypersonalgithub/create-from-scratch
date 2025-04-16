@@ -31,6 +31,7 @@ export const printHelp = () => {
       "Generates github action yamls to workspaces if they contain appropriate github cicd config files",
     [SupportedCommands.DETECT_CIRCULAR_DEPENDENCIES]:
       "Detects circular dependencies for local packages",
+    [SupportedCommands.SETUP_PACKAGE]: "Setups packages for NPM publishments",
   };
 
   for (const command in commandDescriptions) {
