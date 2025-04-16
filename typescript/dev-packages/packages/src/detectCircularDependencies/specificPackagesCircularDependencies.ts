@@ -16,6 +16,7 @@ export const specificPackagesCircularDependencies = ({
   projectAbsolutePath,
   problematicPackagesPaths,
   packageLockPackages,
+  hideLogs,
 }: SpecificPackagesCircularDependenciesArgs) => {
   try {
     specificPackages.forEach((specificPackage) => {
@@ -52,7 +53,9 @@ export const specificPackagesCircularDependencies = ({
           packageDetails,
         });
 
-        console.log(`Circular dependencies were not found for ${packageDetails.packageName}`);
+        if (!hideLogs) {
+          console.log(`Circular dependencies were not found for ${packageDetails.packageName}`);
+        }
       } catch (error) {}
     });
   } catch (error) {

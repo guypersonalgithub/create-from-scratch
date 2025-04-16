@@ -6,10 +6,11 @@ import { generateAndInstallPackage } from "./generateAndInstallPackage";
 import { generatePostgresTypes } from "./generatePostgresTypes";
 import { updateViteConfigLocalDependenciesAliases } from "@packages/vite";
 import { detectChangedDependencies } from "@packages/git";
-import { Flag } from "@packages/utils";
+import { Flag, parseFlagArguments } from "@packages/utils";
 import { generatePackageLock } from "@packages/package-lock";
 import { generateGithubActionYaml } from "@packages/github-actions";
 import { detectCircularDependencies } from "@packages/packages";
+import { setupPackage } from "@packages/setup-package";
 
 type CliOptionsArgs = {
   command: Flag;
@@ -74,6 +75,24 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.DETECT_CIRCULAR_DEPENDENCIES: {
       detectCircularDependencies({ mapProblematicPackageImports: true });
+      break;
+    }
+    case SupportedCommands.SETUP_PACKAGE: {
+      const {
+        parsedArguments: { path, destination, bumpMajor, bumpMinor, bumpPatch },
+      } = parseFlagArguments({ args: value });
+
+      if (!path || !destination) {
+        throw new Error("Missing package path!");
+      }
+
+      await setupPackage({
+        path,
+        destination,
+        bumpMajor: !!bumpMajor,
+        bumpMinor: !!bumpMinor,
+        bumpPatch: !!bumpPatch,
+      });
       break;
     }
     default: {

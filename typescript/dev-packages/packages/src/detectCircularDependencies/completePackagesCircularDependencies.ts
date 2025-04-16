@@ -16,6 +16,7 @@ export const completePackagesCircularDependencies = ({
   localPackageIdentifier = "",
   projectAbsolutePath,
   problematicPackagesPaths,
+  hideLogs,
 }: CompletePackagesCircularDependenciesArgs) => {
   const localPackageDependencies: Record<string, Record<string, string>[]> = {};
 
@@ -59,7 +60,9 @@ export const completePackagesCircularDependencies = ({
         encounteredPackages,
       });
 
-      console.log(`Circular dependencies were not found for ${localPackage}`);
+      if (!hideLogs) {
+        console.log(`Circular dependencies were not found for ${localPackage}`);
+      }
     } catch (error) {}
   }
 };

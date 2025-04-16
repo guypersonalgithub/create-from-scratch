@@ -6,6 +6,8 @@ export type DetectCircularDependenciesArgs = {
   localPackageIdentifier?: string;
   specificPackages?: string[];
   mapProblematicPackageImports?: boolean;
+  hideLogs?: boolean;
+  parsePaths?: boolean;
 };
 
 export type PackagesCircularDependenciesAdditionalArgs = {
