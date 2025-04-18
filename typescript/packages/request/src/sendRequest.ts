@@ -31,6 +31,7 @@ export type SendRequestArgs<T> = {
   headers?: Record<string, string>;
   signal?: AbortSignal;
   fallback?: T;
+  stream?: boolean;
 };
 
 async function sendRequest<T>(
@@ -46,6 +47,7 @@ async function sendRequest<T>({
   headers = {},
   signal,
   fallback,
+  stream,
 }: SendRequestArgs<T>): Promise<{ response?: T; aborted?: boolean } | undefined> {
   try {
     const parsedURL = setupURL<T>({ url, params });
@@ -55,8 +57,31 @@ async function sendRequest<T>({
       headers: { "Content-Type": "application/json", ...headers },
       signal,
     });
-    const contentType = response.headers.get("content-type");
+
     if (response.ok) {
+      if (stream) {
+        if (!response.body) {
+          throw new Error("Response body doesn't exist!");
+        }
+
+        let streamedContent = "";
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            break;
+          }
+
+          const chunk = decoder.decode(value, { stream: true });
+          streamedContent += chunk;
+        }
+      }
+
+      const contentType = response.headers.get("content-type");
+
       if (contentType && contentType.includes("application/json")) {
         return { response: (await response.json()) as T };
       } else {

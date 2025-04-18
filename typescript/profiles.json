@@ -1,12 +1,8 @@
 [
-  "angular-app",
   "cs",
   "express-backend",
-  "next-app",
-  "remix-app",
   "vite-client",
   "vite-micro",
-  "vue-app",
   "express-backend-postgresql",
   "vite-client-e2e"
 ]

@@ -14,7 +14,7 @@ export const createPackageJson = async ({
   description,
   type = "module",
   privatePackage,
-  workspaces = ["packages/*", "dev-apps/*"],
+  workspaces = ["packages/*", "dev-packages/*"],
   scripts,
   author,
   license,

@@ -9,8 +9,9 @@
     "clis",
     "dev-apps/*",
     "dev-packages/*",
+    "test-apps/*",
     "scripts",
-    "c-scripts"
+    "ci-scripts"
   ],
   "scripts": {
     "packagemanager": "npm run --workspace=dev-apps/package-manager dev",
