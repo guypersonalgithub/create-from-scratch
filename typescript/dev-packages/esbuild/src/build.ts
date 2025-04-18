@@ -1,20 +1,16 @@
 import { build, BuildOptions } from "esbuild";
 
 export const buildContent = async ({ entryPoints = ["./src/index.ts"], ...rest }: BuildOptions) => {
-  const { format = "esm" } = rest;
-  const outfile = format === "esm" ? "dist/index.mjs" : "dist/index.cjs";
 
   try {
     await build({
       entryPoints,
       bundle: true,
-      platform: "node",
-      format,
-      outfile,
+      // platform: "node",
       minify: true,
       sourcemap: true,
       tsconfig: "./tsconfig.json",
-      external: ["tslib"], // Exclude tslib from bundling
+      // external: ["tslib"], // Exclude tslib from bundling
       loader: {
         ".png": "file",
         ".webp": "file",

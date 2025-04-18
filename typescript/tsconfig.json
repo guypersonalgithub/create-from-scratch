@@ -10,5 +10,12 @@
     "declaration": true,
     "jsx": "react-jsx"
   },
-  "include": ["./apps/*", "./dev-apps/*", "./packages/*", "./dev-packages/*", "./scripts/*"]
+  "include": [
+    "./apps/*",
+    "./dev-apps/*",
+    "./packages/*",
+    "./dev-packages/*",
+    "./test-apps/*",
+    "./scripts/*"
+  ]
 }

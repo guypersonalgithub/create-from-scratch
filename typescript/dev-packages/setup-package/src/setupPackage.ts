@@ -147,6 +147,7 @@ export const setupPackage = async ({
       entryPoints: [`${newDestination}/src/index.ts`],
       format: "esm",
       outfile: `${newDestination}/dist/index.mjs`,
+      platform: "node",
     });
   } catch (error) {
     console.error(error);

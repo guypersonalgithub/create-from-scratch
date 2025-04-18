@@ -46,7 +46,7 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.VITE_ALIASES: {
       await updateViteConfigLocalDependenciesAliases({
-        folders: ["apps", "dev-apps"],
+        folders: ["apps", "dev-apps", "test-apps"],
         localPackagesIdentifiers: ["packages", "dev-packages"],
         localPackagePrefix: "@",
       });
@@ -55,7 +55,7 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     case SupportedCommands.PACKAGE_LOCK: {
       const forceUpdate = value.length > 0 ? value[0] === "force-update" : false;
       await generatePackageLock({
-        workspacesFolders: ["apps", "dev-apps"],
+        workspacesFolders: ["apps", "dev-apps", "test-apps"],
         packagesFolders: ["packages", "dev-packages"],
         forceUpdate,
       });
