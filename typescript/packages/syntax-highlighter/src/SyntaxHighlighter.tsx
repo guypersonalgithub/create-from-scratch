@@ -1,16 +1,35 @@
 import { CSSProperties, Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./styles.css";
 import { getComptuedStyleProperties } from "@packages/utils";
-import { parseTypescript, colorizeTypescriptTokens } from "@packages/parse-typescript";
-import { parseYaml, colorizeYamlTokens } from "@packages/parse-yaml";
 import { CopyToClipboard } from "@packages/copy-to-clipboard";
+import { colorizeTokens } from "./colorizeTokens";
+import { GenericBaseToken, TokenMaps } from "./types";
+import { supportedLanguages, SupportedLanguages } from "./languages";
 
-type SyntaxHighlighterProps = {
+type SyntaxHighlighterProps<T extends SupportedLanguages = "typescript"> = {
   code: string;
-  highlightCode?: boolean;
   style?: CSSProperties;
-  language?: "typescript" | "yaml";
-} & Animated;
+  language?: SupportedLanguages;
+  copyToClipboard?: boolean;
+} & HighlightCode<T> &
+  Animated;
+
+type HighlightCode<T extends SupportedLanguages = "typescript"> =
+  | {
+      highlightCode?: boolean;
+      customizeColors?: (args: {
+        tokens: GenericBaseToken<T>[];
+        baseColors: Record<TokenMaps[T], string>;
+      }) => {
+        customBaseColors?: Partial<Record<TokenMaps[T], string>>;
+        cellTypeRebranding?: Record<number, TokenMaps[T]>;
+        customCellColors?: Record<number, string>;
+      };
+    }
+  | {
+      highlightCode?: never;
+      customizeColors?: never;
+    };
 
 type Animated =
   | {
@@ -24,7 +43,7 @@ type Animated =
       pacing?: never;
     };
 
-export const SyntaxHighlighter = ({
+export const SyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   code,
   highlightCode,
   withCursor,
@@ -32,46 +51,53 @@ export const SyntaxHighlighter = ({
   pacing,
   style,
   language = "typescript",
-}: SyntaxHighlighterProps) => {
+  copyToClipboard = true,
+  customizeColors,
+}: SyntaxHighlighterProps<T>) => {
   if (animatedWriting) {
     return <AnimatedCode code={code} withCursor={withCursor} pacing={pacing} style={style} />;
   }
 
   if (highlightCode) {
-    if (language === "typescript") {
-      const tokens = parseTypescript({ input: code });
-      const highlighted = colorizeTypescriptTokens({ tokens });
+    const { callback, baseColors } = supportedLanguages[language] as {
+      callback: (args: { input: string }) => GenericBaseToken<T>[];
+      baseColors: Record<TokenMaps[T], string>;
+    };
 
-      return (
-        <div className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
-          <pre>
+    const tokens = callback({ input: code }) as GenericBaseToken<T>[];
+    const {
+      customBaseColors = {},
+      cellTypeRebranding = {},
+      customCellColors = {},
+    } = customizeColors?.({
+      tokens,
+      baseColors,
+    }) ?? {};
+    const highlighted = colorizeTokens({
+      tokens,
+      baseColors: { ...baseColors, ...customBaseColors },
+      cellTypeRebranding,
+      customCellColors,
+    });
+
+    return (
+      <div
+        className="syntaxHighlighter"
+        style={{ ...style, position: "relative", overflow: "auto" }}
+      >
+        <pre>
+          {copyToClipboard ? (
             <div style={{ position: "absolute", right: "10px" }}>
-              <CopyToClipboard textToCopy={code} withIcons />
+              <CopyToClipboard textToCopy={code} withIcons style={{ color: "white" }} />
             </div>
-            {highlighted.map((ele, index) => (
-              <Fragment key={index}>{ele}</Fragment>
-            ))}
-            {withCursor ? <span className="terminalCursor">|</span> : null}
-          </pre>
-        </div>
-      );
-    } else {
-      const tokens = parseYaml({ input: code });
-      const highlighted = colorizeYamlTokens({ tokens });
-      return (
-        <div className="syntaxHighlighter" style={{ ...style, position: "relative" }}>
-          <pre>
-            <div style={{ position: "absolute", right: "10px" }}>
-              <CopyToClipboard textToCopy={code} withIcons />
-            </div>
-            {highlighted.map((ele, index) => (
-              <Fragment key={index}>{ele}</Fragment>
-            ))}
-            {withCursor ? <span className="terminalCursor">|</span> : null}
-          </pre>
-        </div>
-      );
-    }
+          ) : null}
+          {highlighted.map((ele, index) => (
+            <Fragment key={index}>{ele}</Fragment>
+          ))}
+          {withCursor ? <span className="terminalCursor">|</span> : null}
+        </pre>
+      </div>
+    );
   }
 
   return (

@@ -1,6 +1,7 @@
 import { Button } from "@packages/button";
 import { ArrowRightHead } from "@packages/icons";
 import { CSSProperties, ReactNode } from "react";
+import styles from "./StyledButton.module.css";
 
 type StyledButtonProps = {
   style?: CSSProperties;
@@ -11,6 +12,7 @@ type StyledButtonProps = {
 export const StyledButton = ({ style, onClick, children }: StyledButtonProps) => {
   return (
     <Button
+      className={styles.StyledButton}
       style={{
         borderRadius: "10px",
         padding: "10px",
@@ -18,7 +20,6 @@ export const StyledButton = ({ style, onClick, children }: StyledButtonProps) =>
         paddingRight: "30px",
         minWidth: "150px",
         minHeight: "44px",
-        backgroundColor: "rgba(0, 119, 184, 0.976)",
         color: "white",
         fontSize: "16px",
         border: "none",

@@ -21,7 +21,9 @@
     "view-global-npm-installs": "npm ls -g --depth=0",
     "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true",
     "storybook": "npm run --workspace=dev-apps/storybook-app storybook",
-    "format-prettier": "tsx ./scripts/formatPrettier.ts"
+    "format-prettier": "tsx ./scripts/formatPrettier.ts",
+    "cs": "cd apps/cs && npm run dev",
+    "rsc-mvp": "cd test-apps/react-server-components-mvp && npm run dev"
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",

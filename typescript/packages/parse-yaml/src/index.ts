@@ -1,2 +1,3 @@
 export * from "./parseYaml";
-export * from "./colorizeTokens";
+export { TokenTypes as YAMLTokenTypes } from "./constants";
+export type { TokenTypeOptions as YAMLTokenTypeOptions } from "./constants";

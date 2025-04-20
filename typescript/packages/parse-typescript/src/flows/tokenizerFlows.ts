@@ -32,6 +32,7 @@ import {
 } from "./classFlows";
 import { partialDefinitionFlow } from "./partialDefinitionFlow";
 import { ifFlow } from "./ifFlow";
+import { exportFlow } from "./exportFlow";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];
@@ -213,6 +214,15 @@ export const tokenizerFlows = ({
         openedContexts,
       }),
     () => returnFlow({ tokens, newTokenValue, currentIndex, previousTokensSummary }),
+    () =>
+      exportFlow({
+        tokens,
+        newTokenValue,
+        input,
+        currentIndex,
+        previousTokensSummary,
+        openedContexts,
+      }),
     () =>
       numericFlow({
         tokens,

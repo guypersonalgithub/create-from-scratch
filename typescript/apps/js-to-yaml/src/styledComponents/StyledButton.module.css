@@ -1,0 +1,8 @@
+.StyledButton {
+    background-color: rgba(0, 119, 184, 0.976);
+    transition: background-color 0.1s ease-in;
+}
+
+.StyledButton:hover {
+    background-color: rgba(0, 119, 184, 0.8);
+}

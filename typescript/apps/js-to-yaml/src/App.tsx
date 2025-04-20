@@ -1,7 +1,7 @@
 import { Router } from "@packages/router";
 import { UIThemeProvider } from "@packages/ui-theme";
 import { customThemes } from "./UIThemes";
-import { Main } from "./routes/Main";
+import { Main } from "./routes/main/Main";
 import { Header, Layout } from "./Layout";
 import { TooltipManager } from "@packages/tooltip";
 import { NotFound } from "./routes/NotFound";

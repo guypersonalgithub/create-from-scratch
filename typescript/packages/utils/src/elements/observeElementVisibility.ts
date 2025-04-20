@@ -1,6 +1,6 @@
 type ObserveElementVisibilityArgs = {
   element: HTMLElement;
-  observerCallback: () => void;
+  observerCallback: (args: { isIntersection: boolean }) => void;
 };
 
 export const observeElementVisibility = ({
@@ -10,9 +10,7 @@ export const observeElementVisibility = ({
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          observerCallback();
-        }
+        observerCallback({ isIntersection: entry.isIntersecting });
       });
     },
     {

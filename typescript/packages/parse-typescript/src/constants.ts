@@ -77,6 +77,7 @@ export const TokenTypes = {
   IS_UNEQUAL: "is-unequal",
   IS_DEEP_EQUAL: "is-deep-equal",
   IS_DEEP_UNEQUAL: "is-deep-unequal",
+  EXPORT: "export",
 } as const;
 
 export type TokenTypeOptions = (typeof TokenTypes)[keyof typeof TokenTypes];

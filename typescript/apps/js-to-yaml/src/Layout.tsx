@@ -7,6 +7,7 @@ import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { MobileSidebar } from "@packages/sidebar";
 import { useGetBreakpoint } from "./breakpoints";
+import { MainLogo } from "./styledComponents";
 
 type LayoutProps = {
   children: ReactNode;
@@ -61,6 +62,7 @@ export const Header = () => {
   const rgbaBg = hexToRgba({ hex: theme.background, opacity: 0.8 });
   const borderBottomColor = isLight ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)";
   const { breakpoint } = useGetBreakpoint();
+  const isDesktop = breakpoint === "desktop";
   const isMobile = breakpoint === "mobile";
 
   return (
@@ -89,7 +91,7 @@ export const Header = () => {
           transition: "var(--theme-transition)",
         }}
       >
-        {isMobile ? (
+        {!isDesktop ? (
           <MobileSidebar
             burgerStyle={{ width: "30px", height: "24px" }}
             burgerLineStyle={{ height: "4px", backgroundColor: "var(--theme-color" }}
@@ -100,7 +102,7 @@ export const Header = () => {
               color: "var(--theme-color)",
               transition: "var(--theme-transition)",
               height: "100%",
-              width: "100%"
+              width: "100%",
             }}
             subContainerStyle={{ paddingTop: "10px" }}
             linkStyle={{ color: "var(--theme-color)", transition: "var(--theme-transition)" }}
@@ -108,10 +110,33 @@ export const Header = () => {
             closeOnLinkClick
           />
         ) : null}
-        <h1 style={{ cursor: "pointer" }} onClick={() => moveTo({ pathname: "/" })}>
-          JS to YAML
-        </h1>
-        {!isMobile ? <HeaderLinks /> : null}
+        <div
+          style={{ display: "flex", gap: "10px", alignItems: "center", cursor: "pointer" }}
+          onClick={() => moveTo({ pathname: "/" })}
+        >
+          <div
+            style={{
+              width: "50px",
+              height: "50px",
+              border: `3px solid var(--theme-color)`,
+              borderRadius: "50px",
+              overflow: "hidden",
+              backgroundColor: "lightblue",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "border 0.5s ease",
+            }}
+          >
+            <div style={{ width: "40px" }}>
+              <MainLogo />
+            </div>
+          </div>
+          {/* <div style={{ fontSize: !isMobile ? "50px" : "30px", fontWeight: "bolder", whiteSpace: "nowrap" }}>
+            JS to YAML
+          </div> */}
+        </div>
+        {isDesktop ? <HeaderLinks /> : null}
       </div>
       <Button
         style={{

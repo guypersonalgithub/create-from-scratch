@@ -31,7 +31,7 @@ export const Converter = () => {
     <div>
       <div style={{ fontFamily: "sans-serif", width: "150px" }}>
         <RadioGroup
-          label="Pick a fruit:"
+          label="Pick an option:"
           options={[
             { label: "HEX", value: "hex" },
             { label: "RGBA", value: "rgba" },

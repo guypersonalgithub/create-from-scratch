@@ -1,0 +1,1 @@
+- MutableRefObject was deprecated in React 19, change that type to another one.

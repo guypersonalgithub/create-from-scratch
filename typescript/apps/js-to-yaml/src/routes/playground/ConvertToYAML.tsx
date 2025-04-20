@@ -14,7 +14,7 @@ export const ConvertToYAML = () => {
   });
   const yaml = convertObjectToYaml({ obj: object });
   const { breakpoint } = useGetBreakpoint();
-  const isMobile = breakpoint === "mobile";
+  const isDesktop = breakpoint === "desktop";
 
   return (
     <Card>
@@ -33,8 +33,8 @@ export const ConvertToYAML = () => {
         style={{
           display: "flex",
           gap: "10px",
-          height: isMobile ? "300px" : "500px",
-          flexDirection: isMobile ? "column" : "row",
+          height: !isDesktop ? "300px" : "500px",
+          flexDirection: !isDesktop ? "column" : "row",
         }}
       >
         <Textarea

@@ -1,2 +1,3 @@
 export * from "./parseTypescript";
-export * from "./colorizeTokens";
+export { TokenTypes as TypescriptTokenTypes } from "./constants";
+export type { TokenTypeOptions as TypescriptTokenTypeOptions } from "./constants";

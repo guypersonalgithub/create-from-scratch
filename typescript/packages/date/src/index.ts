@@ -7,3 +7,4 @@ export {
   splitDate,
   convertDateToISO,
 } from "./utils";
+export { getCurrentYear } from "./getCurrentYear";
