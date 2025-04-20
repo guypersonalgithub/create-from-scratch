@@ -39,7 +39,15 @@
     "@packages/typeahead": "*",
     "@packages/virtual-list": "*",
     "@packages/syntax-highlighter": "*",
-    "@packages/toggle": "*"
+    "@packages/toggle": "*",
+    "@packages/alert": "*",
+    "@packages/card": "*",
+    "@packages/command-box": "*",
+    "@packages/drawing-canvas": "*",
+    "@packages/progress-bar": "*",
+    "@packages/radio-button": "*",
+    "@packages/range": "*",
+    "@packages/textarea": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

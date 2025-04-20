@@ -27,7 +27,9 @@
     "@packages/breakpoints": "*",
     "@packages/animation-container": "*",
     "@packages/textarea": "*",
-    "@packages/sidebar": "*"
+    "@packages/sidebar": "*",
+    "@packages/utils": "*",
+    "@packages/date": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

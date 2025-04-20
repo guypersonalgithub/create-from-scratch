@@ -6,6 +6,4 @@
 - TODO: Add overload function type support.
 - TODO: Complete the JSX content / nested JSX content flow to fully support JSX.
 - TODO: Add function highlighting to function objects.
-- TODO: Add the ability to customize token types' colors.
-- TODO: Add the ability to potentially reclassify variables from the outside.
 - TODO: Potentially add variable and type contexts for even more accuracy.

@@ -13,7 +13,7 @@ export const ConvertToJS = () => {
   const js = convertYamlToObject({ str: text });
   const convertedObject = convertObjectToString({ obj: js });
   const { breakpoint } = useGetBreakpoint();
-  const isMobile = breakpoint === "mobile";
+  const isDesktop = breakpoint === "desktop";
 
   return (
     <Card>
@@ -54,8 +54,8 @@ export const ConvertToJS = () => {
         style={{
           display: "flex",
           gap: "10px",
-          height: isMobile ? "300px" : "500px",
-          flexDirection: isMobile ? "column" : "row",
+          height: !isDesktop ? "300px" : "500px",
+          flexDirection: !isDesktop ? "column" : "row",
         }}
       >
         <Textarea

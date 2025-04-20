@@ -1,5 +1,5 @@
 import { areArraysEqual } from "@packages/array-utils";
-import { CSSProperties, MutableRefObject, RefObject, useEffect, useRef } from "react";
+import { CSSProperties, RefObject, useEffect, useRef } from "react";
 import {
   convertKeyframeToCSSProperties,
   detectStoppedFrame,
@@ -8,14 +8,14 @@ import {
 type UseAnimationArgs = {
   animation?: Keyframe[];
   removeState: boolean;
-  elementRef: RefObject<HTMLDivElement>;
+  elementRef: RefObject<HTMLDivElement | null>;
   onAnimationStart?: () => void;
   onAnimationEnd?: () => void;
   fallbackDuration: number;
   animationOptions: KeyframeAnimationOptions;
-  animationRef: MutableRefObject<Animation | undefined>;
+  animationRef: RefObject<Animation | null>;
   disableAnimation?: boolean;
-  lastFrameProperties: MutableRefObject<CSSProperties>;
+  lastFrameProperties: RefObject<CSSProperties>;
 };
 
 export const useAnimation = ({

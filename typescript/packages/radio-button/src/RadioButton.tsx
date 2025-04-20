@@ -1,13 +1,14 @@
-import React, { useId } from "react";
+import React, { CSSProperties, useId } from "react";
 
 type RadioOptionProps = {
   label: string;
   value: string;
   selected: boolean;
   onChange: (value: string) => void;
+  labelStyle?: CSSProperties;
 };
 
-const RadioOption = ({ label, value, selected, onChange }: RadioOptionProps) => {
+const RadioOption = ({ label, value, selected, onChange, labelStyle }: RadioOptionProps) => {
   const id = useId();
 
   return (
@@ -56,7 +57,7 @@ const RadioOption = ({ label, value, selected, onChange }: RadioOptionProps) => 
           />
         ) : null}
       </span>
-      <span style={{ fontSize: "14px", color: "white" }}>{label}</span>
+      <span style={{ fontSize: "14px", color: "white", ...labelStyle }}>{label}</span>
     </label>
   );
 };
@@ -66,9 +67,10 @@ type RadioGroupProps = {
   value: string;
   onChange: (value: string) => void;
   label?: React.ReactNode;
+  labelStyle?: CSSProperties;
 };
 
-export const RadioGroup = ({ options, value, onChange, label }: RadioGroupProps) => {
+export const RadioGroup = ({ options, value, onChange, label, labelStyle }: RadioGroupProps) => {
   return (
     <div role="radiogroup" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       {label && <div style={{ fontWeight: "500", marginBottom: "4px" }}>{label}</div>}
@@ -79,6 +81,7 @@ export const RadioGroup = ({ options, value, onChange, label }: RadioGroupProps)
           value={option.value}
           selected={value === option.value}
           onChange={onChange}
+          labelStyle={labelStyle}
         />
       ))}
     </div>

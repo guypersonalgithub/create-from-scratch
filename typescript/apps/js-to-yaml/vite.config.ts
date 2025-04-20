@@ -50,6 +50,7 @@ export default defineConfig({
       "@packages/textarea": path.resolve(__dirname, "../../packages/textarea/src/index.ts"),
       "@packages/sidebar": path.resolve(__dirname, "../../packages/sidebar/src/index.ts"),
       "@packages/collapsible": path.resolve(__dirname, "../../packages/collapsible/src/index.ts"),
+      "@packages/date": path.resolve(__dirname, "../../packages/date/src/index.ts"),
     },
   },
 });
