@@ -1,0 +1,1 @@
+- Instead of having keys as identifiers, attributes should be used instead.

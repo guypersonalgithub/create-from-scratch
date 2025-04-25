@@ -47,7 +47,9 @@
     "@packages/progress-bar": "*",
     "@packages/radio-button": "*",
     "@packages/range": "*",
-    "@packages/textarea": "*"
+    "@packages/textarea": "*",
+    "@packages/badge": "*",
+    "@packages/keyboard-key": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

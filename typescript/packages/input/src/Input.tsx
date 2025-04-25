@@ -1,4 +1,11 @@
-import { CSSProperties, InputHTMLAttributes, ReactNode, useEffect, useState } from "react";
+import {
+  CSSProperties,
+  InputHTMLAttributes,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useState,
+} from "react";
 import { Spinner } from "@packages/loading";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -12,6 +19,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   customPrefix?: ReactNode;
   customSuffix?: ReactNode;
   wrapperStyle?: CSSProperties;
+  externalRef?: RefObject<HTMLInputElement | null>;
 };
 
 export const Input = ({
@@ -22,6 +30,7 @@ export const Input = ({
   customPrefix = null,
   customSuffix = null,
   wrapperStyle = {},
+  externalRef,
   ...rest
 }: InputProps) => {
   const [value, setValue] = useState<string>((rest.value as string) ?? "");
@@ -51,6 +60,7 @@ export const Input = ({
       {customPrefix}
       <input
         {...rest}
+        ref={externalRef}
         value={externalState?.value ?? value}
         onChange={(e) => {
           rest.onChange?.(e);

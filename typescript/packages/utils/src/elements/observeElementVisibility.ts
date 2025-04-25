@@ -25,9 +25,9 @@ export const observeElementVisibility = ({
 
 type ObserveElementsVisibilityArgs = {
   elements: HTMLElement[];
-  identificationCallback: (id: string) => boolean;
-  intersectionCallback: () => void;
-  removalCallback: () => void;
+  identificationCallback?: (args: { id: string }) => boolean;
+  intersectionCallback: (args: { element: Element }) => void;
+  removalCallback: (args: { element: Element }) => void;
   threshold?: number[];
 };
 
@@ -38,16 +38,31 @@ export const observeElementsVisibility = ({
   removalCallback,
   threshold = [0],
 }: ObserveElementsVisibilityArgs) => {
+  const callback = identificationCallback
+    ? ({ entry }: { entry: IntersectionObserverEntry }) => {
+        if (identificationCallback({ id: entry.target.id })) {
+          const element = entry.target;
+
+          if (entry.isIntersecting) {
+            intersectionCallback({ element });
+          } else {
+            removalCallback({ element });
+          }
+        }
+      }
+    : ({ entry }: { entry: IntersectionObserverEntry }) => {
+        const element = entry.target;
+        if (entry.isIntersecting) {
+          intersectionCallback({ element });
+        } else {
+          removalCallback({ element });
+        }
+      };
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (identificationCallback(entry.target.id)) {
-          if (entry.isIntersecting) {
-            intersectionCallback();
-          } else {
-            removalCallback();
-          }
-        }
+        callback({ entry });
       });
     },
     {

@@ -1,0 +1,15 @@
+export type Variants =
+  | "basic"
+  | "pronounced"
+  | "mac"
+  | "dark"
+  | "gaming"
+  | "skeuomorphic"
+  | "glassmorphism"
+  | "outline"
+  | "retro"
+  | "soft"
+  | "scifi"
+  | "wood"
+  | "metal"
+  | "plastic";

@@ -51,6 +51,12 @@ export default defineConfig({
       "@packages/sidebar": path.resolve(__dirname, "../../packages/sidebar/src/index.ts"),
       "@packages/collapsible": path.resolve(__dirname, "../../packages/collapsible/src/index.ts"),
       "@packages/date": path.resolve(__dirname, "../../packages/date/src/index.ts"),
+      "@packages/modal": path.resolve(__dirname, "../../packages/modal/src/index.ts"),
+      "@packages/badge": path.resolve(__dirname, "../../packages/badge/src/index.ts"),
+      "@packages/input": path.resolve(__dirname, "../../packages/input/src/index.ts"),
+      "@packages/loading": path.resolve(__dirname, "../../packages/loading/src/index.ts"),
+      "@packages/title": path.resolve(__dirname, "../../packages/title/src/index.ts"),
+      "@packages/keyboard-key": path.resolve(__dirname, "../../packages/keyboard-key/src/index.ts"),
     },
   },
 });

@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
+import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { Tab } from "./types";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 
@@ -97,7 +97,7 @@ function Tabs<T extends Tab[]>({
 }
 
 type HighlightBarProps = {
-  refs: MutableRefObject<HTMLDivElement[]>;
+  refs: RefObject<HTMLDivElement[]>
   selectedIndex: number;
   isInitialState: boolean;
 };
