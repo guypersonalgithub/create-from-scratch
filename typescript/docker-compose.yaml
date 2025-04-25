@@ -119,6 +119,9 @@ services:
         source: ./packages/radio-button
         target: /usr/src/app/packages/radio-button
       - type: bind
+        source: ./packages/scrollspy-anchors
+        target: /usr/src/app/packages/scrollspy-anchors
+      - type: bind
         source: ./dev-packages/route-mapper
         target: /usr/src/app/dev-packages/route-mapper
       - type: bind

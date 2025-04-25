@@ -21,6 +21,7 @@ import { Containers } from "./routes/containers/Containers";
 import { CSS } from "./routes/css/CSS";
 import { Linux } from "./routes/Linux/Linux";
 import { mapRoutes } from "@packages/route-mapper";
+import { Test2 } from "./Test2";
 
 const searchableRoutes = [
   {
@@ -147,6 +148,7 @@ const App = () => {
               "/css!": <CSS />,
               "/linux!": <Linux />,
               "/test": <Test />,
+              "/test2": <Test2 />,
             }}
           />
         </div>

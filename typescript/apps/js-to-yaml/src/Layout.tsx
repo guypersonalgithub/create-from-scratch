@@ -8,6 +8,7 @@ import { Button } from "@packages/button";
 import { MobileSidebar } from "@packages/sidebar";
 import { useGetBreakpoint } from "./breakpoints";
 import { MainLogo } from "./styledComponents";
+import { PageSearchModal } from "./styledComponents/PageSearchModal";
 
 type LayoutProps = {
   children: ReactNode;
@@ -138,32 +139,50 @@ export const Header = () => {
         </div>
         {isDesktop ? <HeaderLinks /> : null}
       </div>
-      <Button
-        style={{
-          width: "30px",
-          height: "30px",
-          backgroundColor: "transparent",
-          border: "none",
-          cursor: "pointer",
-          borderRadius: "10px",
-          overflow: "hidden",
-          transition: "background 0.5s ease",
-        }}
-        onClick={() => setTheme(isLight ? "dark" : "light")}
-        onHoverCSS={() => ({ backgroundColor: "var(--theme-subBackground)" })}
-      >
-        <AnimationContainerWrapper
-          changeMethod="fullPhase"
-          onMount={[{ transform: "translateX(-100%)" }, { transform: "translateX(0%)" }]}
-          onUnmount={[{ transform: "translateX(0%)" }, { transform: "translateX(100%)" }]}
+      <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <PageSearchModal
+          buttonStyle={{
+            backgroundColor: "var(--theme-subBackground)",
+            transition: "var(--theme-transition)",
+            border: "1px solid var(--theme-border)",
+          }}
+          badgeStyle={{
+            backgroundColor: !isLight ? "var(--theme-background)" : "#eee9f6",
+            transition: "var(--theme-transition)",
+          }}
+          modalStyle={{
+            backgroundColor: isLight ? "var(--theme-background)" : "rgb(20, 20, 20)",
+            color: "var(--theme-color)",
+            transition: "var(--theme-transition)",
+          }}
+        />
+        <Button
+          style={{
+            width: "30px",
+            height: "30px",
+            backgroundColor: "transparent",
+            border: "none",
+            cursor: "pointer",
+            borderRadius: "10px",
+            overflow: "hidden",
+            transition: "background 0.5s ease",
+          }}
+          onClick={() => setTheme(isLight ? "dark" : "light")}
+          onHoverCSS={() => ({ backgroundColor: "var(--theme-subBackground)" })}
         >
-          {isLight ? (
-            <Sun key="sun" style={{ color: "#FFD54F" }} />
-          ) : (
-            <Moon key="moon" style={{ color: "whitesmoke" }} />
-          )}
-        </AnimationContainerWrapper>
-      </Button>
+          <AnimationContainerWrapper
+            changeMethod="fullPhase"
+            onMount={[{ transform: "translateX(-100%)" }, { transform: "translateX(0%)" }]}
+            onUnmount={[{ transform: "translateX(0%)" }, { transform: "translateX(100%)" }]}
+          >
+            {isLight ? (
+              <Sun key="sun" style={{ color: "#FFD54F" }} />
+            ) : (
+              <Moon key="moon" style={{ color: "whitesmoke" }} />
+            )}
+          </AnimationContainerWrapper>
+        </Button>
+      </div>
     </div>
   );
 };

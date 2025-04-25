@@ -76,6 +76,7 @@ export const ModalManager = ({
       mountOptions={mountOptions ?? { duration: 300 }}
       unmountOptions={unmountOptions}
       changeMethod="gradual"
+      style={{ position: "absolute", top: 0, zIndex: 10000 }}
     >
       {modals.map(({ id, content }) => {
         return (

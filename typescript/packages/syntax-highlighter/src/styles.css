@@ -5,8 +5,8 @@
     color: white;
     cursor: text;
     padding: 0.5rem;
-    min-width: fit-content;
-    overflow: auto;
+    /* min-width: fit-content; */
+    /* overflow: auto; */
 }
 
 .terminalCursor {

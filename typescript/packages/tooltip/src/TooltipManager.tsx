@@ -171,7 +171,7 @@ const TooltipBody = ({
           return value.current;
         })
         .filter((element) => element) as HTMLElement[],
-      identificationCallback: (id) => {
+      identificationCallback: ({ id }) => {
         const [original, position] = id.split("-");
 
         if (!original || !position) {

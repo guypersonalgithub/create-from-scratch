@@ -1,0 +1,1 @@
+- Extract the non-lifecycle animation behavior to an external hook. There is no real reason to leave it as part of the unmount wrapper.

@@ -29,7 +29,12 @@
     "@packages/textarea": "*",
     "@packages/sidebar": "*",
     "@packages/utils": "*",
-    "@packages/date": "*"
+    "@packages/date": "*",
+    "@packages/modal": "*",
+    "@packages/badge": "*",
+    "@packages/input": "*",
+    "@packages/title": "*",
+    "@packages/keyboard-key": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

@@ -8,6 +8,7 @@ import { NotFound } from "./routes/NotFound";
 import { Examples } from "./routes/Examples";
 import { Playground } from "./routes/playground/Playground";
 import { Documentation } from "./routes/documentation/Documentation";
+import { ModalManager } from "@packages/modal";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         />
       </Layout>
       <TooltipManager />
+      <ModalManager />
     </UIThemeProvider>
   );
 }

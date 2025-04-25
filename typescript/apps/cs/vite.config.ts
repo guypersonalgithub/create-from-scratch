@@ -62,6 +62,10 @@ export default defineConfig({
       "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
       "@packages/css-utils": path.resolve(__dirname, "../../packages/css-utils/src/index.ts"),
       "@packages/radio-button": path.resolve(__dirname, "../../packages/radio-button/src/index.ts"),
+      "@packages/scrollspy-anchors": path.resolve(
+        __dirname,
+        "../../packages/scrollspy-anchors/src/index.ts",
+      ),
       "@dev-packages/route-mapper": path.resolve(
         __dirname,
         "../../dev-packages/route-mapper/src/index.ts",
