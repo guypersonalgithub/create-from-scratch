@@ -1,6 +1,6 @@
-import { RefObject, useEffect, useMemo, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, JSX } from "react";
 import { Tab } from "./types";
-import { AnimationContainerWrapper } from "@packages/animation-container";
+import { useAnimation } from "@packages/animation-container";
 
 type TabValues<T extends Tab[]> = T[number]["value"];
 
@@ -41,7 +41,6 @@ function Tabs<T extends Tab[]>({
 }: TabsPropsWithInternalOnClick<T> | TabsPropsWithExternalOnClick<T>) {
   const refs = useRef<HTMLDivElement[]>([]);
   const selectedIndex = useRef<number>(tabs.findIndex((tab) => tab.value === selected));
-  const isInitialState = useRef<boolean>(true);
 
   const addDivRef = ({ element, index }: { element: HTMLDivElement | null; index: number }) => {
     if (!element) {
@@ -64,7 +63,6 @@ function Tabs<T extends Tab[]>({
               "onClick" in tab && typeof tab.onClick === "function" ? tab.onClick : onClick;
             callback?.(tab.value);
             selectedIndex.current = index;
-            isInitialState.current = false;
           };
 
           return (
@@ -87,32 +85,25 @@ function Tabs<T extends Tab[]>({
           );
         })}
       </div>
-      <HighlightBar
-        refs={refs}
-        selectedIndex={selectedIndex.current}
-        isInitialState={isInitialState.current}
-      />
+      <HighlightBar refs={refs} selectedIndex={selectedIndex.current} />
     </div>
   );
 }
 
 type HighlightBarProps = {
-  refs: RefObject<HTMLDivElement[]>
+  refs: RefObject<HTMLDivElement[]>;
   selectedIndex: number;
-  isInitialState: boolean;
 };
 
-const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps) => {
+const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<HTMLDivElement>(null);
   const containerLeft = useRef<number>(0);
   const lastTab = useRef<TabProperties>({
     width: 0,
     left: 0,
   });
-  const [tabProperties, setTabPropeties] = useState<TabProperties>({
-    width: 0,
-    left: 0,
-  });
+  const { animate } = useAnimation();
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -162,35 +153,38 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
       };
     };
 
-    lastTab.current = tabProperties;
-    setTabPropeties(getRefProperties(refs.current[selectedIndex]));
-  }, [selectedIndex]);
+    const newTabProperties = getRefProperties(refs.current[selectedIndex]);
 
-  const animation = useMemo(() => {
-    return [
-      { width: `${lastTab.current.width}px`, left: `${lastTab.current.left}px` },
-      {
-        width: `${tabProperties.width}px`,
-        left: `${tabProperties.left}px`,
-      },
-    ];
-  }, [tabProperties]);
+    if (highlightRef.current) {
+      const animation = [
+        {
+          width: `${lastTab.current.width}px`,
+          left: `${lastTab.current.left}px`,
+        },
+        {
+          width: `${newTabProperties.width}px`,
+          left: `${newTabProperties.left}px`,
+        },
+      ];
+      const animationOptions = { duration: 300, easing: "ease-out" };
+
+      const {} = animate({ element: highlightRef.current, animation, animationOptions });
+
+      lastTab.current = newTabProperties;
+    }
+  }, [selectedIndex]);
 
   return (
     <div ref={containerRef} style={{ position: "relative" }}>
-      <AnimationContainerWrapper
-        animation={animation}
-        animationOptions={{ duration: 300, easing: "ease-out" }}
+      <div
+        ref={highlightRef}
         style={{
           position: "absolute",
-          width: `${tabProperties.width}px`,
           bottom: "-5px",
-          left: `${tabProperties.left}px`,
         }}
-        disableAnimation={isInitialState}
       >
         <div key="bar" style={{ height: "5px", backgroundColor: "#5662F6" }} />
-      </AnimationContainerWrapper>
+      </div>
     </div>
   );
 };

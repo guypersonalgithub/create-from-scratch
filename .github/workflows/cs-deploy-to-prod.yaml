@@ -43,7 +43,6 @@ on:
       - typescript/packages/css-utils/**
       - typescript/packages/radio-button/**
       - typescript/packages/scrollspy-anchors/**
-      - typescript/dev-packages/route-mapper/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -104,7 +103,6 @@ jobs:
           cp -r ./packages/css-utils ./full-application/packages
           cp -r ./packages/radio-button ./full-application/packages
           cp -r ./packages/scrollspy-anchors ./full-application/packages
-          cp -r ./dev-packages/route-mapper ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode, useRef, useState } from "react";
 import { SidebarLink, SidebarLinkGroup } from "./types";
-import { AnimationContainerWrapper } from "@packages/animation-container";
+import { useAnimation } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { DoubleArrowRightFull } from "@packages/icons";
 import { LinkContent } from "./LinkContent";
@@ -35,15 +35,12 @@ export const MinimizableSidebar = ({
   const disableAnimation = useRef(true);
   const [isOpen, setIsOpen] = useState(isOpenInitially);
   const animationStarted = useRef(false);
+  const { animate } = useAnimation();
+  const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <AnimationContainerWrapper
-      animation={
-        isOpen
-          ? [{ width: `${closedWidth}px` }, { width: `${openedWidth}px` }]
-          : [{ width: `${openedWidth}px` }, { width: `${closedWidth}px` }]
-      }
-      animationOptions={{ duration: 300, easing: "ease-out" }}
+    <div
+      ref={ref}
       style={{
         height: "100%",
         width: `${openedWidth}px`,
@@ -51,14 +48,6 @@ export const MinimizableSidebar = ({
         boxSizing: "border-box",
         borderRadius: "20px",
         ...containerStyle,
-      }}
-      disableAnimation={disableAnimation.current}
-      disableLifeCycleAnimations
-      onAnimationStart={() => {
-        animationStarted.current = true;
-      }}
-      onAnimationEnd={() => {
-        animationStarted.current = false;
       }}
     >
       <div
@@ -93,7 +82,32 @@ export const MinimizableSidebar = ({
                 return;
               }
 
-              setIsOpen((prev) => !prev);
+              setIsOpen((prev) => {
+                const isOpen = !prev;
+
+                if (ref.current) {
+                  const animation = isOpen
+                    ? [{ width: `${closedWidth}px` }, { width: `${openedWidth}px` }]
+                    : [{ width: `${openedWidth}px` }, { width: `${closedWidth}px` }];
+                  const animationOptions = { duration: 300, easing: "ease-out" };
+                  const onAnimationStart = () => {
+                    animationStarted.current = true;
+                  };
+                  const onAnimationEnd = () => {
+                    animationStarted.current = false;
+                  };
+
+                  const {} = animate({
+                    element: ref.current,
+                    animation,
+                    animationOptions,
+                    onAnimationStart,
+                    onAnimationEnd,
+                  });
+                }
+
+                return isOpen;
+              });
               disableAnimation.current = false;
             }}
           >
@@ -151,6 +165,6 @@ export const MinimizableSidebar = ({
           })}
         </div>
       </div>
-    </AnimationContainerWrapper>
+    </div>
   );
 };

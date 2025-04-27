@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Collapsible } from "@packages/collapsible";
+import { useEffect, useState } from "react";
 
 const meta = {
   title: "Collapsible",
@@ -19,5 +20,28 @@ export const Primary: Story = {
   },
   render: (args) => {
     return <Collapsible {...args} />;
+  },
+};
+
+export const DynamicContentChange: Story = {
+  args: {
+    title: "Title",
+    children: <div>Test content</div>,
+  },
+  render: (args) => {
+    const [content, setContent] = useState(<div>Test content</div>);
+
+    useEffect(() => {
+      setTimeout(() => {
+        setContent(() => (
+          <div>
+            <div>Test content</div>
+            <div>Teset content2</div>
+          </div>
+        ));
+      }, 3000);
+    }, []);
+
+    return <Collapsible {...args}>{content}</Collapsible>;
   },
 };

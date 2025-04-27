@@ -5,3 +5,8 @@ export type Anchor = {
   content: ReactNode;
   id: string;
 };
+
+export type AnchorData = {
+  element: Element;
+  index: number;
+};

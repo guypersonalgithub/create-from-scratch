@@ -1,0 +1,1 @@
+- Consider splitting the Collapsible component into a consistent static and dynamic components, as the dynamic component adds potential overhead that should be avoided if the content's size isn't expected to change.

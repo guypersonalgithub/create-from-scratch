@@ -1,87 +1,102 @@
-import { areArraysEqual } from "@packages/array-utils";
-import { CSSProperties, RefObject, useEffect, useRef } from "react";
+import { CSSProperties, useRef } from "react";
 import {
   convertKeyframeToCSSProperties,
   detectStoppedFrame,
 } from "./AnimationContainerWrapper/utils";
 
-type UseAnimationArgs = {
-  animation?: Keyframe[];
-  removeState: boolean;
-  elementRef: RefObject<HTMLDivElement | null>;
+type AnimateArgs = {
+  element: Element;
+  animation: Keyframe[];
+  animationOptions?: KeyframeAnimationOptions;
   onAnimationStart?: () => void;
   onAnimationEnd?: () => void;
-  fallbackDuration: number;
-  animationOptions: KeyframeAnimationOptions;
-  animationRef: RefObject<Animation | null>;
-  disableAnimation?: boolean;
-  lastFrameProperties: RefObject<CSSProperties>;
+  fallbackDuration?: number;
 };
 
-export const useAnimation = ({
-  animation,
-  removeState,
-  elementRef,
-  onAnimationStart,
-  onAnimationEnd,
-  fallbackDuration,
-  animationOptions,
-  animationRef,
-  disableAnimation,
-  lastFrameProperties,
-}: UseAnimationArgs) => {
-  const previousKeyframes = useRef<Keyframe[]>([]);
+type GetLastFrameArgs = {
+  element: Element;
+  animation: Keyframe[];
+  animationOptions: KeyframeAnimationOptions;
+  fallbackDuration?: number;
+};
 
-  useEffect(() => {
-    if (
-      removeState ||
-      !animation ||
-      disableAnimation ||
-      areArraysEqual({
-        array1: animation,
-        array2: previousKeyframes.current,
-      })
-    ) {
+export const useAnimation = () => {
+  const animationRef = useRef<Animation>(null);
+  const lastFrameProperties = useRef<CSSProperties>({});
+
+  const getLastFrame = ({
+    element,
+    animation,
+    animationOptions,
+    fallbackDuration = 300,
+  }: GetLastFrameArgs) => {
+    if (!animationRef.current) {
       return;
     }
 
-    const childElement = elementRef.current;
-    if (!childElement) {
-      return;
+    const duration = Number(animationOptions.duration ?? fallbackDuration);
+
+    const lastFrame = detectStoppedFrame({
+      animation: animationRef.current,
+      duration,
+      keyframesAmount: animation.length,
+    });
+
+    const currentLastFrame = animation[lastFrame];
+    const styles = convertKeyframeToCSSProperties({
+      element,
+      keyframe: currentLastFrame,
+    });
+    lastFrameProperties.current = styles;
+  };
+
+  const animate = ({
+    element,
+    animation,
+    animationOptions = {},
+    onAnimationStart,
+    onAnimationEnd,
+    fallbackDuration = 300,
+  }: AnimateArgs) => {
+    if (!element) {
+      return {};
     }
 
     onAnimationStart?.();
 
-    const currentAnimation = childElement.animate(animation, {
+    const currentAnimation = element.animate(animation, {
       duration: fallbackDuration,
       fill: "forwards",
       ...animationOptions,
     });
 
     animationRef.current = currentAnimation;
+
     currentAnimation.onfinish = () => {
       onAnimationEnd?.();
-      if (animationRef.current) {
-        const duration = Number(animationOptions.duration ?? fallbackDuration);
+    };
 
-        const lastFrame = detectStoppedFrame({
-          animation: animationRef.current,
-          duration,
-          keyframesAmount: animation.length,
-        });
-
-        const currentLastFrame = animation[lastFrame];
-        const styles = convertKeyframeToCSSProperties({
-          element: childElement,
-          keyframe: currentLastFrame,
-        });
-        lastFrameProperties.current = styles;
+    const stopAnimation = () => {
+      if (!animationRef.current) {
+        return;
       }
+
+      animationRef.current.cancel();
+      getLastFrame({ element, animation, animationOptions, fallbackDuration });
     };
 
-    return () => {
-      animationRef.current?.cancel();
-      previousKeyframes.current = animation.slice();
+    const cancelAnimation = () => {
+      if (!animationRef.current) {
+        return;
+      }
+
+      animationRef.current.cancel();
     };
-  }, [removeState, animation, disableAnimation]);
+
+    return { cancelAnimation, stopAnimation };
+  };
+
+  return {
+    animate,
+  };
 };

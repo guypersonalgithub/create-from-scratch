@@ -42,6 +42,7 @@ export const ScrollspyAnchors = ({ anchors }: ScrollspyAnchorsProps) => {
 
         setVisibleAnchors((prev) => prev.filter((anchor) => anchor !== id));
       },
+      threshold: [0.05]
     });
 
     return () => {

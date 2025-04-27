@@ -122,9 +122,6 @@ services:
         source: ./packages/scrollspy-anchors
         target: /usr/src/app/packages/scrollspy-anchors
       - type: bind
-        source: ./dev-packages/route-mapper
-        target: /usr/src/app/dev-packages/route-mapper
-      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:

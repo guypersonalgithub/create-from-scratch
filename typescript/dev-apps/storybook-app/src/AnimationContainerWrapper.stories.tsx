@@ -3,8 +3,9 @@ import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
   ChangeMethod,
+  useAnimation,
 } from "@packages/animation-container";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const meta = {
   title: "AnimationContainerWrapper",
@@ -131,21 +132,26 @@ export const AnimationUnmountWrapperExample = {
 
 export const NonLifecycleExample = {
   render: () => {
-    const [isLarge, setIsLarge] = useState(false);
+    const isLarge = useRef(false);
+    const { animate } = useAnimation();
+    const ref = useRef<HTMLDivElement>(null);
 
     return (
       <>
-        <button onClick={() => setIsLarge((prev) => !prev)}>Click</button>
-        <AnimationContainerWrapper
-          animation={
-            isLarge
+        <button
+          onClick={() => {
+            const animation = isLarge.current
               ? [{ width: "50px" }, { width: "300px" }]
-              : [{ width: "300px" }, { width: "50px" }]
-          }
-          style={{ backgroundColor: "black", color: "white" }}
+              : [{ width: "300px" }, { width: "50px" }];
+            const res = animate({ element: ref.current, animation });
+            isLarge.current = !isLarge.current;
+          }}
         >
-          <div>test</div>
-        </AnimationContainerWrapper>
+          Click
+        </button>
+        <div ref={ref} style={{ backgroundColor: "black", color: "white" }}>
+          test
+        </div>
       </>
     );
   },

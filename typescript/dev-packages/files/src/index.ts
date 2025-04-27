@@ -4,3 +4,4 @@ export * from "./isPathFolder";
 export * from "./getModuleExports";
 export * from "./copyFolder";
 export * from "./createFolder";
+export * from "./getAmountOfFolders";

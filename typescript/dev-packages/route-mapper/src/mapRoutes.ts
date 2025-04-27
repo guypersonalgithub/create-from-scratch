@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { IS_ROUTER, IS_SUB_ROUTER } from "@packages/router";
 
 type MapRoutesArgs = {

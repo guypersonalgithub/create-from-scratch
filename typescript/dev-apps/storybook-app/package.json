@@ -49,7 +49,10 @@
     "@packages/range": "*",
     "@packages/textarea": "*",
     "@packages/badge": "*",
-    "@packages/keyboard-key": "*"
+    "@packages/keyboard-key": "*",
+    "@packages/scrollspy-anchors": "*",
+    "@packages/breadcrumbs": "*",
+    "@packages/dom-heatmap": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

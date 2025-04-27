@@ -15,7 +15,6 @@ export const AnimationContainerWrapper = ({
 >) => {
   const wrapper = useContext(UnmountContext);
   const clearLifeCycleAnimationOnExitRef = useRef<(() => void)[]>([]);
-  const clearAnimationOnExitRef = useRef<(() => void)[]>([]);
   const { isDev } = useIsDev();
 
   useEffect(() => {
@@ -25,10 +24,6 @@ export const AnimationContainerWrapper = ({
       }
 
       clearLifeCycleAnimationOnExitRef.current?.forEach((clearCallback) => {
-        clearCallback();
-      });
-
-      clearAnimationOnExitRef.current?.forEach((clearCallback) => {
         clearCallback();
       });
     };
@@ -42,7 +37,6 @@ export const AnimationContainerWrapper = ({
     return (
       <SingleChildContainerWrapper
         clearLifeCycleAnimationOnExitRef={clearLifeCycleAnimationOnExitRef}
-        clearAnimationOnExitRef={clearAnimationOnExitRef}
         isUnmounted={!!wrapper?.isUnmounted}
         finishedAnimation={wrapper?.finishedAnimation}
         changeMethod={changeMethod}
@@ -56,7 +50,6 @@ export const AnimationContainerWrapper = ({
   return (
     <MultiChildrenContainerWrapper
       clearLifeCycleAnimationOnExitRef={clearLifeCycleAnimationOnExitRef}
-      clearAnimationOnExitRef={clearAnimationOnExitRef}
       isUnmounted={!!wrapper?.isUnmounted}
       finishedAnimation={wrapper?.finishedAnimation}
       changeMethod={changeMethod}

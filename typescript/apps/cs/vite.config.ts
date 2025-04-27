@@ -66,10 +66,6 @@ export default defineConfig({
         __dirname,
         "../../packages/scrollspy-anchors/src/index.ts",
       ),
-      "@dev-packages/route-mapper": path.resolve(
-        __dirname,
-        "../../dev-packages/route-mapper/src/index.ts",
-      ),
     },
   },
 });
