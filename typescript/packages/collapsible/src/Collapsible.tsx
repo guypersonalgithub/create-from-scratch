@@ -1,15 +1,8 @@
-import {
-  CSSProperties,
-  ReactNode,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
+  useAnimation,
 } from "@packages/animation-container";
 
 type CollapsibleProps = {
@@ -28,31 +21,6 @@ export const Collapsible = ({
   children,
 }: CollapsibleProps) => {
   const [isOpen, setIsOpen] = useState(isOpenInitially);
-  const [height, setHeight] = useState(0);
-  const initiallyAnimatedOnFirstOpening = useRef(false);
-  const previousAnimationFrameRef = useRef<Keyframe[]>([]);
-
-  const animationFrames = useMemo(() => {
-    if (!isOpen || height === 0 || initiallyAnimatedOnFirstOpening.current) {
-      return;
-    }
-
-    const frames = [{ height: "0px" }, { height: `${height}px` }];
-    previousAnimationFrameRef.current = frames;
-    return frames;
-  }, [isOpen, height]);
-
-  const postChildChangeAnimationFrames = useMemo(() => {
-    if (!isOpen || !initiallyAnimatedOnFirstOpening.current) {
-      return;
-    }
-
-    const lastStoppedAnimation =
-      previousAnimationFrameRef.current[previousAnimationFrameRef.current.length - 1];
-    const frames = [lastStoppedAnimation, { height: `${height}px` }];
-    previousAnimationFrameRef.current = frames;
-    return frames;
-  }, [height, isOpen]);
 
   return (
     <div style={{ width: "fit-content", ...containerStyle }}>
@@ -85,49 +53,87 @@ export const Collapsible = ({
           />
         </div>
       </div>
-      <AnimationContainerUnmountWrapper changeMethod="gradual">
-        {isOpen ? (
-          <AnimationContainerWrapper
-            key="collapsible"
-            changeMethod="fullPhase"
-            onMount={[{ height: "0px" }, { height: `${height}px` }]}
-            animation={postChildChangeAnimationFrames || animationFrames}
-            onAnimationEnd={() => {
-              initiallyAnimatedOnFirstOpening.current = true;
-            }}
-            style={{ overflow: "hidden" }}
-            disableAnimation={!initiallyAnimatedOnFirstOpening.current && height === 0}
-          >
-            <CollapsiableChildren
-              key="collapsible-content"
-              isOpen={isOpen}
-              height={height}
-              setHeight={setHeight}
-            >
-              {children}
-            </CollapsiableChildren>
-          </AnimationContainerWrapper>
-        ) : (
-          <></>
-        )}
-      </AnimationContainerUnmountWrapper>
+      <CollapsibleContent isOpen={isOpen}>{children}</CollapsibleContent>
     </div>
   );
 };
 
-type CollapsiableChildrenProps = {
+type CollapsibleContentProps = {
   isOpen: boolean;
+  children: ReactNode;
+};
+
+const CollapsibleContent = ({ isOpen, children }: CollapsibleContentProps) => {
+  const [height, setHeight] = useState(0);
+  const { animate } = useAnimation();
+  const ref = useRef<HTMLDivElement>(null);
+  const previousAnimationFrameRef = useRef<Keyframe[]>([]);
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const lastStoppedAnimation =
+      previousAnimationFrameRef.current[previousAnimationFrameRef.current.length - 1];
+    const newHeight = `${height}px`;
+
+    if (lastStoppedAnimation?.height === newHeight) {
+      return;
+    }
+
+    const element = ref.current;
+    const frames = [lastStoppedAnimation ?? { height: "0px" }, { height: newHeight }];
+
+    const { cancelAnimation } = animate({
+      element,
+      animation: frames,
+      onAnimationEnd: () => {
+        previousAnimationFrameRef.current = frames;
+      },
+    });
+
+    return () => {
+      cancelAnimation?.();
+    };
+  }, [height]);
+
+  useEffect(() => {
+    if (isOpen) {
+      return;
+    }
+
+    previousAnimationFrameRef.current = [];
+  }, [isOpen]);
+
+  return (
+    <AnimationContainerUnmountWrapper changeMethod="gradual">
+      {isOpen ? (
+        <AnimationContainerWrapper
+          key="collapsible"
+          externalRef={ref}
+          changeMethod="fullPhase"
+          onMount={[{ height: "0px" }, { height: `${height}px` }]}
+          style={{ overflow: "hidden" }}
+        >
+          <CollapsiableChildren key="collapsible-content" height={height} setHeight={setHeight}>
+            {children}
+          </CollapsiableChildren>
+        </AnimationContainerWrapper>
+      ) : (
+        <></>
+      )}
+    </AnimationContainerUnmountWrapper>
+  );
+};
+
+type CollapsiableChildrenProps = {
   height: number;
   setHeight: (height: number) => void;
   children: ReactNode;
 };
 
-const CollapsiableChildren = ({
-  isOpen,
-  height,
-  setHeight,
-  children,
-}: CollapsiableChildrenProps) => {
+const CollapsiableChildren = ({ height, setHeight, children }: CollapsiableChildrenProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerHeight = useRef<number>(0);
 
@@ -139,10 +145,6 @@ const CollapsiableChildren = ({
     const { height } = ref.current.getBoundingClientRect();
     setHeight(height);
     containerHeight.current = height;
-
-    return () => {
-      setHeight(height);
-    };
   }, []);
 
   useEffect(() => {
@@ -173,7 +175,7 @@ const CollapsiableChildren = ({
 
       observer.unobserve(ref.current);
     };
-  }, [isOpen]);
+  }, []);
 
   return (
     <div

@@ -1,0 +1,1 @@
+- Merge the scroll package with the useScrollToTheTop hook. The hook can stay, but the logic should be merged as both places do very similar things with slight variations.

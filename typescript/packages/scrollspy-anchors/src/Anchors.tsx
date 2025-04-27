@@ -1,6 +1,6 @@
-import { AnimationContainerWrapper } from "@packages/animation-container";
+import { AnimationContainerWrapper, useAnimation } from "@packages/animation-container";
 import { Anchor } from "./types";
-import { useRef, RefObject, useState, useMemo, useEffect } from "react";
+import { useRef, RefObject, useEffect } from "react";
 import { registerAnchorRef } from "./registerRefs";
 import { getLowestAnchorIndex } from "./utils";
 
@@ -11,7 +11,6 @@ type AnchorsProps = {
 
 export const Anchors = ({ anchors, visibleAnchors }: AnchorsProps) => {
   const anchorRefs = useRef<HTMLDivElement[]>([]);
-  const isInitialState = useRef<boolean>(true);
   const selectedIndex = getLowestAnchorIndex({ visibleAnchors, anchors });
 
   return (
@@ -25,7 +24,6 @@ export const Anchors = ({ anchors, visibleAnchors }: AnchorsProps) => {
               ref={(ref) => registerAnchorRef({ refs: anchorRefs, ref })}
               onClick={() => {
                 ref.scrollIntoView({ behavior: "smooth", block: "start" });
-                isInitialState.current = false;
               }}
               style={{
                 cursor: "pointer",
@@ -37,11 +35,13 @@ export const Anchors = ({ anchors, visibleAnchors }: AnchorsProps) => {
           );
         })}
       </div>
-      <HighlightBar
-        refs={anchorRefs}
-        selectedIndex={selectedIndex}
-        isInitialState={isInitialState.current}
-      />
+      <AnimationContainerWrapper onMount={[{ opacity: 0 }, { opacity: 1 }]}>
+        {selectedIndex !== -1 ? (
+          <HighlightBar key="highlightBar" refs={anchorRefs} selectedIndex={selectedIndex} />
+        ) : (
+          <></>
+        )}
+      </AnimationContainerWrapper>
     </div>
   );
 };
@@ -49,7 +49,6 @@ export const Anchors = ({ anchors, visibleAnchors }: AnchorsProps) => {
 type HighlightBarProps = {
   refs: RefObject<(HTMLDivElement | null)[]>;
   selectedIndex: number;
-  isInitialState: boolean;
 };
 
 type TabProperties = {
@@ -57,24 +56,22 @@ type TabProperties = {
   top: number;
 };
 
-const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps) => {
+const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<HTMLDivElement>(null);
   const containerTop = useRef<number>(0);
   const lastTab = useRef<TabProperties>({
     height: 0,
     top: 0,
   });
-  const [tabProperties, setTabPropeties] = useState<TabProperties>({
-    height: 0,
-    top: 0,
-  });
+  const { animate } = useAnimation();
 
   useEffect(() => {
     if (!containerRef.current) {
       return;
     }
 
-    const setContainertop = () => {
+    const setContainerTop = () => {
       if (!containerRef.current) {
         return;
       }
@@ -86,14 +83,14 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (entry.target === containerRef.current) {
-          setContainertop();
+          setContainerTop();
         }
       }
     });
 
     observer.observe(containerRef.current);
 
-    setContainertop();
+    setContainerTop();
 
     return () => {
       if (!containerRef.current) {
@@ -105,6 +102,10 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
   }, []);
 
   useEffect(() => {
+    if (!highlightRef.current) {
+      return;
+    }
+
     const getRefProperties = (ref: HTMLDivElement | null) => {
       const { height, top } = ref?.getBoundingClientRect() ?? {
         height: 0,
@@ -117,37 +118,36 @@ const HighlightBar = ({ refs, selectedIndex, isInitialState }: HighlightBarProps
       };
     };
 
-    if (tabProperties.top > 0) {
-      lastTab.current = tabProperties;
-    }
-    setTabPropeties(getRefProperties(refs.current[selectedIndex]));
-  }, [selectedIndex]);
+    const newTabProperties = getRefProperties(refs.current[selectedIndex]);
 
-  const animation = useMemo(() => {
-    return [
-      { height: `${lastTab.current.height}px`, transform: `translateY(${lastTab.current.top}px)` },
+    const animation = [
       {
-        height: `${tabProperties.height}px`,
-        transform: `translateY(${tabProperties.top}px)`,
+        height: `${lastTab.current.height}px`,
+        transform: `translateY(${lastTab.current.top}px)`,
+      },
+      {
+        height: `${newTabProperties.height}px`,
+        transform: `translateY(${newTabProperties.top}px)`,
       },
     ];
-  }, [tabProperties]);
+    const animationOptions = { duration: 300, easing: "ease-out" };
+
+    const {} = animate({ element: highlightRef.current, animation, animationOptions });
+
+    lastTab.current = newTabProperties;
+  }, [selectedIndex]);
 
   return (
     <div ref={containerRef} style={{ position: "relative" }}>
-      <AnimationContainerWrapper
-        animation={animation}
-        animationOptions={{ duration: 300, easing: "ease-out" }}
+      <div
+        ref={highlightRef}
         style={{
           position: "absolute",
-          height: `${tabProperties.height}px`,
           right: "5px",
-          top: `${tabProperties.top}px`,
         }}
-        disableAnimation={isInitialState}
       >
         <div key="bar" style={{ width: "5px", height: "inherit", backgroundColor: "#5662F6" }} />
-      </AnimationContainerWrapper>
+      </div>
     </div>
   );
 };

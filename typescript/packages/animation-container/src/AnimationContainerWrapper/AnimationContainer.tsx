@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, ReactElement, CSSProperties } from "react";
 import { AnimationContainerWrapperProps } from "./types";
 import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
-import { useAnimation } from "../useAnimation";
 
 type AnimationWrapperProps = Omit<AnimationContainerWrapperProps, "children" | "changeMethod"> & {
   index: number;
@@ -19,51 +18,28 @@ export const AnimationWrapper = ({
   onUnmount,
   mountOptions = {},
   unmountOptions = mountOptions,
-  animation,
-  animationOptions = {},
   onMountAnimationStart,
   onMountAnimationEnd,
   onUnmountAnimationStart,
   onUnmountAnimationEnd,
-  onAnimationStart,
-  onAnimationEnd,
   clearLifeCycleAnimationOnExitRef,
-  clearAnimationOnExitRef,
   style = {},
   disableLifeCycleAnimations,
-  disableAnimation,
+  externalRef,
 }: AnimationWrapperProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [removeState, setRemove] = useState(!show);
   const lifeCycleAnimationRef = useRef<Animation>(null);
   const previousLifeCycleAnimationRefs = useRef<Animation[]>([]);
-  const animationRef = useRef<Animation>(null);
   const initialized = useRef(false);
   const stoppedFrame = useRef<number>(0);
   const lastFrameProperties = useRef<CSSProperties>({});
-
-  useAnimation({
-    animation,
-    removeState,
-    elementRef,
-    onAnimationStart,
-    onAnimationEnd,
-    fallbackDuration,
-    animationOptions,
-    animationRef,
-    disableAnimation,
-    lastFrameProperties,
-  });
 
   clearLifeCycleAnimationOnExitRef.current[index] = () => {
     lifeCycleAnimationRef.current?.cancel();
     previousLifeCycleAnimationRefs.current.forEach((lifeCycleAnimationRef) => {
       lifeCycleAnimationRef.cancel();
     });
-  };
-
-  clearAnimationOnExitRef.current[index] = () => {
-    animationRef.current?.cancel();
   };
 
   useEffect(() => {
@@ -175,7 +151,15 @@ export const AnimationWrapper = ({
   }
 
   return (
-    <div ref={elementRef} style={{ ...style, ...lastFrameProperties.current }}>
+    <div
+      ref={(ref) => {
+        elementRef.current = ref;
+        if (externalRef) {
+          externalRef.current = ref;
+        }
+      }}
+      style={{ ...style, ...lastFrameProperties.current }}
+    >
       {children}
     </div>
   );

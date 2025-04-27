@@ -1,4 +1,4 @@
-import { CSSProperties, MutableRefObject, ReactElement } from "react";
+import { CSSProperties, RefObject, ReactElement } from "react";
 
 export interface CSSPropertiesWithIndex extends CSSProperties {
   [key: string]: string | number | undefined;
@@ -8,20 +8,16 @@ export type ChangeMethod = "gradual" | "fullPhase";
 
 export type AnimationContainerWrapperProps = {
   children: ReactElement[] | ReactElement;
-  clearLifeCycleAnimationOnExitRef: MutableRefObject<(() => void)[]>;
-  clearAnimationOnExitRef: MutableRefObject<(() => void)[]>;
+  clearLifeCycleAnimationOnExitRef: RefObject<(() => void)[]>;
   style?: CSSProperties;
   onMountAnimationStart?: () => void;
   onMountAnimationEnd?: () => void;
   onUnmountAnimationStart?: () => void;
   onUnmountAnimationEnd?: () => void;
-  onAnimationStart?: () => void;
-  onAnimationEnd?: () => void;
   disableLifeCycleAnimations?: boolean;
-  disableAnimation?: boolean;
+  externalRef?: RefObject<HTMLDivElement | null>;
 } & (WithMount | WithoutMount) &
-  (WithUnmount | WithoutUnmount) &
-  (WithAnimation | WithoutAnimation);
+  (WithUnmount | WithoutUnmount);
 
 type WithMount = {
   onMount?: Keyframe[];
@@ -45,14 +41,4 @@ type WithoutUnmount = {
   onUnmount?: never;
   unmountOptions?: never;
   changeMethod?: never;
-};
-
-type WithAnimation = {
-  animation?: Keyframe[];
-  animationOptions?: KeyframeAnimationOptions;
-};
-
-type WithoutAnimation = {
-  animation?: never;
-  animationOptions?: never;
 };
