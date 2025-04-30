@@ -4,7 +4,7 @@ import { generateSecureRandomString } from "@packages/randomizer";
 type Listener<T> = (value: T) => void;
 type PartialState<T> = Partial<T> | ((state: T) => Partial<T>);
 
-interface ListenerConfig<T, K extends keyof T, F extends boolean> {
+export interface ListenerConfig<T, K extends keyof T, F extends boolean> {
   id: string;
   properties?: K[]; // Null or empty array indicates a full state listener
   full: F; // If true, callback receives the entire state `T`, otherwise receives partial state

@@ -22,13 +22,11 @@ type GetHeatmapColorArgs = {
 };
 
 export const getHeatmapColor = ({ value, color1, color2, color3 }: GetHeatmapColorArgs) => {
-  const clamped = Math.max(-100, Math.min(100, value));
-
-  if (clamped < 0) {
-    const percentage = (clamped + 100) / 100; // maps [-100, 0] → [0, 1]
+  if (value < 0) {
+    const percentage = (value + 100) / 100; // maps [-100, 0] → [0, 1]
     return interpolateColor({ color1: color3, color2: color1, percentage });
   } else {
-    const percentage = clamped / 100; // maps [0, 100] → [0, 1]
+    const percentage = value / 100; // maps [0, 100] → [0, 1]
     return interpolateColor({ color1, color2, percentage });
   }
 };

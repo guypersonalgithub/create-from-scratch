@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { CSSProperties, useEffect } from "react";
 import { Anchor } from "./types";
 import { observeElementsVisibility } from "@packages/utils";
 import { Anchors } from "./Anchors";
@@ -6,19 +6,36 @@ import { useState } from "react";
 
 type ScrollspyAnchorsProps = {
   anchors: Anchor[];
+  anchorClass?: string;
+  visibleAnchorClass?: string;
+  anchorStyle?: CSSProperties;
+  visibleAnchorStyle?: CSSProperties;
+  highlightBarContainerStyle?: CSSProperties;
+  highlightBarStyle?: CSSProperties;
 };
 
-export const ScrollspyAnchors = ({ anchors }: ScrollspyAnchorsProps) => {
-  const [anchorsLoaded, setAnchorsLoaded] = useState(false);
+export const ScrollspyAnchors = ({
+  anchors,
+  anchorClass,
+  visibleAnchorClass,
+  anchorStyle,
+  visibleAnchorStyle,
+  highlightBarContainerStyle,
+  highlightBarStyle,
+}: ScrollspyAnchorsProps) => {
+  const [availableAnchors, setAvailableAnchors] = useState<Anchor[]>([]);
   const [visibleAnchors, setVisibleAnchors] = useState<string[]>([]);
+  const anchorsIdentifier = anchors.reduce((sum, current) => {
+    return sum + current.id;
+  }, "");
 
   useEffect(() => {
-    if (anchors.length === 0) {
-      return;
-    }
+    setAvailableAnchors(anchors);
+    setVisibleAnchors([]);
+  }, [anchorsIdentifier]);
 
-    const elements = anchors.map((anchor) => anchor.ref);
-    setAnchorsLoaded(true);
+  useEffect(() => {
+    const elements = availableAnchors.map((anchor) => anchor.ref);
 
     const observer = observeElementsVisibility({
       elements,
@@ -42,17 +59,29 @@ export const ScrollspyAnchors = ({ anchors }: ScrollspyAnchorsProps) => {
 
         setVisibleAnchors((prev) => prev.filter((anchor) => anchor !== id));
       },
-      threshold: [0.05]
+      threshold: [0.05],
     });
 
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [availableAnchors]);
 
-  if (!anchorsLoaded) {
+  if (availableAnchors.length === 0) {
     return null;
   }
 
-  return <Anchors anchors={anchors} visibleAnchors={visibleAnchors} />;
+  return (
+    <Anchors
+      anchors={availableAnchors}
+      visibleAnchors={visibleAnchors}
+      anchorClass={anchorClass}
+      visibleAnchorClass={visibleAnchorClass}
+      anchorStyle={anchorStyle}
+      visibleAnchorStyle={visibleAnchorStyle}
+      highlightBarContainerStyle={highlightBarContainerStyle}
+      highlightBarStyle={highlightBarStyle}
+      anchorsIdentifier={anchorsIdentifier}
+    />
+  );
 };

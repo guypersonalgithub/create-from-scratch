@@ -8,7 +8,6 @@ import { SyntaxHighlighter } from "@packages/syntax-highlighter";
 import { MainLogo } from "../../styledComponents";
 import { MainAd } from "./MainAd";
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
-import { getCurrentYear } from "@packages/date";
 
 export const Main = () => {
   const { moveTo } = usePath();
@@ -207,21 +206,6 @@ const output = convertYamlToObject({ str: yaml });
           </StyledCard>
         </div>
       </div>
-      <div style={{ marginTop: "20px" }}>
-        <Footer />
-      </div>
     </div>
-  );
-};
-
-const Footer = () => {
-  const currentYear = getCurrentYear();
-  const { breakpoint } = useGetBreakpoint();
-  const isDesktop = breakpoint === "desktop";
-
-  return (
-    <StyledCard style={{ ...(isDesktop ? { width: "80vw" } : {}), margin: "0 auto" }}>
-      All rights reserved © {currentYear}
-    </StyledCard>
   );
 };

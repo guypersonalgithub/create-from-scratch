@@ -1,1 +1,0 @@
-- Consider moving registerRef to a hook (incase refs should be refreshed if dynamic refs will be needed to be supported)

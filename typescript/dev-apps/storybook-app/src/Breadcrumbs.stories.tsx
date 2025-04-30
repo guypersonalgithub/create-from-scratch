@@ -14,7 +14,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    crumbs: ["Test", "Test1", "Test2"],
+    crumbs: [
+      { value: "Test", content: "Test" },
+      { value: "Test1", content: "Test1" },
+      { value: "Test2", content: "Test2" },
+    ],
     onClick: ({ crumb }) => console.log(crumb),
   },
   render: (args) => {

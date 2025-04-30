@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 export type Theme = {
-  [key: string]: string;
+  [key: string]: string | number;
 };
 
 export type UIThemeContextType<T extends Record<string, Th>, Th extends Theme = Theme> = {

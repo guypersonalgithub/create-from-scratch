@@ -4,6 +4,7 @@ import { usePath } from "./usePath";
 type LinkProps = {
   children: ReactNode;
   style?: CSSProperties;
+  className?: string;
 };
 
 type InternalLinkProps = LinkProps & {
@@ -18,10 +19,10 @@ type ExternalLinkProps = LinkProps & {
 
 export type CompleteLinkProps = InternalLinkProps | ExternalLinkProps;
 
-export const Link = ({ pathname, href, children, style }: CompleteLinkProps) => {
+export const Link = ({ pathname, href, children, style, className }: CompleteLinkProps) => {
   if (pathname) {
     return (
-      <InternalLink pathname={pathname} style={style}>
+      <InternalLink pathname={pathname} style={style} className={className}>
         {children}
       </InternalLink>
     );
@@ -29,7 +30,7 @@ export const Link = ({ pathname, href, children, style }: CompleteLinkProps) => 
 
   if (href) {
     return (
-      <ExternalLink href={href} style={style}>
+      <ExternalLink href={href} style={style} className={className}>
         {children}
       </ExternalLink>
     );
@@ -38,11 +39,12 @@ export const Link = ({ pathname, href, children, style }: CompleteLinkProps) => 
   return null;
 };
 
-const InternalLink = ({ pathname, children, style }: InternalLinkProps) => {
+const InternalLink = ({ pathname, children, style, className }: InternalLinkProps) => {
   const { moveTo } = usePath();
 
   return (
     <a
+      className={className}
       href={`${window.location.origin}${pathname}`}
       onClick={(e) => {
         e.stopPropagation();
@@ -56,9 +58,9 @@ const InternalLink = ({ pathname, children, style }: InternalLinkProps) => {
   );
 };
 
-const ExternalLink = ({ href, children, style }: ExternalLinkProps) => {
+const ExternalLink = ({ href, children, style, className }: ExternalLinkProps) => {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" style={style}>
+    <a className={className} href={href} target="_blank" rel="noopener noreferrer" style={style}>
       {children}
     </a>
   );

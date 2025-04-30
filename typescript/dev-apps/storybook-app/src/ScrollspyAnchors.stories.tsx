@@ -1,6 +1,5 @@
 import type { Meta } from "@storybook/react";
-import { Anchor, ScrollspyAnchors, registerRef } from "@packages/scrollspy-anchors";
-import { useRef } from "react";
+import { Anchor, ScrollspyAnchors, useRegisterAnchors } from "@packages/scrollspy-anchors";
 
 const meta = {
   title: "ScrollspyAnchors",
@@ -14,7 +13,7 @@ export default meta;
 
 export const Primary = {
   render: () => {
-    const refs = useRef<Anchor[]>([]);
+    const { anchors, registerRef } = useRegisterAnchors();
 
     return (
       <div>
@@ -22,19 +21,19 @@ export const Primary = {
           <div style={{ width: "100%" }}>
             <div style={{ height: "100vh", backgroundColor: "darkred" }}>Test0</div>
             <div
-              ref={(ref) => registerRef({ refs, ref, content: "Test" })}
+              ref={(ref) => registerRef({ ref, content: "Test" })}
               style={{ height: "100vh", backgroundColor: "red", margin: 0 }}
             >
               Test
             </div>
             <div
-              ref={(ref) => registerRef({ refs, ref, content: "Test2" })}
+              ref={(ref) => registerRef({ ref, content: "Test2" })}
               style={{ height: "100vh", backgroundColor: "green" }}
             >
               Test2
             </div>
             <div
-              ref={(ref) => registerRef({ refs, ref, content: "Test3" })}
+              ref={(ref) => registerRef({ ref, content: "Test3" })}
               style={{ height: "100vh", backgroundColor: "blue" }}
             >
               Test3
@@ -42,7 +41,7 @@ export const Primary = {
             <div style={{ height: "100vh", backgroundColor: "purple" }}>Test4</div>
           </div>
           <div style={{ position: "sticky", top: 10, height: "fit-content" }}>
-            <ScrollspyAnchors anchors={refs.current} />
+            <ScrollspyAnchors anchors={anchors} />
           </div>
         </div>
       </div>

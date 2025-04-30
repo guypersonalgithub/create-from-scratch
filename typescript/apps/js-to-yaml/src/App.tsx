@@ -2,7 +2,7 @@ import { Router } from "@packages/router";
 import { UIThemeProvider } from "@packages/ui-theme";
 import { customThemes } from "./UIThemes";
 import { Main } from "./routes/main/Main";
-import { Header, Layout } from "./Layout";
+import { Header, Layout, BaseFooter } from "./Layout";
 import { TooltipManager } from "@packages/tooltip";
 import { NotFound } from "./routes/NotFound";
 import { Examples } from "./routes/Examples";
@@ -14,7 +14,10 @@ function App() {
   return (
     <UIThemeProvider
       themes={customThemes}
-      style={{ transition: "color 0.5s ease, background-color 0.5s ease, border 0.5s ease" }}
+      style={{
+        transition:
+          "color 0.5s ease, background-color 0.5s ease, border 0.5s ease, opacity 0.5s ease",
+      }}
     >
       <Layout>
         <Header />
@@ -27,6 +30,7 @@ function App() {
             "404": <NotFound />,
           }}
         />
+        <BaseFooter />
       </Layout>
       <TooltipManager />
       <ModalManager />

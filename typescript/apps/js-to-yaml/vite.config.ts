@@ -61,6 +61,9 @@ export default defineConfig({
         __dirname,
         "../../packages/scrollspy-anchors/src/index.ts",
       ),
+      "@packages/list": path.resolve(__dirname, "../../packages/list/src/index.ts"),
+      "@packages/table": path.resolve(__dirname, "../../packages/table/src/index.ts"),
+      "@packages/pagination": path.resolve(__dirname, "../../packages/pagination/src/index.ts"),
     },
   },
 });

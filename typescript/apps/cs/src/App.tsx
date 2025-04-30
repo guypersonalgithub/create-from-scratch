@@ -6,6 +6,7 @@ import {
   Typescript as TypescriptIcon,
   CSS as CSSIcon,
   Linux as LinuxIcon,
+  SecuredScreen,
 } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
@@ -21,6 +22,7 @@ import { Containers } from "./routes/containers/Containers";
 import { CSS } from "./routes/css/CSS";
 import { Linux } from "./routes/Linux/Linux";
 import { Test2 } from "./Test2";
+import { Security } from "./routes/security/Security";
 
 const searchableRoutes = [
   {
@@ -146,6 +148,7 @@ const App = () => {
               "/containers!": <Containers />,
               "/css!": <CSS />,
               "/linux!": <Linux />,
+              "/security!": <Security />,
               "/test": <Test />,
               "/test2": <Test2 />,
             }}
@@ -171,6 +174,7 @@ const SidebarWrapper = () => {
         { icon: <Container />, label: "Containers", pathname: "/containers" },
         { icon: <CSSIcon />, label: "CSS", pathname: "/css" },
         { icon: <LinuxIcon />, label: "Linux", pathname: "/linux" },
+        { icon: <SecuredScreen />, label: "Security", pathname: "/security" },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}

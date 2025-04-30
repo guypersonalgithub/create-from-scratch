@@ -38,6 +38,7 @@ COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
 COPY ./packages/css-utils/package.json ./packages/css-utils/package.json
 COPY ./packages/radio-button/package.json ./packages/radio-button/package.json
 COPY ./packages/scrollspy-anchors/package.json ./packages/scrollspy-anchors/package.json
+COPY ./packages/breadcrumbs/package.json ./packages/breadcrumbs/package.json
 
 
 
@@ -84,6 +85,7 @@ COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
+COPY ./packages/breadcrumbs ./packages/breadcrumbs
 CMD ["npm", "run", "dev"]
 
 
@@ -131,6 +133,7 @@ COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
+COPY ./packages/breadcrumbs ./packages/breadcrumbs
 CMD ["npm", "run", "build"]
 
 
@@ -178,4 +181,5 @@ COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
+COPY ./packages/breadcrumbs ./packages/breadcrumbs
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

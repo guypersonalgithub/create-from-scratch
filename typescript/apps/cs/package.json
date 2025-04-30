@@ -27,6 +27,9 @@
     "@packages/css-utils": "*",
     "@packages/radio-button": "*",
     "@packages/scrollspy-anchors": "*",
+    "@packages/breadcrumbs": "*",
+    "@packages/hooks": "*",
+    "@packages/utils": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

@@ -1,2 +1,2 @@
-export * from "./convertObjectToYaml";
-export * from "./convertYamlToObject";
+export { convertObjectToYaml } from "./convertObjectToYaml";
+export { convertYamlToObject } from "./convertYamlToObject";
