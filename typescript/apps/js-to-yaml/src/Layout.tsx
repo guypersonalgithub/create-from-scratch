@@ -1,14 +1,16 @@
 import { useUITheme } from "./UIThemes";
 import { Sun, Moon } from "@packages/icons";
 import { hexToRgba } from "@packages/css-utils";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { usePath, usePathState } from "@packages/router";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { MobileSidebar } from "@packages/sidebar";
 import { useGetBreakpoint } from "./breakpoints";
-import { MainLogo } from "./styledComponents";
+import { MainLogo, StyledCard } from "./styledComponents";
 import { PageSearchModal } from "./styledComponents/PageSearchModal";
+import { StyledLink } from "./styledComponents/StyledLink";
+import { getCurrentYear } from "@packages/date";
 
 type LayoutProps = {
   children: ReactNode;
@@ -155,6 +157,14 @@ export const Header = () => {
             color: "var(--theme-color)",
             transition: "var(--theme-transition)",
           }}
+          optionStyle={{
+            backgroundColor: "var(--theme-subBackground)",
+          }}
+          highlightedOptionStyle={{
+            backgroundColor: "rgba(0, 119, 184, 0.976)",
+            color: "var(--theme-background)",
+          }}
+          footerStyle={{ borderTop: "3px solid var(--theme-border)" }}
         />
         <Button
           style={{
@@ -188,26 +198,44 @@ export const Header = () => {
 };
 
 const HeaderLinks = () => {
-  const { moveTo } = usePath();
   const { path } = usePathState();
 
   return headerLinks.map((headerLink) => {
     const { label, pathname } = headerLink;
 
-    return (
-      <div
-        key={pathname}
-        className="headerLink"
-        style={{
-          cursor: "pointer",
-          transition: "color 0.5s ease",
-          fontWeight: "bold",
-          color: pathname === path ? "rgb(25, 187, 187)" : undefined,
-        }}
-        onClick={() => moveTo({ pathname })}
-      >
-        {label}
-      </div>
-    );
+    return <StyledLink key={label} path={path} pathname={pathname} label={label} />;
   });
+};
+
+type FooterProps = {
+  style?: CSSProperties;
+};
+
+export const Footer = ({ style }: FooterProps) => {
+  const currentYear = getCurrentYear();
+
+  return (
+    <div style={{ marginTop: "20px" }}>
+      <StyledCard style={{ margin: "0 auto", ...style }}>
+        All rights reserved © {currentYear}
+      </StyledCard>
+    </div>
+  );
+};
+
+export const BaseFooter = () => {
+  const { path } = usePathState();
+
+  if (path.startsWith("/documentation")) {
+    return null;
+  }
+
+  return <MainFooter />;
+};
+ 
+const MainFooter = () => {
+  const { breakpoint } = useGetBreakpoint();
+  const isDesktop = breakpoint === "desktop";
+
+  return <Footer style={isDesktop ? { width: "80vw" } : undefined} />;
 };

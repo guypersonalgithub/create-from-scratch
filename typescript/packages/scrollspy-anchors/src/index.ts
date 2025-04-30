@@ -1,3 +1,3 @@
 export * from "./ScrollspyAnchors";
-export { registerRef } from "./registerRefs";
+export * from "./useRegisterAnchors";
 export type { Anchor } from "./types";

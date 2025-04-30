@@ -1,8 +1,17 @@
 import { Button } from "@packages/button";
 import { useControlModal } from "@packages/modal";
-import { MagnifyingGlass } from "@packages/icons";
+import { EmptyFolder, MagnifyingGlass } from "@packages/icons";
 import { Badge } from "@packages/badge";
-import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import {
+  CSSProperties,
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Input } from "@packages/input";
 import { usePath } from "@packages/router";
 import { Key } from "@packages/keyboard-key";
@@ -11,17 +20,35 @@ type PageSearchModalProps = {
   buttonStyle?: CSSProperties;
   badgeStyle?: CSSProperties;
   modalStyle?: CSSProperties;
+  optionStyle?: CSSProperties;
+  highlightedOptionStyle?: CSSProperties;
+  footerStyle?: CSSProperties;
 };
 
 // TODO: turn into a package for potential reusability in other workspaces.
 
-export const PageSearchModal = ({ buttonStyle, badgeStyle, modalStyle }: PageSearchModalProps) => {
+export const PageSearchModal = ({
+  buttonStyle,
+  badgeStyle,
+  modalStyle,
+  optionStyle,
+  highlightedOptionStyle,
+  footerStyle,
+}: PageSearchModalProps) => {
   const { openModal, closeModal } = useControlModal();
   const isModalOpen = useRef(false);
 
   const openModalCallback = useCallback(() => {
     openModal({
-      content: <Modal style={modalStyle} closeModal={closeModal} />,
+      content: (
+        <Modal
+          style={modalStyle}
+          optionStyle={optionStyle}
+          highlightedOptionStyle={highlightedOptionStyle}
+          footerStyle={footerStyle}
+          closeModal={closeModal}
+        />
+      ),
     });
 
     isModalOpen.current = true;
@@ -78,38 +105,67 @@ export const PageSearchModal = ({ buttonStyle, badgeStyle, modalStyle }: PageSea
   );
 };
 
-const options: {
+type Option = {
   path: string;
   label: string;
-  description: string;
-}[] = [
+  description?: string;
+};
+
+const options: Option[] = [
+  {
+    path: "/",
+    label: "Home",
+  },
   {
     path: "/documentation",
     label: "Documentation",
-    description: "",
+    description: "Read a short summary of the capabilities of the library.",
   },
   {
     path: "/examples",
     label: "Examples",
-    description: "",
   },
   {
     path: "/playground",
     label: "Playground",
     description: "Play with the library's main functionalities and experience them in real time",
   },
+  {
+    path: "/documentation/quickstart",
+    label: "Quick Start",
+    description: "Learn how to start using the library itself with a single step.",
+  },
+  {
+    path: "/documentation/converttoyaml",
+    label: "Convert to YAML",
+    description: "Learn how to convert Javascript objects into formatted YAMLs.",
+  },
 ];
 
 type ModalProps = {
   style?: CSSProperties;
+  optionStyle?: CSSProperties;
+  highlightedOptionStyle?: CSSProperties;
+  footerStyle?: CSSProperties;
   closeModal: () => void;
 };
 
-const Modal = ({ style, closeModal }: ModalProps) => {
+type PickOptionArgs = {
+  path: string;
+};
+
+const Modal = ({
+  style,
+  optionStyle,
+  highlightedOptionStyle,
+  footerStyle,
+  closeModal,
+}: ModalProps) => {
   const ref = useRef<HTMLInputElement>(null);
+  const optionContainerRef = useRef<HTMLDivElement>(null);
   const optionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [filter, setFilter] = useState("");
-  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+  const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const { moveTo } = usePath();
   const lowercaseFilter = filter.toLowerCase();
 
@@ -123,19 +179,16 @@ const Modal = ({ style, closeModal }: ModalProps) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (focusedIndex === null) {
-      ref.current?.focus();
-    } else {
-      optionRefs.current[focusedIndex]?.focus();
-    }
-  }, [focusedIndex]);
-
   const displayableOptions = options.filter(
     (option) =>
       option.label.toLowerCase().includes(lowercaseFilter) ||
-      option.description.toLowerCase().includes(lowercaseFilter),
+      option.description?.toLowerCase().includes(lowercaseFilter),
   );
+
+  const pickOption = ({ path }: PickOptionArgs) => {
+    moveTo({ pathname: path });
+    closeModal();
+  };
 
   return (
     <div
@@ -143,103 +196,90 @@ const Modal = ({ style, closeModal }: ModalProps) => {
         width: "600px",
         height: "400px",
         backgroundColor: "white",
-        borderRadius: "20px",
+        borderRadius: "10px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         ...style,
       }}
     >
-      <Input
-        externalRef={ref}
-        wrapperStyle={{ height: "40px", borderRadius: "10px" }}
-        value={filter}
-        onChange={(e) => {
-          optionRefs.current = [];
-          setFilter(e.target.value);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowDown") {
-            e.preventDefault();
+      <div style={{ padding: "10px" }}>
+        <Input
+          externalRef={ref}
+          wrapperStyle={{ height: "80px", borderRadius: "5px" }}
+          style={{ fontSize: "20px" }}
+          value={filter}
+          onChange={(e) => {
+            optionRefs.current = [];
+            setFilter(e.target.value);
             setFocusedIndex(0);
-          }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const option = displayableOptions[focusedIndex];
+              const { path } = option;
+              pickOption({ path });
+            } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+              e.preventDefault();
+
+              setFocusedIndex((prev) => {
+                let nextIndex = prev;
+
+                if (e.key === "ArrowDown") {
+                  nextIndex = prev === displayableOptions.length - 1 ? 0 : prev + 1;
+                } else if (e.key === "ArrowUp") {
+                  nextIndex = prev === 0 ? displayableOptions.length - 1 : prev - 1;
+                }
+
+                const option = optionRefs.current[nextIndex];
+                if (option) {
+                  option.scrollIntoView({ block: "nearest" });
+                }
+
+                return nextIndex;
+              });
+            }
+          }}
+          placeholder="Search docs"
+        />
+      </div>
+      <div
+        ref={optionContainerRef}
+        style={{
+          height: "100%",
+          paddingLeft: "10px",
+          paddingRight: "10px",
+          overflow: "auto",
+          display: "flex",
+          flexDirection: "column",
+          position: "relative",
+          gap: "5px",
         }}
-        placeholder="Search docs"
-      />
-      <div style={{ height: "100%" }}>
+      >
         {filter.length > 0 ? (
-          displayableOptions.map((option, index) => {
-            const { path, label, description } = option;
-
-            const pickOption = () => {
-              moveTo({ pathname: path });
-              closeModal();
-            };
-
-            return (
-              <div
-                key={path}
-                ref={(ref) => {
-                  optionRefs.current[index] = ref;
-                }}
-                style={{
-                  cursor: "pointer",
-                  transition: "background-color 0.3s ease-in",
-                  height: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                  paddingLeft: "10px",
-                  fontWeight: "bold",
-                  margin: "10px",
-                  borderRadius: "10px",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "red";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "";
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.outline = "1px solid red";
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.outline = "none";
-                }}
-                onClick={pickOption}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    pickOption();
-                  } else if (e.key === "ArrowDown") {
-                    e.preventDefault();
-                    setFocusedIndex((prev) =>
-                      prev === options.length - 1 ? prev : (prev ?? -1) + 1,
-                    );
-                  } else if (e.key === "ArrowUp") {
-                    e.preventDefault();
-                    setFocusedIndex((prev) => (prev === 0 || prev === null ? null : prev - 1));
-                  }
-                }}
-                tabIndex={-1}
-              >
-                <div>
-                  <div>{label}</div>
-                  <div style={{ fontSize: "12px" }}>{description}</div>
-                </div>
-              </div>
-            );
-          })
+          <DisplayableOptions
+            displayableOptions={displayableOptions}
+            focusedIndex={focusedIndex}
+            optionRefs={optionRefs}
+            optionStyle={optionStyle}
+            highlightedOptionStyle={highlightedOptionStyle}
+            setFocusedIndex={setFocusedIndex}
+            pickOption={pickOption}
+          />
         ) : (
           <div>Start typing to see results.</div>
         )}
       </div>
-      <div style={{ borderTop: "3px solid black", marginBottom: "5px" }} />
       <div
         style={{
+          borderTop: "3px solid black",
+          paddingTop: "5px",
           display: "flex",
           gap: "10px",
           paddingBottom: "10px",
           paddingLeft: "10px",
           color: "#99989d",
+          ...footerStyle,
         }}
       >
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -260,4 +300,95 @@ const Modal = ({ style, closeModal }: ModalProps) => {
       </div>
     </div>
   );
+};
+
+type DisplayableOptionsProps = {
+  displayableOptions: Option[];
+  focusedIndex: number;
+  optionRefs: RefObject<(HTMLDivElement | null)[]>;
+  optionStyle?: CSSProperties;
+  highlightedOptionStyle?: CSSProperties;
+  setFocusedIndex: Dispatch<SetStateAction<number>>;
+  pickOption: ({ path }: PickOptionArgs) => void;
+};
+
+const DisplayableOptions = ({
+  displayableOptions,
+  focusedIndex,
+  optionRefs,
+  optionStyle,
+  highlightedOptionStyle,
+  setFocusedIndex,
+  pickOption,
+}: DisplayableOptionsProps) => {
+  if (displayableOptions.length === 0) {
+    return "No options were found for the inserted input.";
+  }
+
+  return displayableOptions.map((option, index) => {
+    const { path, label, description } = option;
+
+    const isHighlighted = focusedIndex === index;
+
+    return (
+      <div
+        ref={(ref) => {
+          optionRefs.current[index] = ref;
+        }}
+        key={path}
+        style={{
+          cursor: "pointer",
+          // transition: "background-color 0.3s ease-in",
+          height: "60px",
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: "10px",
+          paddingRight: "10px",
+          fontWeight: "bold",
+          borderRadius: "10px",
+          justifyContent: "space-between",
+          flexShrink: 0,
+          ...optionStyle,
+          ...(isHighlighted ? highlightedOptionStyle : {}),
+        }}
+        onMouseEnter={() => {
+          setFocusedIndex(index);
+          // e.currentTarget.style.backgroundColor = "red";
+        }}
+        // onMouseLeave={(e) => {
+        //   e.currentTarget.style.backgroundColor = "";
+        // }}
+        // onFocus={(e) => {
+        //   e.currentTarget.style.outline = "1px solid red";
+        // }}
+        // onBlur={(e) => {
+        //   e.currentTarget.style.outline = "none";
+        // }}
+        onClick={() => pickOption({ path })}
+        // onKeyDown={(e) => {
+        //   if (e.key === "Enter") {
+        //     pickOption();
+        //   } else if (e.key === "ArrowDown") {
+        //     e.preventDefault();
+        //     setFocusedIndex((prev) =>
+        //       prev === options.length - 1 ? prev : (prev ?? -1) + 1,
+        //     );
+        //   } else if (e.key === "ArrowUp") {
+        //     e.preventDefault();
+        //     setFocusedIndex((prev) => (prev === 0 ? 0 : prev - 1));
+        //   }
+        // }}
+        // tabIndex={-1}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <EmptyFolder size={26} />
+          <div>
+            <div>{label}</div>
+            <div style={{ fontSize: "12px" }}>{description}</div>
+          </div>
+        </div>
+        {isHighlighted ? <div>↩︎</div> : null}
+      </div>
+    );
+  });
 };

@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useLayoutEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { UnmountContext } from "./unmountContext";
 import { getChildKeys, isAnimationWrapperChild } from "../utils";
 import { ChangeMethod } from "../types";
@@ -56,7 +56,7 @@ const Gradual = ({ children }: Pick<AnimationContainerSingleUnmountWrapperProps,
   const [currentChildren, setCurrentChildren] = useState<ReactElement[]>([children]);
   const [childrenKeys, setChildrenKeys] = useState(getChildKeys({ children: [children] }));
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const currentChildrenKeys = new Set<string>([children.key ?? ""]);
     const removedChildren: { element: ReactElement; index: number }[] = [];
 

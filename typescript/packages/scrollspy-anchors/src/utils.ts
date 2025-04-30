@@ -18,7 +18,10 @@ export const getLowestAnchorIndex = ({ visibleAnchors, anchors }: GetLowestAncho
     anchorsMap[id] = { element: ref, index };
   });
 
-  let { top: lowestAnchor, index: lowestAnchorIndex } = getVisibleAnchorProperties({ id: visibleAnchors[0], anchorsMap });
+  let { top: lowestAnchor, index: lowestAnchorIndex } = getVisibleAnchorProperties({
+    id: visibleAnchors[0],
+    anchorsMap,
+  });
 
   for (let i = 1; i < visibleAnchors.length; i++) {
     const { top, index } = getVisibleAnchorProperties({ id: visibleAnchors[i], anchorsMap });

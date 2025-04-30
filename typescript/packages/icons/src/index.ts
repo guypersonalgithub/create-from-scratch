@@ -21,3 +21,5 @@ export * from "./OpenBook";
 export * from "./ClipboardDocument";
 export * from "./ClipboardDocumentCheck";
 export * from "./ClipboardDocumentList";
+export * from "./SecuredScreen";
+export * from "./EmptyFolder";

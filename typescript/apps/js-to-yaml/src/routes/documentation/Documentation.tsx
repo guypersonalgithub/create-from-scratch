@@ -1,12 +1,94 @@
 import { SubRouter } from "@packages/router";
 import { DocumentationMain } from "./DocumentationMain";
+import { DocumentationSidebar, LinkGroup } from "./DocumentationSidebar";
+import { QuickStart } from "./QuickStart";
+import { RightSidebar } from "./RightSidebar";
+import { Footer } from "../../Layout";
+import { ConvertToYaml } from "./ConvertToYaml";
+
+const links: LinkGroup[] = [
+  {
+    title: "Getting Started",
+    links: [
+      {
+        label: "Introduction",
+        pathname: "/documentation",
+      },
+      {
+        label: "Quick Start",
+        pathname: "/documentation/quickstart",
+      },
+    ],
+  },
+  {
+    title: "YAML",
+    links: [
+      {
+        label: "Convert to YAML",
+        pathname: "/documentation/converttoyaml",
+      },
+    ],
+  },
+  {
+    title: "Javascript",
+    links: [],
+  },
+];
 
 export const Documentation = () => {
   return (
-    <SubRouter
-      paths={{
-        "/": <DocumentationMain />,
+    <div
+      style={{
+        display: "flex",
+        gap: "10px",
+        minHeight: `calc(100vh - 61px)`,
+        justifyContent: "space-between",
+        alignItems: "flex-start",
       }}
-    />
+    >
+      <DocumentationSidebar
+        links={links}
+        style={{
+          backgroundColor: "var(--theme-subBackground)",
+          color: "var(--theme-color)",
+          transition: "var(--theme-transition)",
+          position: "sticky",
+          top: "61px",
+          fontSize: "14px",
+          height: "calc(100vh - 81px)",
+        }}
+        linkStyle={{ fontWeight: "normal" }}
+      />
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+          minWidth: 0,
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        <SubRouter
+          wrapperStyle={{ flex: 1, minWidth: 0 }}
+          paths={{
+            "/": <DocumentationMain />,
+            "/quickstart": <QuickStart />,
+            "/converttoyaml": <ConvertToYaml />,
+          }}
+        />
+        <Footer />
+      </div>
+      <RightSidebar
+        style={{
+          backgroundColor: "var(--theme-subBackground)",
+          color: "var(--theme-color)",
+          transition: "var(--theme-transition)",
+          position: "sticky",
+          top: "61px",
+          fontSize: "14px",
+          height: "calc(100vh - 81px)",
+        }}
+      />
+    </div>
   );
 };

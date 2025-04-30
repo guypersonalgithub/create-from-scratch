@@ -17,3 +17,7 @@ export const StyledTitle = ({ children }: StyledTitleProps) => {
     </SpreaderTitle>
   );
 };
+
+export const StyledSubTitle = ({ children }: StyledTitleProps) => {
+  return <h2>{children}</h2>;
+};

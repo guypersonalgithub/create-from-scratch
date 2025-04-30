@@ -43,6 +43,7 @@ on:
       - typescript/packages/css-utils/**
       - typescript/packages/radio-button/**
       - typescript/packages/scrollspy-anchors/**
+      - typescript/packages/breadcrumbs/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -103,6 +104,7 @@ jobs:
           cp -r ./packages/css-utils ./full-application/packages
           cp -r ./packages/radio-button ./full-application/packages
           cp -r ./packages/scrollspy-anchors ./full-application/packages
+          cp -r ./packages/breadcrumbs ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

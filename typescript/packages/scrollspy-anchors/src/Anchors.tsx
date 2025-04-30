@@ -1,33 +1,64 @@
 import { AnimationContainerWrapper, useAnimation } from "@packages/animation-container";
 import { Anchor } from "./types";
-import { useRef, RefObject, useEffect } from "react";
+import { useRef, RefObject, useEffect, CSSProperties } from "react";
 import { registerAnchorRef } from "./registerRefs";
 import { getLowestAnchorIndex } from "./utils";
+import { combineStringsWithSpaces } from "@packages/utils";
 
 type AnchorsProps = {
   anchors: Anchor[];
   visibleAnchors: string[];
+  anchorClass?: string;
+  visibleAnchorClass?: string;
+  anchorStyle?: CSSProperties;
+  visibleAnchorStyle?: CSSProperties;
+  highlightBarContainerStyle?: CSSProperties;
+  highlightBarStyle?: CSSProperties;
+  anchorsIdentifier: string;
 };
 
-export const Anchors = ({ anchors, visibleAnchors }: AnchorsProps) => {
+export const Anchors = ({
+  anchors,
+  visibleAnchors,
+  anchorClass,
+  visibleAnchorClass,
+  anchorStyle,
+  visibleAnchorStyle,
+  highlightBarContainerStyle,
+  highlightBarStyle,
+  anchorsIdentifier,
+}: AnchorsProps) => {
   const anchorRefs = useRef<HTMLDivElement[]>([]);
   const selectedIndex = getLowestAnchorIndex({ visibleAnchors, anchors });
 
+  useEffect(() => {
+    anchorRefs.current = [];
+  }, [anchorsIdentifier]);
+
   return (
-    <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+    <div style={{ display: "flex", flexDirection: "row-reverse", justifyContent: "start" }}>
       <div>
         {anchors.map((anchor) => {
           const { ref, content, id } = anchor;
+          const isVisibleAnchor = visibleAnchors.includes(id);
+
           return (
             <div
               key={id}
               ref={(ref) => registerAnchorRef({ refs: anchorRefs, ref })}
+              className={combineStringsWithSpaces(
+                anchorClass,
+                isVisibleAnchor && visibleAnchorClass,
+              )}
               onClick={() => {
                 ref.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
               style={{
                 cursor: "pointer",
-                fontWeight: visibleAnchors.includes(id) ? "bolder" : "normal",
+                fontWeight: "bold",
+                // fontWeight: isVisibleAnchor ? "bolder" : "normal",
+                ...anchorStyle,
+                ...(isVisibleAnchor ? visibleAnchorStyle : {}),
               }}
             >
               {content}
@@ -37,7 +68,13 @@ export const Anchors = ({ anchors, visibleAnchors }: AnchorsProps) => {
       </div>
       <AnimationContainerWrapper onMount={[{ opacity: 0 }, { opacity: 1 }]}>
         {selectedIndex !== -1 ? (
-          <HighlightBar key="highlightBar" refs={anchorRefs} selectedIndex={selectedIndex} />
+          <HighlightBar
+            key="highlightBar"
+            refs={anchorRefs}
+            selectedIndex={selectedIndex}
+            highlightBarContainerStyle={highlightBarContainerStyle}
+            highlightBarStyle={highlightBarStyle}
+          />
         ) : (
           <></>
         )}
@@ -49,6 +86,8 @@ export const Anchors = ({ anchors, visibleAnchors }: AnchorsProps) => {
 type HighlightBarProps = {
   refs: RefObject<(HTMLDivElement | null)[]>;
   selectedIndex: number;
+  highlightBarContainerStyle?: CSSProperties;
+  highlightBarStyle?: CSSProperties;
 };
 
 type TabProperties = {
@@ -56,7 +95,12 @@ type TabProperties = {
   top: number;
 };
 
-const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
+const HighlightBar = ({
+  refs,
+  selectedIndex,
+  highlightBarContainerStyle,
+  highlightBarStyle,
+}: HighlightBarProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
   const containerTop = useRef<number>(0);
@@ -132,9 +176,20 @@ const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
     ];
     const animationOptions = { duration: 300, easing: "ease-out" };
 
-    const {} = animate({ element: highlightRef.current, animation, animationOptions });
+    const onAnimationEnd = () => {
+      lastTab.current = newTabProperties;
+    }
 
-    lastTab.current = newTabProperties;
+    const {} = animate({
+      element: highlightRef.current,
+      animation,
+      animationOptions,
+      onAnimationEnd,
+    });
+
+    return () => {
+      lastTab.current = newTabProperties;
+    }
   }, [selectedIndex]);
 
   return (
@@ -144,9 +199,19 @@ const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
         style={{
           position: "absolute",
           right: "5px",
+          ...highlightBarContainerStyle,
         }}
       >
-        <div key="bar" style={{ width: "5px", height: "inherit", backgroundColor: "#5662F6" }} />
+        <div
+          key="bar"
+          style={{
+            width: "5px",
+            height: "inherit",
+            backgroundColor: "#5662F6",
+            borderRadius: "8px",
+            ...highlightBarStyle,
+          }}
+        />
       </div>
     </div>
   );

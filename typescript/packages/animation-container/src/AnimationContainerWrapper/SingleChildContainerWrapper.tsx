@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef, useState } from "react";
+import { ReactElement, useLayoutEffect, useRef, useState } from "react";
 import { AnimationContainerWrapperProps, ChangeMethod } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import { getChildKeys } from "./utils";
@@ -33,7 +33,7 @@ const FullPhase = ({
   const currentChildKey = useRef<string | null>(children.key);
   const keyAlreadyExists = currentChildKey.current === children.key;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const sameChild = currentChildKey.current === children.key;
     if ((!rest.onMount && !rest.onUnmount) || sameChild) {
       setCurrentChild(children);
@@ -68,7 +68,7 @@ const Gradual = ({
   const [currentChildren, setCurrentChildren] = useState<ReactElement[]>([children]);
   const [childrenKeys, setChildrenKeys] = useState(getChildKeys({ children: [children] }));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const currentChildrenKeys = new Set<string>([children.key ?? ""]);
     const removedChildren: { element: ReactElement; index: number }[] = [];
 

@@ -35,7 +35,9 @@
     "@packages/input": "*",
     "@packages/title": "*",
     "@packages/keyboard-key": "*",
-    "@packages/scrollspy-anchors": "*"
+    "@packages/scrollspy-anchors": "*",
+    "@packages/list": "*",
+    "@packages/table": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

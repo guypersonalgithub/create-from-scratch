@@ -23,7 +23,6 @@ export const CommandBox = ({ command, style, copyToClipboard, withIcons }: Comma
         fontSize: "14px",
         color: "#1e293b",
         border: "1px solid #e2e8f0",
-        width: "100%",
         // width: "fit-content",
         // maxWidth: "100%",
         whiteSpace: "nowrap",

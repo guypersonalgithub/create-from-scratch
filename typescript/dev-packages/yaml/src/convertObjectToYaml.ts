@@ -3,18 +3,21 @@ import { ObjectType } from "./types";
 type ConvertObjectToYamlArgs = {
   obj: ObjectType;
   maintainQuotationsOnNumbers?: boolean;
+  baseIndent?: string;
 };
 
 export const convertObjectToYaml = ({
   obj,
   maintainQuotationsOnNumbers,
-}: ConvertObjectToYamlArgs) => parseObjectToYaml({ obj, maintainQuotationsOnNumbers });
+  baseIndent,
+}: ConvertObjectToYamlArgs) => parseObjectToYaml({ obj, maintainQuotationsOnNumbers, baseIndent });
 
 type ParseObjectToYamlArgs = {
   obj: ObjectType;
   indentLevel?: number;
   isObject?: boolean;
   maintainQuotationsOnNumbers?: boolean;
+  baseIndent?: string;
 };
 
 const parseObjectToYaml = ({
@@ -22,10 +25,11 @@ const parseObjectToYaml = ({
   indentLevel = 0,
   isObject,
   maintainQuotationsOnNumbers,
+  baseIndent = "  ",
 }: ParseObjectToYamlArgs) => {
   let yamlStr = "";
   try {
-    const indent = "  ".repeat(indentLevel);
+    const indent = baseIndent.repeat(indentLevel);
     let index = 0;
 
     for (const key in obj) {
@@ -59,7 +63,9 @@ const parseObjectToYaml = ({
           yamlStr += `${prefix}${key}: ${moreThanOneCommand ? "|\n" : ""}`;
           yamlStr +=
             splitValue
-              .map((line) => `${moreThanOneCommand ? "  ".repeat(indentLevel + 1) : ""}${line}`)
+              .map(
+                (line) => `${moreThanOneCommand ? baseIndent.repeat(indentLevel + 1) : ""}${line}`,
+              )
               .join("\n") + "\n";
         } else {
           yamlStr += `${prefix}${key}: ${escapeValue({ value, maintainQuotationsOnNumbers })}\n`;

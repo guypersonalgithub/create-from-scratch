@@ -1,11 +1,14 @@
 import { StyledCard } from "../../styledComponents";
-import { StyledTitle } from "../../styledComponents/StyledTitle";
+import { StyledSubTitle, StyledTitle } from "../../styledComponents/StyledTitle";
+import { useUpdateAnchors } from "../../useUpdateAnchors";
 
 export const DocumentationMain = () => {
+  const { registerRef } = useUpdateAnchors();
+
   return (
     <div>
       <StyledCard style={{ margin: "1rem" }}>
-        <StyledTitle>Overview</StyledTitle>
+        <StyledTitle>Introduction</StyledTitle>
         <div>
           JS to YAML is a package that helps automating the creation and maintenance process of YAML
           files.
@@ -37,15 +40,17 @@ export const DocumentationMain = () => {
             them in client environments if you desire to do so.
           </li>
         </ul>
-        <h2>Why JS to YAML compared to other YAML based packages?</h2>
-        <div>
-          When testing other libraries, some inconsistencies were encountered that required manual
-          fixes and edits.
-        </div>
-        <div>This package's creation was partially due to these inconsistencies.</div>
-        <div>
-          It is also very lightweight and simple, without unnecessary overhead or complex API that
-          requires constant research or trys in order to use accurately.
+        <div ref={(ref) => registerRef({ ref, content: "Why" })}>
+          <StyledSubTitle>Why JS to YAML compared to other YAML based packages?</StyledSubTitle>
+          <div>
+            When testing other libraries, some inconsistencies were encountered that required manual
+            fixes and edits.
+          </div>
+          <div>This package's creation was partially due to these inconsistencies.</div>
+          <div>
+            It is also very lightweight and simple, without unnecessary overhead or complex API that
+            requires constant research or trys in order to use accurately.
+          </div>
         </div>
       </StyledCard>
     </div>
