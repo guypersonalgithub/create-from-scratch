@@ -1,4 +1,4 @@
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex, isNumeric } from "@packages/utils";
 import { BaseToken } from "./types";
 import { TokenTypes } from "./constants";
 
@@ -20,6 +20,31 @@ export const findNextBreakpoint = ({ tokens, input, currentIndex }: FindNextBrea
 
   const lastToken = tokens.length > 0 ? tokens[tokens.length - 1] : undefined;
   if (lastToken?.type === TokenTypes.END_OF_LINE) {
-    
   }
+};
+
+type DictateValueTypeArgs = {
+  fullValue: string;
+};
+
+export const dictateValueType = ({ fullValue }: DictateValueTypeArgs) => {
+  const isNumber = isNumeric({ str: fullValue });
+
+  if (isNumber) {
+    return TokenTypes.NUMERIC_VALUE;
+  }
+
+  const isNull = fullValue === "null" || fullValue === "~";
+
+  if (isNull) {
+    return TokenTypes.NULL;
+  }
+
+  const isBoolean = fullValue === "true" || fullValue === "false";
+
+  if (isBoolean) {
+    return TokenTypes.BOOLEAN;
+  }
+
+  return TokenTypes.STRING_VALUE;
 };

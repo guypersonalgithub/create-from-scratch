@@ -48,6 +48,10 @@ export default defineConfig({
         __dirname,
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "@packages/calculate-relative-position": path.resolve(
+        __dirname,
+        "../../packages/calculate-relative-position/src/index.ts",
+      ),
       "@packages/trigger-popper": path.resolve(
         __dirname,
         "../../packages/trigger-popper/src/index.ts",

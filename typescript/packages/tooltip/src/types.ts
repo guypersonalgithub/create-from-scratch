@@ -4,7 +4,7 @@ import type { EdgeWrapperRefs, Edges } from "@packages/edge-intersection";
 export type TooltipDisplayProps = {
   id: string;
   content: ReactNode;
-  ref?: RefObject<HTMLDivElement>;
+  ref?: RefObject<HTMLDivElement | null>;
   intersectionRefs: EdgeWrapperRefs;
   side?: Edges;
   offset?: {

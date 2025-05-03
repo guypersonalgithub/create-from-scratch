@@ -23,3 +23,8 @@ export * from "./ClipboardDocumentCheck";
 export * from "./ClipboardDocumentList";
 export * from "./SecuredScreen";
 export * from "./EmptyFolder";
+export * from "./ExclamationMark";
+export * from "./TriangleExclamationMark";
+export * from "./ShieldExclamationMark";
+export * from "./QuestionMark";
+export * from "./TagPage";

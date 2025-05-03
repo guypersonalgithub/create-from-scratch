@@ -21,6 +21,7 @@ COPY ./packages/button/package.json ./packages/button/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
 COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/package.json
+COPY ./packages/calculate-relative-position/package.json ./packages/calculate-relative-position/package.json
 COPY ./packages/collapsible/package.json ./packages/collapsible/package.json
 COPY ./packages/auto-complete-input/package.json ./packages/auto-complete-input/package.json
 COPY ./packages/typeahead/package.json ./packages/typeahead/package.json
@@ -68,6 +69,7 @@ COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
 COPY ./packages/typeahead ./packages/typeahead
@@ -116,6 +118,7 @@ COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
 COPY ./packages/typeahead ./packages/typeahead
@@ -164,6 +167,7 @@ COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
 COPY ./packages/typeahead ./packages/typeahead

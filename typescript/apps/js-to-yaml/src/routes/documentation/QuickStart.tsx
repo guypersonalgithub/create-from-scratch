@@ -4,7 +4,7 @@ import { StyledTitle } from "../../styledComponents/StyledTitle";
 export const QuickStart = () => {
   return (
     <div>
-      <StyledCard style={{ margin: "1rem" }}>
+      <StyledCard>
         <StyledTitle>Quick Start</StyledTitle>
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           <div>

@@ -71,7 +71,7 @@ export const Badge = ({
     alignItems: "center",
     justifyContent: "center",
     fontWeight: 500,
-    lineHeight: 1,
+    lineHeight: 1.5,
     transition: "opacity 0.2s ease",
     cursor: onClick ? "pointer" : "default",
     borderRadius: pill ? "9999px" : "4px",

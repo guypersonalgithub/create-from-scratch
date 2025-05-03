@@ -10,7 +10,8 @@
     "@packages/animation-container": "*",
     "@packages/randomizer": "*",
     "@packages/edge-intersection": "*",
-    "@packages/utils": "*"
+    "@packages/utils": "*",
+    "@packages/calculate-relative-position": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

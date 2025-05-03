@@ -7,7 +7,7 @@ import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { MobileSidebar } from "@packages/sidebar";
 import { useGetBreakpoint } from "./breakpoints";
-import { MainLogo, StyledCard } from "./styledComponents";
+import { HeaderLogo, StyledCard } from "./styledComponents";
 import { PageSearchModal } from "./styledComponents/PageSearchModal";
 import { StyledLink } from "./styledComponents/StyledLink";
 import { getCurrentYear } from "@packages/date";
@@ -117,27 +117,12 @@ export const Header = () => {
           style={{ display: "flex", gap: "10px", alignItems: "center", cursor: "pointer" }}
           onClick={() => moveTo({ pathname: "/" })}
         >
-          <div
-            style={{
-              width: "50px",
-              height: "50px",
-              border: `3px solid var(--theme-color)`,
-              borderRadius: "50px",
-              overflow: "hidden",
-              backgroundColor: "lightblue",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "border 0.5s ease",
-            }}
-          >
-            <div style={{ width: "40px" }}>
-              <MainLogo />
-            </div>
+          <div style={{ height: "40px", width: "50px", color: "#00C48C" }}>
+            <HeaderLogo />
           </div>
-          {/* <div style={{ fontSize: !isMobile ? "50px" : "30px", fontWeight: "bolder", whiteSpace: "nowrap" }}>
+          <div style={{ fontSize: !isMobile ? "50px" : "30px", fontWeight: "bolder", whiteSpace: "nowrap" }}>
             JS to YAML
-          </div> */}
+          </div>
         </div>
         {isDesktop ? <HeaderLinks /> : null}
       </div>
@@ -232,7 +217,7 @@ export const BaseFooter = () => {
 
   return <MainFooter />;
 };
- 
+
 const MainFooter = () => {
   const { breakpoint } = useGetBreakpoint();
   const isDesktop = breakpoint === "desktop";

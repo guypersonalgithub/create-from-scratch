@@ -14,6 +14,7 @@ type EdgeIntersectionProps = {
     y?: number;
   };
   edgeIntersectionStyle?: CSSProperties;
+  childrenWrapperStyle?: CSSProperties;
 };
 
 const sideIntersections: Record<
@@ -76,6 +77,7 @@ export const EdgeIntersection = ({
   intersectionRefs,
   offset,
   edgeIntersectionStyle = {},
+  childrenWrapperStyle = {},
 }: EdgeIntersectionProps) => {
   const edgeIntersections: typeof intersections = [
     ...intersections,
@@ -108,9 +110,7 @@ export const EdgeIntersection = ({
         display: "grid",
       }}
     >
-      <div style={{ gridArea: "1/1", width: "fit-content", height: "fit-content", ...style }}>
-        {children}
-      </div>
+      <div style={{ gridArea: "1/1", ...childrenWrapperStyle }}>{children}</div>
       <div style={{ gridArea: "1/1", position: "relative", pointerEvents: "none" }}>
         {edgeIntersections.map((intersection) => {
           const { top, left, position } = intersection;

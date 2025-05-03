@@ -11,3 +11,15 @@ export type TokenMaps = {
   typescript: TypescriptTokenTypeOptions;
   yaml: YAMLTokenTypeOptions;
 };
+
+export type Animated =
+  | {
+      withCursor?: boolean;
+      animatedWriting?: boolean;
+      pacing?: number;
+    }
+  | {
+      withCursor?: never;
+      animatedWriting?: never;
+      pacing?: never;
+    };

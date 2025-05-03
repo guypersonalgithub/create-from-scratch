@@ -6,8 +6,8 @@ import {
   AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 import { capitalizeFirstChar, observeElementsVisibility } from "@packages/utils";
-import { calculateTooltipPosition } from "./utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
+import { calculatePosition } from "@packages/calculate-relative-position";
 
 type TooltipManagerProps = Partial<
   Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">
@@ -26,14 +26,27 @@ export const TooltipManager = ({
     const showTooltip = (event: CustomEvent<TooltipDisplayProps>) => {
       const { id, content, ref, side, offset, intersectionRefs, distanceFromViewport } =
         event.detail;
-      if (tooltipIds.current.has(id)) {
-        return;
-      }
 
-      setTooltips((prev) => [
-        ...prev,
-        { id, content, ref, side, offset, intersectionRefs, distanceFromViewport },
-      ]);
+      setTooltips((prev) => {
+        const updated = [...prev];
+        const index = prev.findIndex((tooltip) => tooltip.id === id);
+        const tooltipContent = {
+          id,
+          content,
+          ref,
+          side,
+          offset,
+          intersectionRefs,
+          distanceFromViewport,
+        };
+        if (index > -1) {
+          updated[index] = tooltipContent;
+        } else {
+          updated.push(tooltipContent);
+        }
+
+        return updated;
+      });
       tooltipIds.current.add(id);
     };
 
@@ -46,11 +59,7 @@ export const TooltipManager = ({
 
       setTooltips((prev) => {
         const remainingTooltips = prev.filter((tooltip) => tooltip.id !== id);
-        tooltipIds.current = new Set();
-
-        remainingTooltips.forEach((tooltip) => {
-          tooltipIds.current.add(tooltip.id);
-        });
+        tooltipIds.current.delete(id);
         return remainingTooltips;
       });
     };
@@ -116,7 +125,7 @@ type TooltipBodyProps = Required<
   Pick<TooltipDisplayProps, "side" | "intersectionRefs" | "distanceFromViewport">
 > &
   Pick<TooltipDisplayProps, "offset"> & {
-    anchorRef?: RefObject<HTMLDivElement>;
+    anchorRef?: RefObject<HTMLDivElement | null>;
     transitionDuration: number;
     children: ReactNode;
   };
@@ -146,7 +155,7 @@ const TooltipBody = ({
         return;
       }
 
-      const shouldReveal = calculateTooltipPosition({
+      const shouldReveal = calculatePosition({
         side,
         ref,
         intersectionRefs,
@@ -154,7 +163,7 @@ const TooltipBody = ({
         distanceFromViewport,
       });
 
-      if (shouldReveal === "display") {
+      if (shouldReveal) {
         ref.current.style.opacity = "1";
       } else {
         ref.current.style.opacity = "0";
