@@ -10,7 +10,8 @@ export const convertObjectToYaml = ({
   obj,
   maintainQuotationsOnNumbers,
   baseIndent,
-}: ConvertObjectToYamlArgs) => parseObjectToYaml({ obj, maintainQuotationsOnNumbers, baseIndent });
+}: ConvertObjectToYamlArgs) =>
+  parseObjectToYaml({ obj, maintainQuotationsOnNumbers, baseIndent });
 
 type ParseObjectToYamlArgs = {
   obj: ObjectType;
@@ -25,7 +26,7 @@ const parseObjectToYaml = ({
   indentLevel = 0,
   isObject,
   maintainQuotationsOnNumbers,
-  baseIndent = "  ",
+  baseIndent = "  "
 }: ParseObjectToYamlArgs) => {
   let yamlStr = "";
   try {
@@ -34,9 +35,14 @@ const parseObjectToYaml = ({
 
     for (const key in obj) {
       const value = obj[key];
+      
 
       if (typeof value === "object" && !Array.isArray(value)) {
-        yamlStr += `${indent}${key}:\n${parseObjectToYaml({ obj: value as ObjectType, indentLevel: indentLevel + 1, maintainQuotationsOnNumbers })}`;
+        if (value !== null) {
+          yamlStr += `${indent}${key}:\n${parseObjectToYaml({ obj: value as ObjectType, indentLevel: indentLevel + 1, maintainQuotationsOnNumbers })}`;
+        } else  {
+          yamlStr += `${indent}${key}: null`;
+        }
       } else if (Array.isArray(value)) {
         yamlStr += `${indent}${key}:\n`;
         value.forEach((item: unknown) => {
@@ -100,3 +106,9 @@ const escapeValue = ({ value, maintainQuotationsOnNumbers }: EscapeValueArgs) =>
 
   return value;
 };
+
+// TODO:
+
+type RunCommandsArgs = {}
+
+const runCommands = ({}: RunCommandsArgs) => {}

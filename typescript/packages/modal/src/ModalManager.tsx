@@ -20,12 +20,12 @@ export const ModalManager = ({
 
   useEffect(() => {
     const openModal = (event: CustomEvent<ModalDisplayProps>) => {
-      const { id, content } = event.detail;
+      const { id, content, style, } = event.detail;
       if (modalIds.current.has(id)) {
         return;
       }
 
-      setModals((prev) => [...prev, { id, content }]);
+      setModals((prev) => [...prev, { id, content, style }]);
       modalIds.current.add(id);
     };
 
@@ -78,7 +78,7 @@ export const ModalManager = ({
       changeMethod="gradual"
       style={{ position: "absolute", top: 0, zIndex: 10000 }}
     >
-      {modals.map(({ id, content }) => {
+      {modals.map(({ id, content, style }) => {
         return (
           <div
             key={id}
@@ -127,6 +127,7 @@ export const ModalManager = ({
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
+                ...style
               }}
             >
               {content}

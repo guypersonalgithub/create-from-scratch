@@ -39,6 +39,8 @@ const convertObjectContentToString = ({
           obj: value,
           indentLevel: indentLevel + 1,
         })},`;
+      } else {
+        formattedValue = `${value},`;
       }
     } else {
       if (stringifyValues) {
@@ -69,7 +71,7 @@ export const convertArrayToString = ({ arr }: ConvertArrayToStringArgs): string 
       } else if (typeof cell === "object" && cell !== null) {
         return convertObjectContentToString({ obj: cell });
       } else {
-        return `${cell}`;
+        return `"${cell}"`; // TODO: Check type before adding quotation marks.
       }
     })
     .join(", ");

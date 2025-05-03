@@ -4,6 +4,8 @@ export const TokenTypes = {
   STRING_VALUE: "string-value",
   NUMERIC_VALUE: "numeric-value",
   OPERATOR: "operator",
+  BOOLEAN: "boolean",
+  NULL: "null",
   OBJECT_CURLY_BRACKET: "objet-curly-bracket",
   ARRAY_SQUARE_BRACKET: "array-square-bracket",
   COMMENT: "comment",

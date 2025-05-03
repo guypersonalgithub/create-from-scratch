@@ -21,21 +21,17 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
       <EdgeIntersection
         id={id}
         style={{
-          width: isEllipsizedCallback ? "inherit" : "fit-content",
           height: "fit-content",
           ...style,
         }}
+        childrenWrapperStyle={isEllipsizedCallback ? { overflow: "hidden" } : undefined}
         intersectionRefs={intersectionRefs}
         offset={offset}
       >
         <div
           ref={ref}
           style={{
-            width: isEllipsizedCallback ? "inherit" : "fit-content",
             height: "fit-content",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
             ...style,
           }}
           onMouseEnter={show}

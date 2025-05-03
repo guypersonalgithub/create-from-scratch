@@ -1,11 +1,14 @@
 import { Table } from "@packages/table";
-import { EllipsisTooltip } from "@packages/tooltip";
+import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
+import { Badge } from "@packages/badge";
+import { ExclamationMark, QuestionMark } from "@packages/icons";
 
 type APITableRow = {
   name: string;
   type: string;
   defaultValue?: string;
   description: string;
+  isMandatory?: boolean;
 };
 
 type APITableProps = {
@@ -15,6 +18,7 @@ type APITableProps = {
 export const APITable = ({ data }: APITableProps) => {
   return (
     <Table
+      rowContainer={{ display: "flex", flexDirection: "column", gap: "8px" }}
       columns={[
         {
           header: "Name",
@@ -23,18 +27,29 @@ export const APITable = ({ data }: APITableProps) => {
 
             return <EllipsisTooltip content={name}>{name}</EllipsisTooltip>;
           },
-          size: 150,
-          staticColumn: false,
+          size: 250,
         },
         {
           header: "Type",
           cell: (data) => {
-            const { type } = data;
+            const { type, isMandatory } = data;
 
-            return <EllipsisTooltip content={type}>{type}</EllipsisTooltip>;
+            return (
+              <Badge style={{ gap: "6px" }} variant="info" size="sm" pill>
+                <EllipsisTooltip content={type}>{type}</EllipsisTooltip>
+                {isMandatory ? (
+                  <Tooltip content="Mandatory property">
+                    <ExclamationMark size={24} />
+                  </Tooltip>
+                ) : (
+                  <Tooltip content="Optional property">
+                    <QuestionMark size={24} />
+                  </Tooltip>
+                )}
+              </Badge>
+            );
           },
-          size: 200,
-          // staticColumn: false,
+          size: 250,
         },
         {
           header: "Default",
@@ -52,7 +67,7 @@ export const APITable = ({ data }: APITableProps) => {
 
             return <EllipsisTooltip content={description}>{description}</EllipsisTooltip>;
           },
-          size: 400,
+          size: 200,
           staticColumn: false,
         },
       ]}

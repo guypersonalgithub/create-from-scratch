@@ -4,3 +4,5 @@ export { StyledCommandBox } from "./StyledCommandBox";
 export { StyledList } from "./StyledList";
 export { MainLogo } from "./MainLogo";
 export { APITable } from "./APITable";
+export { InputOutput } from "./InputOutput";
+export { HeaderLogo } from "./HeaderLogo";

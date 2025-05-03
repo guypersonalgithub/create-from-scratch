@@ -5,9 +5,9 @@ import { ModalDisplayProps } from "./types";
 export const useControlModal = () => {
   const id = useRef(generateSecureRandomString());
 
-  const openModal = ({ content }: Omit<ModalDisplayProps, "id">) => {
+  const openModal = ({ content, style }: Omit<ModalDisplayProps, "id">) => {
     const event = new CustomEvent<ModalDisplayProps>("openModal", {
-      detail: { id: id.current, content },
+      detail: { id: id.current, content, style },
     });
     window.dispatchEvent(event);
   };

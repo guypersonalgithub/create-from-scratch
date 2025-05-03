@@ -3,6 +3,7 @@ import { TokenTypes } from "../constants";
 import { BaseToken, OpenedContextsIdentation } from "../types";
 import { endOfLineFlow } from "./endOfLineFlow";
 import { spaceFlow } from "./spaceFlow";
+import { dictateValueType } from "../utils";
 
 type RowValueFlowArgs = {
   tokens: BaseToken[];
@@ -116,9 +117,9 @@ export const rowValueFlow = ({
   while (input.length >= currentIndex) {
     if (currentChar === "\n" || input.length === currentIndex) {
       if (fullValue.length > 0) {
-        const isNumber = isNumeric({ str: fullValue });
+        const type = dictateValueType({ fullValue });
         tokens.push({
-          type: !isNumber ? TokenTypes.STRING_VALUE : TokenTypes.NUMERIC_VALUE,
+          type,
           value: fullValue,
         });
         if (key.length > 0 && fullValue !== "|") {

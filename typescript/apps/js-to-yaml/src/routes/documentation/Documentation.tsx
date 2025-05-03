@@ -66,10 +66,11 @@ export const Documentation = () => {
           minWidth: 0,
           flexDirection: "column",
           justifyContent: "space-between",
+          // height: "calc(100vh - 81px)",
         }}
       >
         <SubRouter
-          wrapperStyle={{ flex: 1, minWidth: 0 }}
+          wrapperStyle={{ flex: 1, minWidth: 0, margin: "1rem" }}
           paths={{
             "/": <DocumentationMain />,
             "/quickstart": <QuickStart />,

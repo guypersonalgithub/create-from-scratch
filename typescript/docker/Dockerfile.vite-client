@@ -16,6 +16,7 @@ COPY ./packages/object-utils/package.json ./packages/object-utils/package.json
 COPY ./packages/parse-typescript/package.json ./packages/parse-typescript/package.json
 COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/package.json
+COPY ./packages/calculate-relative-position/package.json ./packages/calculate-relative-position/package.json
 COPY ./packages/router/package.json ./packages/router/package.json
 COPY ./packages/url/package.json ./packages/url/package.json
 COPY ./packages/environment/package.json ./packages/environment/package.json
@@ -53,6 +54,7 @@ COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
@@ -92,6 +94,7 @@ COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
@@ -131,6 +134,7 @@ COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/router ./packages/router
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment

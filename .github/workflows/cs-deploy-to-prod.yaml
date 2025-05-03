@@ -26,6 +26,7 @@ on:
       - typescript/packages/tooltip/**
       - typescript/packages/randomizer/**
       - typescript/packages/edge-intersection/**
+      - typescript/packages/calculate-relative-position/**
       - typescript/packages/collapsible/**
       - typescript/packages/auto-complete-input/**
       - typescript/packages/typeahead/**
@@ -87,6 +88,7 @@ jobs:
           cp -r ./packages/tooltip ./full-application/packages
           cp -r ./packages/randomizer ./full-application/packages
           cp -r ./packages/edge-intersection ./full-application/packages
+          cp -r ./packages/calculate-relative-position ./full-application/packages
           cp -r ./packages/collapsible ./full-application/packages
           cp -r ./packages/auto-complete-input ./full-application/packages
           cp -r ./packages/typeahead ./full-application/packages

@@ -7,7 +7,6 @@ import {
   Dispatch,
   RefObject,
   SetStateAction,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -38,7 +37,7 @@ export const PageSearchModal = ({
   const { openModal, closeModal } = useControlModal();
   const isModalOpen = useRef(false);
 
-  const openModalCallback = useCallback(() => {
+  const openModalCallback = () => {
     openModal({
       content: (
         <Modal
@@ -49,10 +48,13 @@ export const PageSearchModal = ({
           closeModal={closeModal}
         />
       ),
+      style: {
+        bottom: 0,
+      },
     });
 
     isModalOpen.current = true;
-  }, [modalStyle]);
+  };
 
   useEffect(() => {
     const openPageSearchModal = (event: KeyboardEvent) => {
@@ -167,6 +169,7 @@ const Modal = ({
   const [filter, setFilter] = useState("");
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const { moveTo } = usePath();
+  const filterExists = filter.length > 0;
   const lowercaseFilter = filter.toLowerCase();
 
   useEffect(() => {
@@ -194,7 +197,7 @@ const Modal = ({
     <div
       style={{
         width: "600px",
-        height: "400px",
+        height: filterExists ? "400px" : "200px",
         backgroundColor: "white",
         borderRadius: "10px",
         display: "flex",
@@ -206,7 +209,7 @@ const Modal = ({
       <div style={{ padding: "10px" }}>
         <Input
           externalRef={ref}
-          wrapperStyle={{ height: "80px", borderRadius: "5px" }}
+          wrapperStyle={{ height: "60px", borderRadius: "5px" }}
           style={{ fontSize: "20px" }}
           value={filter}
           onChange={(e) => {
@@ -256,7 +259,7 @@ const Modal = ({
           gap: "5px",
         }}
       >
-        {filter.length > 0 ? (
+        {filterExists ? (
           <DisplayableOptions
             displayableOptions={displayableOptions}
             focusedIndex={focusedIndex}

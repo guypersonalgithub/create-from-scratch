@@ -5,3 +5,4 @@ export * from "./detectFileChangesSinceLastCommit";
 export * from "./detectPackageJsonDependencyChanges";
 export * from "./readFileAtRevision";
 export * from "./gitFileStatuses";
+export * from "./loadGitIgnore";
