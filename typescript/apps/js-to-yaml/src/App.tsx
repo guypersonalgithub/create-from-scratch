@@ -2,7 +2,7 @@ import { Router } from "@packages/router";
 import { UIThemeProvider } from "@packages/ui-theme";
 import { customThemes } from "./UIThemes";
 import { Main } from "./routes/main/Main";
-import { Header, Layout, BaseFooter } from "./Layout";
+import { Header, Layout } from "./Layout";
 import { TooltipManager } from "@packages/tooltip";
 import { NotFound } from "./routes/NotFound";
 import { Examples } from "./routes/Examples";
@@ -30,7 +30,6 @@ function App() {
             "404": <NotFound />,
           }}
         />
-        <BaseFooter />
       </Layout>
       <TooltipManager />
       <ModalManager />

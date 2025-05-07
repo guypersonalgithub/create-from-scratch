@@ -1,6 +1,7 @@
-import { ArrowRight } from "@packages/icons";
+import { ArrowRight, TagPage } from "@packages/icons";
 import { convertObjectToString } from "@packages/object-utils";
-import { SyntaxHighlighter, SyntaxHighlighterProps } from "@packages/syntax-highlighter";
+import { SyntaxHighlighterProps } from "@packages/syntax-highlighter";
+import { StyledSyntaxHighlighter } from "./StyledSyntaxHighlighter";
 import { convertObjectToYaml, convertYamlToObject } from "@packages/yaml";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,7 +11,7 @@ type ConvertTypescriptToYamlArgs = {
 
 const convertTypescriptToYaml = ({ code }: ConvertTypescriptToYamlArgs) => {
   const input = convertObjectToString({ obj: code, stringifyValues: true });
-  const output = convertObjectToYaml({ obj: code, includeNull: true });
+  const output = convertObjectToYaml({ obj: code });
   return { input, output };
 };
 
@@ -42,16 +43,26 @@ type Yaml = {
 
 export const InputOutput = (props: InputOutputProps) => {
   const inputType = props.language;
+  const isTypescript = inputType === "typescript";
 
-  const { input, output } =
-    inputType === "typescript"
-      ? convertTypescriptToYaml({ code: props.code })
-      : convertYamlToTypescript({ code: props.code });
+  const { input, output } = isTypescript
+    ? convertTypescriptToYaml({ code: props.code })
+    : convertYamlToTypescript({ code: props.code });
 
-  const outputLanguage = inputType === "typescript" ? "yaml" : "typescript";
+  const outputLanguage = isTypescript ? "yaml" : "typescript";
+
+  const inputLabel = isTypescript ? "Javascript" : "YAML";
+  const outputLabel = isTypescript ? "YAML" : "Javascript";
 
   return (
-    <InputOutputInternal {...props} input={input} output={output} outputLanguage={outputLanguage} />
+    <InputOutputInternal
+      {...props}
+      input={input}
+      output={output}
+      outputLanguage={outputLanguage}
+      inputLabel={inputLabel}
+      outputLabel={outputLabel}
+    />
   );
 };
 
@@ -59,12 +70,16 @@ type InputOutputInternalProps = Omit<InputOutputProps, "code"> & {
   input: string;
   output: string;
   outputLanguage: "typescript" | "yaml";
+  inputLabel: string;
+  outputLabel: string;
 };
 
 const InputOutputInternal = ({
   input,
   output,
   outputLanguage,
+  inputLabel,
+  outputLabel,
   ...props
 }: InputOutputInternalProps) => {
   const containerRef = useRef(null);
@@ -87,33 +102,46 @@ const InputOutputInternal = ({
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      style={{ display: "flex", gap: "10px", flexDirection: isNarrow ? "column" : "row" }}
-    >
-      <SyntaxHighlighter
-        {...props}
-        highlightCode
-        displayLanguage
-        code={input}
-        style={{ flex: 1 }}
-      />
-      <ArrowRight
+    <div ref={containerRef} style={{ padding: "8px" }}>
+      <div
         style={{
-          alignSelf: "center",
-          height: "50px",
-          transition: "transform 0.3s ease",
-          transform: isNarrow ? "rotate(90deg)" : "rotate(0deg)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "10px",
+          paddingBottom: "8px",
+          marginBottom: "8px",
+          color: "var(--theme-color)",
+          transition: "var(--theme-transition)",
+          borderBottom: "1px solid var(--theme-color)",
         }}
-      />
-      <SyntaxHighlighter
-        {...props}
-        highlightCode
-        displayLanguage
-        code={output}
-        style={{ flex: 1 }}
-        language={outputLanguage}
-      />
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <TagPage size={20} />
+          <span style={{ fontWeight: "bold", fontSize: "14px" }}>{inputLabel}</span>
+        </div>
+        <ArrowRight
+          size={20}
+          style={{
+            transition: "transform 0.3s ease",
+            transform: isNarrow ? "rotate(90deg)" : "rotate(0deg)",
+          }}
+        />
+        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+          <TagPage size={20} />
+          <span style={{ fontWeight: "bold", fontSize: "14px" }}>{outputLabel}</span>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: "10px", flexDirection: isNarrow ? "column" : "row" }}>
+        <StyledSyntaxHighlighter {...props} highlightCode code={input} style={{ flex: 1 }} />
+        <StyledSyntaxHighlighter
+          {...props}
+          highlightCode
+          code={output}
+          style={{ flex: 1 }}
+          language={outputLanguage}
+        />
+      </div>
     </div>
   );
 };

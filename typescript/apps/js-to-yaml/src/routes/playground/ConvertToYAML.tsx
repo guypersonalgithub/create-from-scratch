@@ -1,6 +1,6 @@
 import { Card } from "@packages/card";
 import { convertStringToObjectWithStringProperties } from "@packages/object-utils";
-import { SyntaxHighlighter } from "@packages/syntax-highlighter";
+import { StyledSyntaxHighlighter } from "../../styledComponents";
 import { Textarea } from "@packages/textarea";
 import { convertObjectToYaml } from "@packages/yaml";
 import { useState } from "react";
@@ -11,6 +11,7 @@ export const ConvertToYAML = () => {
   const { object } = convertStringToObjectWithStringProperties({
     str: text,
     returnObjectOnIncorrectToken: true,
+    skipLog: true,
   });
   const yaml = convertObjectToYaml({ obj: object });
   const { breakpoint } = useGetBreakpoint();
@@ -62,7 +63,7 @@ export const ConvertToYAML = () => {
             }
           }}
         />
-        <SyntaxHighlighter style={{ flex: 1 }} code={yaml} highlightCode language="yaml" />
+        <StyledSyntaxHighlighter style={{ flex: 1 }} code={yaml} language="yaml" highlightCode />
       </div>
     </Card>
   );

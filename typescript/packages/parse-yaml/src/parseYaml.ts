@@ -5,9 +5,10 @@ import { TokenTypes } from "./constants";
 
 type parseYamlArgs = {
   input: string;
+  skipLog?: boolean;
 };
 
-export const parseYaml = ({ input }: parseYamlArgs) => {
+export const parseYaml = ({ input, skipLog }: parseYamlArgs) => {
   const tokens: BaseToken[] = [];
   const { skippedIndexes = 0 } = getNextNonSpaceCharIndex({ input });
 
@@ -31,16 +32,22 @@ export const parseYaml = ({ input }: parseYamlArgs) => {
         currentIndex = updatedIndex;
       } else {
         const stoppedAt = input.slice(updatedIndex);
-        console.log(`Stopped at: ${stoppedAt}`);
+        if (!skipLog) {
+          console.log(`Stopped at: ${stoppedAt}`);
+        }
         tokens.push({ type: TokenTypes.UNKNOWN, value: stoppedAt });
-        console.error(
-          `Encountered unsupported character ${stoppedAt.charAt(0)} on index ${updatedIndex}.`,
-        );
+        if (!skipLog) {
+          console.error(
+            `Encountered unsupported character ${stoppedAt.charAt(0)} on index ${updatedIndex}.`,
+          );
+        }
         break;
       }
     }
   } catch (error) {
-    console.error(error);
+    if (!skipLog) {
+      console.error(error);
+    }
   }
 
   return tokens;

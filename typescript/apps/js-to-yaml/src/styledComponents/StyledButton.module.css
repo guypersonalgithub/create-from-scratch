@@ -1,8 +1,32 @@
-.StyledButton {
+.BlueStyledButton {
     background-color: rgba(0, 119, 184, 0.976);
-    transition: background-color 0.1s ease-in;
+    color: white;
+    border: 2px solid rgba(0, 119, 184, 0.976);
 }
 
-.StyledButton:hover {
+.BlueStyledButton:hover {
     background-color: rgba(0, 119, 184, 0.8);
+    border: 2px solid rgba(0, 119, 184, 0.8);
+}
+
+.GreenStyledButton {
+    background-color: #059669;
+    color: white;
+    border: 2px solid #059669;
+}
+
+.GreenStyledButton:hover {
+    background-color: #067250;
+    border: 2px solid #067250;
+}
+
+.GhostStyledButton {
+    background-color: var(--theme-background);
+    color: var(--theme-color);
+    transition: var(--theme-transition);
+    border: 2px solid var(--theme-border)
+}
+
+.GhostStyledButton:hover {
+    background-color: var(--theme-subBackground);
 }

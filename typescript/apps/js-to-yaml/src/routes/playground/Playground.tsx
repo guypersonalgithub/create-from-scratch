@@ -12,7 +12,7 @@ export const Playground = () => {
         Test the package's capabilities by writing YAML/JS snippets and get the output in real time
       </h3>
       <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-        <StyledButton onClick={() => moveTo({ pathname: "/playground/toYaml" })}>
+        <StyledButton onClick={() => moveTo({ pathname: "/playground" })}>
           Convert to YAML
         </StyledButton>
         <StyledButton onClick={() => moveTo({ pathname: "/playground/toJS" })}>
@@ -22,8 +22,7 @@ export const Playground = () => {
       <SubRouter
         wrapperStyle={{ margin: "10px" }}
         paths={{
-          "/": () => <></>,
-          "/toYaml": <ConvertToYAML />,
+          "/": () => <ConvertToYAML />,
           "/toJS": <ConvertToJS />,
         }}
       />

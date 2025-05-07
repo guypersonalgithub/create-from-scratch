@@ -1,16 +1,15 @@
 import { useUITheme } from "./UIThemes";
 import { Sun, Moon } from "@packages/icons";
 import { hexToRgba } from "@packages/css-utils";
-import { CSSProperties, ReactNode } from "react";
+import { ReactNode } from "react";
 import { usePath, usePathState } from "@packages/router";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { MobileSidebar } from "@packages/sidebar";
 import { useGetBreakpoint } from "./breakpoints";
-import { HeaderLogo, StyledCard } from "./styledComponents";
+import { HeaderLogo } from "./styledComponents";
 import { PageSearchModal } from "./styledComponents/PageSearchModal";
 import { StyledLink } from "./styledComponents/StyledLink";
-import { getCurrentYear } from "@packages/date";
 
 type LayoutProps = {
   children: ReactNode;
@@ -190,37 +189,4 @@ const HeaderLinks = () => {
 
     return <StyledLink key={label} path={path} pathname={pathname} label={label} />;
   });
-};
-
-type FooterProps = {
-  style?: CSSProperties;
-};
-
-export const Footer = ({ style }: FooterProps) => {
-  const currentYear = getCurrentYear();
-
-  return (
-    <div style={{ marginTop: "20px" }}>
-      <StyledCard style={{ margin: "0 auto", ...style }}>
-        All rights reserved © {currentYear}
-      </StyledCard>
-    </div>
-  );
-};
-
-export const BaseFooter = () => {
-  const { path } = usePathState();
-
-  if (path.startsWith("/documentation")) {
-    return null;
-  }
-
-  return <MainFooter />;
-};
-
-const MainFooter = () => {
-  const { breakpoint } = useGetBreakpoint();
-  const isDesktop = breakpoint === "desktop";
-
-  return <Footer style={isDesktop ? { width: "80vw" } : undefined} />;
 };

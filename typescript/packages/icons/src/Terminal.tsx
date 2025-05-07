@@ -13,14 +13,13 @@ export const Terminal = ({ size, width = size, height = size, style }: SVGIconPr
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">
-        {" "}
         <path
           d="M4 17L10 11L4 5M12 19H20"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-        ></path>{" "}
+        ></path>
       </g>
     </svg>
   );

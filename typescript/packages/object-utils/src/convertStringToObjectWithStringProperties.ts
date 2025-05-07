@@ -6,6 +6,7 @@ type ConvertStringToObjectWithStringPropertiesArgs = {
   removeKeyQuotations?: boolean;
   removeValueQuotations?: boolean;
   returnObjectOnIncorrectToken?: boolean;
+  skipLog?: boolean;
 };
 
 export type ParsedObject =
@@ -19,8 +20,9 @@ export const convertStringToObjectWithStringProperties = ({
   removeKeyQuotations,
   removeValueQuotations,
   returnObjectOnIncorrectToken,
+  skipLog,
 }: ConvertStringToObjectWithStringPropertiesArgs) => {
-  const tokens = parseTypescript({ input: str });
+  const tokens = parseTypescript({ input: str, skipLog });
   const tokensCopy = tokens.slice();
   const object: ParsedObject = {};
 

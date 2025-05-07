@@ -1,5 +1,5 @@
 import { AnimationContainerWrapper } from "@packages/animation-container";
-import { SyntaxHighlighter } from "@packages/syntax-highlighter";
+import { StyledSyntaxHighlighter } from "../../styledComponents";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { observeElementVisibility } from "@packages/utils";
 import { useGetBreakpoint } from "../../breakpoints";
@@ -65,7 +65,7 @@ export const MainAd = () => {
     if (stage === 2) {
       return {
         element: (
-          <SyntaxHighlighter
+          <StyledSyntaxHighlighter
             pacing={100}
             code={`name: Tests
 on:
@@ -111,7 +111,7 @@ jobs:
 
     return {
       element: (
-        <SyntaxHighlighter
+        <StyledSyntaxHighlighter
           code={`import { convertObjectToYaml } from "js-to-yaml";
 import { writeFileSync } from "fs";
 

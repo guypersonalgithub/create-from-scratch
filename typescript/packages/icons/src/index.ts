@@ -28,3 +28,7 @@ export * from "./TriangleExclamationMark";
 export * from "./ShieldExclamationMark";
 export * from "./QuestionMark";
 export * from "./TagPage";
+export * from "./Thunder";
+export * from "./Bidirectional";
+export * from "./Download";
+export * from "./ArrowRight2";
