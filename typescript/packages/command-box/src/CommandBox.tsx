@@ -17,7 +17,7 @@ export const CommandBox = ({ command, style, copyToClipboard, withIcons }: Comma
         justifyContent: "space-between",
         backgroundColor: "#f8fafc",
         // padding: "10px 16px",
-        padding: "16px",
+        padding: "10px",
         borderRadius: "8px",
         fontFamily: "monospace",
         fontSize: "14px",

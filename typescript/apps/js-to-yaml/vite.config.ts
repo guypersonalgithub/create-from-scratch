@@ -5,6 +5,9 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    target: "esnext",
+  },
   resolve: {
     alias: {
       "@packages/router": path.resolve(__dirname, "../../packages/router/src/index.ts"),

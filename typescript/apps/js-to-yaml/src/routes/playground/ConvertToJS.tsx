@@ -2,7 +2,7 @@ import { Alert } from "@packages/alert";
 import { Card } from "@packages/card";
 import { Info } from "@packages/icons";
 import { convertObjectToString } from "@packages/object-utils";
-import { SyntaxHighlighter } from "@packages/syntax-highlighter";
+import { StyledSyntaxHighlighter } from "../../styledComponents";
 import { Textarea } from "@packages/textarea";
 import { convertYamlToObject } from "@packages/yaml";
 import { useState } from "react";
@@ -83,7 +83,7 @@ export const ConvertToJS = () => {
             }
           }}
         />
-        <SyntaxHighlighter style={{ flex: 1 }} code={convertedObject} highlightCode />
+        <StyledSyntaxHighlighter style={{ flex: 1 }} code={convertedObject} highlightCode />
       </div>
     </Card>
   );

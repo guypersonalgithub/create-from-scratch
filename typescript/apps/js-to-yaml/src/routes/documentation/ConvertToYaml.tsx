@@ -1,7 +1,7 @@
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
 import { APITable, InputOutput, StyledCard } from "../../styledComponents";
 import { StyledTitle, StyledSubTitle } from "../../styledComponents/StyledTitle";
-import { SyntaxHighlighter } from "@packages/syntax-highlighter";
+import { StyledSyntaxHighlighter } from "../../styledComponents";
 import { useUpdateAnchors } from "../../useUpdateAnchors";
 import { List } from "@packages/list";
 
@@ -11,12 +11,12 @@ export const ConvertToYaml = () => {
   return (
     <StyledCard>
       <StyledTitle>Convert to YAML</StyledTitle>
-      <div>Javascript convertion to a YAML format is as simple as it can get.</div>
+      <div>Converting JavaScript to YAML is straightforward.</div>
       <div>
-        Import the <b>convertObjectToYaml</b> function, pass in the desired object, and then if
-        desired, save in the output in a .yaml file:
+        Simply import the <b>convertObjectToYaml</b> function, pass in the desired object, and, if
+        needed, save the output in a .yaml file:
       </div>
-      <SyntaxHighlighter
+      <StyledSyntaxHighlighter
         code={`import { convertObjectToYaml } from "js-to-yaml";
       
 const testsConfig = {
@@ -53,22 +53,27 @@ const testsConfig = {
             },
           };
         }}
+        withWebWorker
       />
       <div ref={(ref) => registerRef({ ref, content: "Supported inputs" })}>
         <StyledSubTitle>Supported inputs</StyledSubTitle>
         <div>
-          The <b>convertObjectToYaml</b> function supports multiple data types and structures, in
+          The <b>convertObjectToYaml</b> function supports multiple types of data structures, in
           order to simplify the creation of YAMLs.
         </div>
         <List
           items={[
             <div>
               <div>
-                The function converts hierarchy of keys and their nested values into the typical
-                YAML hierarchy, so that each nesting level would have a larger identation to match
-                accordingly.
+                The function converts a hierarchy of keys and their nested values into the standard
+                YAML structure. Each level of nesting is reflected with increased indentation to
+                match the YAML format.
               </div>
-              <InputOutput code={{ key: { key1: "value", key2: 2 } }} language="typescript" />
+              <InputOutput
+                code={{ key: { key1: "value", key2: 2 } }}
+                language="typescript"
+                withWebWorker
+              />
             </div>,
             <div>
               <div>
@@ -79,6 +84,7 @@ const testsConfig = {
               <InputOutput
                 code={{ key: { key1: "value", key2: 2, key3: true, key4: undefined, key5: null } }}
                 language="typescript"
+                withWebWorker
               />
             </div>,
             <div>
@@ -89,6 +95,7 @@ const testsConfig = {
               <InputOutput
                 code={{ key: "${{ github.event.head_commit.message }}" }}
                 language="typescript"
+                withWebWorker
               />
             </div>,
             "Arrays behave differently depending on the context they are used in.",
@@ -97,13 +104,13 @@ const testsConfig = {
                 If an array is the value of a <b>run</b> key, the process will convert the array
                 content into a set of actions with the "|" prefix.
               </div>
-              <InputOutput code={{ run: ["npm install", "npm run build"] }} language="typescript" />
+              <InputOutput code={{ run: ["npm install", "npm run build"] }} language="typescript" withWebWorker />
             </div>,
             <div>
               <div>
                 Otherwise, it would just list them as different entities with the "-" prefix.
               </div>
-              <InputOutput code={{ values: [1, 2, "key", "value"] }} language="typescript" />
+              <InputOutput code={{ values: [1, 2, "key", "value"] }} language="typescript" withWebWorker />
             </div>,
             <div>
               <b>Functions and classes are not supported.</b> YAML is a data serialization format,

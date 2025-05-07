@@ -23,3 +23,4 @@ export type Animated =
       animatedWriting?: never;
       pacing?: never;
     };
+

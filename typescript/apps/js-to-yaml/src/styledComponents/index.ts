@@ -6,3 +6,5 @@ export { MainLogo } from "./MainLogo";
 export { APITable } from "./APITable";
 export { InputOutput } from "./InputOutput";
 export { HeaderLogo } from "./HeaderLogo";
+export { StyledSyntaxHighlighter } from "./StyledSyntaxHighlighter";
+export { DisplayCard } from "./DisplayCard";

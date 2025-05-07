@@ -1,40 +1,25 @@
-import { SyntaxHighlighter } from "@packages/syntax-highlighter";
-import { javascriptOutput, output, stringifiedObject } from "../yamlExample";
-import { ArrowRight } from "@packages/icons";
+import { InputOutput } from "../styledComponents";
 
 export const Examples = () => {
   return (
-    <div style={{ color: "var(--theme-color)", transition: "var(--theme-transition)" }}>
-      <h1 style={{ textAlign: "center" }}>Javascript to YAML</h1>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 50px 1fr",
-          gap: "20px",
-          justifyContent: "center",
-          width: "60%",
-          margin: "0 auto",
-        }}
-      >
-        <SyntaxHighlighter code={stringifiedObject} highlightCode />
-        <ArrowRight style={{ alignSelf: "center", height: "50px" }} />
-        <SyntaxHighlighter code={output} highlightCode language="yaml" />
-      </div>
-      <h1 style={{ textAlign: "center" }}>YAML to Javascript</h1>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 50px 1fr",
-          gap: "20px",
-          justifyContent: "center",
-          width: "60%",
-          margin: "0 auto",
-        }}
-      >
-        <SyntaxHighlighter code={output} highlightCode language="yaml" />
-        <ArrowRight style={{ alignSelf: "center", height: "50px" }} />
-        <SyntaxHighlighter code={javascriptOutput} highlightCode />
-      </div>
+    <div style={{ color: "var(--theme-color)", transition: "var(--theme-transition)", margin: "1rem" }}>
+      <InputOutput code={{ key: { key1: "value", key2: 2 } }} language="typescript" withWebWorker />
+      <InputOutput
+        code={{ key: { key1: "value", key2: 2, key3: true, key4: undefined, key5: null } }}
+        language="typescript"
+        withWebWorker
+      />
+      <InputOutput
+        code={{ key: "${{ github.event.head_commit.message }}" }}
+        language="typescript"
+        withWebWorker
+      />
+      <InputOutput
+        code={{ run: ["npm install", "npm run build"] }}
+        language="typescript"
+        withWebWorker
+      />
+      <InputOutput code={{ values: [1, 2, "key", "value"] }} language="typescript" withWebWorker />
     </div>
   );
 };

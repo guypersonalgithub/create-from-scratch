@@ -3,8 +3,8 @@ import { DocumentationMain } from "./DocumentationMain";
 import { DocumentationSidebar, LinkGroup } from "./DocumentationSidebar";
 import { QuickStart } from "./QuickStart";
 import { RightSidebar } from "./RightSidebar";
-import { Footer } from "../../Layout";
 import { ConvertToYaml } from "./ConvertToYaml";
+import { ConvertToJavascript } from "./ConvertToJavascript";
 
 const links: LinkGroup[] = [
   {
@@ -31,7 +31,12 @@ const links: LinkGroup[] = [
   },
   {
     title: "Javascript",
-    links: [],
+    links: [
+      {
+        label: "Convert to Javascript",
+        pathname: "/documentation/converttojavascript",
+      },
+    ],
   },
 ];
 
@@ -59,26 +64,15 @@ export const Documentation = () => {
         }}
         linkStyle={{ fontWeight: "normal" }}
       />
-      <div
-        style={{
-          display: "flex",
-          flex: 1,
-          minWidth: 0,
-          flexDirection: "column",
-          justifyContent: "space-between",
-          // height: "calc(100vh - 81px)",
+      <SubRouter
+        wrapperStyle={{ flex: 1, minWidth: 0, margin: "1rem" }}
+        paths={{
+          "/": <DocumentationMain />,
+          "/quickstart": <QuickStart />,
+          "/converttoyaml": <ConvertToYaml />,
+          "/converttojavascript": <ConvertToJavascript />,
         }}
-      >
-        <SubRouter
-          wrapperStyle={{ flex: 1, minWidth: 0, margin: "1rem" }}
-          paths={{
-            "/": <DocumentationMain />,
-            "/quickstart": <QuickStart />,
-            "/converttoyaml": <ConvertToYaml />,
-          }}
-        />
-        <Footer />
-      </div>
+      />
       <RightSidebar
         style={{
           backgroundColor: "var(--theme-subBackground)",

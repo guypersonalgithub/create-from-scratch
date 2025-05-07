@@ -71,7 +71,12 @@ export const convertArrayToString = ({ arr }: ConvertArrayToStringArgs): string 
       } else if (typeof cell === "object" && cell !== null) {
         return convertObjectContentToString({ obj: cell });
       } else {
-        return `"${cell}"`; // TODO: Check type before adding quotation marks.
+        if (typeof cell === "string" && !cell.endsWith("()")) {
+          // TODO: Make the solution more accurate to avoid stringifying unintended values.
+          return `"${cell}"`;
+        }
+
+        return `${cell}`;
       }
     })
     .join(", ");
