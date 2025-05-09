@@ -53,7 +53,6 @@ const testsConfig = {
             },
           };
         }}
-        withWebWorker
       />
       <div ref={(ref) => registerRef({ ref, content: "Supported inputs" })}>
         <StyledSubTitle>Supported inputs</StyledSubTitle>
@@ -72,7 +71,6 @@ const testsConfig = {
               <InputOutput
                 code={{ key: { key1: "value", key2: 2 } }}
                 language="typescript"
-                withWebWorker
               />
             </div>,
             <div>
@@ -84,7 +82,6 @@ const testsConfig = {
               <InputOutput
                 code={{ key: { key1: "value", key2: 2, key3: true, key4: undefined, key5: null } }}
                 language="typescript"
-                withWebWorker
               />
             </div>,
             <div>
@@ -95,7 +92,6 @@ const testsConfig = {
               <InputOutput
                 code={{ key: "${{ github.event.head_commit.message }}" }}
                 language="typescript"
-                withWebWorker
               />
             </div>,
             "Arrays behave differently depending on the context they are used in.",
@@ -104,13 +100,13 @@ const testsConfig = {
                 If an array is the value of a <b>run</b> key, the process will convert the array
                 content into a set of actions with the "|" prefix.
               </div>
-              <InputOutput code={{ run: ["npm install", "npm run build"] }} language="typescript" withWebWorker />
+              <InputOutput code={{ run: ["npm install", "npm run build"] }} language="typescript" />
             </div>,
             <div>
               <div>
                 Otherwise, it would just list them as different entities with the "-" prefix.
               </div>
-              <InputOutput code={{ values: [1, 2, "key", "value"] }} language="typescript" withWebWorker />
+              <InputOutput code={{ values: [1, 2, "key", "value"] }} language="typescript" />
             </div>,
             <div>
               <b>Functions and classes are not supported.</b> YAML is a data serialization format,

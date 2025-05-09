@@ -2,7 +2,7 @@ import { supportedLanguages, SupportedLanguages } from "./languages";
 import { StandardSyntaxHighlighterProps, HighlightedCode } from "./SyntaxHighlighter";
 import { colorizeTokens } from "./colorizeTokens";
 import { GenericBaseToken, TokenMaps } from "./types";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, JSX, useEffect, useRef, useState } from "react";
 import { TopRightSection } from "./TopRightSection";
 import HighlightWorker from "./webWorker?worker";
 
@@ -55,7 +55,7 @@ const getHighlightedTokens = <T extends SupportedLanguages = "typescript">({
 };
 
 type ColorizedSyntaxHighlighterProps<T extends SupportedLanguages = "typescript"> =
-  StandardSyntaxHighlighterProps & HighlightedCode<T>;
+  StandardSyntaxHighlighterProps & Omit<HighlightedCode<T>, "highlightCode">;
 
 export const ColorizedSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   withWebWorker,
@@ -65,22 +65,36 @@ export const ColorizedSyntaxHighlighter = <T extends SupportedLanguages = "types
     return <WebWorkeredSyntaxHighlighter {...rest} />;
   }
 
-  const {
-    code,
-    language,
-    customizeColors,
-    addLineCounter,
-    style,
-    copyToClipboard,
-    displayLanguage,
-  } = rest;
+  return <StandardSyntaxHighlighter {...rest} />;
+};
 
-  const highlighted = getHighlightedTokens<T>({
-    code,
-    language,
-    customizeColors,
-    addLineCounter,
-  });
+const StandardSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
+  code,
+  style,
+  language = "typescript",
+  copyToClipboard = true,
+  customizeColors,
+  addLineCounter = true,
+  displayLanguage,
+}: Omit<ColorizedSyntaxHighlighterProps<T>, "withWebWorker">) => {
+  const [highlighted, setHighlighted] = useState<JSX.Element[]>([]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setHighlighted(
+        getHighlightedTokens<T>({
+          code,
+          language,
+          customizeColors,
+          addLineCounter,
+        }),
+      );
+    }, 0);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [code, language]);
 
   return (
     <div className="syntaxHighlighter" style={{ ...style, position: "relative", overflow: "auto" }}>
@@ -91,9 +105,9 @@ export const ColorizedSyntaxHighlighter = <T extends SupportedLanguages = "types
           language={language}
           displayLanguage={displayLanguage}
         />
-        {highlighted.map((ele, index) => (
-          <Fragment key={index}>{ele}</Fragment>
-        ))}
+        {highlighted.length === 0
+          ? code
+          : highlighted.map((ele, index) => <Fragment key={index}>{ele}</Fragment>)}
         {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
       </pre>
     </div>
@@ -102,7 +116,6 @@ export const ColorizedSyntaxHighlighter = <T extends SupportedLanguages = "types
 
 const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   code,
-  highlightCode,
   style,
   language = "typescript",
   copyToClipboard = true,
