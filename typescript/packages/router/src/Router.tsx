@@ -3,6 +3,7 @@ import { RouterContentProps, RouterProps } from "./types";
 import { RouterContext, SubRouterContext } from "./routerContext";
 import { useScrollToTheTopManual } from "@packages/hooks";
 import { useGetRouteData } from "./useGetRouteData";
+import { IS_ROUTER } from "./symbols";
 
 export const Router = ({ paths, wrapperStyle }: RouterProps) => {
   const [path, setPath] = useState<`/${string}`>(window.location.pathname as `/${string}`);
@@ -51,7 +52,5 @@ const RouterContent = ({ passedPath, paths, route, wrapperStyle }: RouterContent
     </div>
   );
 };
-
-export const IS_ROUTER = Symbol("isRouter");
 
 Router[IS_ROUTER] = true;

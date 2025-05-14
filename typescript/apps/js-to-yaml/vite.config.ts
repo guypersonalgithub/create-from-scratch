@@ -54,6 +54,10 @@ export default defineConfig({
       "@packages/command-box": path.resolve(__dirname, "../../packages/command-box/src/index.ts"),
       "@packages/css-utils": path.resolve(__dirname, "../../packages/css-utils/src/index.ts"),
       "@packages/breakpoints": path.resolve(__dirname, "../../packages/breakpoints/src/index.ts"),
+      "@packages/design-patterns": path.resolve(
+        __dirname,
+        "../../packages/design-patterns/src/index.ts",
+      ),
       "@packages/textarea": path.resolve(__dirname, "../../packages/textarea/src/index.ts"),
       "@packages/sidebar": path.resolve(__dirname, "../../packages/sidebar/src/index.ts"),
       "@packages/collapsible": path.resolve(__dirname, "../../packages/collapsible/src/index.ts"),

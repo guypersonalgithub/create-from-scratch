@@ -7,9 +7,17 @@ type StyledLinkProps = {
   label: string;
   className?: string;
   style?: CSSProperties;
+  selectedCondition?: (args: { path: string; pathname: string }) => boolean;
 };
 
-export const StyledLink = ({ path, pathname, label, className = "link", style }: StyledLinkProps) => {
+export const StyledLink = ({
+  path,
+  pathname,
+  label,
+  className = "link",
+  style,
+  selectedCondition,
+}: StyledLinkProps) => {
   return (
     <Link
       key={pathname}
@@ -18,7 +26,10 @@ export const StyledLink = ({ path, pathname, label, className = "link", style }:
         cursor: "pointer",
         transition: "color 0.5s ease",
         fontWeight: "bold",
-        color: pathname === path ? "rgb(25, 187, 187)" : undefined,
+        color:
+          (selectedCondition?.({ path, pathname }) ?? pathname === path)
+            ? "rgb(25, 187, 187)"
+            : undefined,
         ...style,
       }}
       pathname={pathname}

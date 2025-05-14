@@ -14,7 +14,7 @@ export const ConvertToYAML = () => {
     skipLog: true,
   });
   const yaml = convertObjectToYaml({ obj: object });
-  const { breakpoint } = useGetBreakpoint();
+  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
 
   return (

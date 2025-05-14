@@ -1,11 +1,13 @@
+import { useGetBreakpoint } from "../../breakpoints";
 import { DisplayCard } from "../../styledComponents";
 import { Bidirectional, Download, Thunder } from "@packages/icons";
 
-type EverythingYouNeedProps = {
-  isDesktop: boolean;
-};
 
-export const EverythingYouNeed = ({ isDesktop }: EverythingYouNeedProps) => {
+export const EverythingYouNeed = () => {
+  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "mediumDesktop", "tablet"] });
+  const isDesktop = breakpoint === "desktop";
+  const isntMediumDesktop = breakpoint !== "mediumDesktop";
+
   return (
     <div
       style={{
@@ -14,6 +16,7 @@ export const EverythingYouNeed = ({ isDesktop }: EverythingYouNeedProps) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginBottom: !isDesktop && isntMediumDesktop ? "50px" : undefined,
       }}
     >
       <div

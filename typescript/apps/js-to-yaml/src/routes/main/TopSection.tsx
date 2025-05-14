@@ -1,11 +1,14 @@
+import { useGetBreakpoint } from "../../breakpoints";
 import { MainLogo } from "../../styledComponents";
 import { MainAd } from "./MainAd";
 
-type TopSectionProps = {
-  isDesktop: boolean;
-};
+export const TopSection = () => {
+  const { breakpoint } = useGetBreakpoint({
+    updateOn: ["smallDesktop"],
+    includeMismatchBelow: true,
+  });
+  const isDesktop = breakpoint === "smallDesktop";
 
-export const TopSection = ({ isDesktop }: TopSectionProps) => {
   return (
     <div
       style={{
@@ -19,11 +22,21 @@ export const TopSection = ({ isDesktop }: TopSectionProps) => {
         textAlign: "center",
       }}
     >
-      <div style={{ marginLeft: "20px", width: "300px" }}>
-        <MainLogo />
-        <div style={{ fontSize: "50px", fontWeight: "bolder" }}>JS to YAML</div>
-      </div>
+      <MainLogoSection isDesktop={isDesktop} />
       <MainAd />
+    </div>
+  );
+};
+
+type MainLogoSectionProps = {
+  isDesktop: boolean;
+};
+
+const MainLogoSection = ({ isDesktop }: MainLogoSectionProps) => {
+  return (
+    <div style={isDesktop ? { marginLeft: "20px", width: "300px" } : { width: "290px" }}>
+      <MainLogo />
+      <div style={{ fontSize: "50px", fontWeight: "bolder" }}>JS to YAML</div>
     </div>
   );
 };

@@ -52,7 +52,9 @@
     "@packages/keyboard-key": "*",
     "@packages/scrollspy-anchors": "*",
     "@packages/breadcrumbs": "*",
-    "@packages/dom-heatmap": "*"
+    "@packages/dom-heatmap": "*",
+    "@packages/icons": "*",
+    "@packages/carousel": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

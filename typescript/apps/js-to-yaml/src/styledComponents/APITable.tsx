@@ -1,7 +1,8 @@
 import { Table } from "@packages/table";
 import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
 import { Badge } from "@packages/badge";
-import { ExclamationMark, QuestionMark } from "@packages/icons";
+import { ExclamationCircle, QuestionCircle } from "@packages/icons";
+import { useUITheme } from "../UIThemes";
 
 type APITableRow = {
   name: string;
@@ -16,6 +17,9 @@ type APITableProps = {
 };
 
 export const APITable = ({ data }: APITableProps) => {
+  const { currentTheme } = useUITheme();
+  const isLight = currentTheme === "light";
+
   return (
     <Table
       rowContainer={{ display: "flex", flexDirection: "column", gap: "8px" }}
@@ -35,17 +39,21 @@ export const APITable = ({ data }: APITableProps) => {
             const { type, isMandatory } = data;
 
             return (
-              <Badge style={{ gap: "6px" }} variant="info" size="sm" pill>
-                <EllipsisTooltip content={type}>{type}</EllipsisTooltip>
+              <Badge
+                style={{ gap: "4px", height: undefined }}
+                variant={isLight ? "info" : "success"}
+                size="sm"
+              >
                 {isMandatory ? (
-                  <Tooltip content="Mandatory property">
-                    <ExclamationMark size={24} />
+                  <Tooltip content="Mandatory property" style={{ display: "flex" }}>
+                    <ExclamationCircle size={14} />
                   </Tooltip>
                 ) : (
-                  <Tooltip content="Optional property">
-                    <QuestionMark size={24} />
+                  <Tooltip content="Optional property" style={{ display: "flex" }}>
+                    <QuestionCircle size={14} />
                   </Tooltip>
                 )}
+                <EllipsisTooltip content={type}>{type}</EllipsisTooltip>
               </Badge>
             );
           },

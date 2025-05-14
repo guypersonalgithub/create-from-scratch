@@ -22,6 +22,8 @@ type PageSearchModalProps = {
   optionStyle?: CSSProperties;
   highlightedOptionStyle?: CSSProperties;
   footerStyle?: CSSProperties;
+  isDesktop: boolean;
+  mobileButtonStyle?: CSSProperties;
 };
 
 // TODO: turn into a package for potential reusability in other workspaces.
@@ -33,9 +35,15 @@ export const PageSearchModal = ({
   optionStyle,
   highlightedOptionStyle,
   footerStyle,
+  isDesktop,
+  mobileButtonStyle,
 }: PageSearchModalProps) => {
   const { openModal, closeModal } = useControlModal();
   const isModalOpen = useRef(false);
+  const onCloseModal = () => {
+    isModalOpen.current = false;
+    closeModal();
+  };
 
   const openModalCallback = () => {
     openModal({
@@ -45,7 +53,8 @@ export const PageSearchModal = ({
           optionStyle={optionStyle}
           highlightedOptionStyle={highlightedOptionStyle}
           footerStyle={footerStyle}
-          closeModal={closeModal}
+          closeModal={onCloseModal}
+          isDesktop={isDesktop}
         />
       ),
       style: {
@@ -57,14 +66,19 @@ export const PageSearchModal = ({
   };
 
   useEffect(() => {
+    if (isModalOpen.current) {
+      openModalCallback();
+    }
+  }, [isDesktop]);
+
+  useEffect(() => {
     const openPageSearchModal = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
         event.stopPropagation();
         openModalCallback();
       } else if (isModalOpen.current && event.key === "Escape") {
-        closeModal();
-        isModalOpen.current = false;
+        onCloseModal();
       }
     };
 
@@ -72,7 +86,24 @@ export const PageSearchModal = ({
     return () => {
       window.removeEventListener("keydown", openPageSearchModal);
     };
-  }, [openModalCallback]);
+  }, []);
+
+  if (!isDesktop) {
+    return (
+      <Button
+        style={{
+          border: "none",
+          background: "none",
+          cursor: "pointer",
+          padding: 0,
+          ...mobileButtonStyle,
+        }}
+        onClick={openModalCallback}
+      >
+        <MagnifyingGlass size={20} />
+      </Button>
+    );
+  }
 
   return (
     <div>
@@ -142,6 +173,11 @@ const options: Option[] = [
     label: "Convert to YAML",
     description: "Learn how to convert Javascript objects into formatted YAMLs.",
   },
+  {
+    path: "/documentation/converttojavascript",
+    label: "Convert to Javascript",
+    description: "Learn how to convert formatted YAMLs into Javascript objects.",
+  },
 ];
 
 type ModalProps = {
@@ -150,6 +186,7 @@ type ModalProps = {
   highlightedOptionStyle?: CSSProperties;
   footerStyle?: CSSProperties;
   closeModal: () => void;
+  isDesktop: boolean;
 };
 
 type PickOptionArgs = {
@@ -162,6 +199,7 @@ const Modal = ({
   highlightedOptionStyle,
   footerStyle,
   closeModal,
+  isDesktop,
 }: ModalProps) => {
   const ref = useRef<HTMLInputElement>(null);
   const optionContainerRef = useRef<HTMLDivElement>(null);
@@ -196,7 +234,7 @@ const Modal = ({
   return (
     <div
       style={{
-        width: "600px",
+        width: isDesktop ? "600px" : "90vw",
         height: filterExists ? "400px" : "200px",
         backgroundColor: "white",
         borderRadius: "10px",

@@ -12,7 +12,7 @@ type StyledListProps = {
 };
 
 export const StyledList = ({ list }: StyledListProps) => {
-  const { breakpoint } = useGetBreakpoint();
+  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
   const { currentTheme } = useUITheme();
   const isLight = currentTheme === "light";
@@ -40,7 +40,7 @@ export const StyledList = ({ list }: StyledListProps) => {
                   justifyContent: "center",
                   alignItems: "center",
                   transition: "var(--theme-transition)",
-                  color: isLight ? "var(--theme-background)" : "var(--theme-thirdColor)"
+                  color: isLight ? "var(--theme-background)" : "var(--theme-thirdColor)",
                 }}
               >
                 {row.icon}

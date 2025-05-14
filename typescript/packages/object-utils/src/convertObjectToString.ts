@@ -33,21 +33,27 @@ const convertObjectContentToString = ({
 
     if (typeof value === "object") {
       if (Array.isArray(value)) {
-        formattedValue = `${convertArrayToString({ arr: value })},`;
+        formattedValue = `${convertArrayToString({ arr: value, stringifyValues })},`;
       } else if (value !== null) {
         formattedValue = `${convertObjectContentToString({
           obj: value,
           indentLevel: indentLevel + 1,
+          stringifyValues,
         })},`;
       } else {
         formattedValue = `${value},`;
       }
     } else {
-      if (stringifyValues) {
+      if (stringifyValues && typeof value === "string") {
         const isString = typeof value === "string";
-        const adjustedValue = isString ? `"${value}"` : value;
+        const hasMultipleLines = value.includes("\n");
+        if (isString && hasMultipleLines) {
+          formattedValue = `\`${value}\``;
+        } else {
+          const adjustedValue = isString ? `"${value}"` : value;
 
-        formattedValue = `${adjustedValue},`;
+          formattedValue = `${adjustedValue},`;
+        }
       } else {
         formattedValue = `${value},`;
       }
@@ -61,15 +67,19 @@ const convertObjectContentToString = ({
 
 type ConvertArrayToStringArgs = {
   arr: unknown[];
+  stringifyValues?: boolean;
 };
 
-export const convertArrayToString = ({ arr }: ConvertArrayToStringArgs): string => {
+export const convertArrayToString = ({
+  arr,
+  stringifyValues,
+}: ConvertArrayToStringArgs): string => {
   const formatted = arr
     .map((cell) => {
       if (Array.isArray(cell)) {
-        return convertArrayToString({ arr: cell });
+        return convertArrayToString({ arr: cell, stringifyValues });
       } else if (typeof cell === "object" && cell !== null) {
-        return convertObjectContentToString({ obj: cell });
+        return convertObjectContentToString({ obj: cell, stringifyValues });
       } else {
         if (typeof cell === "string" && !cell.endsWith("()")) {
           // TODO: Make the solution more accurate to avoid stringifying unintended values.

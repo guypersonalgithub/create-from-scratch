@@ -2,9 +2,13 @@ import { ObjectType } from "./types";
 
 type ConvertYamlToObjectArgs = {
   str: string;
+  baseIndent?: string;
 };
 
-export const convertYamlToObject = ({ str }: ConvertYamlToObjectArgs): ObjectType => {
+export const convertYamlToObject = ({
+  str,
+  baseIndent = "  ",
+}: ConvertYamlToObjectArgs): ObjectType => {
   const lines = str.split("\n").map((line) => line); // Don't trim, we need indentation
   const result: ObjectType = {};
   let stack: string[] = [];
@@ -16,12 +20,12 @@ export const convertYamlToObject = ({ str }: ConvertYamlToObjectArgs): ObjectTyp
       continue; // Skip empty lines and comments
     }
 
-    const indent = getLineIndent({ line });
+    const indent = getLineIndent({ line, baseIndent });
     const trimmedLine = line.trim();
     const isListItem = trimmedLine.startsWith("- ");
 
     if (isListItem) {
-      const { listItem, index } = getCompleteListItem({ lines, index: i, indent });
+      const { listItem, index } = getCompleteListItem({ lines, index: i, indent, baseIndent });
       let parent: ObjectType = result;
       stack.forEach((level, index) => {
         if (index === stack.length - 1 && (!parent[level] || !Array.isArray(parent[level]))) {
@@ -35,7 +39,9 @@ export const convertYamlToObject = ({ str }: ConvertYamlToObjectArgs): ObjectTyp
         (parent as unknown as unknown[]) = [];
       }
 
-      (parent as unknown as unknown[]).push(listItem);
+      const listItemValue = typeof listItem === "string" ? parseValue({ value: listItem }) : listItem;
+
+      (parent as unknown as unknown[]).push(listItemValue);
 
       i = index;
       continue;
@@ -65,6 +71,41 @@ export const convertYamlToObject = ({ str }: ConvertYamlToObjectArgs): ObjectTyp
     const key = line.slice(0, spreaderIndex).trim();
     const value = line.slice(spreaderIndex + 1).trim();
 
+    if (value === "|") {
+      const nextLine = lines[i + 1] ?? "";
+      const nextIndent = getLineIndent({ line: nextLine, baseIndent });
+      if (nextIndent <= indent) {
+        (parent as ObjectType)[key] = value;
+        continue;
+      }
+
+      i++;
+
+      const { isKeyValueLine, spreaderIndex } = isKeyValue({ line: nextLine });
+
+      if (!isKeyValueLine) {
+        (parent as ObjectType)[key] = nextLine.trim();
+        i++;
+
+        for (let j = i; j < lines.length; j++) {
+          const followingLine = lines[j];
+          if (!followingLine) {
+            break;
+          }
+
+          const followingIndent = getLineIndent({ line: nextLine, baseIndent });
+          if (followingIndent !== nextIndent) {
+            break;
+          }
+
+          (parent as ObjectType)[key] += `\n${followingLine.trim()}`;
+          i++;
+        }
+      }
+
+      continue;
+    }
+
     if (!value) {
       stack.push(key);
     }
@@ -77,19 +118,21 @@ export const convertYamlToObject = ({ str }: ConvertYamlToObjectArgs): ObjectTyp
 
 type GetLineIndentArgs = {
   line: string;
+  baseIndent: string;
 };
 
-const getLineIndent = ({ line }: GetLineIndentArgs) => {
-  return line.search(/\S|$/) / 2;
+const getLineIndent = ({ line, baseIndent }: GetLineIndentArgs) => {
+  return line.search(/\S|$/) / baseIndent.length;
 };
 
 type GetCompleteListItemArgs = {
   lines: string[];
   index: number;
   indent: number;
+  baseIndent: string;
 };
 
-const getCompleteListItem = ({ lines, index, indent }: GetCompleteListItemArgs) => {
+const getCompleteListItem = ({ lines, index, indent, baseIndent }: GetCompleteListItemArgs) => {
   const isKeyValueItem = isKeyValue({ line: lines[index] });
   if (!isKeyValueItem.isKeyValueLine) {
     let listItem = lines[index].trim();
@@ -114,7 +157,7 @@ const getCompleteListItem = ({ lines, index, indent }: GetCompleteListItemArgs) 
       };
     }
 
-    const lineIndent = getLineIndent({ line });
+    const lineIndent = getLineIndent({ line, baseIndent });
     if (lineIndent < indent) {
       return {
         listItem: isEmptyObject({ obj: completeListItem }) ? undefined : completeListItem,

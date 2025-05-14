@@ -53,7 +53,6 @@ const testsConfig = {
             },
           };
         }}
-        withWebWorker
       />
       <div ref={(ref) => registerRef({ ref, content: "Supported inputs" })}>
         <StyledSubTitle>Supported inputs</StyledSubTitle>
@@ -69,11 +68,7 @@ const testsConfig = {
                 YAML structure. Each level of nesting is reflected with increased indentation to
                 match the YAML format.
               </div>
-              <InputOutput
-                code={{ key: { key1: "value", key2: 2 } }}
-                language="typescript"
-                withWebWorker
-              />
+              <InputOutput code={{ key: { key1: "value", key2: 2 } }} language="typescript" />
             </div>,
             <div>
               <div>
@@ -84,7 +79,6 @@ const testsConfig = {
               <InputOutput
                 code={{ key: { key1: "value", key2: 2, key3: true, key4: undefined, key5: null } }}
                 language="typescript"
-                withWebWorker
               />
             </div>,
             <div>
@@ -95,22 +89,21 @@ const testsConfig = {
               <InputOutput
                 code={{ key: "${{ github.event.head_commit.message }}" }}
                 language="typescript"
-                withWebWorker
               />
             </div>,
-            "Arrays behave differently depending on the context they are used in.",
             <div>
               <div>
-                If an array is the value of a <b>run</b> key, the process will convert the array
-                content into a set of actions with the "|" prefix.
+                Arrays are translated into a list of the given different entities with the "-"
+                prefix.
               </div>
-              <InputOutput code={{ run: ["npm install", "npm run build"] }} language="typescript" withWebWorker />
+              <InputOutput code={{ values: [1, 2, "key", "value"] }} language="typescript" />
             </div>,
             <div>
               <div>
-                Otherwise, it would just list them as different entities with the "-" prefix.
+                If a run command is followed by a multi-line string, the process will convert the
+                string based off the line breaks into a set of actions with the "|" identifier.
               </div>
-              <InputOutput code={{ values: [1, 2, "key", "value"] }} language="typescript" withWebWorker />
+              <InputOutput code={{ run: "npm install\nnpm run build" }} language="typescript" />
             </div>,
             <div>
               <b>Functions and classes are not supported.</b> YAML is a data serialization format,

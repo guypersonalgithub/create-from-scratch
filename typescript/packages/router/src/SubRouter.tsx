@@ -5,6 +5,7 @@ import { useRouterContext } from "./useRouterContext";
 import { useScrollToTheTopManual } from "@packages/hooks";
 import { SubRouterContext } from "./routerContext";
 import { useSubRouterContext } from "./useSubRouterContext";
+import { IS_SUB_ROUTER } from "./symbols";
 
 export const SubRouter = ({ paths, wrapperStyle }: RouterProps) => {
   const { routeParams } = useRouterContext();
@@ -46,7 +47,5 @@ const RouterContent = ({
     </div>
   );
 };
-
-export const IS_SUB_ROUTER = Symbol("isSubRouter");
 
 SubRouter[IS_SUB_ROUTER] = true;

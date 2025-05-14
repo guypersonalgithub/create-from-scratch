@@ -11,7 +11,7 @@ export const GetStarted = ({ isDesktop }: GetStartedProps) => {
   const { moveTo } = usePath();
 
   return (
-    <StyledCard style={{ ...(isDesktop ? { width: "50vw" } : {}), margin: "0 auto" }}>
+    <StyledCard style={{ width: isDesktop ? "50vw" : "calc(90vw - 30px)" }}>
       <div
         style={{
           display: "flex",
