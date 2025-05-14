@@ -10,8 +10,7 @@ export const convertObjectToYaml = ({
   obj,
   maintainQuotationsOnNumbers,
   baseIndent,
-}: ConvertObjectToYamlArgs) =>
-  parseObjectToYaml({ obj, maintainQuotationsOnNumbers, baseIndent });
+}: ConvertObjectToYamlArgs) => parseObjectToYaml({ obj, maintainQuotationsOnNumbers, baseIndent });
 
 type ParseObjectToYamlArgs = {
   obj: ObjectType;
@@ -26,7 +25,7 @@ const parseObjectToYaml = ({
   indentLevel = 0,
   isObject,
   maintainQuotationsOnNumbers,
-  baseIndent = "  "
+  baseIndent = "  ",
 }: ParseObjectToYamlArgs) => {
   let yamlStr = "";
   try {
@@ -35,15 +34,25 @@ const parseObjectToYaml = ({
 
     for (const key in obj) {
       const value = obj[key];
-      
 
       if (typeof value === "object" && !Array.isArray(value)) {
         if (value !== null) {
           yamlStr += `${indent}${key}:\n${parseObjectToYaml({ obj: value as ObjectType, indentLevel: indentLevel + 1, maintainQuotationsOnNumbers })}`;
-        } else  {
+        } else {
           yamlStr += `${indent}${key}: null`;
         }
       } else if (Array.isArray(value)) {
+        // if (key === "run") {
+        //   const moreThanOneCommand = value.length > 1;
+        //   yamlStr += `${indent}${key}: ${moreThanOneCommand ? "|\n" : ""}`;
+        //   yamlStr +=
+        //     value
+        //       .map(
+        //         (line) =>
+        //           `${moreThanOneCommand ? baseIndent.repeat(indentLevel + 1) : ""}${escapeValue({ value: line, maintainQuotationsOnNumbers })}`,
+        //       )
+        //       .join("\n") + "\n";
+        // } else {
         yamlStr += `${indent}${key}:\n`;
         value.forEach((item: unknown) => {
           if (typeof item === "object") {
@@ -52,6 +61,7 @@ const parseObjectToYaml = ({
             yamlStr += `${indent}  - ${escapeValue({ value: item, maintainQuotationsOnNumbers })}\n`;
           }
         });
+        // }
       } else {
         const shouldIndent = isObject ? index > 0 : true;
         const isString = typeof value === "string";
@@ -106,9 +116,3 @@ const escapeValue = ({ value, maintainQuotationsOnNumbers }: EscapeValueArgs) =>
 
   return value;
 };
-
-// TODO:
-
-type RunCommandsArgs = {}
-
-const runCommands = ({}: RunCommandsArgs) => {}

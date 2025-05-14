@@ -64,7 +64,7 @@ export class Observer<T extends Record<string, unknown>> {
     }
   };
 
-  subscribe = <K extends keyof T, F extends boolean = false>({
+  subscribe = <K extends keyof T, F extends boolean>({
     properties,
     full = false as F,
     callback,

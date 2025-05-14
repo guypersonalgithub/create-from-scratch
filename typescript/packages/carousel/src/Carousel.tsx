@@ -8,13 +8,49 @@ type CarouselProps = {
   transitionDelay?: number;
 };
 
-export const Carousel = ({ style, items, transitionDelay }: CarouselProps) => {
+export const Carousel = ({ style, items, transitionDelay = 3000 }: CarouselProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [stage, setStage] = useState(0);
   const timeout = useRef<NodeJS.Timeout>(null);
   const [disableLifecycleAnimation, setDisableLifecycleAnimation] = useState(false);
+  const lastItemIndex = items.length - 1;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const observer = observeElementVisibility({
+      element: ref.current,
+      observerCallback: ({ isIntersection }) => {
+        setDisableLifecycleAnimation(!isIntersection);
+
+        if (!isIntersection) {
+          if (timeout.current) {
+            clearTimeout(timeout.current);
+          }
+        } else {
+          if (!disableLifecycleAnimation) {
+            return;
+          }
+
+          timeout.current = setTimeout(() => {
+            setStage((prev) => {
+              if (prev === lastItemIndex) {
+                return 0;
+              }
+
+              return prev + 1;
+            });
+          }, transitionDelay);
+        }
+      },
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [disableLifecycleAnimation, transitionDelay, lastItemIndex]);
 
   return (
     <div ref={ref} style={style}>
@@ -36,8 +72,8 @@ export const Carousel = ({ style, items, transitionDelay }: CarouselProps) => {
 
           timeout.current = setTimeout(() => {
             setStage((prev) => {
-              if (prev === 4) {
-                return 1;
+              if (prev === lastItemIndex) {
+                return 0;
               }
 
               return prev + 1;

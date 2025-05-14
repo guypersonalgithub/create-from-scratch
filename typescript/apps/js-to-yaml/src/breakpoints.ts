@@ -1,11 +1,17 @@
-import { getBreakpoint } from "@packages/breakpoints";
+import { initializeBreakpoints } from "@packages/breakpoints";
 
-const { useGetBreakpoint } = getBreakpoint({
+const {
+  observer: breakpointsObserver,
+  useInitializeBreakpoints,
+  useGetBreakpoint,
+} = initializeBreakpoints({
   breakpoints: {
     mobile: { min: 0, max: 400 },
     tablet: { min: 400, max: 800 },
-    desktop: { min: 800, max: Infinity },
+    smallDesktop: { min: 800, max: 1000 },
+    mediumDesktop: { min: 1000, max: 1300 },
+    desktop: { min: 1300, max: Infinity },
   },
 });
 
-export { useGetBreakpoint };
+export { breakpointsObserver, useInitializeBreakpoints, useGetBreakpoint };

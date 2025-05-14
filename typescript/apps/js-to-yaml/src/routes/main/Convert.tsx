@@ -1,5 +1,6 @@
 import { usePath } from "@packages/router";
 import { InputOutput, StyledButton, StyledCard } from "../../styledComponents";
+import { useGetBreakpoint } from "../../breakpoints";
 
 type ConvertProps = {
   isDesktop: boolean;
@@ -7,6 +8,8 @@ type ConvertProps = {
 
 export const Convert = ({ isDesktop }: ConvertProps) => {
   const { moveTo } = usePath();
+  const { breakpoint } = useGetBreakpoint({ updateOn: ["tablet", "mobile"] });
+  const isMobile = breakpoint === "mobile";
 
   return (
     <div
@@ -39,7 +42,7 @@ export const Convert = ({ isDesktop }: ConvertProps) => {
           Transform your JavaScript objects into clean, readable YAML in seconds. Perfect for
           configuration files, data storage, and more.
         </div>
-        <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+        <div style={{ display: "flex", gap: "10px", marginTop: "20px", flexDirection: isMobile ? "column" : "row" }}>
           <StyledButton
             style={{ flexShrink: 0 }}
             onClick={() => moveTo({ pathname: "/examples" })}

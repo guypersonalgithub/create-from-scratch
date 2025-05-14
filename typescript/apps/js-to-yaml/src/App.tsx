@@ -2,15 +2,20 @@ import { Router } from "@packages/router";
 import { UIThemeProvider } from "@packages/ui-theme";
 import { customThemes } from "./UIThemes";
 import { Main } from "./routes/main/Main";
-import { Header, Layout } from "./Layout";
+import { Layout } from "./components/Layout";
 import { TooltipManager } from "@packages/tooltip";
 import { NotFound } from "./routes/NotFound";
 import { Examples } from "./routes/Examples";
 import { Playground } from "./routes/playground/Playground";
 import { Documentation } from "./routes/documentation/Documentation";
 import { ModalManager } from "@packages/modal";
+import { useInitializeBreakpoints } from "./breakpoints";
+import { MobileFooter } from "./components/HeaderLinks";
+import { Header } from "./components/Header";
 
 function App() {
+  useInitializeBreakpoints();
+
   return (
     <UIThemeProvider
       themes={customThemes}
@@ -30,6 +35,7 @@ function App() {
             "404": <NotFound />,
           }}
         />
+        <MobileFooter />
       </Layout>
       <TooltipManager />
       <ModalManager />

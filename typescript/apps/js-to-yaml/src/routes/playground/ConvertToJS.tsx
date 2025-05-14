@@ -12,7 +12,7 @@ export const ConvertToJS = () => {
   const [text, setText] = useState("");
   const js = convertYamlToObject({ str: text });
   const convertedObject = convertObjectToString({ obj: js });
-  const { breakpoint } = useGetBreakpoint();
+  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
 
   return (

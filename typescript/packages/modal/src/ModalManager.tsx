@@ -20,12 +20,20 @@ export const ModalManager = ({
 
   useEffect(() => {
     const openModal = (event: CustomEvent<ModalDisplayProps>) => {
-      const { id, content, style, } = event.detail;
-      if (modalIds.current.has(id)) {
-        return;
-      }
+      const { id, content, style } = event.detail;
 
-      setModals((prev) => [...prev, { id, content, style }]);
+      setModals((prev) => {
+        const updated = [...prev];
+        const index = prev.findIndex((modal) => modal.id === id);
+        const modalContent = { id, content, style };
+        if (index > -1) {
+          updated[index] = modalContent;
+        } else {
+          updated.push(modalContent);
+        }
+
+        return updated;
+      });
       modalIds.current.add(id);
     };
 
@@ -37,20 +45,8 @@ export const ModalManager = ({
       }
 
       setModals((prev) => {
-        const modalIndex = prev.findIndex((modal) => modal.id === id);
-        if (modalIndex === -1) {
-          return prev;
-        }
-
-        modalIds.current = new Set();
-        if (modalIndex === 0) {
-          return [];
-        }
-
-        const remainingModals = prev.slice(0, modalIndex);
-        remainingModals.forEach((modal) => {
-          modalIds.current.add(modal.id);
-        });
+        const remainingModals = prev.filter((modal) => modal.id !== id);
+        modalIds.current.delete(id);
         return remainingModals;
       });
     };
@@ -127,7 +123,7 @@ export const ModalManager = ({
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                ...style
+                ...style,
               }}
             >
               {content}

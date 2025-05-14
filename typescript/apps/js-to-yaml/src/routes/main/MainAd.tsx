@@ -10,7 +10,7 @@ export const MainAd = () => {
   const [stage, setStage] = useState(1);
   const timeout = useRef<NodeJS.Timeout>(null);
   const [disableLifecycleAnimation, setDisableLifecycleAnimation] = useState(false);
-  const { breakpoint } = useGetBreakpoint();
+  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
 
   useEffect(() => {
@@ -30,6 +30,10 @@ export const MainAd = () => {
         } else {
           if (!disableLifecycleAnimation) {
             return;
+          }
+
+          if (timeout.current) {
+            clearTimeout(timeout.current);
           }
 
           timeout.current = setTimeout(() => {
@@ -173,7 +177,7 @@ writeFileSync("./tests.yaml", output);
     <div
       ref={ref}
       style={{
-        width: isDesktop ? "500px" : "full",
+        width: isDesktop ? "500px" : "90vw",
         overflow: "hidden",
         textAlign: "left",
         height: "650px",
@@ -195,6 +199,10 @@ writeFileSync("./tests.yaml", output);
         onMountAnimationEnd={() => {
           if (disableLifecycleAnimation) {
             return;
+          }
+
+          if (timeout.current) {
+            clearTimeout(timeout.current);
           }
 
           timeout.current = setTimeout(() => {

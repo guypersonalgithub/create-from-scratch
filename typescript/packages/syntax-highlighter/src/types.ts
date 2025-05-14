@@ -24,3 +24,18 @@ export type Animated =
       pacing?: never;
     };
 
+export type GetHighlightedTokensArgs<T extends SupportedLanguages = "typescript"> = {
+  code: string;
+  language?: SupportedLanguages;
+  customizeColors?: (args: {
+    tokens: GenericBaseToken<T>[];
+    baseColors: Record<TokenMaps[T], string>;
+  }) =>
+    | {
+        customBaseColors?: Partial<Record<TokenMaps[T], string>>;
+        cellTypeRebranding?: Record<number, TokenMaps[T]>;
+        customCellColors?: Record<number, string>;
+      }
+    | never;
+  addLineCounter?: boolean | never;
+};

@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { StyledCard } from "./StyledCard";
+import { useGetBreakpoint } from "../breakpoints";
 
 type DisplayCardProps = {
   icon: ReactNode;
@@ -8,6 +9,9 @@ type DisplayCardProps = {
 };
 
 export const DisplayCard = ({ icon, title, content }: DisplayCardProps) => {
+  const { breakpoint } = useGetBreakpoint({ updateOn: ["smallDesktop", "tablet"] });
+  const isTablet = breakpoint === "tablet";
+
   return (
     <StyledCard
       style={{
@@ -18,7 +22,8 @@ export const DisplayCard = ({ icon, title, content }: DisplayCardProps) => {
         justifyContent: "center",
         alignItems: "center",
         marginBottom: "0px",
-        width: "400px",
+        width: isTablet ? undefined : "400px",
+        margin: isTablet ? "0 30px" : undefined,
       }}
     >
       <div

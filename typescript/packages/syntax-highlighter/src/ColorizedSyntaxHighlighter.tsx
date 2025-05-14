@@ -1,26 +1,12 @@
 import { supportedLanguages, SupportedLanguages } from "./languages";
 import { StandardSyntaxHighlighterProps, HighlightedCode } from "./SyntaxHighlighter";
 import { colorizeTokens } from "./colorizeTokens";
-import { GenericBaseToken, TokenMaps } from "./types";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { GenericBaseToken, GetHighlightedTokensArgs, TokenMaps } from "./types";
+import { Fragment, JSX, useEffect, useState } from "react";
 import { TopRightSection } from "./TopRightSection";
-import HighlightWorker from "./webWorker?worker";
-
-type GetHighlightedTokensArgs<T extends SupportedLanguages = "typescript"> = {
-  code: string;
-  language?: SupportedLanguages;
-  customizeColors?: (args: {
-    tokens: GenericBaseToken<T>[];
-    baseColors: Record<TokenMaps[T], string>;
-  }) =>
-    | {
-        customBaseColors?: Partial<Record<TokenMaps[T], string>>;
-        cellTypeRebranding?: Record<number, TokenMaps[T]>;
-        customCellColors?: Record<number, string>;
-      }
-    | never;
-  addLineCounter?: boolean | never;
-};
+import { WebWorkeredSyntaxHighlighter } from "./WebWorkeredSyntaxHighlighter";
+import { countLines } from "@packages/utils";
+import { getCurrentLineCounterElement } from "./utils";
 
 const getHighlightedTokens = <T extends SupportedLanguages = "typescript">({
   code,
@@ -55,7 +41,7 @@ const getHighlightedTokens = <T extends SupportedLanguages = "typescript">({
 };
 
 type ColorizedSyntaxHighlighterProps<T extends SupportedLanguages = "typescript"> =
-  StandardSyntaxHighlighterProps & HighlightedCode<T>;
+  StandardSyntaxHighlighterProps & Omit<HighlightedCode<T>, "highlightCode">;
 
 export const ColorizedSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   withWebWorker,
@@ -65,44 +51,11 @@ export const ColorizedSyntaxHighlighter = <T extends SupportedLanguages = "types
     return <WebWorkeredSyntaxHighlighter {...rest} />;
   }
 
-  const {
-    code,
-    language,
-    customizeColors,
-    addLineCounter,
-    style,
-    copyToClipboard,
-    displayLanguage,
-  } = rest;
-
-  const highlighted = getHighlightedTokens<T>({
-    code,
-    language,
-    customizeColors,
-    addLineCounter,
-  });
-
-  return (
-    <div className="syntaxHighlighter" style={{ ...style, position: "relative", overflow: "auto" }}>
-      <pre>
-        <TopRightSection
-          code={code}
-          copyToClipboard={copyToClipboard}
-          language={language}
-          displayLanguage={displayLanguage}
-        />
-        {highlighted.map((ele, index) => (
-          <Fragment key={index}>{ele}</Fragment>
-        ))}
-        {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
-      </pre>
-    </div>
-  );
+  return <StandardSyntaxHighlighter {...rest} />;
 };
 
-const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
+const StandardSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   code,
-  highlightCode,
   style,
   language = "typescript",
   copyToClipboard = true,
@@ -110,69 +63,24 @@ const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typescript
   addLineCounter = true,
   displayLanguage,
 }: Omit<ColorizedSyntaxHighlighterProps<T>, "withWebWorker">) => {
-  const [tokens, setTokens] = useState<GenericBaseToken<T>[] | null>(null);
-  const [baseColors, setBaseColors] = useState<Record<TokenMaps[T], string>>(
-    {} as Record<TokenMaps[T], string>,
-  );
-  const workerRef = useRef<Worker>(null);
+  const [highlighted, setHighlighted] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
-    workerRef.current = new HighlightWorker();
-
-    if (!workerRef.current) {
-      return;
-    }
-
-    workerRef.current.onmessage = (e) => {
-      const { tokens, baseColors } = e.data;
-      setTokens(tokens);
-      setBaseColors(baseColors);
-    };
-
-    workerRef.current.postMessage({ code, language });
+    const timeout = setTimeout(() => {
+      setHighlighted(
+        getHighlightedTokens<T>({
+          code,
+          language,
+          customizeColors,
+          addLineCounter,
+        }),
+      );
+    }, 0);
 
     return () => {
-      workerRef.current?.terminate();
+      clearTimeout(timeout);
     };
   }, [code, language]);
-
-  if (!tokens) {
-    return (
-      <div
-        className="syntaxHighlighter"
-        style={{ ...style, position: "relative", overflow: "auto" }}
-      >
-        <pre>
-          <TopRightSection
-            code={code}
-            copyToClipboard={copyToClipboard}
-            language={language}
-            displayLanguage={displayLanguage}
-          />
-          {code}
-          {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
-        </pre>
-      </div>
-    );
-  }
-
-  const {
-    customBaseColors = {},
-    cellTypeRebranding = {},
-    customCellColors = {},
-  } = customizeColors?.({
-    tokens,
-    baseColors,
-  }) ?? {};
-
-  const highlighted = colorizeTokens({
-    code,
-    tokens,
-    baseColors: { ...baseColors, ...customBaseColors },
-    cellTypeRebranding,
-    customCellColors,
-    addLineCounter,
-  });
 
   return (
     <div className="syntaxHighlighter" style={{ ...style, position: "relative", overflow: "auto" }}>
@@ -183,11 +91,33 @@ const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typescript
           language={language}
           displayLanguage={displayLanguage}
         />
-        {highlighted.map((ele, index) => (
-          <Fragment key={index}>{ele}</Fragment>
-        ))}
+        {highlighted.length === 0
+          ? displayColorlessCode({ code, addLineCounter })
+          : highlighted.map((ele, index) => <Fragment key={index}>{ele}</Fragment>)}
         {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
       </pre>
     </div>
   );
+};
+
+type DisplayColorlessCodeArgs = {
+  code: string;
+  addLineCounter: boolean;
+};
+
+const displayColorlessCode = ({ code, addLineCounter }: DisplayColorlessCodeArgs) => {
+  if (!addLineCounter) {
+    return code;
+  }
+
+  const { linesCount, splitStr = [] } = countLines({ str: code, returnSplitStr: true });
+  const maximumLinesLength = linesCount.toString().length;
+  const splitStrLength = splitStr.length;
+
+  return splitStr.map((line, index) => {
+    const prefix = getCurrentLineCounterElement({ lineCounter: index + 1, maximumLinesLength });
+    const addLinebreak = index !== splitStrLength - 1;
+
+    return `${prefix}${line}${addLinebreak ? "\n" : ""}`;
+  });
 };
