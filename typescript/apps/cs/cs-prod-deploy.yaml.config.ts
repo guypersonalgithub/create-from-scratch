@@ -58,6 +58,10 @@ export default {
           run: "npm run build",
         },
         {
+          name: "Link Netlify Site",
+          run: "netlify link --id=$NETLIFY_SITE_ID",
+        },
+        {
           name: "Deploy",
           run: "netlify deploy --prod --dir=./apps/cs/dist --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN",
         },
