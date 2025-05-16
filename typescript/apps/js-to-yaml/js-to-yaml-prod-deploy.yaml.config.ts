@@ -43,7 +43,10 @@ export default {
         },
         {
           name: "Copy workspace",
-          run: ["mkdir -p ./full-application/apps", "cp -r ./apps/js-to-yaml ./full-application/apps"],
+          run: [
+            "mkdir -p ./full-application/apps",
+            "cp -r ./apps/js-to-yaml ./full-application/apps",
+          ],
         },
         {
           name: "Copy dependencies",
@@ -59,7 +62,7 @@ export default {
         },
         {
           name: "Deploy",
-          run: "netlify deploy --prod --dir=./apps/js-to-yaml/dist",
+          run: "netlify deploy --prod --dir=./apps/js-to-yaml/dist --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN",
         },
       ],
     },
