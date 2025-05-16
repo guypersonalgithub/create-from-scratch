@@ -15,6 +15,7 @@ export type GithubActionYaml = {
         name?: string;
         run?: string | string[];
         uses?: string;
+        env?: Record<string, string>;
       }[];
     }
   >;

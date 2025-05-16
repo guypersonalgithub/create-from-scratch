@@ -62,7 +62,7 @@ export default {
         },
         {
           name: "Deploy",
-          run: "netlify deploy --prod --dir=./apps/js-to-yaml/dist --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN",
+          run: "netlify deploy --prod --dir=./apps/js-to-yaml/dist",
         },
       ],
     },

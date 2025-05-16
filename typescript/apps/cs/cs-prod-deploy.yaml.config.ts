@@ -59,7 +59,7 @@ export default {
         },
         {
           name: "Deploy",
-          run: "netlify deploy --prod --dir=./apps/cs/dist --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN",
+          run: "netlify deploy --prod --dir=./apps/cs/dist",
         },
       ],
     },
