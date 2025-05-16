@@ -1,0 +1,1 @@
+- Fix types so that tsc . would be able to pass properly.
