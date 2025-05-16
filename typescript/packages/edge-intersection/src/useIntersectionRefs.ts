@@ -1,7 +1,7 @@
 import { createRef } from "react";
-import { type EdgeWrapperRefs } from "@packages/edge-intersection";
+import { EdgeWrapperRefs } from "./types";
 
-export const useTooltipIntersectionRefs = () => {
+export const useIntersectionRefs = () => {
   const intersectionRefs: EdgeWrapperRefs = {
     top: createRef(),
     topLeft: createRef(),

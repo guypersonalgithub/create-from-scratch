@@ -15,6 +15,7 @@ type AnchorsProps = {
   highlightBarContainerStyle?: CSSProperties;
   highlightBarStyle?: CSSProperties;
   anchorsIdentifier: string;
+  onClickCallback?: (anchor: { ref: HTMLElement }) => void;
 };
 
 export const Anchors = ({
@@ -27,6 +28,7 @@ export const Anchors = ({
   highlightBarContainerStyle,
   highlightBarStyle,
   anchorsIdentifier,
+  onClickCallback,
 }: AnchorsProps) => {
   const anchorRefs = useRef<HTMLDivElement[]>([]);
   const selectedIndex = getLowestAnchorIndex({ visibleAnchors, anchors });
@@ -52,6 +54,7 @@ export const Anchors = ({
               )}
               onClick={() => {
                 ref.scrollIntoView({ behavior: "smooth", block: "start" });
+                onClickCallback?.({ ref });
               }}
               style={{
                 cursor: "pointer",
@@ -178,7 +181,7 @@ const HighlightBar = ({
 
     const onAnimationEnd = () => {
       lastTab.current = newTabProperties;
-    }
+    };
 
     const {} = animate({
       element: highlightRef.current,
@@ -189,7 +192,7 @@ const HighlightBar = ({
 
     return () => {
       lastTab.current = newTabProperties;
-    }
+    };
   }, [selectedIndex]);
 
   return (

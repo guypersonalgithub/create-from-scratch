@@ -8,6 +8,7 @@ type StyledLinkProps = {
   className?: string;
   style?: CSSProperties;
   selectedCondition?: (args: { path: string; pathname: string }) => boolean;
+  onClickCallback?: () => void;
 };
 
 export const StyledLink = ({
@@ -17,6 +18,7 @@ export const StyledLink = ({
   className = "link",
   style,
   selectedCondition,
+  onClickCallback,
 }: StyledLinkProps) => {
   return (
     <Link
@@ -33,6 +35,7 @@ export const StyledLink = ({
         ...style,
       }}
       pathname={pathname}
+      onClick={onClickCallback}
     >
       {label}
     </Link>

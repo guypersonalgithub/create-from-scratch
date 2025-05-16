@@ -10,19 +10,28 @@ type LinkProps = {
 type InternalLinkProps = LinkProps & {
   pathname: string;
   href?: never;
+  onClick?: () => void;
 };
 
 type ExternalLinkProps = LinkProps & {
   pathname?: never;
   href: string;
+  onClick?: never;
 };
 
 export type CompleteLinkProps = InternalLinkProps | ExternalLinkProps;
 
-export const Link = ({ pathname, href, children, style, className }: CompleteLinkProps) => {
+export const Link = ({
+  pathname,
+  href,
+  children,
+  style,
+  className,
+  onClick,
+}: CompleteLinkProps) => {
   if (pathname) {
     return (
-      <InternalLink pathname={pathname} style={style} className={className}>
+      <InternalLink pathname={pathname} style={style} className={className} onClick={onClick}>
         {children}
       </InternalLink>
     );
@@ -39,7 +48,7 @@ export const Link = ({ pathname, href, children, style, className }: CompleteLin
   return null;
 };
 
-const InternalLink = ({ pathname, children, style, className }: InternalLinkProps) => {
+const InternalLink = ({ pathname, children, style, className, onClick }: InternalLinkProps) => {
   const { moveTo } = usePath();
 
   return (
@@ -50,6 +59,7 @@ const InternalLink = ({ pathname, children, style, className }: InternalLinkProp
         e.stopPropagation();
         e.preventDefault();
         moveTo({ pathname });
+        onClick?.();
       }}
       style={style}
     >

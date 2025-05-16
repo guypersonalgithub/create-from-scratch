@@ -12,6 +12,7 @@ type ScrollspyAnchorsProps = {
   visibleAnchorStyle?: CSSProperties;
   highlightBarContainerStyle?: CSSProperties;
   highlightBarStyle?: CSSProperties;
+  onClickCallback?: (anchor: { ref: HTMLElement }) => void;
 };
 
 export const ScrollspyAnchors = ({
@@ -22,6 +23,7 @@ export const ScrollspyAnchors = ({
   visibleAnchorStyle,
   highlightBarContainerStyle,
   highlightBarStyle,
+  onClickCallback,
 }: ScrollspyAnchorsProps) => {
   const [availableAnchors, setAvailableAnchors] = useState<Anchor[]>([]);
   const [visibleAnchors, setVisibleAnchors] = useState<string[]>([]);
@@ -82,6 +84,7 @@ export const ScrollspyAnchors = ({
       highlightBarContainerStyle={highlightBarContainerStyle}
       highlightBarStyle={highlightBarStyle}
       anchorsIdentifier={anchorsIdentifier}
+      onClickCallback={onClickCallback}
     />
   );
 };
