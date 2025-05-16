@@ -12,6 +12,7 @@ import { ModalManager } from "@packages/modal";
 import { useInitializeBreakpoints } from "./breakpoints";
 import { MobileFooter } from "./components/HeaderLinks";
 import { Header } from "./components/Header";
+import { PopoverManager } from "@packages/popover";
 
 function App() {
   useInitializeBreakpoints();
@@ -39,6 +40,7 @@ function App() {
       </Layout>
       <TooltipManager />
       <ModalManager />
+      <PopoverManager />
     </UIThemeProvider>
   );
 }

@@ -99,20 +99,8 @@ export const ModalManager = ({
               }}
               onClick={() => {
                 setModals((prev) => {
-                  const modalIndex = prev.findIndex((modal) => modal.id === id);
-                  if (modalIndex === -1) {
-                    return prev;
-                  }
-
-                  modalIds.current = new Set();
-                  if (modalIndex === 0) {
-                    return [];
-                  }
-
-                  const remainingModals = prev.slice(0, modalIndex);
-                  remainingModals.forEach((modal) => {
-                    modalIds.current.add(modal.id);
-                  });
+                  const remainingModals = prev.filter((modal) => modal.id !== id);
+                  modalIds.current.delete(id);
                   return remainingModals;
                 });
               }}

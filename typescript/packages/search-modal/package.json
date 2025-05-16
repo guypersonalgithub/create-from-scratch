@@ -1,10 +1,18 @@
 {
-  "name": "@packages/shadow-dom",
+  "name": "@packages/search-modal",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@packages/button": "*",
+    "@packages/modal": "*",
+    "@packages/icons": "*",
+    "@packages/badge": "*",
+    "@packages/input": "*",
+    "@packages/keyboard-key": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

@@ -77,7 +77,7 @@ export const MobileFooter = () => {
         alignItems: "center",
         paddingLeft: "10px",
         paddingRight: "10px",
-        borderBottom: `1px solid ${borderBottomColor}`,
+        borderTop: `1px solid ${borderBottomColor}`,
         backgroundColor: rgbaBg,
         transition: "var(--theme-transition)",
       }}

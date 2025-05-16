@@ -2,7 +2,7 @@ import { CSSProperties, ReactNode, useRef } from "react";
 import { useControlTooltip } from "./useControlTooltip";
 import { TooltipDisplayProps } from "./types";
 import { TooltipContent } from "./TooltipContent";
-import { useTooltipIntersectionRefs } from "./useTooltipIntersectionRefs";
+import { useIntersectionRefs } from "@packages/edge-intersection";
 
 export type TooltipProps = Pick<
   TooltipDisplayProps,
@@ -25,7 +25,7 @@ export const Tooltip = ({
   children,
 }: TooltipProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { intersectionRefs } = useTooltipIntersectionRefs();
+  const { intersectionRefs } = useIntersectionRefs();
   const { id, showTooltip, hideTooltip } = useControlTooltip();
 
   const disableTooltipBecauseOfEllipsis = () => {

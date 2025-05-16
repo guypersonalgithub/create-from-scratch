@@ -1,1 +1,0 @@
-- Check if useLayoutEffect is needed in the unmount wrapper.

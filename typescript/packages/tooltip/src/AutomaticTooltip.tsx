@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useControlTooltip } from "./useControlTooltip";
 import { TooltipContent } from "./TooltipContent";
-import { useTooltipIntersectionRefs } from "./useTooltipIntersectionRefs";
+import { useIntersectionRefs } from "@packages/edge-intersection";
 import { TooltipProps } from "./Tooltip";
 
 export const AutomaticTooltip = ({
@@ -14,7 +14,7 @@ export const AutomaticTooltip = ({
   children,
 }: Omit<TooltipProps, "isEllipsizedCallback">) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { intersectionRefs } = useTooltipIntersectionRefs();
+  const { intersectionRefs } = useIntersectionRefs();
   const { id, showTooltip, hideTooltip } = useControlTooltip();
   const isDisabled = disabled || !content;
 

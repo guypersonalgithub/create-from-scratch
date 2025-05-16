@@ -1,0 +1,127 @@
+name: JS to YAML Netlify Production Deployment
+env:
+  NETLIFY_AUTH_TOKEN: ${{ secrets.JS_TO_YAML_NETLIFY_TOKEN }}
+  NETLIFY_SITE_ID: ${{ secrets.JS_TO_YAML_NETLIFY_SITE_ID }}
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - typescript/apps/js-to-yaml/**
+      - typescript/packages/router/**
+      - typescript/packages/utils/**
+      - typescript/packages/url/**
+      - typescript/packages/environment/**
+      - typescript/packages/hooks/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+      - typescript/packages/ui-theme/**
+      - typescript/packages/icons/**
+      - typescript/packages/button/**
+      - typescript/packages/syntax-highlighter/**
+      - typescript/packages/parse-yaml/**
+      - typescript/packages/copy-to-clipboard/**
+      - typescript/packages/tooltip/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/randomizer/**
+      - typescript/packages/edge-intersection/**
+      - typescript/packages/calculate-relative-position/**
+      - typescript/dev-packages/yaml/**
+      - typescript/packages/alert/**
+      - typescript/packages/card/**
+      - typescript/packages/command-box/**
+      - typescript/packages/css-utils/**
+      - typescript/packages/breakpoints/**
+      - typescript/packages/design-patterns/**
+      - typescript/packages/textarea/**
+      - typescript/packages/sidebar/**
+      - typescript/packages/collapsible/**
+      - typescript/packages/date/**
+      - typescript/packages/modal/**
+      - typescript/packages/badge/**
+      - typescript/packages/input/**
+      - typescript/packages/loading/**
+      - typescript/packages/title/**
+      - typescript/packages/scrollspy-anchors/**
+      - typescript/packages/list/**
+      - typescript/packages/table/**
+      - typescript/packages/pagination/**
+      - typescript/packages/search-modal/**
+      - typescript/packages/keyboard-key/**
+      - typescript/packages/popover/**
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Netlify CLI
+        run: npm i -g netlify-cli
+      - name: Create _redirects file
+        run: node ./ci-scripts/createCSRRedirects.js js-to-yaml
+      - name: Create working folder
+        run: mkdir full-application
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js js-to-yaml
+      - name: Copy root package.json
+        run: cp -r package.json ./full-application/
+      - name: Copy workspace
+        run: |
+          mkdir -p ./full-application/apps
+          cp -r ./apps/js-to-yaml ./full-application/apps
+      - name: Copy dependencies
+        run: |
+          mkdir -p ./full-application/packages
+          cp -r ./packages/router ./full-application/packages
+          cp -r ./packages/utils ./full-application/packages
+          cp -r ./packages/url ./full-application/packages
+          cp -r ./packages/environment ./full-application/packages
+          cp -r ./packages/hooks ./full-application/packages
+          cp -r ./packages/array-utils ./full-application/packages
+          cp -r ./packages/object-utils ./full-application/packages
+          cp -r ./packages/parse-typescript ./full-application/packages
+          cp -r ./packages/ui-theme ./full-application/packages
+          cp -r ./packages/icons ./full-application/packages
+          cp -r ./packages/button ./full-application/packages
+          cp -r ./packages/syntax-highlighter ./full-application/packages
+          cp -r ./packages/parse-yaml ./full-application/packages
+          cp -r ./packages/copy-to-clipboard ./full-application/packages
+          cp -r ./packages/tooltip ./full-application/packages
+          cp -r ./packages/animation-container ./full-application/packages
+          cp -r ./packages/is-dev ./full-application/packages
+          cp -r ./packages/randomizer ./full-application/packages
+          cp -r ./packages/edge-intersection ./full-application/packages
+          cp -r ./packages/calculate-relative-position ./full-application/packages
+          cp -r ./dev-packages/yaml ./full-application/packages
+          cp -r ./packages/alert ./full-application/packages
+          cp -r ./packages/card ./full-application/packages
+          cp -r ./packages/command-box ./full-application/packages
+          cp -r ./packages/css-utils ./full-application/packages
+          cp -r ./packages/breakpoints ./full-application/packages
+          cp -r ./packages/design-patterns ./full-application/packages
+          cp -r ./packages/textarea ./full-application/packages
+          cp -r ./packages/sidebar ./full-application/packages
+          cp -r ./packages/collapsible ./full-application/packages
+          cp -r ./packages/date ./full-application/packages
+          cp -r ./packages/modal ./full-application/packages
+          cp -r ./packages/badge ./full-application/packages
+          cp -r ./packages/input ./full-application/packages
+          cp -r ./packages/loading ./full-application/packages
+          cp -r ./packages/title ./full-application/packages
+          cp -r ./packages/scrollspy-anchors ./full-application/packages
+          cp -r ./packages/list ./full-application/packages
+          cp -r ./packages/table ./full-application/packages
+          cp -r ./packages/pagination ./full-application/packages
+          cp -r ./packages/search-modal ./full-application/packages
+          cp -r ./packages/keyboard-key ./full-application/packages
+          cp -r ./packages/popover ./full-application/packages
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Deploy
+        run: netlify deploy --prod --dir=./apps/js-to-yaml/dist

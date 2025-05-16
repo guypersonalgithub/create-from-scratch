@@ -34,10 +34,11 @@
     "@packages/badge": "*",
     "@packages/input": "*",
     "@packages/title": "*",
-    "@packages/keyboard-key": "*",
     "@packages/scrollspy-anchors": "*",
     "@packages/list": "*",
-    "@packages/table": "*"
+    "@packages/table": "*",
+    "@packages/search-modal": "*",
+    "@packages/popover": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

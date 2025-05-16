@@ -5,9 +5,6 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  build: {
-    target: "esnext",
-  },
   resolve: {
     alias: {
       "@packages/router": path.resolve(__dirname, "../../packages/router/src/index.ts"),
@@ -67,7 +64,6 @@ export default defineConfig({
       "@packages/input": path.resolve(__dirname, "../../packages/input/src/index.ts"),
       "@packages/loading": path.resolve(__dirname, "../../packages/loading/src/index.ts"),
       "@packages/title": path.resolve(__dirname, "../../packages/title/src/index.ts"),
-      "@packages/keyboard-key": path.resolve(__dirname, "../../packages/keyboard-key/src/index.ts"),
       "@packages/scrollspy-anchors": path.resolve(
         __dirname,
         "../../packages/scrollspy-anchors/src/index.ts",
@@ -75,6 +71,9 @@ export default defineConfig({
       "@packages/list": path.resolve(__dirname, "../../packages/list/src/index.ts"),
       "@packages/table": path.resolve(__dirname, "../../packages/table/src/index.ts"),
       "@packages/pagination": path.resolve(__dirname, "../../packages/pagination/src/index.ts"),
+      "@packages/search-modal": path.resolve(__dirname, "../../packages/search-modal/src/index.ts"),
+      "@packages/keyboard-key": path.resolve(__dirname, "../../packages/keyboard-key/src/index.ts"),
+      "@packages/popover": path.resolve(__dirname, "../../packages/popover/src/index.ts"),
     },
   },
 });

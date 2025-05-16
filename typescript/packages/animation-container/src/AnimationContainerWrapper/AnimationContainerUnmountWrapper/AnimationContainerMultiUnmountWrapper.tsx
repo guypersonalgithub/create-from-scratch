@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState, useRef } from "react";
+import { ReactElement, useState, useRef, useLayoutEffect } from "react";
 import { getAnimationWrapperChildKeys, getChildKeys, isAnimationWrapperChild } from "../utils";
 import { UnmountContext } from "./unmountContext";
 import { areSetsEqual } from "@packages/utils";
@@ -26,7 +26,7 @@ const FullPhase = ({ children }: Pick<AnimationContainerMultiUnmountWrapperProps
   const currentChildKeys = useRef<Set<string>>(getAnimationWrapperChildKeys({ children }));
   const latestChildrenRef = useRef<ReactElement[]>(children);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     latestChildrenRef.current = children;
     setChildrenKeys(getChildKeys({ children }));
     const updatedKeys = getAnimationWrapperChildKeys({ children });
@@ -75,7 +75,7 @@ const Gradual = ({ children }: Pick<AnimationContainerMultiUnmountWrapperProps, 
   const [currentChildren, setCurrentChildren] = useState<ReactElement[]>(children);
   const [childrenKeys, setChildrenKeys] = useState(getChildKeys({ children }));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const currentChildrenKeys = new Set<string>(children.map((child) => child.key ?? ""));
     const removedChildren: { element: ReactElement; index: number }[] = [];
 

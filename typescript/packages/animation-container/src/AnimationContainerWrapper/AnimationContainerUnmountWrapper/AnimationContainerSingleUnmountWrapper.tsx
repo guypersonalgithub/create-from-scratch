@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useLayoutEffect, useState } from "react";
 import { UnmountContext } from "./unmountContext";
 import { getChildKeys, isAnimationWrapperChild } from "../utils";
 import { ChangeMethod } from "../types";
@@ -23,7 +23,7 @@ const FullPhase = ({ children }: Pick<AnimationContainerSingleUnmountWrapperProp
   const [currentChild, setCurrentChild] = useState<ReactElement>(children);
   const [isUnmounted, setIsUnmounted] = useState<boolean>(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const isCurrentAnimation = isAnimationWrapperChild({ child: currentChild });
 
     if (!isCurrentAnimation || currentChild.key === children.key) {
@@ -56,7 +56,7 @@ const Gradual = ({ children }: Pick<AnimationContainerSingleUnmountWrapperProps,
   const [currentChildren, setCurrentChildren] = useState<ReactElement[]>([children]);
   const [childrenKeys, setChildrenKeys] = useState(getChildKeys({ children: [children] }));
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const currentChildrenKeys = new Set<string>([children.key ?? ""]);
     const removedChildren: { element: ReactElement; index: number }[] = [];
 

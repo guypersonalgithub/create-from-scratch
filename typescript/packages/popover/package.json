@@ -1,10 +1,17 @@
 {
-  "name": "@packages/shadow-dom",
+  "name": "@packages/popover",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b ."
+  },
+  "dependencies": {
+    "@packages/animation-container": "*",
+    "@packages/randomizer": "*",
+    "@packages/edge-intersection": "*",
+    "@packages/utils": "*",
+    "@packages/calculate-relative-position": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",
