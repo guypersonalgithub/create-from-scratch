@@ -1,10 +1,10 @@
-import { initializeBreakpoints } from "@packages/breakpoints";
+import { initializeMediaBreakpoints } from "@packages/breakpoints";
 
 const {
-  observer: breakpointsObserver,
+  observer: mediaBreakpointsObserver,
   useInitializeBreakpoints,
   useGetBreakpoint,
-} = initializeBreakpoints({
+} = initializeMediaBreakpoints({
   breakpoints: {
     mobile: { min: 0, max: 400 },
     tablet: { min: 400, max: 800 },
@@ -14,4 +14,4 @@ const {
   },
 });
 
-export { breakpointsObserver, useInitializeBreakpoints, useGetBreakpoint };
+export { mediaBreakpointsObserver, useInitializeBreakpoints, useGetBreakpoint };

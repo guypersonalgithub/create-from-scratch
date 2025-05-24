@@ -54,7 +54,8 @@
     "@packages/breadcrumbs": "*",
     "@packages/dom-heatmap": "*",
     "@packages/icons": "*",
-    "@packages/carousel": "*"
+    "@packages/carousel": "*",
+    "@packages/canvas-tooltip": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

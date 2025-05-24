@@ -2,11 +2,13 @@ import { ObjectType } from "./types";
 
 type ConvertYamlToObjectArgs = {
   str: string;
+  maintainQuotationsOnNumbers?: boolean;
   baseIndent?: string;
 };
 
 export const convertYamlToObject = ({
   str,
+  maintainQuotationsOnNumbers,
   baseIndent = "  ",
 }: ConvertYamlToObjectArgs): ObjectType => {
   const lines = str.split("\n").map((line) => line); // Don't trim, we need indentation
@@ -39,7 +41,10 @@ export const convertYamlToObject = ({
         (parent as unknown as unknown[]) = [];
       }
 
-      const listItemValue = typeof listItem === "string" ? parseValue({ value: listItem }) : listItem;
+      const listItemValue =
+        typeof listItem === "string"
+          ? parseValue({ value: listItem, maintainQuotationsOnNumbers })
+          : listItem;
 
       (parent as unknown as unknown[]).push(listItemValue);
 
@@ -110,7 +115,7 @@ export const convertYamlToObject = ({
       stack.push(key);
     }
 
-    (parent as ObjectType)[key] = parseValue({ value });
+    (parent as ObjectType)[key] = parseValue({ value, maintainQuotationsOnNumbers });
   }
 
   return result;
@@ -204,9 +209,10 @@ const getCompleteListItem = ({ lines, index, indent, baseIndent }: GetCompleteLi
 
 type ParseValueArgs = {
   value: string;
+  maintainQuotationsOnNumbers?: boolean;
 };
 
-const parseValue = ({ value }: ParseValueArgs): unknown => {
+const parseValue = ({ value, maintainQuotationsOnNumbers }: ParseValueArgs): unknown => {
   if (value === "") {
     return undefined;
   }
@@ -221,6 +227,10 @@ const parseValue = ({ value }: ParseValueArgs): unknown => {
     return false;
   }
   if (!isNaN(Number(value))) {
+    if (maintainQuotationsOnNumbers && typeof value === "string") {
+      return `"${value}"`;
+    }
+
     return Number(value);
   }
   return value;

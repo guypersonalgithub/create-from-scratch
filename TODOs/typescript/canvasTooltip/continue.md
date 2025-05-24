@@ -1,0 +1,1 @@
+- Add canvas tooltip ellipsis support, dynamic tooltip postioning based off collision with the canvas' dimensions, etc.

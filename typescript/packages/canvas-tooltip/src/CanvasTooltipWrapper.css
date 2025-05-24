@@ -1,0 +1,8 @@
+.canvasTooltipWrapper {
+  display: grid;
+}
+
+.canvasTooltipWrapper > * {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}

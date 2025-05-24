@@ -110,6 +110,12 @@ const output = convertYamlToObject({ str: yaml });
               isMandatory: true,
             },
             {
+              name: "maintainQuotationsOnNumbers",
+              type: "boolean",
+              description:
+                "Dictates whether the formatted YAML string would generate quotation marks for string values or not.",
+            },
+            {
               name: "baseIndent",
               type: "string",
               defaultValue: `"${"\u00A0\u00A0"}"`,

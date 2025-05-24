@@ -1,3 +1,2 @@
-- Create a popover component.
 - Create accordion component.
 - Create a sliding button component.
