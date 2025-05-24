@@ -1,5 +1,5 @@
 import { Observer } from "@packages/design-patterns";
-import { Breakpoint } from "./types";
+import { Breakpoint } from "../types";
 import { getCurrentBreakpoint, getCurrentBreakpointBasedOffOptions } from "./utils";
 import { useEffect, useRef, useState } from "react";
 
@@ -9,9 +9,28 @@ type InitializeBreakpointsArgs<T extends Record<string, Breakpoint>> = {
 
 type UseGetBreakpointArgs<T extends Record<string, Breakpoint>, G extends keyof T> = {
   updateOn: G[];
-  includeMismatchAbove?: boolean;
-  includeMismatchBelow?: boolean;
-};
+} & IncludeMismatchAbove<T, G> &
+  IncludeMismatchBelow<T, G>;
+
+type IncludeMismatchAbove<T extends Record<string, Breakpoint>, G extends keyof T> =
+  | {
+      includeMismatchAbove: true;
+      defaultBelowBreakpoint?: G;
+    }
+  | {
+      includeMismatchAbove?: never;
+      defaultBelowBreakpoint?: never;
+    };
+
+type IncludeMismatchBelow<T extends Record<string, Breakpoint>, G extends keyof T> =
+  | {
+      includeMismatchBelow: true;
+      defaultAboveBreakpoint?: G;
+    }
+  | {
+      includeMismatchBelow?: never;
+      defaultAboveBreakpoint?: never;
+    };
 
 export const initializeBreakpoints = <T extends Record<string, Breakpoint>>({
   breakpoints,
@@ -41,7 +60,9 @@ export const initializeBreakpoints = <T extends Record<string, Breakpoint>>({
   const useGetBreakpoint = <G extends keyof T>({
     updateOn,
     includeMismatchAbove,
+    defaultAboveBreakpoint,
     includeMismatchBelow,
+    defaultBelowBreakpoint,
   }: UseGetBreakpointArgs<T, G>) => {
     const [breakpoint, setBreakpoint] = useState<G | undefined>(
       getCurrentBreakpointBasedOffOptions({ breakpoints, options: updateOn }) as G,
@@ -58,15 +79,11 @@ export const initializeBreakpoints = <T extends Record<string, Breakpoint>>({
             if (includeMismatchBelow) {
               const max = breakpoints[breakpoint].max;
               const isBelowEverything = updateOn.every((b) => breakpoints[b].min >= max);
-              if (isBelowEverything) {
-                setBreakpoint(undefined);
-              }
+              setBreakpoint(isBelowEverything ? undefined : defaultAboveBreakpoint);
             } else {
               const min = breakpoints[breakpoint].min;
               const isAboveEverything = updateOn.every((b) => breakpoints[b].max <= min);
-              if (isAboveEverything) {
-                setBreakpoint(undefined);
-              }
+              setBreakpoint(isAboveEverything ? undefined : defaultBelowBreakpoint);
             }
           }
         },

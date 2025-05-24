@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useGetBreakpoint } from "../../breakpoints";
 
 export const ConvertToYAML = () => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState("{}");
   const { object } = convertStringToObjectWithStringProperties({
     str: text,
     returnObjectOnIncorrectToken: true,
@@ -42,7 +42,25 @@ export const ConvertToYAML = () => {
           containerStyle={{ flex: 1 }}
           style={{ height: "100%" }}
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            const textarea = e.currentTarget;
+            const start = textarea.selectionStart;
+
+            let value = e.target.value;
+            if (value[0] !== "{") {
+              value = "{" + value;
+            }
+
+            if (value[value.length - 1] !== "}") {
+              value += "}";
+            }
+
+            setText(value);
+
+            requestAnimationFrame(() => {
+              textarea.selectionStart = textarea.selectionEnd = start;
+            });
+          }}
           onKeyDown={(e) => {
             if (e.key === "Tab") {
               e.preventDefault();

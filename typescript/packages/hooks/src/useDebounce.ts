@@ -9,6 +9,7 @@ export const useDebounce = () => {
     }
 
     clearTimeout(timeoutRef.current);
+    timeoutRef.current = null;
   };
 
   const set = ({ callback, delay }: { callback: () => void; delay: number }) => {

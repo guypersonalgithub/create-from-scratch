@@ -1,4 +1,4 @@
-import { CSSProperties, forwardRef, ReactNode } from "react";
+import { CSSProperties, ReactNode, RefObject } from "react";
 import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { PopoverDisplayProps } from "./types";
 
@@ -8,31 +8,38 @@ type PopoverContentProps = Pick<PopoverDisplayProps, "offset"> & {
   style?: CSSProperties;
   show?: () => void;
   children: ReactNode;
+  ref: RefObject<HTMLDivElement | null>;
 };
 
-export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
-  ({ id, intersectionRefs, offset, style = {}, show, children }, ref) => {
-    return (
-      <EdgeIntersection
-        id={id}
+export const PopoverContent = ({
+  id,
+  intersectionRefs,
+  offset,
+  style = {},
+  show,
+  children,
+  ref,
+}: PopoverContentProps) => {
+  return (
+    <EdgeIntersection
+      id={id}
+      style={{
+        height: "fit-content",
+        ...style,
+      }}
+      intersectionRefs={intersectionRefs}
+      offset={offset}
+    >
+      <div
+        ref={ref}
         style={{
           height: "fit-content",
           ...style,
         }}
-        intersectionRefs={intersectionRefs}
-        offset={offset}
+        onClick={show}
       >
-        <div
-          ref={ref}
-          style={{
-            height: "fit-content",
-            ...style,
-          }}
-          onClick={show}
-        >
-          {children}
-        </div>
-      </EdgeIntersection>
-    );
-  },
-);
+        {children}
+      </div>
+    </EdgeIntersection>
+  );
+};

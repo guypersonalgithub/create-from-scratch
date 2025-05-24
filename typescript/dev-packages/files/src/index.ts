@@ -5,3 +5,5 @@ export * from "./getModuleExports";
 export * from "./copyFolder";
 export * from "./createFolder";
 export * from "./getAmountOfFolders";
+export * from "./getFoldersInPath";
+export * from "./countFilesLines";

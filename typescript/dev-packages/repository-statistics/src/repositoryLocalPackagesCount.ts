@@ -1,5 +1,5 @@
-import { getProjectAbsolutePath } from "../typescript/dev-packages/paths/src";
-import { getAmountOfFolders } from "../typescript/dev-packages/files/src";
+import { getProjectAbsolutePath } from "@packages/paths";
+import { getAmountOfFolders } from "@packages/files";
 
 export const getRepositoryLocalPackagesCount = () => {
   const localPackagePaths = ["packages", "dev-packages"];
@@ -16,6 +16,5 @@ export const getRepositoryLocalPackagesCount = () => {
     return sum + folders;
   }, 0);
 
-  console.log(`Total number of packages: ${count}`);
+  return count;
 };
-

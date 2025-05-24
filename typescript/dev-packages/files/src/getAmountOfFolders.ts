@@ -1,18 +1,13 @@
-import { readdirSync } from "fs";
+import { getFoldersInPath } from "./getFoldersInPath";
 
 type GetAmountOfFoldersArgs = {
   path: string;
 };
 
 export const getAmountOfFolders = ({ path }: GetAmountOfFoldersArgs) => {
-  const files = readdirSync(path, { withFileTypes: true });
+  const folders = getFoldersInPath({ path });
 
-  return files.reduce((sum, current) => {
-    const isFolder = current.isDirectory();
-    if (isFolder) {
-      return sum + 1;
-    }
-
-    return sum;
+  return folders.reduce((sum) => {
+    return sum + 1;
   }, 0);
 };

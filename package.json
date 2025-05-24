@@ -12,8 +12,6 @@
     "view-global-npm-install-packages": "npm ls -g --depth=0 --link=true",
     "repository-statistics": "tsx ./scripts/repositoryStatistics.ts",
     "repository-file-count": "powershell -ExecutionPolicy Bypass -File ./scripts/repositoryFileCount.ps1",
-    "repository-file-count-ts": "tsx ./scripts/getFileCount.ts",
-    "repository-local-packages-count": "tsx ./scripts/getLocalPackageCount.ts",
     "parser": "tsx ./typescript/scripts/parser.ts",
     "slope": "tsx ./typescript/scripts/calculateSlope.ts",
     "lines-intersection": "tsx ./typescript/scripts/calculateLinesIntersection.ts",

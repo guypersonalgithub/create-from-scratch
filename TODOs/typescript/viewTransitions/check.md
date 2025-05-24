@@ -1,0 +1,1 @@
+- Check ViewTransitions once FireFox adds support to them, as an alternative to the React based animation container solution that was made for unmount animations.
