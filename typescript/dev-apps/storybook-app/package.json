@@ -55,7 +55,15 @@
     "@packages/dom-heatmap": "*",
     "@packages/icons": "*",
     "@packages/carousel": "*",
-    "@packages/canvas-tooltip": "*"
+    "@packages/canvas-tooltip": "*",
+    "@packages/drag-and-drop": "*",
+    "@packages/animated-counter": "*",
+    "@packages/timeline": "*",
+    "@packages/timer": "*",
+    "@packages/avatar": "*",
+    "@packages/rating": "*",
+    "@packages/slider": "*",
+    "@packages/shuttle": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

@@ -4,19 +4,11 @@ import { generateSecureRandomString } from "@packages/randomizer";
 type Listener<T> = (value: T) => void;
 type PartialState<T> = Partial<T> | ((state: T) => Partial<T>);
 
-export interface ListenerConfig<T, K extends keyof T, F extends boolean> {
+export interface ListenerConfig<T, K extends keyof T = keyof T, F extends boolean = false> {
   id: string;
   properties?: K[]; // Null or empty array indicates a full state listener
   full: F; // If true, callback receives the entire state `T`, otherwise receives partial state
-  callback: Listener<
-    K extends keyof T
-      ? F extends true
-        ? T
-        : K[] extends [] | undefined
-          ? T
-          : Partial<Pick<T, K>>
-      : T
-  >;
+  callback: Listener<F extends true ? T : K[] extends [] | undefined ? T : Partial<Pick<T, K>>>;
 }
 
 export class Observer<T extends Record<string, unknown>> {
@@ -63,6 +55,8 @@ export class Observer<T extends Record<string, unknown>> {
       });
     }
   };
+
+  // TODO: Add optional support to different callbacks per property update, and make this callback subscription optional.
 
   subscribe = <K extends keyof T, F extends boolean>({
     properties,

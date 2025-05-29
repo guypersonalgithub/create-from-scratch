@@ -1,0 +1,1 @@
+- Consider using the Slider package as a base for the Range package (or maybe even merge between them)

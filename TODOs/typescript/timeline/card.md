@@ -1,0 +1,2 @@
+- Use the Card component in the timeline.
+- Consider taking the current look of the timeline events as a card variation.
