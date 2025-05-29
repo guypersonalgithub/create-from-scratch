@@ -5,3 +5,5 @@ export * from "./hslToHex";
 export * from "./rgbaToHsl";
 export * from "./hslToRgba";
 export * from "./colorInterpolation";
+export * from "./copyComputedStyles";
+export * from "./deepCopyStyles";

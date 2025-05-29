@@ -1,0 +1,2 @@
+- Refactor the RollingCounter component so that it'd work with the animation container.
+- Its currently unfinish and isn't ready for usage, so finish the implementation aswell.

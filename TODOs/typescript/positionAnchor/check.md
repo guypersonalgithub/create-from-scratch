@@ -1,0 +1,1 @@
+- Check position-anchor once it is fully supported, as an alternative to calculating the positioning of a Tooltip relatively to the browser viewport edges.

@@ -39,3 +39,7 @@ export * from "./QuestionCircle";
 export * from "./QuestionFilled";
 export * from "./QuestionSimple";
 export * from "./List";
+export * from "./EmptyStar";
+export * from "./FullStar";
+export * from "./EmptyBell";
+export * from "./FullBell";

@@ -1,0 +1,1 @@
+- Refactor the Slider package, add animation transition support, alongside other capabilities such as two sided slider.

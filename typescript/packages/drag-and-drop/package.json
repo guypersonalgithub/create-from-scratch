@@ -6,6 +6,11 @@
   "scripts": {
     "build": "tsc -b ."
   },
+  "dependencies": {
+    "@packages/css-utils": "*",
+    "@packages/hooks": "*",
+    "@packages/design-patterns": "*"
+  },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

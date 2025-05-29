@@ -1,7 +1,7 @@
 import type { CSSProperties, MouseEvent, ReactNode } from "react";
 import type { BadgeSize, BadgeVariant } from "./types";
 
-type BadgeProps = {
+export type BadgeProps = {
   children: ReactNode;
   variant?: BadgeVariant;
   size?: BadgeSize;

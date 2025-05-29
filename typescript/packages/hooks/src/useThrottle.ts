@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-export const useThrottleCallback = () => {
+export const useThrottle = () => {
   const lastCall = useRef(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

@@ -1,0 +1,1 @@
+- Refactor all code pieces that use shift or unshift unnecessarily. Its inefficient O(n), so there is no real reason to use it when there are more efficient methods. Especially in the math parser.

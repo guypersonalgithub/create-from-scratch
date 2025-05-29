@@ -1,0 +1,25 @@
+.rolling-counter {
+  display: flex;
+  gap: 2px;
+  font-size: 2rem;
+  font-family: monospace;
+}
+
+.digit-container {
+  height: 1em;
+  overflow: hidden;
+  width: 0.6em;
+  position: relative;
+}
+
+.digit-strip {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+}
+
+.digit {
+  height: 1em;
+  line-height: 1em;
+  text-align: center;
+}
