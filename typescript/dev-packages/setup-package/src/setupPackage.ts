@@ -154,4 +154,4 @@ export const setupPackage = async ({
   }
 };
 
-// example: auto-generate --setup-package path=dev-packages/yaml dest=js-to-yaml
+// example: autils-cli --setup-package path=dev-packages/yaml dest=js-to-yaml
