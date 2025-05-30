@@ -16,7 +16,8 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "files.eol": "\n"
 }
 
 // "typescript.preferences.importModuleSpecifier": "non-relative",

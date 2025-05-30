@@ -57,7 +57,7 @@ export const generatePostgresDBTypes = async ({
   } catch (error) {
     console.error(`It seemes like connecting to the postgresql container failed. 
 Please ensure that the appropriate container is up and running, and that the used connection details are correct.
-If the container isn't up, please use the "auto-generate --container ${profile}" command`);
+If the container isn't up, please use the "utils-cli --container ${profile}" command`);
     return [];
   }
 };

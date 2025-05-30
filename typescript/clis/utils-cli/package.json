@@ -1,5 +1,5 @@
 {
-  "name": "custom-clis",
+  "name": "utils-cli",
   "version": "1.0.0",
   "type": "module",
   "description": "",
@@ -22,6 +22,6 @@
     "@packages/setup-package": "*"
   },
   "bin": {
-    "auto-generate": "index.js"
+    "utils-cli": "index.js"
   }
 }

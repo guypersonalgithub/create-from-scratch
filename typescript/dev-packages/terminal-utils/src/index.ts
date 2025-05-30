@@ -7,3 +7,4 @@ export * from "./calculateLogLines";
 export * from "./keyInputs";
 export * from "./terminalAttributes";
 export * from "./utils";
+export * from "./overrideConsoleLog";

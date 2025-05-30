@@ -15,7 +15,9 @@
     "parser": "tsx ./typescript/scripts/parser.ts",
     "slope": "tsx ./typescript/scripts/calculateSlope.ts",
     "lines-intersection": "tsx ./typescript/scripts/calculateLinesIntersection.ts",
-    "read": "tsx ./typescript/scripts/read.ts"
+    "read": "tsx ./typescript/scripts/read.ts",
+    "postinstall": "sh scripts/fixCLIPermissions.ts",
+    "link-clis": "tsx ./scripts/linkClis.ts"
   },
   "devDependencies": {
     "tsx": "^4.7.2"
