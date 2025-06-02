@@ -10,12 +10,15 @@ export type AnimationContainerWrapperProps = {
   children: ReactElement[] | ReactElement;
   clearLifeCycleAnimationOnExitRef: RefObject<(() => void)[]>;
   style?: CSSProperties;
+  styleOnceAnimating?: CSSProperties;
   onMountAnimationStart?: () => void;
   onMountAnimationEnd?: () => void;
   onUnmountAnimationStart?: () => void;
   onUnmountAnimationEnd?: () => void;
   disableLifeCycleAnimations?: boolean;
   externalRef?: RefObject<HTMLDivElement | null>;
+  disableMountAnimationOnInit?: boolean;
+  disabledMountAnimationOnInit: boolean;
 } & (WithMount | WithoutMount) &
   (WithUnmount | WithoutUnmount);
 

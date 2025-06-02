@@ -4,7 +4,7 @@ import { StyledSyntaxHighlighter } from "../../styledComponents";
 import { Textarea } from "@packages/textarea";
 import { convertObjectToYaml } from "@packages/yaml";
 import { useState } from "react";
-import { useGetBreakpoint } from "../../breakpoints";
+import { useBreakpoints } from "../../breakpoints";
 
 export const ConvertToYAML = () => {
   const [text, setText] = useState("{}");
@@ -14,6 +14,7 @@ export const ConvertToYAML = () => {
     skipLog: true,
   });
   const yaml = convertObjectToYaml({ obj: object });
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
 

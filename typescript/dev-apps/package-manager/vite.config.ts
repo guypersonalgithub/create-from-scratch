@@ -23,6 +23,7 @@ export default defineConfig({
       "@packages/button": path.resolve(__dirname, "../../packages/button/src/index.ts"),
       "@packages/checkbox": path.resolve(__dirname, "../../packages/checkbox/src/index.ts"),
       "@packages/date": path.resolve(__dirname, "../../packages/date/src/index.ts"),
+      "@packages/locale": path.resolve(__dirname, "../../packages/locale/src/index.ts"),
       "@packages/fetch-management": path.resolve(
         __dirname,
         "../../packages/fetch-management/src/index.ts",

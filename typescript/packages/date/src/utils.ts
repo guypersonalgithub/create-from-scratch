@@ -1,12 +1,12 @@
-import { SpecificLocales } from "./types";
+import type { Locale } from "@packages/locale";
 
-export const getLocale = () => {
-  return Intl.DateTimeFormat().resolvedOptions().locale;
+export const getLocale = (): Locale => {
+  return Intl.DateTimeFormat().resolvedOptions().locale as Locale;
 };
 
 type GetDateDayArgs = {
   date: string;
-  locale: SpecificLocales;
+  locale: Locale;
 };
 
 export const getDateDay = ({ date, locale }: GetDateDayArgs) => {
@@ -32,7 +32,7 @@ const getDateSplitterChar = ({ dateString }: getDateSplitterCharArgs) => {
 
 type SplitDateArgs = {
   formattedDate: string;
-  locale: SpecificLocales;
+  locale: Locale;
 };
 
 export const splitDate = ({ formattedDate, locale }: SplitDateArgs) => {
@@ -60,7 +60,7 @@ type ConvertPartsToFullDateArgs = {
   day: number | string;
   month: number | string;
   year: number | string;
-  locale: SpecificLocales;
+  locale: Locale;
 };
 
 export const convertPartsToFullDate = ({
@@ -78,7 +78,7 @@ export const convertPartsToFullDate = ({
 
 type ConvertDateToISOArgs = {
   dateString: string;
-  locale?: SpecificLocales;
+  locale?: Locale;
 };
 
 export const convertDateToISO = ({ dateString, locale = getLocale() }: ConvertDateToISOArgs) => {

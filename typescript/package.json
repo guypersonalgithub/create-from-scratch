@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "packagemanager": "npm run --workspace=dev-apps/package-manager dev",
-    "postinstall": "npx utils-cli --docker-compose-dev --dockerfile --vite-aliases --package-lock --generate-github-action-yaml",
+    "postinstall": "utils-cli --docker-compose-dev --dockerfile --vite-aliases --package-lock --generate-github-action-yaml",
     "workspace": "tsx ./scripts/runWorkspace.ts",
     "dependensee": "tsx ./scripts/runDependensee.ts",
     "view-global-npm-installs": "npm ls -g --depth=0",

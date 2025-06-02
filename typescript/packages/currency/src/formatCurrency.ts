@@ -1,6 +1,8 @@
+import type { Locale } from "@packages/locale";
+
 type FormatCurrencyArgs = {
   value: number;
-  locale?: string;
+  locale?: Locale;
   currency?: string;
 };
 

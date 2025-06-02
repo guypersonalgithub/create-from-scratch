@@ -11,7 +11,7 @@ type InitializeMediaBreakpointsArgs<T extends Record<string, Breakpoint>> = {
   breakpoints: T;
 };
 
-type UseGetBreakpointArgs<T extends Record<string, Breakpoint>, G extends keyof T> = {
+export type UseGetBreakpointArgs<T extends Record<string, Breakpoint>, G extends keyof T> = {
   updateOn: G[];
 } & IncludeMismatchAbove<T, G> &
   IncludeMismatchBelow<T, G>;

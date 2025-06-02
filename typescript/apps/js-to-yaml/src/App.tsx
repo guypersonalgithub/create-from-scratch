@@ -9,40 +9,41 @@ import { Examples } from "./routes/Examples";
 import { Playground } from "./routes/playground/Playground";
 import { Documentation } from "./routes/documentation/Documentation";
 import { ModalManager } from "@packages/modal";
-import { useInitializeBreakpoints } from "./breakpoints";
 import { MobileFooter } from "./components/HeaderLinks";
 import { Header } from "./components/Header";
 import { PopoverManager } from "@packages/popover";
+import { BreakpointsProvider } from "@packages/breakpoints";
+import { breakpoints } from "./breakpoints";
 
-function App() {
-  useInitializeBreakpoints();
-
+const App = () => {
   return (
-    <UIThemeProvider
-      themes={customThemes}
-      style={{
-        transition:
-          "color 0.5s ease, background-color 0.5s ease, border 0.5s ease, opacity 0.5s ease",
-      }}
-    >
-      <Layout>
-        <Header />
-        <Router
-          paths={{
-            "/": <Main />,
-            "/documentation!": <Documentation />,
-            "/examples": <Examples />,
-            "/playground!": <Playground />,
-            "404": <NotFound />,
-          }}
-        />
-        <MobileFooter />
-      </Layout>
-      <TooltipManager />
-      <ModalManager />
-      <PopoverManager />
-    </UIThemeProvider>
+    <BreakpointsProvider breakpoints={breakpoints}>
+      <UIThemeProvider
+        themes={customThemes}
+        style={{
+          transition:
+            "color 0.5s ease, background-color 0.5s ease, border 0.5s ease, opacity 0.5s ease",
+        }}
+      >
+        <Layout>
+          <Header />
+          <Router
+            paths={{
+              "/": <Main />,
+              "/documentation!": <Documentation />,
+              "/examples": <Examples />,
+              "/playground!": <Playground />,
+              "404": <NotFound />,
+            }}
+          />
+          <MobileFooter />
+        </Layout>
+        <TooltipManager />
+        <ModalManager />
+        <PopoverManager />
+      </UIThemeProvider>
+    </BreakpointsProvider>
   );
-}
+};
 
 export default App;

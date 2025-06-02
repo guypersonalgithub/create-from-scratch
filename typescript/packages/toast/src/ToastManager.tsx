@@ -90,6 +90,7 @@ export const ToastManager = ({
         transform: "translateX(-50%)",
       }}
       changeMethod="gradual"
+      disableMountAnimationOnInit={false}
     >
       {toasts.map(({ id, content }, index) => {
         return (

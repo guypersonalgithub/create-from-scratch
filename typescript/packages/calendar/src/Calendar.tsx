@@ -2,7 +2,7 @@ import {
   convertDateToISO,
   formatDateByLocale,
   getLocale,
-  SpecificLocales,
+  Locale,
   splitDate,
 } from "@packages/date";
 import { ArrowRight, ArrowLeft } from "@packages/icons";
@@ -14,7 +14,7 @@ import { CalendarFormat, Days } from "./types";
 
 type CalendarProps = {
   startDate?: string;
-  locale?: SpecificLocales;
+  locale?: Locale;
   containerStyle?: CSSProperties;
   calendarStyle?: CSSProperties;
   format: CalendarFormat;
@@ -45,7 +45,7 @@ export const Calendar = ({
   const [selectedDate, setSelectedDate] = useState<string[]>(
     format === "range" ? [formattedDate, formattedDate] : [formattedDate],
   );
-  const insertedDateIndex = useRef<number>();
+  const insertedDateIndex = useRef<number>(undefined);
 
   const displayedCalendarMonthsArray = Array.from({ length: amountOfMonths });
 

@@ -112,6 +112,7 @@ export const PopoverManager = ({
               unmountOptions={unmountOptions}
               style={{ position: "absolute", top: 0, zIndex: 10000 }}
               changeMethod="fullPhase"
+              disableMountAnimationOnInit={false}
             >
               <div key={id}>
                 <div

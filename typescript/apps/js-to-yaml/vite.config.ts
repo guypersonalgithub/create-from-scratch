@@ -59,6 +59,7 @@ export default defineConfig({
       "@packages/sidebar": path.resolve(__dirname, "../../packages/sidebar/src/index.ts"),
       "@packages/collapsible": path.resolve(__dirname, "../../packages/collapsible/src/index.ts"),
       "@packages/date": path.resolve(__dirname, "../../packages/date/src/index.ts"),
+      "@packages/locale": path.resolve(__dirname, "../../packages/locale/src/index.ts"),
       "@packages/modal": path.resolve(__dirname, "../../packages/modal/src/index.ts"),
       "@packages/badge": path.resolve(__dirname, "../../packages/badge/src/index.ts"),
       "@packages/input": path.resolve(__dirname, "../../packages/input/src/index.ts"),

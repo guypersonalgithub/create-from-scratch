@@ -11,7 +11,9 @@
   "license": "ISC",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
-  "files": [],
+  "dependencies": {
+    "@packages/high-precision-timing": "*"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./loadTestsFromDir": {

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { StyledCard } from "./StyledCard";
-import { useGetBreakpoint } from "../breakpoints";
+import { useBreakpoints } from "../breakpoints";
 
 type DisplayCardProps = {
   icon: ReactNode;
@@ -9,6 +9,7 @@ type DisplayCardProps = {
 };
 
 export const DisplayCard = ({ icon, title, content }: DisplayCardProps) => {
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({ updateOn: ["smallDesktop", "tablet"] });
   const isTablet = breakpoint === "tablet";
 

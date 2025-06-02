@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc -b ."
   },
+  "dependencies": {
+    "@packages/locale": "*"
+  },
   "author": "",
   "license": "ISC",
   "main": "./src/index.ts",

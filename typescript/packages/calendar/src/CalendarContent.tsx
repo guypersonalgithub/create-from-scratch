@@ -1,4 +1,4 @@
-import { SpecificLocales } from "@packages/date";
+import { Locale } from "@packages/date";
 import { arrangeDays, setupCurrentMonthDays } from "./utils";
 import { CalendarFormat, Days } from "./types";
 import { CalendarContentBody } from "./CalendarContentBody";
@@ -8,7 +8,7 @@ type CalendarContentProps = {
   days: number;
   month: number;
   year: number;
-  locale: SpecificLocales;
+  locale: Locale;
   setSelectedDate: (fullDay: string) => void;
   monthStartOnDay: Days;
   setMonth: (month: number) => void;

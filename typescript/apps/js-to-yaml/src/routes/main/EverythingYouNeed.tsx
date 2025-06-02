@@ -1,9 +1,9 @@
-import { useGetBreakpoint } from "../../breakpoints";
+import { useBreakpoints } from "../../breakpoints";
 import { DisplayCard } from "../../styledComponents";
 import { Bidirectional, Download, Thunder } from "@packages/icons";
 
-
 export const EverythingYouNeed = () => {
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "mediumDesktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
   const isntMediumDesktop = breakpoint !== "mediumDesktop";

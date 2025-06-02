@@ -99,6 +99,7 @@ export const TooltipManager = ({
               unmountOptions={unmountOptions}
               style={{ zIndex: 1000, position: "fixed" }}
               changeMethod="fullPhase"
+              disableMountAnimationOnInit={false}
             >
               <TooltipBody
                 key={id}
