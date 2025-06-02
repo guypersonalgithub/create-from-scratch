@@ -1,4 +1,4 @@
-import { convertDateToISO, SpecificLocales } from "@packages/date";
+import { convertDateToISO, Locale } from "@packages/date";
 import { CalendarCell } from "./CalendarCell";
 import { FillerCell } from "./FillerCell";
 import { CalendarFormat, FormattedDay } from "./types";
@@ -12,7 +12,7 @@ type CalendarContentBodyProps = {
   format: CalendarFormat;
   from?: string;
   to?: string;
-  locale: SpecificLocales;
+  locale: Locale;
 };
 
 export const CalendarContentBody = ({

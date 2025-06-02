@@ -50,8 +50,9 @@ export const MobileGroupedSidebar = ({
           top: "100%",
           height: "100vh",
           pointerEvents: "none",
-          transform: "translateX(-100%)",
         }}
+        styleOnceAnimating={{ transform: "translateX(-100%)" }}
+        disableMountAnimationOnInit={false}
       >
         {isOpen ? (
           <div key="opened" style={style}>

@@ -4,7 +4,7 @@ import { hexToRgba } from "@packages/css-utils";
 import { usePath } from "@packages/router";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
-import { useGetBreakpoint } from "../breakpoints";
+import { useBreakpoints } from "../breakpoints";
 import { HeaderLogo } from "../styledComponents";
 import { PageSearchModal } from "../styledComponents/PageSearchModal";
 import { HeaderLinks } from "./HeaderLinks";
@@ -18,6 +18,7 @@ export const Header = () => {
   const isLight = currentTheme === "light";
   const rgbaBg = hexToRgba({ hex: theme.background, opacity: 0.8 });
   const borderBottomColor = isLight ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)";
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["mediumDesktop"],
     includeMismatchBelow: true,

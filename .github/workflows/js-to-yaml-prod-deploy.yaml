@@ -39,6 +39,7 @@ on:
       - typescript/packages/sidebar/**
       - typescript/packages/collapsible/**
       - typescript/packages/date/**
+      - typescript/packages/locale/**
       - typescript/packages/modal/**
       - typescript/packages/badge/**
       - typescript/packages/input/**
@@ -107,6 +108,7 @@ jobs:
           cp -r ./packages/sidebar ./full-application/packages
           cp -r ./packages/collapsible ./full-application/packages
           cp -r ./packages/date ./full-application/packages
+          cp -r ./packages/locale ./full-application/packages
           cp -r ./packages/modal ./full-application/packages
           cp -r ./packages/badge ./full-application/packages
           cp -r ./packages/input ./full-application/packages

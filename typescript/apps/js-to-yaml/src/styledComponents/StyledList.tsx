@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useGetBreakpoint } from "../breakpoints";
+import { useBreakpoints } from "../breakpoints";
 import { useUITheme } from "../UIThemes";
 
 type StyledListProps = {
@@ -12,6 +12,7 @@ type StyledListProps = {
 };
 
 export const StyledList = ({ list }: StyledListProps) => {
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
   const { currentTheme } = useUITheme();

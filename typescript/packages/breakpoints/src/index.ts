@@ -1,2 +1,2 @@
 export { getBreakpoint, initializeBreakpoints } from "./resize";
-export { initializeMediaBreakpoints } from "./viewMedia";
+export { initializeMediaBreakpoints, BreakpointsProvider, getBreakpoints } from "./viewMedia";

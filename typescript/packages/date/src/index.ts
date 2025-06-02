@@ -1,5 +1,4 @@
 export * from "./formatDateByLocale";
-export type { SpecificLocales } from "./types";
 export {
   getLocale,
   getDateDay,
@@ -8,3 +7,4 @@ export {
   convertDateToISO,
 } from "./utils";
 export { getCurrentYear } from "./getCurrentYear";
+export type { Locale } from "@packages/locale";

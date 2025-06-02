@@ -5,12 +5,14 @@ import { QuickStart } from "./QuickStart";
 import { RightSidebar } from "./RightSidebar";
 import { ConvertToYaml } from "./ConvertToYaml";
 import { ConvertToJavascript } from "./ConvertToJavascript";
-import { useGetBreakpoint } from "../../breakpoints";
+import { useBreakpoints } from "../../breakpoints";
 
 export const Documentation = () => {
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["mediumDesktop"],
     includeMismatchBelow: true,
+    defaultAboveBreakpoint: "mediumDesktop",
   });
   const isDesktop = breakpoint === "mediumDesktop";
 

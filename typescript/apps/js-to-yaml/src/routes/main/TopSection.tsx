@@ -1,11 +1,13 @@
-import { useGetBreakpoint } from "../../breakpoints";
+import { useBreakpoints } from "../../breakpoints";
 import { MainLogo } from "../../styledComponents";
 import { MainAd } from "./MainAd";
 
 export const TopSection = () => {
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["smallDesktop"],
     includeMismatchBelow: true,
+    defaultAboveBreakpoint: "smallDesktop",
   });
   const isDesktop = breakpoint === "smallDesktop";
 

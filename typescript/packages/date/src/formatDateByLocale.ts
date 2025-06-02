@@ -1,9 +1,9 @@
-import { SpecificLocales } from "./types";
+import type { Locale } from "@packages/locale";
 import { getLocale } from "./utils";
 
 type FormatDateByLocaleArgs = {
   dateString: string;
-  locale?: SpecificLocales;
+  locale?: Locale;
   timeZone?: string;
   year?: "numeric" | "2-digit";
   month?: "numeric" | "2-digit" | "long" | "short" | "narrow";

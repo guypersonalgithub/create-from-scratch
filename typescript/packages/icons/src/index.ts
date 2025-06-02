@@ -43,3 +43,5 @@ export * from "./EmptyStar";
 export * from "./FullStar";
 export * from "./EmptyBell";
 export * from "./FullBell";
+export * from "./Copy";
+export * from "./SimpleCheck";

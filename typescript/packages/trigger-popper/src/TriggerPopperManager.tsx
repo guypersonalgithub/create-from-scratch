@@ -78,6 +78,7 @@ export const TriggerPopperManager = () => {
               mountOptions={mountOptions}
               unmountOptions={unmountOptions}
               changeMethod="fullPhase"
+              disableMountAnimationOnInit={false}
             >
               <div key={id}>{content}</div>
             </AnimationContainerWrapper>

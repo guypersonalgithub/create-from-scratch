@@ -1,8 +1,8 @@
 import { AnimationContainerWrapper } from "@packages/animation-container";
-import { StyledSyntaxHighlighter } from "../../styledComponents";
+import { StyledCard, StyledSyntaxHighlighter } from "../../styledComponents";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { observeElementVisibility } from "@packages/utils";
-import { useGetBreakpoint } from "../../breakpoints";
+import { useBreakpoints } from "../../breakpoints";
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
 
 export const MainAd = () => {
@@ -10,6 +10,7 @@ export const MainAd = () => {
   const [stage, setStage] = useState(1);
   const timeout = useRef<NodeJS.Timeout>(null);
   const [disableLifecycleAnimation, setDisableLifecycleAnimation] = useState(false);
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
 
@@ -69,9 +70,13 @@ export const MainAd = () => {
     if (stage === 2) {
       return {
         element: (
-          <StyledSyntaxHighlighter
-            pacing={100}
-            code={`name: Tests
+          <StyledCard style={{ marginBottom: 0, padding: 0 }}>
+            <StyledSyntaxHighlighter
+              style={{
+                border: "1px solid var(--theme-border)",
+              }}
+              pacing={100}
+              code={`name: Tests
 on:
   pull_request:
     branches:
@@ -94,9 +99,10 @@ jobs:
         run: npm i
       - name: Run tests
         run: npm run test`}
-            animatedWriting
-            withCursor
-          />
+              animatedWriting
+              withCursor
+            />
+          </StyledCard>
         ),
         delay: 5000,
       };
@@ -115,8 +121,9 @@ jobs:
 
     return {
       element: (
-        <StyledSyntaxHighlighter
-          code={`import { convertObjectToYaml } from "js-to-yaml";
+        <StyledCard style={{ marginBottom: 0, padding: "2px" }}>
+          <StyledSyntaxHighlighter
+            code={`import { convertObjectToYaml } from "js-to-yaml";
 import { writeFileSync } from "fs";
 
 const testsConfig = {
@@ -147,17 +154,18 @@ const testsConfig = {
 const output = convertObjectToYaml({ obj: testsConfig });
 writeFileSync("./tests.yaml", output);
 `}
-          highlightCode
-          copyToClipboard={false}
-          customizeColors={() => {
-            return {
-              cellTypeRebranding: {
-                4: TypescriptTokenTypes.FUNCTION_NAME,
-                17: TypescriptTokenTypes.FUNCTION_NAME,
-              },
-            };
-          }}
-        />
+            highlightCode
+            copyToClipboard={false}
+            customizeColors={() => {
+              return {
+                cellTypeRebranding: {
+                  4: TypescriptTokenTypes.FUNCTION_NAME,
+                  17: TypescriptTokenTypes.FUNCTION_NAME,
+                },
+              };
+            }}
+          />
+        </StyledCard>
       ),
       delay: 5000,
     };
@@ -180,7 +188,7 @@ writeFileSync("./tests.yaml", output);
         width: isDesktop ? "500px" : "90vw",
         overflow: "hidden",
         textAlign: "left",
-        height: "650px",
+        height: "700px",
         display: "flex",
         alignItems: "center",
       }}
@@ -215,6 +223,7 @@ writeFileSync("./tests.yaml", output);
             });
           }, delay);
         }}
+        disableMountAnimationOnInit={false}
       >
         <Fragment key={stage}>{element}</Fragment>
       </AnimationContainerWrapper>

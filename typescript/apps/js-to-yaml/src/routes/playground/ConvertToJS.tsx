@@ -6,12 +6,13 @@ import { StyledSyntaxHighlighter } from "../../styledComponents";
 import { Textarea } from "@packages/textarea";
 import { convertYamlToObject } from "@packages/yaml";
 import { useState } from "react";
-import { useGetBreakpoint } from "../../breakpoints";
+import { useBreakpoints } from "../../breakpoints";
 
 export const ConvertToJS = () => {
   const [text, setText] = useState("");
   const js = convertYamlToObject({ str: text });
   const convertedObject = convertObjectToString({ obj: js });
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
 

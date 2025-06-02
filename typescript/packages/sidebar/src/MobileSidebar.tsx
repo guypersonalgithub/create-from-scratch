@@ -35,12 +35,15 @@ export const MobileSidebar = ({
 }: MobileSidebarProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const completeLinkClick = ({ pathname, queryParams }: Pick<SidebarLink, "pathname" | "queryParams">) => {
+  const completeLinkClick = ({
+    pathname,
+    queryParams,
+  }: Pick<SidebarLink, "pathname" | "queryParams">) => {
     onLinkClick({ pathname, queryParams });
     if (closeOnLinkClick) {
       setIsOpen(false);
     }
-  }
+  };
 
   return (
     <>
@@ -60,8 +63,9 @@ export const MobileSidebar = ({
           top: "100%",
           height: "100vh",
           pointerEvents: "none",
-          transform: "translateX(-100%)"
         }}
+        styleOnceAnimating={{ transform: "translateX(-100%)" }}
+        disableMountAnimationOnInit={false}
       >
         {isOpen ? (
           <div key="opened" style={containerStyle}>

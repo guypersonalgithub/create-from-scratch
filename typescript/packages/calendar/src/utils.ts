@@ -2,7 +2,7 @@ import {
   convertDateToISO,
   convertPartsToFullDate,
   getDateDay,
-  SpecificLocales,
+  Locale,
 } from "@packages/date";
 import { Days, FormattedDay } from "./types";
 import { days, monthDetails } from "./constants";
@@ -22,7 +22,7 @@ export const arrangeDays = ({ monthStartOnDay }: ArrangeDaysArgs) => {
 type SetupCurrentMonthDaysArgs = {
   month: number;
   year: number;
-  locale: SpecificLocales;
+  locale: Locale;
   lastDay: number;
   startDayIndex: number;
   displayOtherMonthsDays: boolean;
@@ -104,7 +104,7 @@ type IsCellDisabledArgs = {
   fullDate: string;
   fromDateTime?: number;
   toDateTime?: number;
-  locale: SpecificLocales;
+  locale: Locale;
 };
 
 export const isCellDisabled = ({

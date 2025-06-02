@@ -24,8 +24,10 @@ export const AnimationWrapper = ({
   onUnmountAnimationEnd,
   clearLifeCycleAnimationOnExitRef,
   style = {},
+  styleOnceAnimating = {},
   disableLifeCycleAnimations,
   externalRef,
+  disabledMountAnimationOnInit,
 }: AnimationWrapperProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
   const [removeState, setRemove] = useState(!show);
@@ -48,7 +50,8 @@ export const AnimationWrapper = ({
     if (
       disableLifeCycleAnimations ||
       (show && noOnmountFrames) ||
-      (!show && noOnmountFrames && (!onUnmount || onUnmount.length === 0))
+      (!show && noOnmountFrames && (!onUnmount || onUnmount.length === 0)) ||
+      disabledMountAnimationOnInit
     ) {
       return;
     }
@@ -158,7 +161,11 @@ export const AnimationWrapper = ({
           externalRef.current = ref;
         }
       }}
-      style={{ ...style, ...lastFrameProperties.current }}
+      style={{
+        ...style,
+        ...(!disabledMountAnimationOnInit ? styleOnceAnimating : {}),
+        ...lastFrameProperties.current,
+      }}
     >
       {children}
     </div>

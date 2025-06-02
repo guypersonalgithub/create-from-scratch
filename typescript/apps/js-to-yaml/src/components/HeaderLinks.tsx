@@ -1,7 +1,7 @@
 import { usePathState } from "@packages/router";
 import { StyledLink } from "../styledComponents/StyledLink";
 import { CSSProperties } from "react";
-import { useGetBreakpoint } from "../breakpoints";
+import { useBreakpoints } from "../breakpoints";
 import { useUITheme } from "../UIThemes";
 import { hexToRgba } from "@packages/css-utils";
 
@@ -54,9 +54,11 @@ export const MobileFooter = () => {
   const isLight = currentTheme === "light";
   const rgbaBg = hexToRgba({ hex: theme.background, opacity: 0.8 });
   const borderBottomColor = isLight ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)";
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["mediumDesktop"],
     includeMismatchBelow: true,
+    defaultAboveBreakpoint: "mediumDesktop",
   });
   const isDesktop = breakpoint === "mediumDesktop";
 
@@ -88,9 +90,11 @@ export const MobileFooter = () => {
 };
 
 const MobileFooterLinks = () => {
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["mobile"],
     includeMismatchAbove: true,
+    defaultBelowBreakpoint: "mobile",
   });
   const isTablet = breakpoint === "mobile";
 

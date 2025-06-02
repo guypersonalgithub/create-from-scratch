@@ -1,13 +1,17 @@
 import { CSSProperties, ReactNode } from "react";
 
-export type AnimationlessCarouselProps = {
+export type CarouselProps = {
   style?: CSSProperties;
   items: ReactNode[];
+} & Displays &
+  Transition;
+
+export type Displays = {
   displayArrows?: boolean;
   displayIndicators?: boolean;
-} & Transition;
+};
 
-type Transition =
+export type Transition =
   | {
       automaticTransition?: true;
       stopTransitionWhenOutOfView?: boolean;

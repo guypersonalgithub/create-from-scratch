@@ -1,4 +1,4 @@
-import { useGetBreakpoint } from "../../breakpoints";
+import { useBreakpoints } from "../../breakpoints";
 import { EverythingYouNeed } from "./EverythingYouNeed";
 import { GetStarted } from "./GetStarted";
 import { TopSection } from "./TopSection";
@@ -6,6 +6,7 @@ import { Convert } from "./Convert";
 import { CoreFeatures } from "./CoreFeatures";
 
 export const Main = () => {
+  const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
   const isDesktop = breakpoint === "desktop";
 
