@@ -1,8 +1,9 @@
 import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { getComptuedStyleProperties } from "@packages/utils";
 import { Animated } from "./types";
-import { TopRightSection } from "./TopRightSection";
 import { SupportedLanguages } from "./languages";
+import { ModernContentDesign, Variant } from "./ModernContentDesign";
+import { SimpleContentDesign } from "./SimpleContentDesign";
 
 type AnimatedCodeProps = {
   code: string;
@@ -10,6 +11,8 @@ type AnimatedCodeProps = {
   copyToClipboard?: boolean;
   language?: SupportedLanguages;
   displayLanguage?: boolean;
+  modernVersion?: boolean;
+  variant?: Variant;
 } & Animated;
 
 export const AnimatedCode = ({
@@ -20,6 +23,8 @@ export const AnimatedCode = ({
   copyToClipboard,
   language,
   displayLanguage,
+  modernVersion = true,
+  variant,
 }: AnimatedCodeProps) => {
   const amountOfLines = useRef<number>(1);
   const [displayedCode, setDisplayedCode] = useState("");
@@ -89,24 +94,34 @@ export const AnimatedCode = ({
     };
   }, [code, pacing]);
 
-  return (
-    <pre
-      ref={ref}
-      className="syntaxHighlighter"
-      style={
-        style?.height
-          ? style
-          : { ...style, height: potentialHeight > 0 ? `${potentialHeight}px` : undefined }
-      }
-    >
-      <TopRightSection
-        code={code}
+  if (modernVersion) {
+    return (
+      <ModernContentDesign
+        style={style}
+        contentStyle={{
+          height: potentialHeight > 0 ? `${potentialHeight}px` : undefined,
+        }}
+        code={displayedCode}
+        highlighted={[]}
+        language={"typescript"}
         copyToClipboard={copyToClipboard}
-        language={language}
         displayLanguage={displayLanguage}
+        addLineCounter={false}
+        variant={variant}
+        ref={ref}
       />
-      {displayedCode}
-      {withCursor ? <span className="terminalCursor">|</span> : null}
-    </pre>
+    );
+  }
+
+  return (
+    <SimpleContentDesign
+      style={style}
+      code={displayedCode}
+      highlighted={[]}
+      language={"typescript"}
+      copyToClipboard={copyToClipboard}
+      displayLanguage={displayLanguage}
+      addLineCounter={false}
+    />
   );
 };

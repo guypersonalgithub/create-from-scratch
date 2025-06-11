@@ -1,11 +1,4 @@
-import {
-  CSSProperties,
-  InputHTMLAttributes,
-  ReactNode,
-  RefObject,
-  useEffect,
-  useState,
-} from "react";
+import { CSSProperties, InputHTMLAttributes, ReactNode, useEffect, useState, Ref } from "react";
 import { Spinner } from "@packages/loading";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -19,7 +12,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   customPrefix?: ReactNode;
   customSuffix?: ReactNode;
   wrapperStyle?: CSSProperties;
-  externalRef?: RefObject<HTMLInputElement | null>;
+  externalRef?: Ref<HTMLInputElement>;
 };
 
 export const Input = ({

@@ -30,6 +30,7 @@
     "@packages/breadcrumbs": "*",
     "@packages/hooks": "*",
     "@packages/utils": "*",
+    "@packages/binary": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

@@ -7,6 +7,7 @@ import {
   CSS as CSSIcon,
   Linux as LinuxIcon,
   SecuredScreen,
+  Binary as BinaryIcon,
 } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
@@ -20,9 +21,10 @@ import { customThemes } from "./UIThemes";
 import { Test } from "./Test";
 import { Containers } from "./routes/containers/Containers";
 import { CSS } from "./routes/css/CSS";
-import { Linux } from "./routes/Linux/Linux";
+import { Linux } from "./routes/linux/Linux";
 import { Test2 } from "./Test2";
 import { Security } from "./routes/security/Security";
+import { Binary } from "./routes/binary/Binary";
 
 const searchableRoutes = [
   {
@@ -149,6 +151,7 @@ const App = () => {
               "/css!": <CSS />,
               "/linux!": <Linux />,
               "/security!": <Security />,
+              "/binary!": <Binary />,
               "/test": <Test />,
               "/test2": <Test2 />,
             }}
@@ -175,6 +178,7 @@ const SidebarWrapper = () => {
         { icon: <CSSIcon />, label: "CSS", pathname: "/css" },
         { icon: <LinuxIcon />, label: "Linux", pathname: "/linux" },
         { icon: <SecuredScreen />, label: "Security", pathname: "/security" },
+        { icon: <BinaryIcon />, label: "Binary", pathname: "/binary" },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}

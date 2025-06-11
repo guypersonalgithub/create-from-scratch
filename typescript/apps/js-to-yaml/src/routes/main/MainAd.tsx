@@ -101,6 +101,7 @@ jobs:
         run: npm run test`}
               animatedWriting
               withCursor
+              copyToClipboard={false}
             />
           </StyledCard>
         ),
@@ -188,7 +189,7 @@ writeFileSync("./tests.yaml", output);
         width: isDesktop ? "500px" : "90vw",
         overflow: "hidden",
         textAlign: "left",
-        height: "700px",
+        height: "770px",
         display: "flex",
         alignItems: "center",
       }}

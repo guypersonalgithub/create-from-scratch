@@ -90,7 +90,7 @@ export const SearchModal = ({
     return () => {
       window.removeEventListener("keydown", openPageSearchModal);
     };
-  }, []);
+  }, [isDesktop]);
 
   if (!isDesktop) {
     return (

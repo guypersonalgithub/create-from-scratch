@@ -1,1 +1,0 @@
-- style was split into style and disabledMountAnimationOnInit, fix all places that relied entirely on style.

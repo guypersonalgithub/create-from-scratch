@@ -9,7 +9,7 @@ import { detectChangedDependencies } from "@packages/git";
 import { Flag, parseFlagArguments } from "@packages/utils";
 import { generatePackageLock } from "@packages/package-lock";
 import { generateGithubActionYaml } from "@packages/github-actions";
-import { detectCircularDependencies } from "@packages/packages";
+import { detectCircularDependencies, detectUndevelopedLocalPackages } from "@packages/packages";
 import { setupPackage } from "@packages/setup-package";
 
 type CliOptionsArgs = {
@@ -93,6 +93,10 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
         bumpMinor: !!bumpMinor,
         bumpPatch: !!bumpPatch,
       });
+      break;
+    }
+    case SupportedCommands.DETECT_UNDEVELOPED_PACKAGES: {
+      detectUndevelopedLocalPackages({});
       break;
     }
     default: {

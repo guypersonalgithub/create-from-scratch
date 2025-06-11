@@ -4,6 +4,7 @@ import { Animated, GenericBaseToken, TokenMaps } from "./types";
 import { SupportedLanguages } from "./languages";
 import { AnimatedCode } from "./AnimatedCode";
 import { ColorizedSyntaxHighlighter } from "./ColorizedSyntaxHighlighter";
+import { Variant } from "./ModernContentDesign";
 
 export type StandardSyntaxHighlighterProps = {
   code: string;
@@ -28,6 +29,16 @@ export type HighlightedCode<T extends SupportedLanguages = "typescript"> = {
   };
   addLineCounter?: boolean;
   withWebWorker?: boolean;
+} & (ModernVersion | SimpleVersion);
+
+type ModernVersion = {
+  modernVersion?: boolean;
+  variant?: Variant;
+};
+
+type SimpleVersion = {
+  modernVersion?: never;
+  variant?: never;
 };
 
 type UnhighlightedCode = {
@@ -35,6 +46,8 @@ type UnhighlightedCode = {
   customizeColors?: never;
   addLineCounter?: never;
   withWebWorker?: never;
+  modernVersion?: never;
+  variant?: never;
 };
 
 export const SyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
@@ -50,6 +63,8 @@ export const SyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   addLineCounter = true,
   displayLanguage,
   withWebWorker,
+  modernVersion,
+  variant,
 }: SyntaxHighlighterProps<T>) => {
   if (animatedWriting) {
     return (
@@ -61,6 +76,8 @@ export const SyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
         copyToClipboard={copyToClipboard}
         language={language}
         displayLanguage={displayLanguage}
+        modernVersion={modernVersion}
+        variant={variant}
       />
     );
   }
@@ -76,6 +93,8 @@ export const SyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
         addLineCounter={addLineCounter}
         displayLanguage={displayLanguage}
         withWebWorker={withWebWorker}
+        modernVersion={modernVersion}
+        variant={variant}
       />
     );
   }
