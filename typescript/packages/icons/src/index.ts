@@ -45,3 +45,6 @@ export * from "./EmptyBell";
 export * from "./FullBell";
 export * from "./Copy";
 export * from "./SimpleCheck";
+export * from "./Binary";
+export * from "./OffLightbulb";
+export * from "./OnLightbulb";

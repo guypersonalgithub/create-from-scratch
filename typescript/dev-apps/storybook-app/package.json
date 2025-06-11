@@ -63,7 +63,9 @@
     "@packages/avatar": "*",
     "@packages/rating": "*",
     "@packages/slider": "*",
-    "@packages/shuttle": "*"
+    "@packages/shuttle": "*",
+    "@packages/rolling-counter": "*",
+    "@packages/otp-input": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

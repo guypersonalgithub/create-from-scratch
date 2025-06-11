@@ -1,6 +1,6 @@
 import { Button } from "@packages/button";
 import { useCopyToClipboard } from "./useCopyToClipboard";
-import { ClipboardDocumentCheck, ClipboardDocument } from "@packages/icons";
+import { Copy, SimpleCheck } from "@packages/icons";
 import { CSSProperties } from "react";
 
 type CopyToClipboardProps = {
@@ -13,12 +13,14 @@ type CopyToClipboardProps = {
 export const CopyToClipboard = ({ style, textToCopy, delay, withIcons }: CopyToClipboardProps) => {
   const { copied, copyToClipboard } = useCopyToClipboard({ textToCopy, delay });
   const copyContent = withIcons ? (
-    <ClipboardDocument style={{ width: "24px", height: "24px" }} />
+    // <ClipboardDocument style={{ width: "24px", height: "24px" }} />
+    <Copy style={{ width: "16px", height: "16px" }} />
   ) : (
     "Copy"
   );
   const copiedContent = withIcons ? (
-    <ClipboardDocumentCheck style={{ width: "24px", height: "24px" }} />
+    // <ClipboardDocumentCheck style={{ width: "24px", height: "24px" }} />
+    <SimpleCheck style={{ width: "16px", height: "16px" }} />
   ) : (
     "Copied"
   );

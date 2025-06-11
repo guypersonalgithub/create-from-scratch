@@ -1,9 +1,10 @@
-import { ArrowRight, TagPage } from "@packages/icons";
+// import { ArrowRight, TagPage } from "@packages/icons";
 import { convertObjectToString } from "@packages/object-utils";
 import { SyntaxHighlighterProps } from "@packages/syntax-highlighter";
 import { StyledSyntaxHighlighter } from "./StyledSyntaxHighlighter";
 import { convertObjectToYaml, convertYamlToObject } from "@packages/yaml";
 import { useEffect, useRef, useState } from "react";
+import "./InputOutput.css";
 
 type ConvertTypescriptToYamlArgs = {
   code: Record<string, unknown>;
@@ -103,7 +104,7 @@ const InputOutputInternal = ({
 
   return (
     <div ref={containerRef} style={{ padding: "8px" }}>
-      <div
+      {/* <div
         style={{
           display: "flex",
           alignItems: "center",
@@ -131,16 +132,35 @@ const InputOutputInternal = ({
           <TagPage size={20} />
           <span style={{ fontWeight: "bold", fontSize: "14px" }}>{outputLabel}</span>
         </div>
-      </div>
-      <div style={{ display: "flex", gap: "10px", flexDirection: isNarrow ? "column" : "row" }}>
-        <StyledSyntaxHighlighter {...props} highlightCode code={input} style={{ flex: 1 }} />
-        <StyledSyntaxHighlighter
-          {...props}
-          highlightCode
-          code={output}
-          style={{ flex: 1 }}
-          language={outputLanguage}
-        />
+      </div> */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: isNarrow ? "column" : "row",
+          gap: 0,
+          position: "relative",
+        }}
+      >
+        <div
+          className={isNarrow ? "divider-line-bottom" : "divider-line-right"}
+          style={{ flex: 1, overflow: "hidden" }}
+        >
+          <StyledSyntaxHighlighter
+            {...props}
+            highlightCode
+            code={input}
+            variant={props.language === "typescript" ? "dark" : "green"}
+          />
+        </div>
+        <div style={{ flex: 1, overflow: "hidden" }}>
+          <StyledSyntaxHighlighter
+            {...props}
+            highlightCode
+            code={output}
+            language={outputLanguage}
+            variant={outputLanguage === "typescript" ? "dark" : "green"}
+          />
+        </div>
       </div>
     </div>
   );

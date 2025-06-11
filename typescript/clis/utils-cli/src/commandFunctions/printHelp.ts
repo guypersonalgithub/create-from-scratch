@@ -32,6 +32,8 @@ export const printHelp = () => {
     [SupportedCommands.DETECT_CIRCULAR_DEPENDENCIES]:
       "Detects circular dependencies for local packages",
     [SupportedCommands.SETUP_PACKAGE]: "Setups packages for NPM publishments",
+    [SupportedCommands.DETECT_UNDEVELOPED_PACKAGES]:
+      "Detects local packages that were created but not developed afterwards",
   };
 
   for (const command in commandDescriptions) {

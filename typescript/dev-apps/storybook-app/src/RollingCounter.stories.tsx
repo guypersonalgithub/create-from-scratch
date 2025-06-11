@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { RollingCounter } from "@packages/animated-counter";
+import { RollingCounter } from "@packages/rolling-counter";
 
 const meta = {
   title: "RollingCounter",
@@ -14,9 +14,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Increase: Story = {
   args: {
-    to: 1231231,
+    from: 0,
+    to: 98765,
+    duration: 100
   },
   render: (args) => {
-    return <RollingCounter to={98765} duration={3000} />;
+    return <RollingCounter {...args} />;
   },
 };

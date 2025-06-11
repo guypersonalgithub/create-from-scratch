@@ -2,11 +2,10 @@ import { supportedLanguages, SupportedLanguages } from "./languages";
 import { StandardSyntaxHighlighterProps, HighlightedCode } from "./SyntaxHighlighter";
 import { colorizeTokens } from "./colorizeTokens";
 import { GenericBaseToken, GetHighlightedTokensArgs, TokenMaps } from "./types";
-import { Fragment, JSX, useEffect, useState } from "react";
-import { TopRightSection } from "./TopRightSection";
+import { JSX, useEffect, useState } from "react";
 import { WebWorkeredSyntaxHighlighter } from "./WebWorkeredSyntaxHighlighter";
-import { countLines } from "@packages/utils";
-import { getCurrentLineCounterElement } from "./utils";
+import { SimpleContentDesign } from "./SimpleContentDesign";
+import { ModernContentDesign } from "./ModernContentDesign";
 
 const getHighlightedTokens = <T extends SupportedLanguages = "typescript">({
   code,
@@ -62,6 +61,8 @@ const StandardSyntaxHighlighter = <T extends SupportedLanguages = "typescript">(
   customizeColors,
   addLineCounter = true,
   displayLanguage,
+  modernVersion = true,
+  variant,
 }: Omit<ColorizedSyntaxHighlighterProps<T>, "withWebWorker">) => {
   const [highlighted, setHighlighted] = useState<JSX.Element[]>([]);
 
@@ -82,42 +83,30 @@ const StandardSyntaxHighlighter = <T extends SupportedLanguages = "typescript">(
     };
   }, [code, language]);
 
-  return (
-    <div className="syntaxHighlighter" style={{ ...style, position: "relative", overflow: "auto" }}>
-      <pre>
-        <TopRightSection
-          code={code}
-          copyToClipboard={copyToClipboard}
-          language={language}
-          displayLanguage={displayLanguage}
-        />
-        {highlighted.length === 0
-          ? displayColorlessCode({ code, addLineCounter })
-          : highlighted.map((ele, index) => <Fragment key={index}>{ele}</Fragment>)}
-        {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
-      </pre>
-    </div>
-  );
-};
-
-type DisplayColorlessCodeArgs = {
-  code: string;
-  addLineCounter: boolean;
-};
-
-const displayColorlessCode = ({ code, addLineCounter }: DisplayColorlessCodeArgs) => {
-  if (!addLineCounter) {
-    return code;
+  if (modernVersion) {
+    return (
+      <ModernContentDesign
+        style={style}
+        code={code}
+        highlighted={highlighted}
+        language={language}
+        copyToClipboard={copyToClipboard}
+        displayLanguage={displayLanguage}
+        addLineCounter={addLineCounter}
+        variant={variant}
+      />
+    );
   }
 
-  const { linesCount, splitStr = [] } = countLines({ str: code, returnSplitStr: true });
-  const maximumLinesLength = linesCount.toString().length;
-  const splitStrLength = splitStr.length;
-
-  return splitStr.map((line, index) => {
-    const prefix = getCurrentLineCounterElement({ lineCounter: index + 1, maximumLinesLength });
-    const addLinebreak = index !== splitStrLength - 1;
-
-    return `${prefix}${line}${addLinebreak ? "\n" : ""}`;
-  });
+  return (
+    <SimpleContentDesign
+      style={style}
+      code={code}
+      highlighted={highlighted}
+      language={language}
+      copyToClipboard={copyToClipboard}
+      displayLanguage={displayLanguage}
+      addLineCounter={addLineCounter}
+    />
+  );
 };
