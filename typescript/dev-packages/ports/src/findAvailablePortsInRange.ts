@@ -1,4 +1,4 @@
-import { getOperatingSystem, mainOperatingSystems } from "@packages/os";
+import { getOperatingSystem, type mainOperatingSystems } from "@packages/os";
 import { checkPortAvailability } from "./checkPortAvailability";
 
 type FindAvailablePortsInRangeArgs = {

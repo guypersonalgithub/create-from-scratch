@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode, useState } from "react";
-import { Variants } from "./types";
+import { type CSSProperties, type ReactNode, useState } from "react";
+import { type Variants } from "./types";
 import { getVariantStyles } from "./utils";
 
 type KeyProps = {

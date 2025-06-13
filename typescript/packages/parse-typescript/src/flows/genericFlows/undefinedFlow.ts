@@ -1,5 +1,5 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
 
 type UndefinedFlowArgs = {
   tokens: BaseToken[];

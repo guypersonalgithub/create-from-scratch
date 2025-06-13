@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { ToastDisplayProps } from "./types";
+import { type ToastDisplayProps } from "./types";
 import {
   AnimationContainerWrapper,
-  AnimationContainerWrapperProps,
+  type AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 
 type ToastManagerProps = Partial<

@@ -12,9 +12,7 @@ export const Docker = () => {
       <StyledLinksContainer
         ref={childRef}
         containerStyle={{ position: "sticky", marginTop: "-8px" }}
-        links={[
-          { path: "/containers/docker/commands", children: "Commands" },
-        ]}
+        links={[{ path: "/containers/docker/commands", children: "Commands" }]}
       />
       <SubRouter
         paths={{

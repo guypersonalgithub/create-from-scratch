@@ -1,7 +1,7 @@
 import { absoluteFlow } from "./absoluteFlow";
 import { numberFlow } from "./numberFlow";
 import { parenthesisFlow } from "./parenthesisFlow";
-import { BaseToken } from "../types";
+import { type BaseToken } from "../types";
 import { basicOperators } from "../uniqueTokens";
 import { basicOperatorFlow } from "./basicOperatorFlow";
 import { isValidLimit } from "../utils";

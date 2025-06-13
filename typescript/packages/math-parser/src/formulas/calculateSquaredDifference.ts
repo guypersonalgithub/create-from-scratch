@@ -9,6 +9,7 @@ export const calculateSquaredDifference = ({ data }: CalculateSquaredDifferenceA
 
   return data.map((value) => {
     const difference = value - average;
+
     return Math.pow(difference, 2);
   });
 };

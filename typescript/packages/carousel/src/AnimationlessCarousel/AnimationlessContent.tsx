@@ -1,5 +1,5 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
-import { CarouselProps } from "../types";
+import { type Dispatch, type RefObject, type SetStateAction } from "react";
+import { type CarouselProps } from "../types";
 import { CarouselContent } from "../CarouselContent";
 
 type AnimationlessContentProps = Omit<

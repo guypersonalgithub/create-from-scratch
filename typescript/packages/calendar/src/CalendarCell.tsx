@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { type CSSProperties, useState } from "react";
 
 type GetBackgroundColorArgs = {
   isHovered: boolean;
@@ -89,7 +89,12 @@ export const CalendarCell = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: getBackgroundColor({ isHovered, isSelected, isSelectedLeft, isSelectedRight }),
+          backgroundColor: getBackgroundColor({
+            isHovered,
+            isSelected,
+            isSelectedLeft,
+            isSelectedRight,
+          }),
           borderRadius: getBorderRadius({ isSelectedLeft, isSelectedRight }),
           cursor: "pointer",
           opacity: isCurrentMonth ? 1 : 0.5,

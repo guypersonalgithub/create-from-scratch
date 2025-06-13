@@ -38,5 +38,5 @@ export const AsyncComponent2 = async () => {
   const data2 = await getData2();
   console.log("!!!");
 
-  return <h4>{data2}</h4>
-}
+  return <h4>{data2}</h4>;
+};

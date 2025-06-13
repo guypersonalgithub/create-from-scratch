@@ -1,6 +1,6 @@
 import { usePathState } from "@packages/router";
 import { StyledLink } from "../styledComponents/StyledLink";
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { useBreakpoints } from "../breakpoints";
 import { useUITheme } from "../UIThemes";
 import { hexToRgba } from "@packages/css-utils";

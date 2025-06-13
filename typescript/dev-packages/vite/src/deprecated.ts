@@ -135,6 +135,7 @@ const transformExportDefault = ({
       if (ts.isObjectLiteralExpression(arg)) {
         return generateObjectProperties({ baseExpression: arg, objectStructure: newExportDefault });
       }
+
       return arg;
     });
 
@@ -162,11 +163,14 @@ const transformExportDefault = ({
         if (node === exportAssignment) {
           return newExportAssignment;
         }
+
         return ts.visitEachChild(node, visit, context);
       }
+
       return ts.visitNode(rootNode, visit);
     };
 
   const result = ts.transform(sourceFile, [transformer]);
+
   return result.transformed[0] as ts.SourceFile;
 };

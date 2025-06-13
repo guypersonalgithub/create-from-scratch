@@ -1,5 +1,5 @@
-import { RefObject } from "react";
-import { CustomEdges, Edges, EdgeWrapperRefs } from "@packages/edge-intersection";
+import { type RefObject } from "react";
+import { type CustomEdges, type Edges, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { getSidesOrder } from "./getSidesOrder";
 import { positionCalculations } from "./positionCalculations";
 import { rotatePosition } from "./rotatePosition";
@@ -46,6 +46,7 @@ export const calculatePosition = ({
       if (!skipDistance) {
         maintainReceivedDistance({ side, ref, intersectionRefs, refKey, distanceFromViewport });
       }
+
       return true;
     }
   }

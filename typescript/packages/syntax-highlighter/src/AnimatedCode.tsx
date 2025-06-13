@@ -1,8 +1,8 @@
-import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { getComptuedStyleProperties } from "@packages/utils";
-import { Animated } from "./types";
-import { SupportedLanguages } from "./languages";
-import { ModernContentDesign, Variant } from "./ModernContentDesign";
+import { type Animated } from "./types";
+import { type SupportedLanguages } from "./languages";
+import { ModernContentDesign, type Variant } from "./ModernContentDesign";
 import { SimpleContentDesign } from "./SimpleContentDesign";
 
 type AnimatedCodeProps = {
@@ -63,10 +63,11 @@ export const AnimatedCode = ({
     intervalRef.current = setInterval(() => {
       if (cursorIndex.current === code.length && intervalRef.current) {
         clearInterval(intervalRef.current);
+
         return;
       }
 
-      let splitCode = code.slice(cursorIndex.current, cursorIndex.current + 6);
+      const splitCode = code.slice(cursorIndex.current, cursorIndex.current + 6);
       cursorIndex.current += splitCode.length;
       let transformedSplitCode = "";
 

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Theme, UIThemeContext, UIThemeContextType } from "./UIThemeContext";
+import { type Theme, UIThemeContext, type UIThemeContextType } from "./UIThemeContext";
 
 type GetUIThemeHooksArgs<T extends Record<string, Th>, Th extends Theme = Theme> = {
   themes: T;
@@ -13,6 +13,7 @@ export const getUIThemeHooks = <T extends Record<string, Th>, Th extends Theme =
     if (!context) {
       throw new Error("useUITheme must be used within a UIThemeProvider");
     }
+
     return context as UIThemeContextType<T>;
   };
 

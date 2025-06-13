@@ -1,5 +1,5 @@
 import { uniqueFunctions } from "@packages/math-parser";
-import { ParsedToken } from "../types";
+import { type ParsedToken } from "../types";
 import { recursivelyParseFactorial } from "./recursivelyParseFactorial";
 import { recursivelyParseFraction } from "./recursivelyParseFraction";
 import { recursivelyParseUniqueFunction } from "./recursivelyParseFunction";
@@ -28,8 +28,7 @@ export const uniqueOperationsFlow = ({
 
   if (value === "sqrt") {
     parsedTokens.push(recursivelyParseSqrt({ tokens }));
-  }
-  else if (value === "root") {
+  } else if (value === "root") {
     parsedTokens.push(recursivelyParseRoot({ tokens }));
   } else if (value === "^") {
     parsedTokens.push(recursivelyParsePower({ tokens, parsedTokensOfTheSameLevel: parsedTokens }));

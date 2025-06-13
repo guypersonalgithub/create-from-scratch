@@ -1,4 +1,4 @@
-import React, { CSSProperties, useId } from "react";
+import React, { type CSSProperties, useId } from "react";
 
 type RadioOptionProps = {
   label: string;

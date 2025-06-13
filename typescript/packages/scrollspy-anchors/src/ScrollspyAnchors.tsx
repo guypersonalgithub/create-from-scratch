@@ -1,5 +1,5 @@
-import { CSSProperties, useEffect } from "react";
-import { Anchor } from "./types";
+import { type CSSProperties, useEffect } from "react";
+import { type Anchor } from "./types";
 import { observeElementsVisibility } from "@packages/utils";
 import { Anchors } from "./Anchors";
 import { useState } from "react";

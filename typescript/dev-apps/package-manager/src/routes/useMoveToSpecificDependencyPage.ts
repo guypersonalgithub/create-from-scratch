@@ -6,7 +6,7 @@ type MoveToDependencyPageArgs = {
 
 export const useMoveToSpecificDependencyPage = () => {
   const { moveTo } = usePath();
-  
+
   const moveToDependencyPage = ({ name }: MoveToDependencyPageArgs) => {
     moveTo({
       pathname: `/dependency/${encodeURIComponent(name)}`,

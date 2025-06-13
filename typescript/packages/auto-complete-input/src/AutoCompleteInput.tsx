@@ -1,7 +1,7 @@
-import { BaseTypeaheadOption, Typeahead, TypeaheadProperties } from "@packages/typeahead";
+import { type BaseTypeaheadOption, Typeahead, type TypeaheadProperties } from "@packages/typeahead";
 import { useDebounce } from "@packages/hooks";
 import { MagnifyingGlass } from "@packages/icons";
-import { CSSProperties, useRef, useState } from "react";
+import { type CSSProperties, useRef, useState } from "react";
 
 type AutoCompleteInputProps<T extends BaseTypeaheadOption> = Pick<
   TypeaheadProperties<T>,
@@ -25,7 +25,7 @@ export const AutoCompleteInput = <T extends BaseTypeaheadOption>({
   inputPlaceholder,
   optionContainerStyle,
   optionContent,
-  clearInputOnPick
+  clearInputOnPick,
 }: AutoCompleteInputProps<T>) => {
   const [options, setOptions] = useState<T[]>([]);
   const [innerIsLoading, setInnerIsLoading] = useState(false);
@@ -44,11 +44,13 @@ export const AutoCompleteInput = <T extends BaseTypeaheadOption>({
       inputChangeCallback={(text) => {
         if (text.length === 0) {
           setOptions([]);
+
           return;
         }
 
         if (!debounceDelay || (lastInput.current.length > 0 && text.includes(lastInput.current))) {
           updateOptions({ text });
+
           return;
         }
 

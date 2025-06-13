@@ -1,7 +1,7 @@
-import { Locale } from "@packages/locale";
-import { ReactNode, useRef, useState } from "react";
+import { type Locale } from "@packages/locale";
+import { type ReactNode, useRef, useState } from "react";
 import { TranslationContext } from "./TranslationContext";
-import { Translations } from "./types";
+import { type Translations } from "./types";
 
 type TranslationProviderProps<T extends Locale[], K extends Translations> = {
   locales: T;
@@ -26,6 +26,7 @@ const getCurrentTranslation = async <T extends Locale[], K extends Translations>
   const translationData = translations[locale];
   if (translationData instanceof Promise) {
     const translation = await translationData;
+
     return translation;
   }
 
@@ -44,12 +45,14 @@ export const TranslationProvider = <T extends Locale[], K extends Translations>(
     if (defaultLocale) {
       const current = translations[defaultLocale] as K;
       loadedTranslations.current[defaultLocale] = current;
+
       return current;
     }
 
     const defaultLanguage = navigator.language as T[number];
     const current = translations[defaultLanguage] as K;
     loadedTranslations.current[defaultLanguage] = current;
+
     return current;
   });
 

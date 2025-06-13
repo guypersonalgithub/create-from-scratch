@@ -23,7 +23,9 @@
     "storybook": "npm run --workspace=dev-apps/storybook-app storybook",
     "format-prettier": "tsx ./scripts/formatPrettier.ts",
     "cs": "cd apps/cs && npm run dev",
-    "rsc-mvp": "cd test-apps/react-server-components-mvp && npm run dev"
+    "rsc-mvp": "cd test-apps/react-server-components-mvp && npm run dev",
+    "eslint-fix": "eslint . --fix",
+    "type-check-temp": "tsc --noEmit -p ."
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",

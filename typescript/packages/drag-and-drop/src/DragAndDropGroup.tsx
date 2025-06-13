@@ -1,5 +1,5 @@
-import { useState, CSSProperties, MouseEvent, useEffect, useRef } from "react";
-import { DraggedItemProperties, Group, Item, MousePosition } from "./types";
+import { useState, type CSSProperties, type MouseEvent, useEffect, useRef } from "react";
+import { type DraggedItemProperties, type Group, type Item, type MousePosition } from "./types";
 import { deepCopyStyles } from "@packages/css-utils";
 import { useDragAndDropContext } from "./useDragAndDropContext";
 

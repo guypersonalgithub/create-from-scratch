@@ -1,4 +1,4 @@
-import { PackageJson } from "@packages/package-json";
+import { type PackageJson } from "@packages/package-json";
 
 type DeleteLocalPackageDependenciesArgs = {
   packageJson: PackageJson;

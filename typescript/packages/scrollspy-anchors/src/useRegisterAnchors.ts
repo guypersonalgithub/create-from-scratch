@@ -1,5 +1,5 @@
-import { ReactNode, useRef } from "react";
-import { Anchor } from "./types";
+import { type ReactNode, useRef } from "react";
+import { type Anchor } from "./types";
 import { generateSecureRandomString } from "@packages/randomizer";
 
 export const useRegisterAnchors = () => {

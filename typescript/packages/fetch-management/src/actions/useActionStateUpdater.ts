@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { ExtendedActionTypeRegistry, PseudoActionData } from "../types";
+import { type Dispatch, type SetStateAction, useEffect } from "react";
+import { type ExtendedActionTypeRegistry, type PseudoActionData } from "../types";
 import { fetchManagement } from "../observer";
 
 type UseActionStateUpdaterArgs<K extends keyof ExtendedActionTypeRegistry> = {

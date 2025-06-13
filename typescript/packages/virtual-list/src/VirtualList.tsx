@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState, useEffect, useCallback } from "react";
+import { type ReactNode, useRef, useState, useEffect, useCallback } from "react";
 
 // TODO: Add support for a single ReactNode child.
 
@@ -53,6 +53,7 @@ export const VirtualList = ({
     };
 
     container.addEventListener("scroll", handleScroll);
+
     return () => {
       container.removeEventListener("scroll", handleScroll);
     };

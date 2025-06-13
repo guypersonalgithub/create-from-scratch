@@ -1,5 +1,5 @@
 import { updateRequestsObserver } from "../observer";
-import { ExtendedRequestTypeRegistry } from "../types";
+import { type ExtendedRequestTypeRegistry } from "../types";
 
 type InvaldiateCacheArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;

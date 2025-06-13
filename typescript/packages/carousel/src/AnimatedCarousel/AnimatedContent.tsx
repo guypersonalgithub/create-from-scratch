@@ -1,5 +1,5 @@
-import { Dispatch, RefObject, SetStateAction } from "react";
-import { AnimatedCarouselProps } from "./types";
+import { type Dispatch, type RefObject, type SetStateAction } from "react";
+import { type AnimatedCarouselProps } from "./types";
 import { CarouselContent } from "../CarouselContent";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 
@@ -90,6 +90,7 @@ export const AnimatedContent = ({
 
         if (amountOfStages === 1) {
           setStage(value);
+
           return;
         }
 
@@ -143,6 +144,7 @@ export const AnimatedContent = ({
                 const copy = prev.slice();
                 copy.pop();
                 hasRemainingFollowups = copy.length > 0;
+
                 return copy;
               });
               setStage(currentFollowup!);

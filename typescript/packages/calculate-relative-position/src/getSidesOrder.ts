@@ -1,4 +1,4 @@
-import { Edges } from "@packages/edge-intersection";
+import { type Edges } from "@packages/edge-intersection";
 
 type GetSidesOrderArgs = {
   side: Edges;

@@ -16,6 +16,7 @@ export const runDockerContainersByProfile = async ({
     const profileSupported = profilesSet.has(current);
     if (!profileSupported) {
       console.error(`Skipping an encountered unsupported profile - ${current}`);
+
       return command;
     }
 
@@ -24,6 +25,7 @@ export const runDockerContainersByProfile = async ({
 
   if (command === initialCommand) {
     console.error("None of the received profiles was supported, cancelling the request.");
+
     return;
   }
 

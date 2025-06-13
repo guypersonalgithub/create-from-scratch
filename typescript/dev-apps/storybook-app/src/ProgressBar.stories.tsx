@@ -15,12 +15,12 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     style: {
-        border: "1px solid black",
-        borderRadius: "10px"
+      border: "1px solid black",
+      borderRadius: "10px",
     },
     innerStyle: {
-        backgroundColor: "blue",
-        height: "15px"
+      backgroundColor: "blue",
+      height: "15px",
     },
     progress: 50,
   },

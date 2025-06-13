@@ -1,4 +1,4 @@
-import { TokenTypes } from "./constants";
+import { type TokenTypes } from "./constants";
 
 export type BaseToken = {
   type: TokenTypes;

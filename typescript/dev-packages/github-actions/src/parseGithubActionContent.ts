@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { GithubActionYaml } from "./types";
+import { type GithubActionYaml } from "./types";
 import { convertObjectToYaml } from "@packages/yaml";
 import { getConfiguration } from "./getConfiguration";
 import { removeQuotationMarks } from "@packages/utils";

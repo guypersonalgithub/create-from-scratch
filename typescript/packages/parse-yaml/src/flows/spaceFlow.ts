@@ -1,6 +1,6 @@
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 import { TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { type BaseToken } from "../types";
 
 type SpaceFlowArgs = {
   tokens: BaseToken[];

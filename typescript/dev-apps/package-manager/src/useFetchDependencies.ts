@@ -19,6 +19,7 @@ export const useFetchDependencies = (
           dependencyVersions: ({ previousData }) => {
             const newData = requestData?.latestVersions ?? {};
             const previous = previousData ?? {};
+
             return { ...previous, ...newData };
           },
         },

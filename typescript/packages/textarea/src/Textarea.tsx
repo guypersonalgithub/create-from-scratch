@@ -1,4 +1,4 @@
-import { CSSProperties, TextareaHTMLAttributes } from "react";
+import { type CSSProperties, type TextareaHTMLAttributes } from "react";
 
 type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;

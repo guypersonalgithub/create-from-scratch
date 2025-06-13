@@ -1,13 +1,13 @@
-import { RefObject } from "react";
+import { type RefObject } from "react";
 import { drawTooltip } from "./drawTooltip";
-import { TooltipProperties } from "./types";
+import { type TooltipProperties } from "./types";
 
 type DrawAnimatedTooltipFrameArgs = {
   ctx: CanvasRenderingContext2D;
   hovered: boolean;
   tooltip: Omit<TooltipProperties, "animated">;
   animationSpeed?: number;
-  tooltips: RefObject<TooltipProperties[]>
+  tooltips: RefObject<TooltipProperties[]>;
 };
 
 export const drawAnimatedTooltipFrame = ({

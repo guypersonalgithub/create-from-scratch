@@ -12,6 +12,7 @@ export const convertStringFormat = ({ str, formatFrom, formatTo }: ConvertString
   }
 
   console.error(`Formatting from ${formatFrom} to ${formatTo} is currently not supported.`);
+
   return "";
 };
 

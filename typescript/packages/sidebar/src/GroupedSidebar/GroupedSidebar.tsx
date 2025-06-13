@@ -1,4 +1,4 @@
-import { GroupedSidebarProps } from "./types";
+import { type GroupedSidebarProps } from "./types";
 import { GroupedSidebarContent } from "./GroupedSidebarContent";
 
 export const GroupedSidebar = ({

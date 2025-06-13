@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { postMessageFlow, postMessageUtils } from "@packages/micro-frontends";
 
 export const PostMessage = () => {
@@ -6,25 +6,21 @@ export const PostMessage = () => {
   const [reactChildMessage, setReactChildMessage] = useState("");
 
   useEffect(() => {
-    const whitelist = [
-      "http://localhost:3004",
-      "http://localhost:5174",
-    ];
+    const whitelist = ["http://localhost:3004", "http://localhost:5174"];
 
-    const { initializePostMessageListener, closePostMessageListener } =
-      postMessageFlow<string>({
-        whitelist,
-        messageCallback: (event) => {
-          const { origin, data } = event;
+    const { initializePostMessageListener, closePostMessageListener } = postMessageFlow<string>({
+      whitelist,
+      messageCallback: (event) => {
+        const { origin, data } = event;
 
-          if (origin === "http://localhost:3004") {
-            return setVueChildMessage(data);
-          }
-          if (origin === "http://localhost:5174") {
-            return setReactChildMessage(data);
-          }
-        },
-      });
+        if (origin === "http://localhost:3004") {
+          return setVueChildMessage(data);
+        }
+        if (origin === "http://localhost:5174") {
+          return setReactChildMessage(data);
+        }
+      },
+    });
 
     initializePostMessageListener();
 

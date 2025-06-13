@@ -1,16 +1,16 @@
 import { Observer } from "@packages/design-patterns";
 import {
-  ExpiredAfter,
-  ExtendedRequestTypeRegistry,
-  ExtractedCallback,
-  ExtractedCallbackArg,
-  ExtractedData,
-  PseudoData,
-  UpdateStates,
+  type ExpiredAfter,
+  type ExtendedRequestTypeRegistry,
+  type ExtractedCallback,
+  type ExtractedCallbackArg,
+  type ExtractedData,
+  type PseudoData,
+  type UpdateStates,
 } from "./types";
 import { calculateExpiredDate } from "./utils";
-import { SendAbortableRequestArgs } from "@packages/request";
-import { ExtendedActionTypeRegistry } from "./types/actions";
+import { type SendAbortableRequestArgs } from "@packages/request";
+import { type ExtendedActionTypeRegistry } from "./types/actions";
 
 export const fetchManagement = {
   requests: new Observer<ExtendedRequestTypeRegistry>({}),

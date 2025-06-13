@@ -25,5 +25,6 @@ const recursivelyConvertObjectToMap = ({ obj }: RecursivelyConvertObjectToMapArg
       ]),
     );
   }
+
   return obj;
 };

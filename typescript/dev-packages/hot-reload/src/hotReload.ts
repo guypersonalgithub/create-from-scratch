@@ -1,6 +1,6 @@
 import { readdirSync, watchFile } from "fs";
 import { join } from "path";
-import { spawn, ChildProcess } from "child_process";
+import { spawn, type ChildProcess } from "child_process";
 
 const entry: string | undefined = process.argv[2];
 if (!entry) {

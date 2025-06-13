@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, RefObject, ReactNode } from "react";
-import { PopoverDisplayProps } from "./types";
+import { useState, useEffect, useRef, type RefObject, type ReactNode } from "react";
+import { type PopoverDisplayProps } from "./types";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
-  AnimationContainerWrapperProps,
+  type AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 import { capitalizeFirstChar, observeElementsVisibility } from "@packages/utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
@@ -65,6 +65,7 @@ export const PopoverManager = ({
         remainingPopovers.forEach((popover) => {
           popoverIds.current.add(popover.id);
         });
+
         return remainingPopovers;
       });
     };
@@ -95,6 +96,7 @@ export const PopoverManager = ({
             setPopovers((prev) => {
               const remainingPopovers = prev.filter((popover) => popover.id !== id);
               popoverIds.current.delete(id);
+
               return remainingPopovers;
             });
 

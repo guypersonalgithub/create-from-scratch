@@ -1,7 +1,7 @@
 import { Button } from "@packages/button";
 import { Tooltip } from "@packages/tooltip";
-import { SidebarLink } from "./types";
-import { CSSProperties } from "react";
+import { type SidebarLink } from "./types";
+import { type CSSProperties } from "react";
 
 type LinkContentProps = {
   link: SidebarLink;
@@ -26,7 +26,7 @@ export const LinkContent = ({
   selectedStyle,
   tooltipDistanceFromViewport,
   linkStyle,
-  disabledTooltip
+  disabledTooltip,
 }: LinkContentProps) => {
   return (
     <Tooltip

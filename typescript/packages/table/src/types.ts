@@ -1,5 +1,5 @@
-import { PaginationProps } from "@packages/pagination";
-import { CSSProperties, ReactNode } from "react";
+import { type PaginationProps } from "@packages/pagination";
+import { type CSSProperties, type ReactNode } from "react";
 
 export type TableProps<T extends Record<string, unknown>> = {
   data?: T[];

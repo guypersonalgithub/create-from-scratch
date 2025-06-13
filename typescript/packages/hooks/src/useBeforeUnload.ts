@@ -5,6 +5,7 @@ export const useBeforeUnload = () => {
     const callback = (e: BeforeUnloadEvent) => {
       e.preventDefault(); // Required for Chrome
       e.returnValue = ""; // Required for all modern browsers
+
       return ""; // Required for some legacy browsers
     };
 

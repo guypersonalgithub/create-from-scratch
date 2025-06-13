@@ -31,6 +31,7 @@ export const Primary: Story = {
   args: {
     autocompleteOptionsCallback: (text) => {
       const lowercaseText = text.toLowerCase();
+
       return mock.filter((option) => option.label.toLowerCase().includes(lowercaseText));
     },
     callback: (picked) => alert(picked.label),

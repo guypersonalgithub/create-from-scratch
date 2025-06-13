@@ -36,6 +36,7 @@ export const generateDockerfileDev = () => {
 
     if (!workspaceContainerProperties) {
       console.error(`Skipping ${workspace} due to missing configurations.`);
+
       return;
     }
 
@@ -107,6 +108,7 @@ const generateDockerfiles = ({
 
   const packagesArrayPackageJsons = filteredPackagesArray.map((workspacePackage) => {
     const workspacePackagePackageJsonPath = `./${workspacePackage.path}/package.json`;
+
     return `COPY ${workspacePackagePackageJsonPath} ${workspacePackagePackageJsonPath}`;
   });
 
@@ -203,6 +205,7 @@ const generateDockerfileCommandsLayer = ({
 
   const dependencies = workspacePackages.map((workspacePackage) => {
     const workspacePackagePath = `./${workspacePackage}`;
+
     return `COPY ${workspacePackagePath} ${workspacePackagePath}`;
   });
 
@@ -261,11 +264,13 @@ const generateNonAppsDockerfiles = ({
     } = workspaceContainerProperties[container];
     const formattedDevCommand = startCommandDev.reduce((str, current, index) => {
       const isLastIndex = index === startCommandDev.length - 1;
+
       return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
     }, "[");
 
     const formattedProdCommand = startCommandProd.reduce((str, current, index) => {
       const isLastIndex = index === startCommandProd.length - 1;
+
       return str + `\"${current}\"${!isLastIndex ? ", " : "]"}`;
     }, "[");
 

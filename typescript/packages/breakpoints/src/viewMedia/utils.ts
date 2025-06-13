@@ -1,6 +1,6 @@
-import { Breakpoint } from "../types";
+import { type Breakpoint } from "../types";
 import { getClosestBreakpointKey } from "../utils";
-import { ConstructedBreakpoint, constructuedMediaBreakpoints } from "./types";
+import { type ConstructedBreakpoint, type constructuedMediaBreakpoints } from "./types";
 
 type ConstructMediaBreakpointsArgs<T extends Record<string, Breakpoint>> = {
   breakpoints: T;

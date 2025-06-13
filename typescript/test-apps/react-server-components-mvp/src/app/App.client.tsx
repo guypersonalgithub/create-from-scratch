@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { createFromFetch } from "react-server-dom-webpack/client.edge";
 import ssrManifest from "./react-client-manifest";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 const root = createRoot(document.getElementById("root")!);
 

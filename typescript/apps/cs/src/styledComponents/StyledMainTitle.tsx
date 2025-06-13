@@ -1,4 +1,4 @@
-import { Title, TitleProps } from "@packages/title";
+import { Title, type TitleProps } from "@packages/title";
 
 export const StyledMainTitle = (props: TitleProps) => {
   return (

@@ -1,5 +1,9 @@
-import { Anchor } from "@packages/scrollspy-anchors";
-import { stateManagement, useStateManagement, useComplexStateManagement } from "@packages/state-management";
+import { type Anchor } from "@packages/scrollspy-anchors";
+import {
+  stateManagement,
+  useStateManagement,
+  useComplexStateManagement,
+} from "@packages/state-management";
 
 export const { getData, stateUpdates, fullSubscribe } = stateManagement({
   initialState: { documentationAnchors: [] as Anchor[] },

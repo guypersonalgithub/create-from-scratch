@@ -1,7 +1,7 @@
-import { convertDateToISO, Locale } from "@packages/date";
+import { convertDateToISO, type Locale } from "@packages/date";
 import { CalendarCell } from "./CalendarCell";
 import { FillerCell } from "./FillerCell";
-import { CalendarFormat, FormattedDay } from "./types";
+import { type CalendarFormat, type FormattedDay } from "./types";
 import { isCellDisabled } from "./utils";
 
 type CalendarContentBodyProps = {

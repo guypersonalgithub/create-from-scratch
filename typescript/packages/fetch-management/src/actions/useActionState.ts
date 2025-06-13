@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
-import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
-import { ExtractedCallbackArg, PreviousRequestProperties } from "../types";
+import { type sendAbortableRequest, type SendAbortableRequestArgs } from "@packages/request";
+import { type ExtractedCallbackArg, type PreviousRequestProperties } from "../types";
 import {
-  ActionCallback,
-  ExtendedActionTypeRegistry,
-  ExtractedBody,
-  PseudoActionData,
+  type ActionCallback,
+  type ExtendedActionTypeRegistry,
+  type ExtractedBody,
+  type PseudoActionData,
 } from "../types";
 import { activateAction } from "./activateAction";
 import { fetchManagement } from "../observer";

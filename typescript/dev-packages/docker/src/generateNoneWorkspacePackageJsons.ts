@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import { getContainerProperties } from "./getContainerProperties";
-import { WorkspaceContainerProperties } from "./types";
+import { type WorkspaceContainerProperties } from "./types";
 
 type GenerateNoneWorkspacePackageJsonsArgs = {
   folderPath: string;
@@ -14,6 +14,7 @@ export const generateNoneWorkspacePackageJsons = ({
   const containerProperties = getContainerProperties({ folderPath, workspace });
   if (!containerProperties) {
     console.error(`Skipping ${workspace} due to missing configurations.`);
+
     return;
   }
 

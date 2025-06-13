@@ -1,4 +1,4 @@
-import { BaseToken } from "../types";
+import { type BaseToken } from "../types";
 import { parenthesisFlow } from "../flows/parenthesisFlow";
 
 type CancelFlowArgs = {
@@ -10,7 +10,7 @@ export const cancelFlow = ({ input, currentIndex }: CancelFlowArgs) => {
   const innerTokens: BaseToken[] = [];
 
   let duplicatedInput = input.slice();
-  let currentChar = duplicatedInput.charAt(0);
+  const currentChar = duplicatedInput.charAt(0);
 
   if (currentChar !== "(") {
     throw new Error(

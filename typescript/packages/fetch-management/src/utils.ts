@@ -1,14 +1,14 @@
-import { SendAbortableRequestArgs } from "@packages/request";
+import { type SendAbortableRequestArgs } from "@packages/request";
 import {
-  ExpiredAfter,
-  ExtendedRequestTypeRegistry,
-  ExtractedCallbackArg,
-  PseudoData,
+  type ExpiredAfter,
+  type ExtendedRequestTypeRegistry,
+  type ExtractedCallbackArg,
+  type PseudoData,
 } from "./types";
 import {
-  ExtendedActionTypeRegistry,
-  ExtractedBody,
-  PreviousRequestProperties,
+  type ExtendedActionTypeRegistry,
+  type ExtractedBody,
+  type PreviousRequestProperties,
 } from "./types/actions";
 import { fetchManagement } from "./observer";
 import { areObjectsEqual } from "@packages/object-utils";
@@ -21,6 +21,7 @@ export const calculateExpiredDate = ({ expiredAfter }: CalculateExpiredDateArgs)
   if (!expiredAfter) {
     const currentDate = new Date();
     currentDate.setHours(currentDate.getHours() + 1);
+
     return currentDate;
   }
 
@@ -118,6 +119,7 @@ export const shouldAvoidSendingRequest = <K extends keyof ExtendedRequestTypeReg
   }
 
   const areEqual = compareCurrentAndNewRequests({ id, ...args });
+
   return { shouldAvoid: areEqual, attempts: updatedAttempts };
 };
 
@@ -165,5 +167,6 @@ export const shouldAvoidSendingAction = <K extends keyof ExtendedActionTypeRegis
   }
 
   const areEqual = compareCurrentAndNewAction({ id, body, previousRequestProperties, ...args });
+
   return { shouldAvoid: areEqual, attempts: updatedAttempts };
 };

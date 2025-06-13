@@ -1,7 +1,11 @@
 import { readFileSync } from "fs";
 import { getPrivatePackageDependencies } from "./getPrivatePackageDependencies";
 import { getRootPackageLock } from "./getRootPackageLock";
-import { LocalPackageMetadata, PackageJsonDependencies, PackageLockPackages } from "./types";
+import {
+  type LocalPackageMetadata,
+  type PackageJsonDependencies,
+  type PackageLockPackages,
+} from "./types";
 
 type DetectUsedLocalPackagesArgs = {
   workspace?: string;
@@ -38,6 +42,7 @@ export const detectUsedLocalPackages = ({
     >();
 
   const dependenciesArray = Array.from(usedLocalPackages.values());
+
   return dependenciesArray;
 };
 

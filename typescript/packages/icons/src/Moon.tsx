@@ -1,4 +1,4 @@
-import { SVGIconProps } from "./types";
+import { type SVGIconProps } from "./types";
 
 export const Moon = ({ size, width = size, height = size, style }: SVGIconProps) => {
   return (

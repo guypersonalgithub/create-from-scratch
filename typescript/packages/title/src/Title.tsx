@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode } from "react";
-import { TitleWrapper } from "./types";
+import { type CSSProperties, type ReactNode } from "react";
+import { type TitleWrapper } from "./types";
 
 export type TitleProps = {
   prefix?: ReactNode;

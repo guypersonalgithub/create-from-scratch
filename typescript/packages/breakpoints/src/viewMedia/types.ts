@@ -1,4 +1,4 @@
-import { Breakpoint } from "../types";
+import { type Breakpoint } from "../types";
 
 type MinWidthMedia = `(min-width: ${number}px)`;
 type MaxWidthMedia = `(max-width: ${number}px)`;

@@ -1,5 +1,5 @@
 type ConvertObjectToStringArgs = {
-  obj: Object;
+  obj: object;
   stringifyValues?: boolean;
 };
 
@@ -7,7 +7,7 @@ export const convertObjectToString = ({ obj, stringifyValues }: ConvertObjectToS
   convertObjectContentToString({ obj, stringifyValues });
 
 type ConvertObjectContentToString = {
-  obj: Object;
+  obj: object;
   indentLevel?: number;
   baseIndent?: string;
   stringifyValues?: boolean;

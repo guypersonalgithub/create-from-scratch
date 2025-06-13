@@ -1,5 +1,5 @@
 import { createCookie } from "../createCookie";
-import { CookieOptions } from "../types";
+import { type CookieOptions } from "../types";
 import { sign } from "./utils";
 
 type SerializeSignedCookieArgs = {
@@ -16,5 +16,6 @@ export const serializeSignedCookie = ({
   options = {},
 }: SerializeSignedCookieArgs) => {
   const signedValue = sign({ value, secret });
+
   return createCookie({ name, value: signedValue, options });
 };

@@ -27,6 +27,7 @@ export const generateAndInstallPackage = async ({ value }: GenerateAndInstallPac
     console.error(
       `Received a package name with a space, which is not a format ${packageManager} supports.`,
     );
+
     return;
   }
 

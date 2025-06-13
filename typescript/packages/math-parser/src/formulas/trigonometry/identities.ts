@@ -7,5 +7,5 @@ export const identities = [
   "tan(a - b) = (tana - tanb) / (1 + tanatanb)",
   "sin^2o + cos^2o = 1",
   "sino = ±sqrt(1 - cos^2o)",
-  'coso = ±sqrt(1 - sin^2o)'
+  "coso = ±sqrt(1 - sin^2o)",
 ];

@@ -11,20 +11,20 @@ export const rgbaToHsl = ({ rgba }: RgbaToHslArgs) => {
     return "";
   }
 
-  let [_, rStr, gStr, bStr, aStr] = match;
+  const [_, rStr, gStr, bStr, aStr] = match;
 
-  let r = parseInt(rStr) / 255;
-  let g = parseInt(gStr) / 255;
-  let b = parseInt(bStr) / 255;
-  let a = aStr !== undefined ? parseFloat(aStr) : undefined;
+  const r = parseInt(rStr) / 255;
+  const g = parseInt(gStr) / 255;
+  const b = parseInt(bStr) / 255;
+  const a = aStr !== undefined ? parseFloat(aStr) : undefined;
 
-  let max = Math.max(r, g, b);
-  let min = Math.min(r, g, b);
-  let delta = max - min;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const delta = max - min;
 
   let h = 0;
   let s = 0;
-  let l = (max + min) / 2;
+  const l = (max + min) / 2;
 
   if (delta !== 0) {
     s = delta / (1 - Math.abs(2 * l - 1));

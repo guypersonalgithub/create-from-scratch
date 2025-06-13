@@ -1,4 +1,4 @@
-import { BaseToken, FlowCallback, OpenedContext } from "../types";
+import { type BaseToken, type FlowCallback, type OpenedContext } from "../types";
 import { functionFlow, arrowFlow } from "./functionFlows";
 import { typeDefinitionFlow, asFlow } from "./typeFlows";
 import {
@@ -21,7 +21,7 @@ import { parenthesisFlow } from "./parenthesisFlows";
 import { stringFlow, templateLiteralFlow } from "./stringFlows";
 import { variableFlow } from "./variableFlow";
 import { angleFlow } from "./angleFlow";
-import { TokenTypeOptions } from "../constants";
+import { type TokenTypeOptions } from "../constants";
 import { arrayFlow } from "./arrayFlows";
 import {
   classFlow,

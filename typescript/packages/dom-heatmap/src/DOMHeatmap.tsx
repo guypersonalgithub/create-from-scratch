@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
-import { Color } from "./types";
+import { type CSSProperties } from "react";
+import { type Color } from "./types";
 import { getHeatmapColor } from "./utils";
 
 type DOMHeatmapProps = {
@@ -49,6 +49,7 @@ export const DOMHeatmap = ({
               {y.map((_, yIndex) => {
                 const value = data?.[index]?.[yIndex];
                 const backgroundColor = getHeatmapColor({ value, color1, color2, color3 });
+
                 return (
                   <td key={`${index},${yIndex}`} style={{ backgroundColor, ...dataStyle }}>
                     {value}

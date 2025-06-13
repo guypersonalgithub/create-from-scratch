@@ -1,4 +1,4 @@
-import { SupportedLanguages, supportedLanguages } from "./languages";
+import { type SupportedLanguages, supportedLanguages } from "./languages";
 
 self.onmessage = (e: MessageEvent<{ code: string; language: SupportedLanguages }>) => {
   const { code, language } = e.data;

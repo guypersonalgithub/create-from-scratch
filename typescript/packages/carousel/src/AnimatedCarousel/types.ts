@@ -1,4 +1,4 @@
-import { CarouselProps } from "../types";
+import { type CarouselProps } from "../types";
 
 export type AnimatedCarouselProps = CarouselProps & {
   direction?: "left" | "right";

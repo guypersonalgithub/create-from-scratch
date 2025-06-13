@@ -1,7 +1,7 @@
-import { CSSProperties, Fragment, useState } from "react";
+import { type CSSProperties, Fragment, useState } from "react";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { AnimatedBurgerIcon } from "../AnimatedBurgerIcon";
-import { GroupedSidebarProps } from "./types";
+import { type GroupedSidebarProps } from "./types";
 import { GroupedSidebarContent } from "./GroupedSidebarContent";
 
 export type MobileGroupedSidebarProps = GroupedSidebarProps & {

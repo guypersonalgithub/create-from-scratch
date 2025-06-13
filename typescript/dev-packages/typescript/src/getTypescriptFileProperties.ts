@@ -13,7 +13,7 @@ export const getTypescriptFileProperties = ({ path, file }: GetTypescriptFilePro
   const exports: string[] = [];
   const constants: string[] = [];
   const lets: string[] = [];
-  let defaultExport: string | null = null;
+  const defaultExport: string | null = null;
 
   // Traverse the AST starting from the source file
   visit({ file, node: sourceFile, imports, exports, constants, lets, defaultExport });
@@ -27,6 +27,7 @@ export const getTypescriptFileProperties = ({ path, file }: GetTypescriptFilePro
   };
 
   console.log(allData);
+
   return allData;
 };
 

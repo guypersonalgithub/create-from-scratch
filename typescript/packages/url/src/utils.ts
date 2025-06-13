@@ -1,4 +1,4 @@
-import { BackendArgs, FrontendArgs, QueryParams } from "./types";
+import type { BackendArgs, FrontendArgs, QueryParams } from "./types";
 
 type ArrangeSearchParamsArgs = {
   queryParams?: QueryParams;
@@ -35,6 +35,7 @@ export const getFrontendBaseURL = ({
 
   if (overrideParams) {
     url.search = searchParams.toString();
+
     return url;
   }
 

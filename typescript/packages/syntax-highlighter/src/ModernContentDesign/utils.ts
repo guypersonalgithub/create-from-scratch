@@ -1,5 +1,5 @@
-import { SupportedLanguages } from "../languages";
-import { Variant } from "./types";
+import { type SupportedLanguages } from "../languages";
+import { type Variant } from "./types";
 
 type GetDisplayableLanguageArgs = {
   language: SupportedLanguages;

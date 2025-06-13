@@ -1,10 +1,5 @@
-import {
-  convertDateToISO,
-  convertPartsToFullDate,
-  getDateDay,
-  Locale,
-} from "@packages/date";
-import { Days, FormattedDay } from "./types";
+import { convertDateToISO, convertPartsToFullDate, getDateDay, type Locale } from "@packages/date";
+import { type Days, type FormattedDay } from "./types";
 import { days, monthDetails } from "./constants";
 
 type ArrangeDaysArgs = {
@@ -16,6 +11,7 @@ export const arrangeDays = ({ monthStartOnDay }: ArrangeDaysArgs) => {
   const movedPart = days.slice(0, index);
   const remaining = days.slice(index);
   remaining.push(...movedPart);
+
   return { arrangedDays: remaining, startDayIndex: index };
 };
 

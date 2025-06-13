@@ -33,6 +33,7 @@ type InterpolateHueArgs = {
 
 const interpolateHue = ({ from, to, progress }: InterpolateHueArgs) => {
   const delta = ((to - from + 180) % 360) - 180;
+
   return (from + delta * progress + 360) % 360;
 };
 

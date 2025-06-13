@@ -1,5 +1,5 @@
-import { sendRequest, SendRequestArgs } from "./sendRequest";
-import { RequestResponse } from "./types";
+import { sendRequest, type SendRequestArgs } from "./sendRequest";
+import { type RequestResponse } from "./types";
 
 export type SendAbortableRequestArgs<T> = Omit<SendRequestArgs<T>, "signal">;
 

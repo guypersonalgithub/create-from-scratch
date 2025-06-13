@@ -1,4 +1,4 @@
-import { CSSProperties, RefObject, ReactElement } from "react";
+import { type CSSProperties, type RefObject, type ReactElement } from "react";
 
 export interface CSSPropertiesWithIndex extends CSSProperties {
   [key: string]: string | number | undefined;

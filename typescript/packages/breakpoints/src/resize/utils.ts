@@ -1,4 +1,4 @@
-import { Breakpoint } from "../types";
+import { type Breakpoint } from "../types";
 import { getClosestBreakpointKey } from "../utils";
 
 type GetCurrentBreakpointArgs<T extends Record<string, Breakpoint>> = {

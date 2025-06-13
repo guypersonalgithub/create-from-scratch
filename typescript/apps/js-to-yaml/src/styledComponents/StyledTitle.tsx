@@ -1,5 +1,5 @@
 import { SpreaderTitle } from "@packages/title";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 type StyledTitleProps = {
   children: ReactNode;

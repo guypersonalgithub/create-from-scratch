@@ -7,6 +7,7 @@ export const getCurrentCircularDependencyPackageName = ({
 }: SplitCircularDependencyPathArgs) => {
   const splitProblematicPath = problematicPath.split("->");
   const packageName = splitProblematicPath[splitProblematicPath.length - 1].trim();
+
   return {
     packageName,
     splitProblematicPath,

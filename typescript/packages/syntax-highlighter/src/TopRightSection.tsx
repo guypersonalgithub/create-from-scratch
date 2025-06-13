@@ -1,5 +1,5 @@
 import { CopyToClipboard } from "@packages/copy-to-clipboard";
-import { SupportedLanguages } from "./languages";
+import { type SupportedLanguages } from "./languages";
 
 type TopRightSectionProps = {
   code: string;

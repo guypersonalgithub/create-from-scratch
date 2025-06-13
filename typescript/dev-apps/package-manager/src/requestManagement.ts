@@ -1,8 +1,11 @@
 import "@packages/fetch-management";
-import { DetectDependenciesRoute } from "@packages/package-manager-shared-types";
-import { ParsedData } from "./types";
-import { LatestVersion, NPMRegistry } from "@packages/detect-repository-dependencies-types";
-import { DependenciesToChange } from "@packages/alter-package-versions-types";
+import { type DetectDependenciesRoute } from "@packages/package-manager-shared-types";
+import { type ParsedData } from "./types";
+import {
+  type LatestVersion,
+  type NPMRegistry,
+} from "@packages/detect-repository-dependencies-types";
+import { type DependenciesToChange } from "@packages/alter-package-versions-types";
 
 declare module "@packages/fetch-management" {
   interface BaseRequestTypeRegistry {

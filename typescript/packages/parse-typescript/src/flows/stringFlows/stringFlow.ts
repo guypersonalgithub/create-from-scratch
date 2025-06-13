@@ -1,5 +1,5 @@
-import { stringDefinitions, TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { stringDefinitions, type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
 
 type StringFlowArgs = {
   tokens: BaseToken[];
@@ -30,7 +30,7 @@ export const stringFlow = ({
   }
 
   let completeValue = firstChar;
-  let quotationSign = firstChar;
+  const quotationSign = firstChar;
   let foundQuotationSign = false;
 
   while (currentIndex < input.length) {

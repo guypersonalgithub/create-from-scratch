@@ -1,6 +1,10 @@
 import { isNumeric } from "@packages/utils";
-import { BaseToken } from "../../types";
-import { acceptableCharactersAfterANumber, TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
+import {
+  acceptableCharactersAfterANumber,
+  type TokenTypeOptions,
+  TokenTypes,
+} from "../../constants";
 import { findNextBreakpoint } from "../../utils";
 
 type NumericFlowArgs = {

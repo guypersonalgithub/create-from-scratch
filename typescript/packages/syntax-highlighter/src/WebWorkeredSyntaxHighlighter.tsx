@@ -1,7 +1,7 @@
-import { SupportedLanguages } from "./languages";
-import { StandardSyntaxHighlighterProps, HighlightedCode } from "./SyntaxHighlighter";
+import { type SupportedLanguages } from "./languages";
+import { type StandardSyntaxHighlighterProps, type HighlightedCode } from "./SyntaxHighlighter";
 import { colorizeTokens } from "./colorizeTokens";
-import { GenericBaseToken, TokenMaps } from "./types";
+import { type GenericBaseToken, type TokenMaps } from "./types";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { TopRightSection } from "./TopRightSection";
 import HighlightWorker from "./webWorker?worker";

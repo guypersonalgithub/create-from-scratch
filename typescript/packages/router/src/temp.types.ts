@@ -27,7 +27,7 @@
 //         : never;
 // }[keyof T & `/${string}`];
 
-import { RouterPaths } from "./types";
+import { type RouterPaths } from "./types";
 
 type IsLeaf = ((props?: any) => React.ReactNode) | React.ReactNode;
 

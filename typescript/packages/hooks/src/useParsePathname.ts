@@ -7,6 +7,7 @@ type SplitPathnameArgs = {
 export const useParsePathname = () => {
   const splitPathname = ({ pathname }: SplitPathnameArgs) => {
     const splitPath = pathname.slice(1).split("/");
+
     return splitPath.map((path, index) => {
       let fullPath = "";
 
@@ -16,12 +17,12 @@ export const useParsePathname = () => {
 
       return {
         part: path,
-        fullPath: fullPath ?? "/"
-      }
+        fullPath: fullPath ?? "/",
+      };
     });
   };
 
-  const [paths, setPaths] = useState<{ part: string, fullPath: string}[]>(
+  const [paths, setPaths] = useState<{ part: string; fullPath: string }[]>(
     splitPathname({ pathname: window.location.pathname }),
   );
 

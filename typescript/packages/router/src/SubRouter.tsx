@@ -1,5 +1,5 @@
-import { ReactNode, useEffect, useRef } from "react";
-import { RouterContentProps, RouterProps } from "./types";
+import { type ReactNode, useEffect, useRef } from "react";
+import { type RouterContentProps, type RouterProps } from "./types";
 import { useGetRouteData } from "./useGetRouteData";
 import { useRouterContext } from "./useRouterContext";
 import { useScrollToTheTopManual } from "@packages/hooks";
@@ -10,7 +10,12 @@ import { IS_SUB_ROUTER } from "./symbols";
 export const SubRouter = ({ paths, wrapperStyle }: RouterProps) => {
   const { routeParams } = useRouterContext();
   const { shortenedPath, parentPassedPath } = useSubRouterContext();
-  const { route, passedPath, basePath } = useGetRouteData({ path: shortenedPath, paths, routeParams, parentPassedPath });
+  const { route, passedPath, basePath } = useGetRouteData({
+    path: shortenedPath,
+    paths,
+    routeParams,
+    parentPassedPath,
+  });
 
   return (
     <SubRouterContext.Provider value={{ shortenedPath: basePath, parentPassedPath: passedPath }}>
@@ -24,12 +29,7 @@ export const SubRouter = ({ paths, wrapperStyle }: RouterProps) => {
   );
 };
 
-const RouterContent = ({
-  passedPath,
-  paths,
-  route,
-  wrapperStyle,
-}: RouterContentProps) => {
+const RouterContent = ({ passedPath, paths, route, wrapperStyle }: RouterContentProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollFirstOverflowedParentToTop } = useScrollToTheTopManual();
 
@@ -42,7 +42,7 @@ const RouterContent = ({
   }, [passedPath]);
 
   return (
-    <div ref={ref} style={{...wrapperStyle }}>
+    <div ref={ref} style={{ ...wrapperStyle }}>
       {route || (paths["404"] as ReactNode) || null}
     </div>
   );

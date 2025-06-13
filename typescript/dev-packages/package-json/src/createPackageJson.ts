@@ -1,4 +1,4 @@
-import { PackageJson } from "./types";
+import { type PackageJson } from "./types";
 import { writeFileSync } from "fs";
 
 type CreatePackageJsonArgs = Omit<PackageJson, "version" | "private"> & {

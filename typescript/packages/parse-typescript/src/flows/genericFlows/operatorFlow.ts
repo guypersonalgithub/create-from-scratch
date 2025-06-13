@@ -1,5 +1,5 @@
-import { operators, TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { operators, type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
 
 type OperatorFlowArgs = {
   tokens: BaseToken[];

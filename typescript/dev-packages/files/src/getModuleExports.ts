@@ -7,5 +7,6 @@ type GetModuleExportsArgs = {
 export const getModuleExports = async ({ filePath }: GetModuleExportsArgs) => {
   const fileUrl = pathToFileURL(filePath).href;
   const module = await import(fileUrl);
+
   return module;
 };

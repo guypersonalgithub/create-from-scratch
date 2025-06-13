@@ -15,5 +15,6 @@ export const countTestsInFile = ({ path }: CountTestsInFileArgs) => {
 
     return sum;
   }, 0);
+
   return testsCount;
 };

@@ -1,5 +1,5 @@
 import { TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { type BaseToken } from "../../types";
 
 type CommentFlowArgs = {
   tokens: BaseToken[];
@@ -15,7 +15,7 @@ export const commentFlow = ({ tokens, newTokenValue, input, currentIndex }: Comm
   }
 
   let comment = newTokenValue + nextChar;
-  let endCondition = nextChar === "/" ? "\n" : "*/";
+  const endCondition = nextChar === "/" ? "\n" : "*/";
 
   currentIndex++;
 

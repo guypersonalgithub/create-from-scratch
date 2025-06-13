@@ -1,4 +1,4 @@
-import { ActionYamlConfigProps } from "@packages/github-actions";
+import { type ActionYamlConfigProps } from "@packages/github-actions";
 
 export default {
   fileName: "parse-yaml-tests",

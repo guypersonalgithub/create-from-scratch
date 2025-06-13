@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { ConfigProperties } from "./types";
+import { type ConfigProperties } from "./types";
 
 type GetConfigFileDataArgs = {
   projectAbsolutePath: string;
@@ -11,6 +11,7 @@ export const getConfigFileData = ({ projectAbsolutePath }: GetConfigFileDataArgs
       encoding: "utf-8",
     });
     const parsedConfigFile = JSON.parse(configurationFile);
+
     return parsedConfigFile as ConfigProperties;
   } catch (error) {
     return {};

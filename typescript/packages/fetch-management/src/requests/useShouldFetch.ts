@@ -1,5 +1,9 @@
-import { SendAbortableRequestArgs } from "@packages/request";
-import { ExtendedRequestTypeRegistry, ExtractedCallbackArg, PseudoData } from "../types";
+import { type SendAbortableRequestArgs } from "@packages/request";
+import {
+  type ExtendedRequestTypeRegistry,
+  type ExtractedCallbackArg,
+  type PseudoData,
+} from "../types";
 import { fetchManagement } from "../observer";
 import { compareCurrentAndNewRequests } from "../utils";
 

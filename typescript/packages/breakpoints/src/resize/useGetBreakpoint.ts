@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Breakpoint } from "../types";
+import { type Breakpoint } from "../types";
 import { getFirstBreakpoint } from "./utils";
 
 type GetBreakpointArgs<T extends Record<string, Breakpoint>> = {

@@ -7,14 +7,14 @@ import {
   arePackageJsonDependenciesEqual,
   iterateOverPackageJsons,
 } from "@packages/detect-repository-dependencies";
-import { LatestVersion } from "@packages/detect-repository-dependencies-types";
+import { type LatestVersion } from "@packages/detect-repository-dependencies-types";
 import { detectFileChanges } from "@packages/detect-file-changes";
 import { getFile } from "@packages/files";
 import {
   fetchPackageLatestVersions,
   getVersionsOfCurrentPagination,
 } from "./getVersionsOfCurrentPagination";
-import { alterPackageVersions, DependenciesToChange } from "@packages/alter-package-versions";
+import { alterPackageVersions, type DependenciesToChange } from "@packages/alter-package-versions";
 
 // loadFlagsIntoEnv();
 

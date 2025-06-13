@@ -1,4 +1,4 @@
-import { TokenTypeOptions } from "./constants";
+import { type TokenTypeOptions } from "./constants";
 
 export type BaseToken = {
   type: TokenTypeOptions;
@@ -8,4 +8,4 @@ export type BaseToken = {
 export type OpenedContextsIdentation = {
   identiation: number;
   childrenIdentiation: number;
-}
+};

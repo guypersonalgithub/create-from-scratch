@@ -1,6 +1,6 @@
 import { extractObject, getExportDefaultIndex } from "@packages/typescript-file-manipulation";
 import { convertStringToObjectWithStringProperties } from "@packages/object-utils";
-import { ActionYamlConfigProps } from "./types";
+import { type ActionYamlConfigProps } from "./types";
 // import { getModuleExports } from "@packages/files";
 
 type GetConfigurationArgs = {
@@ -18,6 +18,7 @@ export const getConfiguration = ({ filePath }: GetConfigurationArgs) => {
 
   if (!isObject) {
     console.error("Expected to find an export default object.");
+
     return;
   }
 

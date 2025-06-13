@@ -1,6 +1,6 @@
 import { readdirSync, writeFileSync } from "fs";
 import { detectUsedLocalPackages } from "@packages/packages";
-import { DockerComposeData, Profiles, WorkspaceContainerProperties } from "./types";
+import { type DockerComposeData, type Profiles, type WorkspaceContainerProperties } from "./types";
 import { getProjectAbsolutePath } from "@packages/paths";
 import { getContainerProperties } from "./getContainerProperties";
 import { generateNoneWorkspacePackageJsons } from "./generateNoneWorkspacePackageJsons";
@@ -71,6 +71,7 @@ const appWorkspaces = ({ projectAbsolutePath, dockerComposeData, profiles }: App
 
     if (!workspaceContainerProperties) {
       console.error(`Skipping ${workspace} due to missing configurations.`);
+
       return;
     }
 

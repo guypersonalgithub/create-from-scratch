@@ -3,7 +3,7 @@ import { sep } from "path";
 import { convertFlagsArrayToObject } from "../packages/utils/src/flags";
 import { getOperatingSystem } from "@packages/os";
 import { detectPackageEnvironment } from "@packages/dev-utils";
-import { ExecuteTerminalCommandWithReadinessCheckArgs } from "@packages/terminal-utils";
+import { type ExecuteTerminalCommandWithReadinessCheckArgs } from "@packages/terminal-utils";
 import { getOpenBrowserTabCommand } from "@packages/dev-utils";
 import { findAvailablePortsInRange } from "@packages/ports";
 import { runSequencedCommands } from "@packages/terminal-multi-commands";

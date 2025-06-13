@@ -3,8 +3,15 @@ import { usePath } from "@packages/router";
 import { Table } from "@packages/table";
 import { EllipsisTooltip } from "@packages/tooltip";
 import { getSemVer } from "../../utils";
-import { SpecificDependencyTableProps } from "./types";
-import { CSSProperties, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { type SpecificDependencyTableProps } from "./types";
+import {
+  type CSSProperties,
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Checkbox } from "@packages/checkbox";
 import { useControlTriggerPopper } from "@packages/trigger-popper";
 import { SelectedTriggerPopper, VersionTypeAheads } from "./VersionTypeAheads";
@@ -124,6 +131,7 @@ export const SpecificDependencyTable = ({
           ),
           cell: (data) => {
             const { path } = data;
+
             return (
               <Checkbox
                 checked={checked.has(path)}

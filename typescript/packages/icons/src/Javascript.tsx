@@ -1,6 +1,6 @@
-import { SVGIconProps } from "./types";
+import { type SVGIconProps } from "./types";
 
-type JavascriptProps = SVGIconProps & { backgroundColor?: string; fill?: string; };
+type JavascriptProps = SVGIconProps & { backgroundColor?: string; fill?: string };
 
 export const Javascript = ({
   size,

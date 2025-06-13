@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { fillDependenciesMap } from "./fillDependenciesMap";
-import { DependenciesMap } from "@packages/detect-repository-dependencies-types";
-import { ParsedPackageLock } from "./types";
+import { type DependenciesMap } from "@packages/detect-repository-dependencies-types";
+import { type ParsedPackageLock } from "./types";
 
 type MapPackageJsonDependenciesArgs = {
   fullPathWithFile: string;

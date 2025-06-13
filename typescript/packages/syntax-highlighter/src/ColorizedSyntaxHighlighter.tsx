@@ -1,8 +1,8 @@
-import { supportedLanguages, SupportedLanguages } from "./languages";
-import { StandardSyntaxHighlighterProps, HighlightedCode } from "./SyntaxHighlighter";
+import { supportedLanguages, type SupportedLanguages } from "./languages";
+import { type StandardSyntaxHighlighterProps, type HighlightedCode } from "./SyntaxHighlighter";
 import { colorizeTokens } from "./colorizeTokens";
-import { GenericBaseToken, GetHighlightedTokensArgs, TokenMaps } from "./types";
-import { JSX, useEffect, useState } from "react";
+import { type GenericBaseToken, type GetHighlightedTokensArgs, type TokenMaps } from "./types";
+import { type JSX, useEffect, useState } from "react";
 import { WebWorkeredSyntaxHighlighter } from "./WebWorkeredSyntaxHighlighter";
 import { SimpleContentDesign } from "./SimpleContentDesign";
 import { ModernContentDesign } from "./ModernContentDesign";

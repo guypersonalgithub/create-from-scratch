@@ -1,4 +1,4 @@
-import { AtleastOne } from "@packages/utils";
+import type { AtleastOne } from "@packages/utils";
 
 export type QueryParams = Record<
   string,

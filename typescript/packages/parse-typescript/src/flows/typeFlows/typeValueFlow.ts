@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "../../constants";
-import { BaseToken, TypeFlowCallback } from "../../types";
+import { type TokenTypeOptions } from "../../constants";
+import { type BaseToken, type TypeFlowCallback } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { stringFlow, templateLiteralFlow } from "../stringFlows";
 import { arrayTypeFlow } from "./arrayTypeFlow";

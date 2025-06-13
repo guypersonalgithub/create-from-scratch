@@ -1,6 +1,6 @@
-import { Observer } from "@packages/design-patterns";
-import { createContext, ChangeEvent } from "react";
-import { Validators } from "./types";
+import { type Observer } from "@packages/design-patterns";
+import { createContext, type ChangeEvent } from "react";
+import { type Validators } from "./types";
 
 export type UseFormStateArgs<T extends Record<string, unknown>, K extends keyof T = keyof T> = {
   values: K[];

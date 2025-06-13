@@ -1,5 +1,5 @@
 import type { Meta } from "@storybook/react";
-import { EdgeIntersection, EdgeWrapperRefs } from "@packages/edge-intersection";
+import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { createRef } from "react";
 
 const meta = {

@@ -1,7 +1,7 @@
-import { AnimationContainerWrapperProps } from "./types";
+import { type AnimationContainerWrapperProps } from "./types";
 import { SingleChildContainerWrapper } from "./SingleChildContainerWrapper";
 import { MultiChildrenContainerWrapper } from "./MultiChildrenContainerWrapper";
-import { ReactElement, useContext, useEffect, useRef } from "react";
+import { type ReactElement, useContext, useEffect, useRef } from "react";
 import { useIsDev } from "@packages/is-dev";
 import { UnmountContext } from "./AnimationContainerUnmountWrapper/unmountContext";
 
@@ -64,7 +64,7 @@ export const AnimationContainerWrapper = ({
   }, [isDev]);
 
   if (disabledMountAnimationOnInit.current) {
-     const newChildrenKeys = areMultipleChildren
+    const newChildrenKeys = areMultipleChildren
       ? setupChildrenKeys({
           areMultipleChildren: true,
           children: children as ReactElement[],

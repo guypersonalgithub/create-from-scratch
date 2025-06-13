@@ -1,5 +1,5 @@
-import { RefObject, useEffect, useRef, JSX } from "react";
-import { Tab } from "./types";
+import { type RefObject, useEffect, useRef, type JSX } from "react";
+import { type Tab } from "./types";
 import { useAnimation } from "@packages/animation-container";
 
 type TabValues<T extends Tab[]> = T[number]["value"];
@@ -120,7 +120,7 @@ const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
     };
 
     const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === containerRef.current) {
           setContainerLeft();
         }

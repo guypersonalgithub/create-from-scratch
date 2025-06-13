@@ -1,5 +1,5 @@
 import { AxesSpikes } from "./axesSpikes";
-import { AxisProperties } from "./types";
+import { type AxisProperties } from "./types";
 
 export class Axes {
   private width = 2;

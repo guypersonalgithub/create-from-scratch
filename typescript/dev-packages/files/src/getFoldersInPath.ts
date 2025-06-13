@@ -6,5 +6,6 @@ type GetFoldersInPathArgs = {
 
 export const getFoldersInPath = ({ path }: GetFoldersInPathArgs) => {
   const files = readdirSync(path, { withFileTypes: true });
+
   return files.filter((file) => file.isDirectory());
 };

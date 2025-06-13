@@ -1,5 +1,5 @@
 import { Button } from "@packages/button";
-import { GroupedSidebarProps } from "./types";
+import { type GroupedSidebarProps } from "./types";
 
 export const GroupedSidebarContent = ({
   links,
@@ -10,6 +10,7 @@ export const GroupedSidebarContent = ({
 }: Omit<GroupedSidebarProps, "style">) => {
   return links.map((linkGroup) => {
     const { title, links } = linkGroup;
+
     return (
       <div key={title}>
         <div style={{ fontWeight: "bolder", ...titleStyle }}>{title}</div>

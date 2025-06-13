@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "../constants";
-import { BaseToken, FlowCallback } from "../types";
+import { type TokenTypeOptions } from "../constants";
+import { type BaseToken, type FlowCallback } from "../types";
 import { variableOnlyArrayFlow } from "./arrayFlows";
 import { variableOnlyObjectFlow } from "./objectFlows";
 import { simplifiedVariableFlow } from "./variableFlows";

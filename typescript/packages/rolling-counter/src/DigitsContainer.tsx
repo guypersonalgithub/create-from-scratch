@@ -16,11 +16,13 @@ export const DigitsContainer = ({ initial, from, to, duration }: DigitsContainer
 
   useEffect(() => {
     const increaseCallback = () => {
-        start.current++;
+      start.current++;
+
       return start.current;
     };
     const decreaseCallback = () => {
-        start.current--;
+      start.current--;
+
       return start.current;
     };
 

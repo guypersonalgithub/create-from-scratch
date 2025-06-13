@@ -3,7 +3,7 @@ import { Popover } from "@packages/popover";
 import { Button } from "@packages/button";
 import { StyledCard } from "../styledComponents";
 import { useComplexSharedState } from "../StateManagement";
-import { Anchor, ScrollspyAnchors } from "@packages/scrollspy-anchors";
+import { type Anchor, ScrollspyAnchors } from "@packages/scrollspy-anchors";
 
 export const MobileSections = () => {
   const anchors = useComplexSharedState((data) => data.documentationAnchors);

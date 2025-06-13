@@ -1,5 +1,5 @@
 import { RadioGroup } from "@packages/radio-button";
-import { useState, InputHTMLAttributes, useId } from "react";
+import { useState, type InputHTMLAttributes, useId } from "react";
 import {
   hexToRgba,
   hexToHsl,

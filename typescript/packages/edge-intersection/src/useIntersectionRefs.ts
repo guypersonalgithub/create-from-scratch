@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { EdgeWrapperRefs } from "./types";
+import { type EdgeWrapperRefs } from "./types";
 
 export const useIntersectionRefs = () => {
   const intersectionRefs: EdgeWrapperRefs = {

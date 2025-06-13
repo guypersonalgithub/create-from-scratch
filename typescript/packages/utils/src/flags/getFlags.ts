@@ -1,4 +1,4 @@
-import { Flag } from "./types";
+import type { Flag } from "./types";
 
 type GetFlagsArgs = {
   singleKeyValue: boolean;

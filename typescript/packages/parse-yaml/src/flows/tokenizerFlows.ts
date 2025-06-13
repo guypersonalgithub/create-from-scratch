@@ -1,4 +1,4 @@
-import { BaseToken, OpenedContextsIdentation } from "../types";
+import { type BaseToken, type OpenedContextsIdentation } from "../types";
 import { rowValueFlow } from "./rowValueFlow";
 import { spaceFlow } from "./spaceFlow";
 

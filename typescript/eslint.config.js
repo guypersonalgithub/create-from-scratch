@@ -28,6 +28,14 @@ export default [
         { blankLine: "always", prev: "import", next: "*" },
         { blankLine: "any", prev: "import", next: "import" },
       ],
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          disallowTypeAnnotations: false,
+          fixStyle: "inline-type-imports",
+        },
+      ],
       "newline-before-return": "error",
       "react-hooks/exhaustive-deps": "off",
       // "@typescript-eslint/no-unused-vars": "error",

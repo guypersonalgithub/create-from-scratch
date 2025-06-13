@@ -1,4 +1,11 @@
-import { CSSProperties, InputHTMLAttributes, ReactNode, useEffect, useState, Ref } from "react";
+import {
+  type CSSProperties,
+  type InputHTMLAttributes,
+  type ReactNode,
+  useEffect,
+  useState,
+  type Ref,
+} from "react";
 import { Spinner } from "@packages/loading";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {

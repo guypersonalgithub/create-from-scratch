@@ -1,9 +1,9 @@
-import { CompilerOptionFallbackPolling } from "./compilerOptionFallbackPolling";
-import { CompilerOptionJSX } from "./compilerOptionJSX";
-import { CompilerOptionLib } from "./compilerOptionLib";
-import { CompilerOptionModule } from "./compilerOptionModule";
-import { CompilerOptionModuleResolution } from "./CompilerOptionModuleResolution";
-import { CompilerOptionTarget } from "./compilerOptionTarget";
+import { type CompilerOptionFallbackPolling } from "./compilerOptionFallbackPolling";
+import { type CompilerOptionJSX } from "./compilerOptionJSX";
+import { type CompilerOptionLib } from "./compilerOptionLib";
+import { type CompilerOptionModule } from "./compilerOptionModule";
+import { type CompilerOptionModuleResolution } from "./CompilerOptionModuleResolution";
+import { type CompilerOptionTarget } from "./compilerOptionTarget";
 
 export type TSConfig = {
   files?: string[];

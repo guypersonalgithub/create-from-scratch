@@ -15,5 +15,6 @@ export const calculateStandardDeviation = ({
   }, 0);
   const divideBy = standardDeviationType === "sample" ? data.length - 1 : data.length;
   const variance = squaredDifferencesSum / divideBy;
+
   return Math.sqrt(variance);
 };

@@ -1,7 +1,7 @@
-import { RefObject, ReactNode } from "react";
+import { type RefObject, type ReactNode } from "react";
 import "./CanvasTooltipWrapper.css";
-import { CanvasTooltip, CanvasTooltipProps } from "./CanvasTooltip";
-import { CanvasTooltipActions } from "./types";
+import { CanvasTooltip, type CanvasTooltipProps } from "./CanvasTooltip";
+import { type CanvasTooltipActions } from "./types";
 
 type CanvasTooltipWrapperProps = Pick<CanvasTooltipProps, "elements"> & {
   height: number;

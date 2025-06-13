@@ -1,10 +1,10 @@
-import { RefObject, useEffect, useImperativeHandle, useRef } from "react";
-import { CanvasTooltipActions, TooltipProperties } from "./types";
+import { type RefObject, useEffect, useImperativeHandle, useRef } from "react";
+import { type CanvasTooltipActions, type TooltipProperties } from "./types";
 import { drawTooltip } from "./drawTooltip";
 import {
   clearCanvas,
   getMousePosition,
-  HoverableElement,
+  type HoverableElement,
   hoveredElements,
 } from "@packages/canvas-utils";
 import { drawAnimatedTooltipFrame } from "./drawAnimatedTooltipFrame";

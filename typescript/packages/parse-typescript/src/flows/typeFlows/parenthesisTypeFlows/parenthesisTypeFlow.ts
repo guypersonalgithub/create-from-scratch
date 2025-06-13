@@ -1,5 +1,5 @@
-import { TokenTypeOptions, TokenTypes } from "../../../constants";
-import { BaseToken } from "../../../types";
+import { type TokenTypeOptions, TokenTypes } from "../../../constants";
+import { type BaseToken } from "../../../types";
 import { spaceFollowUpFlow } from "../../genericFlows";
 import { functionTypeAdditionalParamsFlow } from "./functionTypeAdditionalParamsFlow";
 import { noArgumentFunctionTypeFollowup } from "./noArgumentFunctionTypeFollowup";
@@ -146,7 +146,7 @@ export const parenthesisTypeFlow = ({
       };
     }
 
-    let follow = spaceFollowUpFlow({
+    const follow = spaceFollowUpFlow({
       tokens,
       input,
       currentIndex: potentialValue.updatedIndex,

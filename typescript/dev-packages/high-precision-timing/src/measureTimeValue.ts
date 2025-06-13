@@ -9,5 +9,6 @@ export const measureTimeValue = ({ callback }: MeasureTimeValueArgs) => {
 
   const end = performance.now();
   const duration = end - start;
+
   return duration;
 };

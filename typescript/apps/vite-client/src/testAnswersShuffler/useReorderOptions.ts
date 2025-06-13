@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 type UseReoderOptionsArgs = {
   options: ReactNode[];
@@ -14,6 +14,7 @@ export const useReorderOptions = ({ options }: UseReoderOptionsArgs) => {
         const j = Math.floor(Math.random() * (i + 1));
         [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
       }
+
       return newArray;
     });
   };

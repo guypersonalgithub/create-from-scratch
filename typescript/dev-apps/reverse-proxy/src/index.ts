@@ -1,9 +1,8 @@
 import http from "http";
-import { IncomingMessage, ServerResponse } from "http";
+import { type IncomingMessage, type ServerResponse } from "http";
 
 const createProxyServer = () => {
   const proxyServer = http.createServer((req: IncomingMessage, res: ServerResponse) => {
-
     const options = {
       hostname: "localhost",
       port: 3000,

@@ -1,1 +1,1 @@
-export type ScrollOptions = ScrollToOptions & { offset?: number }
+export type ScrollOptions = ScrollToOptions & { offset?: number };

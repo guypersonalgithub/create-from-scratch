@@ -1,4 +1,4 @@
-import { CompleteLinkProps, Link } from "@packages/router";
+import { type CompleteLinkProps, Link } from "@packages/router";
 
 type StyledLinkProps = CompleteLinkProps;
 

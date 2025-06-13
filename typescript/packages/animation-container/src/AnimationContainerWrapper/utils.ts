@@ -1,5 +1,5 @@
-import { ReactElement } from "react";
-import { CSSPropertiesWithIndex } from "./types";
+import { type ReactElement } from "react";
+import { type CSSPropertiesWithIndex } from "./types";
 import { convertStringFormat } from "@packages/utils";
 import { IS_ANIMATION_CONTAINER_WRAPPER } from "./AnimationContainerWrapper";
 
@@ -36,6 +36,7 @@ export const detectStoppedFrame = ({
 
   const progress = currentTime / duration;
   const approximateKeyframeIndex = Math.floor(progress * (keyframesAmount - 1));
+
   return approximateKeyframeIndex;
 };
 
@@ -47,7 +48,7 @@ type GetElementStylesArgs = {
 export const getElementStyles = ({ element, stage }: GetElementStylesArgs) => {
   const styles: Keyframe = {};
   const computedStyle = getComputedStyle(element);
-  for (let property in stage) {
+  for (const property in stage) {
     styles[property] = computedStyle.getPropertyValue(property);
   }
 
@@ -110,6 +111,7 @@ export const continueReversedStoppedAnimation = ({
   });
 
   const previousStoppedFrame = keyframes[stoppedFrame];
+
   return [
     { ...styles, offset: previousStoppedFrame?.offset },
     ...keyframes.slice(stoppedFrame + 1),
@@ -147,6 +149,7 @@ export const getChildKeys = ({ children }: GetChildKeysArgs) => {
   children.forEach((child) => {
     keysSet.add(child.key ?? "");
   });
+
   return keysSet;
 };
 
@@ -161,6 +164,7 @@ export const getAnimationWrapperChildKeys = ({ children }: GetAnimationWrapperCh
       keysSet.add(child.key ?? "");
     }
   });
+
   return keysSet;
 };
 
@@ -175,5 +179,6 @@ export const animationWrapperChildrenKeys = ({ children }: animationWrapperChild
       keysSet.add(child.key ?? "");
     }
   });
+
   return keysSet;
 };

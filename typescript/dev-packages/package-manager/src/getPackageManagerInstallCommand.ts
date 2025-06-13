@@ -1,5 +1,5 @@
 import { detectRepositoryPackageManager } from "./detectRepositoryPackageManager";
-import { SupportedPackageManagers } from "./types";
+import { type SupportedPackageManagers } from "./types";
 
 type GetPackageManagerInstallCommandArgs = {
   packageManager: SupportedPackageManagers;

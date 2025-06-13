@@ -3,10 +3,10 @@ import { Observer } from "@packages/design-patterns";
 type PublicUpdater<Func> = Func extends (state: any, ...args: infer Args) => any
   ? (...args: Args) => void
   : () => void;
-  
+
 type StateManagementArgs<
   T extends Record<string, unknown>,
-  S extends Record<string, (state: T, ...args: any[]) => Partial<T>>
+  S extends Record<string, (state: T, ...args: any[]) => Partial<T>>,
 > = {
   initialState: T;
   stateUpdates?: S;
@@ -14,7 +14,7 @@ type StateManagementArgs<
 
 export const stateManagement = <
   T extends Record<string, unknown>,
-  S extends Record<string, (state: T, ...args: any[]) => Partial<T>>
+  S extends Record<string, (state: T, ...args: any[]) => Partial<T>>,
 >({
   initialState,
   stateUpdates,

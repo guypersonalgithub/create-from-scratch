@@ -1,6 +1,6 @@
-import { Locale } from "@packages/date";
+import { type Locale } from "@packages/date";
 import { arrangeDays, setupCurrentMonthDays } from "./utils";
-import { CalendarFormat, Days } from "./types";
+import { type CalendarFormat, type Days } from "./types";
 import { CalendarContentBody } from "./CalendarContentBody";
 import { FillerCell } from "./FillerCell";
 

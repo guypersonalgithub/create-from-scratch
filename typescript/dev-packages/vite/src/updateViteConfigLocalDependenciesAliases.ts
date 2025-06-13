@@ -49,6 +49,7 @@ export const updateViteConfigLocalDependenciesAliases = async ({
 
         if (!isFunction) {
           console.error("Expected to find an export default defineConfig function.");
+
           return;
         }
 
@@ -56,6 +57,7 @@ export const updateViteConfigLocalDependenciesAliases = async ({
         const functionNameIndex = startingIndex - defineConfigLength;
         if (file.slice(functionNameIndex, startingIndex) !== "defineConfig") {
           console.error("Expected to find an export default defineConfig function.");
+
           return;
         }
 

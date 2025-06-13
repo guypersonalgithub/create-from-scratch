@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import { TokenBucket } from "./types";
+import { type Request, type Response, type NextFunction } from "express";
+import { type TokenBucket } from "./types";
 
 type InitializeRateLimiterArgs = {
   refillInterval?: number;

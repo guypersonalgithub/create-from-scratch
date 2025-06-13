@@ -1,16 +1,16 @@
 import { useEffect, useRef } from "react";
-import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
+import { type sendAbortableRequest, type SendAbortableRequestArgs } from "@packages/request";
 import { fetchManagement } from "../observer";
 import {
-  ExpiredAfter,
-  ExtendedRequestTypeRegistry,
-  ExtractedCallbackArg,
-  ExtractedCallback,
-  PseudoData,
+  type ExpiredAfter,
+  type ExtendedRequestTypeRegistry,
+  type ExtractedCallbackArg,
+  type ExtractedCallback,
+  type PseudoData,
 } from "../types";
 import { activateRequest } from "./activateRequest";
 import { useShouldFetch } from "./useShouldFetch";
-import { useRequest, UseRequestArgs } from "./useRequest";
+import { useRequest, type UseRequestArgs } from "./useRequest";
 import { shouldAvoidSendingRequest } from "../utils";
 
 type UseMountRequestArgs<K extends keyof ExtendedRequestTypeRegistry> = {

@@ -75,6 +75,7 @@ export const setupPackage = async ({
         ];
 
         const shouldSkip = !!skips.find((skip) => filePath.includes(skip));
+
         return shouldSkip;
       },
     });
@@ -133,6 +134,7 @@ export const setupPackage = async ({
           ];
 
           const shouldSkip = !!skips.find((skip) => filePath.includes(skip));
+
           return shouldSkip;
         },
       });

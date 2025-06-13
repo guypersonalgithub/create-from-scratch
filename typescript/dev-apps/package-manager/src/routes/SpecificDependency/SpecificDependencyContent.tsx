@@ -1,11 +1,11 @@
-import { NPMRegistry } from "@packages/detect-repository-dependencies-types";
-import { ParsedData } from "../../types";
+import { type NPMRegistry } from "@packages/detect-repository-dependencies-types";
+import { type ParsedData } from "../../types";
 import { usePath } from "@packages/router";
 import { SpecificDependencyTable } from "./SpecificDependencyTable";
 import { Button } from "@packages/button";
 import { useRef } from "react";
-import { DependenciesToChange } from "@packages/alter-package-versions-types";
-import { UpdateChangedDependenciesArgs } from "./types";
+import { type DependenciesToChange } from "@packages/alter-package-versions-types";
+import { type UpdateChangedDependenciesArgs } from "./types";
 import { useActionState } from "@packages/fetch-management";
 import { parseDependenciesData } from "../../utils";
 
@@ -104,6 +104,7 @@ export const SpecificDependencyContent = ({
                   updateStates: {
                     dependencies: () => {
                       const parsedData = parseDependenciesData({ currentData: data });
+
                       return parsedData;
                     },
                   },

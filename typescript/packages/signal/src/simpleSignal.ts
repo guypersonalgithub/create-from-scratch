@@ -22,6 +22,7 @@ export class SimpleSignal<T> {
   subscribe(subscriber: Subscriber<T>): () => void {
     this.subscribers.add(subscriber);
     subscriber(this._value);
+
     return () => this.subscribers.delete(subscriber);
   }
 

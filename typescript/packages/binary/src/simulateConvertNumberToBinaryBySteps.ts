@@ -19,7 +19,7 @@ export const simulateConvertNumberToBinaryBySteps = ({
   startFrom = 0,
   callback,
 }: SimulateConvertNumberToBinaryByStepsArgs) => {
-  let base = convertNumberToBinary({ num: startFrom });
+  const base = convertNumberToBinary({ num: startFrom });
 
   callback({
     result: base,

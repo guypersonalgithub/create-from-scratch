@@ -4,9 +4,7 @@ type RequestUserInputArgs = {
   question?: string;
 };
 
-export const requestUserInput = ({
-  question = "",
-}: RequestUserInputArgs): Promise<string> => {
+export const requestUserInput = ({ question = "" }: RequestUserInputArgs): Promise<string> => {
   const commandInput = readline.createInterface({
     input: process.stdin,
     output: process.stdout,

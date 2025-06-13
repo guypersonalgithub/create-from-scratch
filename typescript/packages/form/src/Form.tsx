@@ -1,6 +1,18 @@
-import { ChangeEvent, FormEvent, ReactNode, RefObject, useEffect, useState } from "react";
-import { FormContext, FormContextType, RegisterArgs, UseFormStateArgs } from "./FormContext";
-import { Validators } from "./types";
+import {
+  type ChangeEvent,
+  type FormEvent,
+  type ReactNode,
+  type RefObject,
+  useEffect,
+  useState,
+} from "react";
+import {
+  FormContext,
+  type FormContextType,
+  type RegisterArgs,
+  type UseFormStateArgs,
+} from "./FormContext";
+import { type Validators } from "./types";
 import { Observer } from "@packages/design-patterns";
 import { pickValues } from "./utils";
 
@@ -25,6 +37,7 @@ export const Form = <T extends Record<string, unknown>>({
     const [state, setState] = useState<Partial<Pick<T, K>>>(() => {
       const fullState = observer.getState();
       const picked = pickValues({ obj: fullState, keys: values });
+
       return picked;
     });
 

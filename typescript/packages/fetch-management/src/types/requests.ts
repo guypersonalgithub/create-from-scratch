@@ -1,4 +1,4 @@
-import { SendAbortableRequestArgs } from "@packages/request";
+import { type SendAbortableRequestArgs } from "@packages/request";
 
 export interface BaseRequestTypeRegistry {}
 

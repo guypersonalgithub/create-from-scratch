@@ -6,7 +6,7 @@ import {
   calculateLogLines,
   keyInputs,
 } from "@packages/terminal-utils";
-import { Option } from "./types";
+import { type Option } from "./types";
 import { displayOption } from "./displayOption";
 
 type DisplayOptionsArgs = {
@@ -75,6 +75,7 @@ export const multiSelect = ({
         if (suffixRows > 0) {
           console.log(suffixText);
         }
+
         return;
       }
 
@@ -147,6 +148,7 @@ export const multiSelect = ({
         revealTerminalCursor();
         process.stdin.removeListener("data", handleKeypress);
         resolve(selectedOptions);
+
         return;
       }
 

@@ -1,4 +1,4 @@
-import { CSSProperties, useRef } from "react";
+import { type CSSProperties, useRef } from "react";
 import {
   convertKeyframeToCSSProperties,
   detectStoppedFrame,

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { PopoverDisplayProps } from "./types";
+import { type PopoverDisplayProps } from "./types";
 import { generateSecureRandomString } from "@packages/randomizer";
 
 export const useControlPopover = () => {

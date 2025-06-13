@@ -1,5 +1,5 @@
 import { Link } from "@packages/router";
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 
 type StyledLinkProps = {
   path: string;

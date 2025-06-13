@@ -1,6 +1,6 @@
-import { TokenTypeOptions, TokenTypes } from "./constants";
+import { type TokenTypeOptions, TokenTypes } from "./constants";
 import { tokenizerFlows } from "./flows/tokenizerFlows";
-import { BaseToken, OpenedContext } from "./types";
+import { type BaseToken, type OpenedContext } from "./types";
 import { findNextBreakpoint } from "./utils";
 
 type ParseTypescriptArgs = {

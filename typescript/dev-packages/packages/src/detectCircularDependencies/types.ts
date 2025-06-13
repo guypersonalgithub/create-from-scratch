@@ -1,4 +1,4 @@
-import { PackageJsonDependencies, PackageLockPackages } from "../types";
+import { type PackageJsonDependencies, type PackageLockPackages } from "../types";
 
 export type DetectCircularDependenciesArgs = {
   dependencyTypes?: PackageJsonDependencies[];

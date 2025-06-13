@@ -1,4 +1,4 @@
-import { ParsedToken } from "../types";
+import { type ParsedToken } from "../types";
 import { uniqueOperationsFlow } from "./uniqueOperationsFlow";
 
 type RecursiveOperationsArgs = {
@@ -16,6 +16,7 @@ export const recursiveOperations = ({
 }: RecursiveOperationsArgs) => {
   if (typeof token?.value !== "string") {
     parsedTokensOfTheSameLevel.push(token);
+
     return;
   }
 

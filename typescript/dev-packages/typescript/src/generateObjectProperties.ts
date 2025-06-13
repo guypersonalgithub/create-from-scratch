@@ -110,6 +110,7 @@ const createExpression = ({ value }: CreateExpressionArgs): ts.Expression => {
     const elements = value.map((value) => {
       return createExpression({ value });
     });
+
     return ts.factory.createArrayLiteralExpression(elements);
   } else if (typeof value === "object") {
     const objectValue = value as
@@ -124,6 +125,7 @@ const createExpression = ({ value }: CreateExpressionArgs): ts.Expression => {
     if (objectValue && objectValue.__expression) {
       // Handle complex expressions like function calls
       const expression = objectValue.__expression as NestedExpression["__expression"];
+
       return ts.factory.createCallExpression(
         ts.factory.createIdentifier(expression.callee),
         undefined,
@@ -132,6 +134,7 @@ const createExpression = ({ value }: CreateExpressionArgs): ts.Expression => {
         }),
       );
     }
+
     return generateObjectProperties({ objectStructure: objectValue });
   } else {
     throw new Error(`Unsupported value type: ${typeof value}`);

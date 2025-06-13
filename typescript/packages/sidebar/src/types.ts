@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { QueryParams } from "@packages/url";
+import { type ReactNode } from "react";
+import { type QueryParams } from "@packages/url";
 
 export type SidebarLink = {
   icon?: ReactNode;

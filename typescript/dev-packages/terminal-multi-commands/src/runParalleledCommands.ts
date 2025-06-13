@@ -1,6 +1,6 @@
 import {
   executeTerminalCommandWithReadinessCheck,
-  ExecuteTerminalCommandWithReadinessCheckArgs,
+  type ExecuteTerminalCommandWithReadinessCheckArgs,
 } from "@packages/terminal-utils";
 
 type RunParalleledCommandsArgs = {

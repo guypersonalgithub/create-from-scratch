@@ -7,8 +7,8 @@ import { Tabs } from "@packages/tabs";
 import { useRequestState } from "@packages/fetch-management";
 import { useFetchDependencies } from "../useFetchDependencies";
 import { getSemVer } from "../utils";
-import { ParsedData } from "../types";
-import { LatestVersion } from "@packages/detect-repository-dependencies-types";
+import { type ParsedData } from "../types";
+import { type LatestVersion } from "@packages/detect-repository-dependencies-types";
 import { useMoveToSpecificDependencyPage } from "./useMoveToSpecificDependencyPage";
 
 type IsDependencyUpToDateArgs = {
@@ -32,6 +32,7 @@ const isDependencyUpToDate = ({ row, versionsData }: IsDependencyUpToDateArgs) =
   const amount = versionsSet.size;
 
   const isUpdated = versionsSet.has(version) && amount === 1;
+
   return isUpdated;
 };
 
@@ -253,6 +254,7 @@ export const MainRoute = () => {
                 callback: ({ requestData, previousData }) => {
                   const newData = requestData?.data ?? {};
                   const previous = previousData ?? {};
+
                   return { ...previous, ...newData };
                 },
                 url: `http://localhost:${import.meta.env.VITE_BACK_PORT}/latest`,

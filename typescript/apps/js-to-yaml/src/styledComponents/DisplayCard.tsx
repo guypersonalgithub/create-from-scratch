@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { StyledCard } from "./StyledCard";
 import { useBreakpoints } from "../breakpoints";
 

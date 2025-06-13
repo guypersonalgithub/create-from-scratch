@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, ReactNode, RefObject } from "react";
-import { TooltipDisplayProps } from "./types";
+import { useState, useEffect, useRef, type ReactNode, type RefObject } from "react";
+import { type TooltipDisplayProps } from "./types";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
-  AnimationContainerWrapperProps,
+  type AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 import { capitalizeFirstChar, observeElementsVisibility } from "@packages/utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
@@ -60,6 +60,7 @@ export const TooltipManager = ({
       setTooltips((prev) => {
         const remainingTooltips = prev.filter((tooltip) => tooltip.id !== id);
         tooltipIds.current.delete(id);
+
         return remainingTooltips;
       });
     };

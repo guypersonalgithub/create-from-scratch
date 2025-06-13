@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useControlTooltip } from "./useControlTooltip";
 import { TooltipContent } from "./TooltipContent";
 import { useIntersectionRefs } from "@packages/edge-intersection";
-import { TooltipProps } from "./Tooltip";
+import { type TooltipProps } from "./Tooltip";
 
 export const AutomaticTooltip = ({
   content,

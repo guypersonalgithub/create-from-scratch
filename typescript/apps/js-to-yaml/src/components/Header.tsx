@@ -22,7 +22,7 @@ export const Header = () => {
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["mediumDesktop"],
     includeMismatchBelow: true,
-    defaultAboveBreakpoint: "mediumDesktop"
+    defaultAboveBreakpoint: "mediumDesktop",
   });
   const isDesktop = breakpoint === "mediumDesktop";
 

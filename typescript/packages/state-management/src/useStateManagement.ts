@@ -37,6 +37,7 @@ export const useComplexStateManagement = <T extends Record<string, unknown>, D>(
       }
 
       previous.current = newSelected;
+
       return newSelected;
     },
     () => selector(getData()),

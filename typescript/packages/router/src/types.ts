@@ -1,4 +1,4 @@
-import { CSSProperties, ReactElement, ReactNode } from "react";
+import { type CSSProperties, type ReactElement, type ReactNode } from "react";
 
 export type RouterPaths = {
   [key: `/${string}`]: ReactElement | RouterPaths | RouterPathGuard;

@@ -3,17 +3,17 @@ import { useControlModal } from "@packages/modal";
 import { EmptyFolder, MagnifyingGlass } from "@packages/icons";
 import { Badge } from "@packages/badge";
 import {
-  CSSProperties,
-  Dispatch,
-  RefObject,
-  SetStateAction,
+  type CSSProperties,
+  type Dispatch,
+  type RefObject,
+  type SetStateAction,
   useEffect,
   useRef,
   useState,
 } from "react";
 import { Input } from "@packages/input";
 import { Key } from "@packages/keyboard-key";
-import { SearchModalOption } from "./types";
+import { type SearchModalOption } from "./types";
 
 type SearchModalProps = {
   buttonStyle?: CSSProperties;
@@ -87,6 +87,7 @@ export const SearchModal = ({
     };
 
     window.addEventListener("keydown", openPageSearchModal);
+
     return () => {
       window.removeEventListener("keydown", openPageSearchModal);
     };

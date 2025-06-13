@@ -30,5 +30,6 @@ export const generateRegexOffPattern = ({ pattern, divider }: GenerateRegexOffPa
   }
 
   regexStr += "$"; // End of string anchor
+
   return new RegExp(regexStr);
 };

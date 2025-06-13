@@ -1,5 +1,5 @@
 import { recursiveLocalPackagesDetection } from "./detectUsedLocalPackages";
-import { LocalPackageMetadata, PackageLockPackages } from "./types";
+import { type LocalPackageMetadata, type PackageLockPackages } from "./types";
 
 type getPrivatePackageDependenciesArgs = {
   dependencies: Record<string, string>;

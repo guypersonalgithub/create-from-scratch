@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
-import { Button, ButtonProps } from "@packages/button";
+import { type CSSProperties } from "react";
+import { Button, type ButtonProps } from "@packages/button";
 
 export type PaginationProps = {
   currentPage: number;
@@ -109,7 +109,7 @@ export const Pagination = ({
           </span>,
         );
       }
-      
+
       pageNumbers.push(
         <BaseButton key={totalPages} onClick={() => handleClick({ page: totalPages })}>
           {totalPages}

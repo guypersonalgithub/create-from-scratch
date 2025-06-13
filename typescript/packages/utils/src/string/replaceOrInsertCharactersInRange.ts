@@ -15,9 +15,11 @@ export const replaceOrInsertCharactersInRange = ({
 
   if (startIndex === endIndex) {
     updatedStr += str.substring(endIndex);
+
     return updatedStr;
   }
 
   updatedStr += str.substring(endIndex + 1);
+
   return updatedStr;
 };

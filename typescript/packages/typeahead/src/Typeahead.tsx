@@ -1,17 +1,17 @@
 import {
   useState,
   useRef,
-  KeyboardEvent,
+  type KeyboardEvent,
   Fragment,
   useEffect,
-  ReactNode,
-  CSSProperties,
+  type ReactNode,
+  type CSSProperties,
   useLayoutEffect,
 } from "react";
 import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
-import { BaseTypeaheadOption } from "./types";
+import { type BaseTypeaheadOption } from "./types";
 
 export type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   options: T[];
@@ -106,6 +106,7 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
 
     if (inputChangeCallback) {
       inputChangeCallback(value);
+
       return;
     }
 

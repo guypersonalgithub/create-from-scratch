@@ -8,4 +8,3 @@ export type ParsedData = {
   }[];
   isLocal: boolean;
 }[];
-

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { TriggerPopperDisplayProps } from "./types";
+import { type TriggerPopperDisplayProps } from "./types";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
@@ -52,6 +52,7 @@ export const TriggerPopperManager = () => {
         remainingTriggerPoppers.forEach((triggerPopper) => {
           triggerPopperIds.current.add(triggerPopper.id);
         });
+
         return remainingTriggerPoppers;
       });
     };

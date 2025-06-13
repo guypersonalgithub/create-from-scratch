@@ -8,5 +8,6 @@ export const removeLastPathSegment = ({ path }: RemoveLastPathSegmentArgs) => {
   const normalizedPath = normalize(path);
   const segments = normalizedPath.split(sep);
   segments.pop();
+
   return segments.join(sep);
 };

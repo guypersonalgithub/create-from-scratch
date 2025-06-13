@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
+import { type ReactElement } from "react";
 import { AnimationContainerSingleUnmountWrapper } from "./AnimationContainerSingleUnmountWrapper";
 import { AnimationContainerMultiUnmountWrapper } from "./AnimationContainerMultiUnmountWrapper";
-import { ChangeMethod } from "../types";
+import { type ChangeMethod } from "../types";
 
 type AnimationContainerUnmountWrapperProps = {
   changeMethod: ChangeMethod;

@@ -1,5 +1,5 @@
 import { getNextNonSpaceCharIndex, isNumeric } from "@packages/utils";
-import { BaseToken } from "./types";
+import { type BaseToken } from "./types";
 import { TokenTypes } from "./constants";
 
 type FindNextBreakpointArgs = {

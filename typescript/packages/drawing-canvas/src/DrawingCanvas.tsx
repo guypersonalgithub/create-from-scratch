@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, CSSProperties } from "react";
+import { useRef, useState, useEffect, type CSSProperties } from "react";
 
 type DrawingCanvasProps = {
   style?: CSSProperties;

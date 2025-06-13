@@ -1,4 +1,4 @@
 export type TwoDimensionalPoint = {
-    x: number | string;
-    y: number | string;
-}
+  x: number | string;
+  y: number | string;
+};

@@ -9,5 +9,6 @@ export const mainOperatingSystems = {
 export const getOperatingSystem =
   (): (typeof mainOperatingSystems)[keyof typeof mainOperatingSystems] => {
     const os = platform();
+
     return mainOperatingSystems[os as keyof typeof mainOperatingSystems];
   };

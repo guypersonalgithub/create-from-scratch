@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode, useState } from "react";
-import { Theme, UIThemeContext, UIThemeContextType } from "./UIThemeContext";
+import { type CSSProperties, type ReactNode, useState } from "react";
+import { type Theme, UIThemeContext, type UIThemeContextType } from "./UIThemeContext";
 import { getFirstTheme } from "./utils";
 import "./styles.css";
 

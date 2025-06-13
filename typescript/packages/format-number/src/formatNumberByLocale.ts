@@ -12,5 +12,6 @@ export const formatNumberByLocale = ({
   options,
 }: FormatNumberByLocaleArgs) => {
   const formatted = num.toLocaleString(locale, options);
+
   return formatted;
 };
