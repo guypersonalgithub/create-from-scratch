@@ -36,16 +36,13 @@ export const generatePostgresDBTypes = async ({
       tableTypesMap[table_name][column_name] = data_type;
     });
 
-    let types: string[] = [];
+    const types: string[] = [];
     for (const table in tableTypesMap) {
       const properties: string[] = [`export type ${table}Properties = {`];
       const tableProperties = tableTypesMap[table];
       for (const column in tableProperties) {
-        const columnType = tableProperties[
-          column
-        ] as keyof typeof columnTypeTranslations;
-        const columnTypeTranslation =
-          columnTypeTranslations[columnType] ?? columnType;
+        const columnType = tableProperties[column] as keyof typeof columnTypeTranslations;
+        const columnTypeTranslation = columnTypeTranslations[columnType] ?? columnType;
         properties.push(`${column}: ${columnTypeTranslation};`);
       }
       let tableData = properties.join("\r\n\t");
@@ -58,6 +55,7 @@ export const generatePostgresDBTypes = async ({
     console.error(`It seemes like connecting to the postgresql container failed. 
 Please ensure that the appropriate container is up and running, and that the used connection details are correct.
 If the container isn't up, please use the "utils-cli --container ${profile}" command`);
+
     return [];
   }
 };

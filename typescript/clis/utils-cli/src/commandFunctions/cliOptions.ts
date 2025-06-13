@@ -6,7 +6,7 @@ import { generateAndInstallPackage } from "./generateAndInstallPackage";
 import { generatePostgresTypes } from "./generatePostgresTypes";
 import { updateViteConfigLocalDependenciesAliases } from "@packages/vite";
 import { detectChangedDependencies } from "@packages/git";
-import { Flag, parseFlagArguments } from "@packages/utils";
+import { type Flag, parseFlagArguments } from "@packages/utils";
 import { generatePackageLock } from "@packages/package-lock";
 import { generateGithubActionYaml } from "@packages/github-actions";
 import { detectCircularDependencies, detectUndevelopedLocalPackages } from "@packages/packages";

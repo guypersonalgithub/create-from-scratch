@@ -1,7 +1,7 @@
 import { useIntersectionRefs } from "@packages/edge-intersection";
-import { CSSProperties, ReactNode, useRef } from "react";
+import { type CSSProperties, type ReactNode, useRef } from "react";
 import { useControlPopover } from "./useControlPopover";
-import { PopoverDisplayProps } from "./types";
+import { type PopoverDisplayProps } from "./types";
 import { PopoverContent } from "./PopoverContent";
 
 export type PopoverProps = Pick<
@@ -44,15 +44,15 @@ export const Popover = ({
   };
 
   return (
-      <PopoverContent
-        ref={ref}
-        intersectionRefs={intersectionRefs}
-        id={id}
-        show={show}
-        offset={offset}
-        style={style}
-      >
-        {children}
-      </PopoverContent>
+    <PopoverContent
+      ref={ref}
+      intersectionRefs={intersectionRefs}
+      id={id}
+      show={show}
+      offset={offset}
+      style={style}
+    >
+      {children}
+    </PopoverContent>
   );
 };

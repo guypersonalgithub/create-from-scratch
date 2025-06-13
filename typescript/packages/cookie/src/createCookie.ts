@@ -1,4 +1,4 @@
-import { CookieOptions } from "./types";
+import { type CookieOptions } from "./types";
 
 type CreateCookieArgs = {
   name: string;

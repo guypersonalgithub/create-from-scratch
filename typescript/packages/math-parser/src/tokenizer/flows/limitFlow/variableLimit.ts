@@ -1,5 +1,5 @@
 import { TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { type BaseToken } from "../../types";
 import { unicodes } from "../../uniqueUnicodes";
 import { tokenizerFlows } from "../tokenizerFlows";
 import { getNextNonSpaceCharIndex, isCharacterLetter } from "@packages/utils";

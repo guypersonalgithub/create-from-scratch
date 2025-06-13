@@ -19,6 +19,7 @@ const getParsedTokens = ({
 }: Pick<MathMLProps, "input" | "isAnExpression">) => {
   const { tokens, errorMessage: tokenizerErrorMessage } = tokenizer({ input, isAnExpression });
   const { parsedTokens, errorMessage } = parseTokens({ tokens });
+
   return { parsedTokens, errorMessage: errorMessage || tokenizerErrorMessage };
 };
 
@@ -69,6 +70,7 @@ const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: Forma
         console.error(error);
       }
       ref.current.innerHTML = "";
+
       return;
     }
 
@@ -91,7 +93,7 @@ const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: Forma
     clearCancelLines();
 
     const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === ref.current) {
           clearCancelLines();
 

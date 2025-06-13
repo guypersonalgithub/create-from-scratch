@@ -1,4 +1,4 @@
-import { ReactNode, RefObject } from "react";
+import { type ReactNode, type RefObject } from "react";
 import type { EdgeWrapperRefs, Edges } from "@packages/edge-intersection";
 
 export type TooltipDisplayProps = {

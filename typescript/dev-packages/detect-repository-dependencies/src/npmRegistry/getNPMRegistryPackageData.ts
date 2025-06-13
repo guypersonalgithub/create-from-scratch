@@ -1,5 +1,8 @@
 import { sendRequest } from "@packages/request";
-import { NPMRegistry, NPMRegistryVersion } from "@packages/detect-repository-dependencies-types";
+import {
+  type NPMRegistry,
+  type NPMRegistryVersion,
+} from "@packages/detect-repository-dependencies-types";
 
 type NPMRegistryRequestArgs = {
   urlSuffix: string;
@@ -27,7 +30,10 @@ type GetPackageVersionDataArgs = {
   version: string;
 };
 
-export const getPackageVersionData = async ({ packageName, version }: GetPackageVersionDataArgs) => {
+export const getPackageVersionData = async ({
+  packageName,
+  version,
+}: GetPackageVersionDataArgs) => {
   const response = NPMRegistryRequest<NPMRegistryVersion>({
     urlSuffix: `${packageName}/${version}`,
   });

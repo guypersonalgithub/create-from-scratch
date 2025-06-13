@@ -1,5 +1,5 @@
 import {
-  ContinuedCallback,
+  type ContinuedCallback,
   convertNumberToBinary,
   simulateConvertNumberToBinaryBySteps,
 } from "@packages/binary";

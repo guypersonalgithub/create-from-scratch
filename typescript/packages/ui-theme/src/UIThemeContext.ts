@@ -8,6 +8,6 @@ export type UIThemeContextType<T extends Record<string, Th>, Th extends Theme = 
   currentTheme: keyof T;
   themes: T;
   setTheme: (theme: keyof T) => void;
-}
+};
 
 export const UIThemeContext = createContext<UIThemeContextType<any> | null>(null);

@@ -1,4 +1,4 @@
-import { DrawTooltipArgs } from "./drawTooltip";
+import { type DrawTooltipArgs } from "./drawTooltip";
 
 export type TooltipProperties = {
   id: string;
@@ -29,6 +29,11 @@ export type CanvasTooltipActions = {
   drawTooltip: (args: Omit<DrawTooltipArgs, "ctx">) => void;
   removeTooltip: (args: { id: string }) => void;
   animateTooltip: (args: Omit<DrawTooltipArgs, "ctx">) => void;
-  onMouseMove: (args: { event: MouseEvent, canvas: HTMLCanvasElement, animate?: boolean, opacity?: number }) => void;
+  onMouseMove: (args: {
+    event: MouseEvent;
+    canvas: HTMLCanvasElement;
+    animate?: boolean;
+    opacity?: number;
+  }) => void;
   onMouseLeave: () => void;
 };

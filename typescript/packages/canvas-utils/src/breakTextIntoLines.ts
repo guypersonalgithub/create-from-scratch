@@ -32,6 +32,6 @@ export const BreakTextIntoLinesArgs = ({
       line = testLine;
     }
   }
-  
+
   ctx.fillText(line, x, lineY);
 };

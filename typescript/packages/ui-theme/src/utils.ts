@@ -1,4 +1,4 @@
-import { Theme } from "./UIThemeContext";
+import { type Theme } from "./UIThemeContext";
 
 type GetFirstThemeArgs = {
   themes: Record<string, Theme>;

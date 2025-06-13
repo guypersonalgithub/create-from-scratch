@@ -1,5 +1,5 @@
 import { TokenTypes } from "@packages/math-parser";
-import { ParsedToken } from "../types";
+import { type ParsedToken } from "../types";
 import { uniqueOperationsFlow } from "./uniqueOperationsFlow";
 
 type FindUniqueOperationsArgs = {
@@ -20,5 +20,6 @@ export const findUniqueOperations = ({ tokens, token, parsedTokens }: FindUnique
   }
 
   uniqueOperationsFlow({ tokens, token, parsedTokens });
+
   return true;
 };

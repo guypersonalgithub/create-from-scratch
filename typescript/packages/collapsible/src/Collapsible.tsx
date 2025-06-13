@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
@@ -154,7 +154,7 @@ const CollapsiableChildren = ({ height, setHeight, children }: CollapsiableChild
 
     const observer = new ResizeObserver((entries) => {
       let totalHeight: number = 0;
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === ref.current) {
           const newHeight = entry.contentRect.height;
           totalHeight += newHeight;

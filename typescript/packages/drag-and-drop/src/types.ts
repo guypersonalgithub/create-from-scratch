@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 export type Group = {
   id: string;
   title: ReactNode;
-}
+};
 
 export type Item = {
   id: string;

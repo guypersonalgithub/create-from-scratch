@@ -1,5 +1,5 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
 import { shouldBreak } from "../../utils";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { genericTypeTemplateFlow } from "./genericTypeTemplateFlow";
@@ -107,5 +107,5 @@ export const typeFlow = ({
   return {
     updatedIndex: space?.updatedIndex ?? currentIndex,
     stop: false,
-  }
+  };
 };

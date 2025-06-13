@@ -6,5 +6,6 @@ type IsPathFolderArgs = {
 
 export const isPathFolder = ({ path }: IsPathFolderArgs) => {
   const stats = statSync(path);
+
   return stats.isDirectory();
 };

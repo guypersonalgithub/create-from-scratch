@@ -6,5 +6,6 @@ export const replaceArrayCells = <T>(
 ) => {
   const deleteCount = endIndex - startIndex + 1;
   arr.splice(startIndex, deleteCount, replacement);
+
   return arr;
 };

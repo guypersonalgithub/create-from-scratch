@@ -1,7 +1,7 @@
 import { Button } from "@packages/button";
 import { useCopyToClipboard } from "./useCopyToClipboard";
 import { Copy, SimpleCheck } from "@packages/icons";
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 
 type CopyToClipboardProps = {
   style?: CSSProperties;

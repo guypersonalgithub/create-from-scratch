@@ -41,5 +41,6 @@ export const getDisplayedRows = <T>({
     amountOfRows,
   });
   const displayedDataRows = data.slice(startingIndex, endingIndex);
+
   return displayedDataRows;
 };

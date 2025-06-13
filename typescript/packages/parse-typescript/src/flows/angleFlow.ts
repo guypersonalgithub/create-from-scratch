@@ -1,6 +1,6 @@
 import { isStringOnlyWithLetters } from "@packages/utils";
-import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken, OpenedContext } from "../types";
+import { type TokenTypeOptions, TokenTypes } from "../constants";
+import { type BaseToken, type OpenedContext } from "../types";
 import { findLastNonPreviousSpaceToken } from "../utils";
 import { spaceFollowUpFlow } from "./genericFlows";
 import { ambiguousTagFlow } from "./ambiguousFlows";

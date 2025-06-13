@@ -1,5 +1,5 @@
-import { RefObject } from "react";
-import { CustomEdges, Edges, EdgeWrapperRefs } from "@packages/edge-intersection";
+import { type RefObject } from "react";
+import { type CustomEdges, type Edges, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { positionCalculations } from "./positionCalculations";
 
 type RotatePositionArgs = {
@@ -9,12 +9,7 @@ type RotatePositionArgs = {
   refKey: Edges | CustomEdges;
 };
 
-export const rotatePosition = ({
-  side,
-  ref,
-  intersectionRefs,
-  refKey,
-}: RotatePositionArgs) => {
+export const rotatePosition = ({ side, ref, intersectionRefs, refKey }: RotatePositionArgs) => {
   const outOfViewport = isOutOfViewport({ ref });
 
   if (!outOfViewport) {

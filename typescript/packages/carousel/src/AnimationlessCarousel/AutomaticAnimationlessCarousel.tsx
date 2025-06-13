@@ -1,6 +1,6 @@
 import { observeElementVisibility } from "@packages/utils";
 import { useState, useRef, useEffect } from "react";
-import { CarouselProps } from "../types";
+import { type CarouselProps } from "../types";
 import { AnimationlessContent } from "./AnimationlessContent";
 
 type AutomaticCarouselProps = Omit<CarouselProps, "automaticTransition">;
@@ -38,6 +38,7 @@ export const AutomaticAnimationlessCarousel = ({
 
     if (!stopTransitionWhenOutOfView) {
       transitionCallback();
+
       return;
     }
 

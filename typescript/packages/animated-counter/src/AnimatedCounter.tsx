@@ -20,10 +20,12 @@ export const AnimatedCounter = ({
   useEffect(() => {
     const increaseCallback = ({ progress }: { progress: number }) => {
       const value = to * progress;
+
       return value;
     };
     const decreaseCallback = ({ progress }: { progress: number }) => {
       const value = from * (1 - progress);
+
       return value;
     };
 

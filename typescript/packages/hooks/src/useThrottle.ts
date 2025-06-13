@@ -9,8 +9,8 @@ export const useThrottle = () => {
       return;
     }
 
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = null;
   };
 
   const set = ({ callback, delay }: { callback: () => void; delay: number }) => {

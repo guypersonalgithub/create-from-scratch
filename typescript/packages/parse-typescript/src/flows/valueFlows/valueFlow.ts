@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "../../constants";
-import { BaseToken, FlowCallback, OpenedContext } from "../../types";
+import { type TokenTypeOptions } from "../../constants";
+import { type BaseToken, type FlowCallback, type OpenedContext } from "../../types";
 import { angleFlow } from "../angleFlow";
 import { arrayFlow } from "../arrayFlows";
 import { initializeClassFlow } from "../classFlows";

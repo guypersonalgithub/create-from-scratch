@@ -1,4 +1,4 @@
-import { SyntaxHighlighter, SyntaxHighlighterProps } from "@packages/syntax-highlighter";
+import { SyntaxHighlighter, type SyntaxHighlighterProps } from "@packages/syntax-highlighter";
 
 type StyledSyntaxHighlighterProps = SyntaxHighlighterProps;
 

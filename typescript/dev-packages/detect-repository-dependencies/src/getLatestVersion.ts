@@ -1,4 +1,7 @@
-import { NPMRegistry, LatestVersion } from "@packages/detect-repository-dependencies-types";
+import {
+  type NPMRegistry,
+  type LatestVersion,
+} from "@packages/detect-repository-dependencies-types";
 
 type GetLatestVersionArgs = {
   data: NPMRegistry[];

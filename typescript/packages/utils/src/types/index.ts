@@ -5,3 +5,8 @@ export * from "./omitByPattern";
 export * from "./isNotFalsey";
 export * from "./setValueType";
 export * from "./numericRange";
+export * from "./without";
+export * from "./oneOf";
+export * from "./overlappingKeys";
+export * from "./disjoint";
+export * from "./makeRequired";

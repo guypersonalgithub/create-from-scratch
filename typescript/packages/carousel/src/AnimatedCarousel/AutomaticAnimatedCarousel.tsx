@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { AnimatedCarouselProps } from "./types";
+import { type AnimatedCarouselProps } from "./types";
 import { observeElementVisibility } from "@packages/utils";
 import { AnimatedContent } from "./AnimatedContent";
 
@@ -65,6 +65,7 @@ export const AutomaticAnimatedCarousel = ({
       if (timeout.current) {
         clearTimeout(timeout.current);
       }
+
       return;
     }
 

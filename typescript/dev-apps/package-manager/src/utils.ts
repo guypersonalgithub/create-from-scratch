@@ -1,4 +1,4 @@
-import { DependenciesMap } from "@packages/detect-repository-dependencies-types";
+import { type DependenciesMap } from "@packages/detect-repository-dependencies-types";
 import { semverOptions } from "./constants";
 
 type GetSemVerArgs = {
@@ -11,6 +11,7 @@ export const getSemVer = ({ version }: GetSemVerArgs) => {
     detectSemVer({ version, amountOfDigits: 1 }) ??
     "";
   const actualVersion = version.slice(semver.length);
+
   return {
     semver,
     actualVersion,
@@ -24,6 +25,7 @@ type DetectSemVerArgs = {
 
 const detectSemVer = ({ version, amountOfDigits }: DetectSemVerArgs) => {
   const charsToDetect = version.slice(0, amountOfDigits);
+
   return semverOptions.find((option) => option.value === charsToDetect)?.value;
 };
 

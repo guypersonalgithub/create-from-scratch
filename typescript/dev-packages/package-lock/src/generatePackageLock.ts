@@ -101,6 +101,7 @@ export const generatePackageLock = async ({
       if (!requiresPackageLockChange) {
         requiresPackageLockChange = !!workspacePackages.find((workspacePackage) => {
           const relativeLocalPackagePackageJsonPath = `${workspacePackage.path}/package.json`;
+
           return pathsThatWereChanged.has(relativeLocalPackagePackageJsonPath);
         });
       }

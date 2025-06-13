@@ -1,4 +1,4 @@
-import { TSConfig } from "./types";
+import { type TSConfig } from "./types";
 import { writeFileSync } from "fs";
 
 type CreateTSConfigArgs = TSConfig & { path: string };

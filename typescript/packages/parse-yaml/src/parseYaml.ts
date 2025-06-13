@@ -1,5 +1,5 @@
 import { getNextNonSpaceCharIndex } from "@packages/utils";
-import { BaseToken, OpenedContextsIdentation } from "./types";
+import { type BaseToken, type OpenedContextsIdentation } from "./types";
 import { tokenizerFlows } from "./flows/tokenizerFlows";
 import { TokenTypes } from "./constants";
 

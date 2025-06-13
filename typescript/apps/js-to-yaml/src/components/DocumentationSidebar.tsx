@@ -1,11 +1,11 @@
 import { usePathState } from "@packages/router";
 import { StyledLink } from "../styledComponents/StyledLink";
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import {
   GroupedSidebar,
-  LinkGroupProperties,
+  type LinkGroupProperties,
   MobileGroupedSidebar,
-  MobileGroupedSidebarProps,
+  type MobileGroupedSidebarProps,
 } from "@packages/sidebar";
 
 const links: LinkGroupProperties[] = [
@@ -89,7 +89,13 @@ export const MobileDocumentationSidebar = ({
       style={style}
       titleStyle={titleStyle}
       linkContent={({ label, pathname, onLinkClick }) => (
-        <StyledLink label={label} path={path} pathname={pathname} style={linkStyle} onClickCallback={() => onLinkClick?.({ pathname })} />
+        <StyledLink
+          label={label}
+          path={path}
+          pathname={pathname}
+          style={linkStyle}
+          onClickCallback={() => onLinkClick?.({ pathname })}
+        />
       )}
       closeOnLinkClick
       burgerStyle={burgerStyle}

@@ -62,6 +62,7 @@ export const deprecated = async ({ value }: GeneratePackageLockArgs) => {
     if (!requiresPackageLockChange) {
       requiresPackageLockChange = !!workspacePackages.find((workspacePackage) => {
         const relativeLocalPackagePackageJsonPath = `${workspacePackage.path}/package.json`;
+
         return changedPackageJsons.has(relativeLocalPackagePackageJsonPath);
       });
     }
@@ -73,6 +74,7 @@ export const deprecated = async ({ value }: GeneratePackageLockArgs) => {
 
     if (!requiresPackageLockChange) {
       console.log(`Skipping ${workspace} as nothing was changed.`);
+
       return;
     }
 

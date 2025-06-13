@@ -32,8 +32,8 @@ const jsFiles = getJsFiles(buildDir);
 
 // Create manifest structure
 const serverConsumerManifest: {
-  moduleMap: Record<string, {}>,
-  serverModuleMap: Record<string, {}>,
+  moduleMap: Record<string, {}>;
+  serverModuleMap: Record<string, {}>;
   moduleLoading: string;
 } = {
   moduleMap: {},

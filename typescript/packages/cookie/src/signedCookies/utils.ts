@@ -8,6 +8,7 @@ type SignArgs = {
 
 export const sign = ({ value, secret, signaturePrefix = ".s:" }: SignArgs) => {
   const hmac = createHmac("sha256", secret).update(value).digest("base64");
+
   return `${value}${signaturePrefix}${hmac}`;
 };
 
@@ -29,5 +30,6 @@ export const verify = ({ signedValue, secret, signaturePrefix = ".s:" }: VerifyA
   const expectedSignature = createHmac("sha256", secret).update(value).digest("base64");
 
   const valid = timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
+
   return valid ? value : false;
 };

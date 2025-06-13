@@ -1,5 +1,5 @@
 import { RecursiveMathMLToken } from "./RecursiveMathMLToken";
-import { ParsedToken } from "../utils/parseTokens/types";
+import { type ParsedToken } from "../utils/parseTokens/types";
 
 type SquareRootProps = {
   value: ParsedToken[];

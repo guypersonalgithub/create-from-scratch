@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode, useRef } from "react";
-import { Tooltip, TooltipProps } from "./Tooltip";
+import { type CSSProperties, type ReactNode, useRef } from "react";
+import { Tooltip, type TooltipProps } from "./Tooltip";
 
 type EllipsisTooltipProps = {
   style?: CSSProperties;

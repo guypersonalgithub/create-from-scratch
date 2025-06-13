@@ -2,7 +2,7 @@ import type { Meta } from "@storybook/react";
 import {
   AnimationContainerUnmountWrapper,
   AnimationContainerWrapper,
-  ChangeMethod,
+  type ChangeMethod,
   useAnimation,
 } from "@packages/animation-container";
 import { useRef, useState } from "react";

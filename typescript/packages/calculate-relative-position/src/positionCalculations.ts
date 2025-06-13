@@ -5,8 +5,8 @@ import {
   calculateRight,
   calculateTop,
 } from "./sideCalculations";
-import { RefObject } from "react";
-import { CustomEdges, Edges, EdgeWrapperRefs } from "@packages/edge-intersection";
+import { type RefObject } from "react";
+import { type CustomEdges, type Edges, type EdgeWrapperRefs } from "@packages/edge-intersection";
 
 type PositionCalculationsArgs = {
   side: Edges;

@@ -1,4 +1,4 @@
-import { CarouselProps } from "../types";
+import { type CarouselProps } from "../types";
 import { AutomaticAnimationlessCarousel } from "./AutomaticAnimationlessCarousel";
 import { ManualAnimationlessCarousel } from "./ManualAnimationlessCarousel";
 

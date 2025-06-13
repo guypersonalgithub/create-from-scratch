@@ -1,4 +1,4 @@
-import { RouterPaths } from "./types";
+import { type RouterPaths } from "./types";
 import { areStringArraysEqual } from "@packages/array-utils";
 
 type GetFirstPathsArgs = {
@@ -19,6 +19,7 @@ type IsntTheSameURLArgs = {
 
 export const isTheSameURL = ({ url }: IsntTheSameURLArgs) => {
   const url2 = new URL(window.location.href);
+
   return areEqualURLs({ url1: url, url2 });
 };
 
@@ -86,6 +87,7 @@ export const parseURLQueryParams = ({ params, specificParams = [] }: ParseURLQue
 
     if (!paramsObject[key]) {
       paramsObject[key] = value;
+
       return;
     }
 

@@ -25,6 +25,7 @@ export const Primary = {
             header: "Header 1",
             cell: (data) => {
               const { content } = data;
+
               return <div>{content}</div>;
             },
             size: 100,
@@ -33,6 +34,7 @@ export const Primary = {
             header: "Header 2",
             cell: (data) => {
               const { content2 } = data;
+
               return <div>{content2}</div>;
             },
             size: 100,

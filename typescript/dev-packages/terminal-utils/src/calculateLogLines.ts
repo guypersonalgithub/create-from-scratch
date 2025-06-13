@@ -1,7 +1,4 @@
-import {
-  countTokenAppearancesInString,
-  replaceTokenAppearancesInString,
-} from "@packages/utils";
+import { countTokenAppearancesInString, replaceTokenAppearancesInString } from "@packages/utils";
 
 type CalculateLogLinesArgs = {
   text: string;
@@ -13,11 +10,10 @@ export const calculateLogLines = ({ text }: CalculateLogLinesArgs) => {
     token: "\n",
   });
   const textWithoutLineBreaks =
-    amountOfLineBreaks > 0
-      ? replaceTokenAppearancesInString({ str: text, token: "\n" })
-      : text;
+    amountOfLineBreaks > 0 ? replaceTokenAppearancesInString({ str: text, token: "\n" }) : text;
 
   const terminalWidth = process.stdout.columns || 80; // Default width of 80 characters
   const textLines = Math.ceil(textWithoutLineBreaks.length / terminalWidth);
+
   return amountOfLineBreaks + textLines;
 };

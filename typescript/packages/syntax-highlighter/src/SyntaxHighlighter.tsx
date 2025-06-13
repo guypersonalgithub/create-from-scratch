@@ -1,10 +1,10 @@
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import "./styles.css";
-import { Animated, GenericBaseToken, TokenMaps } from "./types";
-import { SupportedLanguages } from "./languages";
+import { type Animated, type GenericBaseToken, type TokenMaps } from "./types";
+import { type SupportedLanguages } from "./languages";
 import { AnimatedCode } from "./AnimatedCode";
 import { ColorizedSyntaxHighlighter } from "./ColorizedSyntaxHighlighter";
-import { Variant } from "./ModernContentDesign";
+import { type Variant } from "./ModernContentDesign";
 
 export type StandardSyntaxHighlighterProps = {
   code: string;

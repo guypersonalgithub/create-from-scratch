@@ -13,9 +13,7 @@ type SetTerminalTextColorsArgs = {
   textColor: TerminalTextColors;
 };
 
-export const setTerminalTextColors = ({
-  textColor,
-}: SetTerminalTextColorsArgs) => {
+export const setTerminalTextColors = ({ textColor }: SetTerminalTextColorsArgs) => {
   process.stdout.write(textColor);
 };
 

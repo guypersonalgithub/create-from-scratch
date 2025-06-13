@@ -1,5 +1,5 @@
-import { SendAbortableRequestArgs } from "@packages/request";
-import { ExtractedCallbackArg, UpdateAdditionalRequests } from "./requests";
+import { type SendAbortableRequestArgs } from "@packages/request";
+import { type ExtractedCallbackArg, type UpdateAdditionalRequests } from "./requests";
 
 export interface BaseActionTypeRegistry {}
 

@@ -13,7 +13,7 @@ import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
 import { Math } from "./routes/math/Math";
 import { AutoCompleteInput } from "@packages/auto-complete-input";
-import { ComponentProps, useLayoutEffect, useRef } from "react";
+import { type ComponentProps, useLayoutEffect, useRef } from "react";
 import { StyledMainTitle } from "./styledComponents/StyledMainTitle";
 import { Typescript } from "./routes/typescript/Typescript";
 import { UIThemeProvider } from "@packages/ui-theme";
@@ -207,7 +207,7 @@ const AutoComplete = () => {
         return;
       }
 
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === ref.current) {
           const { left, width } = ref.current.getBoundingClientRect();
           const displayedWidth = width < minWidth ? minWidth : width;
@@ -257,6 +257,7 @@ const AutoComplete = () => {
             debounceDelay={300}
             autocompleteOptionsCallback={(text) => {
               const lowercaseText = text.toLowerCase();
+
               return searchableRoutes.filter((searchable) =>
                 searchable.label.toLowerCase().includes(lowercaseText),
               );

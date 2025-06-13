@@ -1,5 +1,5 @@
-import { classSpecificKeywords, TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
+import { classSpecificKeywords, type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
 import { partialDefinitionFlow } from "../partialDefinitionFlow";
 
 type PublicPrivateStaticFlowArgs = {

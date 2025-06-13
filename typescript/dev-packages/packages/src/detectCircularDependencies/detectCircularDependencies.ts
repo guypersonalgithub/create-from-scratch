@@ -1,6 +1,6 @@
 import { getProjectAbsolutePath } from "@packages/paths";
 import { getRootPackageLock } from "../getRootPackageLock";
-import { DetectCircularDependenciesArgs } from "./types";
+import { type DetectCircularDependenciesArgs } from "./types";
 import { specificPackagesCircularDependencies } from "./specificPackagesCircularDependencies";
 import { completePackagesCircularDependencies } from "./completePackagesCircularDependencies";
 import { existsSync, readdirSync, readFileSync } from "fs";
@@ -81,6 +81,7 @@ export const detectCircularDependencies = (args?: DetectCircularDependenciesArgs
     if (parsePaths) {
       return problematicPackagesPaths.map((problematicPath) => {
         const { packageName } = getCurrentCircularDependencyPackageName({ problematicPath });
+
         return packageName;
       });
     }

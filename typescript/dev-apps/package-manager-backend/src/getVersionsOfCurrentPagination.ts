@@ -1,9 +1,9 @@
 import {
-  detectAllRepositoryDependencies,
+  type detectAllRepositoryDependencies,
   getLatestVersion,
   getPackageVersions,
 } from "@packages/detect-repository-dependencies";
-import { NPMRegistry } from "@packages/detect-repository-dependencies-types";
+import { type NPMRegistry } from "@packages/detect-repository-dependencies-types";
 
 type GetVersionsOfCurrentPaginationArgs = {
   paginationValue: number;
@@ -40,7 +40,9 @@ type FetchPackageLatestVersionsArgs = {
   packageNames: string[];
 };
 
-export const fetchPackageLatestVersions = async ({ packageNames }: FetchPackageLatestVersionsArgs) => {
+export const fetchPackageLatestVersions = async ({
+  packageNames,
+}: FetchPackageLatestVersionsArgs) => {
   const data = await Promise.all(
     packageNames.map((packageName) => {
       return getPackageVersions({ packageName });

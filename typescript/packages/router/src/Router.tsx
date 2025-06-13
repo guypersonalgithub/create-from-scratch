@@ -1,5 +1,5 @@
-import { ReactNode, useEffect, useState, useRef } from "react";
-import { RouterContentProps, RouterProps } from "./types";
+import { type ReactNode, useEffect, useState, useRef } from "react";
+import { type RouterContentProps, type RouterProps } from "./types";
 import { RouterContext, SubRouterContext } from "./routerContext";
 import { useScrollToTheTopManual } from "@packages/hooks";
 import { useGetRouteData } from "./useGetRouteData";
@@ -17,6 +17,7 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
     };
 
     window.addEventListener("popstate", onLocationChange);
+
     return () => window.removeEventListener("popstate", onLocationChange);
   }, []);
 

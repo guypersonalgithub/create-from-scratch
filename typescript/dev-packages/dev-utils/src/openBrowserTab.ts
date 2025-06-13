@@ -11,6 +11,7 @@ export const openBrowserTab = ({
   operatingSystem = getOperatingSystem(),
 }: OpenBrowserTabArgs) => {
   const command = getOpenBrowserTabCommand({ url, operatingSystem });
+
   return executeTerminalCommand({ command });
 };
 

@@ -1,5 +1,5 @@
 import { Observer } from "@packages/design-patterns";
-import { Breakpoint } from "../types";
+import { type Breakpoint } from "../types";
 import { getCurrentBreakpoint, getCurrentBreakpointBasedOffOptions } from "./utils";
 import { useEffect, useRef, useState } from "react";
 
@@ -51,6 +51,7 @@ export const initializeBreakpoints = <T extends Record<string, Breakpoint>>({
       };
 
       window.addEventListener("resize", onResize, true);
+
       return () => {
         window.removeEventListener("resize", onResize);
       };

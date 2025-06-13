@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { usePath } from "@packages/router";
 import { SearchModal } from "@packages/search-modal";
 

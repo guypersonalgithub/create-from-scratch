@@ -1,5 +1,5 @@
-import { BaseToken } from "@packages/math-parser";
-import { ParsedToken } from "./types";
+import { type BaseToken } from "@packages/math-parser";
+import { type ParsedToken } from "./types";
 import { findUniqueOperations } from "./uniqueOperations";
 
 type ParseTokensArgs = {

@@ -1,5 +1,5 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { genericTypeDefinitionExtendsFlow } from "./genericTypeDefinitionExtendsFlow";
 import { genericTypeEqualFlow } from "./genericTypeEqualFlow";

@@ -1,6 +1,6 @@
 // import { ArrowRight, TagPage } from "@packages/icons";
 import { convertObjectToString } from "@packages/object-utils";
-import { SyntaxHighlighterProps } from "@packages/syntax-highlighter";
+import { type SyntaxHighlighterProps } from "@packages/syntax-highlighter";
 import { StyledSyntaxHighlighter } from "./StyledSyntaxHighlighter";
 import { convertObjectToYaml, convertYamlToObject } from "@packages/yaml";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +13,7 @@ type ConvertTypescriptToYamlArgs = {
 const convertTypescriptToYaml = ({ code }: ConvertTypescriptToYamlArgs) => {
   const input = convertObjectToString({ obj: code, stringifyValues: true });
   const output = convertObjectToYaml({ obj: code });
+
   return { input, output };
 };
 

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   CanvasTooltip,
-  CanvasTooltipActions,
+  type CanvasTooltipActions,
   CanvasTooltipWrapper,
 } from "@packages/canvas-tooltip";
 import { createRef, useEffect, useRef } from "react";

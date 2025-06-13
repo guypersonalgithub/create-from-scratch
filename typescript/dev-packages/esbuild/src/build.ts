@@ -1,7 +1,6 @@
-import { build, BuildOptions } from "esbuild";
+import { build, type BuildOptions } from "esbuild";
 
 export const buildContent = async ({ entryPoints = ["./src/index.ts"], ...rest }: BuildOptions) => {
-
   try {
     await build({
       entryPoints,

@@ -1,6 +1,6 @@
 import { TokenTypes, unicodes } from "@packages/math-parser";
 import { UniqueMathMLTokens } from "../constants";
-import { ParsedToken } from "../types";
+import { type ParsedToken } from "../types";
 import { detectParenthesisTokens } from "./detectContaineredTokens";
 
 type RecursivelyParseFloorArgs = {

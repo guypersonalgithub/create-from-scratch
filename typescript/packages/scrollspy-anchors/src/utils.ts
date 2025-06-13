@@ -1,4 +1,4 @@
-import { Anchor, AnchorData } from "./types";
+import { type Anchor, type AnchorData } from "./types";
 
 type GetLowestAnchorIndexArgs = {
   visibleAnchors: string[];

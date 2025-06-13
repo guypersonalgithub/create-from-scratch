@@ -1,6 +1,6 @@
 import { getFile } from "@packages/files";
 import { writeFileSync } from "fs";
-import { DependenciesToChange } from "@packages/alter-package-versions-types";
+import { type DependenciesToChange } from "@packages/alter-package-versions-types";
 
 type AlterPackageVersionsArgs = {
   dependenciesToChange: DependenciesToChange;

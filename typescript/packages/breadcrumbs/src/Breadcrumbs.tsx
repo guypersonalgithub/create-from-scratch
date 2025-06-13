@@ -1,6 +1,6 @@
-import { CSSProperties, Fragment, ReactNode } from "react";
+import { type CSSProperties, Fragment, type ReactNode } from "react";
 import { Button } from "@packages/button";
-import { Breadcrumb } from "./types";
+import { type Breadcrumb } from "./types";
 
 export type BreadcrumbsProps = {
   crumbs: Breadcrumb[];

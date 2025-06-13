@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "fs";
 import {
-  DetectCircularDependenciesArgs,
-  PackagesCircularDependenciesAdditionalArgs,
+  type DetectCircularDependenciesArgs,
+  type PackagesCircularDependenciesAdditionalArgs,
 } from "./types";
 
 type CompletePackagesCircularDependenciesArgs = Omit<

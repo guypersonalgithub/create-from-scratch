@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
+import { type TokenTypeOptions } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
 import { genericTypeValueFlow } from "../typeFlows";
 import { invocationFlow } from "./invocationFlow";
 import { spaceFollowUpFlow } from "../genericFlows";

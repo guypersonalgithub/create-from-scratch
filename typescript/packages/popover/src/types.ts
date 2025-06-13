@@ -1,5 +1,5 @@
-import { Edges, EdgeWrapperRefs } from "@packages/edge-intersection";
-import { CSSProperties, ReactNode, RefObject } from "react";
+import { type Edges, type EdgeWrapperRefs } from "@packages/edge-intersection";
+import { type CSSProperties, type ReactNode, type RefObject } from "react";
 
 export type PopoverDisplayProps = {
   id: string;

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { TriggerPopperDisplayProps } from "./types";
+import { type TriggerPopperDisplayProps } from "./types";
 import { generateSecureRandomString } from "@packages/randomizer";
 
 export const useControlTriggerPopper = () => {

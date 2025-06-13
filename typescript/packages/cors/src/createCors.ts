@@ -1,5 +1,5 @@
-import { IncomingMessage, ServerResponse } from "http";
-import { CORSOptions } from "./types";
+import { type IncomingMessage, type ServerResponse } from "http";
+import { type CORSOptions } from "./types";
 
 type CreateCorsArgs = {
   options: CORSOptions;

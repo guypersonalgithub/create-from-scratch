@@ -1,11 +1,11 @@
-import { MutableRefObject, useRef } from "react";
-import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
+import { type MutableRefObject, useRef } from "react";
+import { type sendAbortableRequest, type SendAbortableRequestArgs } from "@packages/request";
 import {
-  ExtendedActionTypeRegistry,
-  ExtractedCallbackArg,
-  ExtractedBody,
-  ActionCallback,
-  PreviousRequestProperties,
+  type ExtendedActionTypeRegistry,
+  type ExtractedCallbackArg,
+  type ExtractedBody,
+  type ActionCallback,
+  type PreviousRequestProperties,
 } from "../types";
 import { activateAction } from "./activateAction";
 

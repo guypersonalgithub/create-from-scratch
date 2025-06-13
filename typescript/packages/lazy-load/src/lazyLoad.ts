@@ -1,4 +1,4 @@
-import { Loader } from "./types";
+import { type Loader } from "./types";
 
 type LazyLoadArgs<T> = {
   loader: Loader<T>;

@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactNode } from "react";
+import { type MutableRefObject, type ReactNode } from "react";
 import { useReorderOptions } from "./useReorderOptions";
 
 type QuestionProps = {

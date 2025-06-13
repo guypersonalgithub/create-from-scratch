@@ -1,7 +1,7 @@
-import { CSSProperties, JSX, Fragment, RefObject } from "react";
+import { type CSSProperties, type JSX, Fragment, type RefObject } from "react";
 import { TopRightSection } from "./TopRightSection";
 import { displayColorlessCode } from "./utils";
-import { SupportedLanguages } from "./languages";
+import { type SupportedLanguages } from "./languages";
 
 type SimpleContentDesignProps = {
   style?: CSSProperties;

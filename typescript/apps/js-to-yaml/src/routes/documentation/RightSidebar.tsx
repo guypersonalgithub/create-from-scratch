@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import { ScrollspyAnchors } from "@packages/scrollspy-anchors";
 import { useComplexSharedState } from "../../StateManagement";
 

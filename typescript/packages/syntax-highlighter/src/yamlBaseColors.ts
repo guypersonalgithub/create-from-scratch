@@ -1,4 +1,4 @@
-import { YAMLTokenTypeOptions, YAMLTokenTypes } from "@packages/parse-yaml";
+import { type YAMLTokenTypeOptions, YAMLTokenTypes } from "@packages/parse-yaml";
 
 export const yamlBaseColors: Record<YAMLTokenTypeOptions, string> = {
   [YAMLTokenTypes.STRING_KEY]: "#4A9CB3",

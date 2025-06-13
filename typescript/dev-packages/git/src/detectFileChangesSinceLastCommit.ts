@@ -6,5 +6,6 @@ export const detectFileChangesSinceLastCommit = async () => {
   });
 
   const changedFiles = fileChangesString?.split("\n").filter((line) => line.length > 0);
+
   return changedFiles;
 };

@@ -1,6 +1,6 @@
 import path from "path";
 import { existsSync, statSync } from "fs";
-import { Plugin } from "vite";
+import { type Plugin } from "vite";
 
 const root = path.resolve(__dirname, "../..");
 const resolvedPathCache = new Map();
@@ -43,6 +43,7 @@ export const plugin: Plugin = {
         const attemptPath = resolvedPath + ext;
         if (existsSync(attemptPath)) {
           resolvedPathCache.set(resolvedPath, attemptPath);
+
           return attemptPath;
         }
       }
@@ -52,6 +53,7 @@ export const plugin: Plugin = {
           const indexPath = path.join(resolvedPath, `index${ext}`);
           if (existsSync(indexPath)) {
             resolvedPathCache.set(resolvedPath, indexPath);
+
             return indexPath;
           }
         }

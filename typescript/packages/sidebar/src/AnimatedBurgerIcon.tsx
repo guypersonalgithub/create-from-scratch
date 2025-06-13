@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useRef } from "react";
+import { type CSSProperties, useEffect, useRef } from "react";
 import "./AnimatedBurgerIcon.css";
 
 type AnimatedBurgerIconProps = {

@@ -1,6 +1,6 @@
 import { Table } from "@packages/table";
 import { EllipsisTooltip } from "@packages/tooltip";
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 
 type CalculationsTableProps<T extends string> = {
   columns: T[];

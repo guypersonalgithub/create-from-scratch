@@ -1,6 +1,6 @@
 import { TokenTypes } from "../constants";
 import { tokenizerFlows } from "./tokenizerFlows";
-import { BaseToken } from "../types";
+import { type BaseToken } from "../types";
 import { isValidSectionStartingCharacter } from "../utils";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 

@@ -11,15 +11,15 @@ export const hslToHex = ({ hsl }: HslToHexArgs) => {
     return "";
   }
 
-  let [_, h, s, l, a] = match;
+  const [_, h, s, l, a] = match;
 
-  let hue = ((parseFloat(h) % 360) + 360) % 360; // normalize negative hues
-  let sat = parseFloat(s) / 100;
-  let light = parseFloat(l) / 100;
+  const hue = ((parseFloat(h) % 360) + 360) % 360; // normalize negative hues
+  const sat = parseFloat(s) / 100;
+  const light = parseFloat(l) / 100;
 
-  let c = (1 - Math.abs(2 * light - 1)) * sat;
-  let x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
-  let m = light - c / 2;
+  const c = (1 - Math.abs(2 * light - 1)) * sat;
+  const x = c * (1 - Math.abs(((hue / 60) % 2) - 1));
+  const m = light - c / 2;
 
   let [r, g, b] = [0, 0, 0];
 

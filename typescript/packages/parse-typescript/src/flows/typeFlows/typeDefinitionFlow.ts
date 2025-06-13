@@ -1,6 +1,6 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
-import { iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
+import { iterateOverSteps, spaceCallback, type StepCallback } from "../../utils";
 import { typeFlow } from "./typeFlow";
 import { typeValueFlow } from "./typeValueFlow";
 

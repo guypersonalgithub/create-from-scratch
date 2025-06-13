@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type GetExportDefaultIndexArgs = {
-    filePath: string;
+  filePath: string;
 };
 
 export const getExportDefaultIndex = ({ filePath }: GetExportDefaultIndexArgs) => {

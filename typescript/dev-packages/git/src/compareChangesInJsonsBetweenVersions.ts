@@ -35,6 +35,7 @@ const getCurrentAndPreviousFilePaths = ({
     path2: currentFilePath.trim(),
     path2Separator: "/",
   });
+
   return {
     previousFilePath: formattedPreviousFilePath,
     currentFilePath: formattedCurrentFilePath,

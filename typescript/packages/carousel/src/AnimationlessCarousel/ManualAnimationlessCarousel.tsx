@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CarouselProps } from "../types";
+import { type CarouselProps } from "../types";
 import { AnimationlessContent } from "./AnimationlessContent";
 
 type ManualCarouselProps = Omit<

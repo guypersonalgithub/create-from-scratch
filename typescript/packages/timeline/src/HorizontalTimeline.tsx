@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
-import { TimelineEvent } from "./types";
+import { type CSSProperties } from "react";
+import { type TimelineEvent } from "./types";
 import "./Timeline.css";
 
 type HorizontalTimelineProps = {

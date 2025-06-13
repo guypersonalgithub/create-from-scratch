@@ -1,9 +1,9 @@
 import { existsSync, readFileSync } from "fs";
 import {
-  DetectCircularDependenciesArgs,
-  PackagesCircularDependenciesAdditionalArgs,
+  type DetectCircularDependenciesArgs,
+  type PackagesCircularDependenciesAdditionalArgs,
 } from "./types";
-import { PackageLockPackages } from "../types";
+import { type PackageLockPackages } from "../types";
 
 type SpecificPackagesCircularDependenciesArgs = PackagesCircularDependenciesAdditionalArgs &
   DetectCircularDependenciesArgs;
@@ -30,6 +30,7 @@ export const specificPackagesCircularDependencies = ({
 
       if (!existingPath) {
         console.error(`Failed to find package ${specificPackage}`);
+
         return;
       }
 

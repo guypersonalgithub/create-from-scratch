@@ -1,5 +1,5 @@
 import { Observer } from "@packages/design-patterns";
-import { Breakpoint } from "../types";
+import { type Breakpoint } from "../types";
 import {
   constructMediaBreakpoints,
   getCurrentBreakpoint,
@@ -73,6 +73,7 @@ export const initializeMediaBreakpoints = <T extends Record<string, Breakpoint>>
           onChange({ matches: mql.media.matches, label: mql.label }),
         ),
       );
+
       return () => {
         mqls.forEach((mql) =>
           mql.media.removeEventListener("change", () =>

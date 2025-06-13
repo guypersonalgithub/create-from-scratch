@@ -14,5 +14,6 @@ export const convertNumberToBinary = ({ num }: ConvertNumberToBinaryArgs) => {
     result = (num % 2) + result;
     num = Math.floor(num / 2);
   }
+
   return result;
 };

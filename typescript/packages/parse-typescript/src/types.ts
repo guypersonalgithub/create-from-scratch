@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "./constants";
-import { findNextBreakpoint } from "./utils";
+import { type TokenTypeOptions } from "./constants";
+import { type findNextBreakpoint } from "./utils";
 
 export type BaseToken = {
   type: TokenTypeOptions;

@@ -1,4 +1,4 @@
-import { Breakpoint } from "./types";
+import { type Breakpoint } from "./types";
 
 type GetClosestBreakpointKeyArgs<T extends Record<string, Breakpoint>, G extends keyof T> = {
   breakpoints: T;

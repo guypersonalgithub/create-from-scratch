@@ -1,4 +1,4 @@
-import { TypescriptTokenTypeOptions, TypescriptTokenTypes } from "@packages/parse-typescript";
+import { type TypescriptTokenTypeOptions, TypescriptTokenTypes } from "@packages/parse-typescript";
 
 export const typescriptBaseColors: Record<TypescriptTokenTypeOptions, string> = {
   [TypescriptTokenTypes.STRING]: "#CE723C",

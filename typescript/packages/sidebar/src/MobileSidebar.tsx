@@ -1,5 +1,5 @@
-import { CSSProperties, Fragment, useState } from "react";
-import { SidebarLink, SidebarLinkGroup } from "./types";
+import { type CSSProperties, Fragment, useState } from "react";
+import { type SidebarLink, type SidebarLinkGroup } from "./types";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { isLinkGroup } from "./utils";
 import { LinkGroup } from "./LinkGroup";

@@ -2,15 +2,15 @@ import {
   convertDateToISO,
   formatDateByLocale,
   getLocale,
-  Locale,
+  type Locale,
   splitDate,
 } from "@packages/date";
 import { ArrowRight, ArrowLeft } from "@packages/icons";
 import { CalendarHeader } from "./CalendarHeader";
-import { CSSProperties, useRef, useState } from "react";
+import { type CSSProperties, useRef, useState } from "react";
 import { monthDetails } from "./constants";
 import { CalendarContent } from "./CalendarContent";
-import { CalendarFormat, Days } from "./types";
+import { type CalendarFormat, type Days } from "./types";
 
 type CalendarProps = {
   startDate?: string;
@@ -65,6 +65,7 @@ export const Calendar = ({
             if (month === 1) {
               setYear(year - 1);
               setMonth(12);
+
               return;
             }
 
@@ -93,6 +94,7 @@ export const Calendar = ({
                 setSelectedDate={(fullDate) => {
                   if (format === "single") {
                     setSelectedDate([fullDate]);
+
                     return;
                   }
 
@@ -124,6 +126,7 @@ export const Calendar = ({
                       }
 
                       insertedDateIndex.current = 1;
+
                       return [firstDate, fullDate];
                     }
 
@@ -136,6 +139,7 @@ export const Calendar = ({
                     }
 
                     insertedDateIndex.current = 0;
+
                     return [fullDate, secondDate];
                   });
                 }}
@@ -155,6 +159,7 @@ export const Calendar = ({
             if (month === 12) {
               setYear(year + 1);
               setMonth(1);
+
               return;
             }
 

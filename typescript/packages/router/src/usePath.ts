@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { isTheSameURL } from "./utils";
-import { generateURL, FrontendArgs } from "@packages/url";
+import { generateURL, type FrontendArgs } from "@packages/url";
 
 export const usePathState = () => {
   const [path, setPath] = useState(window.location.pathname);

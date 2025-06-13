@@ -1,4 +1,4 @@
-import { Option, multiSelect } from "@packages/terminal-multi-select";
+import { type Option, multiSelect } from "@packages/terminal-multi-select";
 import { cliOptions } from "./commandFunctions/cliOptions";
 import { SupportedCommands } from "./commandFunctions/supportedCommands";
 import { getFlags } from "@packages/utils";

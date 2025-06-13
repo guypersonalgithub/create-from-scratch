@@ -1,4 +1,4 @@
-import { Test } from "./types";
+import { type Test } from "./types";
 
 const tests: Test[] = [];
 

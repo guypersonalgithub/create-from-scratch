@@ -1,5 +1,5 @@
-import { AnimationContainerWrapperProps } from "@packages/animation-container";
-import { CSSProperties, ReactNode } from "react";
+import { type AnimationContainerWrapperProps } from "@packages/animation-container";
+import { type CSSProperties, type ReactNode } from "react";
 
 export type TriggerPopperDisplayProps = {
   id: string;

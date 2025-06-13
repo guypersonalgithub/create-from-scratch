@@ -1,4 +1,4 @@
-import { ChildProcess, exec, execSync, spawn } from "child_process";
+import { type ChildProcess, exec, execSync, spawn } from "child_process";
 
 type ExecuteTerminalCommandArgs = {
   command: string;

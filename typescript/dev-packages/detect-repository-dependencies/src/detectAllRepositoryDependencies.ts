@@ -4,7 +4,7 @@ import { getProjectAbsolutePath } from "@packages/paths";
 import { iterateOverAllFiles } from "./iterateOverAllFiles";
 import { getFile } from "@packages/files";
 import { detectRepositoryPackageManager } from "@packages/package-manager";
-import { ParsedPackageLock } from "./types";
+import { type ParsedPackageLock } from "./types";
 
 type DetectAllRepositoryDependenciesArgs = {
   skipDependencies?: boolean;

@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
+import { type TokenTypeOptions } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
 import { angleFlow } from "../angleFlow";
 import { parenthesisFlow } from "../parenthesisFlows";
 import { spaceFollowUpFlow } from "../genericFlows";

@@ -21,12 +21,14 @@ export const importAlreadyExists = ({
       if (moduleSpecifier === moduleName) {
         if (!importName) {
           exists = true;
+
           return;
         }
 
         if (importClause) {
           if (importClause.name && importClause.name.text === importName) {
             exists = true;
+
             return;
           }
 
@@ -34,12 +36,14 @@ export const importAlreadyExists = ({
             if (ts.isNamespaceImport(importClause.namedBindings)) {
               if (importClause.namedBindings.name.text === importName) {
                 exists = true;
+
                 return;
               }
             } else if (ts.isNamedImports(importClause.namedBindings)) {
               for (const element of importClause.namedBindings.elements) {
                 if (element.name.text === importName) {
                   exists = true;
+
                   return;
                 }
               }

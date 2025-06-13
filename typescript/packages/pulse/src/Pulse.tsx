@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useRef, useEffect } from "react";
+import { type CSSProperties, type ReactNode, useRef, useEffect } from "react";
 import "./styles.css";
 
 type PulseProps = {

@@ -1,8 +1,8 @@
-import { ReactElement, useState, useRef, useLayoutEffect } from "react";
+import { type ReactElement, useState, useRef, useLayoutEffect } from "react";
 import { getAnimationWrapperChildKeys, getChildKeys, isAnimationWrapperChild } from "../utils";
 import { UnmountContext } from "./unmountContext";
 import { areSetsEqual } from "@packages/utils";
-import { ChangeMethod } from "../types";
+import { type ChangeMethod } from "../types";
 
 type AnimationContainerMultiUnmountWrapperProps = {
   changeMethod: ChangeMethod;

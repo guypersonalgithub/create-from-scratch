@@ -1,5 +1,4 @@
 export type BaseDropdownOption = {
-    label: string;
-    value: string;
-  };
-  
+  label: string;
+  value: string;
+};

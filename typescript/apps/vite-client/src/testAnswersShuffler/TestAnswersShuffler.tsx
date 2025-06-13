@@ -1,6 +1,6 @@
-import { MutableRefObject, ReactNode, useEffect, useRef, useState } from "react";
+import { type MutableRefObject, type ReactNode, useEffect, useRef, useState } from "react";
 import { Question } from "./Question";
-import { Reorder } from "./types";
+import { type Reorder } from "./types";
 
 type LoadImageArgs = {
   src: string;
@@ -9,6 +9,7 @@ type LoadImageArgs = {
 const loadImage = async ({ src }: LoadImageArgs) => {
   const path = `./images/test5${src}.png`;
   const image = await import(/* @vite-ignore */ path);
+
   return image.default;
 };
 
@@ -32,6 +33,7 @@ export const TestAnswersShuffler = () => {
           const questionNumber = index + 1;
           const imgsrc = `/${questionNumber}`;
           const image = await loadImage({ src: imgsrc });
+
           return {
             question: <img src={image} />,
             options: await Promise.all(
@@ -40,6 +42,7 @@ export const TestAnswersShuffler = () => {
                 const letter = getAppropriateLetter({ index: optionNumber });
                 const optionimgsrc = `${imgsrc}${letter}`;
                 const image = await loadImage({ src: optionimgsrc });
+
                 return <img src={image} />;
               }),
             ),

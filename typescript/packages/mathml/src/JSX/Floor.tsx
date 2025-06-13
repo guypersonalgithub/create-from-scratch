@@ -1,4 +1,4 @@
-import { ParsedToken } from "../utils/parseTokens/types";
+import { type ParsedToken } from "../utils/parseTokens/types";
 import { RecursiveMathMLToken } from "./RecursiveMathMLToken";
 
 type FloorProps = {

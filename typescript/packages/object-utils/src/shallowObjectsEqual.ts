@@ -1,7 +1,7 @@
 type ShallowObjectsEqualArgs = {
-    objA: any;
-    objB: any;
-}
+  objA: any;
+  objB: any;
+};
 
 export const shallowObjectsEqual = ({ objA, objB }: ShallowObjectsEqualArgs) => {
   if (Object.is(objA, objB)) {
@@ -18,7 +18,7 @@ export const shallowObjectsEqual = ({ objA, objB }: ShallowObjectsEqualArgs) => 
     return false;
   }
 
-  for (let key of keysA) {
+  for (const key of keysA) {
     if (!Object.prototype.hasOwnProperty.call(objB, key) || !Object.is(objA[key], objB[key])) {
       return false;
     }

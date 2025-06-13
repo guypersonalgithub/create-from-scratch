@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState, useRef } from "react";
+import { type ReactNode, useEffect, useState, useRef } from "react";
 
 type LazyLoadIntersectionProps = {
   children: ReactNode;
@@ -18,7 +18,7 @@ export const LazyLoadIntersection = ({ children }: LazyLoadIntersectionProps) =>
     if (ref.current) {
       observer.observe(ref.current);
     }
-    
+
     return () => observer.disconnect();
   }, []);
 

@@ -1,4 +1,4 @@
-import { Plugin } from "vite";
+import { type Plugin } from "vite";
 
 export const removeLibrariesVitePlugin = (libraries: string[]): Plugin => {
   return {

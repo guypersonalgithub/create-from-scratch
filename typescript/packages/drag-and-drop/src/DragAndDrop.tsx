@@ -1,8 +1,8 @@
 import { DraggedItem } from "./DraggedItem";
 import { DragAndDropWrapper } from "./DragAndDropWrapper";
-import { ReactNode, useState, useMemo } from "react";
+import { type ReactNode, useState, useMemo } from "react";
 import { DragAndDropGroup } from "./DragAndDropGroup";
-import { Group, Item } from "./types";
+import { type Group, type Item } from "./types";
 import { useDragAndDropContext } from "./useDragAndDropContext";
 
 type DragAndDropProps<T extends string[]> = {

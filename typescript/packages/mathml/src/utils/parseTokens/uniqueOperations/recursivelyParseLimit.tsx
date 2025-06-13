@@ -1,5 +1,5 @@
 import { TokenTypes, unicodes } from "@packages/math-parser";
-import { ParsedToken } from "../types";
+import { type ParsedToken } from "../types";
 import { UniqueMathMLTokens } from "../constants";
 import { detectParenthesisTokens } from "./detectContaineredTokens";
 

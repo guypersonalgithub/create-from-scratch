@@ -20,6 +20,7 @@ export const isCharacterLetter = ({ currentChar }: IsCharacterLetterArgs) => {
   }
 
   const characterCode = currentChar.charCodeAt(0);
+
   return (characterCode > 64 && characterCode < 91) || (characterCode > 96 && characterCode < 123);
 };
 

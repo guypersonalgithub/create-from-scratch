@@ -1,4 +1,4 @@
-import { TSConfig } from "./types";
+import { type TSConfig } from "./types";
 import { getFile } from "@packages/files";
 
 type GetgetTSconfigArgs = {
@@ -12,6 +12,7 @@ export const getTSconfig = ({ packagePath }: GetgetTSconfigArgs) => {
       throw "The tsconfig json file was not found.";
     }
     const TSconfigJson = JSON.parse(stringifiedTSconfigJson) as TSConfig;
+
     return TSconfigJson;
   } catch (error) {
     console.error(error);

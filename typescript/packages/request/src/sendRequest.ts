@@ -1,4 +1,4 @@
-import { RequestResponse } from "./types";
+import { type RequestResponse } from "./types";
 
 type SetupURLArgs<T> = Pick<SendRequestArgs<T>, "url" | "params">;
 
@@ -94,6 +94,7 @@ async function sendRequest<T>({
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") {
       console.log("Request was aborted");
+
       return { response: fallback, aborted: true };
     }
 

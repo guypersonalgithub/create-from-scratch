@@ -12,11 +12,11 @@ export const hslToRgba = ({ hsl }: HslToRgbaArgs) => {
     return "";
   }
 
-  let [_, hStr, sStr, lStr, aStr] = match;
-  let h = ((parseFloat(hStr) % 360) + 360) % 360; // normalize hue
-  let s = parseFloat(sStr) / 100;
-  let l = parseFloat(lStr) / 100;
-  let a = aStr !== undefined ? parseFloat(aStr) : 1;
+  const [_, hStr, sStr, lStr, aStr] = match;
+  const h = ((parseFloat(hStr) % 360) + 360) % 360; // normalize hue
+  const s = parseFloat(sStr) / 100;
+  const l = parseFloat(lStr) / 100;
+  const a = aStr !== undefined ? parseFloat(aStr) : 1;
 
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));

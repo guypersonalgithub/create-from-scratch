@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode, useRef, useState } from "react";
-import { SidebarLink, SidebarLinkGroup } from "./types";
+import { type CSSProperties, type ReactNode, useRef, useState } from "react";
+import { type SidebarLink, type SidebarLinkGroup } from "./types";
 import { useAnimation } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { DoubleArrowRightFull } from "@packages/icons";

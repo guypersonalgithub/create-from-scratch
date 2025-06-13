@@ -3,7 +3,7 @@ import {
   resetTerminalAttributes,
   setTerminalTextColors,
 } from "@packages/terminal-utils";
-import { Option } from "./types";
+import { type Option } from "./types";
 
 type DisplayOptionArgs = {
   option: Option;

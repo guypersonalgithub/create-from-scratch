@@ -1,4 +1,4 @@
-import { getOperatingSystem, mainOperatingSystems } from "@packages/os";
+import { getOperatingSystem, type mainOperatingSystems } from "@packages/os";
 import { executeTerminalCommandWithResponse } from "@packages/terminal-utils";
 import { getPortCommand } from "./getPortCommand";
 
@@ -15,6 +15,7 @@ export const checkPortAvailability = async ({
     const command = await getPortCommand({ port, operatingSystem });
     const response = await executeTerminalCommandWithResponse({ command });
     console.log(`port ${port} is already taken`);
+
     return response;
   } catch (error) {
     console.log(`port ${port} is available.`);

@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, CSSProperties, ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { isCharsAndDigitsOnly } from "@packages/regex";
 import { Input } from "@packages/input";
-import { Button, ButtonProps } from "@packages/button";
+import { Button, type ButtonProps } from "@packages/button";
 
 type OTPInputProps<T extends "text" | "number", G extends T extends "text" ? string : number> = {
   style?: CSSProperties;
@@ -105,6 +105,7 @@ export const OTPInput = <
                     setValue((prev) => {
                       const clone = [...prev];
                       clone[index] = "";
+
                       return clone;
                     });
                   }
@@ -126,6 +127,7 @@ export const OTPInput = <
                   setValue((prev) => {
                     const clone = [...prev];
                     clone[index] = key;
+
                     return clone;
                   });
 

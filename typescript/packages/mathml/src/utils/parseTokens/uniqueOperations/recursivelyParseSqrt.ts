@@ -1,6 +1,6 @@
 import { TokenTypes } from "@packages/math-parser";
 import { detectAbsoluteTokens, detectParenthesisTokens } from "./detectContaineredTokens";
-import { ParsedToken } from "../types";
+import { type ParsedToken } from "../types";
 import { recursiveOperations } from "./recursiveOperations";
 import { UniqueMathMLTokens } from "../constants";
 

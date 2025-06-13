@@ -1,6 +1,6 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
-import { iterateOverSteps, shouldBreak, spaceCallback, StepCallback } from "../../utils";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
+import { iterateOverSteps, shouldBreak, spaceCallback, type StepCallback } from "../../utils";
 import { nestedContextFlow } from "../nestedContextFlow";
 import { genericTypeTemplateFlow } from "../typeFlows";
 
@@ -102,13 +102,13 @@ export const classFlow = ({
           const name = tokens[sharedData.classNameIndex].value;
           openedContexts.push({ name, type: "class" });
 
-            return nestedContextFlow({
-              tokens,
-              input,
-              currentIndex,
-              previousTokensSummary,
-              openedContexts,
-            });
+          return nestedContextFlow({
+            tokens,
+            input,
+            currentIndex,
+            previousTokensSummary,
+            openedContexts,
+          });
         }
 
         return {

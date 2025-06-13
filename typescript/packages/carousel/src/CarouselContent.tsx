@@ -1,5 +1,5 @@
-import { Dispatch, ReactNode, RefObject, SetStateAction } from "react";
-import { CarouselProps } from "./types";
+import { type Dispatch, type ReactNode, type RefObject, type SetStateAction } from "react";
+import { type CarouselProps } from "./types";
 import { ArrowLeft, ArrowRight } from "@packages/icons";
 
 type CarouselContentProps = Omit<

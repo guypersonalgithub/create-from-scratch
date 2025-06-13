@@ -1,4 +1,4 @@
-import { ObjectType } from "./types";
+import { type ObjectType } from "./types";
 
 type ConvertYamlToObjectArgs = {
   str: string;
@@ -233,6 +233,7 @@ const parseValue = ({ value, maintainQuotationsOnNumbers }: ParseValueArgs): unk
 
     return Number(value);
   }
+
   return value;
 };
 

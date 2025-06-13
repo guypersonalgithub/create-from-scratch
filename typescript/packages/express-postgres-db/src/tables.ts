@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import { type Pool } from "pg";
 
 type CreateUsersTableArgs = {
   pool: Pool;
@@ -20,6 +20,7 @@ export const createTables = async ({ pool }: CreateUsersTableArgs) => {
 
   try {
     const res = await client.query(query);
+
     return res.rows;
   } catch (err) {
     console.log(err);

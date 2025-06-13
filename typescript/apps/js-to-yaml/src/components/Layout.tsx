@@ -1,5 +1,5 @@
 import { useUITheme } from "../UIThemes";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 type LayoutProps = {
   children: ReactNode;

@@ -1,7 +1,7 @@
-import { TokenTypeOptions, TokenTypes } from "../constants";
+import { type TokenTypeOptions, TokenTypes } from "../constants";
 import { nameFlow } from "../nameFlow";
-import { BaseToken, OpenedContext } from "../types";
-import { iterateOverSteps, spaceCallback, StepCallback } from "../utils";
+import { type BaseToken, type OpenedContext } from "../types";
+import { iterateOverSteps, spaceCallback, type StepCallback } from "../utils";
 import { expressionInterpolationFlow } from "./expressionInterpolationFlow";
 import { spaceFollowUpFlow } from "./genericFlows";
 import { stringFlow } from "./stringFlows";

@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { AnimatedCarouselProps } from "./types";
+import { useState } from "react";
+import { type AnimatedCarouselProps } from "./types";
 import { AnimatedContent } from "./AnimatedContent";
 
 type ManualAnimatedCarouselProps = Omit<

@@ -9,7 +9,7 @@ type InequalitySignsFlow = {
 
 export const inequalitySignsFlow = ({ input, currentIndex }: InequalitySignsFlow) => {
   let duplicatedInput = input.slice();
-  let value = duplicatedInput.charAt(0);
+  const value = duplicatedInput.charAt(0);
   duplicatedInput = duplicatedInput.slice(1);
 
   const { skippedIndexes } = getNextNonSpaceCharIndex({ input: duplicatedInput });

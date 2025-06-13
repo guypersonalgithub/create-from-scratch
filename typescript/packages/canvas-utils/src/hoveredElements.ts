@@ -1,4 +1,4 @@
-import { HoverableElement } from "./types";
+import { type HoverableElement } from "./types";
 
 type HoveredElementsArgs = {
   x: number;

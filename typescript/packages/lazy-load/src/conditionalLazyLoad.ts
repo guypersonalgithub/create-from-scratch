@@ -1,5 +1,5 @@
 import { lazyLoad } from "./lazyLoad";
-import { Loader } from "./types";
+import { type Loader } from "./types";
 
 type ConditionalLazyLoadArgs<T> = {
   condition: boolean;

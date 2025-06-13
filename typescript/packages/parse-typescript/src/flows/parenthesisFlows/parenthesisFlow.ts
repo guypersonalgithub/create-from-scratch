@@ -1,5 +1,5 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
 import { valueFlow } from "../valueFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { typeValueFlow } from "../typeFlows";
@@ -111,7 +111,7 @@ export const parenthesisFlow = ({
   }
 
   const amountOfTokens = tokens.length;
-  let currentSavedIndex = breakpoint.currentIndex;
+  const currentSavedIndex = breakpoint.currentIndex;
   const value = valueFlow({ tokens, input, previousTokensSummary, openedContexts, ...breakpoint });
 
   if (!value.addedNewToken || value.stop) {

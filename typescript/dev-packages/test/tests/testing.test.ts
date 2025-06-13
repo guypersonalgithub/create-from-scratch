@@ -22,8 +22,7 @@ test({
 
 test({
   name: "Passing expect callback test",
-  fn: () =>
-    expectCallback({ callback: () => {} }).toRunFasterThan({ timeInMS: 10000 }),
+  fn: () => expectCallback({ callback: () => {} }).toRunFasterThan({ timeInMS: 10000 }),
 });
 
 test({

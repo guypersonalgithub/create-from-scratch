@@ -11,5 +11,6 @@ export const pickValues = <T extends Record<string, unknown>, K extends keyof T>
   for (const key of keys) {
     result[key] = obj[key];
   }
+
   return result;
 };

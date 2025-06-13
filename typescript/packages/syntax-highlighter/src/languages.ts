@@ -15,4 +15,3 @@ export const supportedLanguages = {
 } as const;
 
 export type SupportedLanguages = keyof typeof supportedLanguages;
-

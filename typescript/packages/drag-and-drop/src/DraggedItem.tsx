@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { DraggedItemProperties, Item } from "./types";
+import { type DraggedItemProperties, type Item } from "./types";
 import { usePreventTextSelection } from "@packages/hooks";
 import { useDragAndDropContext } from "./useDragAndDropContext";
-import { Observer } from "@packages/design-patterns";
-import { ObserverProperties } from "./DragAndDropWrapper";
+import { type Observer } from "@packages/design-patterns";
+import { type ObserverProperties } from "./DragAndDropWrapper";
 
 export const DraggedItem = () => {
   const { observer } = useDragAndDropContext();
@@ -74,9 +74,11 @@ const DraggedItemContent = ({ draggedItem, observer }: DraggedItemContentProps) 
           if (lastGroupId !== group) {
             observer.setState({ mousePosition: { x, y }, hoveredGroup: group });
             lastGroupId = group;
+
             return;
           }
           observer.setState({ mousePosition: { x, y } });
+
           return;
         }
       }
@@ -84,11 +86,13 @@ const DraggedItemContent = ({ draggedItem, observer }: DraggedItemContentProps) 
       if (lastGroupId !== undefined && !isWithinAGroup) {
         lastGroupId = undefined;
         observer.setState({ mousePosition: undefined, hoveredGroup: undefined });
+
         return;
       }
     };
 
     window.addEventListener("mousemove", onMouseMove);
+
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
     };

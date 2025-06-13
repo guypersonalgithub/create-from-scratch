@@ -1,6 +1,6 @@
-import { JSX } from "react";
-import { SupportedLanguages } from "./languages";
-import { GenericBaseToken, TokenMaps } from "./types";
+import { type JSX } from "react";
+import { type SupportedLanguages } from "./languages";
+import { type GenericBaseToken, type TokenMaps } from "./types";
 import { countLines } from "@packages/utils";
 import { getCurrentLineCounterElement } from "./utils";
 
@@ -61,6 +61,7 @@ export const colorizeTokens = <T extends SupportedLanguages>({
   return tokens.map((current, index) => {
     const { type, value } = current;
     const color = customCellColors[index] ?? baseColors[cellTypeRebranding[index] ?? type];
+
     return <span style={{ color }}>{value}</span>;
   });
 };

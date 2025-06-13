@@ -1,5 +1,5 @@
 import { getScrollParent } from "./getScrollParent";
-import { ScrollOptions } from "./types";
+import { type ScrollOptions } from "./types";
 
 type ScrollToElementTopArgs = {
   element: Element;

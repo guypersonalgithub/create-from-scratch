@@ -12,6 +12,7 @@ export const useQueryParamsState = (
     const params = new URLSearchParams(window.location.search);
 
     const { paramsObject } = parseURLQueryParams({ params, specificParams });
+
     return paramsObject;
   }, [specificParams]);
 

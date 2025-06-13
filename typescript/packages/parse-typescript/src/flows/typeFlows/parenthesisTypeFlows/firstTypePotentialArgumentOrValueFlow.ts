@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "../../../constants";
-import { BaseToken } from "../../../types";
+import { type TokenTypeOptions } from "../../../constants";
+import { type BaseToken } from "../../../types";
 import { spaceFollowUpFlow } from "../../genericFlows";
 import { variableOnlyValueFlow } from "../../variableOnlyValueFlow";
 import { typeValueFlow } from "../typeValueFlow";
@@ -43,7 +43,7 @@ export const firstTypePotentialArgumentOrValueFlow = ({
   const amountOfTokens = tokens.length;
   let skipValidation = false;
   let cachedTokens: BaseToken[] = [];
-  let potentialType: {
+  const potentialType: {
     updatedIndex: number;
     stop: boolean;
     missingTypeInObject?: boolean;
@@ -65,6 +65,7 @@ export const firstTypePotentialArgumentOrValueFlow = ({
     if (!potentialValue.addedNewToken || potentialValue.stop) {
       tokens.splice(amountOfTokens);
       tokens.push(...cachedTokens);
+
       return {
         updatedIndex: potentialType.updatedIndex,
         stop: true,
@@ -100,10 +101,11 @@ export const firstTypePotentialArgumentOrValueFlow = ({
       currentIndex: potentialType.updatedIndex,
       previousTokensSummary,
     });
+
     return regularTypeParenthesisFlow({ tokens, input, previousTokensSummary, ...breakpoint });
   }
 
-  let next = spaceFollowUpFlow({
+  const next = spaceFollowUpFlow({
     tokens,
     input,
     currentIndex: potentialType.updatedIndex,
@@ -117,6 +119,7 @@ export const firstTypePotentialArgumentOrValueFlow = ({
   ) {
     tokens.splice(amountOfTokens);
     tokens.push(...cachedTokens);
+
     return {
       updatedIndex: next.space?.updatedIndex ?? potentialType.updatedIndex,
       stop: true,

@@ -1,5 +1,5 @@
-import { ReactNode, CSSProperties } from "react";
-import { SupportedTags } from "./type";
+import { type ReactNode, type CSSProperties } from "react";
+import { type SupportedTags } from "./type";
 
 type ListProps<T extends SupportedTags> = {
   items: ReactNode[];

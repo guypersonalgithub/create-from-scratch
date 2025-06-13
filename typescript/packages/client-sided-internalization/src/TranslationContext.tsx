@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import type { Locale } from "@packages/locale";
-import { Translations } from "./types";
-import { TranslationArgs } from "./TranslationProvider";
+import { type Translations } from "./types";
+import { type TranslationArgs } from "./TranslationProvider";
 
 export type TranslationContextProps<T extends Locale[], K extends Translations> = {
   locales: T;

@@ -1,6 +1,6 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
-import { iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
+import { iterateOverSteps, spaceCallback, type StepCallback } from "../../utils";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { typeValueFlow } from "../typeFlows";
 import { variableOnlyValueFlow } from "../variableOnlyValueFlow";
@@ -98,7 +98,12 @@ export const functionAdditionalParamsFlow = ({
         tokens.push({ type: TokenTypes.TYPE_COLON, value: newTokenValue });
         previousTokensSummary.push(TokenTypes.TYPE_COLON);
 
-        const { breakpoint, space } = spaceFollowUpFlow({ tokens, input, currentIndex, previousTokensSummary });
+        const { breakpoint, space } = spaceFollowUpFlow({
+          tokens,
+          input,
+          currentIndex,
+          previousTokensSummary,
+        });
 
         const typeValue = typeValueFlow({
           tokens,

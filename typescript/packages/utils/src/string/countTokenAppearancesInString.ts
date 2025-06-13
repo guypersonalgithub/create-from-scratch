@@ -8,5 +8,6 @@ export const countTokenAppearancesInString = ({
   token,
 }: CountTokenAppearancesInStringArgs) => {
   const regex = new RegExp(token, "g");
+
   return (str.match(regex) || []).length;
 };

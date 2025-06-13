@@ -106,6 +106,7 @@ jobs:
         run: npm i
       - name: Run tests
         run: cd packages/syntax-highlighter && npm run test`;
+
   return (
     <>
       <SyntaxHighlighter

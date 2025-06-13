@@ -1,9 +1,9 @@
-import { CSSProperties, JSX, Fragment, RefObject } from "react";
+import { type CSSProperties, type JSX, Fragment, type RefObject } from "react";
 import { displayColorlessCode } from "../utils";
 import { CopyToClipboard } from "@packages/copy-to-clipboard";
-import { Variant } from "./types";
+import { type Variant } from "./types";
 import { getDisplayableLanguage, getVariantColors } from "./utils";
-import { SupportedLanguages } from "../languages";
+import { type SupportedLanguages } from "../languages";
 
 type ModernContentDesignProps = {
   style?: CSSProperties;

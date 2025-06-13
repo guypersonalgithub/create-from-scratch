@@ -3,10 +3,7 @@ type postMessageFlowArgs<T> = {
   messageCallback: (event: MessageEvent<T>) => void;
 };
 
-export const postMessageFlow = <T>({
-  whitelist,
-  messageCallback,
-}: postMessageFlowArgs<T>) => {
+export const postMessageFlow = <T>({ whitelist, messageCallback }: postMessageFlowArgs<T>) => {
   const postMessageCallback = (event: MessageEvent<T>) => {
     if (!whitelist.includes(event.origin)) {
       return;

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, ReactNode, CSSProperties } from "react";
+import { useRef, useState, useEffect, type ReactNode, type CSSProperties } from "react";
 
 // TODO: Add support for a single ReactNode child.
 
@@ -141,6 +141,7 @@ export const VaryingVirtualList = ({
                 setItemHeights((prevHeights) => {
                   const newHeights = [...prevHeights];
                   newHeights[index] = height;
+
                   return newHeights;
                 });
               }}

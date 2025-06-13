@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import "./CSSHoverMultiDropdown.css"
+import { type ReactNode } from "react";
+import "./CSSHoverMultiDropdown.css";
 
 type CSSHoverMultiDropdownProps = {
   children: ReactNode;

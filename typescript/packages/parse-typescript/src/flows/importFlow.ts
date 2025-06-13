@@ -1,10 +1,10 @@
-import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { type TokenTypeOptions, TokenTypes } from "../constants";
+import { type BaseToken } from "../types";
 import {
   definitionSpaceHelper,
   iterateOverSteps,
   spaceCallback,
-  StepCallback,
+  type StepCallback,
   findNextBreakpoint,
   shouldBreak,
   dotCallback,
@@ -254,6 +254,7 @@ export const importFlow = ({
           input,
           currentIndex: potentialCurlyBracket.currentIndex,
         });
+
         return definitionSpaceHelper({ ...potentialSpace2, tokens, input, previousTokensSummary });
       },
       stop: true,

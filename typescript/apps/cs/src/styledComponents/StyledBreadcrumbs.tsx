@@ -1,4 +1,4 @@
-import { Breadcrumbs, BreadcrumbsProps } from "@packages/breadcrumbs";
+import { Breadcrumbs, type BreadcrumbsProps } from "@packages/breadcrumbs";
 import { useParsePathname } from "@packages/hooks";
 import { usePath } from "@packages/router";
 import { capitalizeFirstChar } from "@packages/utils";

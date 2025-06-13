@@ -1,6 +1,6 @@
 import { getAvailableDockerProfiles } from "@packages/docker";
 import { SupportedCommands } from "./supportedCommands";
-import { FilterEnums } from "@packages/utils";
+import { type FilterEnums } from "@packages/utils";
 
 export const printHelp = () => {
   const profiles = getAvailableDockerProfiles();

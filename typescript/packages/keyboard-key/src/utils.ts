@@ -1,5 +1,5 @@
-import { CSSProperties } from "react";
-import { Variants } from "./types";
+import { type CSSProperties } from "react";
+import { type Variants } from "./types";
 
 type GetVariantStylesArgs = {
   variant: Variants;

@@ -11,5 +11,6 @@ export const folderCommittedFilesLines = async ({
   fileTypes,
 }: FolderCommittedFilesLinesArgs) => {
   const files = await folderCommittedFiles({ folderPath, fileTypes });
+
   return countFilesLines({ files });
 };

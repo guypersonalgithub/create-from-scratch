@@ -1,4 +1,4 @@
-import { ReactNode, ErrorInfo, Component } from "react";
+import { type ReactNode, type ErrorInfo, Component } from "react";
 
 type ErrorBoundaryProps = {
   children: ReactNode;
@@ -38,6 +38,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       if (fallback) {
         return fallback;
       }
+
       return (
         <div style={{ color: "red", padding: "1rem" }}>
           <h2>Something went wrong.</h2>

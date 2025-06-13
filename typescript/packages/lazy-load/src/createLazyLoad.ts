@@ -1,4 +1,4 @@
-import { Loader } from "./types";
+import { type Loader } from "./types";
 
 type CreateLazyLoaderArgs<T> = {
   loader: Loader<T>;
@@ -10,6 +10,7 @@ export const createLazyLoader = <T>({ loader }: CreateLazyLoaderArgs<T>) => {
   return {
     load: () => {
       if (!cache) cache = loader();
+
       return cache;
     },
     reset: () => {

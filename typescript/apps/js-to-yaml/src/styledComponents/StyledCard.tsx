@@ -1,5 +1,5 @@
 import { Card } from "@packages/card";
-import { CSSProperties, ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 
 type StyledCardProps = {
   style?: CSSProperties;

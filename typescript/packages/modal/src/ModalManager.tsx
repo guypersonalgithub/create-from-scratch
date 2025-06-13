@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { ModalDisplayProps } from "./types";
+import { type ModalDisplayProps } from "./types";
 import {
   AnimationContainerWrapper,
-  AnimationContainerWrapperProps,
+  type AnimationContainerWrapperProps,
 } from "@packages/animation-container";
 
 type ModalManagerProps = Partial<
@@ -47,6 +47,7 @@ export const ModalManager = ({
       setModals((prev) => {
         const remainingModals = prev.filter((modal) => modal.id !== id);
         modalIds.current.delete(id);
+
         return remainingModals;
       });
     };
@@ -102,6 +103,7 @@ export const ModalManager = ({
                 setModals((prev) => {
                   const remainingModals = prev.filter((modal) => modal.id !== id);
                   modalIds.current.delete(id);
+
                   return remainingModals;
                 });
               }}

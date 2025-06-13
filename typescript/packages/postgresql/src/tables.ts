@@ -1,4 +1,4 @@
-import { Client, Pool, PoolClient } from "pg";
+import { type Client, type Pool, type PoolClient } from "pg";
 
 type GetAllPublicTablesListArgs =
   | {
@@ -13,10 +13,7 @@ type PostgresTableProperties = {
   data_type: string;
 };
 
-export const getAllPublicTablesList = async ({
-  client,
-  pool,
-}: GetAllPublicTablesListArgs) => {
+export const getAllPublicTablesList = async ({ client, pool }: GetAllPublicTablesListArgs) => {
   if (client) {
     try {
       await client.connect();
@@ -25,6 +22,7 @@ export const getAllPublicTablesList = async ({
       WHERE table_schema = 'public';`;
 
       const res = await client.query<PostgresTableProperties>(query);
+
       return res.rows;
     } catch (error) {
       throw error;
@@ -40,6 +38,7 @@ export const getAllPublicTablesList = async ({
     WHERE table_schema = 'public';`;
 
     const res = await connection.query<PostgresTableProperties>(query);
+
     return res.rows;
   } catch (error) {
     console.log(error);

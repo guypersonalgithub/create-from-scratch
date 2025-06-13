@@ -1,5 +1,5 @@
-import { definitionKeywords, TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken, OpenedContext } from "../types";
+import { definitionKeywords, type TokenTypeOptions, TokenTypes } from "../constants";
+import { type BaseToken, type OpenedContext } from "../types";
 import { partialDefinitionFlow } from "./partialDefinitionFlow";
 
 type DefinitionFlowArgs = {

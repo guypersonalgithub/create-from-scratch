@@ -5,5 +5,6 @@ export const getRepositoryFiles = async () => {
     command: "git ls-files",
   });
   const files = filesString?.trim()?.split("\n") ?? [];
+
   return files;
 };

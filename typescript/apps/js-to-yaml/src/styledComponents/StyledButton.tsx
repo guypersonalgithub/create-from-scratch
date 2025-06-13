@@ -1,6 +1,6 @@
 import { Button } from "@packages/button";
 import { ArrowRight2 } from "@packages/icons";
-import { CSSProperties, ReactNode } from "react";
+import { type CSSProperties, type ReactNode } from "react";
 import styles from "./StyledButton.module.css";
 
 type Variants = "blue" | "green" | "ghost";

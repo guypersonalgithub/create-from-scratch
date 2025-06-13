@@ -1,6 +1,6 @@
 import { isNumeric } from "@packages/utils";
 import { TokenTypes } from "../constants";
-import { BaseToken, OpenedContextsIdentation } from "../types";
+import { type BaseToken, type OpenedContextsIdentation } from "../types";
 import { endOfLineFlow } from "./endOfLineFlow";
 import { spaceFlow } from "./spaceFlow";
 import { dictateValueType } from "../utils";

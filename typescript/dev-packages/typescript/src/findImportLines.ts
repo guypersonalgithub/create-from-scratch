@@ -13,6 +13,6 @@ export const findImportLines = (sourceFile: ts.SourceFile) => {
   }
 
   visit(sourceFile);
-  
+
   return importLines;
 };

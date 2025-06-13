@@ -1,18 +1,18 @@
-import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
+import { sendAbortableRequest, type SendAbortableRequestArgs } from "@packages/request";
 import {
-  ExpiredAfter,
-  ExtendedRequestTypeRegistry,
-  ExtractedCallback,
-  ExtractedCallbackArg,
-  PseudoData,
-  UpdateStates,
+  type ExpiredAfter,
+  type ExtendedRequestTypeRegistry,
+  type ExtractedCallback,
+  type ExtractedCallbackArg,
+  type PseudoData,
+  type UpdateStates,
 } from "../types";
 import {
   fetchManagement,
   updateRequestsObserver,
   updateRequestsObserverMultiple,
 } from "../observer";
-import { MutableRefObject } from "react";
+import { type MutableRefObject } from "react";
 
 type ActivateRequestArgs<K extends keyof ExtendedRequestTypeRegistry> = {
   id: K;

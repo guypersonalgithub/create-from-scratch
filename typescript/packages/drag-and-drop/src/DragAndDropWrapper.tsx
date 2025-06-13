@@ -1,6 +1,6 @@
 import { Observer } from "@packages/design-patterns";
-import { createContext, ReactNode } from "react";
-import { DraggedItemProperties, Item, MousePosition } from "./types";
+import { createContext, type ReactNode } from "react";
+import { type DraggedItemProperties, type Item, type MousePosition } from "./types";
 
 export type ObserverProperties = {
   mousePosition?: MousePosition;
@@ -10,7 +10,7 @@ export type ObserverProperties = {
   previewHover?: {
     groupId: string;
     previewIndex: number;
-  }
+  };
 } & {
   [key in `group-${string}`]?: Item[];
 };

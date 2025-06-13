@@ -1,8 +1,8 @@
-import { Breakpoint } from "../types";
+import { type Breakpoint } from "../types";
 import { BreakpointsContext } from "./BreakpointsContext";
 import { initializeMediaBreakpoints } from "./mediaBreakpointsObserver";
-import { BreakpointsContextType } from "./BreakpointsContext";
-import { ReactNode } from "react";
+import { type BreakpointsContextType } from "./BreakpointsContext";
+import { type ReactNode } from "react";
 
 type BreakpointProviderProps<T extends Record<string, Breakpoint>> = {
   breakpoints: T;

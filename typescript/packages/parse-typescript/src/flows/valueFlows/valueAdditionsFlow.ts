@@ -1,5 +1,5 @@
-import { TokenTypeOptions } from "../../constants";
-import { BaseToken, FlowCallback, OpenedContext } from "../../types";
+import { type TokenTypeOptions } from "../../constants";
+import { type BaseToken, type FlowCallback, type OpenedContext } from "../../types";
 import { andOrValueFlow } from "./andOrValueFlow";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { lowerHigherThanValueFlow } from "./lowerHigherThanValueFlow";

@@ -1,5 +1,5 @@
 import { createTSConfig } from "./createTSConfig";
-import { TSConfig } from "./types";
+import { type TSConfig } from "./types";
 
 type CreateRootTSConfigArgs = {
   path: string;

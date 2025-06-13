@@ -1,5 +1,5 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
 import { valueFlow } from "../valueFlows";
 import { spaceFollowUpFlow } from "../genericFlows";
 
@@ -76,7 +76,7 @@ export const regularParenthesisFlow = ({
     };
   }
 
-  let { breakpoint, space } = spaceFollowUpFlow({
+  const { breakpoint, space } = spaceFollowUpFlow({
     tokens,
     input,
     previousTokensSummary,

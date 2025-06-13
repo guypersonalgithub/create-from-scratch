@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
-import { sendAbortableRequest, SendAbortableRequestArgs } from "@packages/request";
+import { type sendAbortableRequest, type SendAbortableRequestArgs } from "@packages/request";
 import { fetchManagement } from "../observer";
 import {
-  ExpiredAfter,
-  ExtendedRequestTypeRegistry,
-  ExtractedCallbackArg,
-  ExtractedData,
-  ExtractedCallback,
-  PseudoData,
+  type ExpiredAfter,
+  type ExtendedRequestTypeRegistry,
+  type ExtractedCallbackArg,
+  type ExtractedData,
+  type ExtractedCallback,
+  type PseudoData,
 } from "../types";
 import { useRequestStateUpdater } from "./useRequestStateUpdater";
 import { activateRequest } from "./activateRequest";

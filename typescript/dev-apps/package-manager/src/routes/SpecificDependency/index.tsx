@@ -16,6 +16,7 @@ export const SpecificDependency = () => {
     id: `specificDependency-${decodedDependency}`,
     callback: ({ requestData }) => {
       const currentData = requestData?.data;
+
       return currentData;
     },
     url: `http://localhost:${import.meta.env.VITE_BACK_PORT}/metadata`,

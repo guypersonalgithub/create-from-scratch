@@ -46,6 +46,7 @@ export const detectFileChanges = ({
     if (!dirExists) {
       mkdirSync(cachedFilesFolder);
       cacheCurrentFileVersions({ filePaths, cachedFilesFolder });
+
       return true;
     }
 

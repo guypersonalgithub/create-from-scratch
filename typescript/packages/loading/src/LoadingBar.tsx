@@ -1,12 +1,12 @@
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 import "./styles.css";
 
 type LoadingBarProps = {
   height?: number | `${number}%`;
   width?: number | `${number}%`;
   borderRadius?: number;
-  backgroundColor: CSSProperties['background'];
-  color: CSSProperties['background'];
+  backgroundColor: CSSProperties["background"];
+  color: CSSProperties["background"];
   barWidth?: number | `${number}%`;
 };
 

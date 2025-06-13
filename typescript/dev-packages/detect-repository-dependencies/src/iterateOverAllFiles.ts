@@ -1,5 +1,5 @@
 import { readdirSync } from "fs";
-import { DependenciesMap, ParsedPackageLock } from "./types";
+import { type DependenciesMap, type ParsedPackageLock } from "./types";
 import { shouldSkipFile } from "./skipFile";
 import { mapPackageJsonDependencies } from "./mapPackageJsonDependencies";
 
@@ -48,6 +48,7 @@ export const iterateOverAllFiles = ({
       "Encountered the same folder path twice, there might be a circular path somewhere within the file system, skipping.",
       `Path: ${fullPath}`,
     );
+
     return { depencencies: dependenciesMap, packageJsonPaths };
   }
   iteratedPaths.add(fullPath);

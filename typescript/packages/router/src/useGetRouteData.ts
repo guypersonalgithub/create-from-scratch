@@ -1,5 +1,5 @@
-import { isValidElement, MutableRefObject, ReactNode } from "react";
-import { RouterPaths } from "./types";
+import { isValidElement, type MutableRefObject, type ReactNode } from "react";
+import { type RouterPaths } from "./types";
 import { getFirstPath } from "./utils";
 
 type UseGetRouteDataArgs = {
@@ -24,6 +24,7 @@ export const useGetRouteData = ({
       const current = potentialPaths[i];
       if (isValidElement(current)) {
         passedPath = basePath;
+
         return current;
       } else if (typeof current === "function") {
         const functionValue = current();

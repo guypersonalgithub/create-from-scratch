@@ -1,11 +1,11 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken } from "../../types";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken } from "../../types";
 import {
   findNextBreakpoint,
   iterateOverSteps,
   shouldBreak,
   spaceCallback,
-  StepCallback,
+  type StepCallback,
 } from "../../utils";
 import { spaceFlow, spaceFollowUpFlow } from "../genericFlows";
 import { stringFlow } from "../stringFlows";

@@ -1,8 +1,15 @@
-import { useState, useRef, KeyboardEvent, Fragment, ReactNode, CSSProperties } from "react";
+import {
+  useState,
+  useRef,
+  type KeyboardEvent,
+  Fragment,
+  type ReactNode,
+  type CSSProperties,
+} from "react";
 import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
-import { BaseDropdownOption } from "./types";
+import { type BaseDropdownOption } from "./types";
 
 type DropdownProps<T extends BaseDropdownOption> = {
   options: T[];

@@ -1,6 +1,6 @@
-import { TypescriptTokenTypeOptions } from "@packages/parse-typescript";
-import { YAMLTokenTypeOptions } from "@packages/parse-yaml";
-import { SupportedLanguages } from "./languages";
+import { type TypescriptTokenTypeOptions } from "@packages/parse-typescript";
+import { type YAMLTokenTypeOptions } from "@packages/parse-yaml";
+import { type SupportedLanguages } from "./languages";
 
 export type GenericBaseToken<T extends SupportedLanguages> = {
   type: TokenMaps[T];

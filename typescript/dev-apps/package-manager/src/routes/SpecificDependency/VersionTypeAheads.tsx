@@ -1,10 +1,17 @@
 import { Typeahead } from "@packages/typeahead";
 import { semverOptions } from "../../constants";
 import { getSemVer } from "../../utils";
-import { InstancesType, SpecificDependencyTableProps } from "./types";
-import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react";
+import { type InstancesType, type SpecificDependencyTableProps } from "./types";
+import {
+  type Dispatch,
+  type MutableRefObject,
+  type SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Button } from "@packages/button";
-import { DependenciesToChange } from "@packages/alter-package-versions-types";
+import { type DependenciesToChange } from "@packages/alter-package-versions-types";
 
 type VersionTypeAheadsProps = {
   name?: string;

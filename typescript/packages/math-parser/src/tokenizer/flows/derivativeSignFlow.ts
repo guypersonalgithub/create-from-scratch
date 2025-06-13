@@ -1,5 +1,5 @@
 import { TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { type BaseToken } from "../types";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
 
 type DerivativeSignFlowArgs = {
@@ -10,7 +10,7 @@ type DerivativeSignFlowArgs = {
 
 export const derivativeSignFlow = ({ tokens, input, currentIndex }: DerivativeSignFlowArgs) => {
   let duplicatedInput = input.slice();
-  let value = duplicatedInput.charAt(0);
+  const value = duplicatedInput.charAt(0);
   isValidPreviousToken({ tokens, currentChar: value, currentIndex });
 
   duplicatedInput = duplicatedInput.slice(1);

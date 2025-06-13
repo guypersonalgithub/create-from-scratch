@@ -1,5 +1,5 @@
 import { CommandBox } from "@packages/command-box";
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 
 type StyledCommandBoxProps = {
   command: string;
@@ -22,7 +22,7 @@ export const StyledCommandBox = ({
         color: "var(--theme-color)",
         transition: "var(--theme-transition)",
         backgroundColor: "var(--theme-subBackground)",
-        border: "1px solid var(--theme-border)"
+        border: "1px solid var(--theme-border)",
       }}
       copyToClipboard={copyToClipboard}
       withIcons={withIcons}

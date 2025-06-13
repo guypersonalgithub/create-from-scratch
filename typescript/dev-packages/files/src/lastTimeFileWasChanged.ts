@@ -4,9 +4,7 @@ type LastTimeFilesWereChangedArgs = {
   filePaths: string[];
 };
 
-export const lastTimeFilesWereChanged = ({
-  filePaths,
-}: LastTimeFilesWereChangedArgs) => {
+export const lastTimeFilesWereChanged = ({ filePaths }: LastTimeFilesWereChangedArgs) => {
   try {
     const fileStats: Record<string, string> = {};
     filePaths.forEach((filePath) => {
@@ -31,6 +29,7 @@ type LastTimeFileWasChangedArgs = {
 export const lastTimeFileWasChanged = ({ filePath }: LastTimeFileWasChangedArgs) => {
   try {
     const stats = statSync(filePath);
+
     return stats.mtime.toISOString();
   } catch (error) {
     return;

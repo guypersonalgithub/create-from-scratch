@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, CSSProperties, ReactNode, useState } from "react";
+import { type ButtonHTMLAttributes, type CSSProperties, type ReactNode, useState } from "react";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;

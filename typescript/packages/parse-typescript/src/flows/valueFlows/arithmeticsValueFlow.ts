@@ -1,5 +1,5 @@
-import { TokenTypeOptions, TokenTypes, valueArithmetics } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
+import { type TokenTypeOptions, TokenTypes, valueArithmetics } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { valueFlow } from "./valueFlow";
 

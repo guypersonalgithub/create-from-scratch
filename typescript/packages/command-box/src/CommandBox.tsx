@@ -1,5 +1,5 @@
 import { CopyToClipboard } from "@packages/copy-to-clipboard";
-import { CSSProperties } from "react";
+import { type CSSProperties } from "react";
 
 type CommandBoxProps = {
   command: string;

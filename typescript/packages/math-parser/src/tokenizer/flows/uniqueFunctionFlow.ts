@@ -1,5 +1,5 @@
 import { TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { type BaseToken } from "../types";
 import { uniqueWords } from "../uniqueTokens";
 import { isValidSectionStartingCharacter } from "../utils";
 import { getNextNonSpaceCharIndex, isCharacterLetter } from "@packages/utils";

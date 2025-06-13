@@ -1,5 +1,5 @@
 import { TokenTypes } from "../constants";
-import { BaseToken } from "../types";
+import { type BaseToken } from "../types";
 
 type ArrayFlowArgs = {
   tokens: BaseToken[];

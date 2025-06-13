@@ -1,0 +1,1 @@
+- Make a oneOfStrict type where each given object has only unique properties.

@@ -1,4 +1,4 @@
-import { BaseToken } from "./types";
+import { type BaseToken } from "./types";
 import { isValidLimit, isValidSectionStartingCharacter } from "./utils";
 import { limitFlow, tokenizerFlows } from "./flows";
 import { getNextNonSpaceCharIndex } from "@packages/utils";
@@ -67,10 +67,12 @@ export const tokenizer = ({ input, isAnExpression }: TokenizerArgs) => {
         );
       }
     }
+
     return { tokens, errorMessage };
   } catch (error) {
     const isError = error instanceof Error;
     errorMessage = `${isError ? error.message : error}`;
+
     return { tokens: [], errorMessage };
   }
 };

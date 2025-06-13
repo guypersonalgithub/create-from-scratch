@@ -1,6 +1,6 @@
-import { CSSProperties, ReactNode, useRef } from "react";
+import { type CSSProperties, type ReactNode, useRef } from "react";
 import { useControlTooltip } from "./useControlTooltip";
-import { TooltipDisplayProps } from "./types";
+import { type TooltipDisplayProps } from "./types";
 import { TooltipContent } from "./TooltipContent";
 import { useIntersectionRefs } from "@packages/edge-intersection";
 

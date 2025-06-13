@@ -8,5 +8,6 @@ export const replaceTokenAppearancesInString = ({
   token,
 }: ReplaceTokenAppearancesInStringArgs) => {
   const regex = new RegExp(token, "g");
+
   return str.replace(regex, "");
 };

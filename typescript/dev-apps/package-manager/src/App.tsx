@@ -85,6 +85,7 @@ const AutoComplete = () => {
         debounceDelay={300}
         autocompleteOptionsCallback={(text) => {
           const lowercaseText = text.toLowerCase();
+
           return options.filter((searchable) =>
             searchable.label.toLowerCase().includes(lowercaseText),
           );

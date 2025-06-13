@@ -21,6 +21,7 @@ export const getAllRepositoryFolderCommittedFiles = async ({
       const path = `${projectAbsolutePath}/${folder}`;
       const innerFolders = getFoldersInPath({ path });
       const folderPaths = innerFolders.map((innerFolder) => `${path}/${innerFolder.name}`);
+
       return folderPaths;
     })
     .flat();
@@ -53,6 +54,7 @@ export const getAllRepositoryFolderCommittedFiles = async ({
       return sum + countTestsInFile({ path: current });
     }, 0);
     const roughEstimatedTokensCount = countRoughEstimateTokenCountInFiles({ files });
+
     return {
       path,
       filesCount,

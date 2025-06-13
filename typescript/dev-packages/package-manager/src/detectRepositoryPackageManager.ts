@@ -1,7 +1,7 @@
 import { join } from "path";
 import { getProjectAbsolutePath } from "@packages/paths";
 import { existsSync } from "fs";
-import { PackageManagerLock, SupportedPackageManagers } from "./types";
+import { type PackageManagerLock, type SupportedPackageManagers } from "./types";
 
 export const detectRepositoryPackageManager = (): {
   manager: SupportedPackageManagers;

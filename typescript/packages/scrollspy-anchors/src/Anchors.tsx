@@ -1,6 +1,6 @@
 import { AnimationContainerWrapper, useAnimation } from "@packages/animation-container";
-import { Anchor } from "./types";
-import { useRef, RefObject, useEffect, CSSProperties } from "react";
+import { type Anchor } from "./types";
+import { useRef, type RefObject, useEffect, type CSSProperties } from "react";
 import { registerAnchorRef } from "./registerRefs";
 import { getLowestAnchorIndex } from "./utils";
 import { combineStringsWithSpaces } from "@packages/utils";
@@ -128,7 +128,7 @@ const HighlightBar = ({
     };
 
     const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         if (entry.target === containerRef.current) {
           setContainerTop();
         }

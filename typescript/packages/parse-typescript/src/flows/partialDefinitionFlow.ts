@@ -1,10 +1,10 @@
 import { isNumeric } from "@packages/utils";
-import { TokenTypeOptions, TokenTypes } from "../constants";
-import { BaseToken, OpenedContext } from "../types";
+import { type TokenTypeOptions, TokenTypes } from "../constants";
+import { type BaseToken, type OpenedContext } from "../types";
 import {
   iterateOverSteps,
   spaceCallback,
-  StepCallback,
+  type StepCallback,
   shouldBreak,
   findLastNonSpaceToken,
 } from "../utils";
@@ -110,7 +110,7 @@ export const partialDefinitionFlow = ({
             stop: true,
           };
         }
-        
+
         const tokenType = isntNumericInClass
           ? TokenTypes.VARIABLE
           : TokenTypes.NUMERIC_CLASS_VARIABLE;

@@ -1,4 +1,4 @@
-import { ParsedToken } from "../types";
+import { type ParsedToken } from "../types";
 import { recursivelyParsePower } from "./recursivelyParsePower";
 
 type UniqueFunctionWithPowerArgs = {
@@ -14,7 +14,7 @@ export const uniqueFunctionWithPower = ({
     return false;
   }
 
-  let currentToken = tokens.shift();
+  const currentToken = tokens.shift();
   if (!currentToken) {
     throw new Error("Unexpected syntax!");
   }

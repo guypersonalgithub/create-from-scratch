@@ -1,5 +1,5 @@
-import { ReactElement, useLayoutEffect, useRef, useState } from "react";
-import { AnimationContainerWrapperProps, ChangeMethod } from "./types";
+import { type ReactElement, useLayoutEffect, useRef, useState } from "react";
+import { type AnimationContainerWrapperProps, type ChangeMethod } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import { getChildKeys } from "./utils";
 

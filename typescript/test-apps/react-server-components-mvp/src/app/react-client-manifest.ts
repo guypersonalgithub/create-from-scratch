@@ -4,17 +4,17 @@ const ssrManifest = {
       id: "Page",
       chunks: ["Page.js"],
       name: "default",
-      async: true
+      async: true,
     },
     AsyncComponent: {
       id: "AsyncComponent",
       chunks: ["AsyncComponent.js"],
       name: "default",
-      async: true
-    }
+      async: true,
+    },
   },
   serverModuleMap: {}, // optional, usually empty unless using server references
-  moduleLoading: "eager" // or "lazy", depending on how you build
+  moduleLoading: "eager", // or "lazy", depending on how you build
 };
 
 export default ssrManifest;

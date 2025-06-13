@@ -1,5 +1,5 @@
 import type { Meta } from "@storybook/react";
-import { Anchor, ScrollspyAnchors, useRegisterAnchors } from "@packages/scrollspy-anchors";
+import { type Anchor, ScrollspyAnchors, useRegisterAnchors } from "@packages/scrollspy-anchors";
 
 const meta = {
   title: "ScrollspyAnchors",

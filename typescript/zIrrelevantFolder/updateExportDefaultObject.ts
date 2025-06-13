@@ -81,6 +81,7 @@ export const updateExportDefaultObject = ({ sourceFile, node }: UpdateExportDefa
       if (ts.isObjectLiteralExpression(arg)) {
         return updateObjectLiteral(arg);
       }
+
       return arg;
     });
 
@@ -92,6 +93,7 @@ export const updateExportDefaultObject = ({ sourceFile, node }: UpdateExportDefa
     );
   } else {
     console.log("Export default is not an object literal or call expression.");
+
     return sourceFile;
   }
 
@@ -109,11 +111,14 @@ export const updateExportDefaultObject = ({ sourceFile, node }: UpdateExportDefa
         if (node === exportAssignment) {
           return newExportAssignment;
         }
+
         return ts.visitEachChild(node, visit, context);
       }
+
       return ts.visitNode(rootNode, visit);
     };
 
   const result = ts.transform(sourceFile, [transformer]);
+
   return result.transformed[0] as ts.SourceFile;
 };

@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode } from "react";
-import { CustomEdges, EdgeWrapperRefs } from "./types";
+import { type CSSProperties, type ReactNode } from "react";
+import { type CustomEdges, type EdgeWrapperRefs } from "./types";
 import { calculateBaseWithOffset } from "./utils";
 import { capitalizeFirstChar, type OmitByPattern } from "@packages/utils";
 

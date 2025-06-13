@@ -1,6 +1,11 @@
-import { TokenTypeOptions, TokenTypes } from "../../constants";
-import { BaseToken, OpenedContext } from "../../types";
-import { findNextBreakpoint, iterateOverSteps, spaceCallback, StepCallback } from "../../utils";
+import { type TokenTypeOptions, TokenTypes } from "../../constants";
+import { type BaseToken, type OpenedContext } from "../../types";
+import {
+  findNextBreakpoint,
+  iterateOverSteps,
+  spaceCallback,
+  type StepCallback,
+} from "../../utils";
 import { spaceFollowUpFlow } from "../genericFlows";
 import { asFlow } from "../typeFlows";
 import { valueFlow } from "../valueFlows";

@@ -5,7 +5,7 @@ type CountDigitsArgs = {
 export const countDigits = ({ num }: CountDigitsArgs) => {
   let integerDigits = 0;
   let fractionDigits = 0;
-  let numString = num.toString();
+  const numString = num.toString();
 
   let afterDot = false;
   let isNegative = false;

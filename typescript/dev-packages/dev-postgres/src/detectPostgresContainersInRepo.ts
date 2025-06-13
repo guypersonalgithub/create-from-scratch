@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { getProjectAbsolutePath } from "@packages/paths";
-import { DockerComposeData } from "@packages/docker";
+import { type DockerComposeData } from "@packages/docker";
 import { convertYamlToObject } from "@packages/yaml";
 
 export const detectPostgresContainersInRepo = () => {
