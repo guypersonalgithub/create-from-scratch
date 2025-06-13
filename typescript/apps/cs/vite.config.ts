@@ -71,6 +71,7 @@ export default defineConfig({
         "../../packages/scrollspy-anchors/src/index.ts",
       ),
       "@packages/breadcrumbs": path.resolve(__dirname, "../../packages/breadcrumbs/src/index.ts"),
+      "@packages/binary": path.resolve(__dirname, "../../packages/binary/src/index.ts"),
     },
   },
 });

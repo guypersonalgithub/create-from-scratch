@@ -21,7 +21,7 @@ import { customThemes } from "./UIThemes";
 import { Test } from "./Test";
 import { Containers } from "./routes/containers/Containers";
 import { CSS } from "./routes/css/CSS";
-import { Linux } from "./routes/linux/Linux";
+import { Linux } from "./routes/temprename/Linux";
 import { Test2 } from "./Test2";
 import { Security } from "./routes/security/Security";
 import { Binary } from "./routes/binary/Binary";
