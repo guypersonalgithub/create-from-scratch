@@ -47,7 +47,7 @@ export const getValidatedPackageData = ({
     );
   }
 
-  const packageJson = getPackageJson({ packagePath: completePath });
+  const packageJson = getPackageJson({ folderPath: completePath });
   if (!packageJson) {
     throw `Package json for ${path} was not found`;
   }

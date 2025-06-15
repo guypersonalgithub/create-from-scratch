@@ -11,6 +11,8 @@ import { generatePackageLock } from "@packages/package-lock";
 import { generateGithubActionYaml } from "@packages/github-actions";
 import { detectCircularDependencies, detectUndevelopedLocalPackages } from "@packages/packages";
 import { setupPackage } from "@packages/setup-package";
+import { createTypecheckConfigs } from "@packages/create-typecheck-github-actions-config";
+import { getProjectAbsolutePath } from "@packages/paths";
 
 type CliOptionsArgs = {
   command: Flag;
@@ -97,6 +99,13 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.DETECT_UNDEVELOPED_PACKAGES: {
       detectUndevelopedLocalPackages({});
+      break;
+    }
+    case SupportedCommands.CREATE_TYPECHECK_GITHUB_ACTION_CONFIG_FILES: {
+      createTypecheckConfigs({
+        projectAbsolutePath: getProjectAbsolutePath(),
+        folders: ["apps", "dev-apps", "test-apps", "packages", "dev-packages", "clis"],
+      });
       break;
     }
     default: {

@@ -2,12 +2,12 @@ import { type PackageJson } from "./types";
 import { getFile } from "@packages/files";
 
 type GetPackageJsonArgs = {
-  packagePath: string;
+  folderPath: string;
 };
 
-export const getPackageJson = ({ packagePath }: GetPackageJsonArgs) => {
+export const getPackageJson = ({ folderPath }: GetPackageJsonArgs) => {
   try {
-    const stringifiedPackageJson = getFile({ path: `${packagePath}/package.json` });
+    const stringifiedPackageJson = getFile({ path: `${folderPath}/package.json` });
     if (!stringifiedPackageJson) {
       throw "The package json file was not found.";
     }
