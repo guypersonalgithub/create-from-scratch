@@ -1,6 +1,5 @@
 import { getAvailableDockerProfiles } from "@packages/docker";
 import { SupportedCommands } from "./supportedCommands";
-import { type FilterEnums } from "@packages/utils";
 
 export const printHelp = () => {
   const profiles = getAvailableDockerProfiles();
@@ -8,7 +7,7 @@ export const printHelp = () => {
   console.log("Commands:");
 
   const commandDescriptions: Record<
-    FilterEnums<SupportedCommands, SupportedCommands.HELP>,
+    (typeof SupportedCommands)[keyof Omit<typeof SupportedCommands, "HELP">],
     string
   > = {
     [SupportedCommands.DOCKER_COMPOSE_DEV]:
@@ -34,6 +33,8 @@ export const printHelp = () => {
     [SupportedCommands.SETUP_PACKAGE]: "Setups packages for NPM publishments",
     [SupportedCommands.DETECT_UNDEVELOPED_PACKAGES]:
       "Detects local packages that were created but not developed afterwards",
+    [SupportedCommands.CREATE_TYPECHECK_GITHUB_ACTION_CONFIG_FILES]:
+      "Creates typecheck github action config files",
   };
 
   for (const command in commandDescriptions) {

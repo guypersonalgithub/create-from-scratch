@@ -7,7 +7,7 @@ type GeneratePackageArgs = {
 };
 
 export const generatePackage = ({ packageName, folder }: GeneratePackageArgs) => {
-  console.log(`Generating new package:`);
+  console.log("Generating new package:");
 
   const projectAbsolutePath = getProjectAbsolutePath();
   const folderPath = `${projectAbsolutePath}/${folder}/${packageName}`;
