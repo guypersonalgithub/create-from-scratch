@@ -7,15 +7,13 @@ const removePostinstall = () => {
 
   const workspace = flags[0];
 
-  if (!workspace) {
-    throw "Missing workspace to proceed!";
-  }
-
   const packageJson = fs.readFileSync("./package.json", { encoding: "utf-8" });
   const parsed = JSON.parse(packageJson);
   const { scripts } = parsed;
   delete scripts.postinstall;
-  scripts.build = `npm run build --workspace=${workspace}`;
+  if (workspace) {
+    scripts.build = `npm run build --workspace=${workspace}`;
+  }
   parsed.scripts = scripts;
   console.log(parsed);
   console.log("Removed postinstall successfully!");

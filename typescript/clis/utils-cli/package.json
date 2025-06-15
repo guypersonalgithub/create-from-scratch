@@ -19,7 +19,8 @@
     "@packages/dev-postgres": "*",
     "@packages/docker": "*",
     "@packages/github-actions": "*",
-    "@packages/setup-package": "*"
+    "@packages/setup-package": "*",
+    "@packages/create-typecheck-github-actions-config": "*"
   },
   "bin": {
     "utils-cli": "index.js"

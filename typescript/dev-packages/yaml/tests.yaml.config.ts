@@ -23,7 +23,7 @@ export default {
         },
         {
           name: "Remove postinstall",
-          run: "node ./ci-scripts/removePostInstall.js cs",
+          run: "node ./ci-scripts/removePostInstall.js",
         },
         {
           name: "Install dependencies",

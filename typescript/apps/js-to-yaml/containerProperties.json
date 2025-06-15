@@ -1,0 +1,14 @@
+{
+  "main": {
+    "environment": [],
+    "volumes": [
+      {
+        "type": "bind",
+        "source": "./apps/js-to-yaml/vite.config.ts",
+        "target": "/usr/src/app/vite.config.ts"
+      }
+    ],
+    "networks": ["frontend"],
+    "ports": ["5173:5173"]
+  }
+}

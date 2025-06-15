@@ -172,6 +172,163 @@ services:
       - 3002:3002
     depends_on:
       - express-backend-postgresql
+  js-to-yaml:
+    image: js-to-yaml:latest
+    environment:
+      - NODE_ENV=development
+    build:
+      dockerfile: ./docker/Dockerfile.js-to-yaml
+      context: ./
+      target: development
+    profiles:
+      - js-to-yaml
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./apps/js-to-yaml/
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+      - type: bind
+        source: ./packages/router
+        target: /usr/src/app/packages/router
+      - type: bind
+        source: ./packages/utils
+        target: /usr/src/app/packages/utils
+      - type: bind
+        source: ./packages/url
+        target: /usr/src/app/packages/url
+      - type: bind
+        source: ./packages/environment
+        target: /usr/src/app/packages/environment
+      - type: bind
+        source: ./packages/hooks
+        target: /usr/src/app/packages/hooks
+      - type: bind
+        source: ./packages/array-utils
+        target: /usr/src/app/packages/array-utils
+      - type: bind
+        source: ./packages/object-utils
+        target: /usr/src/app/packages/object-utils
+      - type: bind
+        source: ./packages/parse-typescript
+        target: /usr/src/app/packages/parse-typescript
+      - type: bind
+        source: ./packages/ui-theme
+        target: /usr/src/app/packages/ui-theme
+      - type: bind
+        source: ./packages/icons
+        target: /usr/src/app/packages/icons
+      - type: bind
+        source: ./packages/button
+        target: /usr/src/app/packages/button
+      - type: bind
+        source: ./packages/syntax-highlighter
+        target: /usr/src/app/packages/syntax-highlighter
+      - type: bind
+        source: ./packages/parse-yaml
+        target: /usr/src/app/packages/parse-yaml
+      - type: bind
+        source: ./packages/copy-to-clipboard
+        target: /usr/src/app/packages/copy-to-clipboard
+      - type: bind
+        source: ./packages/tooltip
+        target: /usr/src/app/packages/tooltip
+      - type: bind
+        source: ./packages/animation-container
+        target: /usr/src/app/packages/animation-container
+      - type: bind
+        source: ./packages/is-dev
+        target: /usr/src/app/packages/is-dev
+      - type: bind
+        source: ./packages/randomizer
+        target: /usr/src/app/packages/randomizer
+      - type: bind
+        source: ./packages/edge-intersection
+        target: /usr/src/app/packages/edge-intersection
+      - type: bind
+        source: ./packages/calculate-relative-position
+        target: /usr/src/app/packages/calculate-relative-position
+      - type: bind
+        source: ./dev-packages/yaml
+        target: /usr/src/app/dev-packages/yaml
+      - type: bind
+        source: ./packages/alert
+        target: /usr/src/app/packages/alert
+      - type: bind
+        source: ./packages/card
+        target: /usr/src/app/packages/card
+      - type: bind
+        source: ./packages/command-box
+        target: /usr/src/app/packages/command-box
+      - type: bind
+        source: ./packages/css-utils
+        target: /usr/src/app/packages/css-utils
+      - type: bind
+        source: ./packages/breakpoints
+        target: /usr/src/app/packages/breakpoints
+      - type: bind
+        source: ./packages/design-patterns
+        target: /usr/src/app/packages/design-patterns
+      - type: bind
+        source: ./packages/textarea
+        target: /usr/src/app/packages/textarea
+      - type: bind
+        source: ./packages/sidebar
+        target: /usr/src/app/packages/sidebar
+      - type: bind
+        source: ./packages/collapsible
+        target: /usr/src/app/packages/collapsible
+      - type: bind
+        source: ./packages/date
+        target: /usr/src/app/packages/date
+      - type: bind
+        source: ./packages/locale
+        target: /usr/src/app/packages/locale
+      - type: bind
+        source: ./packages/modal
+        target: /usr/src/app/packages/modal
+      - type: bind
+        source: ./packages/badge
+        target: /usr/src/app/packages/badge
+      - type: bind
+        source: ./packages/input
+        target: /usr/src/app/packages/input
+      - type: bind
+        source: ./packages/loading
+        target: /usr/src/app/packages/loading
+      - type: bind
+        source: ./packages/title
+        target: /usr/src/app/packages/title
+      - type: bind
+        source: ./packages/scrollspy-anchors
+        target: /usr/src/app/packages/scrollspy-anchors
+      - type: bind
+        source: ./packages/list
+        target: /usr/src/app/packages/list
+      - type: bind
+        source: ./packages/table
+        target: /usr/src/app/packages/table
+      - type: bind
+        source: ./packages/pagination
+        target: /usr/src/app/packages/pagination
+      - type: bind
+        source: ./packages/search-modal
+        target: /usr/src/app/packages/search-modal
+      - type: bind
+        source: ./packages/keyboard-key
+        target: /usr/src/app/packages/keyboard-key
+      - type: bind
+        source: ./packages/popover
+        target: /usr/src/app/packages/popover
+      - type: bind
+        source: ./apps/js-to-yaml/vite.config.ts
+        target: /usr/src/app/vite.config.ts
+    networks:
+      - frontend
+    ports:
+      - 5173:5173
+    depends_on: 
   vite-client:
     image: vite-client:latest
     environment:
