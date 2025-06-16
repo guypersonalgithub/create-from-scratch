@@ -1,0 +1,32 @@
+name: Scrollspy Anchors Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/packages/scrollspy-anchors/**
+      - typescript/packages/utils/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+      - typescript/packages/randomizer/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd typescript/packages/scrollspy-anchors && npm run typecheck

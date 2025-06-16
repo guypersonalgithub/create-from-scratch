@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch --clear-screen=false ./src/index.ts",
-    "build": "tsc ."
+    "build": "tsc .",
+    "typecheck": "tsc --noEmit -p ."
   },
   "author": "",
   "license": "ISC",

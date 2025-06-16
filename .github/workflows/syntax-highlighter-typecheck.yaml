@@ -1,0 +1,40 @@
+name: Syntax Highlighter Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/packages/syntax-highlighter/**
+      - typescript/packages/parse-typescript/**
+      - typescript/packages/utils/**
+      - typescript/packages/parse-yaml/**
+      - typescript/packages/copy-to-clipboard/**
+      - typescript/packages/button/**
+      - typescript/packages/tooltip/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/randomizer/**
+      - typescript/packages/edge-intersection/**
+      - typescript/packages/calculate-relative-position/**
+      - typescript/packages/hooks/**
+      - typescript/packages/icons/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd typescript/packages/syntax-highlighter && npm run typecheck

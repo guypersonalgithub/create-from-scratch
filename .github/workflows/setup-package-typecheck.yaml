@@ -1,0 +1,34 @@
+name: Setup Package Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/dev-packages/setup-package/**
+      - typescript/dev-packages/paths/**
+      - typescript/dev-packages/package-json/**
+      - typescript/dev-packages/files/**
+      - typescript/dev-packages/tsconfig/**
+      - typescript/dev-packages/esbuild/**
+      - typescript/dev-packages/packages/**
+      - typescript/dev-packages/terminal-utils/**
+      - typescript/packages/utils/**
+      - typescript/dev-packages/git/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd typescript/dev-packages/setup-package && npm run typecheck

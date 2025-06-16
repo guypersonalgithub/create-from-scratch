@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b .",
-    "test": "vitest --no-cache"
+    "test": "vitest --no-cache",
+    "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
     "@packages/utils": "*"

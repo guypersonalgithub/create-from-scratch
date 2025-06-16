@@ -1,0 +1,69 @@
+name: Js To Yaml Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/apps/js-to-yaml/**
+      - typescript/packages/router/**
+      - typescript/packages/utils/**
+      - typescript/packages/url/**
+      - typescript/packages/environment/**
+      - typescript/packages/hooks/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+      - typescript/packages/ui-theme/**
+      - typescript/packages/icons/**
+      - typescript/packages/button/**
+      - typescript/packages/syntax-highlighter/**
+      - typescript/packages/parse-yaml/**
+      - typescript/packages/copy-to-clipboard/**
+      - typescript/packages/tooltip/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/randomizer/**
+      - typescript/packages/edge-intersection/**
+      - typescript/packages/calculate-relative-position/**
+      - typescript/dev-packages/yaml/**
+      - typescript/packages/alert/**
+      - typescript/packages/card/**
+      - typescript/packages/command-box/**
+      - typescript/packages/css-utils/**
+      - typescript/packages/breakpoints/**
+      - typescript/packages/design-patterns/**
+      - typescript/packages/textarea/**
+      - typescript/packages/sidebar/**
+      - typescript/packages/collapsible/**
+      - typescript/packages/date/**
+      - typescript/packages/locale/**
+      - typescript/packages/modal/**
+      - typescript/packages/badge/**
+      - typescript/packages/input/**
+      - typescript/packages/loading/**
+      - typescript/packages/title/**
+      - typescript/packages/scrollspy-anchors/**
+      - typescript/packages/list/**
+      - typescript/packages/table/**
+      - typescript/packages/pagination/**
+      - typescript/packages/search-modal/**
+      - typescript/packages/keyboard-key/**
+      - typescript/packages/popover/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd typescript/apps/js-to-yaml && npm run typecheck
