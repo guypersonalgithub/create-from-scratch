@@ -11,7 +11,7 @@ const removeLocalExports = () => {
 
   const { value } = path;
   const packageJsonPath = value[0];
-  const packageJson = getPackageJson({ packagePath: packageJsonPath });
+  const packageJson = getPackageJson({ folderPath: packageJsonPath });
   if (!packageJson) {
     return;
   }

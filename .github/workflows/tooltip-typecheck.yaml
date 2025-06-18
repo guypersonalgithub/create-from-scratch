@@ -1,0 +1,34 @@
+name: Tooltip Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/packages/tooltip/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/utils/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+      - typescript/packages/randomizer/**
+      - typescript/packages/edge-intersection/**
+      - typescript/packages/calculate-relative-position/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd packages/tooltip && npm run typecheck

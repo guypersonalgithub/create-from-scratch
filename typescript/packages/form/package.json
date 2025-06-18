@@ -4,7 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "build": "tsc -b ."
+    "build": "tsc -b .",
+    "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
     "@packages/design-patterns": "*"
@@ -16,7 +17,7 @@
   "devDependencies": {
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4"
-},
+  },
   "author": "",
   "license": "ISC",
   "main": "./src/index.ts",

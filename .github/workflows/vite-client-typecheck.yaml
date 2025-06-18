@@ -1,0 +1,52 @@
+name: Vite Client Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/apps/vite-client/**
+      - typescript/packages/micro-frontends/**
+      - typescript/packages/table/**
+      - typescript/packages/pagination/**
+      - typescript/packages/button/**
+      - typescript/packages/utils/**
+      - typescript/packages/tooltip/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+      - typescript/packages/randomizer/**
+      - typescript/packages/edge-intersection/**
+      - typescript/packages/calculate-relative-position/**
+      - typescript/packages/router/**
+      - typescript/packages/url/**
+      - typescript/packages/environment/**
+      - typescript/packages/hooks/**
+      - typescript/packages/request/**
+      - typescript/packages/collapsible/**
+      - typescript/packages/copy-to-clipboard/**
+      - typescript/packages/icons/**
+      - typescript/packages/mathml/**
+      - typescript/packages/math-parser/**
+      - typescript/packages/canvas-math-graph/**
+      - typescript/packages/cypress/**
+      - typescript/packages/get-fps/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd apps/vite-client && npm run typecheck

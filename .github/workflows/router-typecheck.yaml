@@ -1,0 +1,32 @@
+name: Router Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/packages/router/**
+      - typescript/packages/utils/**
+      - typescript/packages/url/**
+      - typescript/packages/environment/**
+      - typescript/packages/hooks/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd packages/router && npm run typecheck
