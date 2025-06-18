@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "debug": "vite --debug"
+    "debug": "vite --debug",
+    "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
     "@packages/icons": "*",

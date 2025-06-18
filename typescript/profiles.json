@@ -1,6 +1,7 @@
 [
   "cs",
   "express-backend",
+  "js-to-yaml",
   "vite-client",
   "vite-micro",
   "express-backend-postgresql",

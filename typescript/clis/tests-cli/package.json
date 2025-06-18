@@ -4,7 +4,8 @@
   "type": "module",
   "description": "",
   "scripts": {
-    "build": "tsc -b ."
+    "build": "tsc -b .",
+    "typecheck": "tsc --noEmit -p ."
   },
   "author": "",
   "license": "ISC",

@@ -1,4 +1,5 @@
 import { type ChildProcess, exec, execSync, spawn } from "child_process";
+import type { ProcessData } from "./types";
 
 type ExecuteTerminalCommandArgs = {
   command: string;
@@ -62,7 +63,7 @@ export const executeTerminalCommandWithOutput = async ({
 
   let output = "";
 
-  const handleStdout = (data: BinaryData) => {
+  const handleStdout = (data: ProcessData) => {
     const strData = data.toString();
     const coloredOutput = strData
       .replace(/error/i, colors.red + "$&" + colors.reset)
@@ -71,7 +72,7 @@ export const executeTerminalCommandWithOutput = async ({
     process.stdout.write(coloredOutput);
   };
 
-  const handleStderr = (data: BinaryData) => {
+  const handleStderr = (data: ProcessData) => {
     const strData = data.toString();
     const coloredOutput = colors.red + strData + colors.reset;
     output += coloredOutput;

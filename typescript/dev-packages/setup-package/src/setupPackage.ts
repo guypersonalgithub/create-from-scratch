@@ -39,7 +39,7 @@ export const setupPackage = async ({
     const newDestination = `${publishedPackagesFolderPath}/${destination}`;
 
     const previousPackageJsonPath = `${newDestination}/package.json`;
-    const previousPackageJson = getPackageJson({ packagePath: previousPackageJsonPath });
+    const previousPackageJson = getPackageJson({ folderPath: previousPackageJsonPath });
     let version;
     if (previousPackageJson) {
       const { version: currentVersion } = previousPackageJson;

@@ -1,7 +1,7 @@
 import { type ActionYamlConfigProps } from "@packages/github-actions";
 
 export default {
-  fileName: "cs-deploy-to-prod",
+  fileName: "cs-prod-deploy",
   name: "CS Netlify Production Deployment",
   env: {
     NETLIFY_AUTH_TOKEN: "${{ secrets.CS_NETLIFY_TOKEN }}",

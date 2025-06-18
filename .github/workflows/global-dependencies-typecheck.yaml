@@ -1,0 +1,30 @@
+name: Global Dependencies Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/dev-packages/global-dependencies/**
+      - typescript/dev-packages/package-manager/**
+      - typescript/dev-packages/terminal-utils/**
+      - typescript/packages/utils/**
+      - typescript/dev-packages/git/**
+      - typescript/dev-packages/paths/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd dev-packages/global-dependencies && npm run typecheck
