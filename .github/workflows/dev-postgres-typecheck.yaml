@@ -17,6 +17,9 @@ on:
       - typescript/dev-packages/terminal-utils/**
       - typescript/packages/utils/**
       - typescript/dev-packages/git/**
+      - typescript/dev-packages/create-typecheck-github-actions-config/**
+      - typescript/dev-packages/package-json/**
+      - typescript/dev-packages/files/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

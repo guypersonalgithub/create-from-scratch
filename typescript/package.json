@@ -25,7 +25,8 @@
     "cs": "cd apps/cs && npm run dev",
     "rsc-mvp": "cd test-apps/react-server-components-mvp && npm run dev",
     "eslint-fix": "eslint . --fix",
-    "type-check-temp": "tsc --noEmit -p ."
+    "type-check-temp": "tsc --noEmit -p .",
+    "generateIcon": "tsx ./scripts/generateIcon.tsx"
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",
