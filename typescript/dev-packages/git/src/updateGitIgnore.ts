@@ -11,10 +11,8 @@ export const updateGitIgnore = ({ path = ".gitignore", filesToIgnore }: updateGi
     writeFileSync(path, "");
   }
 
-  const lineSplitter = "\r\n";
-
   const gitIgnoreData = readFileSync(path, "utf-8");
-  const splitIgnored = gitIgnoreData.split(lineSplitter);
+  const splitIgnored = gitIgnoreData.split(/\r\n|\r|\n/);
   const existingIgnores = splitIgnored.length === 1 && splitIgnored[0] === "" ? [] : splitIgnored;
   filesToIgnore.forEach((file) => {
     const fileAlreadyExists = existingIgnores.find((existingFile) => existingFile === file);
@@ -23,5 +21,5 @@ export const updateGitIgnore = ({ path = ".gitignore", filesToIgnore }: updateGi
     }
   });
 
-  writeFileSync(path, existingIgnores.join(lineSplitter));
+  writeFileSync(path, existingIgnores.join("\n"));
 };

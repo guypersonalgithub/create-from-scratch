@@ -66,7 +66,8 @@
     "@packages/slider": "*",
     "@packages/shuttle": "*",
     "@packages/rolling-counter": "*",
-    "@packages/otp-input": "*"
+    "@packages/otp-input": "*",
+    "@packages/flag-icons": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

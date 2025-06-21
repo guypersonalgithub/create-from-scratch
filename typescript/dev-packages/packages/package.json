@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@packages/paths": "*",
-    "@packages/terminal-utils": "*"
+    "@packages/terminal-utils": "*",
+    "@packages/create-typecheck-github-actions-config": "*"
   },
   "author": "",
   "license": "ISC",

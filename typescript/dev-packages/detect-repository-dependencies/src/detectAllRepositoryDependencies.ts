@@ -33,8 +33,8 @@ export const detectAllRepositoryDependencies = ({
   const gitIgonoreFile = getFile({ path: `${projectAbsolutePath}/.gitignore` }) ?? "";
   const dependenseeGitIgnoreFile = getFile({ path: ".gitignore" }) ?? "";
   const skipFilesAndFolders = [
-    ...gitIgonoreFile.split("\r\n").filter(Boolean),
-    ...dependenseeGitIgnoreFile.split("\r\n").filter(Boolean),
+    ...gitIgonoreFile.split(/\r\n|\r|\n/).filter(Boolean),
+    ...dependenseeGitIgnoreFile.split(/\r\n|\r|\n/).filter(Boolean),
   ];
 
   const includePatterns = includeFilesPatterns

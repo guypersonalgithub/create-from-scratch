@@ -11,7 +11,9 @@
     "@packages/regex": "*",
     "@packages/paths": "*",
     "@packages/files": "*",
-    "@packages/package-manager": "*"
+    "@packages/package-manager": "*",
+    "@packages/typescript-file-manipulation": "*",
+    "@packages/object-utils": "*"
   },
   "devDependencies": {
     "@packages/detect-repository-dependencies-types": "*"
