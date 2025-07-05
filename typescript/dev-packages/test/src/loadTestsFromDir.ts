@@ -1,6 +1,6 @@
-import { pathToFileURL } from "url";
 import { resolve } from "path";
 import { readdir } from "fs/promises";
+import { loadTestsFromFile } from "./loadTestsFromFile";
 
 type LoadTestsFromDirArgs = {
   dir: string;
@@ -14,9 +14,8 @@ export const loadTestsFromDir = async ({ dir }: LoadTestsFromDirArgs) => {
 
     if (entry.isDirectory()) {
       await loadTestsFromDir({ dir: fullPath });
-    } else if (entry.isFile() && /\.(test|spec)\.(ts|js)$/.test(entry.name)) {
-      const fileUrl = pathToFileURL(fullPath).href;
-      await import(fileUrl);
+    } else if (entry.isFile() && /\.(test|spec)\.(ts|tsx)$/.test(entry.name)) {
+      await loadTestsFromFile({ filePath: fullPath });
     }
   }
 };

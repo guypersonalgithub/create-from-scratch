@@ -1,4 +1,5 @@
 import { loadTestsFromDir } from "@packages/test/loadTestsFromDir";
+import { loadTestsFromFile } from "@packages/test/loadTestsFromFile";
 import { run } from "@packages/test/runner";
 import { resolve } from "path";
 import { getFlags } from "@packages/utils";
@@ -10,12 +11,24 @@ const entryPoint = async () => {
     const testsDir = resolve(process.cwd(), "tests");
     await loadTestsFromDir({ dir: testsDir });
   } else {
-    const pathCommand = commands.find((command) => command.key === "--path");
-    if (pathCommand) {
-      const { value } = pathCommand;
+    const foldersCommand = commands.find((command) => command.key === "folders");
+    if (foldersCommand) {
+      const { value } = foldersCommand;
       await Promise.all(
-        value.map((path) => {
-          return loadTestsFromDir({ dir: resolve(path, "tests") });
+        value.map((folderPath) => {
+          return loadTestsFromDir({ dir: resolve(folderPath, "tests") });
+        }),
+      );
+    }
+
+    const pathsCommand = commands.find((command) => command.key === "paths");
+    if (pathsCommand) {
+      const { value } = pathsCommand;
+      const testsDir = resolve(process.cwd(), "tests");
+
+      await Promise.all(
+        value.map((filePath) => {
+          return loadTestsFromFile({ filePath: `${testsDir}/${filePath}` });
         }),
       );
     }

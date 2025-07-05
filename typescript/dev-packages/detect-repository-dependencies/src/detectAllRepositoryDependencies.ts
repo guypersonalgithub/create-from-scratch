@@ -1,19 +1,20 @@
 import { generateRegexOffPattern } from "@packages/regex";
 import { getConfigFileData } from "./getConfigFileData";
 import { getProjectAbsolutePath } from "@packages/paths";
-import { iterateOverAllFiles } from "./iterateOverAllFiles";
 import { getFile } from "@packages/files";
-import { detectRepositoryPackageManager } from "@packages/package-manager";
-import { type ParsedPackageLock } from "./types";
+import { getRepositoryPackageJsons } from "@packages/package-json";
+import { mapPackageJsonDependencies } from "./mapPackageJsonDependencies";
 
 type DetectAllRepositoryDependenciesArgs = {
   skipDependencies?: boolean;
   skipPackageJsonPaths?: boolean;
+  includePackageJsonDependencyTypesArrays?: boolean;
 };
 
 export const detectAllRepositoryDependencies = ({
   skipDependencies,
   skipPackageJsonPaths,
+  includePackageJsonDependencyTypesArrays,
 }: DetectAllRepositoryDependenciesArgs = {}) => {
   const projectAbsolutePath = getProjectAbsolutePath();
   const config = getConfigFileData({ projectAbsolutePath });
@@ -26,10 +27,6 @@ export const detectAllRepositoryDependencies = ({
     packageIdentifiers,
   } = config;
 
-  const { lock } = detectRepositoryPackageManager();
-  const lockFile = getFile({ path: `${projectAbsolutePath}/${lock}` });
-  // TODO: Add methods for yarn and pnpm.
-  const parsedLockFile = (lockFile ? JSON.parse(lockFile) : { packages: {} }) as ParsedPackageLock;
   const gitIgonoreFile = getFile({ path: `${projectAbsolutePath}/.gitignore` }) ?? "";
   const dependenseeGitIgnoreFile = getFile({ path: ".gitignore" }) ?? "";
   const skipFilesAndFolders = [
@@ -55,20 +52,29 @@ export const detectAllRepositoryDependencies = ({
     })
     .filter(Boolean) as RegExp[];
 
-  const { dependencies, packageJsonPaths } = iterateOverAllFiles({
+  const packageJsonPaths = getRepositoryPackageJsons({
     projectAbsolutePath,
-    relativePath: "",
     include: new Set(include ?? []),
     exclude: new Set(exclude ?? []),
     includePatterns,
     excludePatterns,
-    noNesting,
-    packageIdentifiers,
     skipFilesAndFolders,
-    parsedLockFile,
-    skipDependencies,
-    skipPackageJsonPaths,
   });
 
-  return { dependencies, packageJsonPaths };
+  if (skipDependencies) {
+    return { packageJsonPaths };
+  }
+
+  const { dependenciesMap, parsedLockFile, packageJsonDependencyTypesArrays } = mapPackageJsonDependencies({
+    packageJsonPaths: [...packageJsonPaths],
+    projectAbsolutePath,
+    packageIdentifiers,
+    includePackageJsonDependencyTypesArrays,
+  });
+
+  if (skipPackageJsonPaths) {
+    return { dependencies: dependenciesMap };
+  }
+
+  return { dependencies: dependenciesMap, packageJsonPaths, parsedLockFile, packageJsonDependencyTypesArrays };
 };

@@ -1,0 +1,36 @@
+name: Dependency Tree Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/dev-packages/dependency-tree/**
+      - typescript/dev-packages/detect-repository-dependencies/**
+      - typescript/packages/regex/**
+      - typescript/dev-packages/paths/**
+      - typescript/dev-packages/files/**
+      - typescript/dev-packages/package-manager/**
+      - typescript/dev-packages/typescript-file-manipulation/**
+      - typescript/packages/utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+      - typescript/dev-packages/package-json/**
+      - typescript/dev-packages/detect-repository-dependencies-types/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd dev-packages/dependency-tree && npm run typecheck

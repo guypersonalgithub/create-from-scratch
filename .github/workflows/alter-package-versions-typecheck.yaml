@@ -11,6 +11,7 @@ on:
       - typescript/dev-packages/alter-package-versions/**
       - typescript/dev-packages/files/**
       - typescript/dev-packages/alter-package-versions-types/**
+      - typescript/dev-packages/package-json/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

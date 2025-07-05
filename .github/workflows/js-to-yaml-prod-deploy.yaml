@@ -52,6 +52,7 @@ on:
       - typescript/packages/search-modal/**
       - typescript/packages/keyboard-key/**
       - typescript/packages/popover/**
+      - typescript/packages/state-management/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -121,6 +122,7 @@ jobs:
           cp -r ./packages/search-modal ./full-application/packages
           cp -r ./packages/keyboard-key ./full-application/packages
           cp -r ./packages/popover ./full-application/packages
+          cp -r ./packages/state-management ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

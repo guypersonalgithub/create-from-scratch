@@ -1,0 +1,2 @@
+- Finish the dependencyTree function.
+- Make sure to take into consideration the "^" prefix of a version, alongside versions that have a range within them with ||s, >s and <s.

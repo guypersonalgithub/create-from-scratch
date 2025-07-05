@@ -69,6 +69,11 @@ export default defineConfig({
         __dirname,
         "../../dev-packages/alter-package-versions-types/src/index.ts",
       ),
+      "@dev-packages/package-json": path.resolve(
+        __dirname,
+        "../../dev-packages/package-json/src/index.ts",
+      ),
+      "@dev-packages/files": path.resolve(__dirname, "../../dev-packages/files/src/index.ts"),
       "@dev-packages/detect-repository-dependencies-types": path.resolve(
         __dirname,
         "../../dev-packages/detect-repository-dependencies-types/src/index.ts",

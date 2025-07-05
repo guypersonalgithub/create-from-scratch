@@ -47,6 +47,7 @@ COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/search-modal/package.json ./packages/search-modal/package.json
 COPY ./packages/keyboard-key/package.json ./packages/keyboard-key/package.json
 COPY ./packages/popover/package.json ./packages/popover/package.json
+COPY ./packages/state-management/package.json ./packages/state-management/package.json
 
 
 
@@ -102,6 +103,7 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
+COPY ./packages/state-management ./packages/state-management
 CMD ["npm", "run", "dev"]
 
 
@@ -158,6 +160,7 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
+COPY ./packages/state-management ./packages/state-management
 CMD ["npm", "run", "build"]
 
 
@@ -214,4 +217,5 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
+COPY ./packages/state-management ./packages/state-management
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

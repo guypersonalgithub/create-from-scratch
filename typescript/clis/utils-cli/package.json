@@ -21,7 +21,9 @@
     "@packages/docker": "*",
     "@packages/github-actions": "*",
     "@packages/setup-package": "*",
-    "@packages/create-typecheck-github-actions-config": "*"
+    "@packages/create-typecheck-github-actions-config": "*",
+    "@packages/clis": "*",
+    "@packages/dependency-tree": "*"
   },
   "bin": {
     "utils-cli": "index.js"

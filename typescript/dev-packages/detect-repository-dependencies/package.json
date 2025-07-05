@@ -13,7 +13,8 @@
     "@packages/files": "*",
     "@packages/package-manager": "*",
     "@packages/typescript-file-manipulation": "*",
-    "@packages/object-utils": "*"
+    "@packages/object-utils": "*",
+    "@packages/package-json": "*"
   },
   "devDependencies": {
     "@packages/detect-repository-dependencies-types": "*"

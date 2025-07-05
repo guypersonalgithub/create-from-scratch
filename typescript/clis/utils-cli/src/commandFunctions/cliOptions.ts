@@ -13,6 +13,8 @@ import { detectCircularDependencies, detectUndevelopedLocalPackages } from "@pac
 import { setupPackage } from "@packages/setup-package";
 import { createTypecheckConfigs } from "@packages/create-typecheck-github-actions-config";
 import { getProjectAbsolutePath } from "@packages/paths";
+import { generateAndInstallCLI } from "./generateAndInstallCLI";
+import { getDependencyTrees } from "@packages/dependency-tree";
 
 type CliOptionsArgs = {
   command: Flag;
@@ -106,6 +108,14 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
         projectAbsolutePath: getProjectAbsolutePath(),
         folders: ["apps", "dev-apps", "test-apps", "packages", "dev-packages", "clis"],
       });
+      break;
+    }
+    case SupportedCommands.CLI: {
+      await generateAndInstallCLI({ value });
+      break;
+    }
+    case SupportedCommands.DEPENDENCY_TREES: {
+      getDependencyTrees();
       break;
     }
     default: {

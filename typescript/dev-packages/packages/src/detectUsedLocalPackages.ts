@@ -1,15 +1,12 @@
 import { readFileSync } from "fs";
 import { getPrivatePackageDependencies } from "./getPrivatePackageDependencies";
 import { getRootPackageLock } from "./getRootPackageLock";
-import {
-  type LocalPackageMetadata,
-  type PackageJsonDependencies,
-  type PackageLockPackages,
-} from "./types";
+import { type LocalPackageMetadata, type PackageLockPackages } from "./types";
+import { type DependencyType } from "@packages/package-json";
 
 type DetectUsedLocalPackagesArgs = {
   workspace?: string;
-  includeOnly?: PackageJsonDependencies[];
+  includeOnly?: DependencyType[];
   existingPrivatePackages?: Map<string, LocalPackageMetadata>;
   projectAbsolutePath: string;
   fileName?: string;
