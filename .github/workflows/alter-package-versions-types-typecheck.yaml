@@ -9,6 +9,8 @@ on:
       - reopened
     paths:
       - typescript/dev-packages/alter-package-versions-types/**
+      - typescript/dev-packages/package-json/**
+      - typescript/dev-packages/files/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

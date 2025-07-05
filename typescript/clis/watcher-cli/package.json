@@ -1,0 +1,19 @@
+{
+  "name": "watcher-cli",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b .",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@packages/utils": "*",
+    "@packages/watcher": "*"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "watcher-cli": "index.js"
+  }
+}

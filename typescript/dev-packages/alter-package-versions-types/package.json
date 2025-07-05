@@ -7,6 +7,9 @@
     "build": "tsc -b .",
     "typecheck": "tsc --noEmit -p ."
   },
+  "devDependencies": {
+    "@packages/package-json": "*"
+  },
   "author": "",
   "license": "ISC",
   "main": "./src/index.ts",

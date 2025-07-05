@@ -53,6 +53,7 @@ on:
       - typescript/packages/search-modal/**
       - typescript/packages/keyboard-key/**
       - typescript/packages/popover/**
+      - typescript/packages/state-management/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

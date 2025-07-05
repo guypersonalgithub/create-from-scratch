@@ -35,6 +35,9 @@ export const printHelp = () => {
       "Detects local packages that were created but not developed afterwards",
     [SupportedCommands.CREATE_TYPECHECK_GITHUB_ACTION_CONFIG_FILES]:
       "Creates typecheck github action config files",
+    [SupportedCommands.CLI]:
+      "[name] - Generates [name] CLI with a default predefined CLI template.",
+    [SupportedCommands.DEPENDENCY_TREES]: "Prints dependency trees",
   };
 
   for (const command in commandDescriptions) {

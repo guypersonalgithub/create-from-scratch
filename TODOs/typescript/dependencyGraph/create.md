@@ -1,0 +1,2 @@
+- Create a dependency graph algorithm that iterates over dependencies based on given files and paths.
+- Make sure to avoid infinite loops when intentional recursion is happening. (maybe even consider throwing a warning for import recursions aswell).

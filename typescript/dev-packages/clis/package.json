@@ -8,7 +8,9 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@packages/global-dependencies": "*"
+    "@packages/global-dependencies": "*",
+    "@packages/paths": "*",
+    "@packages/create-typecheck-github-actions-config": "*"
   },
   "author": "",
   "license": "ISC",

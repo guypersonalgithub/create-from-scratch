@@ -16,7 +16,7 @@ export const generatePackage = ({ packageName, folder }: GeneratePackageArgs) =>
   const packageSrc = `${folderPath}/src`;
   const packagePackageJson = `${folderPath}/package.json`;
   const packageTSConfig = `${folderPath}/tsconfig.json`;
-  const packageIndex = `${folderPath}/src/index.ts`;
+  const packageIndex = `${packageSrc}/index.ts`;
 
   mkdirSync(folderPath);
   console.log(`Created ${folderPath}`);

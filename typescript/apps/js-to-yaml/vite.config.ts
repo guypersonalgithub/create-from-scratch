@@ -75,6 +75,10 @@ export default defineConfig({
       "@packages/search-modal": path.resolve(__dirname, "../../packages/search-modal/src/index.ts"),
       "@packages/keyboard-key": path.resolve(__dirname, "../../packages/keyboard-key/src/index.ts"),
       "@packages/popover": path.resolve(__dirname, "../../packages/popover/src/index.ts"),
+      "@packages/state-management": path.resolve(
+        __dirname,
+        "../../packages/state-management/src/index.ts",
+      ),
     },
   },
 });

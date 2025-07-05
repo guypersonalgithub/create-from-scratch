@@ -20,6 +20,9 @@
     "./loadTestsFromDir": {
       "import": "./src/loadTestsFromDir.ts"
     },
+    "./loadTestsFromFile": {
+      "import": "./src/loadTestsFromFile.ts"
+    },
     "./runner": {
       "import": "./src/runner.ts"
     }

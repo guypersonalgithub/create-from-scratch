@@ -10,7 +10,8 @@
   "dependencies": {
     "@packages/paths": "*",
     "@packages/terminal-utils": "*",
-    "@packages/create-typecheck-github-actions-config": "*"
+    "@packages/create-typecheck-github-actions-config": "*",
+    "@packages/package-json": "*"
   },
   "author": "",
   "license": "ISC",

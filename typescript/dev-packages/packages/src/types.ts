@@ -11,8 +11,3 @@ export type PackageLockPackages = Record<
   }
 >;
 
-export type PackageJsonDependencies =
-  | "dependencies"
-  | "devDependencies"
-  | "peerDependencies"
-  | "optionalDependencies";

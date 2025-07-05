@@ -13,4 +13,6 @@ export const SupportedCommands = {
   SETUP_PACKAGE: "setup-package",
   DETECT_UNDEVELOPED_PACKAGES: "detect-undeveloped-packages",
   CREATE_TYPECHECK_GITHUB_ACTION_CONFIG_FILES: "create-typecheck-github-action-config-files",
+  CLI: "cli",
+  DEPENDENCY_TREES: "dependency-trees",
 } as const;

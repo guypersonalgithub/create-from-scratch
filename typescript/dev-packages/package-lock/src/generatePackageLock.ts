@@ -1,8 +1,6 @@
 import {
   detectAllRepositoryDependencies,
-  getPackageVersions,
   arePackageJsonDependenciesEqual,
-  iterateOverPackageJsons,
 } from "@packages/detect-repository-dependencies";
 import { detectFileChanges } from "@packages/detect-file-changes";
 import { getProjectAbsolutePath } from "@packages/paths";
@@ -30,7 +28,7 @@ export const generatePackageLock = async ({
   updateGitIgnore({ filesToIgnore: [temporaryFolder] });
   const temporaryFolderPath = `${projectAbsolutePath}/${temporaryFolder}`;
 
-  const { packageJsonPaths } = detectAllRepositoryDependencies({
+  const { packageJsonPaths = new Set() } = detectAllRepositoryDependencies({
     skipDependencies: true,
   });
 
