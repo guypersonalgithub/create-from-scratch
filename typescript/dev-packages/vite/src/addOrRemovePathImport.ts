@@ -6,22 +6,23 @@ import {
 
 type AddOrRemovePathImportArgs = {
   file: string;
-  importPackage: string;
+  importPath: string;
   importStatement: string;
 };
 
 export const addOrRemovePathImport = ({ file }: AddOrRemovePathImportArgs) => {
-  const importPackage = "path";
+  const importPath = "path";
   const imports = getImportsInFile({ file });
   const shouldHavePathImport = file.indexOf("path.");
   if (shouldHavePathImport === -1) {
-    return removeImportIfExists({ file, imports, importPackage });
+    return removeImportIfExists({ file, imports, importPath });
   }
 
   return addImportIfNotExists({
     file,
     imports,
-    importPackage,
+    importPath,
+    includeImportPathFrom: true,
     importStatement: 'import path from "path"',
   });
 };

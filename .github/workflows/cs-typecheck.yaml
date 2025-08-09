@@ -47,6 +47,11 @@ on:
       - typescript/packages/scrollspy-anchors/**
       - typescript/packages/breadcrumbs/**
       - typescript/packages/binary/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-hash/**
+      - typescript/dev-packages/dynatic-css-vite-plugin/**
+      - typescript/dev-packages/dynatic-css-typescript-parser/**
+      - typescript/dev-packages/typescript-file-manipulation/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

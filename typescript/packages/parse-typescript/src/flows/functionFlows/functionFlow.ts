@@ -1,5 +1,5 @@
 import { type TokenTypeOptions, TokenTypes } from "../../constants";
-import { nameFlow } from "../../nameFlow";
+import { nameFlow } from "../nameFlow";
 import { type BaseToken, type OpenedContext } from "../../types";
 import { partialFunctionFlow } from "./partialFunctionFlow";
 import { spaceFollowUpFlow } from "../genericFlows";

@@ -46,6 +46,11 @@ on:
       - typescript/packages/scrollspy-anchors/**
       - typescript/packages/breadcrumbs/**
       - typescript/packages/binary/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-hash/**
+      - typescript/dev-packages/dynatic-css-vite-plugin/**
+      - typescript/dev-packages/dynatic-css-typescript-parser/**
+      - typescript/dev-packages/typescript-file-manipulation/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -109,6 +114,11 @@ jobs:
           cp -r ./packages/scrollspy-anchors ./full-application/packages
           cp -r ./packages/breadcrumbs ./full-application/packages
           cp -r ./packages/binary ./full-application/packages
+          cp -r ./packages/dynatic-css ./full-application/packages
+          cp -r ./packages/dynatic-css-hash ./full-application/packages
+          cp -r ./dev-packages/dynatic-css-vite-plugin ./full-application/packages
+          cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
+          cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

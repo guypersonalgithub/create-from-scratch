@@ -124,7 +124,7 @@ export const updateViteConfigLocalDependenciesAliases = async ({
 
         updatedFile = addOrRemovePathImport({
           file: updatedFile,
-          importPackage: "path",
+          importPath: "path",
           importStatement: 'import path from "path"',
         });
 
