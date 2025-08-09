@@ -1,0 +1,29 @@
+name: Dynatic Css Vite Plugin Typecheck
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/dev-packages/dynatic-css-vite-plugin/**
+      - typescript/dev-packages/dynatic-css-typescript-parser/**
+      - typescript/packages/utils/**
+      - typescript/packages/dynatic-css-hash/**
+      - typescript/dev-packages/typescript-file-manipulation/**
+jobs:
+  Typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run typecheck
+        run: cd dev-packages/dynatic-css-vite-plugin && npm run typecheck

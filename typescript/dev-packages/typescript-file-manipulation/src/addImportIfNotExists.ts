@@ -4,17 +4,21 @@ import { getImportsInFile } from "./getImportsInFile";
 type AddImportIfNotExistsArgs = {
   file: string;
   imports?: string[];
-  importPackage: string;
+  importPath: string;
+  includeImportPathFrom?: boolean;
   importStatement: string;
 };
 
 export const addImportIfNotExists = ({
   file,
   imports = getImportsInFile({ file }),
-  importPackage,
+  importPath,
+  includeImportPathFrom,
   importStatement,
 }: AddImportIfNotExistsArgs) => {
-  const alreadyHasImport = imports.some((imp) => imp.includes(`from "${importPackage}"`));
+  const alreadyHasImport = imports.some((imp) =>
+    imp.includes(`${includeImportPathFrom ? "from" : ""} "${importPath}"`),
+  );
   if (alreadyHasImport) {
     return file;
   }

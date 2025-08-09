@@ -1,4 +1,4 @@
-import { shouldBreak } from "./utils";
+import { shouldBreak } from "../utils";
 
 type NameFlowProps = {
   newTokenValue: string;

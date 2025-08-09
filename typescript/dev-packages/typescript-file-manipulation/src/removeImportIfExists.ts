@@ -4,15 +4,15 @@ import { getImportsInFile } from "./getImportsInFile";
 type RemoveImportIfExistsArgs = {
   file: string;
   imports?: string[];
-  importPackage: string;
+  importPath: string;
 };
 
 export const removeImportIfExists = ({
   file,
   imports = getImportsInFile({ file }),
-  importPackage,
+  importPath,
 }: RemoveImportIfExistsArgs) => {
-  const importFrom = `from "${importPackage}"`;
+  const importFrom = `from "${importPath}"`;
   const alreadyHasImport = imports.some((imp) => imp.includes(importFrom));
   if (!alreadyHasImport) {
     return file;

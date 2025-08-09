@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
+    "dev": "set NODE_OPTIONS=--import tsx && vite --host",
+    "build": "set NODE_OPTIONS=--import tsx && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "debug": "vite --debug",
+    "preview": "set NODE_OPTIONS=--import tsx && vite preview",
+    "debug": "set NODE_OPTIONS=--import tsx && vite --debug",
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "@packages/hooks": "*",
     "@packages/utils": "*",
     "@packages/binary": "*",
+    "@packages/dynatic-css": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -43,6 +44,7 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "vite": "^5.4.1",
+    "@packages/dynatic-css-vite-plugin": "*"
   }
 }

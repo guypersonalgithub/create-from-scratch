@@ -1,0 +1,17 @@
+{
+  "name": "@packages/dynatic-css-hash",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b .",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

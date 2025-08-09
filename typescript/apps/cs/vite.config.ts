@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { dynaticPlugin } from "@packages/dynatic-css-vite-plugin";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), dynaticPlugin()],
   resolve: {
     alias: {
       "@packages/icons": path.resolve(__dirname, "../../packages/icons/src/index.ts"),
@@ -72,6 +73,23 @@ export default defineConfig({
       ),
       "@packages/breadcrumbs": path.resolve(__dirname, "../../packages/breadcrumbs/src/index.ts"),
       "@packages/binary": path.resolve(__dirname, "../../packages/binary/src/index.ts"),
+      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
+      "@packages/dynatic-css-hash": path.resolve(
+        __dirname,
+        "../../packages/dynatic-css-hash/src/index.ts",
+      ),
+      "@dev-packages/dynatic-css-vite-plugin": path.resolve(
+        __dirname,
+        "../../dev-packages/dynatic-css-vite-plugin/src/index.ts",
+      ),
+      "@dev-packages/dynatic-css-typescript-parser": path.resolve(
+        __dirname,
+        "../../dev-packages/dynatic-css-typescript-parser/src/index.ts",
+      ),
+      "@dev-packages/typescript-file-manipulation": path.resolve(
+        __dirname,
+        "../../dev-packages/typescript-file-manipulation/src/index.ts",
+      ),
     },
   },
 });

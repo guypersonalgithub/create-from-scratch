@@ -1,0 +1,26 @@
+{
+  "name": "@packages/dynatic-css-vite-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b .",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "vite": "^5.4.1",
+    "@packages/dynatic-css-typescript-parser": "*",
+    "@packages/dynatic-css-hash": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/utils": "*",
+    "@packages/typescript-file-manipulation": "*",
+    "@packages/parse-typescript": "*"
+  },
+  "author": "",
+  "license": "ISC",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

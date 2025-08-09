@@ -13,3 +13,4 @@ export * from "./isString";
 export * from "./isNumeric";
 export * from "./removeQuotationMarks";
 export * from "./countLines";
+export * from "./replaceSubstring";
