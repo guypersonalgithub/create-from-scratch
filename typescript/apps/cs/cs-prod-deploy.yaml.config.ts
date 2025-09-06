@@ -30,7 +30,7 @@ export default {
         },
         {
           name: "Install tsx",
-          run: "npm install tsx@^4.7.2 --save-dev",
+          run: "npm i -g tsx@^4.7.2 --save-dev",
         },
         {
           name: "Create _redirects file",
@@ -59,7 +59,7 @@ export default {
         },
         {
           name: "Build application",
-          run: "npm run build",
+          run: "npm run build-ga",
         },
         {
           name: "Deploy",

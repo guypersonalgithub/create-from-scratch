@@ -13,6 +13,7 @@ const removePostinstall = () => {
   delete scripts.postinstall;
   if (workspace) {
     scripts.build = `npm run build --workspace=${workspace}`;
+    scripts["build-ga"] = `npm run build-ga --workspace=${workspace}`;
   }
   parsed.scripts = scripts;
   console.log(parsed);

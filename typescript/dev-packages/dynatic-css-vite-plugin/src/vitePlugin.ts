@@ -43,7 +43,7 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
     // },
     configResolved(resolvedConfig) {
       const { command } = resolvedConfig;
-      isBuild = command === "build";
+      isBuild = command.startsWith("build");
       projectRoot = resolvedConfig.root;
 
       if (isBuild || isDebug) {
