@@ -1,5 +1,7 @@
 const inserted = new Set<string>();
 const preexisting = new Set<string>();
+const dynamicMediaQueries = new Map<string, string>();
+let mediaQuerylessTextContent = "";
 
 let styleTag: HTMLStyleElement;
 
@@ -25,13 +27,31 @@ export const initializePreexistingClasses = ({ classes }: InitializePreexistingC
 type InsertStaticRuleIfNeededArgs = {
   hash: string;
   rule: string;
+  mediaQuery?: string;
 };
 
-export const insertStaticRuleIfNeeded = ({ hash, rule }: InsertStaticRuleIfNeededArgs) => {
+export const insertStaticRuleIfNeeded = ({
+  hash,
+  rule,
+  mediaQuery,
+}: InsertStaticRuleIfNeededArgs) => {
   if (inserted.has(hash) || preexisting.has(hash)) {
     return;
   }
 
   inserted.add(hash);
-  styleTag.textContent += `.${hash} { ${rule} }\n`;
+  const value = `.${hash} { ${rule} }\n`;
+
+  if (!mediaQuery) {
+    mediaQuerylessTextContent += value;
+  } else if (mediaQuery) {
+    const current = dynamicMediaQueries.get(mediaQuery) ?? "";
+    dynamicMediaQueries.set(mediaQuery, `${current}${value}`);
+  }
+
+  styleTag.textContent = mediaQuerylessTextContent;
+
+  for (const [key, value] of dynamicMediaQueries.entries()) {
+    styleTag.textContent += `${key} { ${value} }\n`;
+  }
 };

@@ -1,4 +1,4 @@
-name: Dynatic Css Hash Typecheck
+name: Dynatic CSS Utils tests
 on:
   pull_request:
     branches:
@@ -8,9 +8,9 @@ on:
       - synchronize
       - reopened
     paths:
-      - typescript/packages/dynatic-css-hash/**
+      - typescript/packages/dynatic-css-utils/**
 jobs:
-  Typecheck:
+  Dynatic-CSS-Utils-tests:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,5 +21,5 @@ jobs:
         run: node ./ci-scripts/removePostInstall.js
       - name: Install dependencies
         run: npm i
-      - name: Run typecheck
-        run: cd packages/dynatic-css-hash && npm run typecheck
+      - name: Run tests
+        run: cd packages/dynatic-css-utils && npm run test

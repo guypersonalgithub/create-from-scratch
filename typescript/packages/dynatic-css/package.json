@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@packages/dynatic-css-hash": "*"
+    "@packages/dynatic-css-utils": "*"
   },
   "author": "",
   "license": "ISC",

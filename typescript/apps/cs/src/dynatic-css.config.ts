@@ -1,9 +1,20 @@
 import { type DynaticConfiguration, dynaticInit } from "@packages/dynatic-css";
 
 const config = {
-  base: {},
+  variants: {
+    base: {
+      colors: {
+        red: "red",
+        blue: "blue",
+      },
+    },
+  },
+  what: {
+    one: "two",
+  },
+  test: "1",
 } satisfies DynaticConfiguration;
 
-const classes: string[] = ["css-ngq2wi", "css-1ax4fy4"];
+const classes: string[] = [];
 
 export const { css } = dynaticInit({ config, classes, base: "base" });

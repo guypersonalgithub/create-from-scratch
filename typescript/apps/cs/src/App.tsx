@@ -25,6 +25,31 @@ import { Linux } from "./routes/linux/Linux";
 import { Test2 } from "./Test2";
 import { Security } from "./routes/security/Security";
 import { Binary } from "./routes/binary/Binary";
+import { css } from "./dynatic-css.config";
+
+const testing3 = () => "purple";
+
+const test = css`
+  color: red;
+  ${(config) => `background-color: ${config.colors.blue}`};
+
+  &:hover {
+    color: ${testing3()};
+  }
+
+  @media (min-width: 30em) and (max-width: 50em) {
+    color: black;
+    background-color: ${testing3()};
+
+    &:hover {
+      color: ${testing3()};
+    }
+
+    border: 1px solid blue;
+  }
+`;
+
+console.log(test);
 
 const searchableRoutes = [
   {
@@ -128,6 +153,7 @@ const searchableRoutes = [
 const App = () => {
   return (
     <UIThemeProvider themes={customThemes}>
+      <div className={test}>a</div>
       <div style={{ width: "100%", height: "100vh", display: "flex", overflow: "hidden" }}>
         <SidebarWrapper />
         <div style={{ width: "100%", overflow: "auto" }}>

@@ -47,10 +47,12 @@ on:
       - typescript/packages/breadcrumbs/**
       - typescript/packages/binary/**
       - typescript/packages/dynatic-css/**
-      - typescript/packages/dynatic-css-hash/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
+      - typescript/dev-packages/prettier/**
+      - typescript/dev-packages/paths/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -61,6 +63,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Netlify CLI
         run: npm i -g netlify-cli
+      - name: Install tsx
+        run: npm install tsx@^4.7.2 --save-dev
       - name: Create _redirects file
         run: node ./ci-scripts/createCSRRedirects.js cs
       - name: Create working folder
@@ -115,10 +119,12 @@ jobs:
           cp -r ./packages/breadcrumbs ./full-application/packages
           cp -r ./packages/binary ./full-application/packages
           cp -r ./packages/dynatic-css ./full-application/packages
-          cp -r ./packages/dynatic-css-hash ./full-application/packages
+          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./dev-packages/dynatic-css-vite-plugin ./full-application/packages
           cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
           cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages
+          cp -r ./dev-packages/prettier ./full-application/packages
+          cp -r ./dev-packages/paths ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

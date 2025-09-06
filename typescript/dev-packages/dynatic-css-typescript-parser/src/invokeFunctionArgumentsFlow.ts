@@ -2,12 +2,29 @@ import type { Callback, DynaticStyleChunksVariable } from "./types";
 import { findNextBreakpoint } from "./utils";
 import { valueFlow } from "./valueFlow";
 
-type InvokeFunctionArgumentsFlowArgs = Pick<Callback, "input" | "currentIndex" | "newTokenValue">;
+type InvokeFunctionArgumentsFlowArgs = Pick<
+  Callback,
+  | "input"
+  | "currentIndex"
+  | "newTokenValue"
+  | "identifier"
+  | "dynaticStyleChunks"
+  | "dynaticStyleOrderedChunks"
+  | "nameslessStyleOrderedChunks"
+  | "uniqueImports"
+  | "openContexts"
+>;
 
 export const invokeFunctionArgumentsFlow = ({
   input,
   currentIndex,
   newTokenValue,
+  identifier,
+  dynaticStyleChunks,
+  dynaticStyleOrderedChunks,
+  nameslessStyleOrderedChunks,
+  uniqueImports,
+  openContexts,
 }: InvokeFunctionArgumentsFlowArgs) => {
   if (newTokenValue !== "(") {
     return { updatedIndex: currentIndex };
@@ -31,6 +48,12 @@ export const invokeFunctionArgumentsFlow = ({
       input,
       currentIndex,
       newTokenValue: breakpoint.newTokenValue,
+      identifier,
+      dynaticStyleChunks,
+      dynaticStyleOrderedChunks,
+      nameslessStyleOrderedChunks,
+      uniqueImports,
+      openContexts,
     });
 
     if (value) {

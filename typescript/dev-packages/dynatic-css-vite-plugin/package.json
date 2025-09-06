@@ -10,11 +10,12 @@
   "dependencies": {
     "vite": "^5.4.1",
     "@packages/dynatic-css-typescript-parser": "*",
-    "@packages/dynatic-css-hash": "*",
+    "@packages/dynatic-css-utils": "*",
     "@packages/dynatic-css": "*",
     "@packages/utils": "*",
     "@packages/typescript-file-manipulation": "*",
-    "@packages/parse-typescript": "*"
+    "@packages/parse-typescript": "*",
+    "@packages/prettier": "*"
   },
   "author": "",
   "license": "ISC",
