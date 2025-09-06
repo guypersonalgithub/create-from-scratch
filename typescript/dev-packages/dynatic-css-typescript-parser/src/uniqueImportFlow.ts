@@ -34,6 +34,12 @@ export const uniqueImportFlow = ({
     input,
     currentIndex: next.updatedIndex,
     newTokenValue: next.newTokenValue,
+    identifier,
+    dynaticStyleChunks,
+    dynaticStyleOrderedChunks,
+    nameslessStyleOrderedChunks,
+    uniqueImports,
+    openContexts,
   });
 
   if (templateLiteral.value) {

@@ -29,6 +29,10 @@ export default {
           run: "npm i -g netlify-cli",
         },
         {
+          name: "Install tsx",
+          run: "npm install tsx@^4.7.2 --save-dev",
+        },
+        {
           name: "Create _redirects file",
           run: "node ./ci-scripts/createCSRRedirects.js cs",
         },

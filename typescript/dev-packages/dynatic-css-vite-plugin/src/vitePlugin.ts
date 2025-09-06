@@ -1,33 +1,59 @@
 import type { Plugin } from "vite";
 import {
-  detectArrayEnd,
-  detectObjectEnd,
   parseDynaticCSS,
   type NameslessStyleOrderedChunks,
 } from "@packages/dynatic-css-typescript-parser";
-import { hashString } from "@packages/dynatic-css-hash";
+import { hashString, createClassName } from "@packages/dynatic-css-utils";
 import { parseCSS } from "./parseCSS";
 import { replaceSubstring } from "@packages/utils";
-import { readFileSync, writeFileSync, unlinkSync } from "fs";
-import { addImportIfNotExists, removeImportIfExists } from "@packages/typescript-file-manipulation";
-import { buildConfig } from "./buildConfig";
+import { readFileSync } from "fs";
+import { generateConfigCSS } from "./generateConfigCSS";
+import type { DynaticConfiguration } from "@packages/dynatic-css";
+import { buildDynatic } from "./buildDynatic";
 
-export const dynaticPlugin = (): Plugin => {
-  const identifier = 'dynatic-css.config"';
+type DynaticPluginArgs = {
+  uniqueImports?: string[];
+};
+
+export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
+  const { uniqueImports = [] } = args ?? {};
+  const baseIdentifiers = ['dynatic-css.config"', "@packages/dynatic-css"];
+  const identifiers = uniqueImports ? [...uniqueImports, ...baseIdentifiers] : baseIdentifiers;
   let isBuild = false;
 
   const inserted = new Map<string, string>();
+  const pseudoClasses = new Map<string, string>();
+  const mediaQueries = new Map<string, Map<string, string>>();
   let projectRoot = "";
 
+  const isDebug = process.argv.includes("--dynatic-debug");
+
+  let filePath: string;
+  let fileText: string;
+  let configCSS: string;
+  let updatedConfig: DynaticConfiguration;
+  let configObjectStartIndex: number;
+
   return {
-    name: "my-plugin",
+    name: "dynatic-css",
     enforce: "pre", // <- critical to run *before* React/esbuild plugins
-    // apply: "build",
+    apply: isDebug ? "serve" : "build",
     // config(config, { command }) {
     //   isBuild = command === "build";
     // },
     configResolved(resolvedConfig) {
+      const { command } = resolvedConfig;
+      isBuild = command === "build";
       projectRoot = resolvedConfig.root;
+
+      if (isBuild || isDebug) {
+        filePath = `${projectRoot}/src/dynatic-css.config.ts`;
+        fileText = readFileSync(filePath, { encoding: "utf-8" });
+        const generatedConfig = generateConfigCSS({ fileText });
+        configCSS = generatedConfig.configCSS;
+        updatedConfig = generatedConfig.updatedConfig;
+        configObjectStartIndex = generatedConfig.configObjectStartIndex;
+      }
     },
     // configureServer(server: ViteDevServer) {
     //   if (!isBuild) {
@@ -41,43 +67,39 @@ export const dynaticPlugin = (): Plugin => {
     // },
 
     async transform(code: string, id: string) {
-      if (isBuild) {
+      if (!isBuild && !isDebug) {
         return;
       }
 
-      const index = code.indexOf(identifier);
+      const identifier = identifiers.find((identifier) => code.indexOf(identifier) !== -1);
 
-      if (index === -1) {
+      if (!identifier) {
         return;
       }
 
       const {
-        dynaticStyleChunks,
+        // dynaticStyleChunks,
         dynaticStyleOrderedChunks,
         nameslessStyleOrderedChunks,
-        uniqueImports,
-        mappedImports,
-        importVariables,
+        // uniqueImports,
+        // mappedImports,
+        // importVariables,
         contexts,
-        classNames,
+        // classNames,
       } = parseDynaticCSS({ input: code, identifier });
 
-      const orderedClassNames = classNames.sort(
-        (classA, classB) => classA.endIndex - classB.endIndex,
-      );
-
-      const parsedDynaticChunks: Record<
-        string,
-        Record<
-          string,
-          {
-            startIndex: number;
-            endIndex: number;
-            newValue: string;
-            isFullyStatic: boolean;
-          }
-        >
-      > = {};
+      // const parsedDynaticChunks: Record<
+      //   string,
+      //   Record<
+      //     string,
+      //     {
+      //       startIndex: number;
+      //       endIndex: number;
+      //       newValue: string;
+      //       isFullyStatic: boolean;
+      //     }
+      //   >
+      // > = {};
 
       const ordered: (NameslessStyleOrderedChunks[number] & { name?: string })[] = [
         ...dynaticStyleOrderedChunks,
@@ -85,7 +107,7 @@ export const dynaticPlugin = (): Plugin => {
       ].sort((chunkA, chunkB) => chunkB.endIndex - chunkA.endIndex);
 
       ordered.forEach((current) => {
-        const { name, startIndex, endIndex, value, context, variables } = current;
+        const { startIndex, endIndex, value, context, variables } = current;
 
         const start = value.indexOf("`");
         const css = value.slice(start);
@@ -105,31 +127,93 @@ export const dynaticPlugin = (): Plugin => {
             };
           }),
           contexts,
+          updatedConfig,
         });
 
         const classNames: string[] = [];
         let dynamicRows = "";
+        let currentMediaQuery: string | undefined;
+        let currentPseudoClass: string | undefined;
 
-        output.forEach((row) => {
+        output.forEach((row, index) => {
           if (row.isRowStatic) {
-            const hash = hashString({ input: row.value });
+            const { value, pseudoClass, mediaQuery } = row;
+
+            const fullValue = createClassName({ value, pseudoClass, mediaQuery });
+            const hash = hashString({ input: fullValue });
             const className = `css-${hash}`;
-            if (!inserted.has(className)) {
-              inserted.set(className, row.value);
+
+            if (mediaQuery) {
+              if (!mediaQueries.has(mediaQuery)) {
+                mediaQueries.set(mediaQuery, new Map<string, string>());
+              }
+
+              mediaQueries.get(mediaQuery)!.set(className, value);
+            } else {
+              if (!inserted.has(className)) {
+                inserted.set(className, value);
+              }
+            }
+
+            if (pseudoClass) {
+              pseudoClasses.set(className, pseudoClass);
             }
 
             classNames.push(className);
+
+            if (currentPseudoClass) {
+              currentPseudoClass = undefined;
+              dynamicRows += " }\n";
+            }
+
+            if (currentMediaQuery) {
+              currentMediaQuery = undefined;
+              dynamicRows += " }\n";
+            }
           } else {
-            dynamicRows += `${row.value};\n `;
+            const { value, pseudoClass, mediaQuery } = row;
+            const mediaQueryChanged = currentMediaQuery !== mediaQuery;
+            const pseudoClassChanged = currentPseudoClass !== pseudoClass;
+
+            if (pseudoClassChanged && currentPseudoClass) {
+              dynamicRows += " }\n ";
+            }
+
+            if (mediaQueryChanged && currentMediaQuery) {
+              dynamicRows += " }\n ";
+            }
+
+            if (mediaQueryChanged) {
+              currentMediaQuery = mediaQuery;
+
+              if (mediaQuery) {
+                dynamicRows += `${mediaQuery} {\n `;
+              }
+            }
+
+            if (pseudoClassChanged) {
+              currentPseudoClass = pseudoClass;
+
+              if (pseudoClass) {
+                dynamicRows += `&${pseudoClass} {\n `;
+              }
+            }
+
+            dynamicRows += `${value};\n `;
+
+            if (pseudoClass && index === output.length - 1) {
+              dynamicRows += " }\n ";
+            }
+
+            if (mediaQuery && index === output.length - 1) {
+              dynamicRows += " }\n ";
+            }
           }
         });
 
         const mergedClassNames = classNames.join(" ");
-
         const complete: string[] = [];
-
         const initial = value.slice(0, start);
-
         const hasDynamicRows = dynamicRows.length > 0;
 
         if (hasDynamicRows) {
@@ -146,20 +230,20 @@ export const dynaticPlugin = (): Plugin => {
 
         const fullResult = complete.join(" ");
 
-        if (!parsedDynaticChunks[context]) {
-          parsedDynaticChunks[context] = {};
-        }
+        // if (!parsedDynaticChunks[context]) {
+        //   parsedDynaticChunks[context] = {};
+        // }
 
         const isFullyStatic = dynamicRows.length === 0;
 
-        if (name) {
-          parsedDynaticChunks[context][name] = {
-            startIndex,
-            endIndex,
-            newValue: fullResult,
-            isFullyStatic,
-          };
-        }
+        // if (name) {
+        //   parsedDynaticChunks[context][name] = {
+        //     startIndex,
+        //     endIndex,
+        //     newValue: fullResult,
+        //     isFullyStatic,
+        //   };
+        // }
 
         code = replaceSubstring({
           str: code,
@@ -169,129 +253,32 @@ export const dynaticPlugin = (): Plugin => {
         });
       });
 
-      let updatedCSSFile = "";
-
-      const staticClasses: string[] = [];
-
-      for (const [key, value] of inserted.entries()) {
-        staticClasses.push(key);
-        updatedCSSFile += `.${key} { ${value} }\n`;
-      }
-
-      const filePath = `${projectRoot}/src/dynatic-css.config.ts`;
-      const fileText = readFileSync(filePath, { encoding: "utf-8" });
-
-      const configIdentifier = "const config = {";
-      const startIndexConfig = fileText.indexOf(configIdentifier);
-      const updatedStart = startIndexConfig + configIdentifier.length - 1;
-      const { endIndex } = detectObjectEnd({
-        input: fileText,
-        startIndex: updatedStart + 1,
+      await buildDynatic({
+        projectRoot,
+        inserted,
+        pseudoClasses,
+        mediaQueries,
+        configCSS,
+        filePath,
+        fileText,
+        updatedConfig,
+        configObjectStartIndex,
       });
-
-      const configString = fileText.slice(updatedStart, endIndex);
-      const config = buildConfig({ configString });
-
-      const classesIdentifier = "const classes: string[] = [";
-      const startIndex = fileText.indexOf(classesIdentifier);
-
-      if (startIndex !== -1) {
-        const updatedStart = startIndex + classesIdentifier.length - 1;
-
-        const { endIndex } = detectArrayEnd({
-          input: fileText,
-          startIndex: updatedStart + 1,
-        });
-
-        const updatedFileText = replaceSubstring({
-          str: fileText,
-          from: updatedStart,
-          to: endIndex + 1,
-          newStr: `[${staticClasses.map((className) => `"${className}"`).join(", ")}]`,
-        });
-
-        writeFileSync(filePath, updatedFileText);
-      }
-
-      const file = "generated.css";
-
-      const path = `${projectRoot}/src/${file}`;
-      writeFileSync(path, updatedCSSFile);
-
-      const mainFile = `${projectRoot}/src/main.tsx`;
-      const content = readFileSync(mainFile, "utf-8");
-
-      const importPath = `./${file}`;
-      let updatedFile: string;
-
-      if (updatedCSSFile.length > 0) {
-        updatedFile = addImportIfNotExists({
-          file: content,
-          importPath,
-          importStatement: `\nimport "${importPath}";`,
-        });
-      } else {
-        updatedFile = removeImportIfExists({
-          file: content,
-          importPath,
-        });
-      }
-
-      writeFileSync(mainFile, updatedFile);
 
       return code;
     },
-    generateBundle: () => {
-      const insertedValues = inserted.entries();
-      const length = [...insertedValues].length;
-
-      if (length === 0) {
-        return;
-      }
-
-      let updatedCSSFile = "";
-
-      const staticClasses: string[] = [];
-
-      for (const [key, value] of insertedValues) {
-        staticClasses.push(key);
-        updatedCSSFile += `.${key} { ${value} }\n`;
-      }
-
-      const file = "generated.css";
-
-      const path = `${projectRoot}/src/${file}`;
-
-      const mainFile = `${projectRoot}/src/main.tsx`;
-      const content = readFileSync(mainFile, "utf-8");
-
-      const importPath = `./${file}`;
-      let updatedFile: string;
-
-      const staticClassesPath = `${projectRoot}/src/static-classes.json`;
-
-      if (updatedCSSFile.length > 0) {
-        writeFileSync(path, updatedCSSFile);
-
-        updatedFile = addImportIfNotExists({
-          file: content,
-          importPath,
-          importStatement: `\nimport "${importPath}";`,
-        });
-
-        writeFileSync(staticClassesPath, JSON.stringify(staticClasses, null, 2));
-      } else {
-        unlinkSync(path);
-
-        updatedFile = removeImportIfExists({
-          file: content,
-          importPath,
-        });
-
-        unlinkSync(staticClassesPath);
-      }
-
-      writeFileSync(mainFile, updatedFile);
+    generateBundle: async () => {
+      await buildDynatic({
+        projectRoot,
+        inserted,
+        pseudoClasses,
+        mediaQueries,
+        configCSS,
+        filePath,
+        fileText,
+        updatedConfig,
+        configObjectStartIndex,
+      });
     },
   };
 };

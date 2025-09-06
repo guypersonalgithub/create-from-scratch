@@ -1,11 +1,19 @@
-import type { DynaticStyleChunksVariable } from "./types";
+import type { Callback, DynaticStyleChunksVariable } from "./types";
 import { findNextBreakpoint } from "./utils";
 import { valueFlow } from "./valueFlow";
 
-type ExpressionInterpolationFlowArgs = {
-  input: string;
-  currentIndex: number;
-  newTokenValue: string;
+type ExpressionInterpolationFlowArgs = Pick<
+  Callback,
+  | "input"
+  | "currentIndex"
+  | "newTokenValue"
+  | "identifier"
+  | "dynaticStyleChunks"
+  | "dynaticStyleOrderedChunks"
+  | "nameslessStyleOrderedChunks"
+  | "uniqueImports"
+  | "openContexts"
+> & {
   calledFromTemplateLiteral?: boolean;
 };
 
@@ -14,6 +22,12 @@ export const expressionInterpolationFlow = ({
   currentIndex,
   newTokenValue,
   calledFromTemplateLiteral,
+  identifier,
+  dynaticStyleChunks,
+  dynaticStyleOrderedChunks,
+  nameslessStyleOrderedChunks,
+  uniqueImports,
+  openContexts,
 }: ExpressionInterpolationFlowArgs) => {
   if (newTokenValue !== "{") {
     return { updatedIndex: currentIndex };
@@ -40,6 +54,13 @@ export const expressionInterpolationFlow = ({
       input,
       currentIndex: breakpoint.updatedIndex,
       newTokenValue: breakpoint.newTokenValue,
+      calledFromTemplateLiteral,
+      identifier,
+      dynaticStyleChunks,
+      dynaticStyleOrderedChunks,
+      nameslessStyleOrderedChunks,
+      uniqueImports,
+      openContexts,
     });
 
     if (value) {

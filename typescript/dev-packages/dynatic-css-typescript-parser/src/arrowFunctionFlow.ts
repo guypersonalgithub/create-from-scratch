@@ -1,16 +1,37 @@
 import type { Callback, DynaticStyleChunksVariable } from "./types";
 import { spaceCallback } from "./utils";
+import { valueFlow } from "./valueFlow";
 
-type ArrowFunctionFlowArgs = Pick<Callback, "input" | "currentIndex" | "newTokenValue">;
+type ArrowFunctionFlowArgs = Pick<
+  Callback,
+  | "input"
+  | "currentIndex"
+  | "newTokenValue"
+  | "identifier"
+  | "dynaticStyleChunks"
+  | "dynaticStyleOrderedChunks"
+  | "nameslessStyleOrderedChunks"
+  | "uniqueImports"
+  | "openContexts"
+> & {
+  calledFromTemplateLiteral?: boolean;
+};
 
 export const arrowFunctionFlow = ({
   input,
   currentIndex,
   newTokenValue,
+  calledFromTemplateLiteral,
+  identifier,
+  dynaticStyleChunks,
+  dynaticStyleOrderedChunks,
+  nameslessStyleOrderedChunks,
+  uniqueImports,
+  openContexts,
 }: ArrowFunctionFlowArgs) => {
   let parenthesisCount = 1;
 
-  const startIndex = currentIndex - newTokenValue.length;
+  let startIndex = currentIndex - newTokenValue.length;
 
   let fullValue = newTokenValue;
 
@@ -18,16 +39,9 @@ export const arrowFunctionFlow = ({
 
   const variables: DynaticStyleChunksVariable[] = [];
 
-  if (next.newTokenValue === ")") {
-    if (next.skipped) {
-      fullValue += next.skipped;
-    }
-    fullValue += next.newTokenValue;
-    parenthesisCount--;
-  }
+  let argument = "";
 
   while (parenthesisCount > 0 && next.updatedIndex < input.length) {
-    next = spaceCallback({ input, currentIndex: next.updatedIndex });
     if (next.skipped) {
       fullValue += next.skipped;
     }
@@ -37,7 +51,17 @@ export const arrowFunctionFlow = ({
       parenthesisCount++;
     } else if (next.newTokenValue === ")") {
       parenthesisCount--;
+
+      if (parenthesisCount === 0) {
+        break;
+      }
+    } else {
+      argument += next.newTokenValue;
     }
+
+    argument = argument.split(",")[0];
+
+    next = spaceCallback({ input, currentIndex: next.updatedIndex });
   }
 
   while (
@@ -58,27 +82,9 @@ export const arrowFunctionFlow = ({
     if (next.skipped) {
       fullValue += next.skipped;
     }
-    fullValue += next.newTokenValue;
+
     if (next.newTokenValue === "{") {
-      next = spaceCallback({ input, currentIndex: next.updatedIndex });
-
-      while (next.updatedIndex < input.length && next.newTokenValue !== "}") {
-        next = spaceCallback({ input, currentIndex: next.updatedIndex });
-        if (next.skipped) {
-          fullValue += next.skipped;
-        }
-        fullValue += next.newTokenValue;
-      }
-
-      variables.push({
-        type: "function",
-        name: fullValue,
-        startIndex: currentIndex,
-        endIndex: next.updatedIndex,
-      });
-
-      return { updatedIndex: next.updatedIndex, value: fullValue, variables };
-    } else {
+      fullValue += next.newTokenValue;
       let curlyBrackets = 0;
 
       while (
@@ -102,13 +108,70 @@ export const arrowFunctionFlow = ({
       }
 
       variables.push({
-        type: "arrow-function-without-content",
+        type: "function",
         name: fullValue,
-        startIndex,
+        startIndex: currentIndex,
         endIndex: next.updatedIndex,
+        isWithinTemplateLiteral: calledFromTemplateLiteral,
       });
 
       return { updatedIndex: next.updatedIndex, value: fullValue, variables };
+    } else {
+      const value = valueFlow({
+        input,
+        currentIndex: next.updatedIndex,
+        newTokenValue: next.newTokenValue,
+        identifier,
+        dynaticStyleChunks,
+        dynaticStyleOrderedChunks,
+        nameslessStyleOrderedChunks,
+        uniqueImports,
+        openContexts,
+      });
+
+      fullValue += value.value;
+
+      let endIndex = value.updatedIndex;
+
+      if (calledFromTemplateLiteral) {
+        const before = input[startIndex - 1];
+
+        if (before === "{") {
+          const before2 = input[startIndex - 2];
+          if (before2 === "$") {
+            const after = input[endIndex];
+            if (after === "}") {
+              startIndex = startIndex - 2;
+              endIndex = endIndex + 1;
+            }
+          }
+        }
+      }
+
+      variables.push({
+        type: "arrow-function-without-content",
+        name: fullValue,
+        startIndex,
+        endIndex,
+      });
+
+      if (value.variables) {
+        variables.push(
+          ...value.variables.map((variable) => {
+            const isNested = variable.name.startsWith(`${argument}.`);
+            if (isNested) {
+              return {
+                ...variable,
+                type: "config-variable" as DynaticStyleChunksVariable["type"],
+              };
+            }
+
+            return variable;
+          }),
+        );
+      }
+
+      return { updatedIndex: value.updatedIndex, value: fullValue, variables };
     }
   }
 

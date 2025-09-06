@@ -8,6 +8,11 @@ export const classNameFlow = ({
   newTokenValue,
   openContexts,
   classNames,
+  identifier,
+  dynaticStyleChunks,
+  dynaticStyleOrderedChunks,
+  nameslessStyleOrderedChunks,
+  uniqueImports,
 }: Callback) => {
   let next = spaceCallback({ input, currentIndex });
   if (next.newTokenValue !== "=") {
@@ -22,6 +27,12 @@ export const classNameFlow = ({
     input,
     currentIndex: next.updatedIndex,
     newTokenValue: next.newTokenValue,
+    identifier,
+    dynaticStyleChunks,
+    dynaticStyleOrderedChunks,
+    nameslessStyleOrderedChunks,
+    uniqueImports,
+    openContexts,
   });
 
   if (!expressionInterpolation.value) {

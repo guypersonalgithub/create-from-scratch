@@ -1,4 +1,5 @@
 import type { DynaticConfiguration } from "@packages/dynatic-css";
+import type { ConfigBody } from "@packages/dynatic-css/src/types";
 import { parseTypescript } from "@packages/parse-typescript";
 import type { BaseToken } from "@packages/parse-typescript/src/types";
 
@@ -8,7 +9,7 @@ type BuildConfigArgs = {
 
 export const buildConfig = ({ configString }: BuildConfigArgs) => {
   const tokens = parseTypescript({ input: configString, skipLog: true });
-  const fullConfig: DynaticConfiguration = {};
+  const fullConfig: DynaticConfiguration = { variants: {} };
 
   recursiveConfigIteration({ fullConfig, tokens, nestingKeys: [] });
 
@@ -39,6 +40,7 @@ const recursiveConfigIteration = ({
         nestingKeys,
         action: "insert-key",
       });
+
       currentConfig[value] = {};
       nestingKeys.push(value);
 
@@ -48,17 +50,26 @@ const recursiveConfigIteration = ({
         nestingKeys,
         index: i + 1,
       });
-    } else if (current.type === "string") {
+    } else if (current.type === "string" || current.type === "number") {
       const { currentConfig, last } = setterHelper({
         fullConfig,
         nestingKeys,
         action: "insert-value",
       });
 
-      const finalStep = currentConfig as unknown as DynaticConfiguration[string][string];
+      const finalStep = currentConfig as unknown as ConfigBody[string];
       const { value } = current;
 
-      finalStep[last] = value.slice(1, value.length - 1);
+      let currentValue = value;
+
+      if (
+        (value.startsWith("'") && value.endsWith("'")) ||
+        (value.startsWith('"') && value.endsWith('"'))
+      ) {
+        currentValue = value.slice(1, value.length - 1);
+      }
+
+      finalStep[last] = currentValue;
       nestingKeys.pop();
 
       return i;

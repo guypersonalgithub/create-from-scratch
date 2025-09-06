@@ -8,7 +8,7 @@ type FormatCodeWithPrettierArgs = {
 export const formatCodeWithPrettier = async ({ code }: FormatCodeWithPrettierArgs) => {
   const prettierConfig = getPrettierConfig();
   const formattedCode = await prettier.format(code, {
-    ...prettierConfig,
+    ...(prettierConfig ? prettierConfig : {}),
     parser: "typescript",
   });
 

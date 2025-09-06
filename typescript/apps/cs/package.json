@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "set NODE_OPTIONS=--import tsx && vite --host",
+    "dev-dynatic": "set NODE_OPTIONS=--import tsx && vite --host -- --dynatic-debug",
     "build": "set NODE_OPTIONS=--import tsx && vite build",
     "lint": "eslint .",
     "preview": "set NODE_OPTIONS=--import tsx && vite preview",

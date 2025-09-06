@@ -1,8 +1,8 @@
 import { type ActionYamlConfigProps } from "@packages/github-actions";
 
 export default {
-  fileName: "dynatic-css-hash-typecheck",
-  name: "Dynatic Css Hash Typecheck",
+  fileName: "dynatic-css-utils-tests",
+  name: "Dynatic CSS Utils tests",
   on: {
     pull_request: {
       branches: ["main"],
@@ -10,7 +10,7 @@ export default {
     },
   },
   jobs: {
-    Typecheck: {
+    "Dynatic-CSS-Utils-tests": {
       "runs-on": "ubuntu-latest",
       defaults: {
         run: {
@@ -30,8 +30,8 @@ export default {
           run: "npm i",
         },
         {
-          name: "Run typecheck",
-          run: "cd packages/dynatic-css-hash && npm run typecheck",
+          name: "Run tests",
+          run: "cd packages/dynatic-css-utils && npm run test",
         },
       ],
     },

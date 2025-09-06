@@ -74,9 +74,9 @@ export default defineConfig({
       "@packages/breadcrumbs": path.resolve(__dirname, "../../packages/breadcrumbs/src/index.ts"),
       "@packages/binary": path.resolve(__dirname, "../../packages/binary/src/index.ts"),
       "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
-      "@packages/dynatic-css-hash": path.resolve(
+      "@packages/dynatic-css-utils": path.resolve(
         __dirname,
-        "../../packages/dynatic-css-hash/src/index.ts",
+        "../../packages/dynatic-css-utils/src/index.ts",
       ),
       "@dev-packages/dynatic-css-vite-plugin": path.resolve(
         __dirname,
@@ -90,6 +90,8 @@ export default defineConfig({
         __dirname,
         "../../dev-packages/typescript-file-manipulation/src/index.ts",
       ),
+      "@dev-packages/prettier": path.resolve(__dirname, "../../dev-packages/prettier/src/index.ts"),
+      "@dev-packages/paths": path.resolve(__dirname, "../../dev-packages/paths/src/index.ts"),
     },
   },
 });

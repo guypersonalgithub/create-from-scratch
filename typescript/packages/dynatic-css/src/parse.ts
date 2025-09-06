@@ -1,28 +1,24 @@
-import { hashString } from "@packages/dynatic-css-hash";
+import { createClassName, hashString } from "@packages/dynatic-css-utils";
 import { insertStaticRuleIfNeeded } from "./insertStaticRuleIfNeeded";
 
 type ParseLineArgs = {
   line: string;
   classNames: string[];
+  pseudoClass?: string;
+  mediaQuery?: string;
 };
 
-export const parseLine = ({ line, classNames }: ParseLineArgs) => {
+export const parseLine = ({ line, classNames, pseudoClass, mediaQuery }: ParseLineArgs) => {
   const trimmed = line.trim();
   if (!trimmed) {
     return;
   }
 
-  parse({ line: trimmed, classNames });
-};
-
-type ParseArgs = {
-  line: string;
-  classNames: string[];
-};
-
-export const parse = ({ line, classNames }: ParseArgs) => {
-  const hash = hashString({ input: line });
-  const fullClassName = `css-${hash}`;
-  classNames.push(fullClassName);
-  insertStaticRuleIfNeeded({ hash: fullClassName, rule: line });
+  const fullLine = createClassName({ value: line, pseudoClass, mediaQuery });
+  console.log({ fullLine });
+  const hash = hashString({ input: fullLine });
+  const className = `css-${hash}`;
+  const fullClassName = pseudoClass ? `${className}${pseudoClass}` : className;
+  classNames.push(className);
+  insertStaticRuleIfNeeded({ hash: fullClassName, rule: line, mediaQuery });
 };

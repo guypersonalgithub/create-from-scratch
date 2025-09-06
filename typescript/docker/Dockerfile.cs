@@ -42,10 +42,12 @@ COPY ./packages/scrollspy-anchors/package.json ./packages/scrollspy-anchors/pack
 COPY ./packages/breadcrumbs/package.json ./packages/breadcrumbs/package.json
 COPY ./packages/binary/package.json ./packages/binary/package.json
 COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
-COPY ./packages/dynatic-css-hash/package.json ./packages/dynatic-css-hash/package.json
+COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
+COPY ./dev-packages/prettier/package.json ./dev-packages/prettier/package.json
+COPY ./dev-packages/paths/package.json ./dev-packages/paths/package.json
 
 
 
@@ -96,10 +98,12 @@ COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
 COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-hash ./packages/dynatic-css-hash
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
+COPY ./dev-packages/prettier ./dev-packages/prettier
+COPY ./dev-packages/paths ./dev-packages/paths
 CMD ["npm", "run", "dev"]
 
 
@@ -151,10 +155,12 @@ COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
 COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-hash ./packages/dynatic-css-hash
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
+COPY ./dev-packages/prettier ./dev-packages/prettier
+COPY ./dev-packages/paths ./dev-packages/paths
 CMD ["npm", "run", "build"]
 
 
@@ -206,8 +212,10 @@ COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
 COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-hash ./packages/dynatic-css-hash
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
+COPY ./dev-packages/prettier ./dev-packages/prettier
+COPY ./dev-packages/paths ./dev-packages/paths
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

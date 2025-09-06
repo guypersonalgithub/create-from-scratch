@@ -17,8 +17,16 @@ export type DynaticStyleChunksVariable = {
   name: string;
   startIndex: number;
   endIndex: number;
-  type: "variable" | "function" | "arrow-function-without-content";
+  type:
+    | "variable"
+    | "function"
+    | "multi-step-variable"
+    | "arrow-function-without-content"
+    | "nested-variable"
+    | "config-variable";
+  isWithinTemplateLiteral?: boolean;
 };
+
 type DynaticStyleChunk = {
   name: string;
   context: string;

@@ -1,10 +1,11 @@
 {
-  "name": "@packages/dynatic-css-hash",
+  "name": "@packages/dynatic-css-utils",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "scripts": {
     "build": "tsc -b .",
+    "test": "tests-cli",
     "typecheck": "tsc --noEmit -p ."
   },
   "author": "",
