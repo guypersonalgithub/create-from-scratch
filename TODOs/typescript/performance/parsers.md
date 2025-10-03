@@ -1,0 +1,2 @@
+- Consider avoiding using += within loops while parsing, strings are immutable in Javascript, so addition actually requires recreating a new string each time while copying previous contents. Instead calculate the start and end indexes, and use a str.slice(start, end).
+  Its also possible to collect all chars/words in an array and join them for better performance than +=, but slice would still be more performant on larger instances.

@@ -26,6 +26,7 @@ on:
       - typescript/packages/tooltip/**
       - typescript/packages/randomizer/**
       - typescript/packages/edge-intersection/**
+      - typescript/packages/element-utils/**
       - typescript/packages/calculate-relative-position/**
       - typescript/packages/collapsible/**
       - typescript/packages/auto-complete-input/**
@@ -51,8 +52,7 @@ on:
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
-      - typescript/dev-packages/prettier/**
-      - typescript/dev-packages/paths/**
+      - typescript/dev-packages/recursive-import-iteration/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -98,6 +98,7 @@ jobs:
           cp -r ./packages/tooltip ./full-application/packages
           cp -r ./packages/randomizer ./full-application/packages
           cp -r ./packages/edge-intersection ./full-application/packages
+          cp -r ./packages/element-utils ./full-application/packages
           cp -r ./packages/calculate-relative-position ./full-application/packages
           cp -r ./packages/collapsible ./full-application/packages
           cp -r ./packages/auto-complete-input ./full-application/packages
@@ -123,8 +124,7 @@ jobs:
           cp -r ./dev-packages/dynatic-css-vite-plugin ./full-application/packages
           cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
           cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages
-          cp -r ./dev-packages/prettier ./full-application/packages
-          cp -r ./dev-packages/paths ./full-application/packages
+          cp -r ./dev-packages/recursive-import-iteration ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

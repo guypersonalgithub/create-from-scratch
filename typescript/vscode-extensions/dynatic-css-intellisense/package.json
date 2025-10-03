@@ -1,0 +1,98 @@
+{
+  "name": "dynatic-css-intellisense",
+  "displayName": "Dynatic CSS IntelliSense",
+  "description": "Injects CSS IntelliSense to dynatic css template literals",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:javascript"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "typescript",
+        "aliases": [
+          "TypeScript",
+          "ts"
+        ],
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      },
+      {
+        "id": "my-styled-css",
+        "aliases": [
+          "My Styled CSS"
+        ],
+        "extensions": [
+          ".mystyle"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "path": "./syntaxes/cssbase.tmLanguage.json",
+        "scopeName": "source.cssbase.injection",
+        "injectTo": [
+          "source.ts",
+          "source.tsx"
+        ]
+      },
+      {
+        "scopeName": "my-styled-css",
+        "path": "./syntaxes/my-styled-css.tmLanguage.json",
+        "language": "my-styled-css",
+        "injectTo": [
+          "source.ts",
+          "source.tsx"
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "dynaticCSS.dismissSuggest",
+        "title": "Dismiss Suggest Widget"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "escape",
+        "command": "dynaticCSS.dismissSuggest",
+        "when": "suggestWidgetVisible"
+      }
+    ]
+  },
+  "dependencies": {
+    "@packages/import-parser": "*",
+    "@packages/parse-css": "*",
+    "@packages/utils": "*"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.103.0"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "build": "tsx ./buildExtension.ts",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pack": "npx vsce package --no-dependencies",
+    "package": "npx vsce package --no-dependencies --allow-missing-repository",
+    "install-extension": "code --install-extension dynatic-css-intellisense-1.0.0.vsix",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "files": [
+    "dist",
+    "syntaxes",
+    "package.json",
+    "tsconfig.json"
+  ]
+}

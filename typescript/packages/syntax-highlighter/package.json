@@ -11,6 +11,7 @@
     "@packages/parse-typescript": "*",
     "@packages/parse-yaml": "*",
     "@packages/utils": "*",
+    "@packages/element-utils": "*",
     "@packages/copy-to-clipboard": "*"
   },
   "peerDependencies": {

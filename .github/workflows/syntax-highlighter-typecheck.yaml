@@ -12,6 +12,7 @@ on:
       - typescript/packages/parse-typescript/**
       - typescript/packages/utils/**
       - typescript/packages/parse-yaml/**
+      - typescript/packages/element-utils/**
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/button/**
       - typescript/packages/tooltip/**

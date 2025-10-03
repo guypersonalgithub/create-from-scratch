@@ -16,7 +16,7 @@ type BuildDynaticArgs = {
   configObjectStartIndex: number;
 };
 
-export const buildDynatic = async ({
+export const buildDynatic = ({
   projectRoot,
   inserted,
   pseudoClasses,
@@ -64,7 +64,7 @@ export const buildDynatic = async ({
   updatedCSSFile += `\n${configCSS}`;
 
   const updated = updateClasses({ fileText, staticClasses });
-  const updatedFileText = await updateConfigClasses({
+  const updatedFileText = updateConfigClasses({
     fileText: updated,
     config: updatedConfig,
     configObjectStartIndex,

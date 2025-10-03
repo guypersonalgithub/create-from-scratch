@@ -29,7 +29,7 @@
     "@packages/animation-container": "*",
     "@packages/textarea": "*",
     "@packages/sidebar": "*",
-    "@packages/utils": "*",
+    "@packages/element-utils": "*",
     "@packages/date": "*",
     "@packages/modal": "*",
     "@packages/badge": "*",

@@ -22,6 +22,7 @@ on:
       - typescript/packages/button/**
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-yaml/**
+      - typescript/packages/element-utils/**
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/tooltip/**
       - typescript/packages/animation-container/**

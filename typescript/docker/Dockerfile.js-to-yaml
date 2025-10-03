@@ -16,6 +16,7 @@ COPY ./packages/icons/package.json ./packages/icons/package.json
 COPY ./packages/button/package.json ./packages/button/package.json
 COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
 COPY ./packages/parse-yaml/package.json ./packages/parse-yaml/package.json
+COPY ./packages/element-utils/package.json ./packages/element-utils/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
 COPY ./packages/animation-container/package.json ./packages/animation-container/package.json
@@ -72,6 +73,7 @@ COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
+COPY ./packages/element-utils ./packages/element-utils
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
@@ -129,6 +131,7 @@ COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
+COPY ./packages/element-utils ./packages/element-utils
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container
@@ -186,6 +189,7 @@ COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
+COPY ./packages/element-utils ./packages/element-utils
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/animation-container ./packages/animation-container

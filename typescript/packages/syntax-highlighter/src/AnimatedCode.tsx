@@ -1,5 +1,5 @@
 import { type CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { getComptuedStyleProperties } from "@packages/utils";
+import { getComptuedStyleProperties } from "@packages/element-utils";
 import { type Animated } from "./types";
 import { type SupportedLanguages } from "./languages";
 import { ModernContentDesign, type Variant } from "./ModernContentDesign";

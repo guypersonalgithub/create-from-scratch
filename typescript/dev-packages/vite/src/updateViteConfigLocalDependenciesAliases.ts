@@ -104,7 +104,8 @@ export const updateViteConfigLocalDependenciesAliases = async ({
 
         workspacePackagesPaths.forEach((workspacePackagePath) => {
           const [localPackageIdentifier, packageName] = workspacePackagePath.split("/");
-          const completePackageIdentifier = `${localPackagePrefix}${workspacePackagePath}`;
+          // const completePackageIdentifier = `${localPackagePrefix}${workspacePackagePath}`;
+          const completePackageIdentifier = `${localPackagePrefix}packages/${packageName}`;
 
           const relativePath = getRelativePath({
             from: `${folderPath}/${workspace}`,

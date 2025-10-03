@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@packages/animation-container": "*",
-    "@packages/utils": "*",
+    "@packages/element-utils": "*",
     "@packages/icons": "*"
   },
   "peerDependencies": {

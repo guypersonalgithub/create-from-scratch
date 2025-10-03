@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@packages/utils": "*",
+    "@packages/element-utils": "*",
     "@packages/animation-container": "*",
     "@packages/randomizer": "*"
   },

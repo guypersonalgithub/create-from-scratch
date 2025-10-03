@@ -15,6 +15,7 @@ on:
       - typescript/packages/array-utils/**
       - typescript/packages/object-utils/**
       - typescript/packages/parse-typescript/**
+      - typescript/packages/element-utils/**
       - typescript/packages/icons/**
 jobs:
   Typecheck:

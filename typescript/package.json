@@ -10,6 +10,7 @@
     "dev-apps/*",
     "dev-packages/*",
     "test-apps/*",
+    "vscode-extensions/*",
     "scripts",
     "ci-scripts"
   ],
@@ -26,12 +27,15 @@
     "rsc-mvp": "cd test-apps/react-server-components-mvp && npm run dev",
     "eslint-fix": "eslint . --fix",
     "type-check-temp": "tsc --noEmit -p .",
-    "generateIcon": "tsx ./scripts/generateIcon.tsx"
+    "generateIcon": "tsx ./scripts/generateIcon.tsx",
+    "testcss": "tsx ./scripts/css.ts",
+    "parseImports": "tsx ./scripts/getImports.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",
     "@stylistic/eslint-plugin": "^2.1.0",
     "@stylistic/eslint-plugin-js": "^2.11.0",
+    "@vscode/vsce": "^3.6.0",
     "eslint": "^9.4.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
