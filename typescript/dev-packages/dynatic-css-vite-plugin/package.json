@@ -15,7 +15,7 @@
     "@packages/utils": "*",
     "@packages/typescript-file-manipulation": "*",
     "@packages/parse-typescript": "*",
-    "@packages/prettier": "*"
+    "@packages/recursive-import-iteration": "*"
   },
   "author": "",
   "license": "ISC",

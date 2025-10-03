@@ -1,0 +1,25 @@
+export const TokenTypes = {
+  ID: "id",
+  CLASSNAME: "classname",
+  PROPERTY: "property",
+  STRING: "string",
+  NUMERIC: "numeric",
+  WHITESPACE: "whitespace",
+  OPEN_CURLY_BRACKET: "open-curly-bracket",
+  CLOSE_CURLY_BRACKET: "close-curly-bracket",
+  OPEN_PARENTHESIS: "open-parenthesis",
+  CLOSE_PARENTHESIS: "close-parenthesis",
+  FUNCTION: "function",
+  COLON: "colon",
+  AT_KEYWORD: "at-keyword",
+  AT_WORD: "at-word",
+  END_OF_LINE: "end-of-line",
+  COLOR: "color",
+  COMMA: "comma",
+  AT_OPEN_PARENTHESIS: "at-open-parenthesis",
+  AT_CLOSE_PARENTHESIS: "at-close-parenthesis",
+  AT_OPERATOR: "at-operator",
+  UNKNOWN: "unknown",
+} as const;
+
+export type TokenTypeOptions = (typeof TokenTypes)[keyof typeof TokenTypes];

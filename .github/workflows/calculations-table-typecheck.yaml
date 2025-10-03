@@ -21,6 +21,7 @@ on:
       - typescript/packages/parse-typescript/**
       - typescript/packages/randomizer/**
       - typescript/packages/edge-intersection/**
+      - typescript/packages/element-utils/**
       - typescript/packages/calculate-relative-position/**
 jobs:
   Typecheck:

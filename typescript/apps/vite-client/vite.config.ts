@@ -39,6 +39,10 @@ export default defineConfig({
         __dirname,
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "@packages/element-utils": path.resolve(
+        __dirname,
+        "../../packages/element-utils/src/index.ts",
+      ),
       "@packages/calculate-relative-position": path.resolve(
         __dirname,
         "../../packages/calculate-relative-position/src/index.ts",

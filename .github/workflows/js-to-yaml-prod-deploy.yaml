@@ -21,6 +21,7 @@ on:
       - typescript/packages/button/**
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-yaml/**
+      - typescript/packages/element-utils/**
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/tooltip/**
       - typescript/packages/animation-container/**
@@ -91,6 +92,7 @@ jobs:
           cp -r ./packages/button ./full-application/packages
           cp -r ./packages/syntax-highlighter ./full-application/packages
           cp -r ./packages/parse-yaml ./full-application/packages
+          cp -r ./packages/element-utils ./full-application/packages
           cp -r ./packages/copy-to-clipboard ./full-application/packages
           cp -r ./packages/tooltip ./full-application/packages
           cp -r ./packages/animation-container ./full-application/packages

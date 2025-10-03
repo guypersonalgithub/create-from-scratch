@@ -1,4 +1,4 @@
-import { observeElementVisibility } from "@packages/utils";
+import { observeElementVisibility } from "@packages/element-utils";
 import { useState, useRef, useEffect } from "react";
 import { type CarouselProps } from "../types";
 import { AnimationlessContent } from "./AnimationlessContent";

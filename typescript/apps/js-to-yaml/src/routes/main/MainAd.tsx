@@ -1,7 +1,7 @@
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { StyledCard, StyledSyntaxHighlighter } from "../../styledComponents";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { observeElementVisibility } from "@packages/utils";
+import { observeElementVisibility } from "@packages/element-utils";
 import { useBreakpoints } from "../../breakpoints";
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
 

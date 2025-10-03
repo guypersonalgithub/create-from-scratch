@@ -26,6 +26,10 @@ export default defineConfig({
         "../../packages/syntax-highlighter/src/index.ts",
       ),
       "@packages/parse-yaml": path.resolve(__dirname, "../../packages/parse-yaml/src/index.ts"),
+      "@packages/element-utils": path.resolve(
+        __dirname,
+        "../../packages/element-utils/src/index.ts",
+      ),
       "@packages/copy-to-clipboard": path.resolve(
         __dirname,
         "../../packages/copy-to-clipboard/src/index.ts",
@@ -45,7 +49,7 @@ export default defineConfig({
         __dirname,
         "../../packages/calculate-relative-position/src/index.ts",
       ),
-      "@dev-packages/yaml": path.resolve(__dirname, "../../dev-packages/yaml/src/index.ts"),
+      "@packages/yaml": path.resolve(__dirname, "../../dev-packages/yaml/src/index.ts"),
       "@packages/alert": path.resolve(__dirname, "../../packages/alert/src/index.ts"),
       "@packages/card": path.resolve(__dirname, "../../packages/card/src/index.ts"),
       "@packages/command-box": path.resolve(__dirname, "../../packages/command-box/src/index.ts"),

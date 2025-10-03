@@ -1,0 +1,12 @@
+{
+  "scopeName": "source.cssbase.injection",
+  "injectionSelector": "L:meta.embedded.block.ts",
+  "patterns": [
+    {
+      "begin": "cssBase`",
+      "end": "`",
+      "name": "string.quoted.template.cssbase",
+      "patterns": [{ "include": "source.css" }]
+    }
+  ]
+}

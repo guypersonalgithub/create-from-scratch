@@ -35,6 +35,10 @@ export default defineConfig({
         __dirname,
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "@packages/element-utils": path.resolve(
+        __dirname,
+        "../../packages/element-utils/src/index.ts",
+      ),
       "@packages/calculate-relative-position": path.resolve(
         __dirname,
         "../../packages/calculate-relative-position/src/index.ts",
@@ -78,20 +82,22 @@ export default defineConfig({
         __dirname,
         "../../packages/dynatic-css-utils/src/index.ts",
       ),
-      "@dev-packages/dynatic-css-vite-plugin": path.resolve(
+      "@packages/dynatic-css-vite-plugin": path.resolve(
         __dirname,
         "../../dev-packages/dynatic-css-vite-plugin/src/index.ts",
       ),
-      "@dev-packages/dynatic-css-typescript-parser": path.resolve(
+      "@packages/dynatic-css-typescript-parser": path.resolve(
         __dirname,
         "../../dev-packages/dynatic-css-typescript-parser/src/index.ts",
       ),
-      "@dev-packages/typescript-file-manipulation": path.resolve(
+      "@packages/typescript-file-manipulation": path.resolve(
         __dirname,
         "../../dev-packages/typescript-file-manipulation/src/index.ts",
       ),
-      "@dev-packages/prettier": path.resolve(__dirname, "../../dev-packages/prettier/src/index.ts"),
-      "@dev-packages/paths": path.resolve(__dirname, "../../dev-packages/paths/src/index.ts"),
+      "@packages/recursive-import-iteration": path.resolve(
+        __dirname,
+        "../../dev-packages/recursive-import-iteration/src/index.ts",
+      ),
     },
   },
 });

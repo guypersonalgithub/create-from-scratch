@@ -1,0 +1,17 @@
+{
+  "scopeName": "my-styled-css",
+  "injectionSelector": "L:meta.embedded.block.tsx",
+  "patterns": [
+    {
+      "begin": "css`",
+      "end": "`",
+      "name": "string.quoted.template.css",
+      "patterns": [
+        {
+          "match": "\\b(red|blue|green)\\b",
+          "name": "support.constant.color.my-styled-css"
+        }
+      ]
+    }
+  ]
+}

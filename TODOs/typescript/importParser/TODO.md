@@ -1,0 +1,2 @@
+- Add tests
+- Add type mapping when includeTypes = true.

@@ -71,6 +71,9 @@ services:
         source: ./packages/edge-intersection
         target: /usr/src/app/packages/edge-intersection
       - type: bind
+        source: ./packages/element-utils
+        target: /usr/src/app/packages/element-utils
+      - type: bind
         source: ./packages/calculate-relative-position
         target: /usr/src/app/packages/calculate-relative-position
       - type: bind
@@ -146,11 +149,8 @@ services:
         source: ./dev-packages/typescript-file-manipulation
         target: /usr/src/app/dev-packages/typescript-file-manipulation
       - type: bind
-        source: ./dev-packages/prettier
-        target: /usr/src/app/dev-packages/prettier
-      - type: bind
-        source: ./dev-packages/paths
-        target: /usr/src/app/dev-packages/paths
+        source: ./dev-packages/recursive-import-iteration
+        target: /usr/src/app/dev-packages/recursive-import-iteration
       - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
@@ -249,6 +249,9 @@ services:
       - type: bind
         source: ./packages/parse-yaml
         target: /usr/src/app/packages/parse-yaml
+      - type: bind
+        source: ./packages/element-utils
+        target: /usr/src/app/packages/element-utils
       - type: bind
         source: ./packages/copy-to-clipboard
         target: /usr/src/app/packages/copy-to-clipboard
@@ -410,6 +413,9 @@ services:
       - type: bind
         source: ./packages/edge-intersection
         target: /usr/src/app/packages/edge-intersection
+      - type: bind
+        source: ./packages/element-utils
+        target: /usr/src/app/packages/element-utils
       - type: bind
         source: ./packages/calculate-relative-position
         target: /usr/src/app/packages/calculate-relative-position

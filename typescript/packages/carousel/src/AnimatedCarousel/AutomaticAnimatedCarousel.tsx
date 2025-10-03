@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { type AnimatedCarouselProps } from "./types";
-import { observeElementVisibility } from "@packages/utils";
+import { observeElementVisibility } from "@packages/element-utils";
 import { AnimatedContent } from "./AnimatedContent";
 
 type AutomaticAnimatedCarouselProps = Omit<AnimatedCarouselProps, "automaticTransition">;

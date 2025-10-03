@@ -10,6 +10,7 @@ on:
     paths:
       - typescript/packages/scrollspy-anchors/**
       - typescript/packages/utils/**
+      - typescript/packages/element-utils/**
       - typescript/packages/animation-container/**
       - typescript/packages/is-dev/**
       - typescript/packages/array-utils/**

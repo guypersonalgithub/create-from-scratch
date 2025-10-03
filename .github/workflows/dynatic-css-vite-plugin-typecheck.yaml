@@ -15,8 +15,7 @@ on:
       - typescript/packages/dynatic-css/**
       - typescript/dev-packages/typescript-file-manipulation/**
       - typescript/packages/parse-typescript/**
-      - typescript/dev-packages/prettier/**
-      - typescript/dev-packages/paths/**
+      - typescript/dev-packages/recursive-import-iteration/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

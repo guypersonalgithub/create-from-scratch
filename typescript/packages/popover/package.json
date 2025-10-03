@@ -12,6 +12,7 @@
     "@packages/randomizer": "*",
     "@packages/edge-intersection": "*",
     "@packages/utils": "*",
+    "@packages/element-utils": "*",
     "@packages/calculate-relative-position": "*"
   },
   "peerDependencies": {

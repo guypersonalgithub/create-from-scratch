@@ -5,7 +5,8 @@ import {
   AnimationContainerWrapper,
   type AnimationContainerWrapperProps,
 } from "@packages/animation-container";
-import { capitalizeFirstChar, observeElementsVisibility } from "@packages/utils";
+import { capitalizeFirstChar } from "@packages/utils";
+import { observeElementsVisibility } from "@packages/element-utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
 import { calculatePosition } from "@packages/calculate-relative-position";
 

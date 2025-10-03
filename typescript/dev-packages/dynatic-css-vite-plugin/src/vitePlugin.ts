@@ -10,6 +10,8 @@ import { readFileSync } from "fs";
 import { generateConfigCSS } from "./generateConfigCSS";
 import type { DynaticConfiguration } from "@packages/dynatic-css";
 import { buildDynatic } from "./buildDynatic";
+import { mapAliases } from "./mapAliases";
+import { recursivelyIterateFiles } from "@packages/recursive-import-iteration";
 
 type DynaticPluginArgs = {
   uniqueImports?: string[];
@@ -17,7 +19,8 @@ type DynaticPluginArgs = {
 
 export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
   const { uniqueImports = [] } = args ?? {};
-  const baseIdentifiers = ['dynatic-css.config"', "@packages/dynatic-css"];
+  const configPath = "dynatic-css.config";
+  const baseIdentifiers = [`${configPath}"`, "@packages/dynatic-css"];
   const identifiers = uniqueImports ? [...uniqueImports, ...baseIdentifiers] : baseIdentifiers;
   let isBuild = false;
 
@@ -34,6 +37,8 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
   let updatedConfig: DynaticConfiguration;
   let configObjectStartIndex: number;
 
+  let mappedAliases: Record<string, string>;
+
   return {
     name: "dynatic-css",
     enforce: "pre", // <- critical to run *before* React/esbuild plugins
@@ -42,12 +47,13 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
     //   isBuild = command === "build";
     // },
     configResolved(resolvedConfig) {
-      const { command } = resolvedConfig;
+      const { command, resolve } = resolvedConfig;
+      mappedAliases = mapAliases({ alias: resolve.alias });
       isBuild = command.startsWith("build");
       projectRoot = resolvedConfig.root;
 
       if (isBuild || isDebug) {
-        filePath = `${projectRoot}/src/dynatic-css.config.ts`;
+        filePath = `${projectRoot}/src/${configPath}.ts`;
         fileText = readFileSync(filePath, { encoding: "utf-8" });
         const generatedConfig = generateConfigCSS({ fileText });
         configCSS = generatedConfig.configCSS;
@@ -65,7 +71,13 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
     //     });
     //   }
     // },
-
+    buildStart: () => {
+      recursivelyIterateFiles({
+        absolutePath: projectRoot,
+        startingFile: "main.tsx",
+        mappedAliases,
+      });
+    },
     async transform(code: string, id: string) {
       if (!isBuild && !isDebug) {
         return;
@@ -253,32 +265,34 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
         });
       });
 
-      await buildDynatic({
-        projectRoot,
-        inserted,
-        pseudoClasses,
-        mediaQueries,
-        configCSS,
-        filePath,
-        fileText,
-        updatedConfig,
-        configObjectStartIndex,
-      });
+      if (isDebug) {
+        buildDynatic({
+          projectRoot,
+          inserted,
+          pseudoClasses,
+          mediaQueries,
+          configCSS,
+          filePath,
+          fileText,
+          updatedConfig,
+          configObjectStartIndex,
+        });
+      }
 
       return code;
     },
-    generateBundle: async () => {
-      await buildDynatic({
-        projectRoot,
-        inserted,
-        pseudoClasses,
-        mediaQueries,
-        configCSS,
-        filePath,
-        fileText,
-        updatedConfig,
-        configObjectStartIndex,
-      });
-    },
+    // generateBundle: () => {
+    //   buildDynatic({
+    //     projectRoot,
+    //     inserted,
+    //     pseudoClasses,
+    //     mediaQueries,
+    //     configCSS,
+    //     filePath,
+    //     fileText,
+    //     updatedConfig,
+    //     configObjectStartIndex,
+    //   });
+    // },
   };
 };

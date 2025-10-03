@@ -49,6 +49,10 @@ export default defineConfig({
         __dirname,
         "../../packages/edge-intersection/src/index.ts",
       ),
+      "@packages/element-utils": path.resolve(
+        __dirname,
+        "../../packages/element-utils/src/index.ts",
+      ),
       "@packages/calculate-relative-position": path.resolve(
         __dirname,
         "../../packages/calculate-relative-position/src/index.ts",
@@ -65,20 +69,20 @@ export default defineConfig({
         "../../packages/auto-complete-input/src/index.ts",
       ),
       "@packages/icons": path.resolve(__dirname, "../../packages/icons/src/index.ts"),
-      "@dev-packages/alter-package-versions-types": path.resolve(
+      "@packages/alter-package-versions-types": path.resolve(
         __dirname,
         "../../dev-packages/alter-package-versions-types/src/index.ts",
       ),
-      "@dev-packages/package-json": path.resolve(
+      "@packages/package-json": path.resolve(
         __dirname,
         "../../dev-packages/package-json/src/index.ts",
       ),
-      "@dev-packages/files": path.resolve(__dirname, "../../dev-packages/files/src/index.ts"),
-      "@dev-packages/detect-repository-dependencies-types": path.resolve(
+      "@packages/files": path.resolve(__dirname, "../../dev-packages/files/src/index.ts"),
+      "@packages/detect-repository-dependencies-types": path.resolve(
         __dirname,
         "../../dev-packages/detect-repository-dependencies-types/src/index.ts",
       ),
-      "@dev-packages/package-manager-shared-types": path.resolve(
+      "@packages/package-manager-shared-types": path.resolve(
         __dirname,
         "../../dev-packages/package-manager-shared-types/src/index.ts",
       ),

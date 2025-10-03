@@ -27,6 +27,7 @@ on:
       - typescript/packages/tooltip/**
       - typescript/packages/randomizer/**
       - typescript/packages/edge-intersection/**
+      - typescript/packages/element-utils/**
       - typescript/packages/calculate-relative-position/**
       - typescript/packages/collapsible/**
       - typescript/packages/auto-complete-input/**
@@ -52,8 +53,7 @@ on:
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
-      - typescript/dev-packages/prettier/**
-      - typescript/dev-packages/paths/**
+      - typescript/dev-packages/recursive-import-iteration/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

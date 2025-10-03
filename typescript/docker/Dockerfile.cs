@@ -21,6 +21,7 @@ COPY ./packages/button/package.json ./packages/button/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
 COPY ./packages/randomizer/package.json ./packages/randomizer/package.json
 COPY ./packages/edge-intersection/package.json ./packages/edge-intersection/package.json
+COPY ./packages/element-utils/package.json ./packages/element-utils/package.json
 COPY ./packages/calculate-relative-position/package.json ./packages/calculate-relative-position/package.json
 COPY ./packages/collapsible/package.json ./packages/collapsible/package.json
 COPY ./packages/auto-complete-input/package.json ./packages/auto-complete-input/package.json
@@ -46,8 +47,7 @@ COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/pack
 COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
-COPY ./dev-packages/prettier/package.json ./dev-packages/prettier/package.json
-COPY ./dev-packages/paths/package.json ./dev-packages/paths/package.json
+COPY ./dev-packages/recursive-import-iteration/package.json ./dev-packages/recursive-import-iteration/package.json
 
 
 
@@ -77,6 +77,7 @@ COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/element-utils ./packages/element-utils
 COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
@@ -102,8 +103,7 @@ COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
-COPY ./dev-packages/prettier ./dev-packages/prettier
-COPY ./dev-packages/paths ./dev-packages/paths
+COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
 CMD ["npm", "run", "dev"]
 
 
@@ -134,6 +134,7 @@ COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/element-utils ./packages/element-utils
 COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
@@ -159,8 +160,7 @@ COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
-COPY ./dev-packages/prettier ./dev-packages/prettier
-COPY ./dev-packages/paths ./dev-packages/paths
+COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
 CMD ["npm", "run", "build"]
 
 
@@ -191,6 +191,7 @@ COPY ./packages/button ./packages/button
 COPY ./packages/tooltip ./packages/tooltip
 COPY ./packages/randomizer ./packages/randomizer
 COPY ./packages/edge-intersection ./packages/edge-intersection
+COPY ./packages/element-utils ./packages/element-utils
 COPY ./packages/calculate-relative-position ./packages/calculate-relative-position
 COPY ./packages/collapsible ./packages/collapsible
 COPY ./packages/auto-complete-input ./packages/auto-complete-input
@@ -216,6 +217,5 @@ COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
-COPY ./dev-packages/prettier ./dev-packages/prettier
-COPY ./dev-packages/paths ./dev-packages/paths
+COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

@@ -14,3 +14,5 @@ export * from "./isNumeric";
 export * from "./removeQuotationMarks";
 export * from "./countLines";
 export * from "./replaceSubstring";
+export * from "./isAlphaNumeric";
+export * from "./fuzzyMatch";

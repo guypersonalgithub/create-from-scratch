@@ -1,7 +1,7 @@
 import type { DynaticConfiguration } from "@packages/dynatic-css";
 import { detectObjectEnd } from "@packages/dynatic-css-typescript-parser";
 import { replaceSubstring } from "@packages/utils";
-import { formatCodeWithPrettier } from "@packages/prettier";
+// import { formatCodeWithPrettier } from "@packages/prettier";
 
 type UpdateConfigClassesArgs = {
   fileText: string;
@@ -9,7 +9,7 @@ type UpdateConfigClassesArgs = {
   configObjectStartIndex: number;
 };
 
-export const updateConfigClasses = async ({
+export const updateConfigClasses = ({
   fileText,
   config,
   configObjectStartIndex,
@@ -30,7 +30,7 @@ export const updateConfigClasses = async ({
     newStr: updatedConfigString,
   });
 
-  return formatCodeWithPrettier({ code: updatedFileText });
+  return updatedFileText
 };
 
 type RecursivelyIterateOverVariablesArgs = {
