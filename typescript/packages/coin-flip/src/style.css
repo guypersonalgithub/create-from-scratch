@@ -1,0 +1,49 @@
+.coinWrapper {
+    perspective: 800px;
+    width: 120px;
+    height: 120px;
+}
+
+.coin {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    /* animation: coinFlip 1.4s forwards; */
+}
+
+.coinFront,
+.coinBack {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    backface-visibility: hidden;
+}
+
+.coinFront {
+    background: linear-gradient(180deg, #f3dd7f, #c69d2b);
+}
+
+.coinBack {
+    background: linear-gradient(180deg, #e7c86a, #b38324);
+    transform: rotateX(180deg);
+}
+
+/* 
+@keyframes coinFlip {
+    0% {
+        transform: rotateX(0deg) scale3d(1, 1, 1);
+    }
+
+    50% {
+        transform: rotateX(1800deg) scale3d(2.2, 2.2, 2.2);
+    }
+
+    100% {
+        transform: rotateX(2700deg) scale3d(1, 1, 1);
+    }
+} */

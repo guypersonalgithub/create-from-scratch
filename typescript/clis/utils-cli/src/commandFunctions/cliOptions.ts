@@ -72,7 +72,7 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.GENERATE_GITHUB_ACTION_YAMLS: {
       generateGithubActionYaml({
-        folders: ["apps", "packages", "dev-packages"],
+        folders: ["apps", "packages", "dev-packages", "vscode-extensions"],
         uniqueFolders: ["cicd-configs"],
       });
       break;

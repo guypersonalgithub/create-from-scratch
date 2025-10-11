@@ -1,3 +1,6 @@
-import { calculateLinesIntersection } from "@packages/math-parser";
+import { tokenizer } from "@packages/math-parser";
 
-calculateLinesIntersection({ line1: "3x + 2y = 7", line2: "x - 3y = 6" });
+const { tokens: line1Tokens } = tokenizer({ input: "3x + 2y = 7" });
+const { tokens: line2Tokens } = tokenizer({ input: "x - 3y = 6" });
+
+console.log({ line1Tokens, line2Tokens });

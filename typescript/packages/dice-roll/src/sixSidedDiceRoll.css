@@ -1,0 +1,115 @@
+.dice {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    height: var(--diceSize);
+    width: var(--diceSize);
+}
+
+.dot {
+    position: absolute;
+    width: 20%;
+    height: 20%;
+    border-radius: 100%;
+    background-color: #f25f5c;
+    box-shadow: inset 2px 2px #d90429;
+}
+
+.side {
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 5px;
+    width: inherit;
+    height: inherit;
+    border: 1px solid #e5e5e5;
+}
+
+.firstSide {
+    transform: translateZ(calc(var(--diceSize) / 2));
+}
+
+.secondSide {
+    transform: rotateY(-180deg) translateZ(calc(var(--diceSize) / 2));
+}
+
+.thirdSide {
+    transform: rotateY(-90deg) translateZ(calc(var(--diceSize) / 2));
+}
+
+.forthSide {
+    transform: rotateX(90deg) translateZ(calc(var(--diceSize) / 2));
+}
+
+.fifthSide {
+    transform: rotateX(-90deg) translateZ(calc(var(--diceSize) / 2));
+}
+
+.sixthSide {
+    transform: rotateY(90deg) translateZ(calc(var(--diceSize) / 2));
+}
+
+/* .side1 {
+    transform: rotateX(360deg) rotateZ(-360deg);
+}
+
+.side2 {
+    transform: rotateX(180deg) rotateZ(-180deg);
+}
+
+.side3 {
+    transform: rotateY(90deg) rotateZ(360deg);
+}
+
+.side4 {
+    transform: rotateX(-90deg) rotateZ(-360deg);
+}
+
+.side5 {
+    transform: rotateX(90deg) rotateZ(-360deg);
+}
+
+.side6 {
+     transform: rotateY(-90deg) rotateZ(-360deg);
+} */
+
+.two-1,
+.three-1,
+.four-1,
+.five-1,
+.six-1 {
+    transform: translate(calc(var(--diceSize) / 10), calc(var(--diceSize) / 10));
+}
+
+.four-3,
+.five-3,
+.six-4 {
+    transform: translate(calc(var(--diceSize) * 7 / 10), calc(var(--diceSize) / 10));
+}
+
+.one-1,
+.three-2,
+.five-5 {
+    transform: translate(calc(var(--diceSize) * 4 / 10), calc(var(--diceSize) * 4 / 10));
+}
+
+.four-2,
+.five-2,
+.six-3 {
+    transform: translate(calc(var(--diceSize) / 10), calc(var(--diceSize) * 7 / 10));
+}
+
+.two-2,
+.three-3,
+.four-4,
+.five-4,
+.six-6 {
+    transform: translate(calc(var(--diceSize) * 7 / 10), calc(var(--diceSize) * 7 / 10));
+}
+
+.six-2 {
+    transform: translate(calc(var(--diceSize) / 10), calc(var(--diceSize) * 4 / 10));
+}
+
+.six-5 {
+    transform: translate(calc(var(--diceSize) * 7 / 10), calc(var(--diceSize) * 4 / 10));
+}

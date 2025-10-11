@@ -67,7 +67,11 @@
     "@packages/shuttle": "*",
     "@packages/rolling-counter": "*",
     "@packages/otp-input": "*",
-    "@packages/flag-icons": "*"
+    "@packages/flag-icons": "*",
+    "@packages/coin-flip": "*",
+    "@packages/dice-roll": "*",
+    "@packages/rotate-wrapper": "*",
+    "@packages/wheel-of-fortune": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

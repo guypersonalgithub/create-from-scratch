@@ -9,6 +9,8 @@ type ConvertStringFormatArgs = {
 export const convertStringFormat = ({ str, formatFrom, formatTo }: ConvertStringFormatArgs) => {
   if (formatFrom === "kebab" && formatTo === "camel") {
     return convertKebabIntoCamel({ str });
+  } else if (formatFrom === "camel" && formatTo === "kebab") {
+    return convertCamelIntoKebab({ str });
   }
 
   console.error(`Formatting from ${formatFrom} to ${formatTo} is currently not supported.`);
@@ -35,4 +37,20 @@ const convertKebabIntoCamel = ({ str }: Pick<ConvertStringFormatArgs, "str">) =>
   }
 
   return formattedString;
+};
+
+const convertCamelIntoKebab = ({ str }: Pick<ConvertStringFormatArgs, "str">) => {
+  const result: string[] = [];
+
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+
+    if (char >= "A" && char <= "Z") {
+      const lowercaseChar = char.toLowerCase();
+      result.push(i > 0 ? `-${lowercaseChar}` : lowercaseChar);
+    } else {
+      result.push(char);
+    }
+  }
+  return result.join("");
 };
