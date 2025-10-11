@@ -1,4 +1,4 @@
-name: Import Parser Typecheck
+name: Dynatic CSS Intellisense Typecheck
 on:
   pull_request:
     branches:
@@ -8,8 +8,10 @@ on:
       - synchronize
       - reopened
     paths:
+      - typescript/vscode-extensions/dynatic-css-intellisense/**
       - typescript/packages/import-parser/**
       - typescript/packages/utils/**
+      - typescript/packages/parse-css/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest
@@ -23,4 +25,4 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Run typecheck
-        run: cd packages/import-parser && npm run typecheck
+        run: cd vscode-extensions/dynatic-css-intellisense && npm run typecheck

@@ -20,11 +20,17 @@ export const generateGithubActionYaml = ({
   const projectCompleteRootAbsolutePath = completeRootAbsolutePath();
   folders.forEach((folder) => {
     const folderPath = `${projectAbsolutePath}/${folder}`;
-    const workspaces = readdirSync(folderPath);
+    const workspaces = readdirSync(folderPath, { withFileTypes: true });
 
     workspaces.forEach((workspace) => {
+      if (!workspace.isDirectory()) {
+        return;
+      }
+
+      const { name } = workspace;
+
       try {
-        const path = `${folder}/${workspace}`;
+        const path = `${folder}/${name}`;
 
         const workspacePackages = detectUsedLocalPackages({
           workspace: path,
@@ -45,7 +51,7 @@ export const generateGithubActionYaml = ({
               projectCompleteRootAbsolutePath,
               onPushCallback: ({ onPush }) => {
                 onPush.paths = [
-                  `typescript/${folder}/${workspace}/**`, // Temporary solution - adding typescript as a prefix
+                  `typescript/${folder}/${name}/**`, // Temporary solution - adding typescript as a prefix
                   ...workspacePackages.map((workspacePackage) => {
                     return `typescript/${workspacePackage.path}/**`;
                   }),
@@ -53,7 +59,7 @@ export const generateGithubActionYaml = ({
               },
               onPullRequest: ({ onPull }) => {
                 onPull.paths = [
-                  `typescript/${folder}/${workspace}/**`, // Temporary solution - adding typescript as a prefix
+                  `typescript/${folder}/${name}/**`, // Temporary solution - adding typescript as a prefix
                   ...workspacePackages.map((workspacePackage) => {
                     return `typescript/${workspacePackage.path}/**`;
                   }),

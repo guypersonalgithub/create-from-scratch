@@ -1,4 +1,4 @@
-name: Import Parser Typecheck
+name: Wheel Of Fortune Typecheck
 on:
   pull_request:
     branches:
@@ -8,8 +8,14 @@ on:
       - synchronize
       - reopened
     paths:
-      - typescript/packages/import-parser/**
+      - typescript/packages/wheel-of-fortune/**
+      - typescript/packages/animation-container/**
       - typescript/packages/utils/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
+      - typescript/packages/button/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest
@@ -23,4 +29,4 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Run typecheck
-        run: cd packages/import-parser && npm run typecheck
+        run: cd packages/wheel-of-fortune && npm run typecheck
