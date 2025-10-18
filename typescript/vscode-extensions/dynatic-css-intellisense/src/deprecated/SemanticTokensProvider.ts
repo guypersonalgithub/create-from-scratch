@@ -21,7 +21,7 @@ export class CSSBaseSemanticTokensProvider implements vscode.DocumentSemanticTok
   async provideDocumentSemanticTokens(
     document: vscode.TextDocument,
     _token: vscode.CancellationToken,
-  ): Promise<vscode.SemanticTokens> {
+  ): Promise<vscode.SemanticTokens | undefined> {
     const builder = new vscode.SemanticTokensBuilder(legend);
     const documentText = document.getText();
     const { relevantImports, currentIndex: fileStartOffset } = trackDynaticFunctionsNames({

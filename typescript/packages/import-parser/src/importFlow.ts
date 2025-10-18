@@ -4,6 +4,7 @@ import { fullTypeFlow } from "./fullTypeFlow";
 import type { Callback, ExportProperties } from "./types";
 import { spaceCallback } from "./utils";
 import { fromImportFlow } from "./fromImportFlow";
+import { stringFlow } from "./stringFlow";
 
 export const importFlow = ({
   input,
@@ -26,14 +27,26 @@ export const importFlow = ({
     return asteriskFlow({ input, currentIndex: followup.updatedIndex, imports });
   }
 
+  if (followup.newTokenValue === '"' || followup.newTokenValue === "'") {
+    const { updatedIndex } = stringFlow({
+      input,
+      currentIndex: followup.updatedIndex,
+      newTokenValue: followup.newTokenValue,
+    });
+
+    const end = spaceCallback({ input, currentIndex: updatedIndex });
+    return { updatedIndex: end.newTokenValue === ";" ? end.updatedIndex : updatedIndex };
+  }
+
   let exportDefault: string | undefined;
 
   if (isAlphaNumeric({ str: followup.newTokenValue })) {
     exportDefault = followup.newTokenValue;
+    const currentIndex = followup.updatedIndex;
 
     followup = spaceCallback({ input, currentIndex: followup.updatedIndex });
     if (followup.newTokenValue !== ",") {
-      const response = fromImportFlow({ input, currentIndex: followup.updatedIndex, imports });
+      const response = fromImportFlow({ input, currentIndex, imports });
       if (!response) {
         return;
       }

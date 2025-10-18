@@ -152,6 +152,12 @@ services:
         source: ./dev-packages/recursive-import-iteration
         target: /usr/src/app/dev-packages/recursive-import-iteration
       - type: bind
+        source: ./packages/import-parser
+        target: /usr/src/app/packages/import-parser
+      - type: bind
+        source: ./packages/export-parser
+        target: /usr/src/app/packages/export-parser
+      - type: bind
         source: ./apps/vite-client/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:

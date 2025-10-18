@@ -53,6 +53,8 @@ on:
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
       - typescript/dev-packages/recursive-import-iteration/**
+      - typescript/packages/import-parser/**
+      - typescript/packages/export-parser/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -125,6 +127,8 @@ jobs:
           cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
           cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages
           cp -r ./dev-packages/recursive-import-iteration ./full-application/packages
+          cp -r ./packages/import-parser ./full-application/packages
+          cp -r ./packages/export-parser ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application

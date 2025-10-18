@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@packages/typescript-file-manipulation": "*"
+    "@packages/import-parser": "*",
+    "@packages/export-parser": "*"
   },
   "author": "",
   "license": "ISC",

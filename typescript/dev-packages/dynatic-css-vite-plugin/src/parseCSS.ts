@@ -10,7 +10,7 @@ type ParseCSSArgs = {
   context: string;
   variables: DynaticStyleChunksVariable[];
   contexts: Contexts;
-  updatedConfig: DynaticConfiguration;
+  updatedConfig?: DynaticConfiguration;
 };
 
 export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: ParseCSSArgs) => {

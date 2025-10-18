@@ -9,8 +9,9 @@ on:
       - reopened
     paths:
       - typescript/dev-packages/recursive-import-iteration/**
-      - typescript/dev-packages/typescript-file-manipulation/**
+      - typescript/packages/import-parser/**
       - typescript/packages/utils/**
+      - typescript/packages/export-parser/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

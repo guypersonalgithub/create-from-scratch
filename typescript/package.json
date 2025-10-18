@@ -29,7 +29,9 @@
     "type-check-temp": "tsc --noEmit -p .",
     "generateIcon": "tsx ./scripts/generateIcon.tsx",
     "testcss": "tsx ./scripts/css.ts",
-    "parseImports": "tsx ./scripts/getImports.ts"
+    "parseImports": "tsx ./scripts/getImports.ts",
+    "parseExports": "tsx ./scripts/getExports.ts",
+    "compare": "tsx ./scripts/compare.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.4.0",

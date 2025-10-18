@@ -16,6 +16,8 @@ on:
       - typescript/dev-packages/typescript-file-manipulation/**
       - typescript/packages/parse-typescript/**
       - typescript/dev-packages/recursive-import-iteration/**
+      - typescript/packages/import-parser/**
+      - typescript/packages/export-parser/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest
