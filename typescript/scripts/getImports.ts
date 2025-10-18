@@ -1,24 +1,12 @@
 import { parseImports } from "@packages/import-parser";
 
-const input = `import { MinimizableSidebar } from "@packages/sidebar";
-import {
-  Calculator,
-  Container,
-  Home,
-  Typescript as TypescriptIcon,
-  CSS as CSSIcon,
-  Linux as LinuxIcon,
-  SecuredScreen,
-  Binary as BinaryIcon,
-} from "@packages/icons";
-import { Router, usePath, usePathState } from "@packages/router";
-import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
-import { Math } from "./routes/math/Math";
-import { AutoCompleteInput } from "@packages/auto-complete-input";
-import { type ComponentProps, useLayoutEffect, useRef } from "react";
-import * as Icons from "@packages/flag-icons";
-
-console.log("This shouldn't be parsed as its beyond the last import at the top");`;
+const input = `import { type CSSProperties } from "react";
+import "./styles.css";
+import { type Animated, type GenericBaseToken, type TokenMaps } from "./types";
+import { type SupportedLanguages } from "./languages";
+import { AnimatedCode } from "./AnimatedCode";
+import { ColorizedSyntaxHighlighter } from "./ColorizedSyntaxHighlighter";
+import { type Variant } from "./ModernContentDesign";`;
 
 const { imports, currentIndex } = parseImports({ input });
 console.dir(imports, { depth: null });

@@ -1,0 +1,1 @@
+- Consider merging the import parser and export parser, they share alot of common flows, with certain exceptions like export _ from path, which doesn't work for import _ from path.

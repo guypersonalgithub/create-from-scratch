@@ -48,6 +48,8 @@ COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
 COPY ./dev-packages/recursive-import-iteration/package.json ./dev-packages/recursive-import-iteration/package.json
+COPY ./packages/import-parser/package.json ./packages/import-parser/package.json
+COPY ./packages/export-parser/package.json ./packages/export-parser/package.json
 
 
 
@@ -104,6 +106,8 @@ COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plug
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
 COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
+COPY ./packages/import-parser ./packages/import-parser
+COPY ./packages/export-parser ./packages/export-parser
 CMD ["npm", "run", "dev"]
 
 
@@ -161,6 +165,8 @@ COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plug
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
 COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
+COPY ./packages/import-parser ./packages/import-parser
+COPY ./packages/export-parser ./packages/export-parser
 CMD ["npm", "run", "build"]
 
 
@@ -218,4 +224,6 @@ COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plug
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
 COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
+COPY ./packages/import-parser ./packages/import-parser
+COPY ./packages/export-parser ./packages/export-parser
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

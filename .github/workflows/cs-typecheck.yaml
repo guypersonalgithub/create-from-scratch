@@ -54,6 +54,8 @@ on:
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
       - typescript/dev-packages/recursive-import-iteration/**
+      - typescript/packages/import-parser/**
+      - typescript/packages/export-parser/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

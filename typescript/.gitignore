@@ -6,3 +6,5 @@ dist
 .env
 logs
 temp
+testingold.ts
+testingnew.ts

@@ -9,6 +9,12 @@ on:
       - reopened
     paths:
       - typescript/packages/dice-roll/**
+      - typescript/packages/animation-container/**
+      - typescript/packages/utils/**
+      - typescript/packages/is-dev/**
+      - typescript/packages/array-utils/**
+      - typescript/packages/object-utils/**
+      - typescript/packages/parse-typescript/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

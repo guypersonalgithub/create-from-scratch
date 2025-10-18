@@ -1,7 +1,7 @@
 import type { DynaticConfiguration } from "@packages/dynatic-css";
 import { updateClasses } from "./updateClasses";
 import { updateConfigClasses } from "./updateConfigClasses";
-import { readFileSync, writeFileSync, unlinkSync } from "fs";
+// import { readFileSync, writeFileSync, unlinkSync } from "fs";
 import { addImportIfNotExists, removeImportIfExists } from "@packages/typescript-file-manipulation";
 
 type BuildDynaticArgs = {
@@ -9,11 +9,11 @@ type BuildDynaticArgs = {
   inserted: Map<string, string>;
   pseudoClasses: Map<string, string>;
   mediaQueries: Map<string, Map<string, string>>;
-  configCSS: string;
-  filePath: string;
-  fileText: string;
-  updatedConfig: DynaticConfiguration;
-  configObjectStartIndex: number;
+  configCSS?: string;
+  fileText?: string;
+  updatedConfig?: DynaticConfiguration;
+  configObjectStartIndex?: number;
+  mainFile?: string;
 };
 
 export const buildDynatic = ({
@@ -22,10 +22,10 @@ export const buildDynatic = ({
   pseudoClasses,
   mediaQueries,
   configCSS,
-  filePath,
   fileText,
   updatedConfig,
   configObjectStartIndex,
+  mainFile,
 }: BuildDynaticArgs) => {
   const insertedValues = inserted.entries();
   const length = [...insertedValues].length;
@@ -61,42 +61,64 @@ export const buildDynatic = ({
     updatedCSSFile += "}\n";
   }
 
-  updatedCSSFile += `\n${configCSS}`;
+  if (configCSS) {
+    updatedCSSFile += `\n${configCSS}`;
+  }
 
-  const updated = updateClasses({ fileText, staticClasses });
-  const updatedFileText = updateConfigClasses({
-    fileText: updated,
-    config: updatedConfig,
-    configObjectStartIndex,
-  });
-  writeFileSync(filePath, updatedFileText);
+  let updatedConfigFile: string | undefined;
 
-  const file = "generated.css";
+  if (fileText && updatedConfig && configObjectStartIndex !== undefined) {
+    const updated = updateClasses({ fileText, staticClasses });
+    updatedConfigFile = updateConfigClasses({
+      fileText: updated,
+      config: updatedConfig,
+      configObjectStartIndex,
+    });
+  }
+  // writeFileSync(filePath, updatedConfigFile);
 
-  const path = `${projectRoot}/src/${file}`;
+  const file = "virtual:generated.css";
+  // const cssPath = `${projectRoot}/src/${file}`;
 
-  const mainFile = `${projectRoot}/src/main.tsx`;
-  const content = readFileSync(mainFile, "utf-8");
+  // const mainFile = `${projectRoot}/src/main.tsx`;
+  // const content = readFileSync(mainFile, "utf-8");
 
-  const importPath = `./${file}`;
-  let updatedFile: string;
+  // const importPath = `./${file}`;
+  const importPath = file;
+  // let updatedFile: string;
+
+  if (!mainFile) {
+    return {
+      mainFile,
+      cssPath: file,
+      updatedCSSFile,
+      updatedConfigFile,
+    };
+  }
 
   if (updatedCSSFile.length > 0) {
-    writeFileSync(path, updatedCSSFile);
+    // writeFileSync(cssPath, updatedCSSFile);
 
-    updatedFile = addImportIfNotExists({
-      file: content,
+    mainFile = addImportIfNotExists({
+      file: mainFile,
       importPath,
       importStatement: `\nimport "${importPath}";`,
     });
   } else {
-    unlinkSync(path);
+    // unlinkSync(cssPath);
 
-    updatedFile = removeImportIfExists({
-      file: content,
+    mainFile = removeImportIfExists({
+      file: mainFile,
       importPath,
     });
   }
 
-  writeFileSync(mainFile, updatedFile);
+  // writeFileSync(mainFile, updatedFile);
+
+  return {
+    mainFile,
+    cssPath: file,
+    updatedCSSFile,
+    updatedConfigFile,
+  };
 };

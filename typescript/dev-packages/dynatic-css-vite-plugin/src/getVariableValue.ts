@@ -4,7 +4,7 @@ import { stripQuotationMarks } from "./stripQuotationMarks";
 
 type GetVariableValueArgs = {
   variable: DynaticStyleChunksVariable;
-  updatedConfig: DynaticConfiguration;
+  updatedConfig?: DynaticConfiguration;
 };
 
 export const getVariableValue = ({ variable, updatedConfig }: GetVariableValueArgs) => {
@@ -27,12 +27,12 @@ export const getVariableValue = ({ variable, updatedConfig }: GetVariableValueAr
 };
 
 type GetInitialSelectedValueArgs = {
-  updatedConfig: DynaticConfiguration;
+  updatedConfig?: DynaticConfiguration;
   split: string[];
 };
 
 const getInitialSelectedValue = ({ updatedConfig, split }: GetInitialSelectedValueArgs) => {
-  const config = updatedConfig.variants;
+  const config = updatedConfig?.variants ?? {};
   const firstKey = getFirstKey({ updatedConfig: config });
   if (firstKey && config[firstKey]?.[split[0]]) {
     return config[firstKey] as Record<string, unknown>;

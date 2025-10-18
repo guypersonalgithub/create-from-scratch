@@ -98,6 +98,14 @@ export default defineConfig({
         __dirname,
         "../../dev-packages/recursive-import-iteration/src/index.ts",
       ),
+      "@packages/import-parser": path.resolve(
+        __dirname,
+        "../../packages/import-parser/src/index.ts",
+      ),
+      "@packages/export-parser": path.resolve(
+        __dirname,
+        "../../packages/export-parser/src/index.ts",
+      ),
     },
   },
 });

@@ -4,6 +4,9 @@ import { colorizeTokens } from "./colorizeTokens";
 import { type GenericBaseToken, type TokenMaps } from "./types";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { TopRightSection } from "./TopRightSection";
+/* Normally - const worker = new Worker(new URL('./webWorker.ts', import.meta.url), { type: 'module' });
+?worker isn't standard Javascript, its a bundler feature for Vite to treat it as a Web Worker and return a Worker constructor, that means 
+const worker = new MyWorker() - worker is a real Worker instance running the code from ./webWorker.ts in its own thread — no manual new Worker(new URL(...)) needed */
 import HighlightWorker from "./webWorker?worker";
 
 type WebWorkeredSyntaxHighlighterProps<T extends SupportedLanguages = "typescript"> =

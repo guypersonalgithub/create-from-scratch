@@ -12,11 +12,11 @@ export const runFlows = ({
   imports,
   includeTypes,
 }: Callback) => {
-  const callback = callbacks[newTokenValue];
-  if (!callback) {
+  if (!Object.hasOwn(callbacks, newTokenValue)) {
     return;
   }
 
+  const callback = callbacks[newTokenValue];
   const response = callback({ input, currentIndex, newTokenValue, imports, includeTypes });
 
   if (!response) {
