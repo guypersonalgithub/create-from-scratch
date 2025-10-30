@@ -4,6 +4,7 @@ export const TurksAndCaicosIslands = ({
   size,
   width = size,
   height = size,
+  className,
   style,
 }: SVGIconProps) => {
   return (

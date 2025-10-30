@@ -4,6 +4,7 @@ export const DemocraticRepublicOfCongo = ({
   size,
   width = size,
   height = size,
+  className,
   style,
 }: SVGIconProps) => {
   return (

@@ -4,6 +4,7 @@ export const SaintVincentGrenadines = ({
   size,
   width = size,
   height = size,
+  className,
   style,
 }: SVGIconProps) => {
   return (

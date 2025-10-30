@@ -4,6 +4,7 @@ export const CentralAfricanRepublic = ({
   size,
   width = size,
   height = size,
+  className,
   style,
 }: SVGIconProps) => {
   return (
