@@ -9,7 +9,7 @@ type LoadTestsFromDirArgs = {
 export const loadTestsFromDir = async ({ dir }: LoadTestsFromDirArgs) => {
   const entries = await readdir(dir, { withFileTypes: true });
 
-  for (const entry of entries) {
+  for await (const entry of entries) {
     const fullPath = resolve(dir, entry.name);
 
     if (entry.isDirectory()) {

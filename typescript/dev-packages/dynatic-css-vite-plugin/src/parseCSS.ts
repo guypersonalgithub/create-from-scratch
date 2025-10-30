@@ -122,7 +122,7 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
 
     if (current === "`") {
       continue;
-    } else if (current === "\n") {
+    } else if (current === ";") {
       const value = cleanCurrentRow({ currentRow });
       const isCurrentRowStatic = isStatic({ isRowStatic, mediaQuery, pseudoClass });
 
@@ -182,9 +182,37 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
       } else {
         mediaQuery = undefined;
       }
-    } else if (current === ";") {
-      continue;
-    } else {
+    }
+    // else if (current === ";") {
+    //   continue;
+    // }
+    else {
+      if (current === "\n" || current === "\r" || current === " ") {
+        let updatedIndex = i;
+        let foundNewChar = false;
+        while (updatedIndex < css.length) {
+          updatedIndex++;
+
+          const updated = css[updatedIndex];
+          if (updated !== " " && updated !== "\n" && updated !== "\r") {
+            foundNewChar = true;
+            break;
+          }
+        }
+
+        if (foundNewChar) {
+          const lastCurrentRowChar = currentRow[currentRow.length - 1];
+          const nextFollowingChar = css[updatedIndex];
+          if (lastCurrentRowChar !== "(" && nextFollowingChar !== ")") {
+            currentRow += " ";
+          }
+
+          i = updatedIndex - 1;
+
+          continue;
+        }
+      }
+
       currentRow += current;
     }
   }

@@ -355,6 +355,30 @@ services:
         source: ./packages/state-management
         target: /usr/src/app/packages/state-management
       - type: bind
+        source: ./packages/dynatic-css
+        target: /usr/src/app/packages/dynatic-css
+      - type: bind
+        source: ./packages/dynatic-css-utils
+        target: /usr/src/app/packages/dynatic-css-utils
+      - type: bind
+        source: ./dev-packages/dynatic-css-vite-plugin
+        target: /usr/src/app/dev-packages/dynatic-css-vite-plugin
+      - type: bind
+        source: ./dev-packages/dynatic-css-typescript-parser
+        target: /usr/src/app/dev-packages/dynatic-css-typescript-parser
+      - type: bind
+        source: ./dev-packages/typescript-file-manipulation
+        target: /usr/src/app/dev-packages/typescript-file-manipulation
+      - type: bind
+        source: ./dev-packages/recursive-import-iteration
+        target: /usr/src/app/dev-packages/recursive-import-iteration
+      - type: bind
+        source: ./packages/import-parser
+        target: /usr/src/app/packages/import-parser
+      - type: bind
+        source: ./packages/export-parser
+        target: /usr/src/app/packages/export-parser
+      - type: bind
         source: ./apps/js-to-yaml/vite.config.ts
         target: /usr/src/app/vite.config.ts
     networks:

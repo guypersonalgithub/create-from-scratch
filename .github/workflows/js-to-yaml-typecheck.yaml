@@ -55,6 +55,14 @@ on:
       - typescript/packages/keyboard-key/**
       - typescript/packages/popover/**
       - typescript/packages/state-management/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
+      - typescript/dev-packages/dynatic-css-vite-plugin/**
+      - typescript/dev-packages/dynatic-css-typescript-parser/**
+      - typescript/dev-packages/typescript-file-manipulation/**
+      - typescript/dev-packages/recursive-import-iteration/**
+      - typescript/packages/import-parser/**
+      - typescript/packages/export-parser/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

@@ -1,6 +1,11 @@
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
-import { APITable, InputOutput, StyledCard, StyledSyntaxHighlighter } from "../../styledComponents";
-import { StyledSubTitle, StyledTitle } from "../../styledComponents/StyledTitle";
+import {
+  APITable,
+  InputOutput,
+  StyledCard,
+  StyledSyntaxHighlighter,
+} from "../../customizedComponents";
+import { StyledSubTitle, StyledTitle } from "../../customizedComponents/StyledTitle";
 import { useUpdateAnchors } from "../../useUpdateAnchors";
 import { List } from "@packages/list";
 

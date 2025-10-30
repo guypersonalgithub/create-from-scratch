@@ -1,9 +1,10 @@
 import { usePathState } from "@packages/router";
-import { StyledLink } from "../styledComponents/StyledLink";
+import { StyledLink } from "../customizedComponents/StyledLink";
 import { type CSSProperties } from "react";
 import { useBreakpoints } from "../breakpoints";
 import { useUITheme } from "../UIThemes";
 import { hexToRgba } from "@packages/css-utils";
+import { dynatic } from "../dynatic-css.config";
 
 const headerLinks = [
   {
@@ -25,11 +26,12 @@ const headerLinks = [
 ];
 
 type HeaderLinksProps = {
+  className?: string;
   style?: CSSProperties;
   selectedCondition?: (args: { path: string; pathname: string }) => boolean;
 };
 
-export const HeaderLinks = ({ style, selectedCondition }: HeaderLinksProps) => {
+export const HeaderLinks = ({ className, style, selectedCondition }: HeaderLinksProps) => {
   const { path } = usePathState();
 
   return headerLinks.map((headerLink) => {
@@ -41,6 +43,7 @@ export const HeaderLinks = ({ style, selectedCondition }: HeaderLinksProps) => {
         path={path}
         pathname={pathname}
         label={label}
+        className={className}
         style={style}
         selectedCondition={selectedCondition}
       />
@@ -69,19 +72,21 @@ export const MobileFooter = () => {
   return (
     <div
       key="mobileFooter"
+      className={dynatic`
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        transition: ${(config) => config.shared.defaultTransition};
+      `}
       style={{
-        position: "sticky",
-        bottom: 0,
-        zIndex: 100,
-        height: "60px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingLeft: "10px",
-        paddingRight: "10px",
         borderTop: `1px solid ${borderBottomColor}`,
         backgroundColor: rgbaBg,
-        transition: "var(--theme-transition)",
       }}
     >
       <MobileFooterLinks />
@@ -100,7 +105,14 @@ const MobileFooterLinks = () => {
 
   return (
     <HeaderLinks
-      style={isTablet ? { fontWeight: "normal", fontSize: "12px" } : undefined}
+      className={
+        isTablet
+          ? dynatic`
+              font-weight: normal;
+              font-size: 12px;
+            `
+          : undefined
+      }
       selectedCondition={({ path, pathname }) => {
         if (path === "/" || pathname === "/") {
           return path === pathname;

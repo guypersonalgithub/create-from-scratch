@@ -1,4 +1,5 @@
 import { isAlphaNumeric } from "@packages/utils";
+import type { BaseSection } from "./types";
 
 type GetDynaticCSSTextToParseArgs = {
   text: string;
@@ -9,7 +10,7 @@ export const getDynaticCSSTextToParse = ({ text, identifiers }: GetDynaticCSSTex
   let startIndex = 0;
   let endIndex = 0;
   const identifiersSet = new Set<string>(identifiers);
-  const dynaticCSSSections: { start: number; end: number }[] = [];
+  const dynaticCSSSections: BaseSection[] = [];
 
   while (text.length > endIndex) {
     const current = text[endIndex];

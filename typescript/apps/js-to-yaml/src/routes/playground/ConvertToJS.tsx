@@ -2,7 +2,7 @@ import { Alert } from "@packages/alert";
 import { Card } from "@packages/card";
 import { Info } from "@packages/icons";
 import { convertObjectToString } from "@packages/object-utils";
-import { StyledSyntaxHighlighter } from "../../styledComponents";
+import { StyledSyntaxHighlighter } from "../../customizedComponents";
 import { Textarea } from "@packages/textarea";
 import { convertYamlToObject } from "@packages/yaml";
 import { useState } from "react";

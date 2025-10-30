@@ -11,15 +11,6 @@ body {
   width: 100vw;
 }
 
-.link {
-  color: var(--theme-color);
-  text-decoration: none;
-}
-
-.link:hover {
-  color: rgb(25, 187, 187);
-}
-
 .anchor { 
   color: var(--theme-color);
   opacity: 0.6;

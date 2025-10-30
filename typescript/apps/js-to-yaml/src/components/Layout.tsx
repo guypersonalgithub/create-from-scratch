@@ -1,4 +1,4 @@
-import { useUITheme } from "../UIThemes";
+import { dynatic } from "../dynatic-css.config";
 import { type ReactNode } from "react";
 
 type LayoutProps = {
@@ -6,21 +6,19 @@ type LayoutProps = {
 };
 
 export const Layout = ({ children }: LayoutProps) => {
-  const { currentTheme } = useUITheme();
-  const isLight = currentTheme === "light";
-  const { firstColor, secondColor } = isLight
-    ? { firstColor: "hsl(201 100% 36% / 0.1)", secondColor: "hsl(246 100% 77% / 0.1)" }
-    : { firstColor: "hsl(201 100% 36% / 0.1)", secondColor: "hsl(0 0% 0% / 1)" };
-
   return (
     <div
-      style={{
-        height: "100vh",
-        backgroundImage: `linear-gradient(135deg, ${firstColor}, ${secondColor})`,
-        overflowY: "auto",
-        backgroundColor: isLight ? "var(--theme-background)" : secondColor,
-        transition: "var(--theme-transition)",
-      }}
+      className={dynatic`
+        height: 100vh;
+        background-image: linear-gradient(
+          135deg,
+          ${(config) => config.shared.layoutBackgroundGradientFirstColor},
+          ${(config) => config.colors.layoutBackgroundGradientSecondColor}
+        );
+        overflow-y: auto;
+        background-color: ${(config) => config.colors.layoutMainBG};
+        transition: ${(config) => config.shared.defaultTransition};
+      `}
     >
       {children}
     </div>

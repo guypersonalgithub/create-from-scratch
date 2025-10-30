@@ -1,6 +1,8 @@
 import { type Test } from "./types";
+import { expect } from "./assert";
 
-const tests: Test[] = [];
+(globalThis as any).__TESTS__ ??= [];
+const tests: Test[] = (globalThis as any).__TESTS__;
 
 type TestArgs = Test;
 
@@ -13,7 +15,7 @@ export const run = async () => {
 
   for (const t of tests) {
     try {
-      await t.fn();
+      await t.fn({ expect });
       console.log(`✅ ${t.name}`);
       passed++;
     } catch (e) {

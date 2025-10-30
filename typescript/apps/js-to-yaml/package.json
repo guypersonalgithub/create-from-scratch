@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "set NODE_OPTIONS=--import tsx && vite --host",
+    "dev-dynatic": "set NODE_OPTIONS=--import tsx && vite --host -- --dynatic-debug",
+    "build": "set NODE_OPTIONS=--import tsx && vite build",
+    "build-ga": "NODE_OPTIONS=--import=tsx vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "set NODE_OPTIONS=--import tsx && vite preview",
+    "debug": "set NODE_OPTIONS=--import tsx && vite --debug",
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
@@ -40,7 +43,9 @@
     "@packages/table": "*",
     "@packages/search-modal": "*",
     "@packages/popover": "*",
-    "@packages/state-management": "*"
+    "@packages/state-management": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/utils": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -51,6 +56,7 @@
     "globals": "^15.15.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "@packages/dynatic-css-vite-plugin": "*"
   }
 }

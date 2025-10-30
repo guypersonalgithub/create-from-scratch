@@ -15,15 +15,19 @@ export const htmlTagFlow = ({
   let value = newTokenValue;
 
   const followup = spaceCallback({ input, currentIndex });
-  const isFollowupCurlyBracket = followup.newTokenValue !== "{";
+  const isFollowupCurlyBracket = followup.newTokenValue === "{";
 
-  if (followup.skipped && isFollowupCurlyBracket) {
-    value += followup.skipped;
-    endIndex += followup.skipped.length;
-    isUnknown = true;
-  }
+  if (!isFollowupCurlyBracket) {
+    if (followup.newTokenValue !== ":" && followup.newTokenValue !== ",") {
+      return;
+    }
 
-  if (isFollowupCurlyBracket) {
+    if (followup.skipped) {
+      value += followup.skipped;
+      endIndex += followup.skipped.length;
+      isUnknown = true;
+    }
+
     value += followup.newTokenValue;
     endIndex += followup.newTokenValue.length;
   }

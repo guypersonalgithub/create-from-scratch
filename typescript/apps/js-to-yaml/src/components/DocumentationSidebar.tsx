@@ -1,5 +1,5 @@
 import { usePathState } from "@packages/router";
-import { StyledLink } from "../styledComponents/StyledLink";
+import { StyledLink } from "../customizedComponents/StyledLink";
 import { type CSSProperties } from "react";
 import {
   GroupedSidebar,

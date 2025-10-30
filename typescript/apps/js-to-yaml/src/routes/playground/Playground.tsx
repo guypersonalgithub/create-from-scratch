@@ -1,5 +1,5 @@
 import { SubRouter, usePath } from "@packages/router";
-import { StyledButton } from "../../styledComponents";
+import { StyledButton } from "../../customizedComponents";
 import { ConvertToYAML } from "./ConvertToYAML";
 import { ConvertToJS } from "./ConvertToJS";
 

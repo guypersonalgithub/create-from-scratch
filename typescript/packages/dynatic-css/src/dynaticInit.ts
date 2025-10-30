@@ -17,24 +17,27 @@ type DynaticInitArgsWithoutConfig = {
 export function dynaticInit<T extends DynaticConfiguration, B extends keyof T["variants"]>(
   args: DynaticInitArgsWithConfig<T, B>,
 ): {
-  css: (strings: TemplateStringsArray, ...exprs: WithConfig<T>["exprs"]) => string;
+  initializeDynatic: () => void;
+  dynatic: (strings: TemplateStringsArray, ...exprs: WithConfig<T>["exprs"]) => string;
 };
 
 export function dynaticInit(args: DynaticInitArgsWithoutConfig): {
-  css: (strings: TemplateStringsArray, ...exprs: WithoutConfig["exprs"]) => string;
+  initializeDynatic: () => void;
+  dynatic: (strings: TemplateStringsArray, ...exprs: WithoutConfig["exprs"]) => string;
 };
 export function dynaticInit<
   T extends DynaticConfiguration<V>,
   V extends Record<string, ConfigBody>,
   B extends keyof V,
 >({ config, base, classes }: DynaticInitArgsWithConfig<T, B> | DynaticInitArgsWithoutConfig) {
-  initializePreexistingClasses({ classes });
-  if (typeof base === "string") {
-    document.body.classList.add(base);
-  }
-
   return {
-    css:
+    initializeDynatic: () => {
+      initializePreexistingClasses({ classes });
+      if (typeof base === "string") {
+        document.body.classList.add(base);
+      }
+    },
+    dynatic:
       config && base
         ? (strings: TemplateStringsArray, ...exprs: WithConfig<T>["exprs"]) => {
             const { variants, ...rest } = config;

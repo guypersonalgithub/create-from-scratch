@@ -1,7 +1,8 @@
-import { StyledButton, StyledCard, StyledCommandBox } from "../../styledComponents";
+import { StyledButton, StyledCard, StyledCommandBox } from "../../customizedComponents";
 import { Alert } from "@packages/alert";
 import { Terminal } from "@packages/icons";
 import { usePath } from "@packages/router";
+import { dynatic } from "../../dynatic-css.config";
 
 type GetStartedProps = {
   isDesktop: boolean;
@@ -13,11 +14,11 @@ export const GetStarted = ({ isDesktop }: GetStartedProps) => {
   return (
     <StyledCard style={{ width: isDesktop ? "50vw" : "calc(90vw - 30px)" }}>
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "5px",
-        }}
+        className={dynatic`
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        `}
       >
         <Terminal
           style={{
@@ -27,19 +28,30 @@ export const GetStarted = ({ isDesktop }: GetStartedProps) => {
             marginTop: "4px",
           }}
         />
-        <span style={{ fontWeight: "bold", fontSize: "25px" }}>Get Started</span>
+        <span
+          className={dynatic`
+            font-weight: bold;
+            font-size: 25px;
+          `}
+        >
+          Get Started
+        </span>
       </div>
-      <div style={{ textAlign: "left" }}>
+      <div
+        className={dynatic`
+          text-align: left;
+        `}
+      >
         Install JS-to-YAML in your project with the following command:
       </div>
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: "10px",
-          gap: "20px",
-          flexWrap: "wrap",
-        }}
+        className={dynatic`
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          gap: 20px;
+          flex-wrap: wrap;
+        `}
       >
         <StyledCommandBox
           style={{ flex: 1, minWidth: "230px" }}
@@ -55,7 +67,11 @@ export const GetStarted = ({ isDesktop }: GetStartedProps) => {
           Read docs
         </StyledButton>
       </div>
-      <div style={{ marginTop: "10px" }}>
+      <div
+        className={dynatic`
+          margin-top: 10px;
+        `}
+      >
         <Alert
           type="info"
           message="Once installed, you can easily convert javascript objects to yaml and vice versa."

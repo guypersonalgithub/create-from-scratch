@@ -3,7 +3,7 @@
   "injectionSelector": "L:meta.embedded.block.tsx",
   "patterns": [
     {
-      "begin": "css`",
+      "begin": "dynatic`",
       "end": "`",
       "name": "string.quoted.template.css",
       "patterns": [

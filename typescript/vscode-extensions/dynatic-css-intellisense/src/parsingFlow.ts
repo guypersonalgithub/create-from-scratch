@@ -1,7 +1,7 @@
 import { getDynaticCSSTextToParse } from "./getDynaticCSSTextToParse";
 import { trackDynaticFunctionsNames } from "./trackDynaticFunctionsNames";
-import { parseCSS } from "@packages/parse-css";
 import type { CachedParsedFileSections } from "./types";
+import { createParsedFile } from "./createParsedFile";
 
 export const cachedParsedFiles = new Map<string, CachedParsedFileSections>();
 
@@ -36,30 +36,6 @@ export const parsingFlow = ({
     identifiers: relevantImports,
   });
 
-  const parsedFile = sections.map((section) => {
-    const { tokens } = parseCSS({
-      input: remainingText.slice(section.start, section.end),
-      extensionParsing: true,
-      cssInJS: true,
-    });
-    const startOffset = fileStartOffset + section.start;
-    const endOffset = fileStartOffset + section.end;
-
-    return {
-      tokens: tokens.map((token) => {
-        const { type, value, startIndex, endIndex } = token;
-
-        return {
-          type,
-          value,
-          startIndex: startIndex + startOffset,
-          endIndex: endIndex + startOffset,
-        };
-      }),
-      startOffset,
-      endOffset,
-    };
-  });
-
+  const parsedFile = createParsedFile({ remainingText, fileStartOffset, sections });
   cachedParsedFiles.set(documentURI, parsedFile);
 };

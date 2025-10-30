@@ -1,6 +1,7 @@
 import { usePath } from "@packages/router";
-import { InputOutput, StyledButton, StyledCard } from "../../styledComponents";
+import { InputOutput, StyledButton, StyledCard } from "../../customizedComponents";
 import { useBreakpoints } from "../../breakpoints";
+import { dynatic } from "../../dynatic-css.config";
 
 type ConvertProps = {
   isDesktop: boolean;
@@ -14,15 +15,17 @@ export const Convert = ({ isDesktop }: ConvertProps) => {
 
   return (
     <div
+      className={dynatic`
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 1rem;
+        min-height: 100vh;
+      `}
       style={{
-        display: "flex",
         flexDirection: isDesktop ? "row" : "column",
-        gap: "20px",
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: "20px",
-        padding: "1rem",
-        minHeight: "100vh",
       }}
     >
       <div
@@ -31,23 +34,32 @@ export const Convert = ({ isDesktop }: ConvertProps) => {
           maxWidth: "500px",
         }}
       >
-        <div style={{ fontSize: "50px", fontWeight: "bold" }}>
+        <div
+          className={dynatic`
+            font-size: 50px;
+            font-weight: bold;
+          `}
+        >
           Convert JavaScript to YAML with Ease
         </div>
         <div
+          className={dynatic`
+            font-size: 20px;
+          `}
           style={{
             color: "var(--theme-thirdColor)",
-            fontSize: "20px",
           }}
         >
           Transform your JavaScript objects into clean, readable YAML in seconds. Perfect for
           configuration files, data storage, and more.
         </div>
         <div
+          className={dynatic`
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+          `}
           style={{
-            display: "flex",
-            gap: "10px",
-            marginTop: "20px",
             flexDirection: isMobile ? "column" : "row",
           }}
         >
@@ -69,8 +81,10 @@ export const Convert = ({ isDesktop }: ConvertProps) => {
         </div>
       </div>
       <StyledCard
+        className={dynatic`
+          border: 1px solid ${(config) => config.colors.defaultBorder};
+        `}
         style={{
-          border: "1px solid var(--theme-border)",
           ...(isDesktop ? { width: "40vw" } : { width: "95%" }),
         }}
       >

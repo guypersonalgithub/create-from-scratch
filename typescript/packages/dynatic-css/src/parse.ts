@@ -15,7 +15,6 @@ export const parseLine = ({ line, classNames, pseudoClass, mediaQuery }: ParseLi
   }
 
   const fullLine = createClassName({ value: line, pseudoClass, mediaQuery });
-  console.log({ fullLine });
   const hash = hashString({ input: fullLine });
   const className = `css-${hash}`;
   const fullClassName = pseudoClass ? `${className}${pseudoClass}` : className;

@@ -1,5 +1,6 @@
 import { useBreakpoints } from "../../breakpoints";
-import { MainLogo } from "../../styledComponents";
+import { dynatic } from "../../dynatic-css.config";
+import { MainLogo } from "../../customizedComponents";
 import { MainAd } from "./MainAd";
 
 export const TopSection = () => {
@@ -13,15 +14,17 @@ export const TopSection = () => {
 
   return (
     <div
+      className={dynatic`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        min-height: 100vh;
+        margin-bottom: 20px;
+        text-align: center;
+      `}
       style={{
-        display: "flex",
         flexDirection: isDesktop ? "row" : "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "50px",
-        minHeight: "100vh",
-        marginBottom: "20px",
-        textAlign: "center",
       }}
     >
       <MainLogoSection isDesktop={isDesktop} />
@@ -36,9 +39,27 @@ type MainLogoSectionProps = {
 
 const MainLogoSection = ({ isDesktop }: MainLogoSectionProps) => {
   return (
-    <div style={isDesktop ? { marginLeft: "20px", width: "300px" } : { width: "290px" }}>
+    <div
+      className={
+        isDesktop
+          ? dynatic`
+              margin-left: 20px;
+              width: 300px;
+            `
+          : dynatic`
+              width: 290xp;
+            `
+      }
+    >
       <MainLogo />
-      <div style={{ fontSize: "50px", fontWeight: "bolder" }}>JS to YAML</div>
+      <div
+        className={dynatic`
+          font-size: 50px;
+          font-weight: bolder;
+        `}
+      >
+        JS to YAML
+      </div>
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import { List } from "@packages/icons";
 import { Popover } from "@packages/popover";
 import { Button } from "@packages/button";
-import { StyledCard } from "../styledComponents";
+import { StyledCard } from "../customizedComponents";
 import { useComplexSharedState } from "../StateManagement";
 import { type Anchor, ScrollspyAnchors } from "@packages/scrollspy-anchors";
+import { dynatic } from "../dynatic-css.config";
 
 export const MobileSections = () => {
   const anchors = useComplexSharedState((data) => data.documentationAnchors);
@@ -40,12 +41,12 @@ type PopoverContentProps = {
 const PopoverContent = ({ anchors, hidePopover }: PopoverContentProps) => {
   return (
     <StyledCard
-      style={{
-        overflowY: "auto",
-        overflowX: "hidden",
-        minWidth: "200px",
-        padding: "10px",
-      }}
+      className={dynatic`
+        overflow-y: auto;
+        overflow-x: hidden;
+        min-width: 200px;
+        padding: 10px;
+      `}
     >
       <ScrollspyAnchors
         anchors={anchors}

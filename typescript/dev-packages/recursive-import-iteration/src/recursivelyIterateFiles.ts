@@ -1,11 +1,9 @@
 import { readFileSync } from "fs";
-import { parseImports } from "@packages/import-parser";
-import { parseExports } from "@packages/export-parser";
 import { join } from "path";
 import { getRelatedImports } from "./getRelatedImports";
 import { extractDirectoryPath } from "./extractDirectoryPath";
-import type { Exports } from "@packages/export-parser/src/types";
 import type { FullPathData } from "./types";
+import { iterateOverFile } from "./iterateOverFile";
 
 const fileTypes = [
   ".tsx",
@@ -109,28 +107,22 @@ const recursiveIteration = ({
     return;
   }
 
-  const { imports, currentIndex } = parseImports({ input });
-  let currentExports: Exports | undefined;
-  let relatedExports: {
-    path: string;
-    isPackage: boolean;
-  }[] = [];
-
-  const relatedImports = getRelatedImports({ imports, mappedAliases });
-  const newAbsolutePath = extractDirectoryPath({ path: completePath });
-
-  if (completePath.endsWith("index.ts")) {
-    const { exports } = parseExports({ input: input.slice(currentIndex) });
-    currentExports = exports;
-    relatedExports = getRelatedImports({ imports: exports, mappedAliases });
-  }
+  const { imports, exports, relatedExports, currentIndex } = iterateOverFile({
+    input,
+    completePath,
+    mappedAliases,
+    includeRelatedExports: true,
+  });
 
   fullPaths.set(completePath, {
     imports,
-    exports: currentExports,
+    exports,
     currentIndex,
     input,
   });
+
+  const relatedImports = getRelatedImports({ imports, mappedAliases });
+  const newAbsolutePath = extractDirectoryPath({ path: completePath });
 
   relatedImports.forEach(({ path, isPackage }) => {
     recursiveIteration({
