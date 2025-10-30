@@ -27,6 +27,8 @@ COPY ./packages/calculate-relative-position/package.json ./packages/calculate-re
 COPY ./dev-packages/yaml/package.json ./dev-packages/yaml/package.json
 COPY ./packages/alert/package.json ./packages/alert/package.json
 COPY ./packages/card/package.json ./packages/card/package.json
+COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
+COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./packages/command-box/package.json ./packages/command-box/package.json
 COPY ./packages/css-utils/package.json ./packages/css-utils/package.json
 COPY ./packages/breakpoints/package.json ./packages/breakpoints/package.json
@@ -49,8 +51,6 @@ COPY ./packages/search-modal/package.json ./packages/search-modal/package.json
 COPY ./packages/keyboard-key/package.json ./packages/keyboard-key/package.json
 COPY ./packages/popover/package.json ./packages/popover/package.json
 COPY ./packages/state-management/package.json ./packages/state-management/package.json
-COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
-COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
@@ -92,6 +92,8 @@ COPY ./packages/calculate-relative-position ./packages/calculate-relative-positi
 COPY ./dev-packages/yaml ./dev-packages/yaml
 COPY ./packages/alert ./packages/alert
 COPY ./packages/card ./packages/card
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/command-box ./packages/command-box
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/breakpoints ./packages/breakpoints
@@ -114,8 +116,6 @@ COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
 COPY ./packages/state-management ./packages/state-management
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -158,6 +158,8 @@ COPY ./packages/calculate-relative-position ./packages/calculate-relative-positi
 COPY ./dev-packages/yaml ./dev-packages/yaml
 COPY ./packages/alert ./packages/alert
 COPY ./packages/card ./packages/card
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/command-box ./packages/command-box
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/breakpoints ./packages/breakpoints
@@ -180,8 +182,6 @@ COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
 COPY ./packages/state-management ./packages/state-management
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -224,6 +224,8 @@ COPY ./packages/calculate-relative-position ./packages/calculate-relative-positi
 COPY ./dev-packages/yaml ./dev-packages/yaml
 COPY ./packages/alert ./packages/alert
 COPY ./packages/card ./packages/card
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/command-box ./packages/command-box
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/breakpoints ./packages/breakpoints
@@ -246,8 +248,6 @@ COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
 COPY ./packages/state-management ./packages/state-management
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation

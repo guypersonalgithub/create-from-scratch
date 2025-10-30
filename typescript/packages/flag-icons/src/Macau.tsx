@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const Macau = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Macau = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <rect x="1" y="4" width="30" height="24" rx="4" ry="4" fill="#0a7662" stroke-width="0"></rect>

@@ -1,6 +1,6 @@
 import { type SVGIconProps } from "./types";
 
-export const TagPage = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const TagPage = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +12,7 @@ export const TagPage = ({ size, width = size, height = size, style }: SVGIconPro
       strokeLinejoin="round"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path d="M10 12.5 8 15l2 2.5"></path>

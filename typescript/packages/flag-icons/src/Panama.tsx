@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const Panama = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Panama = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path d="M5,4c-2.209,0-4,1.791-4,4v8h15V4H5Z" fill="#fff"></path>

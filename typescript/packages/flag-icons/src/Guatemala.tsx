@@ -1,12 +1,19 @@
 import { type SVGIconProps } from "./types";
 
-export const Guatemala = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Guatemala = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#fff" d="M10 4H22V28H10z"></path>

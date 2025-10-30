@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const ExclamationCircle = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const ExclamationCircle = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +18,7 @@ export const ExclamationCircle = ({ size, width = size, height = size, style }: 
       strokeLinejoin="round"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <circle cx="12" cy="12" r="10" />

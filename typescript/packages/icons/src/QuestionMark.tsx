@@ -4,6 +4,7 @@ export const QuestionMark = ({
   size,
   width = size,
   height = size,
+  className,
   style,
   strokeWidth = 1.5,
 }: SVGIconProps & { strokeWidth?: number }) => {
@@ -16,6 +17,7 @@ export const QuestionMark = ({
       stroke="currentColor"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path

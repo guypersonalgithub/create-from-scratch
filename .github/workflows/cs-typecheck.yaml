@@ -40,6 +40,8 @@ on:
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/calculations-table/**
       - typescript/packages/title/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-yaml/**
       - typescript/packages/ui-theme/**
@@ -48,8 +50,6 @@ on:
       - typescript/packages/scrollspy-anchors/**
       - typescript/packages/breadcrumbs/**
       - typescript/packages/binary/**
-      - typescript/packages/dynatic-css/**
-      - typescript/packages/dynatic-css-utils/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**

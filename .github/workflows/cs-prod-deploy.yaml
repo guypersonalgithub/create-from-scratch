@@ -39,6 +39,8 @@ on:
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/calculations-table/**
       - typescript/packages/title/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-yaml/**
       - typescript/packages/ui-theme/**
@@ -47,8 +49,6 @@ on:
       - typescript/packages/scrollspy-anchors/**
       - typescript/packages/breadcrumbs/**
       - typescript/packages/binary/**
-      - typescript/packages/dynatic-css/**
-      - typescript/packages/dynatic-css-utils/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
@@ -113,6 +113,8 @@ jobs:
           cp -r ./packages/copy-to-clipboard ./full-application/packages
           cp -r ./packages/calculations-table ./full-application/packages
           cp -r ./packages/title ./full-application/packages
+          cp -r ./packages/dynatic-css ./full-application/packages
+          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./packages/syntax-highlighter ./full-application/packages
           cp -r ./packages/parse-yaml ./full-application/packages
           cp -r ./packages/ui-theme ./full-application/packages
@@ -121,8 +123,6 @@ jobs:
           cp -r ./packages/scrollspy-anchors ./full-application/packages
           cp -r ./packages/breadcrumbs ./full-application/packages
           cp -r ./packages/binary ./full-application/packages
-          cp -r ./packages/dynatic-css ./full-application/packages
-          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./dev-packages/dynatic-css-vite-plugin ./full-application/packages
           cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
           cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages

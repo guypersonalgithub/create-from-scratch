@@ -32,6 +32,8 @@ on:
       - typescript/dev-packages/yaml/**
       - typescript/packages/alert/**
       - typescript/packages/card/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/command-box/**
       - typescript/packages/css-utils/**
       - typescript/packages/breakpoints/**
@@ -54,8 +56,6 @@ on:
       - typescript/packages/keyboard-key/**
       - typescript/packages/popover/**
       - typescript/packages/state-management/**
-      - typescript/packages/dynatic-css/**
-      - typescript/packages/dynatic-css-utils/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
@@ -111,6 +111,8 @@ jobs:
           cp -r ./dev-packages/yaml ./full-application/packages
           cp -r ./packages/alert ./full-application/packages
           cp -r ./packages/card ./full-application/packages
+          cp -r ./packages/dynatic-css ./full-application/packages
+          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./packages/command-box ./full-application/packages
           cp -r ./packages/css-utils ./full-application/packages
           cp -r ./packages/breakpoints ./full-application/packages
@@ -133,8 +135,6 @@ jobs:
           cp -r ./packages/keyboard-key ./full-application/packages
           cp -r ./packages/popover ./full-application/packages
           cp -r ./packages/state-management ./full-application/packages
-          cp -r ./packages/dynatic-css ./full-application/packages
-          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./dev-packages/dynatic-css-vite-plugin ./full-application/packages
           cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
           cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages

@@ -9,6 +9,9 @@ on:
       - reopened
     paths:
       - typescript/packages/card/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
+      - typescript/packages/utils/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

@@ -1,12 +1,19 @@
 import { type SVGIconProps } from "./types";
 
-export const CanaryIslands = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const CanaryIslands = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <rect x="10" y="4" width="12" height="24" fill="#0868a9" stroke-width="0"></rect>

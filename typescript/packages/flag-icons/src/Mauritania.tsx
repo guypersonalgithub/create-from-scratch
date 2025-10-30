@@ -1,12 +1,19 @@
 import { type SVGIconProps } from "./types";
 
-export const Mauritania = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Mauritania = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#4ca863" d="M1 9H31V23H1z"></path>

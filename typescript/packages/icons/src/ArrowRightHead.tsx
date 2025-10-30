@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const ArrowRightHead = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const ArrowRightHead = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,6 +16,7 @@ export const ArrowRightHead = ({ size, width = size, height = size, style }: SVG
       stroke="currentColor"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />

@@ -4,6 +4,7 @@ export const CentralAfricanRepublic = ({
   size,
   width = size,
   height = size,
+  className,
   style,
 }: SVGIconProps) => {
   return (
@@ -12,6 +13,7 @@ export const CentralAfricanRepublic = ({
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#4b9638" d="M1 15H31V22H1z"></path>

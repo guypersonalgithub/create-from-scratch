@@ -1,6 +1,6 @@
 import { type SVGIconProps } from "./types";
 
-export const List = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const List = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +12,7 @@ export const List = ({ size, width = size, height = size, style }: SVGIconProps)
       strokeLinejoin="round"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <line x1="8" x2="21" y1="6" y2="6"></line>

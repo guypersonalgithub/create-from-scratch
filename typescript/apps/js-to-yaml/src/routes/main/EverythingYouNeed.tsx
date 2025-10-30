@@ -1,6 +1,7 @@
 import { useBreakpoints } from "../../breakpoints";
 import { DisplayCard } from "../../customizedComponents";
 import { Bidirectional, Download, Thunder } from "@packages/icons";
+import { dynatic } from "../../dynatic-css.config";
 
 export const EverythingYouNeed = () => {
   const { useGetBreakpoint } = useBreakpoints();
@@ -10,70 +11,101 @@ export const EverythingYouNeed = () => {
 
   return (
     <div
+      className={dynatic`
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      `}
       style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
         marginBottom: !isDesktop && isntMediumDesktop ? "50px" : undefined,
       }}
     >
       <div
-        style={{
-          width: "fit-content",
-          fontWeight: 500,
-          borderRadius: "100px",
-          whiteSpace: "nowrap",
-          border: "1px solid var(--theme-border)",
-          transition: "var(--theme-transition)",
-          paddingLeft: "8px",
-          paddingRight: "8px",
-          paddingTop: "4px",
-          paddingBottom: "4px",
-          margin: "0 auto",
-          fontSize: "12px",
-          color: "var(--theme-thirdColor)",
-        }}
+        className={dynatic`
+          width: fit-content;
+          font-weight: 500;
+          border-radius: 100%;
+          white-space: nowrap;
+          border: 1px solid ${(config) => config.colors.defaultBorder};
+          transition: ${(config) => config.shared.defaultTransition};
+          padding-left: 8px;
+          padding-right: 8px;
+          padding-top: 4px;
+          padding-bottom: 4px;
+          margin: 0 auto;
+          font-size: 12px;
+          color: ${(config) => config.colors.thirdColor};
+        `}
       >
         Powerful Features
       </div>
-      <div style={{ fontSize: "50px", fontWeight: "bold", textAlign: "center" }}>
+      <div
+        className={dynatic`
+          font-size: 50px;
+          font-weight: bold;
+          text-align: center;
+        `}
+      >
         Everything You Need
       </div>
       <div
-        style={{
-          color: "var(--theme-thirdColor)",
-          fontSize: "20px",
-          textAlign: "center",
-          marginBottom: "20px",
-        }}
+        className={dynatic`
+          color: ${(config) => config.colors.thirdColor};
+          font-size: 20px;
+          text-align: center;
+          margin-bottom: 20px;
+        `}
       >
         Our JavaScript to YAML converter comes packed with features to make your development
         workflow smoother.
       </div>
       <div
+        className={dynatic`
+          display: flex;
+          gap: 30px;
+          justify-content: space-between;
+          max-width: 1200px;
+          margin: 0 auto;
+        `}
         style={{
-          display: "flex",
           flexDirection: isDesktop ? "row" : "column",
-          gap: "30px",
-          justifyContent: "space-between",
-          maxWidth: "1200px",
-          margin: "0 auto",
         }}
       >
         <DisplayCard
-          icon={<Thunder size={24} />}
+          icon={
+            <Thunder
+              className={dynatic`
+              width: 24px;
+              height: 24px;
+            `}
+            />
+          }
           title="Lightning Fast"
           content="Convert complex JavaScript objects to YAML in mere moments."
         />
         <DisplayCard
-          icon={<Bidirectional size={24} />}
+          icon={
+            <Bidirectional
+              className={dynatic`
+              width: 24px;
+              height: 24px;
+            `}
+            />
+          }
           title="Bidirectional"
           content="Convert from JavaScript to YAML and back again with perfect fidelity."
         />
         <DisplayCard
-          icon={<Download size={24} />}
+          icon={
+            <Download
+              className={dynatic`
+              width: 24px;
+              height: 24px;
+            `}
+            />
+          }
           title="Easy to Use"
           content="Download your converted YAML files or copy directly to clipboard with one click."
         />

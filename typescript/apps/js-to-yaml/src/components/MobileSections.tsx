@@ -18,16 +18,27 @@ export const MobileSections = () => {
       content={({ hidePopover }) => <PopoverContent anchors={anchors} hidePopover={hidePopover} />}
     >
       <Button
-        style={{
-          padding: "8px",
-          border: "1px",
-          borderRadius: "10px",
-          display: "flex",
-          alignItems: "center",
-        }}
+        className={dynatic`
+          padding: 8px;
+          border: 1px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+        `}
       >
-        <List size={18} />
-        <span className="text-sm">Sections</span>
+        <List
+          className={dynatic`
+            width: 18px;
+            height: 18px;
+          `}
+        />
+        <span
+          className={dynatic`
+            font-size: 13px;
+          `}
+        >
+          Sections
+        </span>
       </Button>
     </Popover>
   );

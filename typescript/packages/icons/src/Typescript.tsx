@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const Typescript = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Typescript = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +18,7 @@ export const Typescript = ({ size, width = size, height = size, style }: SVGIcon
       strokeLinejoin="round"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />

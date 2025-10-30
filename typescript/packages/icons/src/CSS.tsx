@@ -1,6 +1,6 @@
 import { type SVGIconProps } from "./types";
 
-export const CSS = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const CSS = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       fill="currentColor"
@@ -12,6 +12,7 @@ export const CSS = ({ size, width = size, height = size, style }: SVGIconProps) 
       xmlSpace="preserve"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

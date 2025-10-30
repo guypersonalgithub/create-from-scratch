@@ -34,6 +34,8 @@ COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
 COPY ./packages/title/package.json ./packages/title/package.json
+COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
+COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
 COPY ./packages/parse-yaml/package.json ./packages/parse-yaml/package.json
 COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
@@ -42,8 +44,6 @@ COPY ./packages/radio-button/package.json ./packages/radio-button/package.json
 COPY ./packages/scrollspy-anchors/package.json ./packages/scrollspy-anchors/package.json
 COPY ./packages/breadcrumbs/package.json ./packages/breadcrumbs/package.json
 COPY ./packages/binary/package.json ./packages/binary/package.json
-COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
-COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
@@ -92,6 +92,8 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
@@ -100,8 +102,6 @@ COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -151,6 +151,8 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
@@ -159,8 +161,6 @@ COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -210,6 +210,8 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
@@ -218,8 +220,6 @@ COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
