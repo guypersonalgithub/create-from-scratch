@@ -1,12 +1,19 @@
 import { type SVGIconProps } from "./types";
 
-export const SouthAfrica = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const SouthAfrica = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path d="M5,28H27c2.209,0,4-1.791,4-4v-8H1v8c0,2.209,1.791,4,4,4Z" fill="#030a85"></path>

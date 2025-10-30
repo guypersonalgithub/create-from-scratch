@@ -63,6 +63,11 @@ export default defineConfig({
         "../../packages/calculations-table/src/index.ts",
       ),
       "@packages/title": path.resolve(__dirname, "../../packages/title/src/index.ts"),
+      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
+      "@packages/dynatic-css-utils": path.resolve(
+        __dirname,
+        "../../packages/dynatic-css-utils/src/index.ts",
+      ),
       "@packages/syntax-highlighter": path.resolve(
         __dirname,
         "../../packages/syntax-highlighter/src/index.ts",
@@ -77,11 +82,6 @@ export default defineConfig({
       ),
       "@packages/breadcrumbs": path.resolve(__dirname, "../../packages/breadcrumbs/src/index.ts"),
       "@packages/binary": path.resolve(__dirname, "../../packages/binary/src/index.ts"),
-      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
-      "@packages/dynatic-css-utils": path.resolve(
-        __dirname,
-        "../../packages/dynatic-css-utils/src/index.ts",
-      ),
       "@packages/dynatic-css-vite-plugin": path.resolve(
         __dirname,
         "../../dev-packages/dynatic-css-vite-plugin/src/index.ts",

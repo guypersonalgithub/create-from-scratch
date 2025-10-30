@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const Container = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Container = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -9,6 +15,7 @@ export const Container = ({ size, width = size, height = size, style }: SVGIconP
       fill="currentColor"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

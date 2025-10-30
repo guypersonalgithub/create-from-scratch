@@ -25,4 +25,4 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Run tests
-        run: cd packages/dynatic-css-intellisense && npm run test
+        run: cd vscode-extensions/dynatic-css-intellisense && npm run test

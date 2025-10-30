@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const Zimbabwe = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Zimbabwe = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#c4291c" d="M1 10.857H31V14.286H1z"></path>

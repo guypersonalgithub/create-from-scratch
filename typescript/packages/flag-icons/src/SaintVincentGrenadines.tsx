@@ -12,6 +12,7 @@ export const SaintVincentGrenadines = ({
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#f5d34d" d="M8 4H24V28H8z"></path>

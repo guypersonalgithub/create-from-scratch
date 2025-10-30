@@ -5,6 +5,7 @@ import {
 } from "@packages/binary";
 import { useState, useEffect, useRef } from "react";
 import { OffLightbulb, OnLightbulb } from "@packages/icons";
+import { dynatic } from "../../dynatic-css.config";
 
 type Base10SimulationProps = {
   startFrom: number;
@@ -66,19 +67,47 @@ export const Base10Simulation = ({ startFrom, to }: Base10SimulationProps) => {
 
   return (
     <div>
-      <div style={{ display: "flex", gap: "10px" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+        `}
+      >
         <div>Number:</div>
         <div>{value?.num ?? null}</div>
       </div>
-      <div style={{ display: "flex", gap: "10px" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+        `}
+      >
         <div>Binary:</div>
         <div>
           {value?.result?.split("").map((char, index) => {
             if (char === "1") {
-              return <OnLightbulb key={index} size={24} style={{ color: "yellow" }} />;
+              return (
+                <OnLightbulb
+                  key={index}
+                  className={dynatic`
+                  width: 24px;
+                  height: 24px;
+                  color: ${(config) => config.shared.colors.yellow};
+                `}
+                />
+              );
             }
 
-            return <OffLightbulb key={index} style={{ color: "white" }} size={24} />;
+            return (
+              <OffLightbulb
+                key={index}
+                className={dynatic`
+                width: 24px;
+                height: 24px;
+                color: ${(config) => config.shared.colors.white};
+              `}
+              />
+            );
           }) ?? null}
         </div>
       </div>

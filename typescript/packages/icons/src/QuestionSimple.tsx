@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const QuestionSimple = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const QuestionSimple = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +18,7 @@ export const QuestionSimple = ({ size, width = size, height = size, style }: SVG
       strokeLinejoin="round"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path d="M8.5 9.5a3 3 0 0 1 5 1.5 3 3 0 0 1-3 3 1 1 0 0 0-1 1V16" />

@@ -16,6 +16,7 @@ export const Javascript = ({
       viewBox="0 0 128 128"
       width={width}
       height={height}
+      className={className}
       style={style}
       fill="currentColor"
     >

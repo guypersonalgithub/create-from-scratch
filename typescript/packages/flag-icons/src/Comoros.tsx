@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const Comoros = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Comoros = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#dd4446" d="M1 15H31V22H1z"></path>

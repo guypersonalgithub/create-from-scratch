@@ -1,6 +1,6 @@
 import { type SVGIconProps } from "./types";
 
-export const OpenBook = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const OpenBook = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,6 +9,7 @@ export const OpenBook = ({ size, width = size, height = size, style }: SVGIconPr
       strokeWidth="1.5"
       width={width}
       height={height}
+      className={className}
       style={style}
       stroke="currentColor"
     >

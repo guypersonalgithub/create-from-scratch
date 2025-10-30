@@ -1,6 +1,6 @@
 import { type SVGIconProps } from "./types";
 
-export const Linux = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Linux = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       viewBox="0 0 16 16"
@@ -8,6 +8,7 @@ export const Linux = ({ size, width = size, height = size, style }: SVGIconProps
       fill="none"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

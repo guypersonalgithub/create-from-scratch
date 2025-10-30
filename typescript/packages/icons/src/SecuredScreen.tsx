@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const SecuredScreen = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const SecuredScreen = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       fill="currentColor"
@@ -8,6 +14,7 @@ export const SecuredScreen = ({ size, width = size, height = size, style }: SVGI
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

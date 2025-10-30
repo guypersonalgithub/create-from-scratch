@@ -131,7 +131,10 @@ const InputOutputInternal = ({
             gap: 4px;
           `}
         >
-          <TagPage size={20} />
+          <TagPage className={dynatic`
+            width: 20px;
+            height: 20px;
+          `} />
           <span
             className={dynatic`
               font-weight: bold;
@@ -142,7 +145,10 @@ const InputOutputInternal = ({
           </span>
         </div>
         <ArrowRight
-          size={20}
+          className={dynatic`
+            width: 20px;
+            height: 20px;
+          `}
           style={{
             transition: "transform 0.3s ease",
             transform: isNarrow ? "rotate(90deg)" : "rotate(0deg)",
@@ -155,7 +161,10 @@ const InputOutputInternal = ({
             gap: 4px;
           `}
         >
-          <TagPage size={20} />
+          <TagPage className={dynatic`
+            width: 20px;
+            height: 20px;
+          `} />
           <span
             className={dynatic`
               font-weight: bold;

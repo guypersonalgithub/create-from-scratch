@@ -12,6 +12,7 @@ export const TurksAndCaicosIslands = ({
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <rect

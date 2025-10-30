@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const Bahrain = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Bahrain = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path d="M27,4H9V28H27c2.209,0,4-1.791,4-4V8c0-2.209-1.791-4-4-4Z" fill="#ea3323"></path>

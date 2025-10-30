@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const Calculator = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Calculator = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,6 +14,7 @@ export const Calculator = ({ size, width = size, height = size, style }: SVGIcon
       fill="currentColor"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path

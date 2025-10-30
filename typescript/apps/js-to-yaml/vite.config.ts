@@ -53,6 +53,11 @@ export default defineConfig({
       "@packages/yaml": path.resolve(__dirname, "../../dev-packages/yaml/src/index.ts"),
       "@packages/alert": path.resolve(__dirname, "../../packages/alert/src/index.ts"),
       "@packages/card": path.resolve(__dirname, "../../packages/card/src/index.ts"),
+      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
+      "@packages/dynatic-css-utils": path.resolve(
+        __dirname,
+        "../../packages/dynatic-css-utils/src/index.ts",
+      ),
       "@packages/command-box": path.resolve(__dirname, "../../packages/command-box/src/index.ts"),
       "@packages/css-utils": path.resolve(__dirname, "../../packages/css-utils/src/index.ts"),
       "@packages/breakpoints": path.resolve(__dirname, "../../packages/breakpoints/src/index.ts"),
@@ -83,11 +88,6 @@ export default defineConfig({
       "@packages/state-management": path.resolve(
         __dirname,
         "../../packages/state-management/src/index.ts",
-      ),
-      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
-      "@packages/dynatic-css-utils": path.resolve(
-        __dirname,
-        "../../packages/dynatic-css-utils/src/index.ts",
       ),
       "@packages/dynatic-css-vite-plugin": path.resolve(
         __dirname,

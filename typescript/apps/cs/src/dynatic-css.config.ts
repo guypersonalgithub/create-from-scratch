@@ -9,6 +9,12 @@ const config = {
       },
     },
   },
+  shared: {
+    colors: {
+      white: "white",
+      yellow: "yellow",
+    },
+  },
   what: {
     one: "two",
   },
@@ -17,4 +23,4 @@ const config = {
 
 const classes: string[] = [];
 
-export const { css } = dynaticInit({ config, classes, base: "base" });
+export const { dynatic } = dynaticInit({ config, classes, base: "base" });

@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const ExclamationTriangle = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const ExclamationTriangle = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +18,7 @@ export const ExclamationTriangle = ({ size, width = size, height = size, style }
       strokeLinejoin="round"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />

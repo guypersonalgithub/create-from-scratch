@@ -1,6 +1,12 @@
 import { type SVGIconProps } from "./types";
 
-export const ClipboardDocument = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const ClipboardDocument = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,6 +16,7 @@ export const ClipboardDocument = ({ size, width = size, height = size, style }: 
       stroke="currentColor"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path

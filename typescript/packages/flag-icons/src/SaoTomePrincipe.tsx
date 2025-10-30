@@ -1,12 +1,19 @@
 import { type SVGIconProps } from "./types";
 
-export const SaoTomePrincipe = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const SaoTomePrincipe = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#f8d448" d="M1 10H31V22H1z"></path>

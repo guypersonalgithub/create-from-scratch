@@ -110,6 +110,12 @@ services:
         source: ./packages/title
         target: /usr/src/app/packages/title
       - type: bind
+        source: ./packages/dynatic-css
+        target: /usr/src/app/packages/dynatic-css
+      - type: bind
+        source: ./packages/dynatic-css-utils
+        target: /usr/src/app/packages/dynatic-css-utils
+      - type: bind
         source: ./packages/syntax-highlighter
         target: /usr/src/app/packages/syntax-highlighter
       - type: bind
@@ -133,12 +139,6 @@ services:
       - type: bind
         source: ./packages/binary
         target: /usr/src/app/packages/binary
-      - type: bind
-        source: ./packages/dynatic-css
-        target: /usr/src/app/packages/dynatic-css
-      - type: bind
-        source: ./packages/dynatic-css-utils
-        target: /usr/src/app/packages/dynatic-css-utils
       - type: bind
         source: ./dev-packages/dynatic-css-vite-plugin
         target: /usr/src/app/dev-packages/dynatic-css-vite-plugin
@@ -289,6 +289,12 @@ services:
         source: ./packages/card
         target: /usr/src/app/packages/card
       - type: bind
+        source: ./packages/dynatic-css
+        target: /usr/src/app/packages/dynatic-css
+      - type: bind
+        source: ./packages/dynatic-css-utils
+        target: /usr/src/app/packages/dynatic-css-utils
+      - type: bind
         source: ./packages/command-box
         target: /usr/src/app/packages/command-box
       - type: bind
@@ -354,12 +360,6 @@ services:
       - type: bind
         source: ./packages/state-management
         target: /usr/src/app/packages/state-management
-      - type: bind
-        source: ./packages/dynatic-css
-        target: /usr/src/app/packages/dynatic-css
-      - type: bind
-        source: ./packages/dynatic-css-utils
-        target: /usr/src/app/packages/dynatic-css-utils
       - type: bind
         source: ./dev-packages/dynatic-css-vite-plugin
         target: /usr/src/app/dev-packages/dynatic-css-vite-plugin

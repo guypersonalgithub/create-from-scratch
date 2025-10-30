@@ -15,6 +15,7 @@ export const ClipboardDocumentCheck = ({
       stroke="currentColor"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path

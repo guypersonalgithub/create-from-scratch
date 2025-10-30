@@ -90,7 +90,14 @@ export const StyledButton = ({
       onClick={onClick}
     >
       {children}
-      {addArrow ? <ArrowRight2 size={16} /> : null}
+      {addArrow ? (
+        <ArrowRight2
+          className={dynatic`
+            width: 16px;
+            height: 16px;
+          `}
+        />
+      ) : null}
     </Button>
   );
 };

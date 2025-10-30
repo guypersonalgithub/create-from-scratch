@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const Belarus = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Belarus = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path d="M1,8v13H31V8c0-2.209-1.791-4-4-4H5c-2.209,0-4,1.791-4,4Z" fill="#be2d27"></path>

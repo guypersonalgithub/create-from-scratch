@@ -1,3 +1,4 @@
+import { dynatic } from "@packages/dynatic-css";
 import * as Icons from "@packages/icons";
 
 export const AllIcons = () => {
@@ -5,7 +6,12 @@ export const AllIcons = () => {
     <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
       {Object.entries(Icons).map(([name, Component]) => (
         <div key={name} style={{ textAlign: "center" }}>
-          <Component size={24} />
+          <Component
+            className={dynatic`
+              width: 24px;
+              height: 24px;
+            `}
+          />
           <div>{name}</div>
         </div>
       ))}

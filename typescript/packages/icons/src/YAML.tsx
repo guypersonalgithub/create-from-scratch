@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const YAML = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const YAML = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       viewBox="0 0 128 128"
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
+      className={className}
       style={style}
       fill="currentColor"
     >

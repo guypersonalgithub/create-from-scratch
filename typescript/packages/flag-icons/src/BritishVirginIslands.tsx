@@ -12,6 +12,7 @@ export const BritishVirginIslands = ({
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <rect x="1" y="4" width="30" height="24" rx="4" ry="4" fill="#061b65"></rect>

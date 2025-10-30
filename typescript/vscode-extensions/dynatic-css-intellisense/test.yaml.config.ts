@@ -31,7 +31,7 @@ export default {
         },
         {
           name: "Run tests",
-          run: "cd packages/dynatic-css-intellisense && npm run test",
+          run: "cd vscode-extensions/dynatic-css-intellisense && npm run test",
         },
       ],
     },

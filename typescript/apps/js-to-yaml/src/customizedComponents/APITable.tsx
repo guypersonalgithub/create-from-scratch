@@ -3,6 +3,7 @@ import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
 import { Badge } from "@packages/badge";
 import { ExclamationCircle, QuestionCircle } from "@packages/icons";
 import { useUITheme } from "../UIThemes";
+import { dynatic } from "@packages/dynatic-css";
 
 type APITableRow = {
   name: string;
@@ -46,11 +47,21 @@ export const APITable = ({ data }: APITableProps) => {
               >
                 {isMandatory ? (
                   <Tooltip content="Mandatory property" style={{ display: "flex" }}>
-                    <ExclamationCircle size={14} />
+                    <ExclamationCircle
+                      className={dynatic`
+                        width: 14px;
+                        height: 14px;
+                      `}
+                    />
                   </Tooltip>
                 ) : (
                   <Tooltip content="Optional property" style={{ display: "flex" }}>
-                    <QuestionCircle size={14} />
+                    <QuestionCircle
+                      className={dynatic`
+                        width: 14px;
+                        height: 14px;
+                      `}
+                    />
                   </Tooltip>
                 )}
                 <EllipsisTooltip content={type}>{type}</EllipsisTooltip>

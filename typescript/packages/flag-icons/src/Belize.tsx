@@ -1,12 +1,13 @@
 import { type SVGIconProps } from "./types";
 
-export const Belize = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Belize = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32 32"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path fill="#0f0e91" d="M1 8H31V24H1z"></path>

@@ -16,6 +16,7 @@ export const ShieldExclamationMark = ({
       stroke="currentColor"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <path

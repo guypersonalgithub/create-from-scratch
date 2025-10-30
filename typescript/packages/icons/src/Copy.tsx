@@ -1,6 +1,6 @@
 import { type SVGIconProps } from "./types";
 
-export const Copy = ({ size, width = size, height = size, style }: SVGIconProps) => {
+export const Copy = ({ size, width = size, height = size, className, style }: SVGIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,6 +12,7 @@ export const Copy = ({ size, width = size, height = size, style }: SVGIconProps)
       strokeLinejoin="round"
       width={width}
       height={height}
+      className={className}
       style={style}
     >
       <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
