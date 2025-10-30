@@ -15,6 +15,7 @@ import { createTypecheckConfigs } from "@packages/create-typecheck-github-action
 import { getProjectAbsolutePath } from "@packages/paths";
 import { generateAndInstallCLI } from "./generateAndInstallCLI";
 import { getDependencyTrees } from "@packages/dependency-tree";
+import { debugExtension } from "./debugExtension";
 
 type CliOptionsArgs = {
   command: Flag;
@@ -116,6 +117,10 @@ export const cliOptions = async ({ command }: CliOptionsArgs) => {
     }
     case SupportedCommands.DEPENDENCY_TREES: {
       getDependencyTrees();
+      break;
+    }
+    case SupportedCommands.DEBUG_EXTENSION: {
+      await debugExtension({ value });
       break;
     }
     default: {

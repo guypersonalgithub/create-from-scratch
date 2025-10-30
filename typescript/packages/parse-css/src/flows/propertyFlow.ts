@@ -28,18 +28,16 @@ export const propertyFlow = ({
   let followup = fullValue.followup;
 
   const hasColon = followup.newTokenValue === ":";
+  const isProperty = (hasColon || withinAtRuleDeclaration) && legitimateValue;
 
   tokens.push({
-    type:
-      (hasColon || withinAtRuleDeclaration) && legitimateValue
-        ? TokenTypes.PROPERTY
-        : TokenTypes.UNKNOWN,
+    type: isProperty ? TokenTypes.PROPERTY : TokenTypes.UNKNOWN,
     value: value,
     startIndex: currentIndex - newTokenValue.length,
     endIndex,
   });
 
-  if (!legitimateValue) {
+  if (!isProperty) {
     return { updatedIndex: followup.updatedIndex - followup.newTokenValue.length };
   }
 

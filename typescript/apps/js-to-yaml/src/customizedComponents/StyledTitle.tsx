@@ -1,5 +1,6 @@
 import { SpreaderTitle } from "@packages/title";
 import { type ReactNode } from "react";
+import { dynatic } from "../dynatic-css.config";
 
 type StyledTitleProps = {
   children: ReactNode;
@@ -8,10 +9,10 @@ type StyledTitleProps = {
 export const StyledTitle = ({ children }: StyledTitleProps) => {
   return (
     <SpreaderTitle
-      style={{
-        color: "var(--theme-color)",
-        transition: "var(--theme-transition)",
-      }}
+      className={dynatic`
+        color: ${(config) => config.colors.mainColor};
+        transition: ${(config) => config.shared.defaultTransition};
+      `}
     >
       {children}
     </SpreaderTitle>

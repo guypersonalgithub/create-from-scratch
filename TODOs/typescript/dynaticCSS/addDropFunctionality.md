@@ -1,0 +1,2 @@
+- Consider adding drop functionality to certain classes within a certain range, for instance, the Card package has 0 4px 6px rgba(0, 0, 0, 0.1), if the main workspace has a class replacemenet, the plugin should consider dropping this class entirely if given the order to do so through a dynatic-css-drop.config.ts
+- Each package with predefined css should consider adding a /drop entry point that provides all details for said drops (path, dropped classes), which the plugin would later be able to use as an indicator.

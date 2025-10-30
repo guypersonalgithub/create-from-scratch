@@ -46,9 +46,8 @@ export const convertConfigToCSSVariables = ({ config }: ConvertConfigToCSSVariab
 
       for (const property in properties) {
         const value = properties[property];
-        const hash = hashString({
-          input: typeof value === "string" ? value : `${value}`,
-        });
+        const fullKey = `config.${propertiesID}.${property}`;
+        const hash = hashString({ input: fullKey });
         const hashKey = `--${hash}`;
         updatedConfig.variants[variant][propertiesID][property] = `var(${hashKey})`;
         variantString += `  ${hashKey}: ${value};\n`;

@@ -1,5 +1,5 @@
-import { StyledCard } from "../../styledComponents";
-import { StyledSubTitle, StyledTitle } from "../../styledComponents/StyledTitle";
+import { StyledCard } from "../../customizedComponents";
+import { StyledSubTitle, StyledTitle } from "../../customizedComponents/StyledTitle";
 import { useUpdateAnchors } from "../../useUpdateAnchors";
 import { List } from "@packages/list";
 

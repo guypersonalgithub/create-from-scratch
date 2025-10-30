@@ -171,6 +171,26 @@ export const arrowFunctionFlow = ({
         );
       }
 
+      if (value.name && value.type === "multi-step-variable") {
+        const isNested = value.name.startsWith(`${argument}.`);
+        const startIndex = value.updatedIndex - value.name.length;
+        const endIndex = value.updatedIndex;
+        const variable = {
+          name: value.name,
+          startIndex,
+          endIndex,
+        };
+
+        if (isNested) {
+          variables.push({
+            ...variable,
+            type: "config-variable" as DynaticStyleChunksVariable["type"],
+          });
+        } else {
+          variables.push({ ...variable, type: value.type });
+        }
+      }
+
       return { updatedIndex: value.updatedIndex, value: fullValue, variables };
     }
   }

@@ -55,6 +55,10 @@ export const uniqueImportFlow = ({
     };
 
     if (name) {
+      if (!dynaticStyleChunks[context]) {
+        dynaticStyleChunks[context] = {};
+      }
+
       dynaticStyleChunks[context][name] = chunkData;
       dynaticStyleOrderedChunks.push({ ...chunkData, name, context });
     } else {

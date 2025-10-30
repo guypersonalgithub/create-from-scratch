@@ -54,6 +54,14 @@ on:
       - typescript/packages/keyboard-key/**
       - typescript/packages/popover/**
       - typescript/packages/state-management/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
+      - typescript/dev-packages/dynatic-css-vite-plugin/**
+      - typescript/dev-packages/dynatic-css-typescript-parser/**
+      - typescript/dev-packages/typescript-file-manipulation/**
+      - typescript/dev-packages/recursive-import-iteration/**
+      - typescript/packages/import-parser/**
+      - typescript/packages/export-parser/**
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
@@ -125,9 +133,17 @@ jobs:
           cp -r ./packages/keyboard-key ./full-application/packages
           cp -r ./packages/popover ./full-application/packages
           cp -r ./packages/state-management ./full-application/packages
+          cp -r ./packages/dynatic-css ./full-application/packages
+          cp -r ./packages/dynatic-css-utils ./full-application/packages
+          cp -r ./dev-packages/dynatic-css-vite-plugin ./full-application/packages
+          cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
+          cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages
+          cp -r ./dev-packages/recursive-import-iteration ./full-application/packages
+          cp -r ./packages/import-parser ./full-application/packages
+          cp -r ./packages/export-parser ./full-application/packages
       - name: Install dependencies
         run: npm ci
       - name: Build application
-        run: npm run build
+        run: npm run build-ga
       - name: Deploy
         run: netlify deploy --prod --dir=./apps/js-to-yaml/dist

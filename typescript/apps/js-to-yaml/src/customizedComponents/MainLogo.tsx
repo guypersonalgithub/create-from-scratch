@@ -1,19 +1,27 @@
 import { type CSSProperties } from "react";
 
 type MainLogoProps = {
+  className?: string;
   style?: CSSProperties;
   size?: number;
   width?: number;
   height?: number;
 };
 
-export const MainLogo = ({ size, width = size, height = size, style }: MainLogoProps) => {
+export const MainLogo = ({
+  size,
+  width = size,
+  height = size,
+  className,
+  style,
+}: MainLogoProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="230 200 690 550"
       width={width}
       height={height}
+      className={className}
       style={style}
       preserveAspectRatio="xMidYMid meet"
     >

@@ -1,12 +1,19 @@
-import { StyledCard, StyledCommandBox } from "../../styledComponents";
-import { StyledTitle } from "../../styledComponents/StyledTitle";
+import { StyledCard, StyledCommandBox } from "../../customizedComponents";
+import { StyledTitle } from "../../customizedComponents/StyledTitle";
+import { dynatic } from "../../dynatic-css.config";
 
 export const QuickStart = () => {
   return (
     <div>
       <StyledCard>
         <StyledTitle>Quick Start</StyledTitle>
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          `}
+        >
           <div>
             Make sure you have an up to date version of Node.js installed, and then run the
             following command:

@@ -1,6 +1,7 @@
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
-import { StyledCard, StyledList, StyledSyntaxHighlighter } from "../../styledComponents";
+import { StyledCard, StyledList, StyledSyntaxHighlighter } from "../../customizedComponents";
 import { OpenBook } from "@packages/icons";
+import { dynatic } from "../../dynatic-css.config";
 
 type CoreFeaturesProps = {
   isDesktop: boolean;
@@ -9,18 +10,20 @@ type CoreFeaturesProps = {
 export const CoreFeatures = ({ isDesktop }: CoreFeaturesProps) => {
   return (
     <StyledCard
+      className={dynatic`
+        border: 1px solid ${(config) => config.colors.defaultBorder};
+      `}
       style={{
-        border: "1px solid var(--theme-border)",
         width: isDesktop ? "50vw" : "calc(90vw - 30px)",
       }}
     >
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "5px",
-          marginBottom: "20px",
-        }}
+        className={dynatic`
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-bottom: 20px;
+        `}
       >
         <OpenBook
           style={{
@@ -30,17 +33,24 @@ export const CoreFeatures = ({ isDesktop }: CoreFeaturesProps) => {
             marginTop: "6px",
           }}
         />
-        <span style={{ fontWeight: "bold", fontSize: "25px" }}>Core features</span>
+        <span
+          className={dynatic`
+            font-weight: bold;
+            font-size: 25px;
+          `}
+        >
+          Core features
+        </span>
       </div>
       <StyledList
         list={[
           {
             icon: (
               <div
-                style={{
-                  fontSize: "12px",
-                  fontWeight: "bolder",
-                }}
+                className={dynatic`
+                  font-size: 12px;
+                  font-weight: bolder;
+                `}
               >
                 YAML
               </div>
@@ -100,10 +110,10 @@ const output = convertObjectToYaml({ obj: testsConfig });
           {
             icon: (
               <div
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bolder",
-                }}
+                className={dynatic`
+                  font-size: 14px;
+                  font-weight: bolder;
+                `}
               >
                 JS
               </div>

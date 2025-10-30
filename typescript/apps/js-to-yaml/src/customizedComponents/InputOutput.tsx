@@ -4,7 +4,8 @@ import { type SyntaxHighlighterProps } from "@packages/syntax-highlighter";
 import { StyledSyntaxHighlighter } from "./StyledSyntaxHighlighter";
 import { convertObjectToYaml, convertYamlToObject } from "@packages/yaml";
 import { useEffect, useRef, useState } from "react";
-import "./InputOutput.css";
+import { dynatic } from "../dynatic-css.config";
+import { combineStringsWithSpaces } from "@packages/utils";
 
 type ConvertTypescriptToYamlArgs = {
   code: Record<string, unknown>;
@@ -104,23 +105,41 @@ const InputOutputInternal = ({
   }, []);
 
   return (
-    <div ref={containerRef} style={{ padding: "8px" }}>
+    <div
+      ref={containerRef}
+      className={dynatic`
+        padding: 8px;
+      `}
+    >
       {/* <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "10px",
-          paddingBottom: "8px",
-          marginBottom: "8px",
-          color: "var(--theme-color)",
-          transition: "var(--theme-transition)",
-          borderBottom: "1px solid var(--theme-color)",
-        }}
+        className={dynatic`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          padding-bottom: 8px;
+          margin-bottom: 8px;
+          color: ${(config) => config.colors.mainColor};
+          transition: ${(config) => config.shared.defaultTransition};
+          border-bottom: ${(config) => config.colors.mainColor};
+        `}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          `}
+        >
           <TagPage size={20} />
-          <span style={{ fontWeight: "bold", fontSize: "14px" }}>{inputLabel}</span>
+          <span
+            className={dynatic`
+              font-weight: bold;
+              font-size: 14px;
+            `}
+          >
+            {inputLabel}
+          </span>
         </div>
         <ArrowRight
           size={20}
@@ -129,22 +148,76 @@ const InputOutputInternal = ({
             transform: isNarrow ? "rotate(90deg)" : "rotate(0deg)",
           }}
         />
-        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          `}
+        >
           <TagPage size={20} />
-          <span style={{ fontWeight: "bold", fontSize: "14px" }}>{outputLabel}</span>
+          <span
+            className={dynatic`
+              font-weight: bold;
+              font-size: 14px;
+            `}
+          >
+            {outputLabel}
+          </span>
         </div>
       </div> */}
       <div
+        className={dynatic`
+          display: flex;
+          gap: 0;
+          position: relative;
+        `}
         style={{
-          display: "flex",
           flexDirection: isNarrow ? "column" : "row",
-          gap: 0,
-          position: "relative",
         }}
       >
         <div
-          className={isNarrow ? "divider-line-bottom" : "divider-line-right"}
-          style={{ flex: 1, overflow: "hidden" }}
+          className={combineStringsWithSpaces(
+            dynatic`
+              position: relative;
+              flex: 1;
+              overflow: hidden;
+
+              &::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                right: 0;
+              }
+            `,
+            isNarrow
+              ? dynatic`
+                  &::before {
+                    left: 0;
+                    height: 1px;
+                    background: linear-gradient(
+                      to right,
+                      transparent 0%,
+                      #e5e7eb 20%,
+                      #e5e7eb 80%,
+                      transparent 100%
+                    );
+                  }
+                `
+              : dynatic`
+                  &::before {
+                    top: 0;
+                    width: 1px;
+                    background: linear-gradient(
+                      to bottom,
+                      transparent 0%,
+                      #e5e7eb 20%,
+                      #e5e7eb 80%,
+                      transparent 100%
+                    );
+                  }
+                `,
+          )}
         >
           <StyledSyntaxHighlighter
             {...props}
@@ -153,7 +226,12 @@ const InputOutputInternal = ({
             variant={props.language === "typescript" ? "dark" : "green"}
           />
         </div>
-        <div style={{ flex: 1, overflow: "hidden" }}>
+        <div
+          className={dynatic`
+            flex: 1;
+            overflow: hidden;
+          `}
+        >
           <StyledSyntaxHighlighter
             {...props}
             highlightCode

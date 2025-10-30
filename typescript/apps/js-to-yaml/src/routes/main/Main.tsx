@@ -4,6 +4,7 @@ import { GetStarted } from "./GetStarted";
 import { TopSection } from "./TopSection";
 import { Convert } from "./Convert";
 import { CoreFeatures } from "./CoreFeatures";
+import { dynatic } from "../../dynatic-css.config";
 
 export const Main = () => {
   const { useGetBreakpoint } = useBreakpoints();
@@ -13,22 +14,22 @@ export const Main = () => {
   return (
     <div>
       <div
-        style={{
-          color: "var(--theme-color)",
-          transition: "var(--theme-transition)",
-        }}
+        className={dynatic`
+          color: ${(config) => config.colors.mainColor};
+          transition: ${(config) => config.shared.defaultTransition};
+        `}
       >
         <TopSection />
         <Convert isDesktop={isDesktop} />
         <EverythingYouNeed />
         <div
-          style={{
-            margin: "0 30px",
-            display: "flex",
-            flexFlow: "column",
-            alignItems: "center",
-            gap: "20px",
-          }}
+          className={dynatic`
+            margin: 0 30px;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            gap: 20px;
+          `}
         >
           <GetStarted isDesktop={isDesktop} />
           <CoreFeatures isDesktop={isDesktop} />

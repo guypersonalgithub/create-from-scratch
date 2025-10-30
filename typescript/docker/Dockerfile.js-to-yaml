@@ -49,6 +49,14 @@ COPY ./packages/search-modal/package.json ./packages/search-modal/package.json
 COPY ./packages/keyboard-key/package.json ./packages/keyboard-key/package.json
 COPY ./packages/popover/package.json ./packages/popover/package.json
 COPY ./packages/state-management/package.json ./packages/state-management/package.json
+COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
+COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
+COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
+COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
+COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
+COPY ./dev-packages/recursive-import-iteration/package.json ./dev-packages/recursive-import-iteration/package.json
+COPY ./packages/import-parser/package.json ./packages/import-parser/package.json
+COPY ./packages/export-parser/package.json ./packages/export-parser/package.json
 
 
 
@@ -106,6 +114,14 @@ COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
 COPY ./packages/state-management ./packages/state-management
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
+COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
+COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
+COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
+COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
+COPY ./packages/import-parser ./packages/import-parser
+COPY ./packages/export-parser ./packages/export-parser
 CMD ["npm", "run", "dev"]
 
 
@@ -164,6 +180,14 @@ COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
 COPY ./packages/state-management ./packages/state-management
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
+COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
+COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
+COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
+COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
+COPY ./packages/import-parser ./packages/import-parser
+COPY ./packages/export-parser ./packages/export-parser
 CMD ["npm", "run", "build"]
 
 
@@ -222,4 +246,12 @@ COPY ./packages/search-modal ./packages/search-modal
 COPY ./packages/keyboard-key ./packages/keyboard-key
 COPY ./packages/popover ./packages/popover
 COPY ./packages/state-management ./packages/state-management
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
+COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
+COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
+COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
+COPY ./dev-packages/recursive-import-iteration ./dev-packages/recursive-import-iteration
+COPY ./packages/import-parser ./packages/import-parser
+COPY ./packages/export-parser ./packages/export-parser
 CMD ["sh", "-c", "while :; do sleep 2073600; done"]

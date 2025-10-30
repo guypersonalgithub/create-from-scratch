@@ -1,6 +1,6 @@
 import { Card } from "@packages/card";
 import { convertStringToObjectWithStringProperties } from "@packages/object-utils";
-import { StyledSyntaxHighlighter } from "../../styledComponents";
+import { StyledSyntaxHighlighter } from "../../customizedComponents";
 import { Textarea } from "@packages/textarea";
 import { convertObjectToYaml } from "@packages/yaml";
 import { useState } from "react";

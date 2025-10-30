@@ -1,4 +1,4 @@
-import { InputOutput } from "../styledComponents";
+import { InputOutput } from "../customizedComponents";
 
 export const Examples = () => {
   return (

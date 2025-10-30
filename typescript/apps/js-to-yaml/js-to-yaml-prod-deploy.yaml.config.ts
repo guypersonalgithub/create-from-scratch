@@ -58,7 +58,7 @@ export default {
         },
         {
           name: "Build application",
-          run: "npm run build",
+          run: "npm run build-ga",
         },
         {
           name: "Deploy",

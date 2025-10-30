@@ -15,4 +15,5 @@ export const SupportedCommands = {
   CREATE_TYPECHECK_GITHUB_ACTION_CONFIG_FILES: "create-typecheck-github-action-config-files",
   CLI: "cli",
   DEPENDENCY_TREES: "dependency-trees",
+  DEBUG_EXTENSION: "debug-extension",
 } as const;

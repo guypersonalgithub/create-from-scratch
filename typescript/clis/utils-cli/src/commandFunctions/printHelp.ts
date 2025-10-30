@@ -38,6 +38,7 @@ export const printHelp = () => {
     [SupportedCommands.CLI]:
       "[name] - Generates [name] CLI with a default predefined CLI template.",
     [SupportedCommands.DEPENDENCY_TREES]: "Prints dependency trees",
+    [SupportedCommands.DEBUG_EXTENSION]: "Opens a specific local extension's debugging window",
   };
 
   for (const command in commandDescriptions) {

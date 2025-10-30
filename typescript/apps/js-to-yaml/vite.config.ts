@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { dynaticPlugin } from "@packages/dynatic-css-vite-plugin";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), dynaticPlugin()],
   resolve: {
     alias: {
       "@packages/router": path.resolve(__dirname, "../../packages/router/src/index.ts"),
@@ -82,6 +83,35 @@ export default defineConfig({
       "@packages/state-management": path.resolve(
         __dirname,
         "../../packages/state-management/src/index.ts",
+      ),
+      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
+      "@packages/dynatic-css-utils": path.resolve(
+        __dirname,
+        "../../packages/dynatic-css-utils/src/index.ts",
+      ),
+      "@packages/dynatic-css-vite-plugin": path.resolve(
+        __dirname,
+        "../../dev-packages/dynatic-css-vite-plugin/src/index.ts",
+      ),
+      "@packages/dynatic-css-typescript-parser": path.resolve(
+        __dirname,
+        "../../dev-packages/dynatic-css-typescript-parser/src/index.ts",
+      ),
+      "@packages/typescript-file-manipulation": path.resolve(
+        __dirname,
+        "../../dev-packages/typescript-file-manipulation/src/index.ts",
+      ),
+      "@packages/recursive-import-iteration": path.resolve(
+        __dirname,
+        "../../dev-packages/recursive-import-iteration/src/index.ts",
+      ),
+      "@packages/import-parser": path.resolve(
+        __dirname,
+        "../../packages/import-parser/src/index.ts",
+      ),
+      "@packages/export-parser": path.resolve(
+        __dirname,
+        "../../packages/export-parser/src/index.ts",
       ),
     },
   },

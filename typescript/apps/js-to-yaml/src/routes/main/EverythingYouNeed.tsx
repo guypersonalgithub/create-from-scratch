@@ -1,5 +1,5 @@
 import { useBreakpoints } from "../../breakpoints";
-import { DisplayCard } from "../../styledComponents";
+import { DisplayCard } from "../../customizedComponents";
 import { Bidirectional, Download, Thunder } from "@packages/icons";
 
 export const EverythingYouNeed = () => {

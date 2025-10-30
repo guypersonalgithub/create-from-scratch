@@ -1,0 +1,28 @@
+name: Dynatic CSS Intellisense tests
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+    paths:
+      - typescript/vscode-extensions/dynatic-css-intellisense/**
+      - typescript/packages/import-parser/**
+      - typescript/packages/utils/**
+      - typescript/packages/parse-css/**
+jobs:
+  Dynatic-CSS-Intellisense-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove postinstall
+        run: node ./ci-scripts/removePostInstall.js
+      - name: Install dependencies
+        run: npm i
+      - name: Run tests
+        run: cd packages/dynatic-css-intellisense && npm run test

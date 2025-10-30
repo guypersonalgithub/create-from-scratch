@@ -80,14 +80,15 @@
     "@types/vscode": "^1.103.0"
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "npm run build",
     "build": "tsx ./buildExtension.ts",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pack": "npx vsce package --no-dependencies",
     "package": "npx vsce package --no-dependencies --allow-missing-repository",
     "install-extension": "code --install-extension dynatic-css-intellisense-1.0.0.vsix",
-    "typecheck": "tsc --noEmit -p ."
+    "typecheck": "tsc --noEmit -p .",
+    "test": "tests-cli"
   },
   "files": [
     "dist",

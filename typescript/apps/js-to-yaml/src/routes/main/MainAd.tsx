@@ -1,9 +1,10 @@
 import { AnimationContainerWrapper } from "@packages/animation-container";
-import { StyledCard, StyledSyntaxHighlighter } from "../../styledComponents";
+import { StyledCard, StyledSyntaxHighlighter } from "../../customizedComponents";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { observeElementVisibility } from "@packages/element-utils";
 import { useBreakpoints } from "../../breakpoints";
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
+import { dynatic } from "../../dynatic-css.config";
 
 export const MainAd = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -70,7 +71,12 @@ export const MainAd = () => {
     if (stage === 2) {
       return {
         element: (
-          <StyledCard style={{ marginBottom: 0, padding: 0 }}>
+          <StyledCard
+            className={dynatic`
+              margin-bottom: 0;
+              padding: 0;
+            `}
+          >
             <StyledSyntaxHighlighter
               style={{
                 border: "1px solid var(--theme-border)",
@@ -122,7 +128,12 @@ jobs:
 
     return {
       element: (
-        <StyledCard style={{ marginBottom: 0, padding: "2px" }}>
+        <StyledCard
+          className={dynatic`
+            margin-bottom: 0;
+            padding: 2px;
+          `}
+        >
           <StyledSyntaxHighlighter
             code={`import { convertObjectToYaml } from "js-to-yaml";
 import { writeFileSync } from "fs";
@@ -185,13 +196,15 @@ writeFileSync("./tests.yaml", output);
   return (
     <div
       ref={ref}
+      className={dynatic`
+        overflow: hidden;
+        text-align: left;
+        height: 770px;
+        display: flex;
+        align-items: center;
+      `}
       style={{
         width: isDesktop ? "500px" : "90vw",
-        overflow: "hidden",
-        textAlign: "left",
-        height: "770px",
-        display: "flex",
-        alignItems: "center",
       }}
     >
       <AnimationContainerWrapper

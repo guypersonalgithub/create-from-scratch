@@ -4,13 +4,18 @@ import type { DynaticConfiguration } from "@packages/dynatic-css";
 import { buildDynatic } from "./buildDynatic";
 import { mapAliases } from "./mapAliases";
 import { recursivelyIterateFiles, type FullPathData } from "@packages/recursive-import-iteration";
-import { parseDynatic } from "./parseDynatic";
+import { parseFullPathData } from "./parseFullPathData";
+import { updateCSSFileForHotReload } from "./updateCSSFileForHotReload";
+import { iterateOverFile } from "@packages/recursive-import-iteration";
 
 type DynaticPluginArgs = {
   uniqueImports?: string[];
 };
 
 export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
+  // TODO: Consider splitting the plugin into a dynatic dev mode and production mode.
+  // There is no need to read the changed file on handleHotUpdate, transform already passes the code, just add a changed files set and update it accordingly.
+  // This functionality should obviously not belong to production mode.
   const { uniqueImports = [] } = args ?? {};
   const configPath = "dynatic-css.config";
   const baseIdentifiers = [`${configPath}`, "@packages/dynatic-css"];
@@ -21,6 +26,8 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
   const pseudoClasses = new Map<string, string>();
   const mediaQueries = new Map<string, Map<string, string>>();
   const fullParsedPaths = new Map<string, FullPathData>();
+  let updatedConfig: DynaticConfiguration | undefined;
+  let configCSS: string | undefined;
   let projectRoot = "";
 
   const isDebug = process.argv.includes("--dynatic-debug");
@@ -51,8 +58,6 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
         const configFilePath = `${projectRoot}/src/${configPath}.ts`;
         const config = fullPaths.get(configFilePath);
         let fileText: string | undefined;
-        let configCSS: string | undefined;
-        let updatedConfig: DynaticConfiguration | undefined;
         let configObjectStartIndex: number | undefined;
 
         if (config) {
@@ -65,34 +70,16 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
         }
 
         for (const [path, value] of fullPaths) {
-          const { imports, exports, currentIndex, input } = value;
-
-          let identifier: string | undefined;
-
-          for (const imp in imports) {
-            identifier = identifiers.find((identifier) => imp.endsWith(identifier));
-            if (identifier) {
-              break;
-            }
-          }
-
-          if (!identifier) {
-            continue;
-          }
-
-          const updated = parseDynatic({
-            input,
-            from: currentIndex,
-            identifier,
+          parseFullPathData({
+            path,
+            value,
+            fullParsedPaths,
+            identifiers,
             updatedConfig,
             inserted,
             pseudoClasses,
             mediaQueries,
           });
-
-          if (updated !== input) {
-            fullParsedPaths.set(path, { imports, exports, currentIndex, input: updated });
-          }
         }
 
         let mainFile: string | undefined;
@@ -159,6 +146,42 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
     //   }
     // },
     buildStart: () => {},
+    handleHotUpdate: async ({ file, server, read, modules }) => {
+      const input = await read();
+
+      const { imports, exports, currentIndex } =
+        fullParsedPaths.get(file) ?? iterateOverFile({ input, completePath: file, mappedAliases });
+
+      parseFullPathData({
+        path: file,
+        value: { imports, exports, currentIndex, input },
+        fullParsedPaths,
+        identifiers,
+        updatedConfig,
+        inserted,
+        pseudoClasses,
+        mediaQueries,
+      });
+
+      const updatedCSSFile = updateCSSFileForHotReload({
+        inserted,
+        pseudoClasses,
+        mediaQueries,
+        configCSS,
+      });
+
+      if (cssFile !== updatedCSSFile && cssFilePath) {
+        cssFile = updatedCSSFile;
+        const module = server.moduleGraph.getModuleById(cssFilePath);
+
+        if (module) {
+          server.moduleGraph.invalidateModule(module);
+
+          // Vite handles HMR automatically for returned modules.
+          return [...modules, module];
+        }
+      }
+    },
     transform(code: string, id: string) {
       if (!isBuild && !isDebug) {
         return;

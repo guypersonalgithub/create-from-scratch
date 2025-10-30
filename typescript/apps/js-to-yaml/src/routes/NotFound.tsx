@@ -1,5 +1,5 @@
 import { usePath } from "@packages/router";
-import { StyledButton } from "../styledComponents";
+import { StyledButton } from "../customizedComponents";
 
 export const NotFound = () => {
   const { moveTo } = usePath();

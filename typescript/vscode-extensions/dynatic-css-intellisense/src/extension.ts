@@ -9,8 +9,7 @@ import { cssProperties } from "./autoComplete/cssProperties";
 import { cssValues } from "./autoComplete/cssValues";
 
 export function activate(context: vscode.ExtensionContext) {
-  // let isSuggestOpen = false;
-
+  console.log("Activation started");
   // Track function names for the currently active editor (if any)
   if (vscode.window.activeTextEditor) {
     const { document } = vscode.window.activeTextEditor;
@@ -57,7 +56,6 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       if (event.contentChanges.length === 0) {
-        // isSuggestOpen = false;
         return;
       }
 
@@ -76,8 +74,6 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       if (value.length > 1) {
-        // isSuggestOpen = false;
-
         if (value.trim().length === 0) {
           return;
         }
@@ -109,23 +105,7 @@ export function activate(context: vscode.ExtensionContext) {
           }
         }
 
-        // const { propertyToken, currentToken } = tokens;
-        // const currentTokenValue = currentToken.value;
-        // let shouldOpenAutoComplete = false;
-
-        // if (!propertyToken) {
-        //   shouldOpenAutoComplete = !!cssProperties.find((property) =>
-        //     property.includes(currentTokenValue),
-        //   );
-        // }
-
-        // console.log(
-        //   shouldOpenAutoComplete,
-        //   cssProperties.find((property) => property.includes(currentTokenValue)),
-        // );
-
-        // if (shouldOpenAutoComplete) {
-        vscode.commands.executeCommand("dynaticCSS.openSuggest");
+        vscode.commands.executeCommand("editor.action.triggerSuggest");
 
         // await vscode.languages.setTextDocumentLanguage(editor.document, "my-styled-css");
 
@@ -156,29 +136,27 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.window.showInformationMessage("Dynatic CSS Intellisense extension activated!");
 
-  // vscode.window.onDidChangeWindowState((e) => {
-  //   if (e.focused) {
-  //     return;
-  //   }
-
-  //   // isSuggestOpen = false;
-  // });
-
   const provider = activateAutoComplete();
 
   context.subscriptions.push(provider);
-  // let timeout: NodeJS.Timeout;
 
-  vscode.commands.registerCommand("dynaticCSS.openSuggest", () => {
-    vscode.commands.executeCommand("editor.action.triggerSuggest");
+  context.subscriptions.push(
+    vscode.commands.registerCommand("dynaticCSS.openSuggest", async () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        await vscode.commands.executeCommand("editor.action.triggerSuggest");
+      }
+    }),
+  );
 
-    // isSuggestOpen = true;
-  });
-
-  vscode.commands.registerCommand("dynaticCSS.dismissSuggest", () => {
-    // isSuggestOpen = false;
-    vscode.commands.executeCommand("hideSuggestWidget");
-  });
+  context.subscriptions.push(
+    vscode.commands.registerCommand("dynaticCSS.dismissSuggest", async () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor) {
+        await vscode.commands.executeCommand("hideSuggestWidget");
+      }
+    }),
+  );
 }
 
 export function deactivate() {}

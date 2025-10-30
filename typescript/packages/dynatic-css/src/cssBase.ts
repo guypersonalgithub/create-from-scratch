@@ -1,14 +1,17 @@
 import { parseHelpers } from "./helpers";
 import { parseLine } from "./parse";
+import { splitCombinedTemplate } from "./splitCombinedTemplate";
 import type { DynaticConfiguration, InnerCSSInit } from "./types";
+import { splitOnSpaceOrNewline } from "@packages/utils";
 
 type PlainExpr = string | number | boolean;
 type ConfigExpr<T> = (config: T) => PlainExpr;
+type Config<T extends DynaticConfiguration> = InnerCSSInit<T, keyof T["variants"]>;
 
 export type WithConfig<T extends DynaticConfiguration> = {
   strings: TemplateStringsArray;
-  exprs: (PlainExpr | ConfigExpr<InnerCSSInit<T, keyof T["variants"]>>)[];
-  config: InnerCSSInit<T, keyof T["variants"]>;
+  exprs: (PlainExpr | ConfigExpr<Config<T>>)[];
+  config: Config<T>;
 };
 
 export type WithoutConfig = {
@@ -31,51 +34,53 @@ export function cssBase<T extends DynaticConfiguration = { variants: { base: {} 
   let mediaQuery: string | undefined;
   let pseudoClass: string | undefined;
 
-  console.log({ strings, exprs });
+  // console.log({ strings, exprs });
 
-  for (let i = 0; i < strings.length; i++) {
-    const staticPart = strings[i];
-    const expr = exprs[i];
+  const combinedTemplate = (
+    exprs.length > 0
+      ? strings.map((current, index) => {
+          // TODO: Look for a better combining function that might be more performant.
+          const currentExpression = exprs[index];
 
-    const splitStatic = staticPart.split("\n").map((part) => part.replaceAll(";", "").trim());
-    if (expr) {
-      for (let j = 0; j < splitStatic.length - 1; j++) {
-        const line = splitStatic[j];
+          if (currentExpression) {
+            const expressionAddition =
+              typeof currentExpression === "function"
+                ? currentExpression(config as Config<T>)
+                : currentExpression;
 
-        if (!line) {
-          continue;
+            return `${current}${expressionAddition}`;
+          }
+
+          return current;
+        })
+      : strings
+  ).join("");
+
+  const cssLines = splitCombinedTemplate({ combinedTemplate });
+
+  for (let i = 0; i < cssLines.length; i++) {
+    const str = cssLines[i];
+    const parsed = splitOnSpaceOrNewline({ str });
+
+    if (parsed.length > 0) {
+      const line = parsed.reduce((line, current, index) => {
+        const lastChar = current[current.length - 1];
+
+        if (lastChar === "(" || lastChar === ")" || index === parsed.length - 1) {
+          return line + current;
         }
 
-        const updated = parseHelpers({ line, mediaQuery, pseudoClass });
-        if (updated.continue) {
-          mediaQuery = updated.mediaQuery;
-          pseudoClass = updated.pseudoClass;
-          continue;
-        }
+        return line + current + " ";
+      }, "");
 
-        parseLine({ line, classNames, pseudoClass, mediaQuery });
+      const updated = parseHelpers({ line, mediaQuery, pseudoClass });
+      if (updated.continue) {
+        mediaQuery = updated.mediaQuery;
+        pseudoClass = updated.pseudoClass;
+        continue;
       }
 
-      const last = splitStatic[splitStatic.length - 1].trim();
-      const expression =
-        typeof expr === "function" ? expr(config as InnerCSSInit<T, keyof T["variants"]>) : expr;
-      const line = last.length > 0 ? `${last} ${expression}` : `${expression}`;
       parseLine({ line, classNames, pseudoClass, mediaQuery });
-    } else {
-      splitStatic.forEach((line) => {
-        if (!line) {
-          return;
-        }
-
-        const updated = parseHelpers({ line, mediaQuery, pseudoClass });
-        if (updated.continue) {
-          mediaQuery = updated.mediaQuery;
-          pseudoClass = updated.pseudoClass;
-          return;
-        }
-
-        parseLine({ line, classNames, pseudoClass, mediaQuery });
-      });
     }
   }
 

@@ -5,11 +5,12 @@ import { usePath } from "@packages/router";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
 import { useBreakpoints } from "../breakpoints";
-import { HeaderLogo } from "../styledComponents";
-import { PageSearchModal } from "../styledComponents/PageSearchModal";
+import { HeaderLogo } from "../customizedComponents";
+import { PageSearchModal } from "../customizedComponents/PageSearchModal";
 import { HeaderLinks } from "./HeaderLinks";
 import { MobileSections } from "./MobileSections";
 import { MobileDocumentationSidebar } from "./DocumentationSidebar";
+import { dynatic } from "../dynatic-css.config";
 
 export const Header = () => {
   const { currentTheme, themes, setTheme } = useUITheme();
@@ -28,29 +29,31 @@ export const Header = () => {
 
   return (
     <div
+      className={dynatic`
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        transition: ${(config) => config.shared.defaultTransition};
+      `}
       style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-        height: "60px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingLeft: "10px",
-        paddingRight: "10px",
         borderBottom: `1px solid ${borderBottomColor}`,
         backgroundColor: rgbaBg,
-        transition: "var(--theme-transition)",
       }}
     >
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          color: "var(--theme-color)",
-          transition: "var(--theme-transition)",
-        }}
+        className={dynatic`
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: ${(config) => config.colors.mainColor};
+          transition: ${(config) => config.shared.defaultTransition};
+        `}
       >
         {!isDesktop ? (
           <MobileDocumentationSidebar
@@ -69,19 +72,30 @@ export const Header = () => {
           />
         ) : null}
         <div
-          style={{ display: "flex", gap: "10px", alignItems: "center", cursor: "pointer" }}
+          className={dynatic`
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            cursor: pointer;
+          `}
           onClick={() => moveTo({ pathname: "/" })}
         >
-          <div style={{ height: "40px", width: "50px", color: "#00C48C" }}>
+          <div
+            className={dynatic`
+              height: 40px;
+              width: 50px;
+              color: ${(config) => config.colors.thirdColor};
+            `}
+          >
             <HeaderLogo />
           </div>
           {isDesktop ? (
             <div
-              style={{
-                fontSize: "50px",
-                fontWeight: "bolder",
-                whiteSpace: "nowrap",
-              }}
+              className={dynatic`
+                font-size: 50px;
+                font-weight: bolder;
+                white-space: nowrap;
+              `}
             >
               JS to YAML
             </div>
@@ -99,7 +113,13 @@ export const Header = () => {
           />
         ) : null}
       </div>
-      <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        `}
+      >
         {!isDesktop ? <MobileSections /> : null}
         <PageSearchModal
           buttonStyle={{

@@ -160,15 +160,23 @@ export const tokenizerFlows = ({
   cssInJS,
   extensionParsing,
 }: TokenizerFlowsArgs) => {
-  const callback = callbacks[newTokenValue];
-  const response = callback?.({
-    tokens,
-    newTokenValue,
-    input,
-    currentIndex,
-    extensionParsing,
-    cssInJS,
-  });
+  let response:
+    | {
+        updatedIndex: number;
+      }
+    | undefined;
+
+  if (Object.hasOwn(callbacks, newTokenValue)) {
+    const callback = callbacks[newTokenValue];
+    response = callback({
+      tokens,
+      newTokenValue,
+      input,
+      currentIndex,
+      extensionParsing,
+      cssInJS,
+    });
+  }
 
   if (!response) {
     const property = propertyFlow({
