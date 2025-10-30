@@ -1,4 +1,4 @@
-import { countLines } from "@packages/utils";
+import { countLines } from "@packages/string-utils";
 
 type GetCurrentLineCounterElementArgs = {
   lineCounter: number;

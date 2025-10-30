@@ -4,7 +4,7 @@ import { cssValues } from "./cssValues";
 import { currentTokens } from "./findSurroundingTokens";
 import { cachedSection } from "./findCurrentSection";
 import { cssProperties } from "./cssProperties";
-import { fuzzyMatch } from "@packages/utils";
+import { fuzzyMatch } from "@packages/string-utils";
 
 // interface MyCompletionItem extends vscode.CompletionItem {
 //   data?: any;

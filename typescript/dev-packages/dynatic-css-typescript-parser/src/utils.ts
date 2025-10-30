@@ -1,5 +1,5 @@
 import { breakpoints } from "./constants";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 import { spaceFlow } from "./spaceFlow";
 
 type FindNextBreakpointArgs = {

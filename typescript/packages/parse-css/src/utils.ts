@@ -3,7 +3,7 @@ import {
   isCharacterLetter,
   isCharacterNumber,
   isStringOnlyWithLetters,
-} from "@packages/utils";
+} from "@packages/string-utils";
 import { spaceFlow } from "./flows/spaceFlow";
 import type { Callback } from "./types";
 

@@ -1,7 +1,7 @@
 import { type BaseToken } from "./types";
 import { spaceFlow } from "./flows/genericFlows";
 import { type TokenTypeOptions, TokenTypes, breakpoints } from "./constants";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 import { variablePropertyFlow } from "./flows/variablePropertyFlow";
 
 type FindNextBreakpointArgs = {

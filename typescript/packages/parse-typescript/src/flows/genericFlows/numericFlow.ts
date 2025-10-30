@@ -1,4 +1,4 @@
-import { isNumeric } from "@packages/utils";
+import { isNumeric } from "@packages/string-utils";
 import { type BaseToken } from "../../types";
 import {
   acceptableCharactersAfterANumber,

@@ -13,8 +13,10 @@ on:
       - typescript/packages/randomizer/**
       - typescript/packages/object-utils/**
       - typescript/packages/parse-typescript/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/request/**
+      - typescript/packages/utils/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

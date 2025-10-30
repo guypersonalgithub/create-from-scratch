@@ -9,7 +9,8 @@ on:
       - reopened
     paths:
       - typescript/packages/parse-yaml/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
 jobs:
   Parse-Yaml-tests:
     runs-on: ubuntu-latest

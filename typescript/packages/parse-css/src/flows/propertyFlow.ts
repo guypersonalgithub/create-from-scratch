@@ -1,4 +1,4 @@
-import { isStringOnlyWithLetters } from "@packages/utils";
+import { isStringOnlyWithLetters } from "@packages/string-utils";
 import type { Callback } from "../types";
 import { getFullValue } from "../utils";
 import { TokenTypes } from "../constants";

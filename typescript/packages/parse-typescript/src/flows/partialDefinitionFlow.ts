@@ -1,4 +1,4 @@
-import { isNumeric } from "@packages/utils";
+import { isNumeric } from "@packages/string-utils";
 import { type TokenTypeOptions, TokenTypes } from "../constants";
 import { type BaseToken, type OpenedContext } from "../types";
 import {

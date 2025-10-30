@@ -2,7 +2,7 @@ import { TokenTypes } from "../../constants";
 import { type BaseToken } from "../../types";
 import { unicodes } from "../../uniqueUnicodes";
 import { tokenizerFlows } from "../tokenizerFlows";
-import { getNextNonSpaceCharIndex, isCharacterLetter } from "@packages/utils";
+import { getNextNonSpaceCharIndex, isCharacterLetter } from "@packages/string-utils";
 
 type VariableLimitArgs = {
   tokens: BaseToken[];

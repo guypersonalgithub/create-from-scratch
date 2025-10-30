@@ -2,7 +2,7 @@ import { TokenTypes } from "../constants";
 import { type BaseToken } from "../types";
 import { uniqueWords } from "../uniqueTokens";
 import { isValidSectionStartingCharacter } from "../utils";
-import { getNextNonSpaceCharIndex, isCharacterLetter } from "@packages/utils";
+import { getNextNonSpaceCharIndex, isCharacterLetter } from "@packages/string-utils";
 
 type UniqueFunctionFlowArgs = {
   input: string;

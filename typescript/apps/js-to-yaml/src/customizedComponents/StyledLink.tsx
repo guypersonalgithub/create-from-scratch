@@ -1,7 +1,7 @@
 import { Link } from "@packages/router";
 import { type CSSProperties } from "react";
 import { dynatic } from "../dynatic-css.config";
-import { combineStringsWithSpaces } from "@packages/utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type StyledLinkProps = {
   path: string;

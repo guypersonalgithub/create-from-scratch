@@ -1,4 +1,4 @@
-import { isNumeric, isStringOnlyWithLetters } from "@packages/utils";
+import { isNumeric, isStringOnlyWithLetters } from "@packages/string-utils";
 import type { Callback } from "../types";
 import { getFullValue, spaceCallback } from "../utils";
 import { numericValueFlow } from "./numericValueFlow";

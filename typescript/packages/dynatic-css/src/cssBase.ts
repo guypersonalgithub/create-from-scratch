@@ -2,7 +2,7 @@ import { parseHelpers } from "./helpers";
 import { parseLine } from "./parse";
 import { splitCombinedTemplate } from "./splitCombinedTemplate";
 import type { DynaticConfiguration, InnerCSSInit } from "./types";
-import { splitOnSpaceOrNewline } from "@packages/utils";
+import { splitOnSpaceOrNewline } from "@packages/string-utils";
 
 type PlainExpr = string | number | boolean;
 type ConfigExpr<T> = (config: T) => PlainExpr;

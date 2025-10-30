@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 
 type GetExportDefaultIndexArgs = {
   filePath: string;

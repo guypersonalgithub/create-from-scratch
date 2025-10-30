@@ -10,7 +10,8 @@ on:
     paths:
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/dynatic-css-utils/**
       - typescript/packages/dynatic-css/**
       - typescript/dev-packages/typescript-file-manipulation/**

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@packages/pagination": "*",
-    "@packages/utils": "*"
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

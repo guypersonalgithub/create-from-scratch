@@ -5,7 +5,7 @@ import {
 import { parseCSS } from "./parseCSS";
 import type { DynaticConfiguration } from "@packages/dynatic-css";
 import { createClassName, hashString } from "@packages/dynatic-css-utils";
-import { replaceSubstring } from "@packages/utils";
+import { replaceSubstring } from "@packages/string-utils";
 
 type ParseDynaticArgs = {
   input: string;

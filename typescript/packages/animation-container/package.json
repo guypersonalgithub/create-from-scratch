@@ -10,7 +10,8 @@
   "dependencies": {
     "@packages/utils": "*",
     "@packages/is-dev": "*",
-    "@packages/array-utils": "*"
+    "@packages/array-utils": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

@@ -3,7 +3,7 @@ import { getProjectAbsolutePath, getRelativePath } from "@packages/paths";
 import { detectUsedLocalPackages } from "@packages/packages";
 import { formatCodeWithESLint } from "@packages/eslint";
 import { extractObject, getExportDefaultIndex } from "@packages/typescript-file-manipulation";
-import { replaceOrInsertCharactersInRange } from "@packages/utils";
+import { replaceOrInsertCharactersInRange } from "@packages/string-utils";
 import { addOrRemovePathImport } from "./addOrRemovePathImport";
 import {
   convertObjectToString,

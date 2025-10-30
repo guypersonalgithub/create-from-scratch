@@ -2,7 +2,7 @@ import { TokenTypes } from "../constants";
 import { tokenizerFlows } from "./tokenizerFlows";
 import { type BaseToken } from "../types";
 import { isValidSectionStartingCharacter } from "../utils";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 
 type AbsoluteFlowArgs = {
   input: string;

@@ -1,4 +1,4 @@
-import { isNumeric } from "@packages/utils";
+import { isNumeric } from "@packages/string-utils";
 import { TokenTypes } from "../constants";
 import type { Callback } from "../types";
 import { findNextBreakpoint } from "../utils";

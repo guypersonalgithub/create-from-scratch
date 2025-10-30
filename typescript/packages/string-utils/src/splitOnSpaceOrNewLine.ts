@@ -1,4 +1,4 @@
-import { spaceOrNewLineRegex } from "../regex";
+import { spaceOrNewLineRegex } from "@packages/regex";
 
 type SplitOnSpaceOrNewlineArgs = {
   str: string;

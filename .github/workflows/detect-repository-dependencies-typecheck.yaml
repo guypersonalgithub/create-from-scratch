@@ -14,7 +14,7 @@ on:
       - typescript/dev-packages/files/**
       - typescript/dev-packages/package-manager/**
       - typescript/dev-packages/typescript-file-manipulation/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
       - typescript/packages/object-utils/**
       - typescript/packages/parse-typescript/**
       - typescript/dev-packages/package-json/**

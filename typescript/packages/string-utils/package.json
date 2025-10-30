@@ -1,5 +1,5 @@
 {
-  "name": "@packages/parse-css",
+  "name": "@packages/string-utils",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@packages/string-utils": "*"
+    "@packages/regex": "*"
   },
   "author": "",
   "license": "ISC",

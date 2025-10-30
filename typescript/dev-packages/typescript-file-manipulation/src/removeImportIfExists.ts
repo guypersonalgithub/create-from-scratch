@@ -1,4 +1,4 @@
-import { replaceOrInsertCharactersInRange } from "@packages/utils";
+import { replaceOrInsertCharactersInRange } from "@packages/string-utils";
 import { getImportsInFile } from "./getImportsInFile";
 
 type RemoveImportIfExistsArgs = {

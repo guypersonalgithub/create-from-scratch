@@ -16,6 +16,8 @@ on:
       - typescript/packages/array-utils/**
       - typescript/packages/object-utils/**
       - typescript/packages/parse-typescript/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/ui-theme/**
       - typescript/packages/icons/**
       - typescript/packages/button/**
@@ -95,6 +97,8 @@ jobs:
           cp -r ./packages/array-utils ./full-application/packages
           cp -r ./packages/object-utils ./full-application/packages
           cp -r ./packages/parse-typescript ./full-application/packages
+          cp -r ./packages/string-utils ./full-application/packages
+          cp -r ./packages/regex ./full-application/packages
           cp -r ./packages/ui-theme ./full-application/packages
           cp -r ./packages/icons ./full-application/packages
           cp -r ./packages/button ./full-application/packages

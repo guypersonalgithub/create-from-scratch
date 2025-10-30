@@ -2,7 +2,7 @@ import { writeFileSync } from "fs";
 import { type GithubActionYaml } from "./types";
 import { convertObjectToYaml } from "@packages/yaml";
 import { getConfiguration } from "./getConfiguration";
-import { removeQuotationMarks } from "@packages/utils";
+import { removeQuotationMarks } from "@packages/string-utils";
 
 type ParseGithubActionContentArgs = {
   file: string;

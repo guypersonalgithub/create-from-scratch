@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@packages/parse-typescript": "*",
-    "@packages/utils": "*"
+    "@packages/string-utils": "*"
   },
   "author": "",
   "license": "ISC",

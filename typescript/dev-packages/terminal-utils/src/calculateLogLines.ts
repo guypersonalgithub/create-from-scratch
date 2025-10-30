@@ -1,4 +1,4 @@
-import { countTokenAppearancesInString, replaceTokenAppearancesInString } from "@packages/utils";
+import { countTokenAppearancesInString, replaceTokenAppearancesInString } from "@packages/string-utils";
 
 type CalculateLogLinesArgs = {
   text: string;

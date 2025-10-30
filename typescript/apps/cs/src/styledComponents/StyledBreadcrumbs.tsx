@@ -1,7 +1,7 @@
 import { Breadcrumbs, type BreadcrumbsProps } from "@packages/breadcrumbs";
 import { useParsePathname } from "@packages/hooks";
 import { usePath } from "@packages/router";
-import { capitalizeFirstChar } from "@packages/utils";
+import { capitalizeFirstChar } from "@packages/string-utils";
 
 type StyledBreadcrumbsProps = Omit<BreadcrumbsProps, "onClick">;
 

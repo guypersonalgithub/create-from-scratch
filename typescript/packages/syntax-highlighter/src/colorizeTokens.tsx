@@ -1,7 +1,7 @@
 import { type JSX } from "react";
 import { type SupportedLanguages } from "./languages";
 import { type GenericBaseToken, type TokenMaps } from "./types";
-import { countLines } from "@packages/utils";
+import { countLines } from "@packages/string-utils";
 import { getCurrentLineCounterElement } from "./utils";
 
 type ColorizeTokensArgs<T extends SupportedLanguages> = {

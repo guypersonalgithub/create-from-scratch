@@ -1,4 +1,4 @@
-import { isAlphaNumeric } from "@packages/utils";
+import { isAlphaNumeric } from "@packages/string-utils";
 import { asteriskFlow } from "./asteriskFlow";
 import { fullTypeFlow } from "./fullTypeFlow";
 import type { Callback, ExportProperties } from "./types";

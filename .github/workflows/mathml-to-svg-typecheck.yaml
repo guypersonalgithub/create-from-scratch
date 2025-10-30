@@ -11,7 +11,8 @@ on:
       - typescript/packages/mathml-to-svg/**
       - typescript/packages/mathml/**
       - typescript/packages/math-parser/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@packages/utils": "*"
+    "@packages/string-utils": "*"
   },
   "author": "",
   "license": "ISC",

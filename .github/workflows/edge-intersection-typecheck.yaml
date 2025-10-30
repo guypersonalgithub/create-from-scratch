@@ -9,6 +9,8 @@ on:
       - reopened
     paths:
       - typescript/packages/edge-intersection/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/utils/**
 jobs:
   Typecheck:

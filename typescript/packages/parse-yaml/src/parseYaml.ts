@@ -1,4 +1,4 @@
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 import { type BaseToken, type OpenedContextsIdentation } from "./types";
 import { tokenizerFlows } from "./flows/tokenizerFlows";
 import { TokenTypes } from "./constants";

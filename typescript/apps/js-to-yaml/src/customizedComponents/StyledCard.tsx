@@ -1,7 +1,7 @@
 import { Card } from "@packages/card";
 import { type CSSProperties, type ReactNode } from "react";
 import { dynatic } from "../dynatic-css.config";
-import { combineStringsWithSpaces } from "@packages/utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type StyledCardProps = {
   className?: string;

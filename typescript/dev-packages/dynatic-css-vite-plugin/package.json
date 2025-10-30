@@ -12,7 +12,7 @@
     "@packages/dynatic-css-typescript-parser": "*",
     "@packages/dynatic-css-utils": "*",
     "@packages/dynatic-css": "*",
-    "@packages/utils": "*",
+    "@packages/string-utils": "*",
     "@packages/typescript-file-manipulation": "*",
     "@packages/parse-typescript": "*",
     "@packages/recursive-import-iteration": "*"

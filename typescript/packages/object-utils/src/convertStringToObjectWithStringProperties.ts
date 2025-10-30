@@ -1,5 +1,5 @@
 import { parseTypescript } from "@packages/parse-typescript";
-import { removeWrapperQuotationMarks } from "@packages/utils";
+import { removeWrapperQuotationMarks } from "@packages/string-utils";
 
 type ConvertStringToObjectWithStringPropertiesArgs = {
   str: string;

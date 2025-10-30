@@ -26,11 +26,17 @@ services:
         source: ./packages/math-parser
         target: /usr/src/app/packages/math-parser
       - type: bind
-        source: ./packages/utils
-        target: /usr/src/app/packages/utils
+        source: ./packages/string-utils
+        target: /usr/src/app/packages/string-utils
+      - type: bind
+        source: ./packages/regex
+        target: /usr/src/app/packages/regex
       - type: bind
         source: ./packages/router
         target: /usr/src/app/packages/router
+      - type: bind
+        source: ./packages/utils
+        target: /usr/src/app/packages/utils
       - type: bind
         source: ./packages/url
         target: /usr/src/app/packages/url
@@ -241,6 +247,12 @@ services:
         source: ./packages/parse-typescript
         target: /usr/src/app/packages/parse-typescript
       - type: bind
+        source: ./packages/string-utils
+        target: /usr/src/app/packages/string-utils
+      - type: bind
+        source: ./packages/regex
+        target: /usr/src/app/packages/regex
+      - type: bind
         source: ./packages/ui-theme
         target: /usr/src/app/packages/ui-theme
       - type: bind
@@ -417,14 +429,20 @@ services:
         source: ./packages/button
         target: /usr/src/app/packages/button
       - type: bind
-        source: ./packages/utils
-        target: /usr/src/app/packages/utils
+        source: ./packages/string-utils
+        target: /usr/src/app/packages/string-utils
+      - type: bind
+        source: ./packages/regex
+        target: /usr/src/app/packages/regex
       - type: bind
         source: ./packages/tooltip
         target: /usr/src/app/packages/tooltip
       - type: bind
         source: ./packages/animation-container
         target: /usr/src/app/packages/animation-container
+      - type: bind
+        source: ./packages/utils
+        target: /usr/src/app/packages/utils
       - type: bind
         source: ./packages/is-dev
         target: /usr/src/app/packages/is-dev
