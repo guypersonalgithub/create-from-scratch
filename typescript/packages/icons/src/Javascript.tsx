@@ -6,6 +6,7 @@ export const Javascript = ({
   size,
   width = size,
   height = size,
+  className,
   style,
   backgroundColor = "#F0DB4F",
   fill = "#323330",

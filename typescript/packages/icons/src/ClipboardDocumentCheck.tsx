@@ -4,6 +4,7 @@ export const ClipboardDocumentCheck = ({
   size,
   width = size,
   height = size,
+  className,
   style,
 }: SVGIconProps) => {
   return (

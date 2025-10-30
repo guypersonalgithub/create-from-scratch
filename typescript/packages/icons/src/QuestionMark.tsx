@@ -4,6 +4,7 @@ export const QuestionMark = ({
   size,
   width = size,
   height = size,
+  className,
   style,
   strokeWidth = 1.5,
 }: SVGIconProps & { strokeWidth?: number }) => {
