@@ -1,4 +1,4 @@
-import { getNextNonSpaceCharIndex, isNumeric } from "@packages/utils";
+import { getNextNonSpaceCharIndex, isNumeric } from "@packages/string-utils";
 import { type BaseToken } from "./types";
 import { TokenTypes } from "./constants";
 

@@ -12,7 +12,8 @@ on:
       - typescript/dev-packages/global-dependencies/**
       - typescript/dev-packages/package-manager/**
       - typescript/dev-packages/terminal-utils/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/dev-packages/git/**
       - typescript/dev-packages/paths/**
       - typescript/dev-packages/create-typecheck-github-actions-config/**

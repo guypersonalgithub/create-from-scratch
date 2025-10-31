@@ -11,6 +11,8 @@ COPY ./packages/hooks/package.json ./packages/hooks/package.json
 COPY ./packages/array-utils/package.json ./packages/array-utils/package.json
 COPY ./packages/object-utils/package.json ./packages/object-utils/package.json
 COPY ./packages/parse-typescript/package.json ./packages/parse-typescript/package.json
+COPY ./packages/string-utils/package.json ./packages/string-utils/package.json
+COPY ./packages/regex/package.json ./packages/regex/package.json
 COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
 COPY ./packages/icons/package.json ./packages/icons/package.json
 COPY ./packages/button/package.json ./packages/button/package.json
@@ -76,6 +78,8 @@ COPY ./packages/hooks ./packages/hooks
 COPY ./packages/array-utils ./packages/array-utils
 COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
+COPY ./packages/string-utils ./packages/string-utils
+COPY ./packages/regex ./packages/regex
 COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
@@ -142,6 +146,8 @@ COPY ./packages/hooks ./packages/hooks
 COPY ./packages/array-utils ./packages/array-utils
 COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
+COPY ./packages/string-utils ./packages/string-utils
+COPY ./packages/regex ./packages/regex
 COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
@@ -208,6 +214,8 @@ COPY ./packages/hooks ./packages/hooks
 COPY ./packages/array-utils ./packages/array-utils
 COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
+COPY ./packages/string-utils ./packages/string-utils
+COPY ./packages/regex ./packages/regex
 COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button

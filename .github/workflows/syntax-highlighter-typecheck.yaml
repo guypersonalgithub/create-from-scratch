@@ -10,13 +10,15 @@ on:
     paths:
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-typescript/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/parse-yaml/**
       - typescript/packages/element-utils/**
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/button/**
       - typescript/packages/tooltip/**
       - typescript/packages/animation-container/**
+      - typescript/packages/utils/**
       - typescript/packages/is-dev/**
       - typescript/packages/array-utils/**
       - typescript/packages/object-utils/**

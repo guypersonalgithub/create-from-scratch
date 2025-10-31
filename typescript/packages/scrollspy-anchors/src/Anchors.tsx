@@ -3,7 +3,7 @@ import { type Anchor } from "./types";
 import { useRef, type RefObject, useEffect, type CSSProperties } from "react";
 import { registerAnchorRef } from "./registerRefs";
 import { getLowestAnchorIndex } from "./utils";
-import { combineStringsWithSpaces } from "@packages/utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type AnchorsProps = {
   anchors: Anchor[];

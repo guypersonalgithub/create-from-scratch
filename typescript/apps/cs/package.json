@@ -35,6 +35,7 @@
     "@packages/utils": "*",
     "@packages/binary": "*",
     "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

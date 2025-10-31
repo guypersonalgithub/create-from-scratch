@@ -10,7 +10,7 @@
   "dependencies": {
     "@packages/parse-typescript": "*",
     "@packages/parse-yaml": "*",
-    "@packages/utils": "*",
+    "@packages/string-utils": "*",
     "@packages/element-utils": "*",
     "@packages/copy-to-clipboard": "*"
   },

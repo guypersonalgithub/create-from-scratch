@@ -12,9 +12,11 @@ on:
       - typescript/packages/table/**
       - typescript/packages/pagination/**
       - typescript/packages/button/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/tooltip/**
       - typescript/packages/animation-container/**
+      - typescript/packages/utils/**
       - typescript/packages/is-dev/**
       - typescript/packages/array-utils/**
       - typescript/packages/object-utils/**

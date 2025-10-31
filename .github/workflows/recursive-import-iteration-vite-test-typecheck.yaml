@@ -11,7 +11,8 @@ on:
       - typescript/dev-packages/recursive-import-iteration-vite-test/**
       - typescript/dev-packages/recursive-import-iteration/**
       - typescript/packages/import-parser/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/export-parser/**
 jobs:
   Typecheck:

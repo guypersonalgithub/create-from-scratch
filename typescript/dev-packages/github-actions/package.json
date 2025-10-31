@@ -12,7 +12,7 @@
     "@packages/paths": "*",
     "@packages/packages": "*",
     "@packages/typescript-file-manipulation": "*",
-    "@packages/utils": "*",
+    "@packages/string-utils": "*",
     "@packages/object-utils": "*",
     "@packages/files": "*"
   },

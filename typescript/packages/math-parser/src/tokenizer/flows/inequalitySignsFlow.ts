@@ -1,6 +1,6 @@
 import { TokenTypes } from "../constants";
 import { nonConsecutiveOperators } from "../uniqueTokens";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 
 type InequalitySignsFlow = {
   input: string;

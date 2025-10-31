@@ -1,6 +1,6 @@
 import { type ReactElement } from "react";
 import { type CSSPropertiesWithIndex } from "./types";
-import { convertStringFormat } from "@packages/utils";
+import { convertStringFormat } from "@packages/string-utils";
 import { IS_ANIMATION_CONTAINER_WRAPPER } from "./AnimationContainerWrapper";
 
 type ReverseKeyframesArgs = {

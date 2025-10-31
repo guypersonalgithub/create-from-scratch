@@ -1,6 +1,6 @@
 import { TokenTypes } from "../constants";
 import { type BaseToken } from "../types";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 
 type DerivativeSignFlowArgs = {
   tokens: BaseToken[];

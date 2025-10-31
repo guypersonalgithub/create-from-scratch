@@ -20,6 +20,8 @@ export default defineConfig({
         __dirname,
         "../../packages/parse-typescript/src/index.ts",
       ),
+      "@packages/string-utils": path.resolve(__dirname, "../../packages/string-utils/src/index.ts"),
+      "@packages/regex": path.resolve(__dirname, "../../packages/regex/src/index.ts"),
       "@packages/button": path.resolve(__dirname, "../../packages/button/src/index.ts"),
       "@packages/checkbox": path.resolve(__dirname, "../../packages/checkbox/src/index.ts"),
       "@packages/date": path.resolve(__dirname, "../../packages/date/src/index.ts"),

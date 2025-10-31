@@ -1,4 +1,4 @@
-import { isNumeric } from "@packages/utils";
+import { isNumeric } from "@packages/string-utils";
 import { TokenTypes } from "../constants";
 import { type BaseToken, type OpenedContextsIdentation } from "../types";
 import { endOfLineFlow } from "./endOfLineFlow";

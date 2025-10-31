@@ -1,4 +1,4 @@
-import { isAlphaNumeric } from "@packages/utils";
+import { isAlphaNumeric } from "@packages/string-utils";
 import type { Callback } from "./types";
 import { spaceCallback } from "./utils";
 import { fromImportFlow } from "./fromImportFlow";

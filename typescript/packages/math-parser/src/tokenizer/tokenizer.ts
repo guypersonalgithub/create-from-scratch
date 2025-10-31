@@ -1,7 +1,7 @@
 import { type BaseToken } from "./types";
 import { isValidLimit, isValidSectionStartingCharacter } from "./utils";
 import { limitFlow, tokenizerFlows } from "./flows";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 
 type TokenizerArgs = {
   input: string;

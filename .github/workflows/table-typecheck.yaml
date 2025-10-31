@@ -11,7 +11,8 @@ on:
       - typescript/packages/table/**
       - typescript/packages/pagination/**
       - typescript/packages/button/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

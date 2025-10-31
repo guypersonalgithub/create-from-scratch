@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { capitalizeFirstChar } from "@packages/utils";
+import { capitalizeFirstChar } from "@packages/string-utils";
 
 type CreateTypecheckGithubActionsConfigArgs = {
   folderName: string;

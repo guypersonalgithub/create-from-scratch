@@ -1,4 +1,4 @@
-import { isAlphaNumeric } from "@packages/utils";
+import { isAlphaNumeric } from "@packages/string-utils";
 import { TokenTypes } from "../constants";
 import type { Callback } from "../types";
 import { spaceCallback } from "../utils";

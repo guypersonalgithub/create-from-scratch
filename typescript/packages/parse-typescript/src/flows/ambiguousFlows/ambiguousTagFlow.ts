@@ -1,4 +1,4 @@
-import { isStringOnlyWithLetters } from "@packages/utils";
+import { isStringOnlyWithLetters } from "@packages/string-utils";
 import { type TokenTypeOptions, TokenTypes } from "../../constants";
 import { type BaseToken, type OpenedContext } from "../../types";
 import { spaceFollowUpFlow } from "../genericFlows";

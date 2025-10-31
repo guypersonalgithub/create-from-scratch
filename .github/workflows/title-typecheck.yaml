@@ -11,7 +11,8 @@ on:
       - typescript/packages/title/**
       - typescript/packages/dynatic-css/**
       - typescript/packages/dynatic-css-utils/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

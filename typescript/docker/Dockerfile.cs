@@ -6,8 +6,10 @@ COPY ./apps/cs/package.json ./apps/cs/package.json
 COPY ./packages/icons/package.json ./packages/icons/package.json
 COPY ./packages/mathml/package.json ./packages/mathml/package.json
 COPY ./packages/math-parser/package.json ./packages/math-parser/package.json
-COPY ./packages/utils/package.json ./packages/utils/package.json
+COPY ./packages/string-utils/package.json ./packages/string-utils/package.json
+COPY ./packages/regex/package.json ./packages/regex/package.json
 COPY ./packages/router/package.json ./packages/router/package.json
+COPY ./packages/utils/package.json ./packages/utils/package.json
 COPY ./packages/url/package.json ./packages/url/package.json
 COPY ./packages/environment/package.json ./packages/environment/package.json
 COPY ./packages/hooks/package.json ./packages/hooks/package.json
@@ -64,8 +66,10 @@ COPY --chown=node:node ./apps/cs ./
 COPY ./packages/icons ./packages/icons
 COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
-COPY ./packages/utils ./packages/utils
+COPY ./packages/string-utils ./packages/string-utils
+COPY ./packages/regex ./packages/regex
 COPY ./packages/router ./packages/router
+COPY ./packages/utils ./packages/utils
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
@@ -123,8 +127,10 @@ COPY --chown=node:node ./apps/cs ./
 COPY ./packages/icons ./packages/icons
 COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
-COPY ./packages/utils ./packages/utils
+COPY ./packages/string-utils ./packages/string-utils
+COPY ./packages/regex ./packages/regex
 COPY ./packages/router ./packages/router
+COPY ./packages/utils ./packages/utils
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks
@@ -182,8 +188,10 @@ COPY --chown=node:node ./apps/cs ./
 COPY ./packages/icons ./packages/icons
 COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
-COPY ./packages/utils ./packages/utils
+COPY ./packages/string-utils ./packages/string-utils
+COPY ./packages/regex ./packages/regex
 COPY ./packages/router ./packages/router
+COPY ./packages/utils ./packages/utils
 COPY ./packages/url ./packages/url
 COPY ./packages/environment ./packages/environment
 COPY ./packages/hooks ./packages/hooks

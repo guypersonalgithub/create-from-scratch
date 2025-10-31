@@ -1,7 +1,8 @@
 import { type CSSProperties, type ReactNode } from "react";
 import { type CustomEdges, type EdgeWrapperRefs } from "./types";
 import { calculateBaseWithOffset } from "./utils";
-import { capitalizeFirstChar, type OmitByPattern } from "@packages/utils";
+import { capitalizeFirstChar } from "@packages/string-utils";
+import { type OmitByPattern } from "@packages/utils";
 
 type EdgeIntersectionProps = {
   id: string;

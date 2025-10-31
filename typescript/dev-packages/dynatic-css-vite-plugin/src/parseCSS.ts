@@ -1,6 +1,6 @@
 import type { DynaticConfiguration } from "@packages/dynatic-css";
 import type { Contexts, DynaticStyleChunksVariable } from "@packages/dynatic-css-typescript-parser";
-import { replaceSubstring } from "@packages/utils";
+import { replaceSubstring } from "@packages/string-utils";
 import { stripQuotationMarks } from "./stripQuotationMarks";
 import { isStatic } from "./isStatic";
 import { getVariableValue } from "./getVariableValue";

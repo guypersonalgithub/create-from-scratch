@@ -13,7 +13,7 @@
     "@packages/typescript": "*",
     "@packages/eslint": "*",
     "@packages/typescript-file-manipulation": "*",
-    "@packages/utils": "*",
+    "@packages/string-utils": "*",
     "@packages/object-utils": "*"
   },
   "devDependencies": {

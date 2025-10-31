@@ -18,7 +18,7 @@ import { inequalitySignsFlow } from "./inequalitySignsFlow";
 import { rootFlow } from "./rootFlow";
 import { floorFlow } from "./floorFlow";
 import { cancelFlow } from "./cancelFlow";
-import { isCharacterLetter, isCharacterNumber } from "@packages/utils";
+import { isCharacterLetter, isCharacterNumber } from "@packages/string-utils";
 
 type TokenizerFlowsArgs = {
   tokens: BaseToken[];

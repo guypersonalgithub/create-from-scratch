@@ -1,5 +1,5 @@
 import { TokenTypes } from "../constants";
-import { getNextNonSpaceCharIndex } from "@packages/utils";
+import { getNextNonSpaceCharIndex } from "@packages/string-utils";
 
 type FactorialFlowArgs = {
   input: string;

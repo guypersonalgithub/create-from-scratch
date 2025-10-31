@@ -1,4 +1,4 @@
-name: Git Typecheck
+name: String Utils Typecheck
 on:
   pull_request:
     branches:
@@ -8,12 +8,8 @@ on:
       - synchronize
       - reopened
     paths:
-      - typescript/dev-packages/git/**
-      - typescript/dev-packages/paths/**
-      - typescript/dev-packages/terminal-utils/**
       - typescript/packages/string-utils/**
       - typescript/packages/regex/**
-      - typescript/dev-packages/git/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest
@@ -27,4 +23,4 @@ jobs:
       - name: Install dependencies
         run: npm i
       - name: Run typecheck
-        run: cd dev-packages/git && npm run typecheck
+        run: cd packages/string-utils && npm run typecheck

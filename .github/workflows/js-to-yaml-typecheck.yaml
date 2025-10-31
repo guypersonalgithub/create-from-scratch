@@ -17,6 +17,8 @@ on:
       - typescript/packages/array-utils/**
       - typescript/packages/object-utils/**
       - typescript/packages/parse-typescript/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/ui-theme/**
       - typescript/packages/icons/**
       - typescript/packages/button/**

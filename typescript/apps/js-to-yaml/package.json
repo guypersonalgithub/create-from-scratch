@@ -45,7 +45,7 @@
     "@packages/popover": "*",
     "@packages/state-management": "*",
     "@packages/dynatic-css": "*",
-    "@packages/utils": "*"
+    "@packages/string-utils": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

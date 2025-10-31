@@ -13,7 +13,8 @@ on:
       - typescript/dev-packages/packages/**
       - typescript/dev-packages/paths/**
       - typescript/dev-packages/terminal-utils/**
-      - typescript/packages/utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/dev-packages/git/**
       - typescript/dev-packages/create-typecheck-github-actions-config/**
       - typescript/dev-packages/package-json/**

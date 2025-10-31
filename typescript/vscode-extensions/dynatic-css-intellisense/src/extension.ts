@@ -4,7 +4,7 @@ import { parsingFlow } from "./parsingFlow";
 import { highlightTokens } from "./highlightTokens";
 import { activateAutoComplete } from "./autoComplete/activateAutoComplete";
 import { findSurroundingTokens } from "./autoComplete/findSurroundingTokens";
-import { fuzzyMatch, isAlphaNumeric } from "@packages/utils";
+import { fuzzyMatch, isAlphaNumeric } from "@packages/string-utils";
 import { cssProperties } from "./autoComplete/cssProperties";
 import { cssValues } from "./autoComplete/cssValues";
 

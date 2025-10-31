@@ -1,5 +1,5 @@
 import { detectArrayEnd } from "@packages/dynatic-css-typescript-parser";
-import { replaceSubstring } from "@packages/utils";
+import { replaceSubstring } from "@packages/string-utils";
 
 type UpdateClassesArgs = {
   fileText: string;

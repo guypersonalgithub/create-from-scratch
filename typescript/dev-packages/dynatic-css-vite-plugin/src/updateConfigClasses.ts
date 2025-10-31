@@ -1,6 +1,6 @@
 import type { DynaticConfiguration } from "@packages/dynatic-css";
 import { detectObjectEnd } from "@packages/dynatic-css-typescript-parser";
-import { replaceSubstring } from "@packages/utils";
+import { replaceSubstring } from "@packages/string-utils";
 // import { formatCodeWithPrettier } from "@packages/prettier";
 
 type UpdateConfigClassesArgs = {

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@packages/dynatic-css-utils": "*",
-    "@packages/utils": "*"
+    "@packages/string-utils": "*"
   },
   "author": "",
   "license": "ISC",

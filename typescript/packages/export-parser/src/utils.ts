@@ -1,4 +1,4 @@
-import { getNextNonSpaceCharIndex, isAlphaNumeric } from "@packages/utils";
+import { getNextNonSpaceCharIndex, isAlphaNumeric } from "@packages/string-utils";
 import { spaceFlow } from "./spaceFlow";
 import { commentFlow } from "./commentFlow";
 

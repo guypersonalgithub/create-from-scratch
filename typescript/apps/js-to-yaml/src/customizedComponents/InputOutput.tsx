@@ -5,7 +5,7 @@ import { StyledSyntaxHighlighter } from "./StyledSyntaxHighlighter";
 import { convertObjectToYaml, convertYamlToObject } from "@packages/yaml";
 import { useEffect, useRef, useState } from "react";
 import { dynatic } from "../dynatic-css.config";
-import { combineStringsWithSpaces } from "@packages/utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type ConvertTypescriptToYamlArgs = {
   code: Record<string, unknown>;

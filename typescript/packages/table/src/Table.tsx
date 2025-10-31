@@ -3,7 +3,7 @@ import { TableCell } from "./TableCell";
 import { Pagination } from "@packages/pagination";
 import { getDisplayedRows } from "./utils";
 import { type Column, type TableProps } from "./types";
-import { combineStringsWithSpaces } from "@packages/utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 export const Table = <T extends Record<string, unknown>>({
   data = [],

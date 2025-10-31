@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@packages/paths": "*",
-    "@packages/utils": "*",
+    "@packages/string-utils": "*",
     "@packages/package-json": "*"
   },
   "author": "",
