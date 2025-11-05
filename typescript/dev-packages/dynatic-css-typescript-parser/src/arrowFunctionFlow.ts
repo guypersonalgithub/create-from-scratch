@@ -1,4 +1,9 @@
-import type { Callback, DynaticStyleChunksVariable } from "./types";
+import type {
+  ArgumentTypes,
+  Callback,
+  DynaticStyleChunksVariable,
+  RegularVariableTypes,
+} from "./types";
 import { spaceCallback } from "./utils";
 import { valueFlow } from "./valueFlow";
 
@@ -15,6 +20,7 @@ type ArrowFunctionFlowArgs = Pick<
   | "openContexts"
 > & {
   calledFromTemplateLiteral?: boolean;
+  calledFromStartOfExpression?: boolean;
 };
 
 export const arrowFunctionFlow = ({
@@ -22,6 +28,7 @@ export const arrowFunctionFlow = ({
   currentIndex,
   newTokenValue,
   calledFromTemplateLiteral,
+  calledFromStartOfExpression,
   identifier,
   dynaticStyleChunks,
   dynaticStyleOrderedChunks,
@@ -41,41 +48,50 @@ export const arrowFunctionFlow = ({
 
   let argument = "";
 
-  while (parenthesisCount > 0 && next.updatedIndex < input.length) {
-    if (next.skipped) {
-      fullValue += next.skipped;
-    }
-    fullValue += next.newTokenValue;
-
-    if (next.newTokenValue === "(") {
-      parenthesisCount++;
-    } else if (next.newTokenValue === ")") {
-      parenthesisCount--;
-
-      if (parenthesisCount === 0) {
-        break;
+  if (!calledFromStartOfExpression) {
+    while (parenthesisCount > 0 && next.updatedIndex < input.length) {
+      if (next.skipped) {
+        fullValue += next.skipped;
       }
-    } else {
-      argument += next.newTokenValue;
+      fullValue += next.newTokenValue;
+
+      if (next.newTokenValue === "(") {
+        parenthesisCount++;
+      } else if (next.newTokenValue === ")") {
+        parenthesisCount--;
+
+        if (parenthesisCount === 0) {
+          break;
+        }
+      } else {
+        argument += next.newTokenValue;
+      }
+
+      next = spaceCallback({ input, currentIndex: next.updatedIndex });
     }
 
     argument = argument.split(",")[0];
 
-    next = spaceCallback({ input, currentIndex: next.updatedIndex });
-  }
-
-  while (
-    next.updatedIndex < input.length && next.newTokenValue === "="
-      ? input[next.updatedIndex] !== ">"
-      : true && next.newTokenValue !== ";"
-  ) {
-    next = spaceCallback({ input, currentIndex: next.updatedIndex });
+    while (
+      next.updatedIndex < input.length && next.newTokenValue === "="
+        ? input[next.updatedIndex] !== ">"
+        : true && next.newTokenValue !== ";"
+    ) {
+      next = spaceCallback({ input, currentIndex: next.updatedIndex });
+      if (next.skipped) {
+        fullValue += next.skipped;
+      }
+      fullValue += next.newTokenValue;
+    }
+  } else {
+    argument = newTokenValue;
     if (next.skipped) {
       fullValue += next.skipped;
     }
     fullValue += next.newTokenValue;
   }
 
+  // checking for =>
   if (next.newTokenValue === "=" && input[next.updatedIndex] === ">") {
     fullValue += input[next.updatedIndex];
     next = spaceCallback({ input, currentIndex: next.updatedIndex + 1 });
@@ -129,7 +145,9 @@ export const arrowFunctionFlow = ({
         openContexts,
       });
 
-      fullValue += value.value;
+      if (value.value) {
+        fullValue += value.value;
+      }
 
       let endIndex = value.updatedIndex;
 
@@ -155,24 +173,37 @@ export const arrowFunctionFlow = ({
         endIndex,
       });
 
-      if (value.variables) {
-        variables.push(
-          ...value.variables.map((variable) => {
-            const isNested = variable.name.startsWith(`${argument}.`);
-            if (isNested) {
+      if (
+        value.name &&
+        value.type === "multi-step-function" &&
+        value.name.startsWith(`${argument}.`)
+      ) {
+        const args: DynaticStyleChunksVariable["args"] = [];
+
+        if (value.variables) {
+          args.push(
+            ...value.variables.map((variable) => {
+              const isNested = variable.name.startsWith(`${argument}.`);
+
+              if (isNested) {
+                return {
+                  ...variable,
+                  type: "config-variable" as ArgumentTypes,
+                };
+              }
+
               return {
                 ...variable,
-                type: "config-variable" as DynaticStyleChunksVariable["type"],
+                type: getMultiStepFunctionArgumentType({
+                  input,
+                  type: variable.type,
+                  endIndex: variable.endIndex,
+                }),
               };
-            }
+            }),
+          );
+        }
 
-            return variable;
-          }),
-        );
-      }
-
-      if (value.name && value.type === "multi-step-variable") {
-        const isNested = value.name.startsWith(`${argument}.`);
         const startIndex = value.updatedIndex - value.name.length;
         const endIndex = value.updatedIndex;
         const variable = {
@@ -181,13 +212,51 @@ export const arrowFunctionFlow = ({
           endIndex,
         };
 
-        if (isNested) {
-          variables.push({
-            ...variable,
-            type: "config-variable" as DynaticStyleChunksVariable["type"],
-          });
-        } else {
-          variables.push({ ...variable, type: value.type });
+        variables.push({
+          ...variable,
+          type: "multi-step-function",
+          args,
+        });
+      } else {
+        if (value.variables) {
+          variables.push(
+            ...value.variables.map((variable) => {
+              const isNested = variable.name.startsWith(`${argument}.`);
+              if (isNested) {
+                const { name, startIndex, endIndex, isWithinTemplateLiteral } = variable;
+
+                return {
+                  name,
+                  startIndex,
+                  endIndex,
+                  isWithinTemplateLiteral,
+                  type: "config-variable" as RegularVariableTypes,
+                };
+              }
+
+              return variable;
+            }),
+          );
+        }
+
+        if (value.name && value.type === "multi-step-variable") {
+          const isNested = value.name.startsWith(`${argument}.`);
+          const startIndex = value.updatedIndex - value.name.length;
+          const endIndex = value.updatedIndex;
+          const variable = {
+            name: value.name,
+            startIndex,
+            endIndex,
+          };
+
+          if (isNested) {
+            variables.push({
+              ...variable,
+              type: "config-variable" as RegularVariableTypes,
+            });
+          } else {
+            variables.push({ ...variable, type: value.type });
+          }
         }
       }
 
@@ -196,4 +265,27 @@ export const arrowFunctionFlow = ({
   }
 
   return { updatedIndex: next.updatedIndex };
+};
+
+type GetMultiStepFunctionArgumentTypeArgs = {
+  input: string;
+  type: RegularVariableTypes | "multi-step-function";
+  endIndex: number;
+};
+
+const getMultiStepFunctionArgumentType = ({
+  input,
+  type,
+  endIndex,
+}: GetMultiStepFunctionArgumentTypeArgs): ArgumentTypes => {
+  if (type === "multi-step-variable") {
+    return "value";
+  }
+
+  if (type === "multi-step-function-static-value") {
+    return "static-value";
+  }
+
+  const next = spaceCallback({ input, currentIndex: endIndex });
+  return next.newTokenValue === ":" ? "property" : "config-variable";
 };

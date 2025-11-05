@@ -32,6 +32,8 @@ export const templateLiteralFlow = ({
   let completeValue = newTokenValue;
   const variables: DynaticStyleChunksVariable[] = [];
 
+  // TODO: this runs twice when it isn't intended to on certain scenarios, remember to debug and fix.
+
   while (currentIndex < input.length) {
     const current = input[currentIndex];
     completeValue += current;

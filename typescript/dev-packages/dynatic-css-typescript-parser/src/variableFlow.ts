@@ -27,7 +27,7 @@ type ReturnType =
       updatedIndex: number;
       value: string;
       name: string;
-      type: "function";
+      type: "function" | "multi-step-function";
       variables: DynaticStyleChunksVariable[];
     }
   | {
@@ -86,6 +86,33 @@ export const variableFlow = ({
 
   if (multiStep.value) {
     completeValue += multiStep.value;
+
+    const next = spaceCallback({ input, currentIndex: multiStep.updatedIndex });
+
+    const func = invokeFunctionArgumentsFlow({
+      input,
+      currentIndex: next.updatedIndex,
+      newTokenValue: next.newTokenValue,
+      identifier,
+      dynaticStyleChunks,
+      dynaticStyleOrderedChunks,
+      nameslessStyleOrderedChunks,
+      uniqueImports,
+      openContexts,
+      isMultiStepFunction: true,
+    });
+
+    if (func.value) {
+      completeValue += func.value;
+
+      return {
+        updatedIndex: func.updatedIndex,
+        value: completeValue,
+        name: completeValue,
+        type: "multi-step-function",
+        variables: func.variables,
+      };
+    }
 
     return {
       updatedIndex: multiStep.updatedIndex,

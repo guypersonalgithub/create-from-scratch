@@ -1,9 +1,14 @@
 import { InputOutput } from "../customizedComponents";
+import { dynatic } from "../dynatic-css.config";
 
 export const Examples = () => {
   return (
     <div
-      style={{ color: "var(--theme-color)", transition: "var(--theme-transition)", margin: "1rem" }}
+      className={dynatic`
+        color: ${(config) => config.colors.mainColor};
+        transition: ${(config) => config.shared.defaultTransition};
+        margin: 1rem;
+      `}
     >
       <InputOutput code={{ key: { key1: "value", key2: 2 } }} language="typescript" />
       <InputOutput

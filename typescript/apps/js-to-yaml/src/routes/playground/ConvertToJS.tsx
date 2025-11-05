@@ -7,6 +7,7 @@ import { Textarea } from "@packages/textarea";
 import { convertYamlToObject } from "@packages/yaml";
 import { useState } from "react";
 import { useBreakpoints } from "../../breakpoints";
+import { dynatic } from "../../dynatic-css.config";
 
 export const ConvertToJS = () => {
   const [text, setText] = useState("");
@@ -20,19 +21,29 @@ export const ConvertToJS = () => {
     <Card>
       <div>
         <div
-          style={{
-            textAlign: "center",
-            marginBottom: "10px",
-            fontSize: "30px",
-            fontWeight: "bold",
-          }}
+          className={dynatic`
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 30px;
+            font-weight: bold;
+          `}
         >
           Convert to JS
         </div>
         <Alert
           message={
-            <div style={{ display: "flex", gap: "10px" }}>
-              <div style={{ width: "25px", minWidth: "25px" }}>
+            <div
+              className={dynatic`
+              display: flex;
+              gap: 10px;
+            `}
+            >
+              <div
+                className={dynatic`
+                  width: 25px;
+                  min-width: 25px;
+                `}
+              >
                 <Info />
               </div>
               <div>
@@ -52,16 +63,22 @@ export const ConvertToJS = () => {
         />
       </div>
       <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+        `}
         style={{
-          display: "flex",
-          gap: "10px",
           height: !isDesktop ? "300px" : "500px",
           flexDirection: !isDesktop ? "column" : "row",
         }}
       >
         <Textarea
-          containerStyle={{ flex: 1 }}
-          style={{ height: "100%" }}
+          containerClassName={dynatic`
+            flex: 1;
+          `}
+          className={dynatic`
+              height: 100%;
+          `}
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => {

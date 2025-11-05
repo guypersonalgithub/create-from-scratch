@@ -1,4 +1,4 @@
-import type { Callback, DynaticStyleChunksVariable } from "./types";
+import type { Callback, DynaticStyleChunksVariable, RegularVariableTypes } from "./types";
 import { findNextBreakpoint } from "./utils";
 import { valueFlow } from "./valueFlow";
 
@@ -58,7 +58,12 @@ export const arrayFlow = ({
 
     if (value) {
       if (name && type) {
-        variables.push({ name, startIndex: start, endIndex: updatedIndex, type });
+        variables.push({
+          name,
+          startIndex: start,
+          endIndex: updatedIndex,
+          type: type as RegularVariableTypes,
+        });
       }
       if (nestedVariables) {
         variables.push(...nestedVariables);

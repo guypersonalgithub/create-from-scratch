@@ -35,7 +35,8 @@ export const Button = ({
         rest.onMouseEnter?.(e);
         setIsHovered(true);
       }}
-      onMouseLeave={() => {
+      onMouseLeave={(e) => {
+        rest.onMouseLeave?.(e);
         setIsHovered(false);
       }}
       style={{

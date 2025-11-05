@@ -1,0 +1,1 @@
+- use AnimationContainer for unmounts/mounts, instead of rerendering children and hiding them with CSS.

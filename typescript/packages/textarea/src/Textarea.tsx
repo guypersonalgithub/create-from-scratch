@@ -1,42 +1,67 @@
-import { type CSSProperties, type TextareaHTMLAttributes } from "react";
+import { type CSSProperties, type ReactNode, type TextareaHTMLAttributes } from "react";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  labelElement?: ReactNode;
   label?: string;
+  containerClassName?: string;
   containerStyle?: CSSProperties;
 };
 
-export const Textarea: React.FC<TextareaProps> = ({ containerStyle, label, ...props }) => {
+export const Textarea: React.FC<TextareaProps> = ({
+  containerClassName,
+  containerStyle,
+  labelElement,
+  label,
+  className,
+  style,
+  ...props
+}) => {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", ...containerStyle }}>
-      {label ? (
-        <label
-          htmlFor={props.id}
-          style={{
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            color: "#333",
-          }}
-        >
-          {label}
-        </label>
-      ) : null}
+    <div
+      className={combineStringsWithSpaces(dynatic`
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    `)}
+      style={containerStyle}
+    >
+      {labelElement ??
+        (label ? (
+          <label
+            htmlFor={props.id}
+            className={dynatic`
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: #333;
+            `}
+          >
+            {label}
+          </label>
+        ) : null)}
       <textarea
         {...props}
-        style={{
-          padding: "0.75rem 1rem",
-          border: "1px solid #ccc",
-          borderRadius: "0.5rem",
-          fontSize: "1rem",
-          fontFamily: "inherit",
-          resize: "none",
-          minHeight: "120px",
-          outline: "none",
-          boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
-          transition: "border 0.2s, box-shadow 0.2s",
-          ...props.style,
-        }}
-        onFocus={(e) => (e.currentTarget.style.border = "1px solid #FFD54F")}
-        onBlur={(e) => (e.currentTarget.style.border = "1px solid #ccc")}
+        className={combineStringsWithSpaces(
+          dynatic`
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: none;
+            min-height: 120px;
+            outline: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: border 0.2s, box-shadow 0.2s;
+
+            &:focus {
+              border: 1px solid #FFD54F;
+            }
+          `,
+          className,
+        )}
+        style={style}
       />
     </div>
   );

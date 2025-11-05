@@ -115,6 +115,7 @@ const CollapsibleContent = ({ isOpen, children }: CollapsibleContentProps) => {
           changeMethod="fullPhase"
           onMount={[{ height: "0px" }, { height: `${height}px` }]}
           style={{ overflow: "hidden" }}
+          disableMountAnimationOnInit={false}
         >
           <CollapsiableChildren key="collapsible-content" height={height} setHeight={setHeight}>
             {children}

@@ -13,19 +13,38 @@ export type Contexts = Record<
     | { type: "variable" }
   >
 >;
-export type DynaticStyleChunksVariable = {
+
+type ChunkVariableProperties = {
   name: string;
   startIndex: number;
   endIndex: number;
-  type:
-    | "variable"
-    | "function"
-    | "multi-step-variable"
-    | "arrow-function-without-content"
-    | "nested-variable"
-    | "config-variable";
   isWithinTemplateLiteral?: boolean;
 };
+
+export type RegularVariableTypes =
+  | "variable"
+  | "function"
+  | "multi-step-variable"
+  | "arrow-function-without-content"
+  | "nested-variable"
+  | "config-variable"
+  | "multi-step-function-static-value";
+
+export type ArgumentTypes = "property" | "value" | "config-variable" | "static-value";
+
+export type DynaticStyleChunksVariable = ChunkVariableProperties &
+  (
+    | {
+        type: RegularVariableTypes;
+        args?: never;
+      }
+    | {
+        type: "multi-step-function";
+        args: (ChunkVariableProperties & {
+          type: ArgumentTypes;
+        })[];
+      }
+  );
 
 type DynaticStyleChunk = {
   name: string;

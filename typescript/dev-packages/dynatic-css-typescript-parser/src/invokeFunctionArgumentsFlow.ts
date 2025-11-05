@@ -1,4 +1,4 @@
-import type { Callback, DynaticStyleChunksVariable } from "./types";
+import type { Callback, DynaticStyleChunksVariable, RegularVariableTypes } from "./types";
 import { findNextBreakpoint } from "./utils";
 import { valueFlow } from "./valueFlow";
 
@@ -13,7 +13,9 @@ type InvokeFunctionArgumentsFlowArgs = Pick<
   | "nameslessStyleOrderedChunks"
   | "uniqueImports"
   | "openContexts"
->;
+> & {
+  isMultiStepFunction?: boolean;
+};
 
 export const invokeFunctionArgumentsFlow = ({
   input,
@@ -25,6 +27,7 @@ export const invokeFunctionArgumentsFlow = ({
   nameslessStyleOrderedChunks,
   uniqueImports,
   openContexts,
+  isMultiStepFunction,
 }: InvokeFunctionArgumentsFlowArgs) => {
   if (newTokenValue !== "(") {
     return { updatedIndex: currentIndex };
@@ -58,8 +61,21 @@ export const invokeFunctionArgumentsFlow = ({
 
     if (value) {
       if (name && type) {
-        variables.push({ name, startIndex: start, endIndex: updatedIndex, type });
+        variables.push({
+          name,
+          startIndex: start,
+          endIndex: updatedIndex,
+          type: type as RegularVariableTypes,
+        });
+      } else if (isMultiStepFunction) {
+        variables.push({
+          name: value,
+          startIndex: start,
+          endIndex: updatedIndex,
+          type: "multi-step-function-static-value",
+        });
       }
+
       if (nestedVariables) {
         variables.push(...nestedVariables);
       }

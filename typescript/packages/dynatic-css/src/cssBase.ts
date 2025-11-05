@@ -1,40 +1,41 @@
+import type {
+  Config,
+  ConfigExpr,
+  ConfigExpression,
+  ConfiglessExpression,
+  ConfigUtilities,
+  DynaticConfiguration,
+} from "./types";
 import { parseHelpers } from "./helpers";
 import { parseLine } from "./parse";
 import { splitCombinedTemplate } from "./splitCombinedTemplate";
-import type { DynaticConfiguration, InnerCSSInit } from "./types";
 import { splitOnSpaceOrNewline } from "@packages/string-utils";
 
-type PlainExpr = string | number | boolean;
-type ConfigExpr<T> = (config: T) => PlainExpr;
-type Config<T extends DynaticConfiguration> = InnerCSSInit<T, keyof T["variants"]>;
-
 export type WithConfig<T extends DynaticConfiguration> = {
-  strings: TemplateStringsArray;
-  exprs: (PlainExpr | ConfigExpr<Config<T>>)[];
   config: Config<T>;
+  strings: TemplateStringsArray;
+  exprs: ConfigExpression<T>[];
 };
 
 export type WithoutConfig = {
-  config?: never;
+  config: ConfigUtilities;
   strings: TemplateStringsArray;
-  exprs: (PlainExpr | (() => PlainExpr))[];
+  exprs: ConfiglessExpression[];
 };
 
 // Overload 1: with config
 export function cssBase<T extends DynaticConfiguration>(args: WithConfig<T>): string;
 
 // Overload 2: without config
-export function cssBase(args: WithoutConfig): string;
+export function cssBase<T extends ConfigUtilities>(args: WithoutConfig): string;
 
-export function cssBase<T extends DynaticConfiguration = { variants: { base: {} } }>(
-  args: WithConfig<T> | WithoutConfig,
+export function cssBase<T extends DynaticConfiguration | undefined>(
+  args: T extends DynaticConfiguration ? WithConfig<T> : WithoutConfig,
 ): string {
   const { config, strings, exprs } = args;
   const classNames: string[] = [];
   let mediaQuery: string | undefined;
   let pseudoClass: string | undefined;
-
-  // console.log({ strings, exprs });
 
   const combinedTemplate = (
     exprs.length > 0
@@ -45,7 +46,11 @@ export function cssBase<T extends DynaticConfiguration = { variants: { base: {} 
           if (currentExpression) {
             const expressionAddition =
               typeof currentExpression === "function"
-                ? currentExpression(config as Config<T>)
+                ? currentExpression(
+                    config as T extends DynaticConfiguration
+                      ? ConfigExpr<T & ConfigUtilities>
+                      : any, // ConfigUtilities
+                  )
                 : currentExpression;
 
             return `${current}${expressionAddition}`;

@@ -8,7 +8,8 @@
     "typecheck": "tsc --noEmit -p ."
   },
   "dependencies": {
-    "@packages/dynatic-css": "*"
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

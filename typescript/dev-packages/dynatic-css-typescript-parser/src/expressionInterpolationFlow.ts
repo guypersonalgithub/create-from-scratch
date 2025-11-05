@@ -1,4 +1,4 @@
-import type { Callback, DynaticStyleChunksVariable } from "./types";
+import type { Callback, DynaticStyleChunksVariable, RegularVariableTypes } from "./types";
 import { findNextBreakpoint } from "./utils";
 import { valueFlow } from "./valueFlow";
 
@@ -55,6 +55,7 @@ export const expressionInterpolationFlow = ({
       currentIndex: breakpoint.updatedIndex,
       newTokenValue: breakpoint.newTokenValue,
       calledFromTemplateLiteral,
+      calledFromStartOfExpression: iterations === 0,
       identifier,
       dynaticStyleChunks,
       dynaticStyleOrderedChunks,
@@ -67,7 +68,12 @@ export const expressionInterpolationFlow = ({
       iterations++;
 
       if (name && type) {
-        variables.push({ name, startIndex: start, endIndex: updatedIndex, type });
+        variables.push({
+          name,
+          startIndex: start,
+          endIndex: updatedIndex,
+          type: type as RegularVariableTypes,
+        });
       }
       if (nestedVariables) {
         variables.push(...nestedVariables);

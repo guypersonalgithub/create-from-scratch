@@ -71,7 +71,12 @@
     "@packages/coin-flip": "*",
     "@packages/dice-roll": "*",
     "@packages/rotate-wrapper": "*",
-    "@packages/wheel-of-fortune": "*"
+    "@packages/wheel-of-fortune": "*",
+    "@packages/confetti": "*",
+    "@packages/interactive-cursor": "*",
+    "@packages/procedural-background": "*",
+    "@packages/tree-explorer": "*",
+    "@packages/scroll-story": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",
