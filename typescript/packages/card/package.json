@@ -10,7 +10,8 @@
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@packages/dynatic-css": "*"
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "devDependencies": {
     "@types/react": "^19.0.10",

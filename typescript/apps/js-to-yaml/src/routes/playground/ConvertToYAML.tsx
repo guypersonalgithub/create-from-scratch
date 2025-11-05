@@ -5,6 +5,7 @@ import { Textarea } from "@packages/textarea";
 import { convertObjectToYaml } from "@packages/yaml";
 import { useState } from "react";
 import { useBreakpoints } from "../../breakpoints";
+import { dynatic } from "../../dynatic-css.config";
 
 export const ConvertToYAML = () => {
   const [text, setText] = useState("{}");
@@ -21,27 +22,33 @@ export const ConvertToYAML = () => {
   return (
     <Card>
       <div
-        style={{
-          textAlign: "center",
-          height: "fit-content",
-          marginBottom: "10px",
-          fontSize: "30px",
-          fontWeight: "bold",
-        }}
+        className={dynatic`
+          text-align: center;
+          height: fit-content;
+          margin-bottom: 10px;
+          font-size: 30px;
+          font-weight: bold;
+        `}
       >
         Convert to YAML
       </div>
       <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+        `}
         style={{
-          display: "flex",
-          gap: "10px",
           height: !isDesktop ? "300px" : "500px",
           flexDirection: !isDesktop ? "column" : "row",
         }}
       >
         <Textarea
-          containerStyle={{ flex: 1 }}
-          style={{ height: "100%" }}
+          containerClassName={dynatic`
+            flex: 1;
+          `}
+          className={dynatic`
+              height: 100%;
+          `}
           value={text}
           onChange={(e) => {
             const textarea = e.currentTarget;

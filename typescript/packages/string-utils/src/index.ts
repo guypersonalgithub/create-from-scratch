@@ -17,3 +17,4 @@ export * from "./replaceSubstring";
 export * from "./isAlphaNumeric";
 export * from "./fuzzyMatch";
 export * from "./splitOnSpaceOrNewLine";
+export * from "./splitUntilParenthesis";

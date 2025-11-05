@@ -28,7 +28,8 @@ export const buildDynatic = ({
   mainFile,
 }: BuildDynaticArgs) => {
   const insertedValues = inserted.entries();
-  const length = [...insertedValues].length;
+  const insertedMediaQueries = mediaQueries.entries();
+  const length = [...insertedValues, ...insertedMediaQueries].length;
 
   if (length === 0) {
     return;

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { CommandBox } from "@packages/command-box";
-import { CopyToClipboard } from "@packages/copy-to-clipboard";
 
 const meta = {
   title: "CommandBox",

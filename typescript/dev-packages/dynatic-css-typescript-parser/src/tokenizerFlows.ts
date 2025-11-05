@@ -30,9 +30,8 @@ export const tokenizerFlows = ({
   openContexts,
   classNames,
 }: TokenizerFlowsArgs) => {
-  const callback = flows[newTokenValue];
-
-  if (callback) {
+  if (Object.hasOwn(flows, newTokenValue)) {
+    const callback = flows[newTokenValue];
     const { updatedIndex } = callback({
       input,
       currentIndex,

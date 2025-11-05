@@ -1,5 +1,6 @@
 import { type CSSProperties, type ReactNode } from "react";
 import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type SpreaderTitleProps = {
   className?: string;
@@ -8,15 +9,17 @@ type SpreaderTitleProps = {
 };
 
 export const SpreaderTitle = ({ className, style, children }: SpreaderTitleProps) => {
-  const baseClass = dynatic`
+  return (
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
       font-size: 30px;
       font-weight: bold;
-    `;
-
-  // combineStringsWithSpaces
-
-  return (
-    <div className={className ? `${baseClass} ${className}` : baseClass} style={style}>
+    `,
+        className,
+      )}
+      style={style}
+    >
       {children}
       <hr />
     </div>

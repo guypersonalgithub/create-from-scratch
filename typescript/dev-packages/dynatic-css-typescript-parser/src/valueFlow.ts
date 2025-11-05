@@ -19,6 +19,7 @@ type ValueFlowArgs = Pick<
   | "openContexts"
 > & {
   calledFromTemplateLiteral?: boolean;
+  calledFromStartOfExpression?: boolean;
 };
 
 const flows: Record<
@@ -36,21 +37,29 @@ const flows: Record<
   "(": arrowFunctionFlow,
 };
 
+type ReturnType = {
+  updatedIndex: number;
+  value?: string;
+  variables?: DynaticStyleChunksVariable[];
+  name?: string;
+  type?: "function" | "variable" | "multi-step-variable" | "multi-step-function";
+};
+
 export const valueFlow = ({
   input,
   currentIndex,
   newTokenValue,
   calledFromTemplateLiteral,
+  calledFromStartOfExpression,
   identifier,
   dynaticStyleChunks,
   dynaticStyleOrderedChunks,
   nameslessStyleOrderedChunks,
   uniqueImports,
   openContexts,
-}: ValueFlowArgs) => {
-  const callback = flows[newTokenValue];
-
-  if (callback) {
+}: ValueFlowArgs): ReturnType => {
+  if (Object.hasOwn(flows, newTokenValue)) {
+    const callback = flows[newTokenValue];
     const { updatedIndex, value, variables } = callback({
       input,
       currentIndex,
@@ -65,6 +74,26 @@ export const valueFlow = ({
     });
 
     return { updatedIndex, value, variables };
+  }
+
+  if (calledFromStartOfExpression) {
+    const { updatedIndex, value, variables } = arrowFunctionFlow({
+      input,
+      currentIndex,
+      newTokenValue,
+      calledFromTemplateLiteral,
+      calledFromStartOfExpression,
+      identifier,
+      dynaticStyleChunks,
+      dynaticStyleOrderedChunks,
+      nameslessStyleOrderedChunks,
+      uniqueImports,
+      openContexts,
+    });
+
+    if (value) {
+      return { updatedIndex, value, variables };
+    }
   }
 
   const uniqueImport = uniqueImportFlow({

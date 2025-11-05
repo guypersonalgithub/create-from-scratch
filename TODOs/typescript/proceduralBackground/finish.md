@@ -1,0 +1,1 @@
+- Currently the component is outside of git as it is unoptimized, finish it and update the file that was added to git.

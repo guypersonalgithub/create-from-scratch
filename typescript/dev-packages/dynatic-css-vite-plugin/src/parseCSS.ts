@@ -4,6 +4,7 @@ import { replaceSubstring } from "@packages/string-utils";
 import { stripQuotationMarks } from "./stripQuotationMarks";
 import { isStatic } from "./isStatic";
 import { getVariableValue } from "./getVariableValue";
+import { getMultiStepFunctionValue } from "./getMultiStepFunctionValue";
 
 type ParseCSSArgs = {
   css: string;
@@ -72,7 +73,15 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
             const startIndex = currentNestedVariable.startIndex - actualStart;
             const endIndex = currentNestedVariable.endIndex - actualStart;
 
-            const value = getVariableValue({ variable: currentNestedVariable, updatedConfig });
+            const isMultiStepFunction = currentNestedVariable.type === "multi-step-function";
+
+            const value = !isMultiStepFunction
+              ? getVariableValue({ variable: currentNestedVariable, updatedConfig })
+              : getMultiStepFunctionValue({
+                  variable: currentNestedVariable,
+                  updatedConfig,
+                });
+
             if (value !== undefined) {
               original = replaceSubstring({
                 str: original,
@@ -80,6 +89,8 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
                 to: endIndex - 2,
                 newStr: value,
               });
+            } else if (isMultiStepFunction) {
+              isRowStatic = false;
             }
           }
 

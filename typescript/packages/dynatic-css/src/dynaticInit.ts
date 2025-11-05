@@ -1,3 +1,4 @@
+import { widthMediaQuery } from "@packages/dynatic-css-utils";
 import { cssBase, type WithConfig, type WithoutConfig } from "./cssBase";
 import { initializePreexistingClasses } from "./insertStaticRuleIfNeeded";
 import type { ConfigBody, DynaticConfiguration } from "./types";
@@ -41,9 +42,13 @@ export function dynaticInit<
       config && base
         ? (strings: TemplateStringsArray, ...exprs: WithConfig<T>["exprs"]) => {
             const { variants, ...rest } = config;
-            return cssBase<T>({ strings, exprs, config: { ...variants[base], ...rest } });
+            return cssBase<T>({
+              strings,
+              exprs,
+              config: { ...variants[base], ...rest, utils: { widthMediaQuery } },
+            });
           }
         : (strings: TemplateStringsArray, ...exprs: WithoutConfig["exprs"]) =>
-            cssBase({ strings, exprs }),
+            cssBase({ strings, exprs, config: { utils: { widthMediaQuery }} }),
   };
 }
