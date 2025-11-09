@@ -3,6 +3,7 @@ import { type SidebarLink, type SidebarLinkGroup } from "./types";
 import { LinkContent } from "./LinkContent";
 import { type CSSProperties } from "react";
 import { isLinkGroup } from "./utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type LinkGroupProps = SidebarLinkGroup & {
   isOpen?: boolean;
@@ -10,7 +11,9 @@ type LinkGroupProps = SidebarLinkGroup & {
   openedWidth?: number;
   iconSize?: number;
   selected?: string;
+  selectedClassName?: string;
   selectedStyle?: CSSProperties;
+  linkClassName?: string;
   linkStyle?: CSSProperties;
   disabledTooltip?: boolean;
 };
@@ -23,12 +26,19 @@ export const LinkGroup = ({
   openedWidth,
   iconSize,
   selected,
+  selectedClassName,
   selectedStyle,
+  linkClassName,
   linkStyle,
   disabledTooltip,
 }: LinkGroupProps) => {
   return (
-    <Collapsible title={category} containerStyle={{ width: "100%" }}>
+    <Collapsible
+      title={category}
+      containerClassName={dynatic`
+        width: 100%;
+      `}
+    >
       {links.map((link, index) => {
         if (isLinkGroup(link)) {
           return (
@@ -39,7 +49,9 @@ export const LinkGroup = ({
               openedWidth={openedWidth}
               onLinkClick={onLinkClick}
               selected={selected}
+              selectedClassName={selectedClassName}
               selectedStyle={selectedStyle}
+              linkClassName={linkClassName}
               linkStyle={linkStyle}
               disabledTooltip={disabledTooltip}
               {...link}
@@ -56,7 +68,9 @@ export const LinkGroup = ({
             openedWidth={openedWidth}
             onLinkClick={onLinkClick}
             selected={selected}
+            selectedClassName={selectedClassName}
             selectedStyle={selectedStyle}
+            linkClassName={linkClassName}
             linkStyle={linkStyle}
             disabledTooltip={disabledTooltip}
           />

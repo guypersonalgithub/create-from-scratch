@@ -1,4 +1,6 @@
 import { type ReactNode, useRef, useState, useEffect, useCallback } from "react";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 // TODO: Add support for a single ReactNode child.
 
@@ -7,7 +9,7 @@ type VirtualListProps = {
   itemHeight: number;
   containerHeight: number;
   buffer?: number;
-  backgroundColor?: string;
+  className: string;
 };
 
 export const VirtualList = ({
@@ -15,7 +17,7 @@ export const VirtualList = ({
   itemHeight,
   containerHeight,
   buffer = 20,
-  backgroundColor,
+  className,
 }: VirtualListProps) => {
   const [scrollOffset, setScrollOffset] = useState(0);
 
@@ -64,26 +66,30 @@ export const VirtualList = ({
   return (
     <div
       ref={containerRef}
-      style={{
-        height: `${containerHeight}px`,
-        overflowY: "auto",
-        position: "relative",
-        backgroundColor,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          height: ${containerHeight}px;
+          overflow-y: auto;
+          position: relative;
+        `,
+        className,
+      )}
     >
       <div
-        style={{
-          height: `${placeholderHeight}px`,
-          position: "relative",
-        }}
+        className={dynatic`
+          height: ${placeholderHeight}px;
+          position: relative;
+        `}
       >
         {visibleItems.map((child, index) => (
           <div
             key={startIndex + index}
+            className={dynatic`
+              height: ${itemHeight}px;
+              width: 100%;
+              position: absolute;  
+            `}
             style={{
-              height: `${itemHeight}px`,
-              width: "100%",
-              position: "absolute",
               top: `${(startIndex + index) * itemHeight}px`,
             }}
           >

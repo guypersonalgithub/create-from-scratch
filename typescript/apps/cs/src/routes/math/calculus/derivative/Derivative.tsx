@@ -7,6 +7,7 @@ import { useStickSubRouterLinksToTop } from "../../../../useStickSubRouterLinksT
 import { GeometricDerivativeInterpretation } from "./GeometricDerivativeInterpretation";
 import { DerivativeAsAFunction } from "./DerivativeAsAFunction";
 import { CalculatingDerivatives } from "./calculatingDerivatives/CalculatingDerivatives";
+import { dynatic } from "../../../../dynatic-css.config";
 
 export const Derivative = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -15,7 +16,10 @@ export const Derivative = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[
           { path: "/math/calculus/limit", children: "Limit" },
           { path: "/math/calculus/continuity", children: "Continuity" },
@@ -67,7 +71,12 @@ export const Derivative = () => {
                   time, we should calculate the differences of very close time instances, for
                   example 8 AM and 8:01 AM.
                 </div>
-                <div style={{ display: "flex", gap: "3px" }}>
+                <div
+                  className={dynatic`
+                    display: flex;
+                    gap: 3px;
+                  `}
+                >
                   Lets assume that
                   <MathML input="f(8 + 1/60) = 51mph" isAnExpression />, then
                 </div>
@@ -91,7 +100,13 @@ export const Derivative = () => {
                   variable, as the variable goes from equals a to equals b
                 </div>
                 <div>Let's assume the variable is x.</div>
-                <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+                <div
+                  className={dynatic`
+                    display: flex;
+                    gap: 3px;
+                    align-items: center;
+                  `}
+                >
                   The average rate of change of a function f(x) over an interval{" "}
                   <MathML
                     input={`a${unicodes.javascript.lessThanEqual}x${unicodes.javascript.lessThanEqual}b`}
@@ -137,7 +152,13 @@ export const Derivative = () => {
                   In other words, the deravative at a point is measuring the instanteous rate of
                   change of the function at that point.
                 </div>
-                <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+                <div
+                  className={dynatic`
+                    display: flex;
+                    gap: 3px;
+                    align-items: center;
+                  `}
+                >
                   <div>
                     The <b>derivative</b> of f(x) at x = a = the <b>Instantaneous rate of change</b>{" "}
                     of f(x) at x = a =
@@ -151,7 +172,13 @@ export const Derivative = () => {
                   Let's assume an object is thrown from a 100m building, and we want to the average
                   velocity and instant velocity after 1 second.
                 </div>
-                <div style={{ display: "flex", gap: "3px", flexWrap: "wrap" }}>
+                <div
+                  className={dynatic`
+                    display: flex;
+                    gap: 3px;
+                    flex-wrap: wrap;
+                  `}
+                >
                   Let's assume that 20t is the initial velocity, and
                   <MathML input="-5t^2" />
                   <div>
@@ -210,7 +237,12 @@ export const Derivative = () => {
                   .
                 </div>
                 <div>In other words:</div>
-                <div style={{ display: "flex", gap: "3px" }}>
+                <div
+                  className={dynatic`
+                    display: flex;
+                    gap: 3px;
+                  `}
+                >
                   <div>if</div>
                   <MathML input="f'(a)>0" isAnExpression />
                   <div>, f is increasing at a, and if</div>

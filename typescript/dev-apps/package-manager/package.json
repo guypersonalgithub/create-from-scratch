@@ -28,6 +28,8 @@
     "@packages/typeahead": "*",
     "@packages/utils": "*",
     "@packages/auto-complete-input": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

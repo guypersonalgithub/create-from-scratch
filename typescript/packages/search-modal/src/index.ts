@@ -1,2 +1,2 @@
 export * from "./SearchModal";
-export * from "./types";
+export type { SearchModalProps, SearchModalOption } from "./types";

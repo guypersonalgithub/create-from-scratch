@@ -3,9 +3,20 @@ import * as Icons from "@packages/flag-icons";
 
 export const AllIcons = () => {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+    <div
+      className={dynatic`
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      `}
+    >
       {Object.entries(Icons).map(([name, Component]) => (
-        <div key={name} style={{ textAlign: "center" }}>
+        <div
+          key={name}
+          className={dynatic`
+            text-align: center;
+          `}
+        >
           <Component
             className={dynatic`
               width: 24px;

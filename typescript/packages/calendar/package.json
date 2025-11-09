@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@packages/date": "*",
-    "@packages/icons": "*"
+    "@packages/icons": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

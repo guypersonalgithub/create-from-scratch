@@ -10,7 +10,8 @@
   "dependencies": {
     "@packages/typeahead": "*",
     "@packages/hooks": "*",
-    "@packages/icons": "*"
+    "@packages/icons": "*",
+    "@packages/dynatic-css": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

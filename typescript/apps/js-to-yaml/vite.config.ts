@@ -21,9 +21,13 @@ export default defineConfig({
       ),
       "@packages/string-utils": path.resolve(__dirname, "../../packages/string-utils/src/index.ts"),
       "@packages/regex": path.resolve(__dirname, "../../packages/regex/src/index.ts"),
-      "@packages/ui-theme": path.resolve(__dirname, "../../packages/ui-theme/src/index.ts"),
       "@packages/icons": path.resolve(__dirname, "../../packages/icons/src/index.ts"),
       "@packages/button": path.resolve(__dirname, "../../packages/button/src/index.ts"),
+      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
+      "@packages/dynatic-css-utils": path.resolve(
+        __dirname,
+        "../../packages/dynatic-css-utils/src/index.ts",
+      ),
       "@packages/syntax-highlighter": path.resolve(
         __dirname,
         "../../packages/syntax-highlighter/src/index.ts",
@@ -55,11 +59,6 @@ export default defineConfig({
       "@packages/yaml": path.resolve(__dirname, "../../dev-packages/yaml/src/index.ts"),
       "@packages/alert": path.resolve(__dirname, "../../packages/alert/src/index.ts"),
       "@packages/card": path.resolve(__dirname, "../../packages/card/src/index.ts"),
-      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
-      "@packages/dynatic-css-utils": path.resolve(
-        __dirname,
-        "../../packages/dynatic-css-utils/src/index.ts",
-      ),
       "@packages/command-box": path.resolve(__dirname, "../../packages/command-box/src/index.ts"),
       "@packages/css-utils": path.resolve(__dirname, "../../packages/css-utils/src/index.ts"),
       "@packages/breakpoints": path.resolve(__dirname, "../../packages/breakpoints/src/index.ts"),

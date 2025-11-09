@@ -1,3 +1,5 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { useRef, useState, useEffect, type ReactNode, type CSSProperties } from "react";
 
 // TODO: Add support for a single ReactNode child.
@@ -6,7 +8,8 @@ type ItemProps = {
   index: number;
   measure: (index: number, height: number) => void;
   height: number;
-  style: CSSProperties;
+  className?: string;
+  style?: CSSProperties;
   children: ReactNode;
 };
 
@@ -17,7 +20,7 @@ type VirtualListProps = {
   fallbackHeight?: number;
 };
 
-const Item = ({ index, measure, height, style, children }: ItemProps) => {
+const Item = ({ index, measure, height, className, style, children }: ItemProps) => {
   const itemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const Item = ({ index, measure, height, style, children }: ItemProps) => {
   }, [index, measure]);
 
   return (
-    <div ref={itemRef} style={style}>
+    <div ref={itemRef} className={className} style={style}>
       {children}
     </div>
   );
@@ -115,19 +118,28 @@ export const VaryingVirtualList = ({
   return (
     <div
       ref={containerRef}
-      style={{
-        height: `${containerHeight}px`,
-        overflowY: "auto",
-        position: "relative",
-        opacity: children.length > 0 ? 1 : 0,
-        pointerEvents: children.length > 0 ? "all" : "none",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          height: ${containerHeight}px; 
+          overflow-y: auto;
+          position: relative;
+        `,
+        children.length > 0
+          ? dynatic`
+              opacity: 1;
+              pointer-events: all;
+            `
+          : dynatic`
+              opacity: 0;
+              pointer-events: none;
+            `,
+      )}
     >
       <div
-        style={{
-          height: `${totalHeight}px`,
-          position: "relative",
-        }}
+        className={dynatic`
+          height: ${totalHeight}px;
+          position: relative;
+        `}
       >
         {children.slice(visibleRange.start, visibleRange.end + 1).map((child, index) => {
           const realIndex = visibleRange.start + index;
@@ -146,11 +158,13 @@ export const VaryingVirtualList = ({
                 });
               }}
               height={itemHeights[realIndex]}
+              className={dynatic`
+                position: absolute;
+                left: 0;
+                right: 0;  
+              `}
               style={{
-                position: "absolute",
                 top: `${top}px`,
-                left: 0,
-                right: 0,
               }}
             >
               {child}

@@ -4,6 +4,7 @@ import { type ReactNode, useState, useMemo } from "react";
 import { DragAndDropGroup } from "./DragAndDropGroup";
 import { type Group, type Item } from "./types";
 import { useDragAndDropContext } from "./useDragAndDropContext";
+import { dynatic } from "@packages/dynatic-css";
 
 type DragAndDropProps<T extends string[]> = {
   groups: {
@@ -56,7 +57,13 @@ const DragAndDropContent = <T extends string[]>({ groups, items }: DragAndDropPr
   }, [items]);
 
   return (
-    <div style={{ overflow: "auto", display: "flex", alignItems: "start" }}>
+    <div
+      className={dynatic`
+        overflow: auto;
+        display: flex;
+        align-items: start;
+      `}
+    >
       {groupContainers.map((group) => {
         return (
           <DragAndDropGroup

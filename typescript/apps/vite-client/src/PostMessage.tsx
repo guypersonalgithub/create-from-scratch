@@ -1,5 +1,6 @@
 import { type RefObject, useEffect, useRef, useState } from "react";
 import { postMessageFlow, postMessageUtils } from "@packages/micro-frontends";
+import { dynatic } from "@packages/dynatic-css";
 
 export const PostMessage = () => {
   const [vueChildMessage, setVueChildMessage] = useState("");
@@ -33,7 +34,13 @@ export const PostMessage = () => {
   const reactMicro = useRef<HTMLIFrameElement>(null);
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <div
+      className={dynatic`
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      `}
+    >
       <MicroFrontend
         childRef={vueMicro}
         src="http://localhost:3004"
@@ -49,7 +56,7 @@ export const PostMessage = () => {
 };
 
 type MicroFrontendProps = {
-  childRef: RefObject<HTMLIFrameElement>;
+  childRef: RefObject<HTMLIFrameElement | null>;
   src: string;
   childMessage: string;
 };

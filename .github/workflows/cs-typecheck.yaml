@@ -14,6 +14,8 @@ on:
       - typescript/packages/math-parser/**
       - typescript/packages/string-utils/**
       - typescript/packages/regex/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/router/**
       - typescript/packages/utils/**
       - typescript/packages/url/**
@@ -42,8 +44,6 @@ on:
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/calculations-table/**
       - typescript/packages/title/**
-      - typescript/packages/dynatic-css/**
-      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-yaml/**
       - typescript/packages/ui-theme/**

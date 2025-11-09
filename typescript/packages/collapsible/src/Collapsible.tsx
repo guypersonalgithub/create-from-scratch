@@ -4,11 +4,15 @@ import {
   AnimationContainerWrapper,
   useAnimation,
 } from "@packages/animation-container";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type CollapsibleProps = {
   title: string;
   isOpenInitially?: boolean;
+  containerClassName?: string;
   containerStyle?: CSSProperties;
+  titleClassName?: string;
   titleStyle?: CSSProperties;
   children: ReactNode;
 };
@@ -16,40 +20,61 @@ type CollapsibleProps = {
 export const Collapsible = ({
   title,
   isOpenInitially = false,
-  containerStyle = {},
-  titleStyle = {},
+  containerClassName,
+  containerStyle,
+  titleClassName,
+  titleStyle,
   children,
 }: CollapsibleProps) => {
   const [isOpen, setIsOpen] = useState(isOpenInitially);
 
   return (
-    <div style={{ width: "fit-content", ...containerStyle }}>
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
+          width: fit-content;
+        `,
+        containerClassName,
+      )}
+      style={containerStyle}
+    >
       <div
-        style={{
-          cursor: "pointer",
-        }}
+        className={dynatic`
+          cursor: pointer;
+        `}
         onClick={() => setIsOpen(!isOpen)}
       >
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            fontWeight: "bold",
-            ...titleStyle,
-          }}
+          className={combineStringsWithSpaces(
+            dynatic`
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              font-weight: bold;
+            `,
+            titleClassName,
+          )}
+          style={titleStyle}
         >
           {title}
           <div
-            style={{
-              width: "0px",
-              height: "0px",
-              borderBottom: "6px solid transparent",
-              borderTop: "6px solid transparent",
-              borderLeft: "6px solid black",
-              transition: "transform 0.3s ease",
-              transform: isOpen ? "rotate(90deg)" : "rotate(0deg)",
-            }}
+            className={combineStringsWithSpaces(
+              dynatic`
+                width: 0;
+                height: 0;
+                border-bottom: 6px solid transparent;
+                border-top: 6px solid transparent;
+                border-left: 6px solid black;
+                transition: transform 0.3s ease;
+              `,
+              isOpen
+                ? dynatic`
+                    transform: rotate(90deg);
+                  `
+                : dynatic`
+                    transform: rotate(0deg);
+                  `,
+            )}
           />
         </div>
       </div>
@@ -114,7 +139,9 @@ const CollapsibleContent = ({ isOpen, children }: CollapsibleContentProps) => {
           externalRef={ref}
           changeMethod="fullPhase"
           onMount={[{ height: "0px" }, { height: `${height}px` }]}
-          style={{ overflow: "hidden" }}
+          className={dynatic`
+            overflow: hidden;  
+          `}
           disableMountAnimationOnInit={false}
         >
           <CollapsiableChildren key="collapsible-content" height={height} setHeight={setHeight}>
@@ -180,12 +207,12 @@ const CollapsiableChildren = ({ height, setHeight, children }: CollapsiableChild
 
   return (
     <div
-      style={
+      className={
         height === 0
-          ? {
-              overflow: "hidden",
-              opacity: 0,
-            }
+          ? dynatic`
+              overflow: hidden;
+              opacity: 0;
+            `
           : undefined
       }
     >

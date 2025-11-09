@@ -1,4 +1,3 @@
-import { useBreakpoints } from "../../breakpoints";
 import { EverythingYouNeed } from "./EverythingYouNeed";
 import { GetStarted } from "./GetStarted";
 import { TopSection } from "./TopSection";
@@ -7,10 +6,6 @@ import { CoreFeatures } from "./CoreFeatures";
 import { dynatic } from "../../dynatic-css.config";
 
 export const Main = () => {
-  const { useGetBreakpoint } = useBreakpoints();
-  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
-  const isDesktop = breakpoint === "desktop";
-
   return (
     <div>
       <div
@@ -20,7 +15,7 @@ export const Main = () => {
         `}
       >
         <TopSection />
-        <Convert isDesktop={isDesktop} />
+        <Convert />
         <EverythingYouNeed />
         <div
           className={dynatic`
@@ -31,8 +26,8 @@ export const Main = () => {
             gap: 20px;
           `}
         >
-          <GetStarted isDesktop={isDesktop} />
-          <CoreFeatures isDesktop={isDesktop} />
+          <GetStarted />
+          <CoreFeatures />
         </div>
       </div>
     </div>

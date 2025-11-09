@@ -1,11 +1,17 @@
 import { useRef, useState, useEffect, type CSSProperties } from "react";
+import { dynatic } from "@packages/dynatic-css";
 
 type DrawingCanvasProps = {
+  className?: string;
   style?: CSSProperties;
 };
 
 export const DrawingCanvas = ({
-  style = { border: "1px solid black", cursor: "crosshair" },
+  className = dynatic`
+    border: 1px solid black;
+    cursor: crosshair;
+  `,
+  style,
 }: DrawingCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -55,6 +61,7 @@ export const DrawingCanvas = ({
       onMouseMove={draw}
       onMouseUp={stopDrawing}
       onMouseLeave={stopDrawing}
+      className={className}
       style={style}
     />
   );

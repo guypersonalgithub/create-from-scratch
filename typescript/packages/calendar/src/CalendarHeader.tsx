@@ -1,3 +1,5 @@
+import { dynatic } from "@packages/dynatic-css";
+
 type CalendarHeaderProps = {
   month: string;
   year: number;
@@ -5,7 +7,13 @@ type CalendarHeaderProps = {
 
 export const CalendarHeader = ({ month, year }: CalendarHeaderProps) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
+    <div
+      className={dynatic`
+        display: flex;
+        justify-content: center;
+        align-content: center;
+      `}
+    >
       {month}, {year}
     </div>
   );

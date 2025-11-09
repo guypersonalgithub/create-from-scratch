@@ -11,7 +11,8 @@
     "@packages/utils": "*",
     "@packages/is-dev": "*",
     "@packages/array-utils": "*",
-    "@packages/string-utils": "*"
+    "@packages/string-utils": "*",
+    "@packages/dynatic-css": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

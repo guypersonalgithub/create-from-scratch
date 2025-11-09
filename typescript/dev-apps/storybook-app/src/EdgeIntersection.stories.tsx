@@ -1,6 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { createRef } from "react";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "EdgeIntersection",
@@ -37,7 +38,9 @@ export const Primary = {
       <EdgeIntersection
         id={"test"}
         intersectionRefs={intersectionRefs}
-        edgeIntersectionStyle={{ border: "1px solid blue" }}
+        edgeIntersectionClassName={dynatic`
+          border: 1px solid blue;  
+        `}
       >
         <div>Test</div>
       </EdgeIntersection>

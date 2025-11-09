@@ -8,6 +8,7 @@ export type TooltipProps = Pick<
   TooltipDisplayProps,
   "content" | "offset" | "side" | "distanceFromViewport"
 > & {
+  className?: string;
   style?: CSSProperties;
   disabled?: boolean;
   isEllipsizedCallback?: () => boolean;

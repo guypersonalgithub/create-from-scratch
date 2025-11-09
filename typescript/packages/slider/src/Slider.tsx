@@ -1,3 +1,5 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { useRef, useState, useEffect, useCallback } from "react";
 
 type SliderProps = {
@@ -15,7 +17,7 @@ export const Slider = ({
   step = 1,
   value = 0,
   onChange,
-  className = "",
+  className,
 }: SliderProps) => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -106,18 +108,20 @@ export const Slider = ({
   return (
     <div
       ref={trackRef}
-      className={`slider-track ${className}`}
-      style={{
-        position: "relative",
-        height: "6px",
-        background: "#ccc",
-        borderRadius: "3px",
-        cursor: "pointer",
-        userSelect: "none",
-        marginTop: "10px",
-        marginLeft: "10px",
-        marginRight: "10px",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          position: relative;
+          height: 6px;
+          background: #ccc;
+          border-radius: 3px;
+          cursor: pointer;
+          user-select: none;
+          margin-top: 10px;
+          margin-left: 10px;
+          margin-right: 10px;
+        `,
+        className,
+      )}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
       tabIndex={0}
@@ -128,29 +132,28 @@ export const Slider = ({
       aria-valuenow={internalValue}
     >
       <div
-        className="slider-filled"
+        className={dynatic`
+          position: absolute;
+          height: 100%;
+          background: #007bff;
+          border-radius: 3px;
+        `}
         style={{
-          position: "absolute",
-          height: "100%",
-          background: "#007bff",
           width: `${percentage}%`,
-          borderRadius: "3px",
         }}
       />
       <div
-        className="slider-thumb"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: `${percentage}%`,
-          transform: "translate(-50%, -50%)",
-          width: "16px",
-          height: "16px",
-          background: "#fff",
-          border: "2px solid #007bff",
-          borderRadius: "50%",
-          cursor: "grab",
-        }}
+        className={dynatic`
+          position: absolute;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 16px;
+          height: 16px;
+          background: #fff;
+          border: 2px solid #007bff;
+          border-radius: 50%;
+          cursor: grab;
+        `}
       />
     </div>
   );

@@ -1,15 +1,41 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { type CSSProperties } from "react";
 
 type ProgressBarProps = {
+  className?: string;
   style?: CSSProperties;
+  innerClassName?: string;
   innerStyle?: CSSProperties;
   progress: number;
 };
 
-export const ProgressBar = ({ style, innerStyle, progress }: ProgressBarProps) => {
+export const ProgressBar = ({
+  className,
+  style,
+  innerClassName,
+  innerStyle,
+  progress,
+}: ProgressBarProps) => {
   return (
-    <div style={{ ...style, overflow: "hidden" }}>
-      <div style={{ ...innerStyle, width: `${progress}%` }} />
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
+          overflow: hidden;
+        `,
+        className,
+      )}
+      style={style}
+    >
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            width: ${progress}%;
+          `,
+          innerClassName,
+        )}
+        style={innerStyle}
+      />
     </div>
   );
 };

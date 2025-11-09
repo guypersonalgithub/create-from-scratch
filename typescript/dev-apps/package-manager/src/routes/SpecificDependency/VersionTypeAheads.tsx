@@ -12,6 +12,7 @@ import {
 } from "react";
 import { Button } from "@packages/button";
 import { type DependenciesToChange } from "@packages/alter-package-versions-types";
+import { dynatic } from "@packages/dynatic-css";
 
 type VersionTypeAheadsProps = {
   name?: string;
@@ -54,8 +55,17 @@ export const VersionTypeAheads = ({
   }, [data?.version, data?.path]);
 
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
-      <div style={{ width: "100px" }}>
+    <div
+      className={dynatic`
+        display: flex;
+        gap: 10px;
+      `}
+    >
+      <div
+        className={dynatic`
+          width: 100px;
+        `}
+      >
         <Typeahead
           options={semverOptions}
           initialValue={semver}
@@ -114,14 +124,14 @@ export const SelectedTriggerPopper = ({
 
   return (
     <div
-      style={{
-        height: "100%",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyItems: "center",
-      }}
+      className={dynatic`
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+      `}
     >
       <VersionTypeAheads
         name={name}
@@ -129,7 +139,14 @@ export const SelectedTriggerPopper = ({
         versionRef={versionRef}
         changedDependencies={changedDependencies}
       />
-      <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "10px" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+          justify-content: center;
+          margin-top: 10px;
+        `}
+      >
         <Button
           onClick={() => {
             hideTriggerPopper();

@@ -7,6 +7,10 @@
     "build": "tsc -b .",
     "typecheck": "tsc --noEmit -p ."
   },
+  "dependencies": {
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
+  },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

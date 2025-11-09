@@ -13,6 +13,7 @@ type AnimationlessContentProps = Omit<
 
 export const AnimationlessContent = ({
   contentRef,
+  className,
   style,
   items,
   displayArrows,
@@ -23,6 +24,7 @@ export const AnimationlessContent = ({
   return (
     <CarouselContent
       contentRef={contentRef}
+      className={className}
       style={style}
       items={items}
       stage={stage}

@@ -21,6 +21,11 @@ export default defineConfig({
       "@packages/table": path.resolve(__dirname, "../../packages/table/src/index.ts"),
       "@packages/pagination": path.resolve(__dirname, "../../packages/pagination/src/index.ts"),
       "@packages/button": path.resolve(__dirname, "../../packages/button/src/index.ts"),
+      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
+      "@packages/dynatic-css-utils": path.resolve(
+        __dirname,
+        "../../packages/dynatic-css-utils/src/index.ts",
+      ),
       "@packages/string-utils": path.resolve(__dirname, "../../packages/string-utils/src/index.ts"),
       "@packages/regex": path.resolve(__dirname, "../../packages/regex/src/index.ts"),
       "@packages/tooltip": path.resolve(__dirname, "../../packages/tooltip/src/index.ts"),

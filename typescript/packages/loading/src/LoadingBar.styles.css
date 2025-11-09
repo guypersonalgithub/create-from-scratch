@@ -1,0 +1,6 @@
+@keyframes progress {
+    100% {
+      transform: translateX(500%);
+    }
+}
+  

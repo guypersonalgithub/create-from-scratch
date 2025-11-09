@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { AnimatedCarousel } from "@packages/carousel";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "AnimatedCarousel",
@@ -16,9 +17,27 @@ export const Standard: Story = {
   args: {
     style: { height: "300px", width: "300px" },
     items: [
-      <div style={{ backgroundColor: "blue" }}>1</div>,
-      <div style={{ backgroundColor: "red" }}>2</div>,
-      <div style={{ backgroundColor: "green" }}>3</div>,
+      <div
+        className={dynatic`
+          background-color: blue;
+        `}
+      >
+        1
+      </div>,
+      <div
+        className={dynatic`
+          background-color: red;
+        `}
+      >
+        2
+      </div>,
+      <div
+        className={dynatic`
+          background-color: green;
+        `}
+      >
+        3
+      </div>,
     ],
     automaticTransition: true,
   },
@@ -31,9 +50,27 @@ export const TransitionLess: Story = {
   args: {
     style: { height: "300px", width: "300px" },
     items: [
-      <div style={{ backgroundColor: "blue" }}>1</div>,
-      <div style={{ backgroundColor: "red" }}>2</div>,
-      <div style={{ backgroundColor: "green" }}>3</div>,
+      <div
+        className={dynatic`
+          background-color: blue;
+        `}
+      >
+        1
+      </div>,
+      <div
+        className={dynatic`
+          background-color: red;
+        `}
+      >
+        2
+      </div>,
+      <div
+        className={dynatic`
+          background-color: green;
+        `}
+      >
+        3
+      </div>,
     ],
   },
   render: (args) => {

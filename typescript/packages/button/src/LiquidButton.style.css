@@ -1,25 +1,5 @@
-.liquid-btn {
-  padding: 16px 32px;
-  font-size: 18px;
-  color: white;
-  background: linear-gradient(135deg, #6a0dad, #d63384);
-  border: none;
-  border-radius: 12px;
-  filter: url(#liquid);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.liquid-btn:hover {
-  transform: scale(1.05);
-}
-
 @keyframes noiseAnim {
   0% { baseFrequency: 0.02; }
   50% { baseFrequency: 0.03; }
   100% { baseFrequency: 0.02; }
-}
-
-#turb {
-  animation: noiseAnim 1s infinite linear;
 }

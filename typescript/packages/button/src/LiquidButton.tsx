@@ -1,12 +1,26 @@
+import { dynatic } from "@packages/dynatic-css";
 import "./LiquidButton.style.css";
 
 export const LiquidButton = () => {
   return (
-    <div style={{ position: "relative", display: "inline-block" }}>
-      <svg style={{ position: "absolute", width: 0, height: 0 }}>
+    <div
+      className={dynatic`
+        position: relative;
+        display: inline-block;
+      `}
+    >
+      <svg
+        className={dynatic`
+          position: absolute;
+          width: 0;
+          height: 0;
+        `}
+      >
         <filter id="liquid">
           <feTurbulence
-            id="turb"
+            className={dynatic`
+              animation: noiseAnim 1s infinite linear;
+            `}
             type="fractalNoise"
             baseFrequency="0.02"
             numOctaves="3"
@@ -29,17 +43,21 @@ export const LiquidButton = () => {
         </filter>
       </svg>
       <button
-        style={{
-          padding: "16px 32px",
-          fontSize: "18px",
-          color: "white",
-          background: "linear-gradient(135deg, #6a0dad, #d63384)",
-          border: "none",
-          borderRadius: "12px",
-          filter: "url(#liquid)",
-          cursor: "pointer",
-          transition: "transform 0.2s",
-        }}
+        className={dynatic`
+          padding: 16px 32px;
+          font-size: 18px;
+          color: white;
+          background: linear-gradient(135deg, #6a0dad, #d63384);
+          border: none;
+          border-radius: 12px;
+          filter: url(#liquid);
+          cursor: pointer;
+          transition: transform 0.2s;
+
+          &:hover {
+           transform: scale(1.05);
+          }
+        `}
       >
         Liquid Button
       </button>

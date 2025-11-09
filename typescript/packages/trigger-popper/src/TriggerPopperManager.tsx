@@ -11,7 +11,7 @@ export const TriggerPopperManager = () => {
 
   useEffect(() => {
     const showTriggerPopper = (event: CustomEvent<TriggerPopperDisplayProps>) => {
-      const { id, content, style, onMount, onUnmount, mountOptions, unmountOptions } = event.detail;
+      const { id, content, className, style, onMount, onUnmount, mountOptions, unmountOptions } = event.detail;
 
       setTriggerPoppers((prev) => {
         if (triggerPopperIds.current.has(id)) {
@@ -22,6 +22,7 @@ export const TriggerPopperManager = () => {
             shallowCopy[existingIndex] = {
               id,
               content,
+              className,
               style,
               onMount,
               onUnmount,
@@ -33,7 +34,7 @@ export const TriggerPopperManager = () => {
           }
         }
 
-        return [...prev, { id, content, style, onMount, onUnmount, mountOptions, unmountOptions }];
+        return [...prev, { id, content, className, style, onMount, onUnmount, mountOptions, unmountOptions }];
       });
       triggerPopperIds.current.add(id);
     };
@@ -69,10 +70,11 @@ export const TriggerPopperManager = () => {
   return (
     <AnimationContainerUnmountWrapper changeMethod="gradual">
       {triggerPoppers.map(
-        ({ id, content, style, onMount, onUnmount, mountOptions, unmountOptions }) => {
+        ({ id, content, className, style, onMount, onUnmount, mountOptions, unmountOptions }) => {
           return (
             <AnimationContainerWrapper
               key={id}
+              className={className}
               style={style}
               onMount={onMount}
               onUnmount={onUnmount}

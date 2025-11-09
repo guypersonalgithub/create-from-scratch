@@ -1,3 +1,5 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { useState, type KeyboardEvent } from "react";
 
 type Item = {
@@ -99,48 +101,53 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
 
   return (
     <div
-      className={`shuttle-container ${className || ""}`}
-      style={{
-        display: "flex",
-        gap: 16,
-        maxWidth: 600,
-        userSelect: "none",
-        fontFamily: "sans-serif",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+          gap: 16px;
+          max-width: 600px;
+          user-select: none;
+          font-family: sans-serif;
+        `,
+        className,
+      )}
     >
       {/* Available */}
-      <div className="shuttle-list-container" style={{ flex: 1 }}>
+      <div
+        className={dynatic`
+          flex: 1;
+        `}
+      >
         <div
-          style={{
-            fontWeight: "bold",
-            marginBottom: 8,
-            textAlign: "center",
-          }}
+          className={dynatic`
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;  
+          `}
         >
           Available
         </div>
         <ul
-          className="shuttle-list"
+          className={dynatic`
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            max-height: 300px;
+            overflow-y: auto;  
+          `}
           tabIndex={0}
           role="listbox"
           aria-label="Available items"
           onKeyDown={onAvailableKeyDown}
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-            border: "1px solid #ccc",
-            maxHeight: 300,
-            overflowY: "auto",
-          }}
         >
           {availableItems.length === 0 && (
             <li
-              style={{
-                padding: "8px 12px",
-                color: "#888",
-                fontStyle: "italic",
-              }}
+              className={dynatic`
+                padding: 8px 12px;
+                color: #888;
+                font-style: italic;  
+              `}
             >
               No items
             </li>
@@ -152,12 +159,20 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
               aria-selected={focusAvailableIndex === i}
               onClick={() => addItems([item.id])}
               onFocus={() => setFocusAvailableIndex(i)}
-              style={{
-                padding: "8px 12px",
-                backgroundColor: focusAvailableIndex === i ? "#bde4ff" : "transparent",
-                cursor: "pointer",
-                borderBottom: "1px solid #eee",
-              }}
+              className={combineStringsWithSpaces(
+                dynatic`
+                  padding: 8px 12px;
+                  cursor: pointer;
+                  border-bottom: 1px solid #eee;
+                `,
+                focusAvailableIndex === i
+                  ? dynatic`
+                      background-color: #bde4ff;
+                    `
+                  : dynatic`
+                      background-color: transparent;
+                    `,
+              )}
             >
               {item.label}
             </li>
@@ -167,12 +182,20 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
           type="button"
           onClick={() => addItems(availableItems.map((i) => i.id))}
           disabled={availableItems.length === 0}
-          style={{
-            marginTop: 8,
-            width: "100%",
-            padding: "6px 0",
-            cursor: availableItems.length === 0 ? "not-allowed" : "pointer",
-          }}
+          className={combineStringsWithSpaces(
+            dynatic`
+              margin-top: 8px;
+              width: 100%;
+              padding: 6px 0;
+            `,
+            availableItems.length === 0
+              ? dynatic`
+                  cursor: not-allowed;
+                `
+              : dynatic`
+                  cursor: pointer;
+                `,
+          )}
         >
           Add All &gt;&gt;
         </button>
@@ -180,13 +203,12 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
 
       {/* Buttons */}
       <div
-        className="shuttle-buttons"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: 8,
-        }}
+        className={dynatic`
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 8px;  
+        `}
       >
         <button
           type="button"
@@ -195,7 +217,9 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
           }
           disabled={focusAvailableIndex === null}
           aria-label="Add selected"
-          style={{ padding: "6px 12px" }}
+          className={dynatic`
+            padding: 6px 12px;  
+          `}
         >
           &gt;
         </button>
@@ -206,7 +230,9 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
           }
           disabled={focusSelectedIndex === null}
           aria-label="Remove selected"
-          style={{ padding: "6px 12px" }}
+          className={dynatic`
+            padding: 6px 12px;  
+          `}
         >
           &lt;
         </button>
@@ -214,45 +240,50 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
           type="button"
           onClick={() => removeItems(selectedItems.map((i) => i.id))}
           disabled={selectedItems.length === 0}
-          style={{ padding: "6px 12px" }}
+          className={dynatic`
+            padding: 6px 12px;  
+          `}
         >
           &lt;&lt; Remove All
         </button>
       </div>
 
       {/* Selected */}
-      <div className="shuttle-list-container" style={{ flex: 1 }}>
+      <div
+        className={dynatic`
+          flex: 1;
+        `}
+      >
         <div
-          style={{
-            fontWeight: "bold",
-            marginBottom: 8,
-            textAlign: "center",
-          }}
+          className={dynatic`
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+          `}
         >
           Selected
         </div>
         <ul
-          className="shuttle-list"
+          className={dynatic`
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            max-height: 300px;
+            overflow-y: auto;
+          `}
           tabIndex={0}
           role="listbox"
           aria-label="Selected items"
           onKeyDown={onSelectedKeyDown}
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-            border: "1px solid #ccc",
-            maxHeight: 300,
-            overflowY: "auto",
-          }}
         >
           {selectedItems.length === 0 && (
             <li
-              style={{
-                padding: "8px 12px",
-                color: "#888",
-                fontStyle: "italic",
-              }}
+              className={dynatic`
+                padding: 8px 12px;
+                color: #888;
+                font-style: italic;
+              `}
             >
               No items
             </li>
@@ -264,23 +295,36 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
               aria-selected={focusSelectedIndex === i}
               onClick={() => removeItems([item.id])}
               onFocus={() => setFocusSelectedIndex(i)}
-              style={{
-                padding: "8px 12px",
-                backgroundColor: focusSelectedIndex === i ? "#bde4ff" : "transparent",
-                cursor: "pointer",
-                borderBottom: "1px solid #eee",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                userSelect: "none",
-              }}
+              className={combineStringsWithSpaces(
+                dynatic`
+                  padding: 8px 12px;
+                  cursor: pointer;
+                  border-bottom: 1px solid #eee;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  user-select: none;
+                `,
+                focusAvailableIndex === i
+                  ? dynatic`
+                      background-color: #bde4ff;
+                    `
+                  : dynatic`
+                      background-color: transparent;
+                    `,
+              )}
               // You can hook your drag handlers here, e.g.:
               // draggable
               // onDragStart={...}
               // onDrop={...}
             >
               <span>{item.label}</span>
-              <div style={{ display: "flex", gap: 4 }}>
+              <div
+                className={dynatic`
+                  display: flex;
+                  gap: 4px;
+                `}
+              >
                 <button
                   type="button"
                   onClick={(e) => {
@@ -290,7 +334,15 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
                   }}
                   disabled={i === 0}
                   aria-label={`Move ${item.label} up`}
-                  style={{ cursor: i === 0 ? "not-allowed" : "pointer" }}
+                  className={
+                    i === 0
+                      ? dynatic`
+                          cursor: not-allowed;
+                        `
+                      : dynatic`
+                          cursor: pointer;
+                        `
+                  }
                 >
                   ↑
                 </button>
@@ -303,7 +355,15 @@ export const Shuttle = ({ items, selectedIds, onChange, className }: ShuttleProp
                   }}
                   disabled={i === selectedItems.length - 1}
                   aria-label={`Move ${item.label} down`}
-                  style={{ cursor: i === selectedItems.length - 1 ? "not-allowed" : "pointer" }}
+                  className={
+                    selectedItems.length === 0
+                      ? dynatic`
+                          cursor: not-allowed;
+                        `
+                      : dynatic`
+                          cursor: pointer;
+                        `
+                  }
                 >
                   ↓
                 </button>

@@ -3,6 +3,7 @@ import { ManualAnimatedCarousel } from "./ManualAnimatedCarousel";
 import { AutomaticAnimatedCarousel } from "./AutomaticAnimatedCarousel";
 
 export const AnimatedCarousel = ({
+  className,
   style,
   items,
   automaticTransition,
@@ -14,6 +15,7 @@ export const AnimatedCarousel = ({
   if (automaticTransition) {
     return (
       <AutomaticAnimatedCarousel
+        className={className}
         style={style}
         items={items}
         displayArrows={displayArrows}
@@ -26,6 +28,7 @@ export const AnimatedCarousel = ({
 
   return (
     <ManualAnimatedCarousel
+      className={className}
       style={style}
       items={items}
       displayArrows={displayArrows}

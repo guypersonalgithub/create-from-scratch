@@ -2,8 +2,6 @@ import { usePathState } from "@packages/router";
 import { StyledLink } from "../customizedComponents/StyledLink";
 import { type CSSProperties } from "react";
 import { useBreakpoints } from "../breakpoints";
-import { useUITheme } from "../UIThemes";
-import { hexToRgba } from "@packages/css-utils";
 import { dynatic } from "../dynatic-css.config";
 
 const headerLinks = [
@@ -52,11 +50,6 @@ export const HeaderLinks = ({ className, style, selectedCondition }: HeaderLinks
 };
 
 export const MobileFooter = () => {
-  const { currentTheme, themes } = useUITheme();
-  const theme = themes[currentTheme];
-  const isLight = currentTheme === "light";
-  const rgbaBg = hexToRgba({ hex: theme.background, opacity: 0.8 });
-  const borderBottomColor = isLight ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)";
   const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["mediumDesktop"],
@@ -83,11 +76,9 @@ export const MobileFooter = () => {
         padding-left: 10px;
         padding-right: 10px;
         transition: ${(config) => config.shared.defaultTransition};
+        border-top: 1px solid ${config => config.colors.headerBorder};
+        background-color: ${(config) => config.colors.headerBG};
       `}
-      style={{
-        borderTop: `1px solid ${borderBottomColor}`,
-        backgroundColor: rgbaBg,
-      }}
     >
       <MobileFooterLinks />
     </div>

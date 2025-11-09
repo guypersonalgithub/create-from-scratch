@@ -1,8 +1,11 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { type CSSProperties, type ReactNode } from "react";
 
 type TableHeaderProps = {
   children: ReactNode;
   staticColumn?: boolean;
+  columnClassName?: (index: number) => string | undefined;
   columnStyle?: (index: number) => CSSProperties | undefined;
   index: number;
 } & (Size | ClassName);
@@ -20,25 +23,38 @@ type ClassName = {
 export const TableHeader = ({
   children,
   staticColumn = true,
+  columnClassName,
   columnStyle,
   index,
-  size,
   className,
+  size,
 }: TableHeaderProps) => {
   const style = columnStyle?.(index) ?? {};
 
   return (
     <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        textAlign: "left",
-        flexGrow: staticColumn ? 0 : 1,
-        whiteSpace: "nowrap",
-        ...(size ? { width: `${size}px` } : {}),
-        ...style,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+          align-items: center;
+          text-align: left;
+          white-space: nowrap;
+        `,
+        staticColumn
+          ? dynatic`
+              flex-grow: 0;
+            `
+          : dynatic`
+              flex-grow: 1;
+            `,
+        size &&
+          dynatic`
+            width: ${size}px;
+          `,
+        columnClassName?.(index),
+        className,
+      )}
+      style={style}
     >
       {children}
     </div>

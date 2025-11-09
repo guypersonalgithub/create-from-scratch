@@ -13,9 +13,9 @@ export const SpreaderTitle = ({ className, style, children }: SpreaderTitleProps
     <div
       className={combineStringsWithSpaces(
         dynatic`
-      font-size: 30px;
-      font-weight: bold;
-    `,
+          font-size: 30px;
+          font-weight: bold;
+        `,
         className,
       )}
       style={style}

@@ -12,6 +12,7 @@
 // } from "@packages/animation-container";
 // import { Collapsible } from "@packages/collapsible";
 // import { CopyToClipboard } from "@packages/copy-to-clipboard";
+import { dynatic } from "@packages/dynatic-css";
 import { TestAnswersShuffler } from "./testAnswersShuffler/TestAnswersShuffler";
 
 export const MainRoute = () => {
@@ -31,10 +32,18 @@ export const MainRoute = () => {
   // };
 
   return (
-    <div dir="rtl" style={{ margin: "0 auto", width: "580px" }}>
+    <div
+      dir="rtl"
+      className={dynatic`
+        margin: 0 auto;
+        width: 580px;
+      `}
+    >
       {/* <Collapsible title="Toggle">testhi</Collapsible> */}
       <TestAnswersShuffler />
-      {/* <button onClick={reorder} style={{ marginTop: "20px" }}>
+      {/* <button onClick={reorder} className={dynatic`
+        margin-top: 20px;
+      `}>
         Reorder
       </button> */}
       {/* <CopyToClipboard textToCopy="Test123" />
@@ -63,7 +72,9 @@ export const MainRoute = () => {
       >
         <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
       </Tooltip>
-      <EllipsisTooltip style={{ width: "50px" }}>Testing the ellipsis tooltip</EllipsisTooltip>
+      <EllipsisTooltip className={dynatic`
+        width: 50px;
+      `}>Testing the ellipsis tooltip</EllipsisTooltip>
       <button onClick={() => switchTest()}>click</button>
       <AnimationContainerWrapper
         onMount={[

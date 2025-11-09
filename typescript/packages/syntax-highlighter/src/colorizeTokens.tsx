@@ -3,6 +3,7 @@ import { type SupportedLanguages } from "./languages";
 import { type GenericBaseToken, type TokenMaps } from "./types";
 import { countLines } from "@packages/string-utils";
 import { getCurrentLineCounterElement } from "./utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type ColorizeTokensArgs<T extends SupportedLanguages> = {
   code: string;
@@ -47,11 +48,27 @@ export const colorizeTokens = <T extends SupportedLanguages>({
       split.forEach((part, index) => {
         if (index > 0) {
           lineCounter++;
-          output.push(<span style={{ color }}>{"\n"}</span>);
+          output.push(
+            <span
+              className={dynatic`
+                color: ${color};  
+              `}
+            >
+              {"\n"}
+            </span>,
+          );
           output.push(getCurrentLineCounterElementWrapper({ lineCounter, maximumLinesLength }));
         }
 
-        output.push(<span style={{ color }}>{part}</span>);
+        output.push(
+          <span
+            className={dynatic`
+              color: ${color};  
+            `}
+          >
+            {part}
+          </span>,
+        );
       });
     });
 
@@ -62,6 +79,14 @@ export const colorizeTokens = <T extends SupportedLanguages>({
     const { type, value } = current;
     const color = customCellColors[index] ?? baseColors[cellTypeRebranding[index] ?? type];
 
-    return <span style={{ color }}>{value}</span>;
+    return (
+      <span
+        className={dynatic`
+          color: ${color};  
+        `}
+      >
+        {value}
+      </span>
+    );
   });
 };

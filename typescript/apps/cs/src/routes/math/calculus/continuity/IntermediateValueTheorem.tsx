@@ -2,6 +2,7 @@ import { MathML } from "@packages/mathml";
 import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 import { useStickSubRouterLinksToTop } from "../../../../useStickSubRouterLinksToTop";
 import { StyledLinksContainer } from "../../../../styledComponents/StyledLinksContainer";
+import { dynatic } from "../../../../dynatic-css.config";
 
 export const IntermediateValueTheorem = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -10,7 +11,10 @@ export const IntermediateValueTheorem = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[{ path: "/math/calculus/continuity", children: "Continuity" }]}
       />
       <StyledMainTitle>Intermediate value theorem</StyledMainTitle>
@@ -29,7 +33,12 @@ export const IntermediateValueTheorem = () => {
       </div>
       <StyledSubTitle>Using the IVT example:</StyledSubTitle>
       <div>Let's assume we have the following function:</div>
-      <div style={{ display: "flex", gap: "5px" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 5px;
+        `}
+      >
         <MathML input="x^4 - x - 1" />
         <div>
           and we would like to know if it has any roots (i.e. when its equal to 0) without

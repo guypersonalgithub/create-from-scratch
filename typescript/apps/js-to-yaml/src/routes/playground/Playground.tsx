@@ -31,7 +31,9 @@ export const Playground = () => {
         </StyledButton>
       </div>
       <SubRouter
-        wrapperStyle={{ margin: "10px" }}
+        wrapperClassName={dynatic`
+          margin: 10px;
+        `}
         paths={{
           "/": () => <ConvertToYAML />,
           "/toJS": <ConvertToJS />,

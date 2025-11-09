@@ -1,6 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { RadioGroup } from "@packages/radio-button";
 import { useState } from "react";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "RadioGroup",
@@ -26,7 +27,9 @@ export const Primary = {
         ]}
         value={selectedFrom}
         onChange={setSelectedFrom}
-        labelStyle={{ color: "black" }}
+        labelClassName={dynatic`
+          color: black;  
+        `}
       />
     );
   },

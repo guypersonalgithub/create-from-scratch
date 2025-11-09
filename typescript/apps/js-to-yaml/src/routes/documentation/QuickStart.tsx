@@ -19,7 +19,10 @@ export const QuickStart = () => {
             following command:
           </div>
           <StyledCommandBox
-            // style={{ flex: 1, minWidth: "230px" }}
+            // className={dynatic`
+            //   flex: 1;
+            //   min-width: 230px;
+            // `}
             command="npm install -D js-to-yaml"
             copyToClipboard
             withIcons

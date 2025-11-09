@@ -4,15 +4,18 @@ import { useRef, type RefObject, useEffect, type CSSProperties } from "react";
 import { registerAnchorRef } from "./registerRefs";
 import { getLowestAnchorIndex } from "./utils";
 import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type AnchorsProps = {
   anchors: Anchor[];
   visibleAnchors: string[];
-  anchorClass?: string;
-  visibleAnchorClass?: string;
+  anchorClassName?: string;
   anchorStyle?: CSSProperties;
+  visibleAnchorClassName?: string;
   visibleAnchorStyle?: CSSProperties;
+  highlightBarContainerClassName?: string;
   highlightBarContainerStyle?: CSSProperties;
+  highlightBarClassName?: string;
   highlightBarStyle?: CSSProperties;
   anchorsIdentifier: string;
   onClickCallback?: (anchor: { ref: HTMLElement }) => void;
@@ -21,11 +24,13 @@ type AnchorsProps = {
 export const Anchors = ({
   anchors,
   visibleAnchors,
-  anchorClass,
-  visibleAnchorClass,
+  anchorClassName,
+  visibleAnchorClassName,
   anchorStyle,
   visibleAnchorStyle,
+  highlightBarContainerClassName,
   highlightBarContainerStyle,
+  highlightBarClassName,
   highlightBarStyle,
   anchorsIdentifier,
   onClickCallback,
@@ -38,7 +43,13 @@ export const Anchors = ({
   }, [anchorsIdentifier]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row-reverse", justifyContent: "start" }}>
+    <div
+      className={dynatic`
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: start;
+      `}
+    >
       <div>
         {anchors.map((anchor) => {
           const { ref, content, id } = anchor;
@@ -49,16 +60,18 @@ export const Anchors = ({
               key={id}
               ref={(ref) => registerAnchorRef({ refs: anchorRefs, ref })}
               className={combineStringsWithSpaces(
-                anchorClass,
-                isVisibleAnchor && visibleAnchorClass,
+                dynatic`
+                  cursor: pointer;
+                  font-weight: bold;
+                `,
+                anchorClassName,
+                isVisibleAnchor && visibleAnchorClassName,
               )}
               onClick={() => {
                 ref.scrollIntoView({ behavior: "smooth", block: "start" });
                 onClickCallback?.({ ref });
               }}
               style={{
-                cursor: "pointer",
-                fontWeight: "bold",
                 // fontWeight: isVisibleAnchor ? "bolder" : "normal",
                 ...anchorStyle,
                 ...(isVisibleAnchor ? visibleAnchorStyle : {}),
@@ -75,7 +88,9 @@ export const Anchors = ({
             key="highlightBar"
             refs={anchorRefs}
             selectedIndex={selectedIndex}
+            highlightBarContainerClassName={highlightBarContainerClassName}
             highlightBarContainerStyle={highlightBarContainerStyle}
+            highlightBarClassName={highlightBarClassName}
             highlightBarStyle={highlightBarStyle}
           />
         ) : (
@@ -86,11 +101,15 @@ export const Anchors = ({
   );
 };
 
-type HighlightBarProps = {
+type HighlightBarProps = Pick<
+  AnchorsProps,
+  | "highlightBarContainerClassName"
+  | "highlightBarContainerStyle"
+  | "highlightBarClassName"
+  | "highlightBarStyle"
+> & {
   refs: RefObject<(HTMLDivElement | null)[]>;
   selectedIndex: number;
-  highlightBarContainerStyle?: CSSProperties;
-  highlightBarStyle?: CSSProperties;
 };
 
 type TabProperties = {
@@ -101,7 +120,9 @@ type TabProperties = {
 const HighlightBar = ({
   refs,
   selectedIndex,
+  highlightBarContainerClassName,
   highlightBarContainerStyle,
+  highlightBarClassName,
   highlightBarStyle,
 }: HighlightBarProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -196,24 +217,35 @@ const HighlightBar = ({
   }, [selectedIndex]);
 
   return (
-    <div ref={containerRef} style={{ position: "relative" }}>
+    <div
+      ref={containerRef}
+      className={dynatic`
+        position: relative;
+      `}
+    >
       <div
         ref={highlightRef}
-        style={{
-          position: "absolute",
-          right: "5px",
-          ...highlightBarContainerStyle,
-        }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            position: absolute;
+            right: 5px;
+          `,
+          highlightBarContainerClassName,
+        )}
+        style={highlightBarContainerStyle}
       >
         <div
           key="bar"
-          style={{
-            width: "5px",
-            height: "inherit",
-            backgroundColor: "#5662F6",
-            borderRadius: "8px",
-            ...highlightBarStyle,
-          }}
+          className={combineStringsWithSpaces(
+            dynatic`
+              width: 5px;
+              height: inherit;
+              background-color: #5662F6;
+              border-radius: 8px;
+            `,
+            highlightBarClassName,
+          )}
+          style={highlightBarStyle}
         />
       </div>
     </div>

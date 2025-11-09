@@ -5,9 +5,11 @@ import { type SupportedLanguages } from "./languages";
 import { AnimatedCode } from "./AnimatedCode";
 import { ColorizedSyntaxHighlighter } from "./ColorizedSyntaxHighlighter";
 import { type Variant } from "./ModernContentDesign";
+import { syntaxHighlighterClassName, termainlCursorClassName } from "./sharedClassNames";
 
 export type StandardSyntaxHighlighterProps = {
   code: string;
+  className?: string;
   style?: CSSProperties;
   language?: SupportedLanguages;
   displayLanguage?: boolean;
@@ -100,9 +102,9 @@ export const SyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   }
 
   return (
-    <pre className="syntaxHighlighter" style={style}>
+    <pre className={syntaxHighlighterClassName} style={style}>
       {code}
-      {withCursor ? <span className="terminalCursor">|</span> : null}
+      {withCursor ? <span className={termainlCursorClassName}>|</span> : null}
     </pre>
   );
 };

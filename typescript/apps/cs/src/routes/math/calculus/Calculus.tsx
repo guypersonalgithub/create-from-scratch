@@ -5,6 +5,7 @@ import { Continuity } from "./continuity/Continuity";
 import { Derivative } from "./derivative/Derivative";
 import { StyledLinksContainer } from "../../../styledComponents/StyledLinksContainer";
 import { useStickSubRouterLinksToTop } from "../../../useStickSubRouterLinksToTop";
+import { dynatic } from "../../../dynatic-css.config";
 
 export const Calculus = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -13,7 +14,10 @@ export const Calculus = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[
           { path: "/math/calculus", children: "Calculus" },
           { path: "/math/calculus/limit", children: "Limit" },

@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@packages/animation-container": "*",
-    "@packages/button": "*"
+    "@packages/button": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

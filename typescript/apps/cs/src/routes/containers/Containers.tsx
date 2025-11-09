@@ -6,6 +6,7 @@ import { Chroot } from "./Chroot";
 import { Docker } from "./docker/Docker";
 import { Namespaces } from "./Namespaces";
 import { Cgroups } from "./Cgroups";
+import { dynatic } from "../../dynatic-css.config";
 
 export const Containers = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -14,7 +15,10 @@ export const Containers = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[
           { path: "/containers", children: "Containers" },
           { path: "/containers/chroot", children: "Chroot" },

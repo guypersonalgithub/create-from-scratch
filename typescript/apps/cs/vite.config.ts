@@ -13,6 +13,11 @@ export default defineConfig({
       "@packages/math-parser": path.resolve(__dirname, "../../packages/math-parser/src/index.ts"),
       "@packages/string-utils": path.resolve(__dirname, "../../packages/string-utils/src/index.ts"),
       "@packages/regex": path.resolve(__dirname, "../../packages/regex/src/index.ts"),
+      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
+      "@packages/dynatic-css-utils": path.resolve(
+        __dirname,
+        "../../packages/dynatic-css-utils/src/index.ts",
+      ),
       "@packages/router": path.resolve(__dirname, "../../packages/router/src/index.ts"),
       "@packages/utils": path.resolve(__dirname, "../../packages/utils/src/index.ts"),
       "@packages/url": path.resolve(__dirname, "../../packages/url/src/index.ts"),
@@ -65,11 +70,6 @@ export default defineConfig({
         "../../packages/calculations-table/src/index.ts",
       ),
       "@packages/title": path.resolve(__dirname, "../../packages/title/src/index.ts"),
-      "@packages/dynatic-css": path.resolve(__dirname, "../../packages/dynatic-css/src/index.ts"),
-      "@packages/dynatic-css-utils": path.resolve(
-        __dirname,
-        "../../packages/dynatic-css-utils/src/index.ts",
-      ),
       "@packages/syntax-highlighter": path.resolve(
         __dirname,
         "../../packages/syntax-highlighter/src/index.ts",

@@ -16,6 +16,8 @@ on:
       - typescript/packages/element-utils/**
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/button/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/tooltip/**
       - typescript/packages/animation-container/**
       - typescript/packages/utils/**

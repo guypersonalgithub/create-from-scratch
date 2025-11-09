@@ -1,7 +1,11 @@
 import { type CSSProperties } from "react";
-import "./styles.css";
+import "./LoadingBar.styles.css";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type LoadingBarProps = {
+  className?: string;
+  barClassName?: string;
   height?: number | `${number}%`;
   width?: number | `${number}%`;
   borderRadius?: number;
@@ -11,6 +15,8 @@ type LoadingBarProps = {
 };
 
 export const LoadingBar = ({
+  className,
+  barClassName,
   height = "100%",
   width = "100%",
   borderRadius,
@@ -20,27 +26,68 @@ export const LoadingBar = ({
 }: LoadingBarProps) => {
   return (
     <div
-      style={{
-        position: "relative",
-        height: typeof height === "string" && height.includes("%") ? height : `${height}px`,
-        width: typeof width === "string" && width.includes("%") ? width : `${width}px`,
-        borderRadius: `${borderRadius}px`,
-        background: backgroundColor,
-        overflow: "hidden",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          position: relative;
+          overflow: hidden;
+        `,
+        typeof height === "string" && height.includes("%")
+          ? dynatic`
+              height: ${height};
+            `
+          : dynatic`
+              height: ${height}px;
+            `,
+        typeof width === "string" && width.includes("%")
+          ? dynatic`
+              width: ${width};
+            `
+          : dynatic`
+              width: ${width}px;
+            `,
+        borderRadius &&
+          dynatic`
+            border-radius: ${borderRadius}px; 
+          `,
+        backgroundColor &&
+          dynatic`
+            background: ${backgroundColor};
+          `,
+        className,
+      )}
     >
       <div
-        style={{
-          position: "absolute",
-          top: 0,
-          height: typeof height === "string" && height.includes("%") ? height : `${height}px`,
-          width:
-            typeof barWidth === "string" && barWidth.includes("%") ? barWidth : `${barWidth}px`,
-          borderRadius: `${borderRadius}px`,
-          transform: "translateX(-500%)",
-          background: color,
-        }}
-        className="loading-bar"
+        className={combineStringsWithSpaces(
+          dynatic`
+          position: absolute;
+          top: 0;
+          transform: translateX(-500%);
+          animation: progress 3s ease-out infinite;
+        `,
+          typeof height === "string" && height.includes("%")
+            ? dynatic`
+                height: ${height};
+              `
+            : dynatic`
+                height: ${height}px;
+              `,
+          typeof barWidth === "string" && barWidth.includes("%")
+            ? dynatic`
+                width: ${barWidth};
+              `
+            : dynatic`
+                width: ${barWidth}px;
+              `,
+          borderRadius &&
+            dynatic`
+              border-radius: ${borderRadius}px; 
+            `,
+          color &&
+            dynatic`
+              background: ${color};
+            `,
+          barClassName,
+        )}
       />
     </div>
   );

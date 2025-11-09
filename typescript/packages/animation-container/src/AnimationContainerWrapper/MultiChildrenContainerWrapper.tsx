@@ -3,6 +3,7 @@ import { type AnimationContainerWrapperProps, type ChangeMethod } from "./types"
 import { AnimationWrapper } from "./AnimationContainer";
 import { getChildKeys } from "./utils";
 import { areSetsEqual } from "@packages/utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type MultiChildrenContainerWrapper = AnimationContainerWrapperProps & {
   children: ReactElement[];
@@ -78,7 +79,14 @@ const FullPhase = ({
         }}
         {...rest}
       >
-        <div style={{ height: "inherit", width: "inherit" }}>{child}</div>
+        <div
+          className={dynatic`
+            height: inherit;
+            width: inherit;
+          `}
+        >
+          {child}
+        </div>
       </AnimationWrapper>
     );
   });
@@ -142,7 +150,14 @@ const Gradual = ({
         }}
         {...rest}
       >
-        <div style={{ height: "inherit", width: "inherit" }}>{child}</div>
+        <div
+          className={dynatic`
+            height: inherit;
+            width: inherit;
+          `}
+        >
+          {child}
+        </div>
       </AnimationWrapper>
     );
   });

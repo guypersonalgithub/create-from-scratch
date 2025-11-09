@@ -36,9 +36,11 @@ export const RightSidebar = ({ className, style }: RightSidebarProps) => {
       ) : null}
       <ScrollspyAnchors
         anchors={anchors}
-        anchorClass="anchor"
-        visibleAnchorClass="visibleAnchor"
-        highlightBarStyle={{ backgroundColor: "rgba(0, 119, 184, 0.976)" }}
+        anchorClassName="anchor"
+        visibleAnchorClassName="visibleAnchor"
+        highlightBarClassName={dynatic`
+          background-color: ${(config) => config.shared.lightBlue};
+        `}
       />
     </div>
   );

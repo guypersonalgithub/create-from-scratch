@@ -1,10 +1,13 @@
 import { type CSSProperties, type ReactNode, type RefObject } from "react";
 import { EdgeIntersection, type EdgeWrapperRefs } from "@packages/edge-intersection";
 import { type TooltipDisplayProps } from "./types";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type TooltipContentProps = Pick<TooltipDisplayProps, "offset"> & {
   id: string;
   intersectionRefs: EdgeWrapperRefs;
+  className?: string;
   style?: CSSProperties;
   isEllipsizedCallback?: () => boolean;
   show?: () => void;
@@ -18,6 +21,7 @@ export const TooltipContent = ({
   intersectionRefs,
   offset,
   isEllipsizedCallback,
+  className,
   style = {},
   show,
   hide,
@@ -37,10 +41,13 @@ export const TooltipContent = ({
     >
       <div
         ref={ref}
-        style={{
-          height: "fit-content",
-          ...style,
-        }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            height: fit-content;
+          `,
+          className,
+        )}
+        style={style}
         onMouseEnter={show}
         onMouseLeave={hide}
       >

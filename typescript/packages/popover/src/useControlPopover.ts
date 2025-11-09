@@ -12,6 +12,7 @@ export const useControlPopover = () => {
     offset,
     intersectionRefs,
     distanceFromViewport,
+    className,
     style,
   }: Omit<PopoverDisplayProps, "id">) => {
     const event = new CustomEvent<PopoverDisplayProps>("showPopover", {
@@ -23,6 +24,7 @@ export const useControlPopover = () => {
         offset,
         intersectionRefs,
         distanceFromViewport,
+        className,
         style,
       },
     });

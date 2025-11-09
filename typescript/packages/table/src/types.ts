@@ -9,6 +9,7 @@ export type TableProps<T extends Record<string, unknown>> = {
     amountOfRows?: number;
   };
   onRowClick?: (data: T) => void;
+  containerClassName?: string;
   containerStyle?: CSSProperties;
   columns: Column<T>[];
   rows?: {
@@ -16,11 +17,14 @@ export type TableProps<T extends Record<string, unknown>> = {
     dataRow?: Size | ClassName;
   };
   columnGap?: number;
-  headerContainer?: CSSProperties;
-  rowContainer?: CSSProperties;
+  headerContainerClassName?: string;
+  headerContainerStyle?: CSSProperties;
+  rowContainerClassName?: string;
+  rowContainerStyle?: CSSProperties;
+  columnClassName?: (index: number) => string | undefined;
   columnStyle?: (index: number) => CSSProperties | undefined;
-  dataRowStyle?: (data: T, index: number) => CSSProperties;
-  dataRowClass?: (data: T, index: number) => string;
+  dataRowClassName?: (data: T, index: number) => string | undefined;
+  dataRowStyle?: (data: T, index: number) => CSSProperties | undefined;
   pagination?: {
     paginationProps: Omit<PaginationProps, "totalPages">;
     rowsPerPage: number;
@@ -34,11 +38,11 @@ export type Column<T extends Record<string, unknown>> = {
 } & (Size | ClassName);
 
 type Size = {
-  size: number;
   className?: never;
+  size: number;
 };
 
 type ClassName = {
-  size?: never;
   className: string;
+  size?: never;
 };

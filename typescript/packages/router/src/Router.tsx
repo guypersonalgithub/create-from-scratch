@@ -5,7 +5,7 @@ import { useScrollToTheTopManual } from "@packages/hooks";
 import { useGetRouteData } from "./useGetRouteData";
 import { IS_ROUTER } from "./symbols";
 
-export const Router = ({ paths, wrapperStyle }: RouterProps) => {
+export const Router = ({ paths, wrapperClassName, wrapperStyle }: RouterProps) => {
   const [path, setPath] = useState<`/${string}`>(window.location.pathname as `/${string}`);
   const routeParams = useRef<Record<string, string>>({});
   const { route, passedPath } = useGetRouteData({ path, paths, routeParams });
@@ -28,6 +28,7 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
           passedPath={passedPath}
           paths={paths}
           route={route}
+          wrapperClassName={wrapperClassName}
           wrapperStyle={wrapperStyle}
         />
       </SubRouterContext.Provider>
@@ -35,7 +36,13 @@ export const Router = ({ paths, wrapperStyle }: RouterProps) => {
   );
 };
 
-const RouterContent = ({ passedPath, paths, route, wrapperStyle }: RouterContentProps) => {
+const RouterContent = ({
+  passedPath,
+  paths,
+  route,
+  wrapperClassName,
+  wrapperStyle,
+}: RouterContentProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollFirstOverflowedParentToTop } = useScrollToTheTopManual();
 
@@ -48,7 +55,7 @@ const RouterContent = ({ passedPath, paths, route, wrapperStyle }: RouterContent
   }, [passedPath]);
 
   return (
-    <div ref={ref} style={wrapperStyle}>
+    <div ref={ref} className={wrapperClassName} style={wrapperStyle}>
       {route || (paths["404"] as ReactNode) || null}
     </div>
   );

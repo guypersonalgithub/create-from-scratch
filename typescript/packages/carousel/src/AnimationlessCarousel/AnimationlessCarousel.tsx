@@ -3,6 +3,7 @@ import { AutomaticAnimationlessCarousel } from "./AutomaticAnimationlessCarousel
 import { ManualAnimationlessCarousel } from "./ManualAnimationlessCarousel";
 
 export const AnimationlessCarousel = ({
+  className,
   style,
   items,
   automaticTransition,
@@ -14,6 +15,7 @@ export const AnimationlessCarousel = ({
   if (automaticTransition) {
     return (
       <AutomaticAnimationlessCarousel
+        className={className}
         style={style}
         items={items}
         stopTransitionWhenOutOfView={stopTransitionWhenOutOfView}
@@ -26,6 +28,7 @@ export const AnimationlessCarousel = ({
 
   return (
     <ManualAnimationlessCarousel
+      className={className}
       style={style}
       items={items}
       displayArrows={displayArrows}

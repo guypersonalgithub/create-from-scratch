@@ -4,8 +4,11 @@ export type LinkGroupProperties = { title: string; links: { label: string; pathn
 
 export type GroupedSidebarProps = {
   links: LinkGroupProperties[];
+  className?: string;
   style?: CSSProperties;
+  titleClassName?: string;
   titleStyle?: CSSProperties;
+  linkClassName?: (args: { pathname: string }) => string;
   linkStyle?: (args: { pathname: string }) => CSSProperties;
 } & Link;
 

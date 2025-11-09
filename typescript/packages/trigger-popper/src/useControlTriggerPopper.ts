@@ -7,6 +7,7 @@ export const useControlTriggerPopper = () => {
 
   const showTriggerPopper = ({
     content,
+    className,
     style,
     onMount,
     onUnmount,
@@ -17,6 +18,7 @@ export const useControlTriggerPopper = () => {
       detail: {
         id: id.current,
         content,
+        className,
         style,
         onMount,
         onUnmount,

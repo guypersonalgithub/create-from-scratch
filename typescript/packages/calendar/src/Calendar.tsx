@@ -11,11 +11,15 @@ import { type CSSProperties, useRef, useState } from "react";
 import { monthDetails } from "./constants";
 import { CalendarContent } from "./CalendarContent";
 import { type CalendarFormat, type Days } from "./types";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type CalendarProps = {
   startDate?: string;
   locale?: Locale;
+  containerClassName?: string;
   containerStyle?: CSSProperties;
+  calendarClassName?: string;
   calendarStyle?: CSSProperties;
   format: CalendarFormat;
   monthStartOnDay: Days;
@@ -27,8 +31,10 @@ type CalendarProps = {
 export const Calendar = ({
   startDate,
   locale = getLocale(),
-  containerStyle = {},
-  calendarStyle = {},
+  containerClassName,
+  containerStyle,
+  calendarClassName,
+  calendarStyle,
   format,
   monthStartOnDay,
   amountOfMonths = 1,
@@ -50,17 +56,22 @@ export const Calendar = ({
   const displayedCalendarMonthsArray = Array.from({ length: amountOfMonths });
 
   return (
-    <div style={containerStyle}>
+    <div className={containerClassName} style={containerStyle}>
       <div
-        style={{
-          ...calendarStyle,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-around",
-        }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+          `,
+          calendarClassName,
+        )}
+        style={calendarStyle}
       >
         <div
-          style={{ cursor: "pointer" }}
+          className={dynatic`
+            cursor: pointer;
+          `}
           onClick={() => {
             if (month === 1) {
               setYear(year - 1);
@@ -72,7 +83,12 @@ export const Calendar = ({
             setMonth(month - 1);
           }}
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft
+            className={dynatic`
+              width: 20px;
+              height: 20px;
+            `}
+          />
         </div>
         {displayedCalendarMonthsArray.map((_, index) => {
           const expectedMonthNumber = month + index;
@@ -154,7 +170,9 @@ export const Calendar = ({
           );
         })}
         <div
-          style={{ cursor: "pointer" }}
+          className={dynatic`
+            cursor: pointer;
+          `}
           onClick={() => {
             if (month === 12) {
               setYear(year + 1);
@@ -166,7 +184,12 @@ export const Calendar = ({
             setMonth(month + 1);
           }}
         >
-          <ArrowRight size={20} />
+          <ArrowRight
+            className={dynatic`
+              width: 20px;
+              height: 20px;
+            `}
+          />
         </div>
       </div>
     </div>

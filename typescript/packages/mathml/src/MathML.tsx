@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { functionalParsing } from "./functionalParsing";
 import { parseTokens } from "./utils/parseTokens";
 import "./styles.css";
+import { dynatic } from "@packages/dynatic-css";
 
 type MathMLProps = {
   input: string;
@@ -134,7 +135,18 @@ const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: Forma
   return (
     <>
       {displayError ? <div>{error}</div> : null}
-      <div ref={ref} style={{ visibility: error ? "hidden" : "visible" }} />
+      <div
+        ref={ref}
+        className={
+          error
+            ? dynatic`
+                visibility: hidden;
+              `
+            : dynatic`
+                visibility: visible;
+              `
+        }
+      />
       <div ref={cancelContainerRef} />
     </>
   );

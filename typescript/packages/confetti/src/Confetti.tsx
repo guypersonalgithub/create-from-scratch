@@ -199,13 +199,13 @@ export const Confetti = ({
       ref={canvasRef}
       className={combineStringsWithSpaces(
         dynatic`
-        border: 3px solid red;
-              position: fixed;
-              top: 0;
-              left: 0;
-              pointer-events: none;
-              z-index: 9999;
-            `,
+          border: 3px solid red;
+          position: fixed;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+          z-index: 9999;
+        `,
         className,
       )}
       style={style}

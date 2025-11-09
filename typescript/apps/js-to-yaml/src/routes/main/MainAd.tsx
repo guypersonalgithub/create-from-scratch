@@ -2,7 +2,6 @@ import { AnimationContainerWrapper } from "@packages/animation-container";
 import { StyledCard, StyledSyntaxHighlighter } from "../../customizedComponents";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { observeElementVisibility } from "@packages/element-utils";
-import { useBreakpoints } from "../../breakpoints";
 import { TypescriptTokenTypes } from "@packages/parse-typescript";
 import { dynatic } from "../../dynatic-css.config";
 
@@ -11,9 +10,6 @@ export const MainAd = () => {
   const [stage, setStage] = useState(1);
   const timeout = useRef<NodeJS.Timeout>(null);
   const [disableLifecycleAnimation, setDisableLifecycleAnimation] = useState(false);
-  const { useGetBreakpoint } = useBreakpoints();
-  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
-  const isDesktop = breakpoint === "desktop";
 
   useEffect(() => {
     if (!ref.current) {
@@ -78,9 +74,9 @@ export const MainAd = () => {
             `}
           >
             <StyledSyntaxHighlighter
-              style={{
-                border: "1px solid var(--theme-border)",
-              }}
+              className={dynatic`
+                border: ${(config) => config.colors.defaultBorder};
+              `}
               pacing={100}
               code={`name: Tests
 on:
@@ -202,14 +198,19 @@ writeFileSync("./tests.yaml", output);
         height: 770px;
         display: flex;
         align-items: center;
+        width: 500px;
+
+        ${(config) => config.utils.widthMediaQuery({ to: "1300px" })} {
+          width: 90vw;
+        }
       `}
-      style={{
-        width: isDesktop ? "500px" : "90vw",
-      }}
     >
       <AnimationContainerWrapper
         changeMethod="fullPhase"
-        style={{ width: "100%", transform: "translateX(-100%)" }}
+        className={dynatic`
+          width: 100%;
+          transform: translateX(-100%);  
+        `}
         onMount={[
           { opacity: 0, transform: "translateX(-100%)" },
           { opacity: 1, transform: "translateX(0%)" },

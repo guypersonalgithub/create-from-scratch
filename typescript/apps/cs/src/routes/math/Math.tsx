@@ -11,6 +11,7 @@ import { FloorFunction } from "./FloorFunction";
 import { CompositionOfFunctions } from "./CompositionOfFunctions";
 import { TangentLine } from "./TangentLine";
 import { SecantLine } from "./SecantLine";
+import { dynatic } from "../../dynatic-css.config";
 
 const printableUnicodes = Object.values(unicodes.javascript).map((unicode) => unicode);
 
@@ -21,7 +22,10 @@ export const Math = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[
           { path: "/math", children: "Math" },
           { path: "/math/calculus", children: "Calculus" },
@@ -43,7 +47,12 @@ export const Math = () => {
                 <div>
                   <StyledMainTitle>Helper unicodes:</StyledMainTitle>
                   <div
-                    style={{ display: "flex", flexWrap: "wrap", gap: "5px", marginBottom: "20px" }}
+                    className={dynatic`
+                      display: flex;
+                      flex-wrap: wrap;
+                      gap: 5px;
+                      margin-bottom: 20px;
+                    `}
                   >
                     {printableUnicodes.map((unicode) => (
                       <CopyToClipboardWithTooltip key={unicode} textToCopy={unicode}>

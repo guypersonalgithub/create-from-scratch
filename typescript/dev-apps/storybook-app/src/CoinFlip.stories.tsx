@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { CoinFlip, type CoinFlipRef } from "@packages/coin-flip";
 import { useRef } from "react";
 import { Button } from "@packages/button";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "CoinFlip",
@@ -19,18 +20,29 @@ export const Primary: Story = {
     const ref = useRef<CoinFlipRef>(null);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        `}
+      >
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "500px",
-          }}
+          className={dynatic`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;  
+          `}
         >
           <CoinFlip {...args} coinRef={ref} />
         </div>
-        <Button onClick={() => ref.current?.flip()} style={{ width: "fit-content" }}>
+        <Button
+          onClick={() => ref.current?.flip()}
+          className={dynatic`
+            width: fit-content;
+          `}
+        >
           Flip
         </Button>
       </div>

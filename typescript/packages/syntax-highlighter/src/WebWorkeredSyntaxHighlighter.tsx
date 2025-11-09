@@ -8,12 +8,16 @@ import { TopRightSection } from "./TopRightSection";
 ?worker isn't standard Javascript, its a bundler feature for Vite to treat it as a Web Worker and return a Worker constructor, that means 
 const worker = new MyWorker() - worker is a real Worker instance running the code from ./webWorker.ts in its own thread — no manual new Worker(new URL(...)) needed */
 import HighlightWorker from "./webWorker?worker";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
+import { syntaxHighlighterClassName } from "./sharedClassNames";
 
 type WebWorkeredSyntaxHighlighterProps<T extends SupportedLanguages = "typescript"> =
   StandardSyntaxHighlighterProps & Omit<HighlightedCode<T>, "highlightCode" | "withWebWorker">;
 
 export const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   code,
+  className,
   style,
   language = "typescript",
   copyToClipboard = true,
@@ -50,8 +54,15 @@ export const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typ
   if (!tokens) {
     return (
       <div
-        className="syntaxHighlighter"
-        style={{ ...style, position: "relative", overflow: "auto" }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            position: relative;
+            overflow: auto;
+          `,
+          syntaxHighlighterClassName,
+          className,
+        )}
+        style={style}
       >
         <pre>
           <TopRightSection
@@ -61,7 +72,7 @@ export const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typ
             displayLanguage={displayLanguage}
           />
           {code}
-          {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
+          {/* {withCursor ? <span className={termainlCursorClassName}>|</span> : null} */}
         </pre>
       </div>
     );
@@ -86,7 +97,17 @@ export const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typ
   });
 
   return (
-    <div className="syntaxHighlighter" style={{ ...style, position: "relative", overflow: "auto" }}>
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
+          position: relative;
+          overflow: auto;
+        `,
+        syntaxHighlighterClassName,
+        className,
+      )}
+      style={style}
+    >
       <pre>
         <TopRightSection
           code={code}
@@ -97,7 +118,7 @@ export const WebWorkeredSyntaxHighlighter = <T extends SupportedLanguages = "typ
         {highlighted.map((ele, index) => (
           <Fragment key={index}>{ele}</Fragment>
         ))}
-        {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
+        {/* {withCursor ? <span className={termainlCursorClassName}>|</span> : null} */}
       </pre>
     </div>
   );

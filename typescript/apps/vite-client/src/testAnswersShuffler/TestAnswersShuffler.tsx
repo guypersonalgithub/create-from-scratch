@@ -1,6 +1,7 @@
-import { type MutableRefObject, type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { Question } from "./Question";
 import { type Reorder } from "./types";
+import { dynatic } from "@packages/dynatic-css";
 
 type LoadImageArgs = {
   src: string;
@@ -56,12 +57,17 @@ export const TestAnswersShuffler = () => {
     arrangeQuestions();
   }, []);
 
-  const refs = useRef<Array<MutableRefObject<Reorder | null>>>(
+  const refs = useRef<Array<RefObject<Reorder | null>>>(
     Array.from({ length }).map(() => ({ current: null })),
   );
 
   return (
-    <div style={{ display: "grid", gap: "8px" }}>
+    <div
+      className={dynatic`
+        display: grid;
+        gap: 8px;
+      `}
+    >
       {questions.map((question, index) => {
         return (
           <Question key={index} index={index + 1} callbackRef={refs.current[index]} {...question} />

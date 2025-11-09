@@ -2,9 +2,13 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import { isCharsAndDigitsOnly } from "@packages/regex";
 import { Input } from "@packages/input";
 import { Button, type ButtonProps } from "@packages/button";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type OTPInputProps<T extends "text" | "number", G extends T extends "text" ? string : number> = {
+  className?: string;
   style?: CSSProperties;
+  inputClassName?: string;
   inputStyle?: CSSProperties;
   type: T;
   count: number;
@@ -14,12 +18,14 @@ type OTPInputProps<T extends "text" | "number", G extends T extends "text" ? str
 
 type DisplayButton = Omit<ButtonProps, "style" | "type"> & {
   displayButton?: boolean;
+  buttonClassName?: string;
   buttonStyle?: CSSProperties;
   buttonContent?: ReactNode;
 };
 
 type NoButton = {
   displayButton?: never;
+  buttonClassName?: never;
   buttonStyle?: never;
   buttonContent?: never;
 };
@@ -28,13 +34,16 @@ export const OTPInput = <
   T extends "text" | "number",
   G extends T extends "text" ? string : number,
 >({
+  className,
   style,
+  inputClassName,
   inputStyle,
   type,
   count,
   callback,
   autoTrigger,
   displayButton,
+  buttonClassName,
   buttonStyle,
   buttonContent = "Submit",
   ...rest
@@ -57,7 +66,15 @@ export const OTPInput = <
 
   return (
     <div>
-      <div style={{ display: "flex", ...style }}>
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            display: flex;
+          `,
+          className,
+        )}
+        style={style}
+      >
         {array.map((_, index) => {
           return (
             <Input
@@ -65,6 +82,7 @@ export const OTPInput = <
                 inputRefs.current[index] = el;
               }}
               key={index}
+              className={inputClassName}
               style={inputStyle}
               type={type}
               required={true}
@@ -161,6 +179,7 @@ export const OTPInput = <
       {displayButton ? (
         <Button
           {...rest}
+          className={buttonClassName}
           style={buttonStyle}
           onClick={() => {
             callback({ value: value.join("") as G });

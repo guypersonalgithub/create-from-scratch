@@ -1,12 +1,17 @@
 import { type CSSProperties, type ReactNode } from "react";
 import { type TitleWrapper } from "./types";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 export type TitleProps = {
   prefix?: ReactNode;
   suffix?: ReactNode;
+  containerClassName?: string;
   containerStyle?: CSSProperties;
+  contentContainerClassName?: string;
   contentContainerStyle?: CSSProperties;
   titleWrapper?: TitleWrapper;
+  titleWrapperClassName?: string;
   titleWrapperStyle?: CSSProperties;
   children: ReactNode;
 } & TitleHighlight;
@@ -14,12 +19,16 @@ export type TitleProps = {
 type TitleHighlight =
   | {
       titleHighlight: "left" | "right" | "both";
+      titleLeftHighlightClassName?: string;
       titleLeftHighlightStyle?: CSSProperties;
+      titleRightHighlightClassName?: string;
       titleRightHighlightStyle?: CSSProperties;
     }
   | {
       titleHighlight?: never;
+      titleLeftHighlightClassName?: never;
       titleLeftHighlightStyle?: never;
+      titleRightHighlightClassName?: never;
       titleRightHighlightStyle?: never;
     };
 
@@ -28,27 +37,46 @@ export const Title = ({
   children,
   suffix = null,
   titleWrapper,
-  titleWrapperStyle = {},
+  titleWrapperClassName,
+  titleWrapperStyle,
+  contentContainerClassName,
   contentContainerStyle,
   titleHighlight,
+  titleLeftHighlightClassName,
   titleLeftHighlightStyle,
+  titleRightHighlightClassName,
   titleRightHighlightStyle,
+  containerClassName,
   containerStyle,
 }: TitleProps) => {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "20px", ...titleWrapperStyle }}>
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        `,
+        titleWrapperClassName,
+      )}
+      style={titleWrapperStyle}
+    >
       {titleHighlight === "left" || titleHighlight === "both" ? (
-        <TitleHighlight style={titleLeftHighlightStyle} />
+        <TitleHighlight className={titleLeftHighlightClassName} style={titleLeftHighlightStyle} />
       ) : null}
-      <div style={containerStyle}>
+      <div className={containerClassName} style={containerStyle}>
         {prefix}
-        <TitleContainer titleWrapper={titleWrapper} titleWrapperStyle={contentContainerStyle}>
+        <TitleContainer
+          titleWrapper={titleWrapper}
+          titleWrapperClassName={contentContainerClassName}
+          titleWrapperStyle={contentContainerStyle}
+        >
           {children}
         </TitleContainer>
         {suffix}
       </div>
       {titleHighlight === "right" || titleHighlight === "both" ? (
-        <TitleHighlight style={titleRightHighlightStyle} />
+        <TitleHighlight className={titleRightHighlightClassName} style={titleRightHighlightStyle} />
       ) : null}
     </div>
   );
@@ -56,26 +84,49 @@ export const Title = ({
 
 type TitleContainerProps = {
   titleWrapper?: TitleWrapper;
+  titleWrapperClassName?: string;
   titleWrapperStyle?: CSSProperties;
   children: ReactNode;
 };
 
 const TitleContainer = ({
   titleWrapper: Wrapper,
+  titleWrapperClassName,
   titleWrapperStyle,
   children,
 }: TitleContainerProps) => {
   if (Wrapper) {
-    return <Wrapper style={titleWrapperStyle}>{children}</Wrapper>;
+    return (
+      <Wrapper className={titleWrapperClassName} style={titleWrapperStyle}>
+        {children}
+      </Wrapper>
+    );
   }
 
-  return <div style={titleWrapperStyle}>{children}</div>;
+  return (
+    <div className={titleWrapperClassName} style={titleWrapperStyle}>
+      {children}
+    </div>
+  );
 };
 
 type TitleHighlightProps = {
+  className?: string;
   style?: CSSProperties;
 };
 
-const TitleHighlight = ({ style = {} }: TitleHighlightProps) => {
-  return <div style={{ height: "1px", width: "100%", backgroundColor: "black", ...style }} />;
+const TitleHighlight = ({ className, style }: TitleHighlightProps) => {
+  return (
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
+          height: 1px;
+          width: 100%;
+          background-color: black;
+        `,
+        className,
+      )}
+      style={style}
+    />
+  );
 };

@@ -6,6 +6,7 @@ import { RightSidebar } from "./RightSidebar";
 import { ConvertToYaml } from "./ConvertToYaml";
 import { ConvertToJavascript } from "./ConvertToJavascript";
 import { useBreakpoints } from "../../breakpoints";
+import { dynatic } from "../../dynatic-css.config";
 
 export const Documentation = () => {
   const { useGetBreakpoint } = useBreakpoints();
@@ -15,33 +16,33 @@ export const Documentation = () => {
     defaultAboveBreakpoint: "mediumDesktop",
   });
   const isDesktop = breakpoint === "mediumDesktop";
+  const sidebarClassName = dynatic`
+    background-color: ${(config) => config.colors.secondaryBG};
+    color: ${(config) => config.colors.mainColor};
+    transition: ${(config) => config.shared.defaultTransition};
+    position: sticky;
+    top: 61px;
+    font-size: 14px;
+    height: calc(100vh - 81px);
+  `;
 
   return (
     <div
-      style={{
-        display: "flex",
-        gap: "10px",
-        minHeight: `calc(100vh - 61px)`,
-        justifyContent: "space-between",
-        alignItems: "flex-start",
-      }}
+      className={dynatic`
+        display: flex;
+        gap: 10px;
+        min-height: calc(100vh - 61px);
+        justify-content: space-between;
+        align-items: flex-start;
+      `}
     >
-      {isDesktop ? (
-        <DocumentationSidebar
-          style={{
-            backgroundColor: "var(--theme-subBackground)",
-            color: "var(--theme-color)",
-            transition: "var(--theme-transition)",
-            position: "sticky",
-            top: "61px",
-            fontSize: "14px",
-            height: "calc(100vh - 81px)",
-          }}
-          linkStyle={{ fontWeight: "normal" }}
-        />
-      ) : null}
+      {isDesktop ? <DocumentationSidebar className={sidebarClassName} /> : null}
       <SubRouter
-        wrapperStyle={{ flex: 1, minWidth: 0, margin: "1rem" }}
+        wrapperClassName={dynatic`
+          flex: 1;
+          min-width: 0;
+          margin: 1rem;
+        `}
         paths={{
           "/": <DocumentationMain />,
           "/quickstart": <QuickStart />,
@@ -49,19 +50,7 @@ export const Documentation = () => {
           "/converttojavascript": <ConvertToJavascript />,
         }}
       />
-      {isDesktop ? (
-        <RightSidebar
-          style={{
-            backgroundColor: "var(--theme-subBackground)",
-            color: "var(--theme-color)",
-            transition: "var(--theme-transition)",
-            position: "sticky",
-            top: "61px",
-            fontSize: "14px",
-            height: "calc(100vh - 81px)",
-          }}
-        />
-      ) : null}
+      {isDesktop ? <RightSidebar className={sidebarClassName} /> : null}
     </div>
   );
 };

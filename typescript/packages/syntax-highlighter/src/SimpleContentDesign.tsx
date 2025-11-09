@@ -2,8 +2,12 @@ import { type CSSProperties, type JSX, Fragment, type RefObject } from "react";
 import { TopRightSection } from "./TopRightSection";
 import { displayColorlessCode } from "./utils";
 import { type SupportedLanguages } from "./languages";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
+import { syntaxHighlighterClassName } from "./sharedClassNames";
 
 type SimpleContentDesignProps = {
+  className?: string;
   style?: CSSProperties;
   code: string;
   highlighted: JSX.Element[];
@@ -15,6 +19,7 @@ type SimpleContentDesignProps = {
 };
 
 export const SimpleContentDesign = ({
+  className,
   style,
   code,
   highlighted,
@@ -25,7 +30,17 @@ export const SimpleContentDesign = ({
   ref,
 }: SimpleContentDesignProps) => {
   return (
-    <div className="syntaxHighlighter" style={{ ...style, position: "relative", overflow: "auto" }}>
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
+          position: relative;
+          overflow: auto;
+        `,
+        syntaxHighlighterClassName,
+        className,
+      )}
+      style={style}
+    >
       <pre ref={ref}>
         <TopRightSection
           code={code}
@@ -36,7 +51,7 @@ export const SimpleContentDesign = ({
         {highlighted.length === 0
           ? displayColorlessCode({ code, addLineCounter })
           : highlighted.map((ele, index) => <Fragment key={index}>{ele}</Fragment>)}
-        {/* {withCursor ? <span className="terminalCursor">|</span> : null} */}
+        {/* {withCursor ? <span className={termainlCursorClassName}>|</span> : null} */}
       </pre>
     </div>
   );

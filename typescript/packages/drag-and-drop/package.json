@@ -10,7 +10,8 @@
   "dependencies": {
     "@packages/css-utils": "*",
     "@packages/hooks": "*",
-    "@packages/design-patterns": "*"
+    "@packages/design-patterns": "*",
+    "@packages/dynatic-css": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

@@ -13,7 +13,8 @@
     "@packages/edge-intersection": "*",
     "@packages/string-utils": "*",
     "@packages/element-utils": "*",
-    "@packages/calculate-relative-position": "*"
+    "@packages/calculate-relative-position": "*",
+    "@packages/dynatic-css": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

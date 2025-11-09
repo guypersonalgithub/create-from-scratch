@@ -5,10 +5,11 @@ import {
   AnimationContainerWrapper,
   type AnimationContainerWrapperProps,
 } from "@packages/animation-container";
-import { capitalizeFirstChar } from "@packages/string-utils";
+import { capitalizeFirstChar, combineStringsWithSpaces } from "@packages/string-utils";
 import { observeElementsVisibility } from "@packages/element-utils";
 import type { CustomEdges, Edges } from "@packages/edge-intersection";
 import { calculatePosition } from "@packages/calculate-relative-position";
+import { dynatic } from "@packages/dynatic-css";
 
 type PopoverManagerProps = Partial<
   Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">
@@ -25,8 +26,17 @@ export const PopoverManager = ({
 
   useEffect(() => {
     const showPopover = (event: CustomEvent<PopoverDisplayProps>) => {
-      const { id, content, ref, side, offset, intersectionRefs, distanceFromViewport, style } =
-        event.detail;
+      const {
+        id,
+        content,
+        ref,
+        side,
+        offset,
+        intersectionRefs,
+        distanceFromViewport,
+        className,
+        style,
+      } = event.detail;
 
       setPopovers((prev) => {
         const updated = [...prev];
@@ -39,6 +49,7 @@ export const PopoverManager = ({
           offset,
           intersectionRefs,
           distanceFromViewport,
+          className,
           style,
         };
         if (index > -1) {
@@ -91,6 +102,7 @@ export const PopoverManager = ({
           offset,
           intersectionRefs,
           distanceFromViewport = 0,
+          className,
           style,
         }) => {
           const hidePopover = () =>
@@ -113,17 +125,21 @@ export const PopoverManager = ({
               onUnmount={onUnmount}
               mountOptions={mountOptions ?? { duration: 300 }}
               unmountOptions={unmountOptions}
-              style={{ position: "absolute", top: 0, zIndex: 10000 }}
+              className={dynatic`
+                position: absolute;
+                top: 0;
+                z-index: 10000;  
+              `}
               changeMethod="fullPhase"
               disableMountAnimationOnInit={false}
             >
               <div key={id}>
                 <div
-                  style={{
-                    position: "absolute",
-                    width: "100vw",
-                    height: "100vh",
-                  }}
+                  className={dynatic`
+                    position: absolute;
+                    width: 100vw;
+                    height: 100vh;
+                  `}
                   onClick={hidePopover}
                 />
                 <PopoverBody
@@ -135,6 +151,7 @@ export const PopoverManager = ({
                   transitionDuration={
                     typeof mountOptions?.duration === "number" ? mountOptions?.duration : 300
                   }
+                  className={className}
                   style={style}
                 >
                   {typeof content === "function" ? content({ hidePopover }) : content}
@@ -151,7 +168,7 @@ export const PopoverManager = ({
 type PopoverBodyProps = Required<
   Pick<PopoverDisplayProps, "side" | "intersectionRefs" | "distanceFromViewport">
 > &
-  Pick<PopoverDisplayProps, "offset" | "style"> & {
+  Pick<PopoverDisplayProps, "offset" | "className" | "style"> & {
     anchorRef?: RefObject<HTMLDivElement | null>;
     transitionDuration: number;
     children: ReactNode;
@@ -165,6 +182,7 @@ const PopoverBody = ({
   intersectionRefs,
   distanceFromViewport,
   transitionDuration,
+  className,
   style,
 }: PopoverBodyProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -174,11 +192,19 @@ const PopoverBody = ({
       return;
     }
 
+    const opacity1 = dynatic`
+      opacity: 1;
+    `;
+
+    const opacity0 = dynatic`
+      opacity: 0;
+    `;
+
     const refKey = (
       (offset?.x ?? offset?.y) ? `custom${capitalizeFirstChar({ str: side })}` : side
     ) as Edges | CustomEdges;
 
-    const updateStyle = () => {
+    const updateClassName = () => {
       if (!ref.current) {
         return;
       }
@@ -192,14 +218,16 @@ const PopoverBody = ({
       });
 
       if (shouldReveal) {
-        ref.current.style.opacity = "1";
+        ref.current.classList.remove(opacity0);
+        ref.current.classList.add(opacity1);
       } else {
-        ref.current.style.opacity = "0";
+        ref.current.classList.remove(opacity1);
+        ref.current.classList.add(opacity0);
       }
     };
 
     if (!anchorRef?.current) {
-      return updateStyle();
+      return updateClassName();
     }
 
     const observer = observeElementsVisibility({
@@ -222,25 +250,26 @@ const PopoverBody = ({
           return;
         }
 
-        updateStyle();
-        window.addEventListener("scroll", updateStyle, true);
-        window.addEventListener("resize", updateStyle);
+        updateClassName();
+        window.addEventListener("scroll", updateClassName, true);
+        window.addEventListener("resize", updateClassName);
       },
       removalCallback: () => {
         if (!ref.current) {
           return;
         }
 
-        window.removeEventListener("scroll", updateStyle, true);
-        window.removeEventListener("resize", updateStyle);
+        window.removeEventListener("scroll", updateClassName, true);
+        window.removeEventListener("resize", updateClassName);
 
-        ref.current.style.opacity = "0";
+        ref.current.classList.remove(opacity1);
+        ref.current.classList.add(opacity0);
       },
     });
 
     return () => {
-      window.removeEventListener("scroll", updateStyle, true);
-      window.removeEventListener("resize", updateStyle);
+      window.removeEventListener("scroll", updateClassName, true);
+      window.removeEventListener("resize", updateClassName);
       observer.disconnect();
     };
   }, [intersectionRefs]);
@@ -250,21 +279,24 @@ const PopoverBody = ({
   return (
     <div
       ref={ref}
-      style={{
-        position: "fixed",
-        display: "block",
-        width: "fit-content",
-        height: "fit-content",
-        opacity: 0,
-        clipPath: "unset",
-        left: "-9999px",
-        top: "-9999px",
-        transition: `opacity ${duration}s ease, visibility ${duration}s ease`,
-        padding: "5px 10px",
-        borderRadius: "4px",
-        wordWrap: "break-word",
-        ...style,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          position: fixed;
+          display: block;
+          width: fit-content;
+          height: fit-content;
+          opacity: 0;
+          clip-path: unset;
+          left: -9999px;
+          top: -9999px;
+          transition: opacity ${duration}s ease, visibility ${duration}s ease;
+          padding: 5px 10px;
+          border-radius: 4px;
+          word-wrap: break-word;
+        `,
+        className,
+      )}
+      style={style}
     >
       {children}
     </div>

@@ -12,5 +12,6 @@ export type PopoverDisplayProps = {
     y?: number;
   };
   distanceFromViewport?: number;
+  className?: string;
   style?: CSSProperties;
 };

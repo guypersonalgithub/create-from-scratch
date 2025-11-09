@@ -13,7 +13,9 @@
     "@packages/icons": "*",
     "@packages/tooltip": "*",
     "@packages/url": "*",
-    "@packages/collapsible": "*"
+    "@packages/collapsible": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

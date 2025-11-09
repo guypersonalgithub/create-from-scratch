@@ -1,5 +1,6 @@
 import { type MutableRefObject, type ReactNode } from "react";
 import { useReorderOptions } from "./useReorderOptions";
+import { dynatic } from "@packages/dynatic-css";
 
 type QuestionProps = {
   index: number;
@@ -16,14 +17,32 @@ export const Question = ({ index, question, options, callbackRef }: QuestionProp
   callbackRef.current = reorder;
 
   return (
-    <div style={{ textAlign: "right", fontSize: "12px", display: "grid", gap: "4px" }}>
-      <div style={{ fontWeight: "bold", display: "flex" }}>
+    <div
+      className={dynatic`
+        text-align: right;
+        font-size: 12px;
+        display: grid;
+        gap: 4px;
+      `}
+    >
+      <div
+        className={dynatic`
+          font-weight: bold;
+          display: flex;
+        `}
+      >
         <div>{index}.</div>
         <div>{question}</div>
       </div>
       {currentOptions.map((option, index) => {
         return (
-          <div key={index} style={{ display: "flex", gap: "4px" }}>
+          <div
+            key={index}
+            className={dynatic`
+              display: flex;
+              gap: 4px;
+            `}
+          >
             <div>{index + 1}.</div>
             <div>{option}</div>
           </div>

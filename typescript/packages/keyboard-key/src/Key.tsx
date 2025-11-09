@@ -1,6 +1,8 @@
-import { type CSSProperties, type ReactNode, useState } from "react";
+import { type ReactNode } from "react";
 import { type Variants } from "./types";
-import { getVariantStyles } from "./utils";
+import { getVariantclassNames } from "./utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type KeyProps = {
   variant?: Variants;
@@ -8,60 +10,19 @@ type KeyProps = {
   children: ReactNode;
 };
 
-export const Key = ({ variant, interactive, children }: KeyProps) => {
-  if (interactive) {
-    return <Interactive variant={variant}>{children}</Interactive>;
-  }
-
-  return <Base variant={variant}>{children}</Base>;
-};
-
-const Interactive = ({ variant, children }: KeyProps) => {
-  const [isPressed, setPressed] = useState(false);
-
-  const customStyle = isPressed
-    ? {
-        transform: "translateY(1px)",
-        boxShadow: "inset 0 -1px 0 #999, 0 1px 3px rgba(0, 0, 0, 0.15)",
-      }
-    : undefined;
-
-  return (
-    <Base
-      variant={variant}
-      onMouseDown={() => setPressed(true)}
-      onMouseUp={() => setPressed(false)}
-      onMouseLeave={() => setPressed(false)}
-      customStyle={customStyle}
-    >
-      {children}
-    </Base>
-  );
-};
-
-type BaseProps = Omit<KeyProps, "interactive"> & {
-  customStyle?: CSSProperties;
-  onMouseDown?: () => void;
-  onMouseUp?: () => void;
-  onMouseLeave?: () => void;
-};
-
-const Base = ({
-  variant = "basic",
-  customStyle,
-  onMouseDown,
-  onMouseUp,
-  onMouseLeave,
-  children,
-}: BaseProps) => {
-  const style = getVariantStyles({ variant });
-
+export const Key = ({ variant = "basic", interactive, children }: KeyProps) => {
   return (
     <div
-      style={{ ...style, ...customStyle }}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseLeave}
+      className={combineStringsWithSpaces(
+        getVariantclassNames({ variant }),
+        interactive &&
+          dynatic`
+            &:active {
+              transform: translateY(1px);
+              box-shadow: inset 0 -1px 0 #999, 0 1px 3px rgba(0, 0, 0, 0.15);
+            }  
+          `,
+      )}
     >
       {children}
     </div>

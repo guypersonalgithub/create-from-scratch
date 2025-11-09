@@ -1,6 +1,4 @@
 import { type ReactNode } from "react";
-import { useBreakpoints } from "../breakpoints";
-import { useUITheme } from "../UIThemes";
 import { dynatic } from "../dynatic-css.config";
 
 type StyledListProps = {
@@ -13,12 +11,6 @@ type StyledListProps = {
 };
 
 export const StyledList = ({ list }: StyledListProps) => {
-  const { useGetBreakpoint } = useBreakpoints();
-  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
-  const isDesktop = breakpoint === "desktop";
-  const { currentTheme } = useUITheme();
-  const isLight = currentTheme === "light";
-
   return (
     <div
       className={dynatic`
@@ -36,10 +28,12 @@ export const StyledList = ({ list }: StyledListProps) => {
                 display: flex;
                 gap: 10px;
                 margin-bottom: 10px;
+                align-items: center;
+
+                ${(config) => config.utils.widthMediaQuery({ to: "800px" })} {
+                  align-items: start;
+                }
               `}
-              style={{
-                alignItems: isDesktop ? "center" : "start",
-              }}
             >
               <div
                 className={dynatic`
@@ -51,10 +45,8 @@ export const StyledList = ({ list }: StyledListProps) => {
                   justify-content: center;
                   align-items: center;
                   transition: ${(config) => config.shared.defaultTransition};
+                  color: ${(config) => config.colors.listIconColor};
                 `}
-                style={{
-                  color: isLight ? "var(--theme-background)" : "var(--theme-thirdColor)",
-                }}
               >
                 {row.icon}
               </div>

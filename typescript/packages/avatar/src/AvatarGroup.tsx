@@ -1,4 +1,6 @@
+import { dynatic } from "@packages/dynatic-css";
 import { Avatar } from "./Avatar";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type AvatarGroupProps = {
   users: { name: string; src?: string }[];
@@ -20,32 +22,72 @@ export const AvatarGroup = ({
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: direction === "vertical" ? "column" : "row",
-        alignItems: "center",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+          align-items: center;  
+        `,
+        direction === "vertical"
+          ? dynatic`
+              flex-direction: column;
+            `
+          : dynatic`
+              flex-direction: row;
+            `,
+      )}
     >
-      {visibleUsers.map((user, index) => (
-        <div
-          key={index}
-          style={{
-            marginLeft: direction === "horizontal" && index !== 0 ? spacing : 0,
-            marginTop: direction === "vertical" && index !== 0 ? spacing : 0,
-            zIndex: users.length - index,
-          }}
-        >
-          <Avatar name={user.name} src={user.src} size={size} />
-        </div>
-      ))}
+      {visibleUsers.map((user, index) => {
+        const isntTheStart = index !== 0;
+
+        return (
+          <div
+            key={index}
+            className={combineStringsWithSpaces(
+              dynatic`
+            z-index: ${users.length - index};  
+          `,
+              direction === "horizontal" && isntTheStart
+                ? dynatic`
+                    margin-left: ${spacing};
+                  `
+                : dynatic`
+                    margin-left: 0;
+                  `,
+              direction === "vertical" && isntTheStart
+                ? dynatic`
+                    margin-top: ${spacing};
+                  `
+                : dynatic`
+                    margin-top: 0;
+                  `,
+            )}
+          >
+            <Avatar name={user.name} src={user.src} size={size} />
+          </div>
+        );
+      })}
 
       {hiddenCount > 0 ? (
         <div
-          style={{
-            marginLeft: direction === "horizontal" ? spacing : 0,
-            marginTop: direction === "vertical" ? spacing : 0,
-            zIndex: 0,
-          }}
+          className={combineStringsWithSpaces(
+            dynatic`
+              z-index: 0;  
+            `,
+            direction === "horizontal"
+              ? dynatic`
+                  margin-left: ${spacing};
+                `
+              : dynatic`
+                  margin-left: 0;
+                `,
+            direction === "vertical"
+              ? dynatic`
+                  margin-top: ${spacing};
+                `
+              : dynatic`
+                  margin-top: 0;
+                `,
+          )}
         >
           <Avatar name={`+${hiddenCount}`} size={size} bgColor="#e0e0e0" textColor="#424242" />
         </div>

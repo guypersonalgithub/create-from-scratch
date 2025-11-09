@@ -4,6 +4,7 @@ import {
   AnimationContainerWrapper,
   type AnimationContainerWrapperProps,
 } from "@packages/animation-container";
+import { dynatic } from "@packages/dynatic-css";
 
 type ToastManagerProps = Partial<
   Pick<AnimationContainerWrapperProps, "onMount" | "onUnmount" | "mountOptions" | "unmountOptions">
@@ -80,15 +81,15 @@ export const ToastManager = ({
       onUnmount={onUnmount}
       mountOptions={mountOptions ?? { duration: 300 }}
       unmountOptions={unmountOptions}
-      style={{
-        position: "fixed",
-        display: "block",
-        width: "fit-content",
-        height: "fit-content",
-        top: "0px",
-        left: "50%",
-        transform: "translateX(-50%)",
-      }}
+      className={dynatic`
+        position: fixed;
+        display: block;
+        width: fit-content;
+        height: fit-content;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      `}
       changeMethod="gradual"
       disableMountAnimationOnInit={false}
     >

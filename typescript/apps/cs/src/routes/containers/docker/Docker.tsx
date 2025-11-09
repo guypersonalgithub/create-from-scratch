@@ -3,6 +3,7 @@ import { StyledLinksContainer } from "../../../styledComponents/StyledLinksConta
 import { useStickSubRouterLinksToTop } from "../../../useStickSubRouterLinksToTop";
 import { StyledMainTitle } from "../../../styledComponents/StyledMainTitle";
 import { Commands } from "./Commands";
+import { dynatic } from "../../../dynatic-css.config";
 
 export const Docker = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -11,7 +12,10 @@ export const Docker = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[{ path: "/containers/docker/commands", children: "Commands" }]}
       />
       <SubRouter

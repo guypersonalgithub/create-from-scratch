@@ -8,6 +8,7 @@ export type PopoverProps = Pick<
   PopoverDisplayProps,
   "content" | "offset" | "side" | "distanceFromViewport"
 > & {
+  className?: string;
   style?: CSSProperties;
   disabled?: boolean;
   children: ReactNode;
@@ -19,6 +20,7 @@ export const Popover = ({
   side,
   offset,
   distanceFromViewport,
+  className,
   style,
   children,
 }: PopoverProps) => {
@@ -50,6 +52,7 @@ export const Popover = ({
       id={id}
       show={show}
       offset={offset}
+      className={className}
       style={style}
     >
       {children}

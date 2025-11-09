@@ -13,9 +13,10 @@ COPY ./packages/object-utils/package.json ./packages/object-utils/package.json
 COPY ./packages/parse-typescript/package.json ./packages/parse-typescript/package.json
 COPY ./packages/string-utils/package.json ./packages/string-utils/package.json
 COPY ./packages/regex/package.json ./packages/regex/package.json
-COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
 COPY ./packages/icons/package.json ./packages/icons/package.json
 COPY ./packages/button/package.json ./packages/button/package.json
+COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
+COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
 COPY ./packages/parse-yaml/package.json ./packages/parse-yaml/package.json
 COPY ./packages/element-utils/package.json ./packages/element-utils/package.json
@@ -29,8 +30,6 @@ COPY ./packages/calculate-relative-position/package.json ./packages/calculate-re
 COPY ./dev-packages/yaml/package.json ./dev-packages/yaml/package.json
 COPY ./packages/alert/package.json ./packages/alert/package.json
 COPY ./packages/card/package.json ./packages/card/package.json
-COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
-COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./packages/command-box/package.json ./packages/command-box/package.json
 COPY ./packages/css-utils/package.json ./packages/css-utils/package.json
 COPY ./packages/breakpoints/package.json ./packages/breakpoints/package.json
@@ -80,9 +79,10 @@ COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
-COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/element-utils ./packages/element-utils
@@ -96,8 +96,6 @@ COPY ./packages/calculate-relative-position ./packages/calculate-relative-positi
 COPY ./dev-packages/yaml ./dev-packages/yaml
 COPY ./packages/alert ./packages/alert
 COPY ./packages/card ./packages/card
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/command-box ./packages/command-box
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/breakpoints ./packages/breakpoints
@@ -148,9 +146,10 @@ COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
-COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/element-utils ./packages/element-utils
@@ -164,8 +163,6 @@ COPY ./packages/calculate-relative-position ./packages/calculate-relative-positi
 COPY ./dev-packages/yaml ./dev-packages/yaml
 COPY ./packages/alert ./packages/alert
 COPY ./packages/card ./packages/card
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/command-box ./packages/command-box
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/breakpoints ./packages/breakpoints
@@ -216,9 +213,10 @@ COPY ./packages/object-utils ./packages/object-utils
 COPY ./packages/parse-typescript ./packages/parse-typescript
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
-COPY ./packages/ui-theme ./packages/ui-theme
 COPY ./packages/icons ./packages/icons
 COPY ./packages/button ./packages/button
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/element-utils ./packages/element-utils
@@ -232,8 +230,6 @@ COPY ./packages/calculate-relative-position ./packages/calculate-relative-positi
 COPY ./dev-packages/yaml ./dev-packages/yaml
 COPY ./packages/alert ./packages/alert
 COPY ./packages/card ./packages/card
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/command-box ./packages/command-box
 COPY ./packages/css-utils ./packages/css-utils
 COPY ./packages/breakpoints ./packages/breakpoints

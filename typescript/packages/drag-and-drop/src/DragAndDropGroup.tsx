@@ -1,25 +1,8 @@
-import { useState, type CSSProperties, type MouseEvent, useEffect, useRef } from "react";
+import { useState, type MouseEvent, useEffect, useRef } from "react";
 import { type DraggedItemProperties, type Group, type Item, type MousePosition } from "./types";
 import { deepCopyStyles } from "@packages/css-utils";
 import { useDragAndDropContext } from "./useDragAndDropContext";
-
-const containerStyle: CSSProperties = {
-  width: "300px",
-  margin: "2rem auto",
-  padding: "1rem",
-  border: "2px dashed #aaa",
-  borderRadius: "8px",
-  position: "relative",
-};
-
-const itemStyle: CSSProperties = {
-  padding: "10px",
-  margin: "4px 0",
-  backgroundColor: "#f0f0f0",
-  border: "1px solid #ccc",
-  borderRadius: "4px",
-  cursor: "grab",
-};
+import { dynatic } from "@packages/dynatic-css";
 
 type DragAndDropGroupProps = Pick<Group, "title"> & { groupId: string; items: Item[] };
 
@@ -204,7 +187,14 @@ export const DragAndDropGroup = ({ groupId, title, items }: DragAndDropGroupProp
     return (
       <div
         ref={setItemRef(item.id)}
-        style={itemStyle}
+        className={dynatic`
+          padding: 10px;
+          margin: 4px 0;
+          background-color: #f0f0f0;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          cursor: grab;
+        `}
         onMouseDown={(e) => handleDragStart(e, item.id, index)}
       >
         {item.label}
@@ -213,11 +203,29 @@ export const DragAndDropGroup = ({ groupId, title, items }: DragAndDropGroupProp
   };
 
   return (
-    <div ref={setGroupRef(groupId)} style={containerStyle}>
+    <div
+      ref={setGroupRef(groupId)}
+      className={dynatic`
+        width: 300px;
+        margin: 2rem auto;
+        padding: 1rem;
+        border: 2px dashed #aaa;
+        border-radius: 8px;
+        position: relative;
+      `}
+    >
       {title}
       {itemsWithPlaceholder.map((item, index) => {
         if (item.id === "__PLACEHOLDER__") {
-          return <div key="__placeholder__" ref={placeholderRef} style={{ opacity: 0.5 }} />;
+          return (
+            <div
+              key="__placeholder__"
+              ref={placeholderRef}
+              className={dynatic`
+                opacity: 0.5;
+              `}
+            />
+          );
         }
 
         if (item?.id === draggedItemId) {

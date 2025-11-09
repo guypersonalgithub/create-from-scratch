@@ -1,13 +1,17 @@
 import { type CSSProperties, type ReactNode, useRef } from "react";
 import { Tooltip, type TooltipProps } from "./Tooltip";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type EllipsisTooltipProps = {
+  className?: string;
   style?: CSSProperties;
   content?: ReactNode;
   children: string | number;
 } & Pick<TooltipProps, "disabled" | "offset" | "side">;
 
 export const EllipsisTooltip = ({
+  className,
   style,
   children,
   content = children,
@@ -33,7 +37,15 @@ export const EllipsisTooltip = ({
     >
       <div
         ref={ref}
-        style={{ ...style, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          `,
+          className,
+        )}
+        style={style}
       >
         {children}
       </div>

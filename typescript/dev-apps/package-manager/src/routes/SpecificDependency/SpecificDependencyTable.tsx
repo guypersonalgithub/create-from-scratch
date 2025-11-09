@@ -4,17 +4,12 @@ import { Table } from "@packages/table";
 import { EllipsisTooltip } from "@packages/tooltip";
 import { getSemVer } from "../../utils";
 import { type SpecificDependencyTableProps } from "./types";
-import {
-  type CSSProperties,
-  type Dispatch,
-  type SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from "react";
 import { Checkbox } from "@packages/checkbox";
 import { useControlTriggerPopper } from "@packages/trigger-popper";
 import { SelectedTriggerPopper, VersionTypeAheads } from "./VersionTypeAheads";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 export const SpecificDependencyTable = ({
   name,
@@ -33,7 +28,13 @@ export const SpecificDependencyTable = ({
   const trigger = () => {
     return (
       <>
-        <div style={{ display: "flex", justifyContent: "center", fontSize: "20px" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            justify-content: center;
+            font-size: 20px;
+          `}
+        >
           Update versions
         </div>
         <SelectedTriggerPopper
@@ -62,14 +63,6 @@ export const SpecificDependencyTable = ({
       return hideTriggerPopper();
     }
 
-    const style: CSSProperties = {
-      position: "fixed",
-      bottom: 0,
-      width: "100%",
-      height: "200px",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    };
-
     const onMount: Keyframe[] = [
       { transform: "translateY(100%)", opacity: 0 },
       { transform: "translateY(0%)", opacity: 1 },
@@ -80,7 +73,13 @@ export const SpecificDependencyTable = ({
 
     showTriggerPopper({
       content: trigger(),
-      style,
+      className: dynatic`
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 200px;
+        background-color: rgba(0, 0, 0, 0.5);
+      `,
       onMount,
       mountOptions,
     });
@@ -88,33 +87,40 @@ export const SpecificDependencyTable = ({
 
   return (
     <Table
-      headerContainer={{
-        backgroundColor: "#242424",
-        borderBottom: "1px solid #383232",
-      }}
-      rowContainer={{
-        height: "100%",
-      }}
+      headerContainerClassName={dynatic`
+        background-color: #242424;
+        border-bottom: 1px solid #383232;
+      `}
+      rowContainerClassName={dynatic`
+        height: 100%;  
+      `}
       rows={{
         dataRow: {
           size: 35,
         },
       }}
-      dataRowClass={(_, index) => {
-        const baseClass = "main-route-table-row";
+      dataRowClassName={(data, index) => {
+        return combineStringsWithSpaces(
+          dynatic`
+            transition: background-color 0.3s ease in;
+            border-bottom: 1px solid #383232;
 
-        return (
-          baseClass +
-          " " +
-          (index % 2 === 0 ? "main-route-table-row-odd" : "main-route-table-row-even")
+            &:hover {
+              background-color: #575757;
+            }
+          `,
+          checked.has(data.path)
+            ? dynatic`
+                background-color: #575757;
+              `
+            : index % 2 === 0
+              ? dynatic`
+                background-color: #1a1a1a;
+              `
+              : dynatic`
+                background-color: #3d3d3d;
+              `,
         );
-      }}
-      dataRowStyle={(data) => {
-        if (checked.has(data.path)) {
-          return { backgroundColor: "#575757" };
-        }
-
-        return {};
       }}
       columns={[
         {

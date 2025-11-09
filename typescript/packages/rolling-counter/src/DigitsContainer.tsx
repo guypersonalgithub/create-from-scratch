@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Digit } from "./Digit";
 import { padNumberStart } from "@packages/number-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type DigitsContainerProps = {
   initial: number[];
@@ -55,12 +56,12 @@ export const DigitsContainer = ({ initial, from, to, duration }: DigitsContainer
 
   return (
     <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        overflow: "hidden",
-        height: "1.5rem",
-      }}
+      className={dynatic`
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        height: 1.5rem;
+      `}
     >
       {current.map((value, index) => {
         return <Digit key={index} num={value} duration={duration} />;

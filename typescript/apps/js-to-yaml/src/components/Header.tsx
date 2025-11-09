@@ -1,6 +1,4 @@
-import { useUITheme } from "../UIThemes";
 import { Sun, Moon } from "@packages/icons";
-import { hexToRgba } from "@packages/css-utils";
 import { usePath } from "@packages/router";
 import { AnimationContainerWrapper } from "@packages/animation-container";
 import { Button } from "@packages/button";
@@ -11,14 +9,10 @@ import { HeaderLinks } from "./HeaderLinks";
 import { MobileSections } from "./MobileSections";
 import { MobileDocumentationSidebar } from "./DocumentationSidebar";
 import { dynatic } from "../dynatic-css.config";
+import { useState } from "react";
 
 export const Header = () => {
-  const { currentTheme, themes, setTheme } = useUITheme();
   const { moveTo } = usePath();
-  const theme = themes[currentTheme];
-  const isLight = currentTheme === "light";
-  const rgbaBg = hexToRgba({ hex: theme.background, opacity: 0.8 });
-  const borderBottomColor = isLight ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)";
   const { useGetBreakpoint } = useBreakpoints();
   const { breakpoint } = useGetBreakpoint({
     updateOn: ["mediumDesktop"],
@@ -40,11 +34,9 @@ export const Header = () => {
         padding-left: 10px;
         padding-right: 10px;
         transition: ${(config) => config.shared.defaultTransition};
+        border-bottom: 1px solid ${(config) => config.colors.headerBorder};
+        background-color: ${(config) => config.colors.headerBG};
       `}
-      style={{
-        borderBottom: `1px solid ${borderBottomColor}`,
-        backgroundColor: rgbaBg,
-      }}
     >
       <div
         className={dynatic`
@@ -57,18 +49,28 @@ export const Header = () => {
       >
         {!isDesktop ? (
           <MobileDocumentationSidebar
-            burgerStyle={{ width: "30px", height: "24px" }}
-            burgerLineStyle={{ height: "4px", backgroundColor: "var(--theme-color" }}
+            burgerClassName={dynatic`
+              width: 30px;
+              height: 24px;
+            `}
+            burgerLineClassName={dynatic`
+              height: 4px;
+              backgroundColor: ${(config) => config.colors.mainColor};
+            `}
             onLinkClick={({ pathname }) => moveTo({ pathname })}
-            style={{
-              backgroundColor: "var(--theme-background)",
-              color: "var(--theme-color)",
-              transition: "var(--theme-transition)",
-              height: "100%",
-              width: "100%",
-            }}
-            contentContainerStyle={{ paddingTop: "10px" }}
-            linkStyle={{ transition: "var(--theme-transition)" }}
+            className={dynatic`
+              background-color: ${(config) => config.colors.mainBG};
+              color: ${(config) => config.colors.mainBG};
+              transition: ${(config) => config.shared.defaultTransition};
+              height: 100%;
+              width: 100%;
+            `}
+            contentContainerClassName={dynatic`
+              padding-top: 10px;  
+            `}
+            linkClassName={dynatic`
+              transition: ${(config) => config.shared.defaultTransition};
+            `}
           />
         ) : null}
         <div
@@ -122,61 +124,100 @@ export const Header = () => {
       >
         {!isDesktop ? <MobileSections /> : null}
         <PageSearchModal
-          buttonStyle={{
-            backgroundColor: "var(--theme-subBackground)",
-            transition: "var(--theme-transition)",
-            border: "1px solid var(--theme-border)",
-          }}
-          badgeStyle={{
-            backgroundColor: !isLight ? "var(--theme-background)" : "#eee9f6",
-            transition: "var(--theme-transition)",
-          }}
-          modalStyle={{
-            backgroundColor: isLight ? "var(--theme-background)" : "rgb(20, 20, 20)",
-            color: "var(--theme-color)",
-            transition: "var(--theme-transition)",
-          }}
-          optionStyle={{
-            backgroundColor: "var(--theme-subBackground)",
-          }}
-          highlightedOptionStyle={{
-            backgroundColor: "rgba(0, 119, 184, 0.976)",
-            color: "var(--theme-background)",
-          }}
-          footerStyle={{ borderTop: "3px solid var(--theme-border)" }}
-          mobileButtonStyle={{
-            transition: "var(--theme-transition)",
-            color: "var(--theme-color)",
-          }}
-          isDesktop={isDesktop}
+          buttonClassName={dynatic`
+            background-color: ${(config) => config.colors.secondaryBG};
+            transition: ${(config) => config.shared.defaultTransition};
+            border: 1px solid ${(config) => config.colors.defaultBorder};
+          `}
+          badgeClassName={dynatic`
+            background-color: ${(config) => config.colors.searchModalBadgeBackground};
+            transition: ${(config) => config.shared.defaultTransition};
+          `}
+          modalClassName={dynatic`
+            background-color: ${(config) => config.colors.searchModalBackground};
+            color: ${(config) => config.colors.mainColor};
+            transition: ${(config) => config.shared.defaultTransition};
+          `}
+          optionClassName={dynatic`
+            background-color: ${(config) => config.colors.secondaryBG};  
+          `}
+          highlightedOptionClassName={dynatic`
+            background-color: ${(config) => config.shared.lightBlue};
+            color: ${(config) => config.colors.mainBG};
+          `}
+          footerClassName={dynatic`
+            border-top: 3px solid ${(config) => config.colors.defaultBorder};  
+          `}
+          minimizedClassName={dynatic`
+            color: ${(config) => config.colors.mainColor};
+            transition: ${(config) => config.shared.defaultTransition};
+          `}
+          isMinimized={isDesktop}
         />
-        <Button
-          style={{
-            width: "30px",
-            height: "30px",
-            backgroundColor: "transparent",
-            border: "none",
-            cursor: "pointer",
-            borderRadius: "10px",
-            overflow: "hidden",
-            transition: "background 0.5s ease",
-          }}
-          onClick={() => setTheme(isLight ? "dark" : "light")}
-          onHoverCSS={() => ({ backgroundColor: "var(--theme-subBackground)" })}
-        >
-          <AnimationContainerWrapper
-            changeMethod="fullPhase"
-            onMount={[{ transform: "translateX(-100%)" }, { transform: "translateX(0%)" }]}
-            onUnmount={[{ transform: "translateX(0%)" }, { transform: "translateX(100%)" }]}
-          >
-            {isLight ? (
-              <Sun key="sun" style={{ color: "#FFD54F" }} />
-            ) : (
-              <Moon key="moon" style={{ color: "whitesmoke" }} />
-            )}
-          </AnimationContainerWrapper>
-        </Button>
+        <AnimatedThemeSwitcher />
       </div>
     </div>
+  );
+};
+
+const AnimatedThemeSwitcher = () => {
+  const [currentTheme, setCurrentTheme] = useState(() => document.body.classList[0]);
+  const isLight = currentTheme === "light";
+
+  const updateTheme = () => {
+    setCurrentTheme((prev) => {
+      const nextTheme = prev === "light" ? "dark" : "light";
+      if (nextTheme === "dark") {
+        document.body.classList.remove("light");
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.add("light");
+        document.body.classList.remove("dark");
+      }
+
+      return nextTheme;
+    });
+  };
+
+  return (
+    <Button
+      className={dynatic`
+        width: 30px;
+        height: 30px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: ${(config) => config.shared.defaultTransition};
+
+        &:hover {
+          background-color: ${(config) => config.colors.secondaryBG};
+        }
+      `}
+      onClick={updateTheme}
+    >
+      <AnimationContainerWrapper
+        changeMethod="fullPhase"
+        onMount={[{ transform: "translateX(-100%)" }, { transform: "translateX(0%)" }]}
+        onUnmount={[{ transform: "translateX(0%)" }, { transform: "translateX(100%)" }]}
+      >
+        {isLight ? (
+          <Sun
+            key="sun"
+            className={dynatic`
+              color: ${(config) => config.shared.lightYellow};
+            `}
+          />
+        ) : (
+          <Moon
+            key="moon"
+            className={dynatic`
+              color: ${(config) => config.shared.whitesmoke};
+            `}
+          />
+        )}
+      </AnimationContainerWrapper>
+    </Button>
   );
 };
