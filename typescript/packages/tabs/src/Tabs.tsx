@@ -1,6 +1,8 @@
 import { type RefObject, useEffect, useRef, type JSX } from "react";
 import { type Tab } from "./types";
 import { useAnimation } from "@packages/animation-container";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type TabValues<T extends Tab[]> = T[number]["value"];
 
@@ -22,6 +24,10 @@ type TabsPropsWithInternalOnClick<T extends Tab[]> = {
   tabs: TabWithOnClick<T>;
   selected: TabValues<T>;
   onClick?: never;
+  containerClassName?: string;
+  className?: string;
+  selectedClassName?: string;
+  highlightBarClassName?: string;
 };
 
 // Props for the case where onClick is outside Tab
@@ -29,6 +35,10 @@ type TabsPropsWithExternalOnClick<T extends Tab[]> = {
   tabs: TabWithoutOnClick<T>;
   selected: TabValues<T>;
   onClick: (value: string) => void;
+  containerClassName?: string;
+  className?: string;
+  selectedClassName?: string;
+  highlightBarClassName?: string;
 };
 
 function Tabs<T extends Tab[]>(props: TabsPropsWithInternalOnClick<T>): JSX.Element;
@@ -38,6 +48,10 @@ function Tabs<T extends Tab[]>({
   tabs,
   selected,
   onClick,
+  containerClassName,
+  className,
+  selectedClassName,
+  highlightBarClassName,
 }: TabsPropsWithInternalOnClick<T> | TabsPropsWithExternalOnClick<T>) {
   const refs = useRef<HTMLDivElement[]>([]);
   const selectedIndex = useRef<number>(tabs.findIndex((tab) => tab.value === selected));
@@ -52,11 +66,18 @@ function Tabs<T extends Tab[]>({
 
   return (
     <div
-      style={{
-        marginBottom: "10px",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          margin-bottom: 10px;  
+        `,
+        containerClassName,
+      )}
     >
-      <div style={{ display: "flex" }}>
+      <div
+        className={dynatic`
+          display: flex;
+        `}
+      >
         {tabs.map((tab, index) => {
           const handleClick = () => {
             const callback =
@@ -69,15 +90,18 @@ function Tabs<T extends Tab[]>({
             <div
               key={tab.value}
               ref={(element) => addDivRef({ element, index })}
-              style={{
-                cursor: "pointer",
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                paddingTop: "5px",
-                paddingBottom: "5px",
-                backgroundColor: tab.value === selected ? "" : undefined,
-                whiteSpace: "nowrap",
-              }}
+              className={combineStringsWithSpaces(
+                dynatic`
+                  cursor: pointer;
+                  padding-left: 10px;
+                  padding-right: 10px;
+                  padding-top: 5px;
+                  padding-bottom: 5px;
+                  white-space: nowrap;
+                `,
+                tab.value === selected && selectedClassName,
+                className,
+              )}
               onClick={handleClick}
             >
               {tab.label ?? tab.value}
@@ -85,17 +109,22 @@ function Tabs<T extends Tab[]>({
           );
         })}
       </div>
-      <HighlightBar refs={refs} selectedIndex={selectedIndex.current} />
+      <HighlightBar
+        className={highlightBarClassName}
+        refs={refs}
+        selectedIndex={selectedIndex.current}
+      />
     </div>
   );
 }
 
 type HighlightBarProps = {
+  className?: string;
   refs: RefObject<HTMLDivElement[]>;
   selectedIndex: number;
 };
 
-const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
+const HighlightBar = ({ className, refs, selectedIndex }: HighlightBarProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
   const containerLeft = useRef<number>(0);
@@ -175,15 +204,29 @@ const HighlightBar = ({ refs, selectedIndex }: HighlightBarProps) => {
   }, [selectedIndex]);
 
   return (
-    <div ref={containerRef} style={{ position: "relative" }}>
+    <div
+      ref={containerRef}
+      className={dynatic`
+        position: relative;
+      `}
+    >
       <div
         ref={highlightRef}
-        style={{
-          position: "absolute",
-          bottom: "-5px",
-        }}
+        className={dynatic`
+          position: absolute;
+          bottom: -5px;  
+        `}
       >
-        <div key="bar" style={{ height: "5px", backgroundColor: "#5662F6" }} />
+        <div
+          key="bar"
+          className={combineStringsWithSpaces(
+            dynatic`
+              height: 5px;
+              background-color: #5662F6;
+            `,
+            className,
+          )}
+        />
       </div>
     </div>
   );

@@ -13,6 +13,8 @@ on:
       - typescript/packages/math-parser/**
       - typescript/packages/string-utils/**
       - typescript/packages/regex/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/router/**
       - typescript/packages/utils/**
       - typescript/packages/url/**
@@ -41,8 +43,6 @@ on:
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/calculations-table/**
       - typescript/packages/title/**
-      - typescript/packages/dynatic-css/**
-      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-yaml/**
       - typescript/packages/ui-theme/**
@@ -89,6 +89,8 @@ jobs:
           cp -r ./packages/math-parser ./full-application/packages
           cp -r ./packages/string-utils ./full-application/packages
           cp -r ./packages/regex ./full-application/packages
+          cp -r ./packages/dynatic-css ./full-application/packages
+          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./packages/router ./full-application/packages
           cp -r ./packages/utils ./full-application/packages
           cp -r ./packages/url ./full-application/packages
@@ -117,8 +119,6 @@ jobs:
           cp -r ./packages/copy-to-clipboard ./full-application/packages
           cp -r ./packages/calculations-table ./full-application/packages
           cp -r ./packages/title ./full-application/packages
-          cp -r ./packages/dynatic-css ./full-application/packages
-          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./packages/syntax-highlighter ./full-application/packages
           cp -r ./packages/parse-yaml ./full-application/packages
           cp -r ./packages/ui-theme ./full-application/packages

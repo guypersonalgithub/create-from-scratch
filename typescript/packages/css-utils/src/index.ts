@@ -7,3 +7,4 @@ export * from "./hslToRgba";
 export * from "./colorInterpolation";
 export * from "./copyComputedStyles";
 export * from "./deepCopyStyles";
+export * from "./darkenHexColor";

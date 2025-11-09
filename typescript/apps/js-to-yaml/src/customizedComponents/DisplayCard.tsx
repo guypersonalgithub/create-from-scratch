@@ -1,6 +1,5 @@
 import { type ReactNode } from "react";
 import { StyledCard } from "./StyledCard";
-import { useBreakpoints } from "../breakpoints";
 import { dynatic } from "../dynatic-css.config";
 
 type DisplayCardProps = {
@@ -10,10 +9,6 @@ type DisplayCardProps = {
 };
 
 export const DisplayCard = ({ icon, title, content }: DisplayCardProps) => {
-  const { useGetBreakpoint } = useBreakpoints();
-  const { breakpoint } = useGetBreakpoint({ updateOn: ["smallDesktop", "tablet"] });
-  const isTablet = breakpoint === "tablet";
-
   return (
     <StyledCard
       className={dynatic`
@@ -24,11 +19,15 @@ export const DisplayCard = ({ icon, title, content }: DisplayCardProps) => {
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
+
+        ${(config) => config.utils.widthMediaQuery({ from: "1000px" })} {
+          width: 400px;
+        }
+
+        ${(config) => config.utils.widthMediaQuery({ to: "800px" })} {
+          margin: 0 30px;
+        }
       `}
-      style={{
-        width: isTablet ? undefined : "400px",
-        margin: isTablet ? "0 30px" : undefined,
-      }}
     >
       <div
         className={dynatic`

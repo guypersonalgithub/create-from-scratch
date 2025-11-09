@@ -4,6 +4,7 @@ import { Pagination } from "@packages/pagination";
 import { getDisplayedRows } from "./utils";
 import { type Column, type TableProps } from "./types";
 import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 export const Table = <T extends Record<string, unknown>>({
   data = [],
@@ -12,12 +13,16 @@ export const Table = <T extends Record<string, unknown>>({
   columns,
   rows,
   columnGap,
+  containerClassName,
   containerStyle,
-  headerContainer = {},
-  rowContainer = {},
+  headerContainerClassName,
+  headerContainerStyle,
+  rowContainerClassName,
+  rowContainerStyle,
+  columnClassName,
   columnStyle,
+  dataRowClassName,
   dataRowStyle,
-  dataRowClass,
   pagination,
 }: TableProps<T>) => {
   const { headerRow, dataRow } = rows ?? {};
@@ -33,27 +38,41 @@ export const Table = <T extends Record<string, unknown>>({
   const totalPages = rowsPerPage ? Math.ceil(totalAmountOfRows / rowsPerPage) : 0;
 
   return (
-    <div style={containerStyle}>
-      <div style={{ width: "100%", overflow: "auto" }}>
+    <div className={containerClassName} style={containerStyle}>
+      <div
+        className={dynatic`
+          width: 100%;
+          overflow: auto;
+        `}
+      >
         <div
-          style={{
-            position: "sticky",
-            top: 0,
-            width: "100%",
-            zIndex: 2,
-          }}
+          className={dynatic`
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 2;  
+          `}
         >
           <div
-            style={{
-              display: "flex",
-              alignItems: "stretch",
-              minWidth: "fit-content",
-              maxWidth: "100%",
-              height: headerRow?.size ? `${headerRow.size}px` : undefined,
-              gap: columnGap ? `${columnGap}px` : undefined,
-              ...headerContainer,
-            }}
-            className={headerRow?.className}
+            className={combineStringsWithSpaces(
+              dynatic`
+                display: flex;
+                align-items: stretch;
+                min-width: fit-content;
+                max-width: 100%;
+              `,
+              headerRow?.size &&
+                dynatic`
+                height: ${headerRow.size}px;
+              `,
+              columnGap &&
+                dynatic`
+                gap: ${columnGap}px;
+              `,
+              headerContainerClassName,
+              headerRow?.className,
+            )}
+            style={headerContainerStyle}
           >
             {columns.map((column, index) => {
               const { className, size, staticColumn } = column;
@@ -63,6 +82,7 @@ export const Table = <T extends Record<string, unknown>>({
                 <TableHeader
                   key={index}
                   index={index}
+                  columnClassName={columnClassName}
                   columnStyle={columnStyle}
                   {...columnProperties}
                 >
@@ -72,28 +92,37 @@ export const Table = <T extends Record<string, unknown>>({
             })}
           </div>
         </div>
-        <div style={rowContainer}>
+        <div className={rowContainerClassName} style={rowContainerStyle}>
           {displayedDataRows.map((row, rowIndex) => {
             const rowStyle = dataRowStyle?.(row, rowIndex) ?? {};
 
             return (
               <div
                 key={rowIndex}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  minWidth: "fit-content",
-                  maxWidth: "100%",
-                  height: dataRow?.size ? `${dataRow.size}px` : undefined,
-                  gap: columnGap ? `${columnGap}px` : undefined,
-                  cursor: onRowClick ? "pointer" : undefined,
-                  ...rowStyle,
-                }}
-                onClick={() => onRowClick?.(row)}
                 className={combineStringsWithSpaces(
+                  dynatic`
+                    display: flex;
+                    align-items: center;
+                    min-width: fit-content;
+                    max-width: 100%;
+                  `,
+                  dataRow?.size &&
+                    dynatic`
+                      height: ${dataRow.size}px;
+                    `,
+                  columnGap &&
+                    dynatic`
+                      gap: ${columnGap}px;
+                    `,
+                  onRowClick &&
+                    dynatic`
+                      cursor: pointer;
+                    `,
                   dataRow?.className,
-                  dataRowClass?.(row, rowIndex),
+                  dataRowClassName?.(row, rowIndex),
                 )}
+                style={rowStyle}
+                onClick={() => onRowClick?.(row)}
               >
                 {columns.map((column, colIndex) => {
                   const { className, size, staticColumn } = column;
@@ -105,6 +134,7 @@ export const Table = <T extends Record<string, unknown>>({
                       row={row}
                       rowIndex={rowIndex}
                       index={colIndex}
+                      columnClassName={columnClassName}
                       columnStyle={columnStyle}
                       {...columnProperties}
                     >
@@ -118,7 +148,12 @@ export const Table = <T extends Record<string, unknown>>({
         </div>
       </div>
       {paginationProps ? (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            justify-content: center;
+          `}
+        >
           <Pagination {...paginationProps} totalPages={totalPages} />
         </div>
       ) : null}

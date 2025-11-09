@@ -1,5 +1,6 @@
 import type { Meta } from "@storybook/react";
 import { type Anchor, ScrollspyAnchors, useRegisterAnchors } from "@packages/scrollspy-anchors";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "ScrollspyAnchors",
@@ -17,30 +18,68 @@ export const Primary = {
 
     return (
       <div>
-        <div style={{ display: "flex" }}>
-          <div style={{ width: "100%" }}>
-            <div style={{ height: "100vh", backgroundColor: "darkred" }}>Test0</div>
+        <div
+          className={dynatic`
+            display: flex;
+          `}
+        >
+          <div
+            className={dynatic`
+              width: 100%;
+            `}
+          >
+            <div
+              className={dynatic`
+                height: 100vh;
+                background-color: darkred;
+              `}
+            >
+              Test0
+            </div>
             <div
               ref={(ref) => registerRef({ ref, content: "Test" })}
-              style={{ height: "100vh", backgroundColor: "red", margin: 0 }}
+              className={dynatic`
+                height: 100vh;
+                background-color: red;
+                margin: 0;  
+              `}
             >
               Test
             </div>
             <div
               ref={(ref) => registerRef({ ref, content: "Test2" })}
-              style={{ height: "100vh", backgroundColor: "green" }}
+              className={dynatic`
+                height: 100vh;
+                background-color: green;  
+              `}
             >
               Test2
             </div>
             <div
               ref={(ref) => registerRef({ ref, content: "Test3" })}
-              style={{ height: "100vh", backgroundColor: "blue" }}
+              className={dynatic`
+                height: 100vh;
+                background-color: blue;  
+              `}
             >
               Test3
             </div>
-            <div style={{ height: "100vh", backgroundColor: "purple" }}>Test4</div>
+            <div
+              className={dynatic`
+                height: 100vh;
+                background-color: purple;
+              `}
+            >
+              Test4
+            </div>
           </div>
-          <div style={{ position: "sticky", top: 10, height: "fit-content" }}>
+          <div
+            className={dynatic`
+              position: sticky;
+              top: 10;
+              height: fit-content;
+            `}
+          >
             <ScrollspyAnchors anchors={anchors} />
           </div>
         </div>

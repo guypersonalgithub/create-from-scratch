@@ -1,5 +1,6 @@
 import { MathML, unicodes } from "@packages/mathml";
 import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
+import { dynatic } from "../../dynatic-css.config";
 
 export const FloorFunction = () => {
   return (
@@ -9,7 +10,11 @@ export const FloorFunction = () => {
         A floor function is defined as the largest integer less than or equal to the variable. For
         instance,
       </div>
-      <div style={{ display: "flex" }}>
+      <div
+        className={dynatic`
+          display: flex;
+        `}
+      >
         <div>{unicodes.javascript.leftFloor}</div>
         <div>x</div>
         <div>{unicodes.javascript.rightFloor}</div>

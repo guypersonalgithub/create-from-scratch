@@ -1,8 +1,9 @@
 import { type CSSProperties, type ReactNode } from "react";
 import { type CustomEdges, type EdgeWrapperRefs } from "./types";
 import { calculateBaseWithOffset } from "./utils";
-import { capitalizeFirstChar } from "@packages/string-utils";
+import { capitalizeFirstChar, combineStringsWithSpaces } from "@packages/string-utils";
 import { type OmitByPattern } from "@packages/utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type EdgeIntersectionProps = {
   id: string;
@@ -14,58 +15,113 @@ type EdgeIntersectionProps = {
     x?: number;
     y?: number;
   };
+  edgeIntersectionClassName?: string;
   edgeIntersectionStyle?: CSSProperties;
+  childrenWrapperClassName?: string;
   childrenWrapperStyle?: CSSProperties;
 };
 
 const sideIntersections: Record<
   keyof OmitByPattern<EdgeWrapperRefs, CustomEdges>,
   {
-    left: number | string;
-    top: number | string;
+    className: string;
+    position: {
+      left: number | string;
+      top: number | string;
+    };
   }
 > = {
   topLeft: {
-    left: 0,
-    top: 0,
+    className: dynatic`
+      left: 0;
+      top: 0;
+    `,
+    position: {
+      left: 0,
+      top: 0,
+    },
   },
   left: {
-    left: 0,
-    top: "50%",
+    className: dynatic`
+      left: 0;
+      top: 50%;
+    `,
+    position: {
+      left: 0,
+      top: "50%",
+    },
   },
   bottomLeft: {
-    left: 0,
-    top: "100%",
+    className: dynatic`
+      left: 0;
+      top: 100%;
+    `,
+    position: {
+      left: 0,
+      top: "100%",
+    },
   },
   top: {
-    left: "50%",
-    top: 0,
+    className: dynatic`
+      left: 50%;
+      top: 0;
+    `,
+    position: {
+      left: "50%",
+      top: 0,
+    },
   },
   bottom: {
-    left: "50%",
-    top: "100%",
+    className: dynatic`
+      left: 50%;
+      top: 100%;
+    `,
+    position: {
+      left: "50%",
+      top: "100%",
+    },
   },
   topRight: {
-    left: "100%",
-    top: 0,
+    className: dynatic`
+      left: 100%;
+      top: 0;
+    `,
+    position: {
+      left: "100%",
+      top: 0,
+    },
   },
   right: {
-    left: "100%",
-    top: "50%",
+    className: dynatic`
+      left: 100%;
+      top: 50%;
+    `,
+    position: {
+      left: "100%",
+      top: "50%",
+    },
   },
   bottomRight: {
-    left: "100%",
-    top: "100%",
+    className: dynatic`
+      left: 100%;
+      top: 100%;
+    `,
+    position: {
+      left: "100%",
+      top: "100%",
+    },
   },
 };
 
 const intersections: {
+  className: string;
   left: number | string;
   top: number | string;
   position: keyof EdgeWrapperRefs;
-}[] = Object.entries(sideIntersections).map(([key, value]) => {
+}[] = Object.entries(sideIntersections).map(([key, { className, position }]) => {
   return {
-    ...value,
+    className,
+    ...position,
     position: key as keyof EdgeWrapperRefs,
   };
 });
@@ -77,44 +133,80 @@ export const EdgeIntersection = ({
   children,
   intersectionRefs,
   offset,
-  edgeIntersectionStyle = {},
-  childrenWrapperStyle = {},
+  edgeIntersectionClassName,
+  edgeIntersectionStyle,
+  childrenWrapperClassName,
+  childrenWrapperStyle,
 }: EdgeIntersectionProps) => {
-  const edgeIntersections: typeof intersections = [
-    ...intersections,
+  const edgeIntersections = [
     ...(offset
       ? intersections.map((intersection) => {
           const { left, top, position } = intersection;
 
           return {
-            left: calculateBaseWithOffset({
-              base: left,
-              offset: offset?.x,
-            }),
-            top: calculateBaseWithOffset({
-              base: top,
-              offset: offset?.y,
-            }),
+            className: dynatic`
+              left: ${
+                offset.x
+                  ? calculateBaseWithOffset({
+                      base: left,
+                      offset: offset.x,
+                    })
+                  : left
+              };
+              top: ${
+                offset.y
+                  ? calculateBaseWithOffset({
+                      base: top,
+                      offset: offset.y,
+                    })
+                  : top
+              };
+            `,
             position: `custom${capitalizeFirstChar({ str: position })}` as keyof EdgeWrapperRefs,
           };
         })
-      : []),
+      : intersections.map((intersection) => {
+          const { className, position } = intersection;
+
+          return {
+            className,
+            position: `custom${capitalizeFirstChar({ str: position })}` as keyof EdgeWrapperRefs,
+          };
+        })),
   ];
 
   return (
     <div
-      className={className}
-      style={{
-        width: "fit-content",
-        height: "fit-content",
-        ...style,
-        display: "grid",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          width: fit-content;
+          height: fit-content;
+          display: grid;
+        `,
+        className,
+      )}
+      style={style}
     >
-      <div style={{ gridArea: "1/1", ...childrenWrapperStyle }}>{children}</div>
-      <div style={{ gridArea: "1/1", position: "relative", pointerEvents: "none" }}>
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            grid-area: 1/1;
+          `,
+          childrenWrapperClassName,
+        )}
+        style={childrenWrapperStyle}
+      >
+        {children}
+      </div>
+      <div
+        className={dynatic`
+          grid-area: 1/1;
+          position: relative;
+          pointer-events: none;
+        `}
+      >
         {edgeIntersections.map((intersection) => {
-          const { top, left, position } = intersection;
+          const { className, position } = intersection;
           const ref = intersectionRefs[position];
 
           return (
@@ -122,13 +214,14 @@ export const EdgeIntersection = ({
               key={position}
               id={`${id}-${position}`}
               ref={ref}
-              style={{
-                position: "absolute",
-                // border: position.includes("custom") ? "1px solid blue" : "1px solid green",
-                top,
-                left,
-                ...edgeIntersectionStyle,
-              }}
+              className={combineStringsWithSpaces(
+                dynatic`
+                  position: absolute;
+                `,
+                className,
+                edgeIntersectionClassName,
+              )}
+              style={edgeIntersectionStyle}
             />
           );
         })}

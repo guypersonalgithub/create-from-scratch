@@ -4,9 +4,11 @@ import { type Animated } from "./types";
 import { type SupportedLanguages } from "./languages";
 import { ModernContentDesign, type Variant } from "./ModernContentDesign";
 import { SimpleContentDesign } from "./SimpleContentDesign";
+import { dynatic } from "@packages/dynatic-css";
 
 type AnimatedCodeProps = {
   code: string;
+  className?: string;
   style?: CSSProperties;
   copyToClipboard?: boolean;
   language?: SupportedLanguages;
@@ -19,6 +21,7 @@ export const AnimatedCode = ({
   code,
   withCursor,
   pacing = 100,
+  className,
   style,
   copyToClipboard,
   language,
@@ -46,7 +49,7 @@ export const AnimatedCode = ({
     const amountOfLines = code.split("\n").length;
     const numericLineHeight = parseFloat(lineHeight);
     setPotentialHeight(numericLineHeight * amountOfLines);
-  }, [code, style]);
+  }, [code, className, style]);
 
   useEffect(() => {
     if (cursorIndex.current === 0 || currentCode.current === code) {
@@ -98,10 +101,15 @@ export const AnimatedCode = ({
   if (modernVersion) {
     return (
       <ModernContentDesign
+        className={className}
         style={style}
-        contentStyle={{
-          height: potentialHeight > 0 ? `${potentialHeight}px` : undefined,
-        }}
+        contentClassName={
+          potentialHeight > 0
+            ? dynatic`
+                height: ${potentialHeight}px;
+              `
+            : undefined
+        }
         code={displayedCode}
         highlighted={[]}
         language={"typescript"}
@@ -116,6 +124,7 @@ export const AnimatedCode = ({
 
   return (
     <SimpleContentDesign
+      className={className}
       style={style}
       code={displayedCode}
       highlighted={[]}

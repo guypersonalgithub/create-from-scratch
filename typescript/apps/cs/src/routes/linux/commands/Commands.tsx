@@ -99,7 +99,10 @@ export const Commands = () => {
       <div ref={ref}>
         <StyledLinksContainer
           ref={childRef}
-          // containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        // containerClassName={dynatic`
+        //   position: sticky;
+        //   margin-top: -8px;
+        // `}
           links={[
             { path: "/linux/commands", children: "Commands" },
             { path: "/linux/commands/unshare", children: "Unshare" },

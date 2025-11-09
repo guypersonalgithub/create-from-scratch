@@ -6,6 +6,7 @@ import {
   useAnimation,
 } from "@packages/animation-container";
 import { useRef, useState } from "react";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "AnimationContainerWrapper",
@@ -61,7 +62,9 @@ const MultiExample = ({ changeMethod }: ExampleProps) => {
           { height: "100px", opacity: 1 },
         ]}
         changeMethod={changeMethod}
-        style={{ border: "1px solid red" }}
+        className={dynatic`
+          border: 1px solid red;  
+        `}
       >
         {currentChildren.map((currentChild) => {
           return <div key={currentChild}>{currentChild}</div>;
@@ -99,7 +102,9 @@ const MultiUnmountExample = ({ changeMethod }: ExampleProps) => {
                 { height: "100px", opacity: 1 },
               ]}
               changeMethod={changeMethod}
-              style={{ border: "1px solid red" }}
+              className={dynatic`
+                border: 1px solid red;  
+              `}
             >
               <div key={currentChild}>{currentChild}</div>
             </AnimationContainerWrapper>
@@ -140,6 +145,10 @@ export const NonLifecycleExample = {
       <>
         <button
           onClick={() => {
+            if (!ref.current) {
+              return;
+            }
+
             const animation = isLarge.current
               ? [{ width: "50px" }, { width: "300px" }]
               : [{ width: "300px" }, { width: "50px" }];
@@ -149,7 +158,13 @@ export const NonLifecycleExample = {
         >
           Click
         </button>
-        <div ref={ref} style={{ backgroundColor: "black", color: "white" }}>
+        <div
+          ref={ref}
+          className={dynatic`
+            background-color: black;
+            color: white;
+          `}
+        >
           test
         </div>
       </>

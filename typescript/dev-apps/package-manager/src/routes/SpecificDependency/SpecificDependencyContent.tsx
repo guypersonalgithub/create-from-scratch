@@ -8,6 +8,7 @@ import { type DependenciesToChange } from "@packages/alter-package-versions-type
 import { type UpdateChangedDependenciesArgs } from "./types";
 import { useActionState } from "@packages/fetch-management";
 import { parseDependenciesData } from "../../utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type SpecificDependencyContentProps = {
   data?: NPMRegistry;
@@ -78,7 +79,14 @@ export const SpecificDependencyContent = ({
         updateChangedDependencies={updateChangedDependencies}
         changedDependencies={changedDependencies.current}
       />
-      <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+          justify-content: center;
+          margin-top: 20px;
+        `}
+      >
         <Button
           onClick={() => {
             moveTo({

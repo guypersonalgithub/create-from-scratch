@@ -13,7 +13,9 @@
     "@packages/icons": "*",
     "@packages/badge": "*",
     "@packages/input": "*",
-    "@packages/keyboard-key": "*"
+    "@packages/keyboard-key": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

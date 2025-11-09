@@ -9,7 +9,9 @@ export type ChangeMethod = "gradual" | "fullPhase";
 export type AnimationContainerWrapperProps = {
   children: ReactElement[] | ReactElement;
   clearLifeCycleAnimationOnExitRef: RefObject<(() => void)[]>;
+  className?: string;
   style?: CSSProperties;
+  classNameOnceAnimating?: string;
   styleOnceAnimating?: CSSProperties;
   onMountAnimationStart?: () => void;
   onMountAnimationEnd?: () => void;

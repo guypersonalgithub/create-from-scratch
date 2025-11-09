@@ -12,7 +12,8 @@
     "@packages/parse-yaml": "*",
     "@packages/string-utils": "*",
     "@packages/element-utils": "*",
-    "@packages/copy-to-clipboard": "*"
+    "@packages/copy-to-clipboard": "*",
+    "@packages/dynatic-css": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

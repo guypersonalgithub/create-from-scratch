@@ -13,6 +13,11 @@ const config = {
         layoutBackgroundGradientSecondColor: "hsl(246 100% 77% / 0.1)",
         defaultBorder: "#e2e8f0",
         darkBackground: "#0F172A",
+        headerBG: "rgba(255, 255, 255, 0.8)",
+        headerBorder: "rgb(226, 232, 240)",
+        searchModalBadgeBackground: "#eee9f6",
+        searchModalBackground: "#ffffff",
+        listIconColor: "#ffffff",
       },
     },
     dark: {
@@ -26,6 +31,11 @@ const config = {
         layoutBackgroundGradientSecondColor: "hsl(0 0% 0% / 1)",
         defaultBorder: "#334155",
         darkBackground: "#000000",
+        headerBG: "rgba(0, 0, 0, 0.8)",
+        headerBorder: "rgb(30, 41, 59)",
+        searchModalBadgeBackground: "#000000",
+        searchModalBackground: "rgb(20, 20, 20)",
+        listIconColor: "#00C48C"
       },
     },
   },
@@ -41,6 +51,8 @@ const config = {
     darkerLightGreen: "#067250",
     listIconBG: "#334155",
     listSubTitle: "#94A3B8",
+    lightYellow: "#FFD54F",
+    whitesmoke: "whitesmoke",
   },
 } as const satisfies DynaticConfiguration;
 

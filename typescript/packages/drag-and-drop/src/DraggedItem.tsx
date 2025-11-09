@@ -4,6 +4,7 @@ import { usePreventTextSelection } from "@packages/hooks";
 import { useDragAndDropContext } from "./useDragAndDropContext";
 import { type Observer } from "@packages/design-patterns";
 import { type ObserverProperties } from "./DragAndDropWrapper";
+import { dynatic } from "@packages/dynatic-css";
 
 export const DraggedItem = () => {
   const { observer } = useDragAndDropContext();
@@ -171,12 +172,14 @@ const DraggedItemContent = ({ draggedItem, observer }: DraggedItemContentProps) 
   return (
     <div
       ref={ref}
+      className={dynatic`
+        position: fixed;
+        pointer-events: none;
+        z-index: 1000;
+      `}
       style={{
-        position: "fixed",
         top: position.current.y,
         left: position.current.x,
-        pointerEvents: "none",
-        zIndex: 1000,
       }}
     />
   );

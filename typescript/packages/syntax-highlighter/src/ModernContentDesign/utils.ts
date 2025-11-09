@@ -1,3 +1,4 @@
+import { dynatic } from "@packages/dynatic-css";
 import { type SupportedLanguages } from "../languages";
 import { type Variant } from "./types";
 
@@ -14,43 +15,46 @@ export const getDisplayableLanguage = ({ language }: GetDisplayableLanguageArgs)
   return displayedLanguages[language];
 };
 
-type GetVariantColorsArgs = {
+type GetVariantClassNamesArgs = {
   variant: Variant;
 };
 
-export const getVariantColors = ({ variant }: GetVariantColorsArgs) => {
-  const variantColors: Record<
+export const getVariantClassNames = ({ variant }: GetVariantClassNamesArgs) => {
+  const variantClassNames: Record<
     Variant,
-    {
-      headerBackgroundColor: string;
-      headerColor: string;
-      border: string;
-      contentBackgroundColor: string;
-      contentColor: string;
-    }
+    { headerClassName: string; contentClassName: string }
   > = {
     dark: {
-      headerBackgroundColor: "#1e293b",
-      headerColor: "white",
-      border: "#334155",
-      contentBackgroundColor: "#0f172a",
-      contentColor: "#f1f5f9",
+      headerClassName: dynatic`
+        background-color: #1e293b;
+        border-bottom: #334155;
+      `,
+      contentClassName: dynatic`
+        background-color: #0f172a;
+        color: #f1f5f9;
+      `,
     },
     green: {
-      headerBackgroundColor: "#065f46",
-      headerColor: "white",
-      border: "#059669",
-      contentBackgroundColor: "#064e3b",
-      contentColor: "#f1f5f9",
+      headerClassName: dynatic`
+        background-color: #065f46;
+        border-bottom: #059669;
+      `,
+      contentClassName: dynatic`
+        background-color: #064e3b;
+        color: #f1f5f9;
+      `,
     },
     blue: {
-      headerBackgroundColor: "#1e293b",
-      headerColor: "white",
-      border: "#334155",
-      contentBackgroundColor: "#0f172a",
-      contentColor: "#f1f5f9",
+      headerClassName: dynatic`
+        background-color: #1e293b;
+        border-bottom: #334155;
+      `,
+      contentClassName: dynatic`
+        background-color: #0f172a;
+        color: #f1f5f9;
+      `,
     },
   };
 
-  return variantColors[variant];
+  return variantClassNames[variant];
 };

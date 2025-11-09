@@ -32,6 +32,12 @@ services:
         source: ./packages/regex
         target: /usr/src/app/packages/regex
       - type: bind
+        source: ./packages/dynatic-css
+        target: /usr/src/app/packages/dynatic-css
+      - type: bind
+        source: ./packages/dynatic-css-utils
+        target: /usr/src/app/packages/dynatic-css-utils
+      - type: bind
         source: ./packages/router
         target: /usr/src/app/packages/router
       - type: bind
@@ -115,12 +121,6 @@ services:
       - type: bind
         source: ./packages/title
         target: /usr/src/app/packages/title
-      - type: bind
-        source: ./packages/dynatic-css
-        target: /usr/src/app/packages/dynatic-css
-      - type: bind
-        source: ./packages/dynatic-css-utils
-        target: /usr/src/app/packages/dynatic-css-utils
       - type: bind
         source: ./packages/syntax-highlighter
         target: /usr/src/app/packages/syntax-highlighter
@@ -253,14 +253,17 @@ services:
         source: ./packages/regex
         target: /usr/src/app/packages/regex
       - type: bind
-        source: ./packages/ui-theme
-        target: /usr/src/app/packages/ui-theme
-      - type: bind
         source: ./packages/icons
         target: /usr/src/app/packages/icons
       - type: bind
         source: ./packages/button
         target: /usr/src/app/packages/button
+      - type: bind
+        source: ./packages/dynatic-css
+        target: /usr/src/app/packages/dynatic-css
+      - type: bind
+        source: ./packages/dynatic-css-utils
+        target: /usr/src/app/packages/dynatic-css-utils
       - type: bind
         source: ./packages/syntax-highlighter
         target: /usr/src/app/packages/syntax-highlighter
@@ -300,12 +303,6 @@ services:
       - type: bind
         source: ./packages/card
         target: /usr/src/app/packages/card
-      - type: bind
-        source: ./packages/dynatic-css
-        target: /usr/src/app/packages/dynatic-css
-      - type: bind
-        source: ./packages/dynatic-css-utils
-        target: /usr/src/app/packages/dynatic-css-utils
       - type: bind
         source: ./packages/command-box
         target: /usr/src/app/packages/command-box
@@ -428,6 +425,12 @@ services:
       - type: bind
         source: ./packages/button
         target: /usr/src/app/packages/button
+      - type: bind
+        source: ./packages/dynatic-css
+        target: /usr/src/app/packages/dynatic-css
+      - type: bind
+        source: ./packages/dynatic-css-utils
+        target: /usr/src/app/packages/dynatic-css-utils
       - type: bind
         source: ./packages/string-utils
         target: /usr/src/app/packages/string-utils

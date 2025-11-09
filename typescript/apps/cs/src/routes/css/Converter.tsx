@@ -8,6 +8,7 @@ import {
   hslToHex,
   hslToRgba,
 } from "@packages/css-utils";
+import { dynatic } from "../../dynatic-css.config";
 
 export const Converter = () => {
   const [selectedFrom, setSelectedFrom] = useState("hex");
@@ -29,7 +30,12 @@ export const Converter = () => {
 
   return (
     <div>
-      <div style={{ fontFamily: "sans-serif", width: "150px" }}>
+      <div
+        className={dynatic`
+          font-family: sans-serif;
+          width: 150px;
+        `}
+      >
         <RadioGroup
           label="Pick an option:"
           options={[
@@ -44,7 +50,12 @@ export const Converter = () => {
           <TextInput value={value} onChange={setValue} />
         </div>
       </div>
-      <div style={{ display: "flex", gap: "10px" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 10px;
+        `}
+      >
         <div>{first}</div>
         <div>{second}</div>
       </div>
@@ -69,36 +80,44 @@ export const TextInput: React.FC<TextInputProps> = ({
   const id = useId();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-      {label && (
+    <div
+      className={dynatic`
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    `}
+    >
+      {label ? (
         <label
           htmlFor={id}
-          style={{
-            fontSize: "14px",
-            fontWeight: 500,
-            color: "#374151",
-          }}
+          className={dynatic`
+              font-size: 14px;
+              font-weight: 500;
+              color: #374151;
+            `}
         >
           {label}
         </label>
-      )}
+      ) : null}
       <input
         id={id}
         type="text"
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        style={{
-          padding: "10px 12px",
-          fontSize: "14px",
-          borderRadius: "8px",
-          border: "1px solid #D1D5DB",
-          outline: "none",
-          transition: "border-color 0.2s, box-shadow 0.2s",
-          boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
-        }}
-        onFocus={(e) => (e.currentTarget.style.borderColor = "#3B82F6")}
-        onBlur={(e) => (e.currentTarget.style.borderColor = "#D1D5DB")}
+        className={dynatic`
+            padding: 10px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            border: 1px solid #D1D5DB;
+
+            &:focus {
+              border: 1px solid #3B82F6;
+            }
+          `}
         {...rest}
       />
     </div>

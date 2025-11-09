@@ -1,85 +1,96 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { type CSSProperties, type ReactNode } from "react";
-
-type AlertType = "success" | "error" | "info" | "warning";
+import type { AlertType } from "./types";
 
 type AlertProps = {
+  className?: string;
   style?: CSSProperties;
   type: AlertType;
   message: ReactNode;
   onClose?: () => void;
 };
 
-const alertStyles: Record<AlertType, React.CSSProperties> = {
-  success: { backgroundColor: "#4CAF50", color: "white" },
-  error: { backgroundColor: "#f44336", color: "white" },
-  info: { backgroundColor: "#DBEFFA", color: "818FA2" },
-  warning: { backgroundColor: "#ff9800", color: "white" },
+// const alertStyles: Record<AlertType, CSSProperties> = {
+//   success: { backgroundColor: "#4CAF50", color: "white" },
+//   error: { backgroundColor: "#f44336", color: "white" },
+//   info: { backgroundColor: "#DBEFFA", color: "818FA2" },
+//   warning: { backgroundColor: "#ff9800", color: "white" },
+// };
+
+type GetTypeClassNamesArgs = {
+  type: AlertType;
 };
 
-export const Alert = ({ style, type, message, onClose }: AlertProps) => {
-  const getTypeStyles = (): React.CSSProperties => {
-    switch (type) {
-      case "success":
-        return {
-          backgroundColor: "#d4edda",
-          color: "#155724",
-          borderColor: "#c3e6cb",
-        };
-      case "warning":
-        return {
-          backgroundColor: "#fff3cd",
-          color: "#856404",
-          borderColor: "#ffeeba",
-        };
-      case "error":
-        return {
-          backgroundColor: "#f8d7da",
-          color: "#721c24",
-          borderColor: "#f5c6cb",
-        };
-      case "info":
-      default:
-        return {
-          backgroundColor: "#d1ecf1",
-          color: "#0c5460",
-          borderColor: "#bee5eb",
-        };
-    }
-  };
+const getTypeClassNames = ({ type }: GetTypeClassNamesArgs) => {
+  if (type === "success") {
+    return dynatic`
+      background-color: #d4edda;
+      color: #155724;
+      border-color: #c3e6cb;
+    `;
+  }
 
-  // Base styles for all alerts
-  const baseStyles: React.CSSProperties = {
-    padding: "12px 20px",
-    marginBottom: "1rem",
-    border: "1px solid transparent",
-    borderRadius: "4px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  };
+  if (type === "warning") {
+    return dynatic`
+      background-color: #fff3cd;
+      color: #856404;
+      border-color: #ffeeba;
+    `;
+  }
 
-  // Combine base styles with type-specific styles
-  const alertStyles = { ...baseStyles, ...getTypeStyles() };
+  if (type === "error") {
+    return dynatic`
+      background-color: #f8d7da;
+      color: #721c24;
+      border-color: #f5c6cb;
+    `;
+  }
 
-  // Close button styles
-  const closeButtonStyles: React.CSSProperties = {
-    marginLeft: "15px",
-    color: "inherit",
-    opacity: 0.7,
-    background: "none",
-    border: "none",
-    padding: "0",
-    fontSize: "1.25rem",
-    fontWeight: "bold",
-    lineHeight: 1,
-    cursor: "pointer",
-  };
+  return dynatic`
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #bee5eb;
+  `;
+};
 
+export const Alert = ({ className, style, type, message, onClose }: AlertProps) => {
   return (
-    <div style={alertStyles} className={""} role="alert">
+    <div
+      className={combineStringsWithSpaces(
+        dynatic`
+          padding: 12px 20px;
+          margin-bottom: 1rem;
+          border: 1px solid transparent;
+          border-radius: 4px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        `,
+        getTypeClassNames({ type }),
+        className,
+      )}
+      style={style}
+      role="alert"
+    >
       <div>{message}</div>
       {onClose ? (
-        <button onClick={onClose} style={closeButtonStyles} aria-label="Close alert">
+        <button
+          className={dynatic`
+            margin-left: 15px;
+            color: inherit;
+            opacity: 0.7;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 1.25rem;
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+          `}
+          onClick={onClose}
+          aria-label="Close alert"
+        >
           ×
         </button>
       ) : null}

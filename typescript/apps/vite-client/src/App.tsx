@@ -6,13 +6,18 @@ import { RouteParam } from "./RouteParam";
 import { TooltipManager } from "@packages/tooltip";
 import { MathRoute } from "./MathRoute";
 import { Test } from "./Test";
+import { dynatic } from "@packages/dynatic-css";
 
 const App = () => {
   const { moveTo } = usePath();
 
   return (
     <div>
-      <div style={{ paddingBottom: "10px" }}>
+      <div
+        className={dynatic`
+          padding-bottom: 10px;
+        `}
+      >
         <button onClick={() => moveTo({ pathname: "/" })}>main</button>
         <button onClick={() => moveTo({ pathname: "/123" })}>test</button>
         <Link pathname="/test/test">
@@ -31,7 +36,11 @@ const App = () => {
           <button>Math</button>
         </Link>
       </div>
-      <div style={{ height: "800px" }}>
+      <div
+        className={dynatic`
+          height: 800px;
+        `}
+      >
         <Router
           paths={{
             "/": () => {

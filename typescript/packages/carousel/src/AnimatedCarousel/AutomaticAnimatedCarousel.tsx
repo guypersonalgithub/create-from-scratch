@@ -6,6 +6,7 @@ import { AnimatedContent } from "./AnimatedContent";
 type AutomaticAnimatedCarouselProps = Omit<AnimatedCarouselProps, "automaticTransition">;
 
 export const AutomaticAnimatedCarousel = ({
+  className,
   style,
   items,
   stopTransitionWhenOutOfView,
@@ -124,6 +125,7 @@ export const AutomaticAnimatedCarousel = ({
     <AnimatedContent
       contentRef={ref}
       timeout={timeout}
+      className={className}
       style={style}
       items={items}
       displayArrows={displayArrows}

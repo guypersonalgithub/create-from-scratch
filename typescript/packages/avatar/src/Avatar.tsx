@@ -1,5 +1,7 @@
 import { type CSSProperties } from "react";
 import { nameToColor } from "./utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type AvatarProps = {
   name: string;
@@ -16,27 +18,29 @@ export const Avatar = ({
   size = 40,
   bgColor = "#b3e5fc",
   textColor = "#0d47a1",
-  className = "",
+  className,
   style = {},
   src,
 }: AvatarProps) => {
   return (
     <div
-      className={className}
-      style={{
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        backgroundColor: bgColor || nameToColor({ name }),
-        color: textColor,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontWeight: "bold",
-        fontSize: size / 2.5,
-        overflow: "hidden",
-        ...style,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          width: ${size};
+          height: ${size};
+          border-radius: 50%;
+          background-color: ${bgColor || nameToColor({ name })};
+          color: ${textColor};
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: ${size / 2.5};
+          overflow: hidden;
+        `,
+        className,
+      )}
+      style={style}
     >
       <AvatarContent name={name} src={src} />
     </div>
@@ -49,14 +53,14 @@ const AvatarContent = ({ name, src }: AvatarContentProps) => {
   if (src) {
     return (
       <img
+        className={dynatic`
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        `}
         src={src}
         alt={name}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          borderRadius: "50%",
-        }}
       />
     );
   }

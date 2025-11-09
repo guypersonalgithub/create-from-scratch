@@ -10,7 +10,9 @@
   "dependencies": {
     "@packages/input": "*",
     "@packages/virtual-list": "*",
-    "@packages/hooks": "*"
+    "@packages/hooks": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

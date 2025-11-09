@@ -1,5 +1,6 @@
 import type { Meta } from "@storybook/react";
 import { ToastManager, useControlToast } from "@packages/toast";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "ToastManager",
@@ -23,12 +24,12 @@ export const Primary = {
             showToast({
               content: (
                 <div
-                  style={{
-                    width: "800px",
-                    height: "500px",
-                    backgroundColor: "ThreeDShadow",
-                    borderRadius: "5%",
-                  }}
+                  className={dynatic`
+                    width: 800px;
+                    height: 500px;
+                    background-color: ThreeDShadow;
+                    border-radius: 5%;
+                  `}
                 >
                   testing123
                   <button onClick={() => hideToast()}>close</button>

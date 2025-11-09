@@ -1,37 +1,7 @@
-import { type CSSProperties } from "react";
 import { usePath } from "@packages/router";
-import { SearchModal } from "@packages/search-modal";
+import { SearchModal, SearchModalOption, SearchModalProps } from "@packages/search-modal";
 
-type PageSearchModalProps = {
-  buttonStyle?: CSSProperties;
-  badgeStyle?: CSSProperties;
-  modalStyle?: CSSProperties;
-  optionStyle?: CSSProperties;
-  highlightedOptionStyle?: CSSProperties;
-  footerStyle?: CSSProperties;
-  isDesktop: boolean;
-  mobileButtonStyle?: CSSProperties;
-};
-
-export const PageSearchModal = (args: PageSearchModalProps) => {
-  const { moveTo } = usePath();
-
-  return (
-    <SearchModal
-      {...args}
-      options={options}
-      onPickCallback={({ value }) => moveTo({ pathname: value })}
-    />
-  );
-};
-
-type Option = {
-  value: string;
-  label: string;
-  description?: string;
-};
-
-const options: Option[] = [
+const options: SearchModalOption[] = [
   {
     value: "/",
     label: "Home",
@@ -66,3 +36,17 @@ const options: Option[] = [
     description: "Learn how to convert formatted YAMLs into Javascript objects.",
   },
 ];
+
+type PageSearchModalProps = Omit<SearchModalProps, "options" | "onPickCallback">;
+
+export const PageSearchModal = (args: PageSearchModalProps) => {
+  const { moveTo } = usePath();
+
+  return (
+    <SearchModal
+      {...args}
+      options={options}
+      onPickCallback={({ value }) => moveTo({ pathname: value })}
+    />
+  );
+};

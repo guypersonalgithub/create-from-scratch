@@ -6,6 +6,7 @@ import { AnimationlessContent } from "./AnimationlessContent";
 type AutomaticCarouselProps = Omit<CarouselProps, "automaticTransition">;
 
 export const AutomaticAnimationlessCarousel = ({
+  className,
   style,
   items,
   stopTransitionWhenOutOfView = false,
@@ -72,6 +73,7 @@ export const AutomaticAnimationlessCarousel = ({
   return (
     <AnimationlessContent
       contentRef={ref}
+      className={className}
       style={style}
       items={items}
       displayArrows={displayArrows}

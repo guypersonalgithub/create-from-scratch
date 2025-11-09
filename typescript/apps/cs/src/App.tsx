@@ -22,9 +22,9 @@ import { Test } from "./Test";
 import { Containers } from "./routes/containers/Containers";
 import { CSS } from "./routes/css/CSS";
 import { Linux } from "./routes/linux/Linux";
-import { Test2 } from "./Test2";
 import { Security } from "./routes/security/Security";
 import { Binary } from "./routes/binary/Binary";
+import { dynatic } from "./dynatic-css.config";
 
 const searchableRoutes = [
   {
@@ -128,12 +128,26 @@ const searchableRoutes = [
 const App = () => {
   return (
     <UIThemeProvider themes={customThemes}>
-      <div style={{ width: "100%", height: "100vh", display: "flex", overflow: "hidden" }}>
+      <div
+        className={dynatic`
+          width: 100%;
+          height: 100vh;
+          display: flex;
+          overflow: hidden;
+        `}
+      >
         <SidebarWrapper />
-        <div style={{ width: "100%", overflow: "auto" }}>
+        <div
+          className={dynatic`
+            width: 100%;
+            overflow: auto;
+          `}
+        >
           <AutoComplete />
           <Router
-            wrapperStyle={{ margin: "20px" }}
+            wrapperClassName={dynatic`
+              margin: 20px;
+            `}
             paths={{
               "/": () => {
                 return (
@@ -153,7 +167,6 @@ const App = () => {
               "/security!": <Security />,
               "/binary!": <Binary />,
               "/test": <Test />,
-              "/test2": <Test2 />,
             }}
           />
         </div>
@@ -169,7 +182,17 @@ const SidebarWrapper = () => {
 
   return (
     <MinimizableSidebar
-      title={<span style={{ width: "fit-content", fontSize: "26px", fontWeight: "bold" }}>CS</span>}
+      title={
+        <span
+          className={dynatic`
+            width: fit-content;
+            font-size: 26px;
+            font-weight: bold;
+          `}
+        >
+          CS
+        </span>
+      }
       links={[
         { icon: <Home />, label: "Home", pathname: "/" },
         { icon: <Calculator />, label: "Math", pathname: "/math" },
@@ -185,8 +208,12 @@ const SidebarWrapper = () => {
       closedWidth={50}
       iconSize={20}
       selected={path}
-      selectedStyle={{ backgroundColor: "#160e0e" }}
-      containerStyle={{ borderTopRightRadius: "0px" }}
+      selectedClassName={dynatic`
+        background-color: #160e0e;
+      `}
+      containerClassName={dynatic`
+        border-top-right-radius: 0;
+      `}
     />
   );
 };
@@ -232,27 +259,32 @@ const AutoComplete = () => {
   return (
     <div
       ref={ref}
-      style={{
-        position: "relative",
-        paddingRight: "0px",
-        overflow: "hidden",
-        height: "30px",
-        paddingBottom: "10px",
-      }}
+      className={dynatic`
+          position: relative;
+          padding-right: 0;
+          overflow: hidden;
+          height: 30px;
+          padding-bottom: 10px;
+        `}
     >
       <div
         ref={childRef}
-        style={{
-          position: "fixed",
-          zIndex: "3",
-          display: "flex",
-          justifyContent: "end",
-          paddingTop: "10px",
-          paddingBottom: "10px",
-          backgroundColor: "#1f1616",
-        }}
+        className={dynatic`
+            position: fixed;
+            z-index: 3;
+            display: flex;
+            justify-content: end;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #1f1616;
+          `}
       >
-        <div style={{ width: "200px", paddingRight: "10px" }}>
+        <div
+          className={dynatic`
+            width: 200px;
+            padding-right: 10px;
+          `}
+        >
           <AutoCompleteInput
             debounceDelay={300}
             autocompleteOptionsCallback={(text) => {
@@ -263,18 +295,23 @@ const AutoComplete = () => {
               );
             }}
             callback={(option) => moveTo({ pathname: option.value })}
-            inputWrapperStyle={{
-              borderTopLeftRadius: "10px",
-              borderTopRightRadius: "10px",
-              borderBottomLeftRadius: "0px",
-              borderBottomRightRadius: "0px",
-              height: "30px",
-              alignItems: "center",
-            }}
+            inputWrapperClassName={dynatic`
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                height: 30px;
+                align-items: center;
+              `}
             inputPlaceholder="Search"
             optionContent={({ result }) => {
               return (
-                <EllipsisTooltip content={result.label} style={{ width: "170px" }}>
+                <EllipsisTooltip
+                  content={result.label}
+                  className={dynatic`
+                    width: 170px;
+                  `}
+                >
                   {result.label}
                 </EllipsisTooltip>
               );

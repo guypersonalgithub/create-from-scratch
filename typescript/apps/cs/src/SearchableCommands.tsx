@@ -1,3 +1,4 @@
+import { dynatic } from "./dynatic-css.config";
 import { Input } from "@packages/input";
 import { Fragment, useState } from "react";
 
@@ -27,7 +28,12 @@ export const SearchableCommands = ({ commands }: SearchableCommandsProps) => {
           setDisplayedCommands(filteredCommands);
         }}
       />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+      <div
+        className={dynatic`
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        `}
+      >
         {displayedCommands.map((display) => {
           return (
             <Fragment key={display.command}>

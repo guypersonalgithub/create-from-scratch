@@ -1,17 +1,8 @@
-import { useBreakpoints } from "../../breakpoints";
 import { dynatic } from "../../dynatic-css.config";
 import { MainLogo } from "../../customizedComponents";
 import { MainAd } from "./MainAd";
 
 export const TopSection = () => {
-  const { useGetBreakpoint } = useBreakpoints();
-  const { breakpoint } = useGetBreakpoint({
-    updateOn: ["smallDesktop"],
-    includeMismatchBelow: true,
-    defaultAboveBreakpoint: "smallDesktop",
-  });
-  const isDesktop = breakpoint === "smallDesktop";
-
   return (
     <div
       className={dynatic`
@@ -22,34 +13,30 @@ export const TopSection = () => {
         min-height: 100vh;
         margin-bottom: 20px;
         text-align: center;
+        flex-direction: row;
+
+        ${(config) => config.utils.widthMediaQuery({ to: "1300px" })} {
+          flex-direction: column;
+        }
       `}
-      style={{
-        flexDirection: isDesktop ? "row" : "column",
-      }}
     >
-      <MainLogoSection isDesktop={isDesktop} />
+      <MainLogoSection />
       <MainAd />
     </div>
   );
 };
 
-type MainLogoSectionProps = {
-  isDesktop: boolean;
-};
-
-const MainLogoSection = ({ isDesktop }: MainLogoSectionProps) => {
+const MainLogoSection = () => {
   return (
     <div
-      className={
-        isDesktop
-          ? dynatic`
-              margin-left: 20px;
-              width: 300px;
-            `
-          : dynatic`
-              width: 290xp;
-            `
-      }
+      className={dynatic`
+          margin-left: 20px;
+          width: 300px;
+
+          ${(config) => config.utils.widthMediaQuery({ to: "1000px" })} {
+            width: 290px;
+          }
+        `}
     >
       <MainLogo />
       <div

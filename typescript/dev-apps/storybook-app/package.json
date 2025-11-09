@@ -76,7 +76,9 @@
     "@packages/interactive-cursor": "*",
     "@packages/procedural-background": "*",
     "@packages/tree-explorer": "*",
-    "@packages/scroll-story": "*"
+    "@packages/scroll-story": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

@@ -10,6 +10,8 @@ import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
 import { type BaseDropdownOption } from "./types";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type DropdownProps<T extends BaseDropdownOption> = {
   options: T[];
@@ -21,8 +23,10 @@ type DropdownProps<T extends BaseDropdownOption> = {
   isLoading?: boolean;
   customInputPrefix?: ReactNode;
   customInputSuffix?: ReactNode;
+  inputWrapperClassName?: string;
   inputWrapperStyle?: CSSProperties;
   inputPlaceholder?: string;
+  optionContainerClassName?: (args: { isSelected: boolean; isHovered: boolean }) => string;
   optionContainerStyle?: (args: { isSelected: boolean; isHovered: boolean }) => CSSProperties;
   optionContent?: (args: { option: T }) => ReactNode;
 };
@@ -37,8 +41,10 @@ export const Dropdown = <T extends BaseDropdownOption>({
   isLoading,
   customInputPrefix,
   customInputSuffix,
+  inputWrapperClassName,
   inputWrapperStyle,
   inputPlaceholder,
+  optionContainerClassName,
   optionContainerStyle,
   optionContent,
 }: DropdownProps<T>) => {
@@ -89,10 +95,18 @@ export const Dropdown = <T extends BaseDropdownOption>({
   return (
     <div
       ref={typeaheadContainerRef}
-      style={{ position: "relative", height: "fit-content", width: "100%" }}
+      className={dynatic`
+        position: relative;
+        height: fit-content;
+        width: 100%;  
+      `}
     >
       <Input
-        style={{ width: "100%", textAlign: "center", cursor: "pointer" }}
+        className={dynatic`
+          width: 100%;
+          text-align: center;
+          cursor: pointer;
+        `}
         onKeyDown={handleKeyDown}
         value={picked}
         onClick={() => setIsOpen(true)}
@@ -101,29 +115,41 @@ export const Dropdown = <T extends BaseDropdownOption>({
         isLoading={isLoading}
         customPrefix={customInputPrefix}
         customSuffix={customInputSuffix}
+        wrapperClassName={inputWrapperClassName}
         wrapperStyle={inputWrapperStyle}
         placeholder={inputPlaceholder}
         readOnly
       />
       <div
-        style={{
-          position: "absolute",
-          backgroundColor: "white",
-          ...(isOpen
-            ? {
-                zIndex: 30,
-                height: "fit-content",
-                maxHeight: "150px",
-                width: "100%",
-                overflowY: "auto",
-              }
-            : { zIndex: 0, height: 0 }),
-        }}
-        className={className}
+        className={combineStringsWithSpaces(
+          dynatic`
+            position: absolute;
+            background-color: white;
+          `,
+          isOpen
+            ? dynatic`
+                z-index: 30;
+                height: fit-content;
+                max-height: 150px;
+                width: 100%;
+                overflow-y: auto;
+              `
+            : dynatic`
+                z-index: 0;
+                height: 0;
+              `,
+          className,
+        )}
         onMouseLeave={() => setHoveredIndex(undefined)}
       >
         {isOpen ? (
-          <VirtualList containerHeight={150} itemHeight={40} backgroundColor="rgba(20, 12, 12)">
+          <VirtualList
+            containerHeight={150}
+            itemHeight={40}
+            className={dynatic`
+              background-color: rgba(20, 12, 12);
+            `}
+          >
             {options.map((option: T, index: number) => {
               const isSelected = index === currentIndex;
               const isHovered = index === hoveredIndex;
@@ -131,17 +157,24 @@ export const Dropdown = <T extends BaseDropdownOption>({
               return (
                 <Fragment key={`${option.label}-${index}`}>
                   <div
-                    style={{
-                      zIndex: 20,
-                      cursor: "pointer",
-                      backgroundColor: isSelected || isHovered ? "black" : "rgba(20, 12, 12)",
-                      padding: "8px",
-                      fontWeight: "bold",
-                      color: "white",
-                      ...(optionContainerStyle
-                        ? optionContainerStyle({ isSelected, isHovered })
-                        : {}),
-                    }}
+                    className={combineStringsWithSpaces(
+                      dynatic`
+                        z-index: 20;
+                        cursor: pointer;
+                        padding: 8px;
+                        font-weight: bold;
+                        color: white;
+                      `,
+                      isSelected || isHovered
+                        ? dynatic`
+                            background-color: black;
+                          `
+                        : dynatic`
+                            background-color: rgba(20, 12, 12);
+                          `,
+                      optionContainerClassName?.({ isSelected, isHovered }),
+                    )}
+                    style={optionContainerStyle?.({ isSelected, isHovered })}
                     onClick={() => onResultClick({ option })}
                     onMouseEnter={() => setHoveredIndex(index)}
                   >
@@ -149,12 +182,12 @@ export const Dropdown = <T extends BaseDropdownOption>({
                   </div>
                   {withSeperators ? (
                     <hr
-                      style={{
-                        marginTop: "4px",
-                        marginBottom: "4px",
-                        height: "1px",
-                        width: "100%",
-                      }}
+                      className={dynatic`
+                        margin-top: 4px;
+                        margin-bottom: 4px;
+                        height: 1px;
+                        width: 100%;
+                      `}
                     />
                   ) : null}
                 </Fragment>

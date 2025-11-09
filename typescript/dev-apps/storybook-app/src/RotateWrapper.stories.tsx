@@ -3,6 +3,7 @@ import { RotateWrapper, type RotateRef } from "@packages/rotate-wrapper";
 import { useRef, useEffect } from "react";
 import { Button } from "@packages/button";
 import { SixSidedDiceRoll } from "@packages/dice-roll";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "RotateWrapper",
@@ -19,22 +20,28 @@ export const Primary = {
     const ref = useRef<RotateRef>(null);
 
     useEffect(() => {
-        if (!ref.current) {
-            return;
-        }
+      if (!ref.current) {
+        return;
+      }
 
-        ref.current.rotate();
+      ref.current.rotate();
     }, []);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        `}
+      >
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "500px",
-          }}
+          className={dynatic`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+          `}
         >
           <RotateWrapper
             rotateRef={ref}
@@ -47,7 +54,12 @@ export const Primary = {
             <SixSidedDiceRoll />
           </RotateWrapper>
         </div>
-        <Button onClick={() => ref.current?.rotate()} style={{ width: "fit-content" }}>
+        <Button
+          onClick={() => ref.current?.rotate()}
+          className={dynatic`
+            width: fit-content;
+          `}
+        >
           Flip
         </Button>
       </div>

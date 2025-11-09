@@ -4,15 +4,19 @@ import { Terminal } from "@packages/icons";
 import { usePath } from "@packages/router";
 import { dynatic } from "../../dynatic-css.config";
 
-type GetStartedProps = {
-  isDesktop: boolean;
-};
-
-export const GetStarted = ({ isDesktop }: GetStartedProps) => {
+export const GetStarted = () => {
   const { moveTo } = usePath();
 
   return (
-    <StyledCard style={{ width: isDesktop ? "50vw" : "calc(90vw - 30px)" }}>
+    <StyledCard
+      className={dynatic`
+        width: 50vw;
+
+        ${(config) => config.utils.widthMediaQuery({ to: "1300px" })} {
+          width: calc(90vw - 30px);
+        }
+      `}
+    >
       <div
         className={dynatic`
           display: flex;
@@ -21,12 +25,12 @@ export const GetStarted = ({ isDesktop }: GetStartedProps) => {
         `}
       >
         <Terminal
-          style={{
-            width: "24px",
-            height: "24px",
-            color: "rgba(0, 119, 184, 0.976)",
-            marginTop: "4px",
-          }}
+          className={dynatic`
+            width: 24px;
+            height: 24px;
+            color: ${(config) => config.shared.lightBlue};
+            margin-top: 4px;
+          `}
         />
         <span
           className={dynatic`
@@ -54,13 +58,18 @@ export const GetStarted = ({ isDesktop }: GetStartedProps) => {
         `}
       >
         <StyledCommandBox
-          style={{ flex: 1, minWidth: "230px" }}
+          className={dynatic`
+            flex: 1;
+            min-width: 230px;
+          `}
           command="npm install -D js-to-yaml"
           copyToClipboard
           withIcons
         />
         <StyledButton
-          style={{ flexShrink: 0 }}
+          className={dynatic`
+            flex-shrink: 0;
+          `}
           onClick={() => moveTo({ pathname: "/documentation" })}
           addArrow
         >

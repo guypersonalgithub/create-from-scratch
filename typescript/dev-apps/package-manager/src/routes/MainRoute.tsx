@@ -10,6 +10,8 @@ import { getSemVer } from "../utils";
 import { type ParsedData } from "../types";
 import { type LatestVersion } from "@packages/detect-repository-dependencies-types";
 import { useMoveToSpecificDependencyPage } from "./useMoveToSpecificDependencyPage";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type IsDependencyUpToDateArgs = {
   row: ParsedData[number];
@@ -100,34 +102,40 @@ export const MainRoute = () => {
         }}
       />
       <Table
-        headerContainer={{
-          backgroundColor: "#242424",
-          borderBottom: "1px solid #383232",
-          paddingLeft: "10px",
-          paddingRight: "10px",
-        }}
-        rowContainer={{
-          height: "100%",
-        }}
+        headerContainerClassName={dynatic`
+          background-color: #242424;
+          border-bottom: 1px solid #383232;
+          padding-left: 10px;
+          padding-right: 10px;
+        `}
+        rowContainerClassName={dynatic`
+          height: 100%;  
+        `}
         rows={{
           dataRow: {
             size: 35,
           },
         }}
-        dataRowClass={(_, index) => {
-          const baseClass = "main-route-table-row";
+        dataRowClassName={(_, index) => {
+          return combineStringsWithSpaces(
+            dynatic`
+              transition: background-color 0.3s ease in;
+              border-bottom: 1px solid #383232;
+              padding-left: 10px;
+              padding-right: 10px;
 
-          return (
-            baseClass +
-            " " +
-            (index % 2 === 0 ? "main-route-table-row-odd" : "main-route-table-row-even")
+              &:hover {
+                background-color: #575757;
+              }
+            `,
+            index % 2 === 0
+              ? dynatic`
+                  background-color: #1a1a1a;
+                `
+              : dynatic`
+                  background-color: #3d3d3d;
+                `,
           );
-        }}
-        dataRowStyle={() => {
-          return {
-            paddingLeft: "10px",
-            paddingRight: "10px",
-          };
         }}
         columns={[
           {

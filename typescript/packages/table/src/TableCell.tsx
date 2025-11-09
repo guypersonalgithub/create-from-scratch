@@ -1,9 +1,12 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { type CSSProperties, type ReactNode } from "react";
 
 type TableCellProps<T> = {
   row: T;
   children: (row: T, rowIndex: number, columnIndex: number) => ReactNode;
   staticColumn?: boolean;
+  columnClassName?: (index: number) => string | undefined;
   columnStyle?: (index: number) => CSSProperties | undefined;
   rowIndex: number;
   index: number;
@@ -25,6 +28,7 @@ export const TableCell = <T,>({
   staticColumn = true,
   className,
   size,
+  columnClassName,
   columnStyle,
   rowIndex,
   index,
@@ -33,17 +37,29 @@ export const TableCell = <T,>({
 
   return (
     <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        textAlign: "left",
-        height: "inherit",
-        flexGrow: staticColumn ? 0 : 1,
-        whiteSpace: "nowrap",
-        ...(size ? { width: `${size}px` } : {}),
-        ...style,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+          align-items: center;
+          text-align: left;
+          height: inherit;
+          white-space: nowrap;
+        `,
+        staticColumn
+          ? dynatic`
+              flex-grow: 0;
+            `
+          : dynatic`
+              flex-grow: 1;
+            `,
+        size &&
+          dynatic`
+            width: ${size}px;
+          `,
+        columnClassName?.(index),
+        className,
+      )}
+      style={style}
     >
       {children(row, rowIndex, index)}
     </div>

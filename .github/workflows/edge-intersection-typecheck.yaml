@@ -11,6 +11,8 @@ on:
       - typescript/packages/edge-intersection/**
       - typescript/packages/string-utils/**
       - typescript/packages/regex/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/utils/**
 jobs:
   Typecheck:

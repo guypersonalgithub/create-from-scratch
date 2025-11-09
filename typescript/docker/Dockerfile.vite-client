@@ -7,6 +7,8 @@ COPY ./packages/micro-frontends/package.json ./packages/micro-frontends/package.
 COPY ./packages/table/package.json ./packages/table/package.json
 COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/button/package.json ./packages/button/package.json
+COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
+COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./packages/string-utils/package.json ./packages/string-utils/package.json
 COPY ./packages/regex/package.json ./packages/regex/package.json
 COPY ./packages/tooltip/package.json ./packages/tooltip/package.json
@@ -48,6 +50,8 @@ COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/button ./packages/button
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
 COPY ./packages/tooltip ./packages/tooltip
@@ -91,6 +95,8 @@ COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/button ./packages/button
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
 COPY ./packages/tooltip ./packages/tooltip
@@ -134,6 +140,8 @@ COPY ./packages/micro-frontends ./packages/micro-frontends
 COPY ./packages/table ./packages/table
 COPY ./packages/pagination ./packages/pagination
 COPY ./packages/button ./packages/button
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
 COPY ./packages/tooltip ./packages/tooltip

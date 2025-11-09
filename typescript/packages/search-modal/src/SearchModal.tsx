@@ -1,42 +1,31 @@
 import { Button } from "@packages/button";
 import { useControlModal } from "@packages/modal";
-import { EmptyFolder, MagnifyingGlass } from "@packages/icons";
+import { MagnifyingGlass } from "@packages/icons";
 import { Badge } from "@packages/badge";
-import {
-  type CSSProperties,
-  type Dispatch,
-  type RefObject,
-  type SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { Input } from "@packages/input";
 import { Key } from "@packages/keyboard-key";
-import { type SearchModalOption } from "./types";
-
-type SearchModalProps = {
-  buttonStyle?: CSSProperties;
-  badgeStyle?: CSSProperties;
-  modalStyle?: CSSProperties;
-  optionStyle?: CSSProperties;
-  highlightedOptionStyle?: CSSProperties;
-  footerStyle?: CSSProperties;
-  isDesktop: boolean;
-  mobileButtonStyle?: CSSProperties;
-  options: SearchModalOption[];
-  onPickCallback: (arg: { value: string }) => void;
-};
+import { type PickOptionArgs, type SearchModalOption, type SearchModalProps } from "./types";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { DisplayableOptions } from "./DisplayableOptions";
 
 export const SearchModal = ({
+  buttonClassName,
   buttonStyle,
+  badgeClassName,
   badgeStyle,
+  modalClassName,
   modalStyle,
+  optionClassName,
   optionStyle,
+  highlightedOptionClassName,
   highlightedOptionStyle,
+  footerClassName,
   footerStyle,
-  isDesktop,
-  mobileButtonStyle,
+  isMinimized,
+  minimizedClassName,
+  minimizedStyle,
   options,
   onPickCallback,
 }: SearchModalProps) => {
@@ -51,19 +40,22 @@ export const SearchModal = ({
     openModal({
       content: (
         <Modal
+          className={modalClassName}
           style={modalStyle}
+          optionsClassName={optionClassName}
           optionStyle={optionStyle}
+          highlightedOptionsClassName={highlightedOptionClassName}
           highlightedOptionStyle={highlightedOptionStyle}
+          footerClassName={footerClassName}
           footerStyle={footerStyle}
           closeModal={onCloseModal}
-          isDesktop={isDesktop}
           options={options}
           onPickCallback={onPickCallback}
         />
       ),
-      style: {
-        bottom: 0,
-      },
+      className: dynatic`
+        bottom: 0;
+      `,
     });
 
     isModalOpen.current = true;
@@ -73,7 +65,7 @@ export const SearchModal = ({
     if (isModalOpen.current) {
       openModalCallback();
     }
-  }, [isDesktop]);
+  }, []);
 
   useEffect(() => {
     const openPageSearchModal = (event: KeyboardEvent) => {
@@ -91,21 +83,29 @@ export const SearchModal = ({
     return () => {
       window.removeEventListener("keydown", openPageSearchModal);
     };
-  }, [isDesktop]);
+  }, []);
 
-  if (!isDesktop) {
+  if (isMinimized) {
     return (
       <Button
-        style={{
-          border: "none",
-          background: "none",
-          cursor: "pointer",
-          padding: 0,
-          ...mobileButtonStyle,
-        }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+          `,
+          minimizedClassName,
+        )}
+        style={minimizedStyle}
         onClick={openModalCallback}
       >
-        <MagnifyingGlass size={20} />
+        <MagnifyingGlass
+          className={dynatic`
+            width: 20px;
+            height: 20px;
+          `}
+        />
       </Button>
     );
   }
@@ -113,28 +113,50 @@ export const SearchModal = ({
   return (
     <div>
       <Button
-        style={{
-          border: "1px solid #dadada",
-          borderRadius: "10px",
-          display: "flex",
-          gap: "10px",
-          justifyContent: "space-between",
-          height: "42px",
-          color: "#99989d",
-          alignItems: "center",
-          cursor: "pointer",
-          ...buttonStyle,
-        }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            border: 1px solid #dadada;
+            border-radius: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            height: 42px;
+            color: #99989d;
+            align-items: center;
+            cursor: pointer;
+          `,
+          buttonClassName,
+        )}
+        style={buttonStyle}
         onClick={openModalCallback}
       >
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <MagnifyingGlass size={20} />
+        <div
+          className={dynatic`
+            display: flex;
+            gap: 10px;
+            align-items: center;
+          `}
+        >
+          <MagnifyingGlass
+            className={dynatic`
+              width: 20px;
+              height: 20px;
+            `}
+          />
           <div>Search</div>
         </div>
         <Badge
           variant="ghost"
           size="md"
-          style={{ color: "#99989d", height: "fit-content", cursor: "pointer", ...badgeStyle }}
+          className={combineStringsWithSpaces(
+            dynatic`
+              color: #99989d;
+              height: fit-content;
+              cursor: pointer;
+            `,
+            badgeClassName,
+          )}
+          style={badgeStyle}
         >
           <Key>Ctrl</Key>+<Key>K</Key>
         </Badge>
@@ -144,27 +166,29 @@ export const SearchModal = ({
 };
 
 type ModalProps = {
+  className?: string;
   style?: CSSProperties;
+  optionsClassName?: string;
   optionStyle?: CSSProperties;
+  highlightedOptionsClassName?: string;
   highlightedOptionStyle?: CSSProperties;
+  footerClassName?: string;
   footerStyle?: CSSProperties;
   closeModal: () => void;
-  isDesktop: boolean;
   options: SearchModalOption[];
   onPickCallback: (arg: { value: string }) => void;
 };
 
-type PickOptionArgs = {
-  value: string;
-};
-
 const Modal = ({
+  className,
   style,
+  optionsClassName,
   optionStyle,
+  highlightedOptionsClassName,
   highlightedOptionStyle,
+  footerClassName,
   footerStyle,
   closeModal,
-  isDesktop,
   options,
   onPickCallback,
 }: ModalProps) => {
@@ -197,24 +221,52 @@ const Modal = ({
     closeModal();
   };
 
+  const footerKeyWrapperClassName = dynatic`
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  `;
+
   return (
     <div
-      style={{
-        width: isDesktop ? "600px" : "90vw",
-        height: filterExists ? "400px" : "200px",
-        backgroundColor: "white",
-        borderRadius: "10px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        ...style,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          background-color: white;
+          border-radius: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 600px;
+
+          ${(config) => config.utils.widthMediaQuery({ to: "1000px" })} {
+            width: 90vw;
+          }
+        `,
+        filterExists
+          ? dynatic`
+              height: 400px;
+            `
+          : dynatic`
+              height: 200px;
+            `,
+        className,
+      )}
+      style={style}
     >
-      <div style={{ padding: "10px" }}>
+      <div
+        className={dynatic`
+          padding: 10px;
+        `}
+      >
         <Input
           externalRef={ref}
-          wrapperStyle={{ height: "60px", borderRadius: "5px" }}
-          style={{ fontSize: "20px" }}
+          className={dynatic`
+            font-size: 20px;
+          `}
+          wrapperClassName={dynatic`
+            height: 60px;
+            border-radius: 5px;  
+          `}
           value={filter}
           onChange={(e) => {
             optionRefs.current = [];
@@ -252,23 +304,25 @@ const Modal = ({
       </div>
       <div
         ref={optionContainerRef}
-        style={{
-          height: "100%",
-          paddingLeft: "10px",
-          paddingRight: "10px",
-          overflow: "auto",
-          display: "flex",
-          flexDirection: "column",
-          position: "relative",
-          gap: "5px",
-        }}
+        className={dynatic`
+          height: 100%;
+          padding-left: 10px;
+          padding-right: 10px;
+          overflow: auto;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          gap: 5px;
+        `}
       >
         {filterExists ? (
           <DisplayableOptions
             displayableOptions={displayableOptions}
             focusedIndex={focusedIndex}
             optionRefs={optionRefs}
+            optionClassName={optionsClassName}
             optionStyle={optionStyle}
+            highlightedOptionClassName={highlightedOptionsClassName}
             highlightedOptionStyle={highlightedOptionStyle}
             setFocusedIndex={setFocusedIndex}
             pickOption={pickOption}
@@ -278,124 +332,36 @@ const Modal = ({
         )}
       </div>
       <div
-        style={{
-          borderTop: "3px solid black",
-          paddingTop: "5px",
-          display: "flex",
-          gap: "10px",
-          paddingBottom: "10px",
-          paddingLeft: "10px",
-          color: "#99989d",
-          ...footerStyle,
-        }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            border-top: 3px solid black;
+            padding-top: 5px;
+            display: flex;
+            gap: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            color: #99989d;
+          `,
+          footerClassName,
+        )}
+        style={footerStyle}
       >
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <div className={footerKeyWrapperClassName}>
           <Key>Enter ↩︎</Key>
           <div>to select</div>
         </div>
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <div className={footerKeyWrapperClassName}>
           <div>
             <Key>↑</Key>
             <Key>↓</Key>
           </div>
           <div>to navigate</div>
         </div>
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+        <div className={footerKeyWrapperClassName}>
           <Key>Esc</Key>
           <div>to close</div>
         </div>
       </div>
     </div>
   );
-};
-
-type DisplayableOptionsProps = {
-  displayableOptions: SearchModalOption[];
-  focusedIndex: number;
-  optionRefs: RefObject<(HTMLDivElement | null)[]>;
-  optionStyle?: CSSProperties;
-  highlightedOptionStyle?: CSSProperties;
-  setFocusedIndex: Dispatch<SetStateAction<number>>;
-  pickOption: ({ value }: PickOptionArgs) => void;
-};
-
-const DisplayableOptions = ({
-  displayableOptions,
-  focusedIndex,
-  optionRefs,
-  optionStyle,
-  highlightedOptionStyle,
-  setFocusedIndex,
-  pickOption,
-}: DisplayableOptionsProps) => {
-  if (displayableOptions.length === 0) {
-    return "No options were found for the inserted input.";
-  }
-
-  return displayableOptions.map((option, index) => {
-    const { value, label, description } = option;
-
-    const isHighlighted = focusedIndex === index;
-
-    return (
-      <div
-        ref={(ref) => {
-          optionRefs.current[index] = ref;
-        }}
-        key={value}
-        style={{
-          cursor: "pointer",
-          // transition: "background-color 0.3s ease-in",
-          height: "60px",
-          display: "flex",
-          alignItems: "center",
-          paddingLeft: "10px",
-          paddingRight: "10px",
-          fontWeight: "bold",
-          borderRadius: "10px",
-          justifyContent: "space-between",
-          flexShrink: 0,
-          ...optionStyle,
-          ...(isHighlighted ? highlightedOptionStyle : {}),
-        }}
-        onMouseEnter={() => {
-          setFocusedIndex(index);
-          // e.currentTarget.style.backgroundColor = "red";
-        }}
-        // onMouseLeave={(e) => {
-        //   e.currentTarget.style.backgroundColor = "";
-        // }}
-        // onFocus={(e) => {
-        //   e.currentTarget.style.outline = "1px solid red";
-        // }}
-        // onBlur={(e) => {
-        //   e.currentTarget.style.outline = "none";
-        // }}
-        onClick={() => pickOption({ value })}
-        // onKeyDown={(e) => {
-        //   if (e.key === "Enter") {
-        //     pickOption();
-        //   } else if (e.key === "ArrowDown") {
-        //     e.preventDefault();
-        //     setFocusedIndex((prev) =>
-        //       prev === options.length - 1 ? prev : (prev ?? -1) + 1,
-        //     );
-        //   } else if (e.key === "ArrowUp") {
-        //     e.preventDefault();
-        //     setFocusedIndex((prev) => (prev === 0 ? 0 : prev - 1));
-        //   }
-        // }}
-        // tabIndex={-1}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          <EmptyFolder size={26} />
-          <div>
-            <div>{label}</div>
-            <div style={{ fontSize: "12px" }}>{description}</div>
-          </div>
-        </div>
-        {isHighlighted ? <div>↩︎</div> : null}
-      </div>
-    );
-  });
 };

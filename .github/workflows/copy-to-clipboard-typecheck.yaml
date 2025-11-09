@@ -10,6 +10,10 @@ on:
     paths:
       - typescript/packages/copy-to-clipboard/**
       - typescript/packages/button/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/tooltip/**
       - typescript/packages/animation-container/**
       - typescript/packages/utils/**
@@ -17,8 +21,6 @@ on:
       - typescript/packages/array-utils/**
       - typescript/packages/object-utils/**
       - typescript/packages/parse-typescript/**
-      - typescript/packages/string-utils/**
-      - typescript/packages/regex/**
       - typescript/packages/randomizer/**
       - typescript/packages/edge-intersection/**
       - typescript/packages/element-utils/**

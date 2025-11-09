@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { WheelOfFortune, type WheelOfFortuneRef } from "@packages/wheel-of-fortune";
 import { useRef } from "react";
 import { Button } from "@packages/button";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "WheelOfFortune",
@@ -35,19 +36,30 @@ export const Primary: Story = {
     const ref = useRef<WheelOfFortuneRef>(null);
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        `}
+      >
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "500px",
-            height: "500px",
-          }}
+          className={dynatic`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 500px;
+            height: 500px;
+          `}
         >
           <WheelOfFortune {...args} wheelRef={ref} onAnimationEnd={(test) => console.log(test)} />
         </div>
-        <Button onClick={() => ref.current?.spin()} style={{ width: "fit-content" }}>
+        <Button
+          onClick={() => ref.current?.spin()}
+          className={dynatic`
+            width: fit-content;
+          `}
+        >
           Rotate
         </Button>
       </div>

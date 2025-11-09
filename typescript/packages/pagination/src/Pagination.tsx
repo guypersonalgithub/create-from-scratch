@@ -1,24 +1,17 @@
 import { type CSSProperties } from "react";
 import { Button, type ButtonProps } from "@packages/button";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 export type PaginationProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
   maxPagesToShow: number;
+  pageButtonClassName?: string;
   pageButtonStyle?: CSSProperties;
+  navigationButtonClassName?: string;
   navigationButtonStyle?: CSSProperties;
-};
-
-const commonStyle: CSSProperties = {
-  cursor: "pointer",
-  border: "none",
-  background: "none",
-  width: "50px",
-  height: "50px",
-  borderRadius: "10px",
-  fontSize: "18px",
-  color: "white",
 };
 
 export const Pagination = ({
@@ -26,8 +19,10 @@ export const Pagination = ({
   totalPages,
   onPageChange,
   maxPagesToShow,
+  pageButtonClassName,
   pageButtonStyle,
-  navigationButtonStyle = {},
+  navigationButtonClassName,
+  navigationButtonStyle,
 }: PaginationProps) => {
   const handleClick = ({ page }: { page: number }) => {
     if (page >= 1 && page <= totalPages) {
@@ -52,7 +47,12 @@ export const Pagination = ({
 
     if (startPage > 1) {
       pageNumbers.push(
-        <BaseButton key={1} onClick={() => handleClick({ page: 1 })} style={pageButtonStyle}>
+        <BaseButton
+          key={1}
+          onClick={() => handleClick({ page: 1 })}
+          className={pageButtonClassName}
+          style={pageButtonStyle}
+        >
           1
         </BaseButton>,
       );
@@ -61,11 +61,11 @@ export const Pagination = ({
         pageNumbers.push(
           <span
             key="start-ellipsis"
-            style={{
-              height: "50px",
-              display: "flex",
-              alignItems: "center",
-            }}
+            className={dynatic`
+              height: 50px;
+              display: flex;
+              align-items: center;  
+            `}
           >
             ...
           </span>,
@@ -78,13 +78,13 @@ export const Pagination = ({
         <BaseButton
           key={i}
           onClick={() => handleClick({ page: i })}
-          style={
+          className={
             currentPage === i
-              ? {
-                  background: "default",
-                  backgroundColor: "black",
-                  color: "white",
-                }
+              ? dynatic`
+                  background: default;
+                  background-color: black;
+                  color: white;
+                `
               : undefined
           }
         >
@@ -98,12 +98,12 @@ export const Pagination = ({
         pageNumbers.push(
           <span
             key="end-ellipsis"
-            style={{
-              height: "50px",
-              display: "flex",
-              alignItems: "center",
-              fontSize: "20px",
-            }}
+            className={dynatic`
+              height: 50px;
+              display: flex;
+              align-items: center;
+              font-size: 20px;  
+            `}
           >
             ...
           </span>,
@@ -120,13 +120,41 @@ export const Pagination = ({
     return pageNumbers;
   };
 
+  const baseButtonClassNames = combineStringsWithSpaces(
+    dynatic`
+      font-size: 22px;
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    `,
+    dynatic`
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      font-size: 18px;
+      color: white;
+    `,
+    navigationButtonClassName,
+  );
+
   return (
-    <div style={{ display: "flex", listStyle: "none", padding: 0 }}>
+    <div
+      className={dynatic`
+        display: flex;
+        list-style: none;
+        padding: 0;
+      `}
+    >
       <BaseButton
         onClick={() => handleClick({ page: currentPage - 1 })}
         disabled={currentPage === 1 || totalPages === 0}
-        style={{ fontSize: "22px", ...navigationButtonStyle }}
-        disabledCSS={{ cursor: "not-allowed", opacity: 0.5 }}
+        className={baseButtonClassNames}
+        style={navigationButtonStyle}
       >
         {"<"}
       </BaseButton>
@@ -134,8 +162,8 @@ export const Pagination = ({
       <BaseButton
         onClick={() => handleClick({ page: currentPage + 1 })}
         disabled={currentPage === totalPages || totalPages === 0}
-        style={{ fontSize: "22px", ...navigationButtonStyle }}
-        disabledCSS={{ cursor: "not-allowed", opacity: 0.5 }}
+        className={baseButtonClassNames}
+        style={navigationButtonStyle}
       >
         {">"}
       </BaseButton>
@@ -143,10 +171,6 @@ export const Pagination = ({
   );
 };
 
-const BaseButton = ({ children, style = {}, ...rest }: ButtonProps) => {
-  return (
-    <Button style={{ ...commonStyle, ...style }} {...rest}>
-      {children}
-    </Button>
-  );
+const BaseButton = ({ children, ...rest }: ButtonProps) => {
+  return <Button {...rest}>{children}</Button>;
 };

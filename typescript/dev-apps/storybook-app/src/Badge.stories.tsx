@@ -20,3 +20,13 @@ export const Primary: Story = {
     return <Badge {...args} />;
   },
 };
+
+export const ClickableBadge: Story = {
+  args: {
+    children: "Mock",
+    onClick: () => console.log(""),
+  },
+  render: (args) => {
+    return <Badge {...args} />;
+  },
+};

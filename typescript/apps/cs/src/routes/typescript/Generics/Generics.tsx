@@ -8,6 +8,7 @@ import { TypeArguments } from "./TypeArguments";
 import { GenericsAtDifferentLevels } from "./GenericsAtDifferentLevels";
 import { AdvancedGenerics } from "./AdvancedGenerics";
 import { FunctionOverloads } from "./FunctionOverloads";
+import { dynatic } from "../../../dynatic-css.config";
 
 export const Generics = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -16,7 +17,10 @@ export const Generics = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[
           { path: "/typescript/generics/type-arguments", children: "Type arguments" },
           {
@@ -120,7 +124,12 @@ const example = new Example("test");`}
                   highlightCode
                 />
                 <div>Constraints can also work with unions.</div>
-                <div style={{ display: "flex", gap: "5px" }}>
+                <div
+                  className={dynatic`
+                    display: flex;
+                    gap: 5px;
+                  `}
+                >
                   <StyledLink pathname="/typescript/generics/type-arguments">
                     Type arguments
                   </StyledLink>

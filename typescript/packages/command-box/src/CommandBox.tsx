@@ -1,34 +1,48 @@
 import { CopyToClipboard } from "@packages/copy-to-clipboard";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { type CSSProperties } from "react";
 
 type CommandBoxProps = {
   command: string;
+  className?: string;
   style?: CSSProperties;
   copyToClipboard?: boolean;
   withIcons?: boolean;
 };
 
-export const CommandBox = ({ command, style, copyToClipboard, withIcons }: CommandBoxProps) => {
+export const CommandBox = ({
+  command,
+  className,
+  style,
+  copyToClipboard,
+  withIcons,
+}: CommandBoxProps) => {
   return (
     <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        backgroundColor: "#f8fafc",
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background-color: #f8fafc;
+          padding: 10px;
+          border-radius: 8px;
+          font-family: monospace;
+          font-size: 14px;
+          color: #1e293b;
+          border: 1px solid #e2e8f0;
+          white-space: nowrap;
+        `,
+        className,
+      )}
+      style={
+        style
         // padding: "10px 16px",
-        padding: "10px",
-        borderRadius: "8px",
-        fontFamily: "monospace",
-        fontSize: "14px",
-        color: "#1e293b",
-        border: "1px solid #e2e8f0",
         // width: "fit-content",
         // maxWidth: "100%",
-        whiteSpace: "nowrap",
         // overflowX: "auto",
-        ...style,
-      }}
+      }
     >
       {command}
       {copyToClipboard ? <CopyToClipboard textToCopy={command} withIcons={withIcons} /> : null}

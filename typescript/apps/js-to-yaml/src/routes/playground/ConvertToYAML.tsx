@@ -4,7 +4,6 @@ import { StyledSyntaxHighlighter } from "../../customizedComponents";
 import { Textarea } from "@packages/textarea";
 import { convertObjectToYaml } from "@packages/yaml";
 import { useState } from "react";
-import { useBreakpoints } from "../../breakpoints";
 import { dynatic } from "../../dynatic-css.config";
 
 export const ConvertToYAML = () => {
@@ -15,9 +14,6 @@ export const ConvertToYAML = () => {
     skipLog: true,
   });
   const yaml = convertObjectToYaml({ obj: object });
-  const { useGetBreakpoint } = useBreakpoints();
-  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "tablet"] });
-  const isDesktop = breakpoint === "desktop";
 
   return (
     <Card>
@@ -36,11 +32,14 @@ export const ConvertToYAML = () => {
         className={dynatic`
           display: flex;
           gap: 10px;
+          height: 500px;
+          flex-direction: row;
+
+          ${(config) => config.utils.widthMediaQuery({ to: "1300px" })} {
+            height: 300px;
+            flex-direction: column;
+          }
         `}
-        style={{
-          height: !isDesktop ? "300px" : "500px",
-          flexDirection: !isDesktop ? "column" : "row",
-        }}
       >
         <Textarea
           containerClassName={dynatic`
@@ -89,7 +88,14 @@ export const ConvertToYAML = () => {
             }
           }}
         />
-        <StyledSyntaxHighlighter style={{ flex: 1 }} code={yaml} language="yaml" highlightCode />
+        <StyledSyntaxHighlighter
+          className={dynatic`
+            flex: 1;
+          `}
+          code={yaml}
+          language="yaml"
+          highlightCode
+        />
       </div>
     </Card>
   );

@@ -8,6 +8,7 @@ type ManualAnimatedCarouselProps = Omit<
 >;
 
 export const ManualAnimatedCarousel = ({
+  className,
   style,
   items,
   displayArrows,
@@ -24,6 +25,7 @@ export const ManualAnimatedCarousel = ({
   return (
     <AnimatedContent
       style={style}
+      className={className}
       items={items}
       displayArrows={displayArrows}
       displayIndicators={displayIndicators}

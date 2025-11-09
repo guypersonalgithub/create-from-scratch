@@ -10,7 +10,9 @@
   "dependencies": {
     "@packages/input": "*",
     "@packages/button": "*",
-    "@packages/regex": "*"
+    "@packages/regex": "*",
+    "@packages/dynatic-css": "*",
+    "@packages/string-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

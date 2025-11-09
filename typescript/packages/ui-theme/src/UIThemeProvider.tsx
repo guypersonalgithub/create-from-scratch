@@ -7,6 +7,7 @@ type UIThemeProviderProps<T extends Record<string, Th>, Th extends Theme = Theme
   themes: T;
   defaultTheme?: keyof T;
   children: ReactNode;
+  className?: string;
   style?: CSSProperties;
 };
 
@@ -14,6 +15,7 @@ export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme =
   themes,
   defaultTheme = getFirstTheme({ themes }) ?? "",
   children,
+  className,
   style = {},
 }: UIThemeProviderProps<T>) => {
   const [currentTheme, setCurrentTheme] = useState<keyof T>(defaultTheme);
@@ -40,7 +42,9 @@ export const UIThemeProvider = <T extends Record<string, Th>, Th extends Theme =
 
   return (
     <UIThemeContext.Provider value={contextValue}>
-      <div style={themeStyle}>{children}</div>
+      <div className={className} style={themeStyle}>
+        {children}
+      </div>
     </UIThemeContext.Provider>
   );
 };

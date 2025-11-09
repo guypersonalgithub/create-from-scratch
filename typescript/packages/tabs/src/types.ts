@@ -1,5 +1,7 @@
+import type { ReactNode } from "react";
+
 export type Tab = {
-  label?: string;
+  label?: ReactNode;
   value: string;
   onClick?: (value: string) => void;
 };

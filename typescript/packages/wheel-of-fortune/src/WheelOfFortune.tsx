@@ -1,17 +1,32 @@
-import { useImperativeHandle, useRef, type RefObject, type CSSProperties } from "react";
+import { useImperativeHandle, useRef, type RefObject } from "react";
 import { useAnimation } from "@packages/animation-container";
 import { Button } from "@packages/button";
-import "./style.css";
 import { getClipPathTriangleVertices } from "@packages/element-utils";
 import { calculateSameSizeSlices, getTriangleApexVertice, isPointInSlice } from "@packages/math";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
 
 export type WheelOfFortuneRef = {
   spin: () => { cancelAnimation: () => void };
 } | null;
 
-const classNamesByCount: Record<number, string> = {
-  1: "single",
-  2: "two",
+const classNamesByCount: Record<number | string, string> = {
+  1: dynatic`
+    aspect-ratio: 1/1;
+    width: var(--wheel-size);
+  `,
+  2: dynatic`
+    aspect-ratio: 1 / calc(2 * tan(180deg / var(--items)));
+    clip-path: none;
+  `,
+  // 3: dynatic`
+  //   aspect-ratio: 1 / 2;
+  //   clip-path: polygon(-35% -100%, 100% 50%, 0% 145%);
+  // `,
+  multi: dynatic`
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    aspect-ratio: 1 / calc(2 * tan(180deg / var(--items)));
+  `,
 };
 
 type WheelOfFortuneProps<T extends string> = {
@@ -121,8 +136,19 @@ export const WheelOfFortune = <T extends string>({
 
   return (
     <div
-      className="wheel-of-fortune"
-      style={{ "--wheel-size": size } as CSSProperties}
+      className={combineStringsWithSpaces(dynatic`
+        --wheel-size: ${size};
+        all: unset;
+        clip-path: inset(0 0 0 0 round 50%);
+        inset: 0;
+        place-content: center start;
+        aspect-ratio: 1 / 1;
+        container-type: inline-size;
+        display: grid;
+        position: relative;
+        height: var(--wheel-size);
+        width: var(--wheel-size);
+      `)}
       tabIndex={0}
       onKeyDown={(event) => {
         if (event.key !== " " && event.key !== "Enter") {
@@ -132,26 +158,74 @@ export const WheelOfFortune = <T extends string>({
         wheelRef?.current?.spin();
       }}
     >
-      <div ref={innerRef} className="wheel-of-fortune-wrapper">
+      <div
+        ref={innerRef}
+        className={dynatic`
+          all: unset;
+          clip-path: inset(0 0 0 0 round 50%);
+          display: grid;
+          inset: 0;
+          place-content: center start;
+          position: absolute;
+          rotate: 90deg;
+        `}
+      >
         {options.map((option, index) => {
           return (
             <div
               key={option}
-              className={`wheel-of-fortune-option wheel-of-fortune-option-${classNamesByCount[optionsAmount] ?? "multi"}`}
-              style={
-                {
-                  "--items": optionsAmount,
-                  "--idx": index,
-                } as CSSProperties
-              }
+              className={combineStringsWithSpaces(
+                dynatic`
+                    --items: ${optionsAmount};
+                    --idx: ${index};
+                    align-content: center;
+                    background: hsl(calc(360deg / var(--items) * calc(var(--idx))), 100%, 75%);
+                    display: grid;
+                    font-size: 25px;
+                    grid-area: 1 / -1;
+                    padding-left: 5px;
+                    rotate: calc(360deg / var(--items) * calc(var(--idx)));
+                    transform-origin: center right;
+                    user-select: none;
+                    width: calc(var(--wheel-size) / 2);
+                    box-sizing: border-box;
+                  `,
+                classNamesByCount[optionsAmount] ?? classNamesByCount["multi"],
+              )}
             >
               {option}
             </div>
           );
         })}
       </div>
-      <div ref={arrowRef} className="wheel-of-fortune-arrow" />
-      <Button className="wheel-of-fortune-button" onClick={() => wheelRef?.current?.spin()}>
+      <div
+        ref={arrowRef}
+        className={dynatic`
+          height: 25px;
+          width: 25px;
+          background-color: crimson;
+          clip-path: polygon(50% 100%, 100% 0, 0 0);
+          content: "";
+          position: absolute;
+          place-self: start center;
+          scale: 1.4;
+        `}
+      />
+      <Button
+        className={dynatic`
+          z-index: 1000;
+          position: absolute;
+          left: calc(50% - calc(var(--wheel-size) / 16));
+          top: calc(var(--wheel-size) / 2 - calc(var(--wheel-size) / 16));
+          border: none;
+          border-radius: 100%;
+          width: calc(var(--wheel-size) / 8);
+          height: calc(var(--wheel-size) / 8);
+          text-align: center;
+          cursor: pointer;
+        `}
+        onClick={() => wheelRef?.current?.spin()}
+      >
         SPIN
       </Button>
     </div>

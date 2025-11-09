@@ -6,19 +6,21 @@ import { useState } from "react";
 
 type ScrollspyAnchorsProps = {
   anchors: Anchor[];
-  anchorClass?: string;
-  visibleAnchorClass?: string;
+  anchorClassName?: string;
   anchorStyle?: CSSProperties;
+  visibleAnchorClassName?: string;
   visibleAnchorStyle?: CSSProperties;
+  highlightBarContainerClassName?: string;
   highlightBarContainerStyle?: CSSProperties;
+  highlightBarClassName?: string;
   highlightBarStyle?: CSSProperties;
   onClickCallback?: (anchor: { ref: HTMLElement }) => void;
 };
 
 export const ScrollspyAnchors = ({
   anchors,
-  anchorClass,
-  visibleAnchorClass,
+  anchorClassName,
+  visibleAnchorClassName,
   anchorStyle,
   visibleAnchorStyle,
   highlightBarContainerStyle,
@@ -77,8 +79,8 @@ export const ScrollspyAnchors = ({
     <Anchors
       anchors={availableAnchors}
       visibleAnchors={visibleAnchors}
-      anchorClass={anchorClass}
-      visibleAnchorClass={visibleAnchorClass}
+      anchorClassName={anchorClassName}
+      visibleAnchorClassName={visibleAnchorClassName}
       anchorStyle={anchorStyle}
       visibleAnchorStyle={visibleAnchorStyle}
       highlightBarContainerStyle={highlightBarContainerStyle}

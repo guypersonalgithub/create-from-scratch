@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@packages/animation-container": "*",
-    "@packages/number-utils": "*"
+    "@packages/number-utils": "*",
+    "@packages/dynatic-css": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

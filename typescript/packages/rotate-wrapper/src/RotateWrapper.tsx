@@ -1,5 +1,6 @@
 import { useImperativeHandle, useRef, type ReactNode, type RefObject } from "react";
 import { useAnimation } from "@packages/animation-container";
+import { dynatic } from "@packages/dynatic-css";
 
 export type RotateRef = {
   rotate: () => { cancelAnimation: () => void };
@@ -80,7 +81,12 @@ export const RotateWrapper = ({
   }));
 
   return (
-    <div ref={innerRef} style={{ transformStyle: "preserve-3d" }}>
+    <div
+      ref={innerRef}
+      className={dynatic`
+        transform-style: preserve-3d;
+      `}
+    >
       {children}
     </div>
   );

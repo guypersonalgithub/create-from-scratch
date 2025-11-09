@@ -7,7 +7,7 @@ import { SubRouterContext } from "./routerContext";
 import { useSubRouterContext } from "./useSubRouterContext";
 import { IS_SUB_ROUTER } from "./symbols";
 
-export const SubRouter = ({ paths, wrapperStyle }: RouterProps) => {
+export const SubRouter = ({ paths, wrapperClassName, wrapperStyle }: RouterProps) => {
   const { routeParams } = useRouterContext();
   const { shortenedPath, parentPassedPath } = useSubRouterContext();
   const { route, passedPath, basePath } = useGetRouteData({
@@ -23,13 +23,20 @@ export const SubRouter = ({ paths, wrapperStyle }: RouterProps) => {
         passedPath={passedPath}
         paths={paths}
         route={route}
+        wrapperClassName={wrapperClassName}
         wrapperStyle={wrapperStyle}
       />
     </SubRouterContext.Provider>
   );
 };
 
-const RouterContent = ({ passedPath, paths, route, wrapperStyle }: RouterContentProps) => {
+const RouterContent = ({
+  passedPath,
+  paths,
+  route,
+  wrapperClassName,
+  wrapperStyle,
+}: RouterContentProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollFirstOverflowedParentToTop } = useScrollToTheTopManual();
 
@@ -42,7 +49,7 @@ const RouterContent = ({ passedPath, paths, route, wrapperStyle }: RouterContent
   }, [passedPath]);
 
   return (
-    <div ref={ref} style={{ ...wrapperStyle }}>
+    <div ref={ref} className={wrapperClassName} style={wrapperStyle}>
       {route || (paths["404"] as ReactNode) || null}
     </div>
   );

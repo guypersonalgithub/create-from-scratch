@@ -1,6 +1,53 @@
-import { useImperativeHandle, useRef, type RefObject, type CSSProperties } from "react";
+import { useImperativeHandle, useRef, type RefObject } from "react";
 import { useAnimation } from "@packages/animation-container";
-import "./sixSidedDiceRoll.css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "@packages/dynatic-css";
+
+const dotClassName = dynatic`
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  border-radius: 100%;
+  background-color: #f25f5c;
+  box-shadow: inset 2px 2px #d90429;
+`;
+
+const middleDotClassName = dynatic`
+  transform: translate(calc(var(--diceSize) * 4 / 10), calc(var(--diceSize) * 4 / 10));
+`;
+
+const topLeftDotClassName = dynatic`
+  transform: translate(calc(var(--diceSize) / 10), calc(var(--diceSize) / 10));
+`;
+
+const topRightDotClassName = dynatic`
+  transform: translate(calc(var(--diceSize) * 7 / 10), calc(var(--diceSize) / 10));
+`;
+
+const bottomLeftDotClassName = dynatic`
+  transform: translate(calc(var(--diceSize) / 10), calc(var(--diceSize) * 7 / 10));
+`;
+
+const bottomRightDotClassName = dynatic`
+  transform: translate(calc(var(--diceSize) * 7 / 10), calc(var(--diceSize) * 7 / 10));
+`;
+
+const middleLeftDotClassName = dynatic`
+  transform: translate(calc(var(--diceSize) / 10), calc(var(--diceSize) * 4 / 10));
+`;
+
+const middleRightDotClassName = dynatic`
+  transform: translate(calc(var(--diceSize) * 7 / 10), calc(var(--diceSize) * 4 / 10));
+`;
+
+const sideClassName = dynatic`
+  position: absolute;
+  background-color: #ffffff;
+  border-radius: 5px;
+  width: inherit;
+  height: inherit;
+  border: 1px solid #e5e5e5;
+`;
 
 type Results = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -97,40 +144,98 @@ export const SixSidedDiceRoll = ({
     },
   }));
 
+  const middleDotClassNames = combineStringsWithSpaces(dotClassName, middleDotClassName);
+  const topLeftDotClassNames = combineStringsWithSpaces(dotClassName, topLeftDotClassName);
+  const topRightDotClassNames = combineStringsWithSpaces(dotClassName, topRightDotClassName);
+  const bottomLeftDotClassNames = combineStringsWithSpaces(dotClassName, bottomLeftDotClassName);
+  const bottomRightDotClassNames = combineStringsWithSpaces(dotClassName, bottomRightDotClassName);
+
   return (
-    <div className="dice" style={{ "--diceSize": `${size}px` } as CSSProperties} ref={innerRef}>
-      <div className="side firstSide">
-        <div className="dot one-1" />
+    <div
+      className={dynatic`
+        --diceSize: ${size}px;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 1s;
+        height: var(--diceSize);
+        width: var(--diceSize);
+      `}
+      ref={innerRef}
+    >
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            transform: translateZ(calc(var(--diceSize) / 2));
+          `,
+          sideClassName,
+        )}
+      >
+        <div className={middleDotClassNames} />
       </div>
-      <div className="side secondSide">
-        <div className="dot two-1" />
-        <div className="dot two-2" />
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            transform: rotateY(-180deg) translateZ(calc(var(--diceSize) / 2));
+          `,
+          sideClassName,
+        )}
+      >
+        <div className={topLeftDotClassNames} />
+        <div className={bottomRightDotClassNames} />
       </div>
-      <div className="side thirdSide">
-        <div className="dot three-1" />
-        <div className="dot three-2" />
-        <div className="dot three-3" />
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            transform: rotateY(-90deg) translateZ(calc(var(--diceSize) / 2));
+          `,
+          sideClassName,
+        )}
+      >
+        <div className={topLeftDotClassNames} />
+        <div className={middleDotClassNames} />
+        <div className={bottomRightDotClassNames} />
       </div>
-      <div className="side forthSide">
-        <div className="dot four-1" />
-        <div className="dot four-2" />
-        <div className="dot four-3" />
-        <div className="dot four-4" />
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            transform: rotateX(90deg) translateZ(calc(var(--diceSize) / 2));
+          `,
+          sideClassName,
+        )}
+      >
+        <div className={topLeftDotClassNames} />
+        <div className={bottomLeftDotClassNames} />
+        <div className={topRightDotClassNames} />
+        <div className={bottomRightDotClassNames} />
       </div>
-      <div className="side fifthSide">
-        <div className="dot five-1" />
-        <div className="dot five-2" />
-        <div className="dot five-3" />
-        <div className="dot five-4" />
-        <div className="dot five-5" />
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            transform: rotateX(-90deg) translateZ(calc(var(--diceSize) / 2));
+          `,
+          sideClassName,
+        )}
+      >
+        <div className={topLeftDotClassNames} />
+        <div className={bottomLeftDotClassNames} />
+        <div className={topRightDotClassNames} />
+        <div className={bottomRightDotClassNames} />
+        <div className={middleDotClassNames} />
       </div>
-      <div className="side sixthSide">
-        <div className="dot six-1" />
-        <div className="dot six-2" />
-        <div className="dot six-3" />
-        <div className="dot six-4" />
-        <div className="dot six-5" />
-        <div className="dot six-6" />
+      <div
+        className={combineStringsWithSpaces(
+          dynatic`
+            transform: rotateY(90deg) translateZ(calc(var(--diceSize) / 2));
+          `,
+          sideClassName,
+        )}
+      >
+        <div className={topLeftDotClassNames} />
+        <div className={combineStringsWithSpaces(dotClassName, middleLeftDotClassName)} />
+        <div className={bottomLeftDotClassNames} />
+        <div className={topRightDotClassNames} />
+        <div className={combineStringsWithSpaces(dotClassName, middleRightDotClassName)} />
+        <div className={bottomRightDotClassNames} />
       </div>
     </div>
   );

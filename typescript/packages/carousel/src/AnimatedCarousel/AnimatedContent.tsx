@@ -2,6 +2,7 @@ import { type Dispatch, type RefObject, type SetStateAction } from "react";
 import { type AnimatedCarouselProps } from "./types";
 import { CarouselContent } from "../CarouselContent";
 import { AnimationContainerWrapper } from "@packages/animation-container";
+import { dynatic } from "@packages/dynatic-css";
 
 type AnimatedContentProps = Omit<
   AnimatedCarouselProps,
@@ -23,6 +24,7 @@ type AnimatedContentProps = Omit<
 
 export const AnimatedContent = ({
   contentRef,
+  className,
   style,
   items,
   displayArrows,
@@ -47,6 +49,7 @@ export const AnimatedContent = ({
   return (
     <CarouselContent
       contentRef={contentRef}
+      className={className}
       style={style}
       items={items}
       stage={stage}
@@ -114,23 +117,23 @@ export const AnimatedContent = ({
       displayIndicators={displayIndicators}
     >
       <div
-        style={{
-          overflow: "hidden",
-          height: "inherit",
-          position: "relative",
-          width: "inherit",
-        }}
+        className={dynatic`
+          overflow: hidden;
+          height: inherit;
+          position: relative;
+          width: inherit;
+        `}
       >
         <AnimationContainerWrapper
           changeMethod="gradual"
-          style={{
-            width: "inherit",
-            height: "inherit",
-            position: "absolute",
-          }}
-          styleOnceAnimating={{
-            transform: transformToTheRight,
-          }}
+          className={dynatic`
+            width: inherit;
+            height: inherit;
+            position: absolute;  
+          `}
+          classNameOnceAnimating={dynatic`
+            transform: ${transformToTheRight};
+          `}
           onMount={[{ transform: transformToTheRight }, { transform: "translateX(0%)" }]}
           onUnmount={[
             { transform: "translateX(0%)" },

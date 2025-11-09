@@ -1,14 +1,15 @@
 import { Breadcrumbs, type BreadcrumbsProps } from "@packages/breadcrumbs";
 import { useParsePathname } from "@packages/hooks";
 import { usePath } from "@packages/router";
-import { capitalizeFirstChar } from "@packages/string-utils";
+import { capitalizeFirstChar, combineStringsWithSpaces } from "@packages/string-utils";
+import { dynatic } from "../dynatic-css.config";
 
-type StyledBreadcrumbsProps = Omit<BreadcrumbsProps, "onClick">;
+type StyledBreadcrumbsProps = Omit<BreadcrumbsProps, "style" | "currentCrumbStyle" | "onClick">;
 
 export const StyledBreadcrumbs = ({
   crumbs,
-  style,
-  currentCrumbStyle,
+  className,
+  currentCrumbClassName,
   ...rest
 }: StyledBreadcrumbsProps) => {
   const { paths } = useParsePathname();
@@ -34,21 +35,28 @@ export const StyledBreadcrumbs = ({
           };
         }),
       ]}
-      style={{ height: "30px", ...style }}
-      currentCrumbStyle={{
-        border: "none",
-        background: "none",
-        color: "white",
-        fontWeight: "bolder",
-        ...currentCrumbStyle,
-      }}
-      clickableCrumbsStyle={{
-        border: "none",
-        background: "none",
-        cursor: "pointer",
-        color: "#5662F6",
-        fontWeight: "bolder",
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          height: 30px;
+        `,
+        className,
+      )}
+      currentCrumbClassName={combineStringsWithSpaces(
+        dynatic`
+          border: none;
+          background: none;
+          color: white;
+          font-weight: bolder;
+        `,
+        currentCrumbClassName,
+      )}
+      clickableCrumbClassName={dynatic`
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: #5662F6;
+        font-weight: bolder;
+      `}
       onClick={({ crumb }) => {
         moveTo({ pathname: crumb });
       }}

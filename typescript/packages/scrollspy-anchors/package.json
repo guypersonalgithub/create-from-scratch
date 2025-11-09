@@ -11,7 +11,8 @@
     "@packages/string-utils": "*",
     "@packages/element-utils": "*",
     "@packages/animation-container": "*",
-    "@packages/randomizer": "*"
+    "@packages/randomizer": "*",
+    "@packages/dynatic-css": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

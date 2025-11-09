@@ -1,13 +1,19 @@
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
+import { dynatic } from "../../../../dynatic-css.config";
 
 export const LimitLaws = () => {
   return (
     <div>
       <StyledMainTitle>Limit laws</StyledMainTitle>
       <StyledSubTitle>Addition between limits:</StyledSubTitle>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          flex-wrap: wrap;
+        `}
+      >
         <div>Let's assume that we have two functions with defined limits on value a:</div>
         <MathML input="lim(x→a)f(x) = 4" isAnExpression />
         <div>, and</div>
@@ -27,7 +33,12 @@ export const LimitLaws = () => {
         <div>.</div>
       </div>
       <StyledSubTitle>Substraction between limits:</StyledSubTitle>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          flex-wrap: wrap;
+        `}
+      >
         <div>
           Similarly to addition, substraction works the same. That's why, the substraction between
         </div>
@@ -39,7 +50,12 @@ export const LimitLaws = () => {
         <div>as one would expect.</div>
       </div>
       <StyledSubTitle>Multiplication between limits:</StyledSubTitle>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          flex-wrap: wrap;
+        `}
+      >
         <div>Once again, similarly to the previous examples, multiplication works the same.</div>
         <div>The multiplication between</div>
         <MathML input="lim(x→a)f(x)" />
@@ -50,7 +66,13 @@ export const LimitLaws = () => {
         <div>.</div>
       </div>
       <StyledSubTitle>Division between limits:</StyledSubTitle>
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+        `}
+      >
         <div>
           Unlike the previous rules, division between limits is a bit different. If, for instance,
           we would like to divide between
@@ -72,7 +94,12 @@ export const LimitLaws = () => {
         <div>is:</div>
         <MathML input="lim(x→a)(f(x))/(g(x)) = 4/7" isAnExpression />
         <div>.</div>
-        <div style={{ display: "flex", gap: "3px" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            gap: 3px;
+          `}
+        >
           <div>For division between limits where the denominator is equal to 0, head to the</div>
           <StyledLink pathname="/math/calculus/limit/limits-of-quotients">
             limits of quotients
@@ -89,7 +116,12 @@ export const LimitLaws = () => {
         Because of that, we can assess the following example if both f(x) and g(x) are continuous
         everywhere:
       </div>
-      <div style={{ display: "flex", gap: "3px" }}>
+      <div
+        className={dynatic`
+            display: flex;
+            gap: 3px;
+          `}
+      >
         <MathML input="f(x) = 4" isAnExpression />
         <div>, and</div>
         <MathML input="g(x) = 7" isAnExpression />
@@ -106,7 +138,12 @@ export const LimitLaws = () => {
         Similarly to addition, substraction also works the same, and the substraction between two
         functions that are continuous everywhere, is also <b>continuous everywhere</b>:
       </div>
-      <div style={{ display: "flex", gap: "3px" }}>
+      <div
+        className={dynatic`
+            display: flex;
+            gap: 3px;
+          `}
+      >
         <MathML input="f(x) = 4" isAnExpression />
         <div>, and</div>
         <MathML input="g(x) = 7" isAnExpression />
@@ -119,7 +156,12 @@ export const LimitLaws = () => {
         And the same goes for multiplication, and the multiplication between two functions that are
         continuous everywhere is also <b>continous everywhere</b>:
       </div>
-      <div style={{ display: "flex", gap: "3px" }}>
+      <div
+        className={dynatic`
+            display: flex;
+            gap: 3px;
+          `}
+      >
         <MathML input="f(x) = 4" isAnExpression />
         <div>, and</div>
         <MathML input="g(x) = 7" isAnExpression />
@@ -132,7 +174,13 @@ export const LimitLaws = () => {
         Like regular limit laws, as long as the denominator isn't equal to zero, the division
         between two functions that are continuous everywhere is continuous <b>where its defined</b>:
       </div>
-      <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 3px;
+          align-items: center;
+        `}
+      >
         <MathML input="f(x) = 4" isAnExpression />
         <div>, and</div>
         <MathML input="g(x) = 7" isAnExpression />
@@ -151,18 +199,38 @@ export const LimitLaws = () => {
       <StyledSubTitle>
         The sum of functions that have discontinuity won't necessarily have a discontinuity aswell:
       </StyledSubTitle>
-      <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 3px;
+          align-items: center;
+          flex-wrap: wrap;
+        `}
+      >
         <div>For instance:</div>
         <MathML input="f(x) = 1/x" isAnExpression />
         <div>and</div>
         <MathML input="g(x) = -1/x" isAnExpression />
-        <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+        <div
+          className={dynatic`
+          display: flex;
+          gap: 3px;
+          align-items: center;
+        `}
+        >
           <div>which means that both have a discontinuity at x = 0, yet</div>
           <MathML input="h(x) = f(x) + g(x)" isAnExpression />
           <div>would be 0 which is continuous.</div>
         </div>
       </div>
-      <div style={{ display: "flex", gap: "3px", alignContent: "center", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 3px;
+          align-items: center;
+          flex-wrap: wrap;
+        `}
+      >
         <div>For example we can tell that the following function:</div>
         <MathML input="sin(x^2+1)" />
         <div>is continuous everywhere, becaues both sin and</div>

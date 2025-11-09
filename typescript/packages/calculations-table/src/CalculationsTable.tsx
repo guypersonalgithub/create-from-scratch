@@ -1,51 +1,56 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { Table } from "@packages/table";
 import { EllipsisTooltip } from "@packages/tooltip";
-import { type CSSProperties } from "react";
 
 type CalculationsTableProps<T extends string> = {
   columns: T[];
   data: Array<Record<T, number | string>>;
-  headerContainerStyle?: CSSProperties;
+  headerContainerClassName?: string;
 };
 
 export const CalculationsTable = <T extends string>({
   columns,
   data,
-  headerContainerStyle = {},
+  headerContainerClassName,
 }: CalculationsTableProps<T>) => {
   return (
     <Table
-      containerStyle={{ width: "fit-content" }}
-      headerContainer={{
-        backgroundColor: "#242424",
-        borderBottom: "1px solid #383232",
-        paddingLeft: "10px",
-        paddingRight: "10px",
-        ...headerContainerStyle,
-      }}
-      rowContainer={{
-        height: "100%",
-      }}
+      containerClassName={dynatic`
+        width: fit-content;
+      `}
+      headerContainerClassName={combineStringsWithSpaces(
+        dynatic`
+          background-color: #242424;
+          border-bottom: 1px solid #383232;
+          padding-left: 10px;
+          padding-right: 10px;
+        `,
+        headerContainerClassName,
+      )}
+      rowContainerClassName={dynatic`
+        height: 100%;  
+      `}
       rows={{
         dataRow: {
           size: 35,
         },
       }}
-      dataRowStyle={() => {
-        return {
-          paddingLeft: "10px",
-          paddingRight: "10px",
-        };
+      dataRowClassName={() => {
+        return dynatic`
+          padding-left: 10px;
+          padding-right: 10px;
+        `;
       }}
-      columnStyle={(index) => {
+      columnClassName={(index) => {
         if (index === 0) {
           return;
         }
 
-        return {
-          borderLeft: "1px solid #383232",
-          paddingLeft: "10px",
-        };
+        return dynatic`
+          border-left: 1px solid #383232;
+          padding-left: 10px;
+        `;
       }}
       columns={columns.map((column) => {
         return {

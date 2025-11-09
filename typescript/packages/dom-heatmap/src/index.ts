@@ -1,1 +1,1 @@
-export * from "./DomHeatmap";
+export * from "./DOMHeatmap";

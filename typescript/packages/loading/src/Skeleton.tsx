@@ -1,6 +1,9 @@
-import "./styles.css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
+import "./Skeleton.styles.css";
+import { dynatic } from "@packages/dynatic-css";
 
 type SkeletonProps = {
+  className?: string;
   height?: number | `${number}%`;
   width?: number | `${number}%`;
   borderRadius?: number;
@@ -8,6 +11,7 @@ type SkeletonProps = {
 };
 
 export const Skeleton = ({
+  className,
   height = 0,
   width = 0,
   borderRadius = 4,
@@ -15,13 +19,35 @@ export const Skeleton = ({
 }: SkeletonProps) => {
   return (
     <div
-      style={{
-        height: typeof height === "string" && height.includes("%") ? height : `${height}px`,
-        width: typeof width === "string" && width.includes("%") ? width : `${width}px`,
-        borderRadius: `${borderRadius}px`,
-        backgroundColor,
-      }}
-      className="skeleton"
+      className={combineStringsWithSpaces(
+        dynatic`
+          -webkit-animation: flicker 3s infinite ease-in-out;
+          animation: flicker 3s infinite ease-in-out;
+        `,
+        typeof height === "string" && height.includes("%")
+          ? dynatic`
+              height: ${height};
+            `
+          : dynatic`
+              height: ${height}px;
+            `,
+        typeof width === "string" && width.includes("%")
+          ? dynatic`
+              width: ${width};
+            `
+          : dynatic`
+              width: ${width}px;
+            `,
+        borderRadius &&
+          dynatic`
+            border-radius: ${borderRadius}px; 
+          `,
+        backgroundColor &&
+          dynatic`
+            background-color: ${backgroundColor};
+          `,
+        className,
+      )}
     />
   );
 };

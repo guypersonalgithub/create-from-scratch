@@ -1,5 +1,6 @@
 import { CopyToClipboard } from "@packages/copy-to-clipboard";
 import { type SupportedLanguages } from "./languages";
+import { dynatic } from "@packages/dynatic-css";
 
 type TopRightSectionProps = {
   code: string;
@@ -19,10 +20,23 @@ export const TopRightSection = ({
   }
 
   return (
-    <div style={{ position: "absolute", right: "10px", display: "flex", alignItems: "center" }}>
+    <div
+      className={dynatic`
+        position: absolute;
+        right: 10px;
+        display: flex;
+        align-items: center;
+      `}
+    >
       {displayLanguage ? <div>{language}</div> : null}
       {copyToClipboard ? (
-        <CopyToClipboard textToCopy={code} withIcons style={{ color: "white" }} />
+        <CopyToClipboard
+          textToCopy={code}
+          withIcons
+          className={dynatic`
+            color: white;
+          `}
+        />
       ) : null}
     </div>
   );

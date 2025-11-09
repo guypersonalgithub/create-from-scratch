@@ -10,6 +10,10 @@ on:
     paths:
       - typescript/packages/input/**
       - typescript/packages/loading/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

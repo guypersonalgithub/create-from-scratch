@@ -1,14 +1,8 @@
-import { useBreakpoints } from "../../breakpoints";
 import { DisplayCard } from "../../customizedComponents";
 import { Bidirectional, Download, Thunder } from "@packages/icons";
 import { dynatic } from "../../dynatic-css.config";
 
 export const EverythingYouNeed = () => {
-  const { useGetBreakpoint } = useBreakpoints();
-  const { breakpoint } = useGetBreakpoint({ updateOn: ["desktop", "mediumDesktop", "tablet"] });
-  const isDesktop = breakpoint === "desktop";
-  const isntMediumDesktop = breakpoint !== "mediumDesktop";
-
   return (
     <div
       className={dynatic`
@@ -17,10 +11,11 @@ export const EverythingYouNeed = () => {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+
+        ${(config) => config.utils.widthMediaQuery({ to: "800px" })} {
+          margin-bottom: 50px;
+        }
       `}
-      style={{
-        marginBottom: !isDesktop && isntMediumDesktop ? "50px" : undefined,
-      }}
     >
       <div
         className={dynatic`
@@ -68,10 +63,12 @@ export const EverythingYouNeed = () => {
           justify-content: space-between;
           max-width: 1200px;
           margin: 0 auto;
+          flex-direction: row;
+
+          ${(config) => config.utils.widthMediaQuery({ to: "1300px" })} {
+            flex-direction: column;
+          }
         `}
-        style={{
-          flexDirection: isDesktop ? "row" : "column",
-        }}
       >
         <DisplayCard
           icon={

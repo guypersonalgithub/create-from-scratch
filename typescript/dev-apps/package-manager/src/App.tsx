@@ -5,20 +5,33 @@ import { NotFound } from "./routes/NotFound";
 import { MainRoute } from "./routes/MainRoute";
 import { ToastManager } from "@packages/toast";
 import { SpecificDependency } from "./routes/SpecificDependency";
-import { Testing } from "./routes/Testing";
 import { TriggerPopperManager } from "@packages/trigger-popper";
 import { MinimizableSidebar } from "@packages/sidebar";
 import { AutoCompleteInput } from "@packages/auto-complete-input";
 import { useFetchDependencies } from "./useFetchDependencies";
 import { useMoveToSpecificDependencyPage } from "./routes/useMoveToSpecificDependencyPage";
+import { dynatic } from "@packages/dynatic-css";
 
 const App = () => {
   return (
     <>
-      <div style={{ width: "100%", height: "100vh", display: "flex", overflow: "hidden" }}>
+      <div
+        className={dynatic`
+          width: 100%;
+          height: 100vh;
+          display: flex;
+          overflow: hidden;
+        `}
+      >
         <MinimizableSidebar
           title={
-            <span style={{ width: "fit-content", fontSize: "26px", fontWeight: "bold" }}>
+            <span
+              className={dynatic`
+                width: fit-content;
+                font-size: 26px;
+                font-weight: bold;
+              `}
+            >
               Dependensee
             </span>
           }
@@ -26,33 +39,46 @@ const App = () => {
           onLinkClick={() => console.log("?")}
           openedWidth={200}
           closedWidth={50}
-          containerStyle={{ borderTopRightRadius: "0px" }}
+          containerClassName={dynatic`
+            border-top-right-radius: 0;  
+          `}
         />
-        <div style={{ width: "100%", overflow: "auto" }}>
+        <div
+          className={dynatic`
+            width: 100%;
+            overflow: auto;
+          `}
+        >
           <div
-            style={{
-              position: "relative",
-              display: "flex",
-              justifyContent: "end",
-              paddingRight: "10px",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              height: "30px",
-              backgroundColor: "#1f1616",
-            }}
+            className={dynatic`
+              position: relative;
+              display: flex;
+              justify-content: end;
+              padding-right: 10px;
+              padding-top: 10px;
+              padding-bottom: 10px;
+              height: 30px;
+              background-color: #1f1616;
+            `}
           >
-            <div style={{ position: "fixed", zIndex: "3" }}>
+            <div
+              className={dynatic`
+                position: fixed;
+                z-index: 3;
+              `}
+            >
               <AutoComplete />
             </div>
           </div>
           <Router
-            wrapperStyle={{ margin: "20px" }}
+            wrapperClassName={dynatic`
+              margin: 20px;
+            `}
             paths={{
               "/": <MainRoute />,
               "/dependency": {
                 "/:dependency": <SpecificDependency />,
               },
-              "/testing": <Testing />,
               "404": <NotFound />,
             }}
           />
@@ -80,7 +106,11 @@ const AutoComplete = () => {
   });
 
   return (
-    <div style={{ width: "200px" }}>
+    <div
+      className={dynatic`
+        width: 200px;
+      `}
+    >
       <AutoCompleteInput
         debounceDelay={300}
         autocompleteOptionsCallback={(text) => {
@@ -92,18 +122,23 @@ const AutoComplete = () => {
         }}
         callback={(option) => moveToDependencyPage({ name: option.label })}
         isLoading={isLoading}
-        inputWrapperStyle={{
-          borderTopLeftRadius: "10px",
-          borderTopRightRadius: "10px",
-          borderBottomLeftRadius: "0px",
-          borderBottomRightRadius: "0px",
-          height: "30px",
-          alignItems: "center",
-        }}
+        inputWrapperClassName={dynatic`
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          height: 30px;
+          align-items: center;  
+        `}
         inputPlaceholder="Search"
         optionContent={({ result }) => {
           return (
-            <EllipsisTooltip content={result.label} style={{ width: "175px" }}>
+            <EllipsisTooltip
+              content={result.label}
+              className={dynatic`
+                width: 175px;
+              `}
+            >
               {result.label}
             </EllipsisTooltip>
           );

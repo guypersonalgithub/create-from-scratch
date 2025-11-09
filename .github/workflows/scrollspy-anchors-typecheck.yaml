@@ -18,6 +18,8 @@ on:
       - typescript/packages/array-utils/**
       - typescript/packages/object-utils/**
       - typescript/packages/parse-typescript/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/randomizer/**
 jobs:
   Typecheck:

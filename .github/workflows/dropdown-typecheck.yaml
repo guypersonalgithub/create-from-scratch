@@ -11,6 +11,10 @@ on:
       - typescript/packages/dropdown/**
       - typescript/packages/input/**
       - typescript/packages/loading/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
+      - typescript/packages/string-utils/**
+      - typescript/packages/regex/**
       - typescript/packages/virtual-list/**
       - typescript/packages/hooks/**
 jobs:

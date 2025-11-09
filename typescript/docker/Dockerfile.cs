@@ -8,6 +8,8 @@ COPY ./packages/mathml/package.json ./packages/mathml/package.json
 COPY ./packages/math-parser/package.json ./packages/math-parser/package.json
 COPY ./packages/string-utils/package.json ./packages/string-utils/package.json
 COPY ./packages/regex/package.json ./packages/regex/package.json
+COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
+COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./packages/router/package.json ./packages/router/package.json
 COPY ./packages/utils/package.json ./packages/utils/package.json
 COPY ./packages/url/package.json ./packages/url/package.json
@@ -36,8 +38,6 @@ COPY ./packages/pagination/package.json ./packages/pagination/package.json
 COPY ./packages/copy-to-clipboard/package.json ./packages/copy-to-clipboard/package.json
 COPY ./packages/calculations-table/package.json ./packages/calculations-table/package.json
 COPY ./packages/title/package.json ./packages/title/package.json
-COPY ./packages/dynatic-css/package.json ./packages/dynatic-css/package.json
-COPY ./packages/dynatic-css-utils/package.json ./packages/dynatic-css-utils/package.json
 COPY ./packages/syntax-highlighter/package.json ./packages/syntax-highlighter/package.json
 COPY ./packages/parse-yaml/package.json ./packages/parse-yaml/package.json
 COPY ./packages/ui-theme/package.json ./packages/ui-theme/package.json
@@ -68,6 +68,8 @@ COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/router ./packages/router
 COPY ./packages/utils ./packages/utils
 COPY ./packages/url ./packages/url
@@ -96,8 +98,6 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
@@ -129,6 +129,8 @@ COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/router ./packages/router
 COPY ./packages/utils ./packages/utils
 COPY ./packages/url ./packages/url
@@ -157,8 +159,6 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme
@@ -190,6 +190,8 @@ COPY ./packages/mathml ./packages/mathml
 COPY ./packages/math-parser ./packages/math-parser
 COPY ./packages/string-utils ./packages/string-utils
 COPY ./packages/regex ./packages/regex
+COPY ./packages/dynatic-css ./packages/dynatic-css
+COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/router ./packages/router
 COPY ./packages/utils ./packages/utils
 COPY ./packages/url ./packages/url
@@ -218,8 +220,6 @@ COPY ./packages/pagination ./packages/pagination
 COPY ./packages/copy-to-clipboard ./packages/copy-to-clipboard
 COPY ./packages/calculations-table ./packages/calculations-table
 COPY ./packages/title ./packages/title
-COPY ./packages/dynatic-css ./packages/dynatic-css
-COPY ./packages/dynatic-css-utils ./packages/dynatic-css-utils
 COPY ./packages/syntax-highlighter ./packages/syntax-highlighter
 COPY ./packages/parse-yaml ./packages/parse-yaml
 COPY ./packages/ui-theme ./packages/ui-theme

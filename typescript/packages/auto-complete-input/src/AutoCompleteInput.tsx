@@ -2,6 +2,7 @@ import { type BaseTypeaheadOption, Typeahead, type TypeaheadProperties } from "@
 import { useDebounce } from "@packages/hooks";
 import { MagnifyingGlass } from "@packages/icons";
 import { type CSSProperties, useRef, useState } from "react";
+import { dynatic } from "@packages/dynatic-css";
 
 type AutoCompleteInputProps<T extends BaseTypeaheadOption> = Pick<
   TypeaheadProperties<T>,
@@ -11,6 +12,7 @@ type AutoCompleteInputProps<T extends BaseTypeaheadOption> = Pick<
   autocompleteOptionsCallback: (text: string) => T[];
   callback: (text: T) => void;
   isLoading?: boolean;
+  inputWrapperClassName?: string;
   inputWrapperStyle?: CSSProperties;
   inputPlaceholder?: string;
   clearInputOnPick?: boolean;
@@ -21,6 +23,7 @@ export const AutoCompleteInput = <T extends BaseTypeaheadOption>({
   autocompleteOptionsCallback,
   callback,
   isLoading,
+  inputWrapperClassName,
   inputWrapperStyle,
   inputPlaceholder,
   optionContainerStyle,
@@ -71,7 +74,15 @@ export const AutoCompleteInput = <T extends BaseTypeaheadOption>({
       }}
       callback={callback}
       isLoading={innerIsLoading}
-      customInputPrefix={<MagnifyingGlass width={22} style={{ color: "black" }} />}
+      customInputPrefix={
+        <MagnifyingGlass
+          width={22}
+          className={dynatic`
+            color: black;
+          `}
+        />
+      }
+      inputWrapperClassName={inputWrapperClassName}
       inputWrapperStyle={inputWrapperStyle}
       inputPlaceholder={inputPlaceholder}
       optionContainerStyle={optionContainerStyle}

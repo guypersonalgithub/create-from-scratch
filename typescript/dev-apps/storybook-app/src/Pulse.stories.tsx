@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Pulse } from "@packages/pulse";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "Pulse",
@@ -21,7 +22,15 @@ export const RegularPulse: Story = {
 
 export const CircularPulse: Story = {
   args: {
-    children: <div style={{ borderRadius: "100%", width: "50px", height: "50px" }} />,
+    children: (
+      <div
+        className={dynatic`
+          border-radius: 100%;
+          width: 50px;
+          height: 50px;
+        `}
+      />
+    ),
     pulseColor: "red",
   },
   render: (args) => {

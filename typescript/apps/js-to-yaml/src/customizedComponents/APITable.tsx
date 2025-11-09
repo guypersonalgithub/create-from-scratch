@@ -2,7 +2,6 @@ import { Table } from "@packages/table";
 import { EllipsisTooltip, Tooltip } from "@packages/tooltip";
 import { Badge } from "@packages/badge";
 import { ExclamationCircle, QuestionCircle } from "@packages/icons";
-import { useUITheme } from "../UIThemes";
 import { dynatic } from "@packages/dynatic-css";
 
 type APITableRow = {
@@ -18,12 +17,13 @@ type APITableProps = {
 };
 
 export const APITable = ({ data }: APITableProps) => {
-  const { currentTheme } = useUITheme();
-  const isLight = currentTheme === "light";
-
   return (
     <Table
-      rowContainer={{ display: "flex", flexDirection: "column", gap: "8px" }}
+      rowContainerClassName={dynatic`
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      `}
       columns={[
         {
           header: "Name",
@@ -41,12 +41,20 @@ export const APITable = ({ data }: APITableProps) => {
 
             return (
               <Badge
-                style={{ gap: "4px", height: undefined }}
-                variant={isLight ? "info" : "success"}
+                className={dynatic`
+                  gap: 4px;
+                  height: fit-content;
+                `}
+                variant="info"
                 size="sm"
               >
                 {isMandatory ? (
-                  <Tooltip content="Mandatory property" style={{ display: "flex" }}>
+                  <Tooltip
+                    content="Mandatory property"
+                    className={dynatic`
+                      display: flex;
+                    `}
+                  >
                     <ExclamationCircle
                       className={dynatic`
                         width: 14px;
@@ -55,7 +63,12 @@ export const APITable = ({ data }: APITableProps) => {
                     />
                   </Tooltip>
                 ) : (
-                  <Tooltip content="Optional property" style={{ display: "flex" }}>
+                  <Tooltip
+                    content="Optional property"
+                    className={dynatic`
+                      display: flex;
+                    `}
+                  >
                     <QuestionCircle
                       className={dynatic`
                         width: 14px;

@@ -10,6 +10,7 @@ export const AutomaticTooltip = ({
   side,
   offset,
   distanceFromViewport,
+  className,
   style,
   children,
 }: Omit<TooltipProps, "isEllipsizedCallback">) => {
@@ -34,7 +35,7 @@ export const AutomaticTooltip = ({
   }, [isDisabled]);
 
   return (
-    <TooltipContent ref={ref} intersectionRefs={intersectionRefs} id={id} style={style}>
+    <TooltipContent ref={ref} intersectionRefs={intersectionRefs} id={id} className={className} style={style}>
       {children}
     </TooltipContent>
   );

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, type ReactElement, type CSSProperties } from "react";
 import { type AnimationContainerWrapperProps } from "./types";
 import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type AnimationWrapperProps = Omit<AnimationContainerWrapperProps, "children" | "changeMethod"> & {
   index: number;
@@ -23,7 +24,9 @@ export const AnimationWrapper = ({
   onUnmountAnimationStart,
   onUnmountAnimationEnd,
   clearLifeCycleAnimationOnExitRef,
+  className,
   style = {},
+  classNameOnceAnimating,
   styleOnceAnimating = {},
   disableLifeCycleAnimations,
   externalRef,
@@ -35,7 +38,7 @@ export const AnimationWrapper = ({
   const previousLifeCycleAnimationRefs = useRef<Animation[]>([]);
   const initialized = useRef(false);
   const stoppedFrame = useRef<number>(0);
-  const lastFrameProperties = useRef<CSSProperties>({});
+  // const lastFrameProperties = useRef<CSSProperties>({});
 
   clearLifeCycleAnimationOnExitRef.current[index] = () => {
     lifeCycleAnimationRef.current?.cancel();
@@ -161,10 +164,14 @@ export const AnimationWrapper = ({
           externalRef.current = ref;
         }
       }}
+      className={combineStringsWithSpaces(
+        className,
+        !disabledMountAnimationOnInit && classNameOnceAnimating,
+      )}
       style={{
         ...style,
         ...(!disabledMountAnimationOnInit ? styleOnceAnimating : {}),
-        ...lastFrameProperties.current,
+        // ...lastFrameProperties.current,
       }}
     >
       {children}

@@ -1,6 +1,4 @@
 import { Router } from "@packages/router";
-import { UIThemeProvider } from "@packages/ui-theme";
-import { customThemes } from "./UIThemes";
 import { Main } from "./routes/main/Main";
 import { Layout } from "./components/Layout";
 import { TooltipManager } from "@packages/tooltip";
@@ -18,13 +16,6 @@ import { breakpoints } from "./breakpoints";
 const App = () => {
   return (
     <BreakpointsProvider breakpoints={breakpoints}>
-      <UIThemeProvider
-        themes={customThemes}
-        style={{
-          transition:
-            "color 0.5s ease, background-color 0.5s ease, border 0.5s ease, opacity 0.5s ease",
-        }}
-      >
         <Layout>
           <Header />
           <Router
@@ -41,7 +32,6 @@ const App = () => {
         <TooltipManager />
         <ModalManager />
         <PopoverManager />
-      </UIThemeProvider>
     </BreakpointsProvider>
   );
 };

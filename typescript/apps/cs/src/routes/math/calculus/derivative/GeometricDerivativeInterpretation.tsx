@@ -2,6 +2,7 @@ import { MathML, unicodes } from "@packages/mathml";
 import { Table } from "@packages/table";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
+import { dynatic } from "../../../../dynatic-css.config";
 
 export const GeometricDerivativeInterpretation = () => {
   return (
@@ -10,7 +11,12 @@ export const GeometricDerivativeInterpretation = () => {
       <div>
         Following the description in{" "}
         <StyledLink pathname="/math/tangent-line">Tangent line</StyledLink>
-        <div style={{ display: "flex", gap: "3px" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            gap: 3px;
+          `}
+        >
           we can find the slope of a tangent(m) line with calculus as{" "}
           <MathML input="m = f'(a)" isAnExpression />.
         </div>
@@ -30,7 +36,12 @@ export const GeometricDerivativeInterpretation = () => {
         input={`${unicodes.javascript.capitalDelta}y = ${unicodes.javascript.capitalDelta}f`}
         isAnExpression
       />
-      <div style={{ display: "flex", gap: "3px" }}>
+      <div
+        className={dynatic`
+            display: flex;
+            gap: 3px;
+          `}
+      >
         <MathML
           input={`(${unicodes.javascript.capitalDelta}f)/(${unicodes.javascript.capitalDelta}t) = (f(b) - f(a))/(b - a)`}
           isAnExpression
@@ -39,33 +50,35 @@ export const GeometricDerivativeInterpretation = () => {
       </div>
       <div>The closer the points get, the closer the secant line becomes to the tangent line.</div>
       <Table
-        containerStyle={{ width: "fit-content" }}
-        headerContainer={{
-          backgroundColor: "#242424",
-          borderBottom: "1px solid #383232",
-          paddingLeft: "10px",
-          paddingRight: "10px",
-        }}
+        containerClassName={dynatic`
+          width: fit-content;
+        `}
+        headerContainerClassName={dynatic`
+          background-color: #242424;
+          border-bottom: 1px solid #383232;
+          padding-left: 10px;
+          padding-right: 10px;
+        `}
         rows={{
           dataRow: {
             size: 50,
           },
         }}
-        dataRowStyle={() => {
-          return {
-            paddingLeft: "10px",
-            paddingRight: "10px",
-          };
+        dataRowClassName={() => {
+          return dynatic`
+            padding-left: 10px;
+            padding-right: 10px;
+          `;
         }}
-        columnStyle={(index) => {
+        columnClassName={(index) => {
           if (index === 0) {
             return;
           }
 
-          return {
-            borderLeft: "1px solid #383232",
-            paddingLeft: "10px",
-          };
+          return dynatic`
+            border-left: 1px solid #383232;
+            padding-left: 10px;
+          `;
         }}
         columns={[
           {
@@ -86,11 +99,28 @@ export const GeometricDerivativeInterpretation = () => {
             header: "",
             cell: () => {
               return (
-                <div style={{ position: "relative" }}>
-                  <div style={{ position: "absolute", fontSize: "40px", top: -40 }}>
+                <div
+                  className={dynatic`
+                  position: relative;
+                `}
+                >
+                  <div
+                    className={dynatic`
+                      position: absolute;
+                      font-size: 40px;
+                      top: -40px;
+                    `}
+                  >
                     {unicodes.javascript.arrow}
                   </div>
-                  <div style={{ position: "absolute", top: 0, fontSize: "13px", left: "5px" }}>
+                  <div
+                    className={dynatic`
+                      position: absolute;
+                      top: 0;
+                      font-size: 13px;
+                      left: 5px;
+                    `}
+                  >
                     b{unicodes.javascript.arrow}a
                   </div>
                 </div>
@@ -137,7 +167,12 @@ export const GeometricDerivativeInterpretation = () => {
         The slope of a tangent line which is known as the derivative{" "}
         <b>only exists if the tangent line exists</b>.
       </div>
-      <div style={{ display: "flex", gap: "3px" }}>
+      <div
+        className={dynatic`
+            display: flex;
+            gap: 3px;
+          `}
+      >
         <div>For example:</div>
         <MathML input="f(x) = |x|" isAnExpression />
         <div>
@@ -201,7 +236,13 @@ export const GeometricDerivativeInterpretation = () => {
         in the derivative being undefined).
       </div>
       <div>The only case that happens is for vertical tangent lines.</div>
-      <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 5px;
+          align-items: center;
+        `}
+      >
         <div>For example:</div>
         <MathML input="f(x) = root(x,3)" isAnExpression />
         <div>

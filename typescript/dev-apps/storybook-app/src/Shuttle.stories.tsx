@@ -1,6 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { Shuttle } from "@packages/shuttle";
 import { useState } from "react";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "Shuttle",
@@ -22,7 +23,11 @@ export const Primary = {
     const [selected, setSelected] = useState<string[]>([]);
 
     return (
-      <div style={{ padding: 20 }}>
+      <div
+        className={dynatic`
+          padding: 20px;
+        `}
+      >
         <h2>Custom Shuttle Example</h2>
         <Shuttle items={allItems} selectedIds={selected} onChange={setSelected} />
         <pre>{JSON.stringify(selected, null, 2)}</pre>

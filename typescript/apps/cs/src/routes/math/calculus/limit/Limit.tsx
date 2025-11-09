@@ -7,6 +7,7 @@ import { LimitsOfQuotients } from "./LimitsOfQuotients";
 import { LimitsThatAreInfinite } from "./LimitsThatAreInfinite";
 import { StyledLinksContainer } from "../../../../styledComponents/StyledLinksContainer";
 import { useStickSubRouterLinksToTop } from "../../../../useStickSubRouterLinksToTop";
+import { dynatic } from "../../../../dynatic-css.config";
 
 export const Limit = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -15,7 +16,10 @@ export const Limit = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[
           { path: "/math/calculus/limit/laws", children: "Limit laws" },
           { path: "/math/calculus/limit/limits-of-quotients", children: "Limits of quotients" },
@@ -111,7 +115,12 @@ export const Limit = () => {
               <div>Then:</div>
               <MathML input="lim(x→a)f(x) = L" isAnExpression />
               <StyledSubTitle>Formal definition:</StyledSubTitle>
-              <div style={{ display: "flex", gap: "1px" }}>
+              <div
+                className={dynatic`
+                  display: flex;
+                  gap: 1px;
+                `}
+              >
                 For all ε{">"}0, there exists some δ{">"}0 such as if 0 {"<"}
                 <MathML input="|x - a|" />
                 {"<"}δ, then <MathML input="|f(x) - L|" />

@@ -1,12 +1,19 @@
 import { MathML } from "@packages/mathml";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
+import { dynatic } from "../../../../dynatic-css.config";
 
 export const LimitsOfQuotients = () => {
   return (
     <div>
       <StyledMainTitle>Limits of quotients</StyledMainTitle>
-      <div style={{ display: "flex", gap: "3px", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 3px;
+          flex-wrap: wrap;
+        `}
+      >
         <div>On the</div>
         <StyledLink pathname="/math/calculus/limit/laws">Limits laws</StyledLink>
         <div>
@@ -23,7 +30,13 @@ export const LimitsOfQuotients = () => {
         closer and closer to zero), which means that the quotient gets larger and larger as x
         approaches the value.
       </div>
-      <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 3px;
+          align-items: center;
+        `}
+      >
         <div>For further explanations and examples, you can visit the</div>
         <StyledLink pathname="/math/calculus/limit/limits-that-are-infinite">
           Limits that are infinite
@@ -37,7 +50,14 @@ export const LimitsOfQuotients = () => {
       <StyledSubTitle>
         If the limits of both the denominator and numerator are equal to zero:
       </StyledSubTitle>
-      <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 3px;
+          align-items: center;
+          flex-wrap: wrap;
+        `}
+      >
         <div>We can take for example the following quotient:</div>
         <MathML input="lim(x→0)2x/x" />
         <div>

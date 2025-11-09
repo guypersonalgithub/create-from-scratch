@@ -1,5 +1,6 @@
 import type { Meta } from "@storybook/react";
 import { Router, usePath } from "@packages/router";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "Router",
@@ -17,13 +18,20 @@ export const Primary = {
 
     return (
       <>
-        <div style={{ display: "flex", gap: "5px" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            gap: 5px;
+          `}
+        >
           <button onClick={() => moveTo({ pathname: "/" })}>First</button>
           <button onClick={() => moveTo({ pathname: "/1" })}>Second</button>
           <button onClick={() => moveTo({ pathname: "/2" })}>Third</button>
         </div>
         <Router
-          wrapperStyle={{ margin: "20px" }}
+          wrapperClassName={dynatic`
+            margin: 20px;
+          `}
           paths={{
             "/": () => {
               return (

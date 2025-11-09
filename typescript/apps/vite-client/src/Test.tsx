@@ -1,4 +1,5 @@
 import { AnimationContainerWrapper } from "@packages/animation-container";
+import { dynatic } from "@packages/dynatic-css";
 import { useState } from "react";
 
 export const Test = () => {
@@ -10,19 +11,19 @@ export const Test = () => {
     <>
       <button onClick={() => switchTest()}>click</button>
       <div
-        style={{
-          overflow: "hidden",
-          height: "30px",
-          position: "relative",
-          width: "100%",
-        }}
+        className={dynatic`
+          overflow: hidden;
+          height: 30px;
+          position: relative;
+          width: 100%;
+        `}
       >
         <AnimationContainerWrapper
-          style={{
-            display: "flex",
-            width: "100%",
-            position: "absolute",
-          }}
+          className={dynatic`
+            display: flex;
+            width: 100%;
+            position: absolute;  
+          `}
           onMount={[
             { transform: "translateX(-100%)", opacity: 0 },
             { transform: "translateX(0)", opacity: 1 },
@@ -37,9 +38,15 @@ export const Test = () => {
         >
           <div
             key={test}
-            style={{
-              border: test === "test1" ? "1px solid red" : "1px solid blue",
-            }}
+            className={
+              test === "test1"
+                ? dynatic`
+                    border: 1px solid red;
+                  `
+                : dynatic`
+                    border: 1px solid blue;
+                  `
+            }
           >
             {test}
           </div>

@@ -1,4 +1,6 @@
 import { type CSSProperties } from "react";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type RangeProps = {
   value: number;
@@ -6,6 +8,7 @@ type RangeProps = {
   min?: number;
   max?: number;
   step?: number;
+  className?: string;
   style?: CSSProperties;
 };
 
@@ -15,7 +18,8 @@ export const Range = ({
   min = 0,
   max = 100,
   step = 1,
-  style = {},
+  className,
+  style,
 }: RangeProps) => {
   return (
     <input
@@ -25,17 +29,20 @@ export const Range = ({
       max={max}
       step={step}
       onChange={(e) => onChange(Number(e.target.value))}
-      style={{
-        appearance: "none",
-        width: "100%",
-        height: "6px",
-        background: "#ddd",
-        borderRadius: "3px",
-        outline: "none",
-        padding: 0,
-        margin: 0,
-        ...style,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          appearance: none;
+          width: 100%;
+          height: 6px;
+          background: #ddd;
+          border-radius: 3px;
+          outline: none;
+          padding: 0;
+          margin: 0;
+        `,
+        className,
+      )}
+      style={style}
     />
   );
 };

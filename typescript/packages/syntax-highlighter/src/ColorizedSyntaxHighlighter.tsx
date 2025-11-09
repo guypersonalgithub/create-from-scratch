@@ -55,6 +55,7 @@ export const ColorizedSyntaxHighlighter = <T extends SupportedLanguages = "types
 
 const StandardSyntaxHighlighter = <T extends SupportedLanguages = "typescript">({
   code,
+  className,
   style,
   language = "typescript",
   copyToClipboard = true,
@@ -86,6 +87,7 @@ const StandardSyntaxHighlighter = <T extends SupportedLanguages = "typescript">(
   if (modernVersion) {
     return (
       <ModernContentDesign
+        className={className}
         style={style}
         code={code}
         highlighted={highlighted}
@@ -100,6 +102,7 @@ const StandardSyntaxHighlighter = <T extends SupportedLanguages = "typescript">(
 
   return (
     <SimpleContentDesign
+      className={className}
       style={style}
       code={code}
       highlighted={highlighted}

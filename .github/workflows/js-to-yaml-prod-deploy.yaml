@@ -18,9 +18,10 @@ on:
       - typescript/packages/parse-typescript/**
       - typescript/packages/string-utils/**
       - typescript/packages/regex/**
-      - typescript/packages/ui-theme/**
       - typescript/packages/icons/**
       - typescript/packages/button/**
+      - typescript/packages/dynatic-css/**
+      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/syntax-highlighter/**
       - typescript/packages/parse-yaml/**
       - typescript/packages/element-utils/**
@@ -34,8 +35,6 @@ on:
       - typescript/dev-packages/yaml/**
       - typescript/packages/alert/**
       - typescript/packages/card/**
-      - typescript/packages/dynatic-css/**
-      - typescript/packages/dynatic-css-utils/**
       - typescript/packages/command-box/**
       - typescript/packages/css-utils/**
       - typescript/packages/breakpoints/**
@@ -99,9 +98,10 @@ jobs:
           cp -r ./packages/parse-typescript ./full-application/packages
           cp -r ./packages/string-utils ./full-application/packages
           cp -r ./packages/regex ./full-application/packages
-          cp -r ./packages/ui-theme ./full-application/packages
           cp -r ./packages/icons ./full-application/packages
           cp -r ./packages/button ./full-application/packages
+          cp -r ./packages/dynatic-css ./full-application/packages
+          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./packages/syntax-highlighter ./full-application/packages
           cp -r ./packages/parse-yaml ./full-application/packages
           cp -r ./packages/element-utils ./full-application/packages
@@ -115,8 +115,6 @@ jobs:
           cp -r ./dev-packages/yaml ./full-application/packages
           cp -r ./packages/alert ./full-application/packages
           cp -r ./packages/card ./full-application/packages
-          cp -r ./packages/dynatic-css ./full-application/packages
-          cp -r ./packages/dynatic-css-utils ./full-application/packages
           cp -r ./packages/command-box ./full-application/packages
           cp -r ./packages/css-utils ./full-application/packages
           cp -r ./packages/breakpoints ./full-application/packages

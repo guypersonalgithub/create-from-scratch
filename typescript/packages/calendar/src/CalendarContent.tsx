@@ -3,6 +3,7 @@ import { arrangeDays, setupCurrentMonthDays } from "./utils";
 import { type CalendarFormat, type Days } from "./types";
 import { CalendarContentBody } from "./CalendarContentBody";
 import { FillerCell } from "./FillerCell";
+import { dynatic } from "@packages/dynatic-css";
 
 type CalendarContentProps = {
   days: number;
@@ -47,16 +48,20 @@ export const CalendarContent = ({
 
   return (
     <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr",
-      }}
+      className={dynatic`
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      `}
     >
       {arrangedDays.map((day) => {
         return (
           <div
             key={day}
-            style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            className={dynatic`
+              display: flex;
+              justify-content: center;
+              align-items: center;  
+            `}
           >
             {day.slice(0, 3)}
           </div>

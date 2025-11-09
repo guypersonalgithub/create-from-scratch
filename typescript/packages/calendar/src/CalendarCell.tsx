@@ -1,3 +1,5 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { type CSSProperties, useState } from "react";
 
 type GetBackgroundColorArgs = {
@@ -14,11 +16,15 @@ const getBackgroundColor = ({
   isSelectedRight,
 }: GetBackgroundColorArgs) => {
   if (isHovered) {
-    return "red";
+    return dynatic`
+      background-color: red;
+    `;
   }
 
   if (isSelected || isSelectedLeft || isSelectedRight) {
-    return "lightblue";
+    return dynatic`
+      background-color: lightblue;
+    `;
   }
 };
 
@@ -29,18 +35,26 @@ type GetBorderRadiusArgs = {
 
 const getBorderRadius = ({ isSelectedLeft, isSelectedRight }: GetBorderRadiusArgs) => {
   if (isSelectedLeft && isSelectedRight) {
-    return "5px";
+    return dynatic`
+      border-radius: 5px;
+    `;
   }
 
   if (isSelectedLeft) {
-    return "5px 0px 0px 5px";
+    return dynatic`
+      border-radius: 5px 0px 0px 5px;
+    `;
   }
 
   if (isSelectedRight) {
-    return "0px 5px 5px 0px";
+    return dynatic`
+      border-radius: 0px 5px 5px 0px;
+    `;
   }
 
-  return "5px";
+  return dynatic`
+    border-radius: 5px;
+  `;
 };
 
 type CalendarCellProps = {
@@ -53,6 +67,7 @@ type CalendarCellProps = {
   fullDate: string;
   isCurrentMonth: boolean;
   isDisabled?: boolean;
+  wrapperClassName?: string;
   wrapperStyle?: CSSProperties;
 };
 
@@ -66,39 +81,55 @@ export const CalendarCell = ({
   fullDate,
   isCurrentMonth,
   isDisabled,
-  wrapperStyle = {},
+  wrapperClassName,
+  wrapperStyle,
 }: CalendarCellProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div
-      style={{
-        backgroundColor: isContained ? "lightblue" : undefined,
-        ...wrapperStyle,
-        ...(isDisabled
-          ? { backgroundColor: "darkgrey", pointerEvents: "none", cursor: "not-allowed" }
-          : {}),
-      }}
+      className={combineStringsWithSpaces(
+        isContained &&
+          dynatic`
+            background-color: lightblue;
+          `,
+        isDisabled &&
+          dynatic`
+            background-color: darkgrey;
+            pointer-events: none;
+            cursor: not-allowed;
+          `,
+        wrapperClassName,
+      )}
+      style={wrapperStyle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        style={{
-          width: "50px",
-          height: "50px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: getBackgroundColor({
+        className={combineStringsWithSpaces(
+          dynatic`
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          `,
+          getBackgroundColor({
             isHovered,
             isSelected,
             isSelectedLeft,
             isSelectedRight,
           }),
-          borderRadius: getBorderRadius({ isSelectedLeft, isSelectedRight }),
-          cursor: "pointer",
-          opacity: isCurrentMonth ? 1 : 0.5,
-        }}
+          getBorderRadius({ isSelectedLeft, isSelectedRight }),
+          isCurrentMonth
+            ? dynatic`
+                opacity: 1;
+              `
+            : dynatic`
+                opacity: 0.5;
+              `,
+        )}
         onClick={() => setSelectedDate(fullDate)}
       >
         <div>{day}</div>

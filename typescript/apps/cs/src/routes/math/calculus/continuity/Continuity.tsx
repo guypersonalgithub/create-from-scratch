@@ -4,6 +4,7 @@ import { SubRouter } from "@packages/router";
 import { StyledLinksContainer } from "../../../../styledComponents/StyledLinksContainer";
 import { useStickSubRouterLinksToTop } from "../../../../useStickSubRouterLinksToTop";
 import { IntermediateValueTheorem } from "./IntermediateValueTheorem";
+import { dynatic } from "../../../../dynatic-css.config";
 
 export const Continuity = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -12,7 +13,10 @@ export const Continuity = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[
           { path: "/math/calculus/limit", children: "Limit" },
           { path: "/math/calculus/limit/laws", children: "Limit laws" },
@@ -106,19 +110,36 @@ export const Continuity = () => {
                   </li>
                   <li>Polynomials - for example f(x) = 3x + 5.</li>
                   <li>
-                    <div style={{ display: "flex", gap: "5px" }}>
+                    <div
+                      className={dynatic`
+                        display: flex;
+                        gap: 5px;
+                      `}
+                    >
                       <MathML input="a^x" />
                       <div>when a {">"} 0.</div>
                     </div>
                   </li>
                   <li>
-                    <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+                    <div
+                      className={dynatic`
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+                      `}
+                    >
                       <MathML input="sqrt(x)" />
                       <div>when x {">"} 0 or = 0.</div>
                     </div>
                   </li>
                   <li>
-                    <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+                    <div
+                      className={dynatic`
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+                      `}
+                    >
                       <MathML input="log(a,x)" />
                       <div>
                         when x {">"} 0 and a {">"} 0.

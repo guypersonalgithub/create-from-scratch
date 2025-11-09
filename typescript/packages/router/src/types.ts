@@ -9,6 +9,7 @@ export type RouterPathGuard = () => ReactElement | RouterPaths;
 
 export type RouterProps = {
   paths: RouterPaths;
+  wrapperClassName?: string;
   wrapperStyle?: CSSProperties;
 };
 
@@ -16,5 +17,6 @@ export type RouterContentProps = {
   passedPath: string;
   paths: RouterPaths;
   route: ReactNode;
+  wrapperClassName?: string;
   wrapperStyle?: CSSProperties;
 };

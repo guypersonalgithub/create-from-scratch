@@ -1,4 +1,4 @@
-import { isValidElement, type MutableRefObject, type ReactNode } from "react";
+import { isValidElement, type ReactNode, type RefObject } from "react";
 import { type RouterPaths } from "./types";
 import { getFirstPath } from "./utils";
 
@@ -6,7 +6,7 @@ type UseGetRouteDataArgs = {
   parentPassedPath?: string;
   path: `/${string}`;
   paths: RouterPaths;
-  routeParams: MutableRefObject<Record<string, string>>;
+  routeParams: RefObject<Record<string, string>>;
 };
 
 export const useGetRouteData = ({

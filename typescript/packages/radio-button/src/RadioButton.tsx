@@ -1,79 +1,41 @@
-import React, { type CSSProperties, useId } from "react";
+import { dynatic } from "@packages/dynatic-css";
+import { RadioOption } from "./RadioOption";
+import type { RadioOptionProps } from "./types";
+import type { ReactNode } from "react";
 
-type RadioOptionProps = {
-  label: string;
-  value: string;
-  selected: boolean;
-  onChange: (value: string) => void;
-  labelStyle?: CSSProperties;
-};
-
-const RadioOption = ({ label, value, selected, onChange, labelStyle }: RadioOptionProps) => {
-  const id = useId();
-
-  return (
-    <label
-      htmlFor={id}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "8px",
-        padding: "8px",
-        borderRadius: "6px",
-        // border: `1px solid ${selected ? "#3B82F6" : "#D1D5DB"}`,
-        // backgroundColor: selected ? "#EFF6FF" : "white",
-        cursor: "pointer",
-        transition: "border 0.2s",
-      }}
-    >
-      <input
-        id={id}
-        type="radio"
-        name="custom-radio"
-        value={value}
-        checked={selected}
-        onChange={() => onChange(value)}
-        style={{ display: "none" }}
-      />
-      <span
-        style={{
-          width: "16px",
-          height: "16px",
-          borderRadius: "50%",
-          border: `2px solid ${selected ? "#3B82F6" : "#9CA3AF"}`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {selected ? (
-          <span
-            style={{
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              backgroundColor: "#3B82F6",
-            }}
-          />
-        ) : null}
-      </span>
-      <span style={{ fontSize: "14px", color: "white", ...labelStyle }}>{label}</span>
-    </label>
-  );
-};
-
-type RadioGroupProps = {
+type RadioGroupProps = Pick<RadioOptionProps, "onChange" | "labelClassName" | "labelStyle"> & {
   options: { label: string; value: string }[];
   value: string;
-  onChange: (value: string) => void;
-  label?: React.ReactNode;
-  labelStyle?: CSSProperties;
+  label?: ReactNode;
 };
 
-export const RadioGroup = ({ options, value, onChange, label, labelStyle }: RadioGroupProps) => {
+export const RadioGroup = ({
+  options,
+  value,
+  onChange,
+  label,
+  labelClassName,
+  labelStyle,
+}: RadioGroupProps) => {
   return (
-    <div role="radiogroup" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      {label && <div style={{ fontWeight: "500", marginBottom: "4px" }}>{label}</div>}
+    <div
+      role="radiogroup"
+      className={dynatic`
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      `}
+    >
+      {label ? (
+        <div
+          className={dynatic`
+            font-weight: 500;
+            margin-bottom: 4px;
+          `}
+        >
+          {label}
+        </div>
+      ) : null}
       {options.map((option) => (
         <RadioOption
           key={option.value}
@@ -81,6 +43,7 @@ export const RadioGroup = ({ options, value, onChange, label, labelStyle }: Radi
           value={option.value}
           selected={value === option.value}
           onChange={onChange}
+          labelClassName={labelClassName}
           labelStyle={labelStyle}
         />
       ))}

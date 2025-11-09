@@ -1,3 +1,5 @@
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 import { useState } from "react";
 
 type RatingProps = {
@@ -8,6 +10,7 @@ type RatingProps = {
   readOnly?: boolean;
   className?: string;
   size?: number;
+  itemClassName?: string;
   color?: string;
 };
 
@@ -17,9 +20,10 @@ export const Rating = ({
   max = 5,
   onChange,
   readOnly = false,
-  className = "",
-  size = 24,
-  color = "#FFD700",
+  className,
+  size,
+  itemClassName,
+  color,
 }: RatingProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const [internalValue, setInternalValue] = useState<number>(defaultValue);
@@ -45,9 +49,20 @@ export const Rating = ({
 
   return (
     <div
-      className={className}
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+        `,
+        readOnly
+          ? dynatic`
+              cursor: default;
+            `
+          : dynatic`
+              cursor: pointer;
+            `,
+        className,
+      )}
       role="radiogroup"
-      style={{ display: "flex", cursor: readOnly ? "default" : "pointer" }}
     >
       {Array.from({ length: max }, (_, i) => {
         const index = i + 1;
@@ -68,13 +83,30 @@ export const Rating = ({
                 handleClick(index);
               }
             }}
-            style={{
-              fontSize: size,
-              color: filled ? color : "#ccc",
-              transition: "color 0.2s ease",
-              outline: "none",
-              userSelect: "none",
-            }}
+            className={combineStringsWithSpaces(
+              dynatic`
+                font-size: 24px;
+                transition: color 0.2s ease;
+                outline: none;
+                user-select: none;
+              `,
+              filled
+                ? color
+                  ? dynatic`
+                    color: ${color};
+                  `
+                  : dynatic`
+                    color: #FFD700;
+                  `
+                : dynatic`
+                    color: #ccc;
+                  `,
+              size &&
+                dynatic`
+                  font-size: ${size};
+                `,
+              itemClassName,
+            )}
           >
             ★
           </span>

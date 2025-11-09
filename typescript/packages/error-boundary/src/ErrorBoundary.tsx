@@ -1,3 +1,4 @@
+import { dynatic } from "@packages/dynatic-css";
 import { type ReactNode, type ErrorInfo, Component } from "react";
 
 type ErrorBoundaryProps = {
@@ -40,9 +41,18 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       }
 
       return (
-        <div style={{ color: "red", padding: "1rem" }}>
+        <div
+          className={dynatic`
+            color: red;
+            padding: 1rem;
+          `}
+        >
           <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: "pre-wrap" }}>
+          <details
+            className={dynatic`
+              white-space: pre-wrap;
+            `}
+          >
             {error.toString()}
             <br />
             {errorInfo?.componentStack}

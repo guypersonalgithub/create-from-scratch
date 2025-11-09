@@ -2,6 +2,7 @@ import { MathML } from "@packages/mathml";
 import { StyledMainTitle } from "../../styledComponents/StyledMainTitle";
 import { useStickSubRouterLinksToTop } from "../../useStickSubRouterLinksToTop";
 import { StyledLinksContainer } from "../../styledComponents/StyledLinksContainer";
+import { dynatic } from "../../dynatic-css.config";
 
 export const TangentLine = () => {
   const { ref, childRef } = useStickSubRouterLinksToTop();
@@ -10,12 +11,22 @@ export const TangentLine = () => {
     <div ref={ref}>
       <StyledLinksContainer
         ref={childRef}
-        containerStyle={{ position: "sticky", marginTop: "-8px" }}
+        containerClassName={dynatic`
+          position: sticky;
+          margin-top: -8px;
+        `}
         links={[{ path: "/math/secant-line", children: "Secant line" }]}
       />
       <StyledMainTitle>Tangent line</StyledMainTitle>
       <div>In order to get a tangent's line equation, we need both a point and its slope.</div>
-      <div style={{ display: "flex", gap: "3px", alignItems: "center", flexWrap: "wrap" }}>
+      <div
+        className={dynatic`
+          display: flex;
+          gap: 3px;
+          align-items: center;
+          flex-wrap: wrap;
+        `}
+      >
         <div>A tangent line for the function</div>
         <MathML input="y=f(x)" isAnExpression />
         <div>

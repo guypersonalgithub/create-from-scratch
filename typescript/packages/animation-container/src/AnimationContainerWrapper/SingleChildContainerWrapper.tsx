@@ -2,6 +2,7 @@ import { type ReactElement, useLayoutEffect, useRef, useState } from "react";
 import { type AnimationContainerWrapperProps, type ChangeMethod } from "./types";
 import { AnimationWrapper } from "./AnimationContainer";
 import { getChildKeys } from "./utils";
+import { dynatic } from "@packages/dynatic-css";
 
 type SingleChildContainerWrapperProps = AnimationContainerWrapperProps & {
   children: ReactElement;
@@ -53,7 +54,14 @@ const FullPhase = ({
       }}
       {...rest}
     >
-      <div style={{ height: "inherit", width: "inherit" }}>{currentChild}</div>
+      <div
+        className={dynatic`
+          height: inherit;
+          width: inherit;
+        `}
+      >
+        {currentChild}
+      </div>
     </AnimationWrapper>
   );
 };
@@ -116,7 +124,14 @@ const Gradual = ({
         }}
         {...rest}
       >
-        <div style={{ height: "inherit", width: "inherit" }}>{child}</div>
+        <div
+          className={dynatic`
+            height: inherit;
+            width: inherit;
+          `}
+        >
+          {child}
+        </div>
       </AnimationWrapper>
     );
   });

@@ -6,6 +6,8 @@ import { DoubleArrowRightFull } from "@packages/icons";
 import { LinkContent } from "./LinkContent";
 import { isLinkGroup } from "./utils";
 import { LinkGroup } from "./LinkGroup";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type MinimizableSidebarProps = {
   title: ReactNode;
@@ -16,8 +18,12 @@ type MinimizableSidebarProps = {
   isOpenInitially?: boolean;
   iconSize?: number;
   selected?: string;
+  selectedClassName?: string;
   selectedStyle?: CSSProperties;
+  containerClassName?: string;
   containerStyle?: CSSProperties;
+  linkClassName?: string;
+  linkStyle?: CSSProperties;
 };
 
 export const MinimizableSidebar = ({
@@ -29,8 +35,12 @@ export const MinimizableSidebar = ({
   isOpenInitially = true,
   iconSize,
   selected,
-  selectedStyle = {},
-  containerStyle = {},
+  selectedClassName,
+  selectedStyle,
+  containerClassName,
+  containerStyle,
+  linkClassName,
+  linkStyle,
 }: MinimizableSidebarProps) => {
   const disableAnimation = useRef(true);
   const [isOpen, setIsOpen] = useState(isOpenInitially);
@@ -41,42 +51,56 @@ export const MinimizableSidebar = ({
   return (
     <div
       ref={ref}
-      style={{
-        height: "100%",
-        width: `${openedWidth}px`,
-        backgroundColor: "#1f1616",
-        boxSizing: "border-box",
-        borderRadius: "20px",
-        ...containerStyle,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          height: 100%;
+          width: ${openedWidth}px;
+          background-color: #1f1616;
+          box-sizing: border-box;
+          border-radius: 20px;
+        `,
+        containerClassName,
+      )}
+      style={containerStyle}
     >
       <div
         key="sidebar"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "5px",
-        }}
+        className={dynatic`
+          display: flex;  
+          flex-direction: column;
+          align-items: center;
+          padding: 5px;
+        `}
       >
         <div
-          style={{ overflow: "hidden", width: "100%", display: "flex", justifyContent: "center" }}
+          className={dynatic`
+            overflow: hidden;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+          `}
         >
           {title}
         </div>
-        <div style={{ display: "flex", justifyContent: "end", width: "100%" }}>
+        <div
+          className={dynatic`
+            display: flex;
+            justify-content: end;
+            width: 100%;
+          `}
+        >
           <Button
-            style={{
-              cursor: "pointer",
-              border: "none",
-              background: "default",
-              backgroundColor: "black",
-              color: "white",
-              borderRadius: "10px",
-              fontSize: "16px",
-              width: "30px",
-              height: "30px",
-            }}
+            className={dynatic`
+              cursor: pointer;
+              border: none;
+              background: default;
+              background-color: black;
+              color: white;
+              border-radius: 10px;
+              font-size: 16px;
+              width: 30px;
+              height: 30px;
+            `}
             onClick={() => {
               if (animationStarted.current) {
                 return;
@@ -112,27 +136,35 @@ export const MinimizableSidebar = ({
             }}
           >
             <div
-              style={{
-                transition: "transform 0.3s ease",
-                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-                display: "flex",
-                justifyItems: "center",
-                justifyContent: "center",
-              }}
+              className={combineStringsWithSpaces(
+                dynatic`
+                transition: transform 0.3s ease;
+                display: flex;
+                justify-items: center;
+                justify-content: center;
+              `,
+                isOpen
+                  ? dynatic`
+                      transform: rotate(180deg);
+                    `
+                  : dynatic`
+                      transform: rotate(0deg);
+                    `,
+              )}
             >
               <DoubleArrowRightFull />
             </div>
           </Button>
         </div>
         <div
-          style={{
-            marginTop: "10px",
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "10px",
-          }}
+          className={dynatic`
+            margin-top: 10px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+          `}
         >
           {links.map((link) => {
             if (isLinkGroup(link)) {
@@ -144,7 +176,10 @@ export const MinimizableSidebar = ({
                   openedWidth={openedWidth}
                   onLinkClick={onLinkClick}
                   selected={selected}
+                  selectedClassName={selectedClassName}
                   selectedStyle={selectedStyle}
+                  linkClassName={linkClassName}
+                  linkStyle={linkStyle}
                   {...link}
                 />
               );
@@ -159,7 +194,10 @@ export const MinimizableSidebar = ({
                 openedWidth={openedWidth}
                 onLinkClick={onLinkClick}
                 selected={selected}
+                selectedClassName={selectedClassName}
                 selectedStyle={selectedStyle}
+                linkClassName={linkClassName}
+                linkStyle={linkStyle}
               />
             );
           })}

@@ -3,19 +3,17 @@ import { StyledCard, StyledList, StyledSyntaxHighlighter } from "../../customize
 import { OpenBook } from "@packages/icons";
 import { dynatic } from "../../dynatic-css.config";
 
-type CoreFeaturesProps = {
-  isDesktop: boolean;
-};
-
-export const CoreFeatures = ({ isDesktop }: CoreFeaturesProps) => {
+export const CoreFeatures = () => {
   return (
     <StyledCard
       className={dynatic`
         border: 1px solid ${(config) => config.colors.defaultBorder};
+        width: 50vw;
+
+        ${(config) => config.utils.widthMediaQuery({ to: "1300px" })} {
+          width: calc(90vw - 30px);
+        }
       `}
-      style={{
-        width: isDesktop ? "50vw" : "calc(90vw - 30px)",
-      }}
     >
       <div
         className={dynatic`
@@ -26,12 +24,12 @@ export const CoreFeatures = ({ isDesktop }: CoreFeaturesProps) => {
         `}
       >
         <OpenBook
-          style={{
-            width: "24px",
-            height: "24px",
-            color: "rgba(0, 119, 184, 0.976)",
-            marginTop: "6px",
-          }}
+          className={dynatic`
+            width: 24px;
+            height: 24px;
+            color: ${(config) => config.shared.lightBlue};
+            margin-top: 6px;
+          `}
         />
         <span
           className={dynatic`
@@ -55,11 +53,12 @@ export const CoreFeatures = ({ isDesktop }: CoreFeaturesProps) => {
                 YAML
               </div>
               // <YAML
-              //   width={30}
-              //   style={{
-              //     color: "var(--theme-color)",
-              //     transition: "var(--theme-transition)",
-              //   }}
+              //   className={dynatic`
+              //     width: 30px;
+              //     height: 30px;
+              //     color: ${(config) => config.colors.mainColor};
+              //     transition: ${(config) => config.shared.defaultTransition};
+              //   `}
               // />
             ),
             title: "Convert Javascript objects to YAML formatted strings",
@@ -118,11 +117,12 @@ const output = convertObjectToYaml({ obj: testsConfig });
                 JS
               </div>
               // <Javascript
-              //   width={30}
-              //   style={{
-              //     color: "var(--theme-color)",
-              //     transition: "var(--theme-transition)",
-              //   }}
+              //   className={dynatic`
+              //     width: 30px;
+              //     height: 30px;
+              //     color: ${(config) => config.colors.mainColor};
+              //     transition: ${(config) => config.shared.defaultTransition};
+              //   `}
               //   fill="currentColor"
               // />
             ),

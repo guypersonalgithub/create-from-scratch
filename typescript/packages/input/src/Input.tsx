@@ -7,37 +7,35 @@ import {
   type Ref,
 } from "react";
 import { Spinner } from "@packages/loading";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   externalState?: {
     value: string;
     onChange: (value: string) => void;
   };
-  onFocusCSS?: () => CSSProperties;
-  onHoverCSS?: () => CSSProperties;
   isLoading?: boolean;
   customPrefix?: ReactNode;
   customSuffix?: ReactNode;
+  wrapperClassName?: string;
   wrapperStyle?: CSSProperties;
   externalRef?: Ref<HTMLInputElement>;
 };
 
 export const Input = ({
   externalState,
-  onFocusCSS,
-  onHoverCSS,
   isLoading,
   customPrefix = null,
   customSuffix = null,
-  wrapperStyle = {},
+  wrapperClassName,
+  wrapperStyle,
   externalRef,
+  className,
+  onChange,
   ...rest
 }: InputProps) => {
   const [value, setValue] = useState<string>((rest.value as string) ?? "");
-  const [isFocused, setIsFocused] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const onFocusStyle: CSSProperties = isFocused && onFocusCSS ? onFocusCSS() : {};
-  const onHoverStyle: CSSProperties = isHovered && onHoverCSS ? onHoverCSS() : {};
 
   useEffect(() => {
     setValue(rest.value as string);
@@ -45,17 +43,20 @@ export const Input = ({
 
   return (
     <div
-      style={{
-        display: "flex",
-        backgroundColor: "white",
-        height: "20px",
-        borderRadius: "20px",
-        paddingLeft: "5px",
-        paddingRight: "5px",
-        border: "1px solid black",
-        overflow: "hidden",
-        ...wrapperStyle,
-      }}
+      className={combineStringsWithSpaces(
+        dynatic`
+          display: flex;
+          background-color: white;
+          height: 20px;
+          border-radius: 20px;
+          padding-left: 5px;
+          padding-right: 5px;
+          border: 1px solid black;
+          overflow: hidden;
+        `,
+        wrapperClassName,
+      )}
+      style={wrapperStyle}
     >
       {customPrefix}
       <input
@@ -63,26 +64,17 @@ export const Input = ({
         ref={externalRef}
         value={externalState?.value ?? value}
         onChange={(e) => {
-          rest.onChange?.(e);
+          onChange?.(e);
           (externalState?.onChange ?? setValue)(e.target.value);
         }}
-        onFocus={(e) => {
-          rest.onFocus?.(e);
-          setIsFocused(true);
-        }}
-        onMouseEnter={(e) => {
-          rest.onMouseEnter?.(e);
-          setIsHovered(true);
-        }}
-        style={{
-          width: "100%",
-          ...rest.style,
-          ...(isFocused ? { outline: "none" } : {}),
-          ...onFocusStyle,
-          ...onHoverStyle,
-          boxSizing: "border-box",
-          border: 0,
-        }}
+        className={combineStringsWithSpaces(
+          dynatic`
+            width: 100%;
+            box-sizing: border-box;
+            border: 0;
+          `,
+          className,
+        )}
       />
       {customSuffix}
       <Loading isLoading={isLoading} />
@@ -99,5 +91,14 @@ const Loading = ({ isLoading }: LoadingProps) => {
     return null;
   }
 
-  return isLoading ? <Spinner size={15} /> : <div style={{ width: "19px", height: "19px" }} />;
+  return isLoading ? (
+    <Spinner size={15} />
+  ) : (
+    <div
+      className={dynatic`
+      width: 19px;
+      height: 19px;
+    `}
+    />
+  );
 };

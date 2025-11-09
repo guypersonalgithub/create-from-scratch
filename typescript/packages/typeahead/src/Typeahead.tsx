@@ -12,6 +12,8 @@ import { useClickOutside } from "@packages/hooks";
 import { Input } from "@packages/input";
 import { VirtualList } from "@packages/virtual-list";
 import { type BaseTypeaheadOption } from "./types";
+import { dynatic } from "@packages/dynatic-css";
+import { combineStringsWithSpaces } from "@packages/string-utils";
 
 export type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   options: T[];
@@ -25,8 +27,10 @@ export type TypeaheadProperties<T extends BaseTypeaheadOption> = {
   isLoading?: boolean;
   customInputPrefix?: ReactNode;
   customInputSuffix?: ReactNode;
+  inputWrapperClassName?: string;
   inputWrapperStyle?: CSSProperties;
   inputPlaceholder?: string;
+  optionContainerClassName?: (args: { isSelected: boolean; isHovered: boolean }) => string;
   optionContainerStyle?: (args: { isSelected: boolean; isHovered: boolean }) => CSSProperties;
   optionContent?: (args: { result: T }) => ReactNode;
   clearInputOnPick?: boolean;
@@ -46,8 +50,10 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
   isLoading,
   customInputPrefix,
   customInputSuffix,
+  inputWrapperClassName,
   inputWrapperStyle,
   inputPlaceholder,
+  optionContainerClassName,
   optionContainerStyle,
   optionContent,
   clearInputOnPick,
@@ -162,10 +168,17 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
   return (
     <div
       ref={typeaheadContainerRef}
-      style={{ position: "relative", height: "fit-content", width: "100%" }}
+      className={dynatic`
+        position: relative;
+        height: fit-content;
+        width: 100%;
+      `}
     >
       <Input
-        style={{ width: "100%", textAlign: "center" }}
+        className={dynatic`
+          width: 100%;
+          text-align: center;
+        `}
         externalState={{
           value: filter,
           onChange: onInputChange,
@@ -196,28 +209,40 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
         isLoading={isLoading}
         customPrefix={customInputPrefix}
         customSuffix={customInputSuffix}
+        wrapperClassName={inputWrapperClassName}
         wrapperStyle={inputWrapperStyle}
         placeholder={inputPlaceholder}
       />
       <div
-        style={{
-          position: "absolute",
-          backgroundColor: "white",
-          ...(results.length > 0
-            ? {
-                zIndex: 30,
-                height: "fit-content",
-                maxHeight: "150px",
-                width: "100%",
-                overflowY: "auto",
-              }
-            : { zIndex: 0, height: 0 }),
-        }}
-        className={className}
+        className={combineStringsWithSpaces(
+          dynatic`
+            position: absolute;
+            background-color: white;
+          `,
+          results.length > 0
+            ? dynatic`
+            z-index: 30;
+            height: fit-content;
+            maxHeight: 150px;
+            width: 100%;
+            overflow-y: auto;
+          `
+            : dynatic`
+            z-index: 0;
+            height: 0;
+          `,
+          className,
+        )}
         onMouseLeave={() => setHoveredIndex(undefined)}
       >
         {results.length > 0 ? (
-          <VirtualList containerHeight={150} itemHeight={40} backgroundColor="rgba(20, 12, 12)">
+          <VirtualList
+            containerHeight={150}
+            itemHeight={40}
+            className={dynatic`
+              background-color: rgba(20, 12, 12);
+            `}
+          >
             {results.map((result: T, index: number) => {
               const isSelected = index === currentIndex;
               const isHovered = index === hoveredIndex;
@@ -225,17 +250,30 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
               return (
                 <Fragment key={`${result.label}-${index}`}>
                   <div
-                    style={{
-                      zIndex: 20,
-                      cursor: result.label !== ResultsNotFound ? "pointer" : "default",
-                      backgroundColor: isSelected || isHovered ? "black" : "rgba(20, 12, 12)",
-                      padding: "8px",
-                      fontWeight: "bold",
-                      color: "white",
-                      ...(optionContainerStyle
-                        ? optionContainerStyle({ isSelected, isHovered })
-                        : {}),
-                    }}
+                    className={combineStringsWithSpaces(
+                      dynatic`
+                      z-index: 20;
+                      padding: 8px;
+                      font-weight: bold;
+                      color: white;
+                    `,
+                      result.label !== ResultsNotFound
+                        ? dynatic`
+                      cursor: pointer;
+                    `
+                        : dynatic`
+                      cursor: default;
+                    `,
+                      isSelected || isHovered
+                        ? dynatic`
+                      background-color: black;
+                    `
+                        : dynatic`
+                      background-color: rgba(20, 12, 12);
+                    `,
+                      optionContainerClassName?.({ isSelected, isHovered }),
+                    )}
+                    style={optionContainerStyle?.({ isSelected, isHovered })}
                     onClick={() => onResultClick({ result })}
                     onMouseEnter={() => setHoveredIndex(index)}
                   >
@@ -243,12 +281,12 @@ export const Typeahead = <T extends BaseTypeaheadOption>({
                   </div>
                   {withSeperators ? (
                     <hr
-                      style={{
-                        marginTop: "4px",
-                        marginBottom: "4px",
-                        height: "1px",
-                        width: "100%",
-                      }}
+                      className={dynatic`
+                        margin-top: 4px;
+                        margin-bottom: 4px;
+                        height: 1px;
+                        width: 100%;
+                      `}
                     />
                   ) : null}
                 </Fragment>
