@@ -2,6 +2,7 @@ import { dynatic } from "@packages/dynatic-css";
 import { combineStringsWithSpaces } from "@packages/string-utils";
 import { useRef, useEffect, type CSSProperties } from "react";
 import { calculateAxesVelocity } from "./utils";
+import { scaleCanvasByDevicePixelRatio } from "@packages/canvas-utils";
 
 type ConfettiParticle = {
   x: number;
@@ -75,12 +76,13 @@ export const Confetti = ({
       }
 
       const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = Math.round(rect.width * dpr);
-      canvas.height = Math.round(rect.height * dpr);
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      scaleCanvasByDevicePixelRatio({ canvas, ctx, width: rect.width, height: rect.height });
+      // const dpr = window.devicePixelRatio || 1;
+      // canvas.width = Math.round(rect.width * dpr);
+      // canvas.height = Math.round(rect.height * dpr);
+      // canvas.style.width = `${rect.width}px`;
+      // canvas.style.height = `${rect.height}px`;
+      // ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resize();

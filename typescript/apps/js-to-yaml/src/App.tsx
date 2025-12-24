@@ -16,22 +16,22 @@ import { breakpoints } from "./breakpoints";
 const App = () => {
   return (
     <BreakpointsProvider breakpoints={breakpoints}>
-        <Layout>
-          <Header />
-          <Router
-            paths={{
-              "/": <Main />,
-              "/documentation!": <Documentation />,
-              "/examples": <Examples />,
-              "/playground!": <Playground />,
-              "404": <NotFound />,
-            }}
-          />
-          <MobileFooter />
-        </Layout>
-        <TooltipManager />
-        <ModalManager />
-        <PopoverManager />
+      <Layout>
+        <Header />
+        <Router
+          paths={{
+            "/": <Main />,
+            "/documentation!": <Documentation />,
+            "/examples": <Examples />,
+            "/playground!": <Playground />,
+            "404": <NotFound />,
+          }}
+        />
+        <MobileFooter />
+      </Layout>
+      <TooltipManager />
+      <ModalManager />
+      <PopoverManager />
     </BreakpointsProvider>
   );
 };

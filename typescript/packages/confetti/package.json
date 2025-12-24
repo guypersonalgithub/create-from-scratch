@@ -11,7 +11,8 @@
     "@packages/dynatic-css": "*",
     "@packages/string-utils": "*",
     "@packages/randomizer": "*",
-    "@packages/math": "*"
+    "@packages/math": "*",
+    "@packages/canvas-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

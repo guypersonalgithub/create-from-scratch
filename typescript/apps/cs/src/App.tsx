@@ -8,6 +8,7 @@ import {
   Linux as LinuxIcon,
   SecuredScreen,
   Binary as BinaryIcon,
+  Paragraph as ParagraphIcon,
 } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
@@ -25,6 +26,7 @@ import { Linux } from "./routes/linux/Linux";
 import { Security } from "./routes/security/Security";
 import { Binary } from "./routes/binary/Binary";
 import { dynatic } from "./dynatic-css.config";
+import { Algorithms } from "./routes/algorithms/Algorithms";
 
 const searchableRoutes = [
   {
@@ -166,6 +168,7 @@ const App = () => {
               "/linux!": <Linux />,
               "/security!": <Security />,
               "/binary!": <Binary />,
+              "/algorithms!": <Algorithms />,
               "/test": <Test />,
             }}
           />
@@ -202,6 +205,7 @@ const SidebarWrapper = () => {
         { icon: <LinuxIcon />, label: "Linux", pathname: "/linux" },
         { icon: <SecuredScreen />, label: "Security", pathname: "/security" },
         { icon: <BinaryIcon />, label: "Binary", pathname: "/binary" },
+        { icon: <ParagraphIcon />, label: "Algorithms", pathname: "/algorithms" },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}

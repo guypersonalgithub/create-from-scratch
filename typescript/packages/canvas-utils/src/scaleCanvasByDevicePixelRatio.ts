@@ -16,5 +16,6 @@ export const scaleCanvasByDevicePixelRatio = ({
   canvas.height = height * dpr;
   canvas.style.width = `${width}px`;
   canvas.style.height = `${height}px`;
-  ctx.scale(dpr, dpr);
+  // ctx.scale(dpr, dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 };

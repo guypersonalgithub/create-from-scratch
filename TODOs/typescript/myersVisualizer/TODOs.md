@@ -1,0 +1,2 @@
+- Use the AllPropertiesOfType from @packages/utils after extracting the types folder to its own dedicated package.
+- Improve the staggered animation for highlighting, and create a non staggered animation for highlighting.

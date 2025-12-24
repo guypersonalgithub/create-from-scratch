@@ -11,6 +11,8 @@ on:
       - typescript/packages/pie-chart/**
       - typescript/packages/canvas-utils/**
       - typescript/packages/canvas-tooltip/**
+      - typescript/packages/math/**
+      - typescript/packages/request-animation-frame/**
 jobs:
   Typecheck:
     runs-on: ubuntu-latest

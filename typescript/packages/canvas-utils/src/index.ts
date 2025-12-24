@@ -7,3 +7,4 @@ export * from "./hoveredElements";
 export type { HoverableElement } from "./types";
 export * from "./scaleCanvasByDevicePixelRatio";
 export * from "./breakTextIntoLines";
+export * from "./drawGraphAxes";

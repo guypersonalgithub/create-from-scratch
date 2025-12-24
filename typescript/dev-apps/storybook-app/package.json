@@ -78,7 +78,11 @@
     "@packages/tree-explorer": "*",
     "@packages/scroll-story": "*",
     "@packages/dynatic-css": "*",
-    "@packages/string-utils": "*"
+    "@packages/string-utils": "*",
+    "@packages/pie-chart": "*",
+    "@packages/line-chart": "*",
+    "@packages/diff-displayer": "*",
+    "@packages/myers-visualizer": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

@@ -146,6 +146,18 @@ services:
         source: ./packages/binary
         target: /usr/src/app/packages/binary
       - type: bind
+        source: ./packages/myers-visualizer
+        target: /usr/src/app/packages/myers-visualizer
+      - type: bind
+        source: ./packages/canvas-utils
+        target: /usr/src/app/packages/canvas-utils
+      - type: bind
+        source: ./packages/math
+        target: /usr/src/app/packages/math
+      - type: bind
+        source: ./packages/request-animation-frame
+        target: /usr/src/app/packages/request-animation-frame
+      - type: bind
         source: ./dev-packages/dynatic-css-vite-plugin
         target: /usr/src/app/dev-packages/dynatic-css-vite-plugin
       - type: bind

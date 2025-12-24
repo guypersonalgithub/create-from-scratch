@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@packages/canvas-utils": "*",
-    "@packages/canvas-tooltip": "*"
+    "@packages/canvas-tooltip": "*",
+    "@packages/math": "*",
+    "@packages/request-animation-frame": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",
