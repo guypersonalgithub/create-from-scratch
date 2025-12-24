@@ -84,6 +84,16 @@ export default defineConfig({
       ),
       "@packages/breadcrumbs": path.resolve(__dirname, "../../packages/breadcrumbs/src/index.ts"),
       "@packages/binary": path.resolve(__dirname, "../../packages/binary/src/index.ts"),
+      "@packages/myers-visualizer": path.resolve(
+        __dirname,
+        "../../packages/myers-visualizer/src/index.ts",
+      ),
+      "@packages/canvas-utils": path.resolve(__dirname, "../../packages/canvas-utils/src/index.ts"),
+      "@packages/math": path.resolve(__dirname, "../../packages/math/src/index.ts"),
+      "@packages/request-animation-frame": path.resolve(
+        __dirname,
+        "../../packages/request-animation-frame/src/index.ts",
+      ),
       "@packages/dynatic-css-vite-plugin": path.resolve(
         __dirname,
         "../../dev-packages/dynatic-css-vite-plugin/src/index.ts",

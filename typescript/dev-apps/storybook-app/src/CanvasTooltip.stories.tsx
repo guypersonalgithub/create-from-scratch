@@ -50,7 +50,7 @@ export const Primary: Story = {
         return;
       }
 
-      tooltipRef.current.drawTooltip({ text: "test", x: 50, y: 50, id: "3" });
+      // tooltipRef.current.drawTooltip({ text: "test", x: 50, y: 50, id: "3" });
 
       setTimeout(() => {
         tooltipRef.current?.removeTooltip({ id: "3" });

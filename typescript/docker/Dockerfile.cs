@@ -46,6 +46,10 @@ COPY ./packages/radio-button/package.json ./packages/radio-button/package.json
 COPY ./packages/scrollspy-anchors/package.json ./packages/scrollspy-anchors/package.json
 COPY ./packages/breadcrumbs/package.json ./packages/breadcrumbs/package.json
 COPY ./packages/binary/package.json ./packages/binary/package.json
+COPY ./packages/myers-visualizer/package.json ./packages/myers-visualizer/package.json
+COPY ./packages/canvas-utils/package.json ./packages/canvas-utils/package.json
+COPY ./packages/math/package.json ./packages/math/package.json
+COPY ./packages/request-animation-frame/package.json ./packages/request-animation-frame/package.json
 COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
@@ -106,6 +110,10 @@ COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
+COPY ./packages/myers-visualizer ./packages/myers-visualizer
+COPY ./packages/canvas-utils ./packages/canvas-utils
+COPY ./packages/math ./packages/math
+COPY ./packages/request-animation-frame ./packages/request-animation-frame
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -167,6 +175,10 @@ COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
+COPY ./packages/myers-visualizer ./packages/myers-visualizer
+COPY ./packages/canvas-utils ./packages/canvas-utils
+COPY ./packages/math ./packages/math
+COPY ./packages/request-animation-frame ./packages/request-animation-frame
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -228,6 +240,10 @@ COPY ./packages/radio-button ./packages/radio-button
 COPY ./packages/scrollspy-anchors ./packages/scrollspy-anchors
 COPY ./packages/breadcrumbs ./packages/breadcrumbs
 COPY ./packages/binary ./packages/binary
+COPY ./packages/myers-visualizer ./packages/myers-visualizer
+COPY ./packages/canvas-utils ./packages/canvas-utils
+COPY ./packages/math ./packages/math
+COPY ./packages/request-animation-frame ./packages/request-animation-frame
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation

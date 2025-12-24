@@ -1,0 +1,20 @@
+export const myersConstants = {
+  traces: [
+    { from: { x: 0, y: 0 }, to: { x: 2, y: 1 }, step: 0 },
+    { from: { x: 0, y: 0 }, to: { x: 1, y: 2 }, step: 0 },
+    { from: { x: 2, y: 1 }, to: { x: 3, y: 1 }, step: 1 },
+    { from: { x: 3, y: 1 }, to: { x: 4, y: 1 }, step: 2 },
+    { from: { x: 3, y: 1 }, to: { x: 4, y: 3 }, step: 2 },
+    { from: { x: 1, y: 2 }, to: { x: 2, y: 2 }, step: 1 },
+    { from: { x: 1, y: 2 }, to: { x: 1, y: 3 }, step: 1 },
+    { from: { x: 4, y: 3 }, to: { x: 4, y: 4 }, step: 3 },
+    { from: { x: 2, y: 1 }, to: { x: 2, y: 2 }, step: 1 },
+    { from: { x: 2, y: 2 }, to: { x: 4, y: 3 }, step: 2 },
+    { from: { x: 2, y: 2 }, to: { x: 3, y: 4 }, step: 2 },
+    { from: { x: 3, y: 4 }, to: { x: 4, y: 4 }, step: 3 },
+    { from: { x: 1, y: 3 }, to: { x: 3, y: 4 }, step: 2 },
+    { from: { x: 1, y: 3 }, to: { x: 1, y: 4 }, step: 2 },
+  ],
+  fromExample: "CBAD",
+  toExample: "BCDA",
+};

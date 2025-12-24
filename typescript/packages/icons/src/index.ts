@@ -48,3 +48,4 @@ export * from "./SimpleCheck";
 export * from "./Binary";
 export * from "./OffLightbulb";
 export * from "./OnLightbulb";
+export * from "./Paragraph";

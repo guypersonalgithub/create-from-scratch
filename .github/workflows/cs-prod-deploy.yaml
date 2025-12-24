@@ -51,6 +51,10 @@ on:
       - typescript/packages/scrollspy-anchors/**
       - typescript/packages/breadcrumbs/**
       - typescript/packages/binary/**
+      - typescript/packages/myers-visualizer/**
+      - typescript/packages/canvas-utils/**
+      - typescript/packages/math/**
+      - typescript/packages/request-animation-frame/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
@@ -127,6 +131,10 @@ jobs:
           cp -r ./packages/scrollspy-anchors ./full-application/packages
           cp -r ./packages/breadcrumbs ./full-application/packages
           cp -r ./packages/binary ./full-application/packages
+          cp -r ./packages/myers-visualizer ./full-application/packages
+          cp -r ./packages/canvas-utils ./full-application/packages
+          cp -r ./packages/math ./full-application/packages
+          cp -r ./packages/request-animation-frame ./full-application/packages
           cp -r ./dev-packages/dynatic-css-vite-plugin ./full-application/packages
           cp -r ./dev-packages/dynatic-css-typescript-parser ./full-application/packages
           cp -r ./dev-packages/typescript-file-manipulation ./full-application/packages

@@ -52,6 +52,10 @@ on:
       - typescript/packages/scrollspy-anchors/**
       - typescript/packages/breadcrumbs/**
       - typescript/packages/binary/**
+      - typescript/packages/myers-visualizer/**
+      - typescript/packages/canvas-utils/**
+      - typescript/packages/math/**
+      - typescript/packages/request-animation-frame/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**

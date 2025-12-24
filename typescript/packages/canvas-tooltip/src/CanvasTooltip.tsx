@@ -1,13 +1,20 @@
-import { type RefObject, useEffect, useImperativeHandle, useRef } from "react";
-import { type CanvasTooltipActions, type TooltipProperties } from "./types";
-import { drawTooltip } from "./drawTooltip";
 import {
-  clearCanvas,
-  getMousePosition,
+  type RefObject,
+  // useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+} from "react";
+import { type CanvasTooltipActions, type TooltipProperties } from "./types";
+// import { drawTooltip } from "./drawTooltip";
+import {
+  // clearCanvas,
+  // getMousePosition,
   type HoverableElement,
-  hoveredElements,
+  // hoveredElements,
 } from "@packages/canvas-utils";
-import { drawAnimatedTooltipFrame } from "./drawAnimatedTooltipFrame";
+// import { drawAnimatedTooltipFrame } from "./drawAnimatedTooltipFrame";
+import { getTooltipAPI } from "./tooltipAPI";
 
 export type CanvasTooltipProps = {
   elements: HoverableElement[];
@@ -28,9 +35,9 @@ export const CanvasTooltip = ({ elements, height, width, ref }: CanvasTooltipPro
       }
     | undefined
   >(undefined);
-  const lastHovered = useRef<HoverableElement | undefined>(null);
+  const lastHovered = useRef<HoverableElement | undefined>(undefined);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas = innerRef.current;
 
     if (!canvas) {
@@ -41,195 +48,206 @@ export const CanvasTooltip = ({ elements, height, width, ref }: CanvasTooltipPro
   }, []);
 
   useImperativeHandle(ref, () => {
-    const generateTooltipsFrame = ({ hovered }: { hovered?: HoverableElement }) => {
-      tooltips.current = tooltips.current.filter((tooltip) => {
-        const { id, wasManualInsert, animated, opacity } = tooltip;
-        const isHovered = id === hovered?.id;
+    return getTooltipAPI({
+      elements,
+      ctx: contextRef.current!,
+      tooltips,
+      animationRef,
+      lastMousePosition,
+      lastHovered,
+      height,
+      width,
+    });
 
-        const visibleManualTooltip = wasManualInsert && opacity > 0;
-        const nonAnimatedHoveredTooltip = !animated && isHovered;
-        const visibleAnimatedTooltip = animated && (opacity > 0 || isHovered);
+    // const generateTooltipsFrame = ({ hovered }: { hovered?: HoverableElement }) => {
+    //   tooltips.current = tooltips.current.filter((tooltip) => {
+    //     const { id, wasManualInsert, animated, opacity } = tooltip;
+    //     const isHovered = id === hovered?.id;
 
-        return visibleManualTooltip || nonAnimatedHoveredTooltip || visibleAnimatedTooltip;
-      });
+    //     const visibleManualTooltip = wasManualInsert && opacity > 0;
+    //     const nonAnimatedHoveredTooltip = !animated && isHovered;
+    //     const visibleAnimatedTooltip = animated && (opacity > 0 || isHovered);
 
-      let animationRequired = false;
+    //     return visibleManualTooltip || nonAnimatedHoveredTooltip || visibleAnimatedTooltip;
+    //   });
 
-      const callbacks = tooltips.current.map((tooltip) => {
-        if (tooltip.wasManualInsert) {
-          if (tooltip.animated) {
-            const animating = tooltip.opacity < 1;
-            if (animating) {
-              animationRequired = true;
-            }
+    //   let animationRequired = false;
 
-            return () => {
-              drawAnimatedTooltipFrame({
-                ctx: contextRef.current!,
-                tooltip,
-                hovered: true,
-                tooltips,
-              });
-            };
-          }
+    //   const callbacks = tooltips.current.map((tooltip) => {
+    //     if (tooltip.wasManualInsert) {
+    //       if (tooltip.animated) {
+    //         const animating = tooltip.opacity < 1;
+    //         if (animating) {
+    //           animationRequired = true;
+    //         }
 
-          return () => {
-            drawTooltip({
-              ...tooltip,
-              ctx: contextRef.current!,
-              opacity: 1,
-            });
-          };
-        }
+    //         return () => {
+    //           drawAnimatedTooltipFrame({
+    //             ctx: contextRef.current!,
+    //             tooltip,
+    //             hovered: true,
+    //             tooltips,
+    //           });
+    //         };
+    //       }
 
-        if (tooltip.animated) {
-          const isHovered = tooltip.id === hovered?.id;
+    //       return () => {
+    //         drawTooltip({
+    //           ...tooltip,
+    //           ctx: contextRef.current!,
+    //           opacity: 1,
+    //         });
+    //       };
+    //     }
 
-          const animating =
-            (isHovered && tooltip.opacity < 1) || (!isHovered && tooltip.opacity > 0);
-          if (animating) {
-            animationRequired = true;
-          }
+    //     if (tooltip.animated) {
+    //       const isHovered = tooltip.id === hovered?.id;
 
-          return () => {
-            drawAnimatedTooltipFrame({
-              ctx: contextRef.current!,
-              tooltip,
-              hovered: isHovered,
-              tooltips,
-            });
-          };
-        }
+    //       const animating =
+    //         (isHovered && tooltip.opacity < 1) || (!isHovered && tooltip.opacity > 0);
+    //       if (animating) {
+    //         animationRequired = true;
+    //       }
 
-        return () => {
-          drawTooltip({
-            ...tooltip,
-            ctx: contextRef.current!,
-            opacity: 1,
-          });
-        };
-      });
+    //       return () => {
+    //         drawAnimatedTooltipFrame({
+    //           ctx: contextRef.current!,
+    //           tooltip,
+    //           hovered: isHovered,
+    //           tooltips,
+    //         });
+    //       };
+    //     }
 
-      return {
-        animationRequired,
-        callbacks,
-      };
-    };
+    //     return () => {
+    //       drawTooltip({
+    //         ...tooltip,
+    //         ctx: contextRef.current!,
+    //         opacity: 1,
+    //       });
+    //     };
+    //   });
 
-    const drawTooltips = ({ hovered }: { hovered?: HoverableElement }) => {
-      cancelAnimationFrame(animationRef.current);
-      drawTooltipsContent({ hovered });
-    };
+    //   return {
+    //     animationRequired,
+    //     callbacks,
+    //   };
+    // };
 
-    const drawTooltipsContent = ({ hovered }: { hovered?: HoverableElement }) => {
-      clearCanvas({ ctx: contextRef.current!, width, height });
-      const { animationRequired, callbacks } = generateTooltipsFrame({ hovered });
+    // const drawTooltips = ({ hovered }: { hovered?: HoverableElement }) => {
+    //   cancelAnimationFrame(animationRef.current);
+    //   drawTooltipsContent({ hovered });
+    // };
 
-      if (animationRequired) {
-        animationRef.current = requestAnimationFrame(() => drawTooltipsContent({ hovered }));
-      }
+    // const drawTooltipsContent = ({ hovered }: { hovered?: HoverableElement }) => {
+    //   clearCanvas({ ctx: contextRef.current!, width, height });
+    //   const { animationRequired, callbacks } = generateTooltipsFrame({ hovered });
 
-      callbacks.forEach((callback) => callback());
-    };
+    //   if (animationRequired) {
+    //     animationRef.current = requestAnimationFrame(() => drawTooltipsContent({ hovered }));
+    //   }
 
-    return {
-      drawTooltip: (args) => {
-        if (!contextRef.current) {
-          return;
-        }
+    //   callbacks.forEach((callback) => callback());
+    // };
 
-        const tooltipExists = tooltips.current.find((tooltip) => tooltip.id === args.id);
+    // return {
+    //   drawTooltip: (args) => {
+    //     if (!contextRef.current) {
+    //       return;
+    //     }
 
-        if (tooltipExists) {
-          return;
-        }
+    //     const tooltipExists = tooltips.current.find((tooltip) => tooltip.id === args.id);
 
-        tooltips.current.push({
-          ...args,
-          opacity: 1,
-          animated: false,
-          wasManualInsert: true,
-        });
+    //     if (tooltipExists) {
+    //       return;
+    //     }
 
-        let hovered: HoverableElement | undefined;
-        if (lastMousePosition.current) {
-          hovered = hoveredElements({ elements, ...lastMousePosition.current });
-        }
+    //     tooltips.current.push({
+    //       ...args,
+    //       opacity: 1,
+    //       animated: false,
+    //       wasManualInsert: true,
+    //     });
 
-        drawTooltips({ hovered });
-      },
-      removeTooltip: ({ id }) => {
-        const tooltipIndex = tooltips.current.findIndex((tooltip) => tooltip.id === id);
-        if (tooltipIndex === -1) {
-          return;
-        }
+    //     let hovered: HoverableElement | undefined;
+    //     if (lastMousePosition.current) {
+    //       hovered = hoveredElements({ elements, ...lastMousePosition.current });
+    //     }
 
-        tooltips.current[tooltipIndex].wasManualInsert = undefined;
+    //     drawTooltips({ hovered });
+    //   },
+    //   removeTooltip: ({ id }) => {
+    //     const tooltipIndex = tooltips.current.findIndex((tooltip) => tooltip.id === id);
+    //     if (tooltipIndex === -1) {
+    //       return;
+    //     }
 
-        let hovered: HoverableElement | undefined;
-        if (lastMousePosition.current) {
-          hovered = hoveredElements({ elements, ...lastMousePosition.current });
-        }
+    //     tooltips.current[tooltipIndex].wasManualInsert = undefined;
 
-        drawTooltips({ hovered });
-      },
-      animateTooltip: (args) => {
-        // if (!contextRef.current) {
-        //   return;
-        // }
-        // tooltips.current.push({
-        //   ...args,
-        //   opacity: 1,
-        //   animated: true,
-        //   wasManualInsert: true,
-        // });
-        // const drawCallback = (opacity: number) => {
-        //   clearCanvas({ ctx: contextRef.current!, width, height });
-        //   drawTooltip({ ctx: contextRef.current!, ...args, opacity });
-        // };
-        // animateTooltip({ hovered: true, drawTooltip: drawCallback });
-      },
-      onMouseMove: ({ event, canvas, animate, opacity = animate ? 0 : 1 }) => {
-        if (!contextRef.current) {
-          return;
-        }
+    //     let hovered: HoverableElement | undefined;
+    //     if (lastMousePosition.current) {
+    //       hovered = hoveredElements({ elements, ...lastMousePosition.current });
+    //     }
 
-        const mousePosition = getMousePosition({ event, canvas });
-        lastMousePosition.current = mousePosition;
-        if (!mousePosition) {
-          return;
-        }
+    //     drawTooltips({ hovered });
+    //   },
+    //   animateTooltip: (args) => {
+    //     // if (!contextRef.current) {
+    //     //   return;
+    //     // }
+    //     // tooltips.current.push({
+    //     //   ...args,
+    //     //   opacity: 1,
+    //     //   animated: true,
+    //     //   wasManualInsert: true,
+    //     // });
+    //     // const drawCallback = (opacity: number) => {
+    //     //   clearCanvas({ ctx: contextRef.current!, width, height });
+    //     //   drawTooltip({ ctx: contextRef.current!, ...args, opacity });
+    //     // };
+    //     // animateTooltip({ hovered: true, drawTooltip: drawCallback });
+    //   },
+    //   onMouseMove: ({ event, canvas, animate, opacity = animate ? 0 : 1 }) => {
+    //     if (!contextRef.current) {
+    //       return;
+    //     }
 
-        const hovered = hoveredElements({ elements, ...mousePosition });
+    //     const mousePosition = getMousePosition({ event, canvas });
+    //     lastMousePosition.current = mousePosition;
+    //     if (!mousePosition) {
+    //       return;
+    //     }
 
-        if (hovered?.id === lastHovered.current?.id) {
-          return;
-        }
+    //     const hovered = hoveredElements({ elements, ...mousePosition });
 
-        if (hovered) {
-          const tooltipIndex = tooltips.current.findIndex((tooltip) => tooltip.id === hovered.id);
-          if (tooltipIndex === -1) {
-            tooltips.current.push({
-              ...hovered,
-              text: "test",
-              opacity,
-              animated: animate,
-            });
-          }
-        }
+    //     if (hovered?.id === lastHovered.current?.id) {
+    //       return;
+    //     }
 
-        lastHovered.current = hovered;
+    //     if (hovered) {
+    //       const tooltipIndex = tooltips.current.findIndex((tooltip) => tooltip.id === hovered.id);
+    //       if (tooltipIndex === -1) {
+    //         tooltips.current.push({
+    //           ...hovered,
+    //           text: "test",
+    //           opacity,
+    //           animated: animate,
+    //         });
+    //       }
+    //     }
 
-        drawTooltips({ hovered });
-      },
-      onMouseLeave: () => {
-        if (tooltips.current.length === 0) {
-          return;
-        }
+    //     lastHovered.current = hovered;
 
-        drawTooltips({});
-      },
-    };
+    //     drawTooltips({ hovered });
+    //   },
+    //   onMouseLeave: () => {
+    //     if (tooltips.current.length === 0) {
+    //       return;
+    //     }
+
+    //     drawTooltips({});
+    //   },
+    // };
   }, []);
 
   return <canvas height={height} width={width} ref={innerRef} />;

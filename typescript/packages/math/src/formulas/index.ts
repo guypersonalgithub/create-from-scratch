@@ -13,3 +13,6 @@ export * from "./isAngleBetweenInCircle";
 export * from "./calculateSlices";
 export * from "./calculateSameSizeSlices";
 export * from "./convertDegreeToRadians";
+export * from "./calculatePieSliceAngleThroughValue";
+export * from "./calculateSlopeBasedOffAngleAndAnotherSlopeBetweenLines";
+export type { TwoDimensionalPoint } from "./types";
