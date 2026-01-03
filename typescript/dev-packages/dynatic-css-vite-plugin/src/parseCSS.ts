@@ -22,6 +22,7 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
     isRowStatic: boolean;
     pseudoClass?: string;
     mediaQuery?: string;
+    descendantSelector?: string;
   }[] = [];
   let currentRow = "";
   const splitContext = context.split("-");
@@ -29,6 +30,7 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
   let isRowStatic = true;
   let mediaQuery: { value: string; isStatic: boolean } | undefined = undefined;
   let pseudoClass: { value: string; isStatic: boolean } | undefined = undefined;
+  let descendantSelector: { value: string; isStatic: boolean } | undefined = undefined;
 
   let currentVariableIndex = 0;
 
@@ -135,7 +137,12 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
       continue;
     } else if (current === ";") {
       const value = cleanCurrentRow({ currentRow });
-      const isCurrentRowStatic = isStatic({ isRowStatic, mediaQuery, pseudoClass });
+      const isCurrentRowStatic = isStatic({
+        isRowStatic,
+        mediaQuery,
+        pseudoClass,
+        descendantSelector,
+      });
 
       if (value) {
         split.push({
@@ -143,6 +150,7 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
           isRowStatic: isCurrentRowStatic,
           pseudoClass: pseudoClass?.value,
           mediaQuery: mediaQuery?.value,
+          descendantSelector: descendantSelector?.value,
         });
       }
 
@@ -158,6 +166,17 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
             value: trimmed,
           };
         }
+
+        currentRow = "";
+        isRowStatic = true;
+        continue;
+      }
+
+      if (trimmed.startsWith(".")) {
+        descendantSelector = {
+          isStatic: isRowStatic,
+          value: trimmed,
+        };
 
         currentRow = "";
         isRowStatic = true;
@@ -188,7 +207,9 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
     } else if (current === "}") {
       currentRow = "";
       isRowStatic = true;
-      if (pseudoClass) {
+      if (descendantSelector) {
+        descendantSelector = undefined;
+      } else if (pseudoClass) {
         pseudoClass = undefined;
       } else {
         mediaQuery = undefined;
@@ -231,13 +252,19 @@ export const parseCSS = ({ css, context, variables, contexts, updatedConfig }: P
   const trimmed = cleanCurrentRow({ currentRow });
 
   if (trimmed.length > 0) {
-    const isCurrentRowStatic = isStatic({ isRowStatic, mediaQuery, pseudoClass });
+    const isCurrentRowStatic = isStatic({
+      isRowStatic,
+      mediaQuery,
+      pseudoClass,
+      descendantSelector,
+    });
 
     split.push({
       value: trimmed,
       isRowStatic: isCurrentRowStatic,
       pseudoClass: pseudoClass?.value,
       mediaQuery: mediaQuery?.value,
+      descendantSelector: descendantSelector?.value,
     });
   }
 

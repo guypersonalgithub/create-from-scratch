@@ -1,12 +1,6 @@
-import { type CSSProperties, type ReactNode } from "react";
 import { dynatic } from "@packages/dynatic-css";
 import { combineStringsWithSpaces } from "@packages/string-utils";
-
-type CardProps = {
-  className?: string;
-  style?: CSSProperties;
-  children: ReactNode;
-};
+import type { CardProps } from "./types";
 
 export const Card = ({ className, style, children }: CardProps) => {
   return (

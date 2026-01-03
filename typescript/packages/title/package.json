@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@packages/dynatic-css": "*",
-    "@packages/string-utils": "*"
+    "@packages/string-utils": "*",
+    "@packages/element-utils": "*"
   },
   "peerDependencies": {
     "react": "^19.0.0",

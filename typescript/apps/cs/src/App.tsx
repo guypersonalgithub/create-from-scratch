@@ -9,6 +9,7 @@ import {
   SecuredScreen,
   Binary as BinaryIcon,
   Paragraph as ParagraphIcon,
+  Hardware as HardwareIcon,
 } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
@@ -27,6 +28,7 @@ import { Security } from "./routes/security/Security";
 import { Binary } from "./routes/binary/Binary";
 import { dynatic } from "./dynatic-css.config";
 import { Algorithms } from "./routes/algorithms/Algorithms";
+import { Hardware } from "./routes/hardware/Hardware";
 
 const searchableRoutes = [
   {
@@ -169,6 +171,7 @@ const App = () => {
               "/security!": <Security />,
               "/binary!": <Binary />,
               "/algorithms!": <Algorithms />,
+              "/hardware!": <Hardware />,
               "/test": <Test />,
             }}
           />
@@ -206,6 +209,7 @@ const SidebarWrapper = () => {
         { icon: <SecuredScreen />, label: "Security", pathname: "/security" },
         { icon: <BinaryIcon />, label: "Binary", pathname: "/binary" },
         { icon: <ParagraphIcon />, label: "Algorithms", pathname: "/algorithms" },
+        { icon: <HardwareIcon />, label: "Hardware", pathname: "/hardware" },
       ]}
       onLinkClick={({ pathname, queryParams }) => moveTo({ pathname, queryParams })}
       openedWidth={200}

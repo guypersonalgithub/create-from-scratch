@@ -15,11 +15,11 @@ const config = {
       yellow: "yellow",
     },
   },
-  what: {
-    one: "two",
-  },
-  test: "1",
-} satisfies DynaticConfiguration;
+  uniqueClasses: {
+    group: "group",
+    child: "child",
+  }
+} as const satisfies DynaticConfiguration;
 
 const classes: string[] = [];
 

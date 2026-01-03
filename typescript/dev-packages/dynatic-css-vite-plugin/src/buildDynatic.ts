@@ -9,6 +9,7 @@ type BuildDynaticArgs = {
   inserted: Map<string, string>;
   pseudoClasses: Map<string, string>;
   mediaQueries: Map<string, Map<string, string>>;
+  descendantSelectors: Map<string, string>;
   configCSS?: string;
   fileText?: string;
   updatedConfig?: DynaticConfiguration;
@@ -21,6 +22,7 @@ export const buildDynatic = ({
   inserted,
   pseudoClasses,
   mediaQueries,
+  descendantSelectors,
   configCSS,
   fileText,
   updatedConfig,
@@ -29,7 +31,9 @@ export const buildDynatic = ({
 }: BuildDynaticArgs) => {
   const insertedValues = inserted.entries();
   const insertedMediaQueries = mediaQueries.entries();
-  const length = [...insertedValues, ...insertedMediaQueries].length;
+  const insertedDescendantSelectors = descendantSelectors.entries();
+  const length = [...insertedValues, ...insertedMediaQueries, ...insertedDescendantSelectors]
+    .length;
 
   if (length === 0) {
     return;
@@ -38,6 +42,10 @@ export const buildDynatic = ({
   let updatedCSSFile = "";
 
   const staticClasses: string[] = [];
+
+  for (const [key, value] of descendantSelectors.entries()) {
+    updatedCSSFile += `${key} { ${value} }\n`;
+  }
 
   for (const [key, value] of inserted.entries()) {
     staticClasses.push(key);

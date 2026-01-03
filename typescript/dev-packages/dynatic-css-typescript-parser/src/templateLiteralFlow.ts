@@ -36,6 +36,42 @@ export const templateLiteralFlow = ({
 
   while (currentIndex < input.length) {
     const current = input[currentIndex];
+    if (current === "/") {
+      const followup = input[currentIndex + 1];
+      if (followup === "/") {
+        currentIndex += 2;
+
+        let newCurrent = input[currentIndex];
+        while (newCurrent !== "\n" && currentIndex < input.length) {
+          currentIndex++;
+          newCurrent = input[currentIndex];
+        }
+
+        if (newCurrent === "\n") {
+          currentIndex++;
+        }
+
+        continue;
+      } else if (followup === "*") {
+        currentIndex += 2;
+
+        let newCurrent = input[currentIndex];
+        while (
+          currentIndex < input.length &&
+          !(newCurrent === "*" && input[currentIndex + 1] === "/")
+        ) {
+          currentIndex++;
+          newCurrent = input[currentIndex];
+        }
+
+        if (newCurrent === "*" && input[currentIndex + 1] === "/") {
+          currentIndex += 2;
+        }
+
+        continue;
+      }
+    }
+
     completeValue += current;
     currentIndex++;
 

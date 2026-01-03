@@ -82,7 +82,18 @@
     "@packages/pie-chart": "*",
     "@packages/line-chart": "*",
     "@packages/diff-displayer": "*",
-    "@packages/myers-visualizer": "*"
+    "@packages/myers-visualizer": "*",
+    "@packages/glitch": "*",
+    "@packages/glitter": "*",
+    "@packages/stepper": "*",
+    "@packages/svg-sparkline": "*",
+    "@packages/svg-gauge": "*",
+    "@packages/svg-histogram": "*",
+    "@packages/svg-treemap": "*",
+    "@packages/password-input": "*",
+    "@packages/image-viewer": "*",
+    "@packages/lazy-image": "*",
+    "@packages/animated-underline": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

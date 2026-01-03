@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ProgressBar } from "@packages/progress-bar";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "ProgressBar",
@@ -14,15 +15,35 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    style: {
-      border: "1px solid black",
-      borderRadius: "10px",
-    },
-    innerStyle: {
-      backgroundColor: "blue",
-      height: "15px",
-    },
+    className: dynatic`
+      border: 1px solid black;
+      border-radius: 10px;
+      overflow: hidden;
+    `,
+    innerClassName: dynatic`
+      background-color: blue;
+      height: 15px;
+    `,
     progress: 50,
+  },
+  render: (args) => {
+    return <ProgressBar {...args} />;
+  },
+};
+
+export const InitiallyAnimated: Story = {
+  args: {
+    className: dynatic`
+      border: 1px solid black;
+      border-radius: 10px;
+      overflow: hidden;
+    `,
+    innerClassName: dynatic`
+      background-color: blue;
+      height: 15px;
+    `,
+    progress: 50,
+    initiallyAnimated: true,
   },
   render: (args) => {
     return <ProgressBar {...args} />;

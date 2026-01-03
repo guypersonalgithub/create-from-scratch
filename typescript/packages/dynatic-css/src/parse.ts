@@ -1,17 +1,28 @@
 import { createClassName, hashString } from "@packages/dynatic-css-utils";
-import { insertStaticRuleIfNeeded } from "./insertStaticRuleIfNeeded";
+import { insertDescendantSelectorIfNeeded, insertStaticRuleIfNeeded } from "./insertStaticRuleIfNeeded";
 
 type ParseLineArgs = {
   line: string;
   classNames: string[];
   pseudoClass?: string;
   mediaQuery?: string;
+  descendantSelector?: string;
 };
 
-export const parseLine = ({ line, classNames, pseudoClass, mediaQuery }: ParseLineArgs) => {
+export const parseLine = ({
+  line,
+  classNames,
+  pseudoClass,
+  mediaQuery,
+  descendantSelector,
+}: ParseLineArgs) => {
   const trimmed = line.trim();
   if (!trimmed) {
     return;
+  }
+
+  if (descendantSelector) {
+    return insertDescendantSelectorIfNeeded({ rule: line, descendantSelector });
   }
 
   const fullLine = createClassName({ value: line, pseudoClass, mediaQuery });

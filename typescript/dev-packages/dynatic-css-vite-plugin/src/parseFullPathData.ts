@@ -11,6 +11,7 @@ type ParseFullPathDataArgs = {
   inserted: Map<string, string>;
   pseudoClasses: Map<string, string>;
   mediaQueries: Map<string, Map<string, string>>;
+  descendantSelectors: Map<string, string>;
 };
 
 export const parseFullPathData = ({
@@ -22,6 +23,7 @@ export const parseFullPathData = ({
   inserted,
   pseudoClasses,
   mediaQueries,
+  descendantSelectors,
 }: ParseFullPathDataArgs) => {
   const { imports, exports, currentIndex, input } = value;
 
@@ -46,6 +48,7 @@ export const parseFullPathData = ({
     inserted,
     pseudoClasses,
     mediaQueries,
+    descendantSelectors,
   });
 
   if (updated !== input) {

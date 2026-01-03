@@ -36,6 +36,7 @@ export function cssBase<T extends DynaticConfiguration | undefined>(
   const classNames: string[] = [];
   let mediaQuery: string | undefined;
   let pseudoClass: string | undefined;
+  let descendantSelector: string | undefined;
 
   const combinedTemplate = (
     exprs.length > 0
@@ -48,7 +49,7 @@ export function cssBase<T extends DynaticConfiguration | undefined>(
               typeof currentExpression === "function"
                 ? currentExpression(
                     config as T extends DynaticConfiguration
-                      ? ConfigExpr<T & ConfigUtilities>
+                      ? ConfigExpr<T & ConfigUtilities<T>>
                       : any, // ConfigUtilities
                   )
                 : currentExpression;
@@ -78,14 +79,15 @@ export function cssBase<T extends DynaticConfiguration | undefined>(
         return line + current + " ";
       }, "");
 
-      const updated = parseHelpers({ line, mediaQuery, pseudoClass });
+      const updated = parseHelpers({ line, mediaQuery, pseudoClass, descendantSelector });
       if (updated.continue) {
         mediaQuery = updated.mediaQuery;
         pseudoClass = updated.pseudoClass;
+        descendantSelector = updated.descendantSelector;
         continue;
       }
 
-      parseLine({ line, classNames, pseudoClass, mediaQuery });
+      parseLine({ line, classNames, pseudoClass, mediaQuery, descendantSelector });
     }
   }
 

@@ -94,6 +94,11 @@ export default defineConfig({
         __dirname,
         "../../packages/request-animation-frame/src/index.ts",
       ),
+      "@packages/format-number": path.resolve(
+        __dirname,
+        "../../packages/format-number/src/index.ts",
+      ),
+      "@packages/locale": path.resolve(__dirname, "../../packages/locale/src/index.ts"),
       "@packages/dynatic-css-vite-plugin": path.resolve(
         __dirname,
         "../../dev-packages/dynatic-css-vite-plugin/src/index.ts",

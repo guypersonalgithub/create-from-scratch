@@ -26,6 +26,7 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
   const pseudoClasses = new Map<string, string>();
   const mediaQueries = new Map<string, Map<string, string>>();
   const fullParsedPaths = new Map<string, FullPathData>();
+  const descendantSelectors = new Map<string, string>();
   let updatedConfig: DynaticConfiguration | undefined;
   let configCSS: string | undefined;
   let projectRoot = "";
@@ -79,6 +80,7 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
             inserted,
             pseudoClasses,
             mediaQueries,
+            descendantSelectors,
           });
         }
 
@@ -94,6 +96,7 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
           inserted,
           pseudoClasses,
           mediaQueries,
+          descendantSelectors,
           configCSS,
           fileText,
           updatedConfig,
@@ -161,12 +164,14 @@ export const dynaticPlugin = (args?: DynaticPluginArgs): Plugin => {
         inserted,
         pseudoClasses,
         mediaQueries,
+        descendantSelectors,
       });
 
       const updatedCSSFile = updateCSSFileForHotReload({
         inserted,
         pseudoClasses,
         mediaQueries,
+        descendantSelectors,
         configCSS,
       });
 

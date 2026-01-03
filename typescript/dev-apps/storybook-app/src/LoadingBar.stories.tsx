@@ -16,6 +16,7 @@ export const Primary: Story = {
   args: {
     backgroundColor: "red",
     color: "lightblue",
+    height: 10,
   },
   render: (args) => {
     return <LoadingBar {...args} />;

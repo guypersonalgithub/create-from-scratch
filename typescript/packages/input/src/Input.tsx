@@ -53,6 +53,7 @@ export const Input = ({
           padding-right: 5px;
           border: 1px solid black;
           overflow: hidden;
+          align-items: center;
         `,
         wrapperClassName,
       )}
@@ -71,7 +72,8 @@ export const Input = ({
           dynatic`
             width: 100%;
             box-sizing: border-box;
-            border: 0;
+            border: none;
+            outline: none;
           `,
           className,
         )}

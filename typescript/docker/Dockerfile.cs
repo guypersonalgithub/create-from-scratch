@@ -50,6 +50,8 @@ COPY ./packages/myers-visualizer/package.json ./packages/myers-visualizer/packag
 COPY ./packages/canvas-utils/package.json ./packages/canvas-utils/package.json
 COPY ./packages/math/package.json ./packages/math/package.json
 COPY ./packages/request-animation-frame/package.json ./packages/request-animation-frame/package.json
+COPY ./packages/format-number/package.json ./packages/format-number/package.json
+COPY ./packages/locale/package.json ./packages/locale/package.json
 COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
@@ -114,6 +116,8 @@ COPY ./packages/myers-visualizer ./packages/myers-visualizer
 COPY ./packages/canvas-utils ./packages/canvas-utils
 COPY ./packages/math ./packages/math
 COPY ./packages/request-animation-frame ./packages/request-animation-frame
+COPY ./packages/format-number ./packages/format-number
+COPY ./packages/locale ./packages/locale
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -179,6 +183,8 @@ COPY ./packages/myers-visualizer ./packages/myers-visualizer
 COPY ./packages/canvas-utils ./packages/canvas-utils
 COPY ./packages/math ./packages/math
 COPY ./packages/request-animation-frame ./packages/request-animation-frame
+COPY ./packages/format-number ./packages/format-number
+COPY ./packages/locale ./packages/locale
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -244,6 +250,8 @@ COPY ./packages/myers-visualizer ./packages/myers-visualizer
 COPY ./packages/canvas-utils ./packages/canvas-utils
 COPY ./packages/math ./packages/math
 COPY ./packages/request-animation-frame ./packages/request-animation-frame
+COPY ./packages/format-number ./packages/format-number
+COPY ./packages/locale ./packages/locale
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation

@@ -56,6 +56,8 @@ on:
       - typescript/packages/canvas-utils/**
       - typescript/packages/math/**
       - typescript/packages/request-animation-frame/**
+      - typescript/packages/format-number/**
+      - typescript/packages/locale/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
