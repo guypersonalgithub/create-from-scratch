@@ -8,10 +8,24 @@ type IsStaticArgs = {
     value: string;
     isStatic: boolean;
   };
+  descendantSelector?: {
+    value: string;
+    isStatic: boolean;
+  };
 };
 
-export const isStatic = ({ isRowStatic, mediaQuery, pseudoClass }: IsStaticArgs) => {
-  const isStatic = [isRowStatic, mediaQuery?.isStatic, pseudoClass?.isStatic]
+export const isStatic = ({
+  isRowStatic,
+  mediaQuery,
+  pseudoClass,
+  descendantSelector,
+}: IsStaticArgs) => {
+  const isStatic = [
+    isRowStatic,
+    mediaQuery?.isStatic,
+    pseudoClass?.isStatic,
+    descendantSelector?.isStatic,
+  ]
     .filter((value) => value !== undefined)
     .every((value) => value);
 

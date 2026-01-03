@@ -58,6 +58,8 @@ export const MinimizableSidebar = ({
           background-color: #1f1616;
           box-sizing: border-box;
           border-radius: 20px;
+          // overflow-y: auto;
+          // overflow-x: hidden;
         `,
         containerClassName,
       )}

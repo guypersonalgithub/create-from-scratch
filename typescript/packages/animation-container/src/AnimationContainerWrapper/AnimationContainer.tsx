@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, type ReactElement, type CSSProperties } from "react";
+import { useState, useRef, useEffect, type ReactElement } from "react";
 import { type AnimationContainerWrapperProps } from "./types";
 import { continueReversedStoppedAnimation, detectStoppedFrame, reverseKeyframes } from "./utils";
 import { combineStringsWithSpaces } from "@packages/string-utils";

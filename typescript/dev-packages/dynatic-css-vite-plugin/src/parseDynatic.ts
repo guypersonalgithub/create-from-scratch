@@ -15,6 +15,7 @@ type ParseDynaticArgs = {
   inserted: Map<string, string>;
   pseudoClasses: Map<string, string>;
   mediaQueries: Map<string, Map<string, string>>;
+  descendantSelectors: Map<string, string>;
 };
 
 export const parseDynatic = ({
@@ -25,6 +26,7 @@ export const parseDynatic = ({
   inserted,
   pseudoClasses,
   mediaQueries,
+  descendantSelectors,
 }: ParseDynaticArgs) => {
   // TODO: consider making parseDynaticCSS avoid parsing imports/optionally parse them when provided from the outside, since they are already parsed to begin with in an earlier flow, no need to do that twice.
   const {
@@ -71,10 +73,16 @@ export const parseDynatic = ({
     let dynamicRows = "";
     let currentMediaQuery: string | undefined;
     let currentPseudoClass: string | undefined;
+    let currentDescendantSelector: string | undefined;
 
     output.forEach((row, index) => {
       if (row.isRowStatic) {
-        const { value, pseudoClass, mediaQuery } = row;
+        const { value, pseudoClass, mediaQuery, descendantSelector } = row;
+
+        if (descendantSelector) {
+          descendantSelectors.set(descendantSelector, value);
+          return;
+        }
 
         const fullValue = createClassName({ value, pseudoClass, mediaQuery });
         const hash = hashString({ input: fullValue });
@@ -108,9 +116,14 @@ export const parseDynatic = ({
           dynamicRows += " }\n";
         }
       } else {
-        const { value, pseudoClass, mediaQuery } = row;
+        const { value, pseudoClass, mediaQuery, descendantSelector } = row;
+        const descendantSelectorChanged = currentDescendantSelector !== descendantSelector;
         const mediaQueryChanged = currentMediaQuery !== mediaQuery;
         const pseudoClassChanged = currentPseudoClass !== pseudoClass;
+
+        if (descendantSelectorChanged && currentDescendantSelector) {
+          dynamicRows += " }\n ";
+        }
 
         if (pseudoClassChanged && currentPseudoClass) {
           dynamicRows += " }\n ";
@@ -118,6 +131,14 @@ export const parseDynatic = ({
 
         if (mediaQueryChanged && currentMediaQuery) {
           dynamicRows += " }\n ";
+        }
+
+        if (descendantSelectorChanged) {
+          currentDescendantSelector = descendantSelector;
+
+          if (descendantSelector) {
+            dynamicRows += `${descendantSelector} {\n`;
+          }
         }
 
         if (mediaQueryChanged) {
@@ -137,6 +158,10 @@ export const parseDynatic = ({
         }
 
         dynamicRows += `${value};\n `;
+
+        if (descendantSelector && index === output.length - 1) {
+          dynamicRows += " }\n ";
+        }
 
         if (pseudoClass && index === output.length - 1) {
           dynamicRows += " }\n ";

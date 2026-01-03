@@ -49,3 +49,6 @@ export * from "./Binary";
 export * from "./OffLightbulb";
 export * from "./OnLightbulb";
 export * from "./Paragraph";
+export * from "./Hardware";
+export * from "./Eye";
+export * from "./EyeClosed";

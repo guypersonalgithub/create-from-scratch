@@ -29,23 +29,17 @@ export const simulateConvertNumberToBinaryBySteps = ({
         return;
       }
 
-      let updated = false;
       for (let i = base.length - 1; i >= 0; i--) {
         const current = base[i];
         if (current === "0") {
-          base = base.slice(0, i) + "1" + base.slice(i + 1);
-          updated = true;
-          break;
+          base = base.slice(0, i) + "1".padEnd(base.length - i, "0");
+          return { base, num: startFrom + 1 };
         }
       }
 
-      if (!updated) {
-        base = "1".padEnd(base.length + 1, "0");
-      }
+      base = "1".padEnd(base.length + 1, "0");
 
-      startFrom++;
-
-      return { base, num: startFrom };
+      return { base, num: startFrom + 1 };
     },
   });
 };

@@ -158,6 +158,12 @@ services:
         source: ./packages/request-animation-frame
         target: /usr/src/app/packages/request-animation-frame
       - type: bind
+        source: ./packages/format-number
+        target: /usr/src/app/packages/format-number
+      - type: bind
+        source: ./packages/locale
+        target: /usr/src/app/packages/locale
+      - type: bind
         source: ./dev-packages/dynatic-css-vite-plugin
         target: /usr/src/app/dev-packages/dynatic-css-vite-plugin
       - type: bind

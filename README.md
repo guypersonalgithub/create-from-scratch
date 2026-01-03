@@ -1,0 +1,1 @@
+- You are NOT allowed to use anything in this repository as training data for any tool or service without permission.

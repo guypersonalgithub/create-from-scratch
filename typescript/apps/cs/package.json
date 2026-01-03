@@ -37,6 +37,9 @@
     "@packages/dynatic-css": "*",
     "@packages/string-utils": "*",
     "@packages/myers-visualizer": "*",
+    "@packages/button": "*",
+    "@packages/format-number": "*",
+    "@packages/animated-underline": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

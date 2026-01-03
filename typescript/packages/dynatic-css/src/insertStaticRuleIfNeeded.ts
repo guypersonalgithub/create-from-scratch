@@ -55,3 +55,23 @@ export const insertStaticRuleIfNeeded = ({
     styleTag.textContent += `${key} { ${value} }\n`;
   }
 };
+
+type InsertDescendantSelectorIfNeededArgs = {
+  rule: string;
+  descendantSelector: string;
+};
+
+export const insertDescendantSelectorIfNeeded = ({
+  rule,
+  descendantSelector,
+}: InsertDescendantSelectorIfNeededArgs) => {
+  if (inserted.has(rule) || preexisting.has(rule)) {
+    return;
+  }
+
+  inserted.add(rule);
+
+  const value = `${descendantSelector} { ${rule} }\n`;
+  mediaQuerylessTextContent += value;
+  styleTag.textContent = mediaQuerylessTextContent;
+};

@@ -2,6 +2,7 @@ type UpdateCSSFileForHotReloadArgs = {
   inserted: Map<string, string>;
   pseudoClasses: Map<string, string>;
   mediaQueries: Map<string, Map<string, string>>;
+  descendantSelectors: Map<string, string>;
   configCSS?: string;
 };
 
@@ -9,9 +10,14 @@ export const updateCSSFileForHotReload = ({
   inserted,
   pseudoClasses,
   mediaQueries,
+  descendantSelectors,
   configCSS,
 }: UpdateCSSFileForHotReloadArgs) => {
   let updatedCSSFile = "";
+
+  for (const [key, value] of descendantSelectors.entries()) {
+    updatedCSSFile += `${key} { ${value} }\n`;
+  }
 
   for (const [key, value] of inserted.entries()) {
     const pseudoClass = pseudoClasses.get(key);

@@ -1,5 +1,7 @@
 import type { Meta } from "@storybook/react";
 import { MyersStepVisualizer } from "@packages/myers-visualizer";
+import { useEffect, useRef } from "react";
+import { type ExternalRefProps } from "@packages/myers-visualizer";
 
 const meta = {
   title: "MyersStepVisualizer",
@@ -42,5 +44,79 @@ export const Primary = {
 export const Mini = {
   render: () => {
     return <MyersStepVisualizer trace={traces} isSwitched />;
+  },
+};
+
+export const OnlyLines = {
+  render: () => {
+    const externalRef = useRef<ExternalRefProps>(null);
+
+    useEffect(() => {
+      if (!externalRef.current) {
+        return;
+      }
+
+      externalRef.current.drawText({
+        callback: ({ xPositions, yPositions }) => {
+          const xFirst = xPositions[0];
+          const xSecond = xPositions[1];
+          const yFirst = yPositions[0];
+          const ySecond = yPositions[1];
+
+          return {
+            xFirst,
+            xSecond,
+            yFirst,
+            ySecond,
+            text: "Test",
+          };
+        },
+      });
+
+      externalRef.current.drawText({
+        callback: ({ xPositions, yPositions }) => {
+          const xFirst = xPositions[0];
+          const xSecond = xPositions[1];
+          const yFirst = yPositions[0];
+          const ySecond = yPositions[-1];
+
+          return {
+            xFirst,
+            xSecond,
+            yFirst,
+            ySecond,
+            text: "Test",
+          };
+        },
+      });
+
+      externalRef.current.drawCircle({
+        callback: ({ xPositions, yPositions }) => {
+          const xFirst = xPositions[0];
+          const xSecond = xPositions[1];
+          const yFirst = yPositions[0];
+          const ySecond = yPositions[1];
+
+          return {
+            xFirst,
+            xSecond,
+            yFirst,
+            ySecond,
+            radius: (xSecond - xFirst) / 2,
+          };
+        },
+      });
+    }, []);
+
+    return (
+      <MyersStepVisualizer
+        externalRef={externalRef}
+        trace={[
+          { from: { x: 0, y: 0 }, to: { x: 1, y: 0 }, step: 0 },
+          { from: { x: 0, y: 0 }, to: { x: 0, y: 1 }, step: 0 },
+        ]}
+        displayTraceLabels={false}
+      />
+    );
   },
 };

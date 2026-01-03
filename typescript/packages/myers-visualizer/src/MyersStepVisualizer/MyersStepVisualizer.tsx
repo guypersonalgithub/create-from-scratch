@@ -1,25 +1,48 @@
 import { scaleCanvasByDevicePixelRatio } from "@packages/canvas-utils";
-import { useEffect, useRef } from "react";
+import { useEffect, useImperativeHandle, useRef, type RefObject } from "react";
 import { initializeBorders } from "./initializeBorders";
 import { dynatic } from "@packages/dynatic-css";
 import { drawLabels } from "./drawLabels";
-import type { Trace } from "./types";
+import { type DrawTextArgs, type ExternalRefProps, type Trace } from "./types";
 import { drawTraces } from "./drawTraces";
-import { calculateMaxSteps } from "./calculateMaxSteps";
-import { calculateDifferenceRange } from "./calculateDifferenceRange";
+import { calculateStepsAndDifference } from "./calculateStepsAndDifference";
+import { calculateAverage } from "@packages/math";
 
 type MyersStepVisualizerProps = {
   className?: string;
-  trace: Trace[];
-} & IsSwitched;
+  externalRef?: RefObject<ExternalRefProps | null>;
+} & DisplayTrace &
+  IsSwitched;
+
+type DisplayTrace =
+  | ({
+      displayLabels?: true;
+      displayTrace?: boolean;
+    } & TraceProps)
+  | {
+      displayLabels?: false;
+      displayTrace?: never;
+      trace?: never;
+      displayTraceLabels?: never;
+    };
+
+type TraceProps =
+  | {
+      trace?: Trace[];
+      displayTraceLabels?: boolean;
+    }
+  | {
+      trace?: never;
+      displayTraceLabels?: never;
+    };
 
 type IsSwitched =
   | {
-      isSwitched: boolean;
+      isSwitched?: true;
       keepPathsOf?: number[];
     }
   | {
-      isSwitched?: never;
+      isSwitched?: false;
       keepPathsOf?: never;
     };
 
@@ -28,11 +51,17 @@ export const MyersStepVisualizer = ({
     width: 500px;
     height: 500px;
   `,
-  trace,
+  externalRef,
+  trace = [],
+  displayTraceLabels = true,
   isSwitched = false,
+  displayLabels = true,
+  displayTrace = true,
   keepPathsOf = [],
 }: MyersStepVisualizerProps) => {
   const ref = useRef<HTMLCanvasElement>(null);
+  const contextRef = useRef<CanvasRenderingContext2D | null>(null);
+  const positions = useRef<DrawTextArgs>({ xPositions: {}, yPositions: {} });
 
   useEffect(() => {
     const canvas = ref.current;
@@ -44,6 +73,8 @@ export const MyersStepVisualizer = ({
     if (!ctx) {
       return;
     }
+
+    contextRef.current = ctx;
 
     const { width, height } = canvas.getBoundingClientRect();
     scaleCanvasByDevicePixelRatio({ canvas, ctx, width, height });
@@ -66,14 +97,17 @@ export const MyersStepVisualizer = ({
 
     initializeBorders({ ctx, startX, startY, endX, endY });
 
-    const steps = calculateMaxSteps({ trace });
-    const stepsDifference = steps.max - steps.min;
+    if (!displayLabels) {
+      return;
+    }
 
-    const differenceRange = calculateDifferenceRange({ trace });
-
-    const distanceX = (endX - startX) / stepsDifference;
-    const difference = Math.abs(differenceRange.min) + Math.abs(differenceRange.max) + 1; // including 0.
-    const distanceY = (endY - startY) / difference;
+    const { stepsDifference, differenceRange, distanceX, distanceY } = calculateStepsAndDifference({
+      trace,
+      startX,
+      startY,
+      endX,
+      endY,
+    });
 
     const { xPositions, yPositions } = drawLabels({
       ctx,
@@ -85,8 +119,52 @@ export const MyersStepVisualizer = ({
       distanceY,
     });
 
-    drawTraces({ ctx, xPositions, yPositions, trace, isSwitched, keepPathsOf });
-  }, [isSwitched]);
+    positions.current = { xPositions, yPositions };
+
+    if (!displayTrace) {
+      return;
+    }
+
+    drawTraces({ ctx, xPositions, yPositions, trace, displayTraceLabels, isSwitched, keepPathsOf });
+  }, [isSwitched, displayLabels, displayTrace]);
+
+  useImperativeHandle(externalRef, () => {
+    return {
+      drawText: ({ callback }) => {
+        if (!contextRef.current) {
+          return;
+        }
+
+        const ctx = contextRef.current;
+
+        const { xFirst, xSecond, yFirst, ySecond, text } = callback(positions.current);
+
+        const xAverage = calculateAverage({ data: [xSecond, xFirst] });
+        const yAverage = calculateAverage({ data: [ySecond, yFirst] });
+
+        const addition = text.length * 10;
+        const substract = yAverage > yFirst;
+
+        ctx.fillText(text, xAverage - addition, yAverage + (substract ? 40 : -40));
+      },
+      drawCircle: ({ callback }) => {
+        if (!contextRef.current) {
+          return;
+        }
+
+        const ctx = contextRef.current;
+
+        const { xFirst, xSecond, yFirst, ySecond, radius } = callback(positions.current);
+
+        const xAverage = calculateAverage({ data: [xSecond, xFirst] });
+        const yAverage = calculateAverage({ data: [ySecond, yFirst] });
+
+        ctx.beginPath();
+        ctx.arc(xAverage, yAverage, radius, 0, 360);
+        ctx.stroke();
+      },
+    };
+  });
 
   return <canvas ref={ref} className={className} />;
 };

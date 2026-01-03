@@ -1,14 +1,7 @@
 import { dynatic } from "@packages/dynatic-css";
 import { combineStringsWithSpaces } from "@packages/string-utils";
-import { type CSSProperties } from "react";
-
-type ProgressBarProps = {
-  className?: string;
-  style?: CSSProperties;
-  innerClassName?: string;
-  innerStyle?: CSSProperties;
-  progress: number;
-};
+import { useEffect, useRef } from "react";
+import type { ProgressBarProps } from "./types";
 
 export const ProgressBar = ({
   className,
@@ -16,25 +9,38 @@ export const ProgressBar = ({
   innerClassName,
   innerStyle,
   progress,
+  initiallyAnimated,
 }: ProgressBarProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const bar = ref.current;
+
+    if (!bar || !initiallyAnimated) {
+      return;
+    }
+
+    bar.style.transform = "scaleX(0%)";
+
+    requestAnimationFrame(() => {
+      bar.style.transform = `scaleX(${progress}%)`;
+    });
+  }, [progress, initiallyAnimated]);
+
   return (
-    <div
-      className={combineStringsWithSpaces(
-        dynatic`
-          overflow: hidden;
-        `,
-        className,
-      )}
-      style={style}
-    >
+    <div className={className} style={style}>
       <div
+        ref={ref}
         className={combineStringsWithSpaces(
           dynatic`
-            width: ${progress}%;
+            transform-origin: left;
+            transition: transform 0.5s ease;
           `,
           innerClassName,
         )}
-        style={innerStyle}
+        style={
+          !initiallyAnimated ? { ...innerStyle, transform: `scaleX(${progress}%)` } : innerStyle
+        }
       />
     </div>
   );

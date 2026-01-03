@@ -53,9 +53,10 @@ export const LinkContent = ({
             : undefined,
       )}
       disabled={disabledTooltip || isOpen}
-      side="right"
+      side="left"
       offset={{
         y: iconSize ? iconSize / 2 : undefined,
+        x: iconSize ? iconSize + 15 : undefined,
       }}
       distanceFromViewport={tooltipDistanceFromViewport}
     >
@@ -74,7 +75,6 @@ export const LinkContent = ({
             align-items: center;
             overflow: hidden;
             width: 100%;
-            padding: 0;
             padding-top: 2px;
             background-color: inherit;
           `,

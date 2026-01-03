@@ -5,6 +5,7 @@ type DrawTracesArgs = {
   xPositions: Record<number, number>;
   yPositions: Record<number, number>;
   trace: Trace[];
+  displayTraceLabels?: boolean;
   isSwitched: boolean;
   keepPathsOf: number[];
 };
@@ -16,6 +17,7 @@ export const drawTraces = ({
   xPositions,
   yPositions,
   trace,
+  displayTraceLabels,
   isSwitched,
   keepPathsOf,
 }: DrawTracesArgs) => {
@@ -38,11 +40,13 @@ export const drawTraces = ({
     const fromYPosition = yPositions[fromDifference];
     const toYPosition = yPositions[toDifference];
 
-    const fromLabel = !isSwitched ? `${from.x},${from.y}` : `${from.x}`;
-    const toLabel = !isSwitched ? `${to.x},${to.y}` : `${to.x}`;
+    if (displayTraceLabels) {
+      const fromLabel = !isSwitched ? `${from.x},${from.y}` : `${from.x}`;
+      const toLabel = !isSwitched ? `${to.x},${to.y}` : `${to.x}`;
 
-    ctx.fillText(fromLabel, fromXPosition, fromYPosition);
-    ctx.fillText(toLabel, toXPosition, toYPosition);
+      ctx.fillText(fromLabel, fromXPosition, fromYPosition);
+      ctx.fillText(toLabel, toXPosition, toYPosition);
+    }
 
     const addedPadding = !isToDifferenceHigher ? linePadding : 0;
 

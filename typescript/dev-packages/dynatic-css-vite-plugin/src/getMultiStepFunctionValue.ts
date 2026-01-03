@@ -1,6 +1,6 @@
 import type { DynaticConfiguration } from "@packages/dynatic-css";
 import type { DynaticStyleChunksVariable } from "@packages/dynatic-css-typescript-parser";
-import { widthMediaQuery } from "@packages/dynatic-css-utils";
+import { widthMediaQuery, descendantSelector } from "@packages/dynatic-css-utils";
 import { splitUntilParenthesis } from "@packages/string-utils";
 import { getVariableValue } from "./getVariableValue";
 
@@ -14,6 +14,7 @@ type GetMultiStepFunctionValueArgs = {
 
 const availableFunctions: Record<string, Function> = {
   widthMediaQuery,
+  descendantSelector,
 };
 
 export const getMultiStepFunctionValue = ({
@@ -51,6 +52,19 @@ export const getMultiStepFunctionValue = ({
     } else if (lastProperty && type === "static-value") {
       if (name.startsWith("'") || name.startsWith('"')) {
         values[lastProperty] = name.slice(1, name.length - 1);
+      }
+      if (name.startsWith("[")) {
+        values[lastProperty] = name
+          .slice(1, name.length - 1)
+          .split(",")
+          .map((part) => {
+            const trimmed = part.trim();
+            if (trimmed.startsWith("'") || trimmed.startsWith('"')) {
+              return trimmed.slice(1, trimmed.length - 1);
+            }
+
+            return trimmed;
+          });
       } else {
         values[lastProperty] = name;
       }
