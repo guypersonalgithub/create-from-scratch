@@ -1,0 +1,4 @@
+- Add virtualization.
+- Make the specific words diff highlighting calculated only based off currently viewed lines.
+- Consider adding char diff highlighting.
+- Improve the diff displayer algorithm, especially on the batching process of empty lines.

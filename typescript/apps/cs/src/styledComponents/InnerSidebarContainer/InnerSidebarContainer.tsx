@@ -1,14 +1,7 @@
 import { combineStringsWithSpaces } from "@packages/string-utils";
 import { dynatic } from "../../dynatic-css.config";
 import { InnerSidebar } from "./InnerSidebar";
-import { InnerSidebarProps } from "./types";
-import { type ReactNode } from "react";
-
-type InnerSidebarContainerProps<T extends string> = InnerSidebarProps<T> & {
-  className?: string;
-  sidebarClassName?: string;
-  content: ReactNode;
-};
+import { InnerSidebarContainerProps } from "./types";
 
 export const InnerSidebarContainer = <T extends string>({
   className,

@@ -28,7 +28,7 @@ export const drawTraces = ({
   const keptPaths = new Set<number>(keepPathsOf);
 
   trace.forEach((current, index) => {
-    const { from, to, step } = current;
+    const { from, to, step, color } = current;
 
     const fromXPosition = xPositions[step];
     const toXPosition = xPositions[step + 1];
@@ -39,6 +39,11 @@ export const drawTraces = ({
 
     const fromYPosition = yPositions[fromDifference];
     const toYPosition = yPositions[toDifference];
+
+    if (color) {
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+    }
 
     if (displayTraceLabels) {
       const fromLabel = !isSwitched ? `${from.x},${from.y}` : `${from.x}`;
@@ -55,6 +60,11 @@ export const drawTraces = ({
       ctx.moveTo(fromXPosition + linePadding, fromYPosition + addedPadding - heightAddition / 2);
       ctx.lineTo(toXPosition - linePadding, toYPosition - addedPadding + heightAddition / 3);
       ctx.stroke();
+    }
+
+    if (color) {
+      ctx.strokeStyle = "black";
+      ctx.fillStyle = "black";
     }
   });
 };

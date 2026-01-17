@@ -18,7 +18,9 @@ const config = {
   uniqueClasses: {
     group: "group",
     child: "child",
-  }
+    parent: "parent",
+    char: "char",
+  },
 } as const satisfies DynaticConfiguration;
 
 const classes: string[] = [];

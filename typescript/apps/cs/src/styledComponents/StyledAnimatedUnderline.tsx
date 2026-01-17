@@ -12,7 +12,9 @@ export const StyledAnimatedUnderline = ({ children }: StyledAnimatedUnderlinePro
     <AnimatedUnderline
       className={combineStringsWithSpaces(
         dynatic`
-          ${(config) => config.utils.descendantSelector({ classNames: ["group:hover", "child--transform: scaleX(0%)"] })}
+          ${(config) => config.utils.descendantSelector({ classNames: ["group:hover", "child--transform: scaleX(0%)"] })} {
+            transform: scaleX(100%);
+          }
         `,
         "group",
       )}

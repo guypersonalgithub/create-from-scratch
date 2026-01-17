@@ -6,6 +6,7 @@ export type Highlight = {
   skipped?: boolean;
   label?: string;
   color?: string;
+  endComment?: string;
 };
 
 export type Animation = {
@@ -14,4 +15,14 @@ export type Animation = {
   axisDuration: number;
   diagonalsDuration: number;
   highlightsDuration: number;
+};
+
+export type Section = {
+  from: TwoDimensionalPoint;
+  to: TwoDimensionalPoint;
+};
+
+export type Connection = {
+  from: TwoDimensionalPoint;
+  to: TwoDimensionalPoint;
 };

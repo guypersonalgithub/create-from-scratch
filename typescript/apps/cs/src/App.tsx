@@ -10,6 +10,7 @@ import {
   Binary as BinaryIcon,
   Paragraph as ParagraphIcon,
   Hardware as HardwareIcon,
+  Javascript as JavascriptIcon,
 } from "@packages/icons";
 import { Router, usePath, usePathState } from "@packages/router";
 import { EllipsisTooltip, TooltipManager } from "@packages/tooltip";
@@ -29,6 +30,7 @@ import { Binary } from "./routes/binary/Binary";
 import { dynatic } from "./dynatic-css.config";
 import { Algorithms } from "./routes/algorithms/Algorithms";
 import { Hardware } from "./routes/hardware/Hardware";
+import { Javascript } from "./routes/javascript/Javascript";
 
 const searchableRoutes = [
   {
@@ -164,6 +166,7 @@ const App = () => {
                 );
               },
               "/math!": <Math />,
+              "/javascript!": <Javascript />,
               "/typescript!": <Typescript />,
               "/containers!": <Containers />,
               "/css!": <CSS />,
@@ -202,6 +205,7 @@ const SidebarWrapper = () => {
       links={[
         { icon: <Home />, label: "Home", pathname: "/" },
         { icon: <Calculator />, label: "Math", pathname: "/math" },
+        { icon: <JavascriptIcon />, label: "Javascript", pathname: "/javascript" },
         { icon: <TypescriptIcon />, label: "Typescript", pathname: "/typescript" },
         { icon: <Container />, label: "Containers", pathname: "/containers" },
         { icon: <CSSIcon />, label: "CSS", pathname: "/css" },

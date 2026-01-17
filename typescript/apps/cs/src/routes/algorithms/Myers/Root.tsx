@@ -1,25 +1,21 @@
-import { StyledMainTitle, StyledSubTitle } from "../../../styledComponents/StyledMainTitle";
 import { MinorDiff } from "../../../styledComponents/MinorDiff";
 import { myersConstants } from "./constants";
+import { StyledSkewedTitle } from "../../../styledComponents/StyledSkewedTitle";
 
 export const MyersRoot = () => {
   const { fromExample, toExample } = myersConstants;
 
   return (
-    <div>
-      <StyledMainTitle>Myers</StyledMainTitle>
-      <StyledSubTitle>Or more specifically Myers diff algorithm</StyledSubTitle>
+    <>
+      <StyledSkewedTitle title="Myers" skewed="Algorithm" />
       <div>
-        Is an algorithm that mathematically calculates the least amount of changes required to alter
-        a string so that it would match another string.
+        An algorithm that mathematically calculates the least amount of changes required to alter a
+        string so that it would match another string.
       </div>
       <div>
-        For instance, from <b>{fromExample}</b> to <b>{toExample}</b>.
+        For instance, reaching from <b>{fromExample}</b> to <b>{toExample}</b>.
       </div>
-      <div>
-        When speaking of diffs regularly, one could notice there is potentially a decent amount of
-        variations that could lead from string A to string B.
-      </div>
+      <div>In general, there are many ways to reach from string A to string B.</div>
       <div>Whether that would be:</div>
       <MinorDiff
         diffs={[
@@ -56,34 +52,38 @@ export const MyersRoot = () => {
         ]}
       />
       <div>
-        However, not everyone of them is as easy to tell what was actually changed. This example
-        shows the difference between two simple strings, 4 characters each.
-      </div>
-      <div>It is possible to be required to calculate the diff of millions of characters.</div>
-      <div>
-        When looking at the 3 different examples above, we can tell very easily that the first one
-        is far more verbose, it has much more insertions and deletions as opposed to the other two,
-        who use the fact certain characters might remain on both versions, and try to build their
-        solution around them in order to avoid unnecessary additional changes.
+        All of them are reaching the same end goal, but the process of moving from A to B is
+        different. Not only that, if we would like to know what was actually changed during the
+        process, some of the ways to do so, lead to a very subpar way of displaying said changes.
       </div>
       <div>
-        However, both the last 2 examples show the same number of changes, while listing different
-        changes between the strings.
+        While the current example is a just a diff between 4 characters, when speaking of
+        algorithms, they should also be able to support millions of changes, and make it easier to
+        understand what was actually changed during the process.
       </div>
       <div>
-        That's why a diff algorithm should not only find the least amount of changes, but also a
-        consistent diff strategy.
+        When looking at the 3 different examples above, it is very simple to notice that the first
+        example is far more verbose. It has much more insertions and deletions as opposed to the
+        other two, who use the fact certain characters might remain on both versions, and try to
+        build their solution around them in order to minimize the amount of changes required.
       </div>
       <div>
-        The strategy should ideally create coherent consistent diffs, so that it would highlight
-        changes as blocks as opposed to separate lines (assuming more than one line was changed), so
-        that it would be clearer what was changed without a constant mess of deletions and
-        insertions.
+        However, even if both last examples require the same number of changes, the order of said
+        changes and the actual changes required are different between them.
       </div>
       <div>
-        That's why ideally we should be aiming at calculating the minimum amount of changes from
-        string A to string B, which is what the Myers algorithm excels at.
+        That's why, in order to meaningfully figure out what was changed consistently across
+        multiple usecases, a diff algorithm should not only find the least amount of changes, but
+        also should have a consistent diff strategy.
       </div>
-    </div>
+      <div>
+        <b>
+          The strategy should ideally create coherent consistent diffs, so that it would highlight
+          changes as blocks as opposed to separate separated lines, as that makes alot of potential
+          visual noise.
+        </b>
+      </div>
+      <div>Myers algorithm exactly excels at that.</div>
+    </>
   );
 };

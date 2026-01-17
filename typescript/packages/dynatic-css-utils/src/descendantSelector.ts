@@ -19,7 +19,10 @@ export const descendantSelector = <T extends string>({ classNames }: DescendantS
         return className;
       }
 
-      return `${className.slice(0, indexOfProperty)}.css-${hashString({ input: className.slice(indexOfProperty + 2) })}`;
+      const input = className.slice(indexOfProperty + 2);
+      const updated = input[input.length - 1] === ";" ? input.slice(0, input.length - 1) : input;
+
+      return `${className.slice(0, indexOfProperty)}.css-${hashString({ input: updated })}`;
     })
     .join(" .");
 };

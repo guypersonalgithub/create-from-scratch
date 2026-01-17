@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b .",
+    "test": "tests-cli",
     "typecheck": "tsc --noEmit -p ."
   },
   "author": "",

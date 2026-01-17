@@ -45,6 +45,7 @@ type CalculateHighlightDataArgs = {
 type FunctionReturnType = {
   skipped?: boolean;
   label?: string;
+  endComment?: string;
   color?: string;
   highlightStartX: number;
   highlightStartY: number;
@@ -66,7 +67,7 @@ export const calculateHighlightData = ({
   distanceX,
   distanceY,
 }: CalculateHighlightDataArgs): FunctionReturnType => {
-  const { from, to, skipped, label, color } = highlight;
+  const { from, to, skipped, label, color, endComment } = highlight;
 
   const yAddition = calculateAddition({ highlight });
 
@@ -86,8 +87,8 @@ export const calculateHighlightData = ({
       endY,
     });
 
-    return { skipped, label, color, highlightStartX, highlightStartY, endX, endY, ...data };
+    return { skipped, label, endComment, color, highlightStartX, highlightStartY, endX, endY, ...data };
   }
 
-  return { skipped, label, color, highlightStartX, highlightStartY, endX, endY };
+  return { skipped, label, endComment, color, highlightStartX, highlightStartY, endX, endY };
 };

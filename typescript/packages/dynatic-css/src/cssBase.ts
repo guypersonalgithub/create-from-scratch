@@ -66,6 +66,20 @@ export function cssBase<T extends DynaticConfiguration | undefined>(
 
   for (let i = 0; i < cssLines.length; i++) {
     const str = cssLines[i];
+    const trimmed = str.trim();
+    if (trimmed.startsWith(".") && trimmed.endsWith("{")) {
+      const descendantSelector = trimmed.slice(0, trimmed.length - 1).trim();
+      const line = cssLines[i + 1];
+
+      if (line) {
+        parseLine({ line, classNames, descendantSelector });
+
+        i = i + 2;
+      }
+
+      continue;
+    }
+
     const parsed = splitOnSpaceOrNewline({ str });
 
     if (parsed.length > 0) {

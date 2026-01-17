@@ -40,6 +40,9 @@
     "@packages/button": "*",
     "@packages/format-number": "*",
     "@packages/animated-underline": "*",
+    "@packages/comparison-table": "*",
+    "@packages/diff-displayer": "*",
+    "@packages/staggered": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

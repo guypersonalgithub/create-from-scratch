@@ -1,5 +1,6 @@
 import type { Meta } from "@storybook/react";
 import { MyersCanvas } from "@packages/myers-visualizer";
+import { dynatic } from "@packages/dynatic-css";
 
 const meta = {
   title: "MyersCanvas",
@@ -99,6 +100,28 @@ export const Animated = {
           { from: { x: 1, y: 3 }, to: { x: 2, y: 3 }, label: "3" },
           { from: { x: 1, y: 3 }, to: { x: 1, y: 4 }, skipped: true },
         ]}
+      />
+    );
+  },
+};
+
+export const Partial = {
+  render: () => {
+    return (
+      <MyersCanvas
+        className={dynatic`
+          height: 1000px;
+          width: 1000px;
+        `}
+        oldStr="ASDFGHJKLQWEBMYUIOP"
+        newStr="VGDZGDXKSQWERTWUVOB"
+        partial={{
+          sections: [
+            { from: { x: 0, y: 0 }, to: { x: 9, y: 9 } },
+            { from: { x: 12, y: 12 }, to: { x: 19, y: 19 } },
+          ],
+          connections: [{ from: { x: 9, y: 9 }, to: { x: 12, y: 12 } }],
+        }}
       />
     );
   },

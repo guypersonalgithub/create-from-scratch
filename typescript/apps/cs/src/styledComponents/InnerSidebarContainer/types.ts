@@ -1,5 +1,11 @@
 import { type ReactNode } from "react";
 
+export type InnerSidebarContainerProps<T extends string> = InnerSidebarProps<T> & {
+  className?: string;
+  sidebarClassName?: string;
+  content: ReactNode;
+};
+
 export type InnerSidebarItem<T extends string> = {
   value: T;
   label: ReactNode;

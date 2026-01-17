@@ -93,7 +93,10 @@
     "@packages/password-input": "*",
     "@packages/image-viewer": "*",
     "@packages/lazy-image": "*",
-    "@packages/animated-underline": "*"
+    "@packages/animated-underline": "*",
+    "@packages/comparison-table": "*",
+    "@packages/shake": "*",
+    "@packages/staggered": "*"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.4.5",

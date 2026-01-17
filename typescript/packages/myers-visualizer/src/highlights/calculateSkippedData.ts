@@ -1,4 +1,5 @@
 import {
+  calculateAverage,
   calculateSlope,
   calculateSlopeBasedOffAngleAndAnotherSlopeBetweenLines,
 } from "@packages/math";
@@ -21,8 +22,8 @@ export const calculateSkippedData = ({
   endX,
   endY,
 }: CalculateSkippedDataArgs) => {
-  const highlightCenterX = (endX + highlightStartX) / 2;
-  const highlightCenterY = (endY + highlightStartY) / 2;
+  const highlightCenterX = calculateAverage({ data: [endX, highlightStartX] });
+  const highlightCenterY = calculateAverage({ data: [endY, highlightStartY] });
   const existingSlope = calculateSlope({ point1: from, point2: to });
   const uncalculatableSlope = existingSlope === Infinity; // point1.x === point2.x
 

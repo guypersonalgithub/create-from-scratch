@@ -1,12 +1,17 @@
 import { dynatic } from "@packages/dynatic-css";
 import { useEffect, useRef } from "react";
 import { scaleCanvasByDevicePixelRatio } from "@packages/canvas-utils";
-import type { Animation, Highlight } from "./types";
+import type { Animation, Connection, Highlight, Section } from "./types";
 import { drawDiagonals } from "./drawDiagonals";
-import { drawYLinesAndLabels } from "./drawYLinesAndLabels";
-import { drawXLinesAndLabels } from "./drawXLinesAndLabels";
+import { drawYLines } from "./drawYLines";
+import { drawXLines } from "./drawXLines";
 import { initializeBordersAndPoints } from "./initializeBordersAndPoints";
 import { drawHighlights } from "./highlights/drawHighlights";
+import { drawXLabels } from "./drawXLabels";
+import { drawYLabels } from "./drawYLabels";
+import { drawStartAndEndPoints } from "./drawStartAndEndPoints";
+import { drawConnections } from "./drawConnections";
+import { drawSections } from "./drawSections";
 
 // TODO: Replace the eventListener callback with a localized callback, otherwise multiple component instances could trigger a single component's event.
 
@@ -16,6 +21,10 @@ type MyersCanvasProps = {
   newStr: string;
   highlights?: Highlight[];
   animation?: Animation;
+  partial?: {
+    sections: Section[];
+    connections?: Connection[];
+  };
 };
 
 export const MyersCanvas = ({
@@ -27,6 +36,7 @@ export const MyersCanvas = ({
   newStr,
   highlights = [],
   animation,
+  partial = { sections: [] },
 }: MyersCanvasProps) => {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -58,24 +68,49 @@ export const MyersCanvas = ({
     const endX = width - startX;
     const endY = height - startY;
 
-    initializeBordersAndPoints({ ctx, oldStr, newStr, startX, startY, endX, endY, animation });
+    initializeBordersAndPoints({ ctx, startX, startY, endX, endY, animation });
+    drawStartAndEndPoints({ ctx, oldStr, newStr, startX, startY, endX, endY });
 
     const distanceX = (endX - startX) / oldStr.length;
     const distanceY = (endY - startY) / newStr.length;
 
-    drawXLinesAndLabels({ ctx, oldStr, startX, startY, distanceX, endY, animation });
-    drawYLinesAndLabels({ ctx, newStr, startX, startY, distanceY, endX, animation });
-    drawDiagonals({ ctx, oldStr, newStr, startX, startY, distanceX, distanceY, animation });
+    drawXLabels({ ctx, oldStr, startX, startY, distanceX, endY });
+    drawYLabels({ ctx, newStr, startX, startY, distanceY, endX });
+
+    const { sections, connections = [] } = partial;
+    const isPartial = sections.length > 0;
+
+    if (!isPartial) {
+      drawXLines({ ctx, oldStr, startX, startY, distanceX, endY, animation });
+      drawYLines({ ctx, newStr, startX, startY, distanceY, endX, animation });
+      drawDiagonals({ ctx, oldStr, newStr, startX, startY, distanceX, distanceY, animation });
+    } else {
+      drawSections({
+        ctx,
+        sections,
+        oldStr,
+        newStr,
+        startX,
+        startY,
+        distanceX,
+        distanceY,
+        animation,
+      });
+      drawConnections({ ctx, connections, startX, startY, distanceX, distanceY, animation });
+    }
 
     if (!animation) {
       drawHighlights({ ctx, highlights, startX, startY, distanceX, distanceY });
     } else {
       let counter = 0;
+      const triggerThreshold = !isPartial
+        ? 4
+        : 1 + sections.length * 4 + (connections.length > 0 ? 1 : 0);
 
       const animateHighlights = () => {
         counter++;
 
-        if (counter === 4) {
+        if (counter === triggerThreshold) {
           drawHighlights({ ctx, highlights, startX, startY, distanceX, distanceY, animation });
         }
       };
@@ -92,7 +127,7 @@ export const MyersCanvas = ({
         );
       };
     }
-  }, []);
+  }, [partial.sections.length]);
 
   return <canvas ref={ref} className={className} />;
 };

@@ -99,6 +99,20 @@ export default defineConfig({
         "../../packages/format-number/src/index.ts",
       ),
       "@packages/locale": path.resolve(__dirname, "../../packages/locale/src/index.ts"),
+      "@packages/animated-underline": path.resolve(
+        __dirname,
+        "../../packages/animated-underline/src/index.ts",
+      ),
+      "@packages/comparison-table": path.resolve(
+        __dirname,
+        "../../packages/comparison-table/src/index.ts",
+      ),
+      "@packages/diff-displayer": path.resolve(
+        __dirname,
+        "../../packages/diff-displayer/src/index.ts",
+      ),
+      "@packages/diff": path.resolve(__dirname, "../../packages/diff/src/index.ts"),
+      "@packages/staggered": path.resolve(__dirname, "../../packages/staggered/src/index.ts"),
       "@packages/dynatic-css-vite-plugin": path.resolve(
         __dirname,
         "../../dev-packages/dynatic-css-vite-plugin/src/index.ts",

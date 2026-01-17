@@ -22,7 +22,7 @@ export const parseLine = ({
   }
 
   if (descendantSelector) {
-    return insertDescendantSelectorIfNeeded({ rule: line, descendantSelector });
+    return insertDescendantSelectorIfNeeded({ rule: trimmed, descendantSelector });
   }
 
   const fullLine = createClassName({ value: line, pseudoClass, mediaQuery });

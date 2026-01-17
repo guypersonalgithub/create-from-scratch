@@ -8,7 +8,12 @@ export const getRelatedImports = ({ imports, mappedAliases }: GetRelatedImportsA
 
   for (const path in imports) {
     if (path.startsWith("@packages")) {
-      relatedImports.push({ path: mappedAliases[path], isPackage: true });
+      const relatedImportPath = mappedAliases[path];
+      if (!relatedImportPath) {
+        throw `Missing related import ${path}`;
+      }
+
+      relatedImports.push({ path: relatedImportPath, isPackage: true });
     } else if (path.startsWith(".")) {
       relatedImports.push({ path, isPackage: false });
     }

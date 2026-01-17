@@ -58,6 +58,11 @@ on:
       - typescript/packages/request-animation-frame/**
       - typescript/packages/format-number/**
       - typescript/packages/locale/**
+      - typescript/packages/animated-underline/**
+      - typescript/packages/comparison-table/**
+      - typescript/packages/diff-displayer/**
+      - typescript/packages/diff/**
+      - typescript/packages/staggered/**
       - typescript/dev-packages/dynatic-css-vite-plugin/**
       - typescript/dev-packages/dynatic-css-typescript-parser/**
       - typescript/dev-packages/typescript-file-manipulation/**
