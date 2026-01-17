@@ -38,14 +38,14 @@ const RouterContent = ({
   wrapperStyle,
 }: RouterContentProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollFirstOverflowedParentToTop } = useScrollToTheTopManual();
+  const { scrollToContainerTop } = useScrollToTheTopManual();
 
   useEffect(() => {
     if (!ref.current) {
       return;
     }
 
-    scrollFirstOverflowedParentToTop({ element: ref.current });
+    scrollToContainerTop({ element: ref.current });
   }, [passedPath]);
 
   return (

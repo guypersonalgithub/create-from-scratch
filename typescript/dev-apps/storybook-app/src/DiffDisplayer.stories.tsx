@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { DiffDisplayer } from "@packages/diff-displayer";
-import { charDiff } from "@packages/diff";
 
 const meta = {
   title: "DiffDisplayer",
@@ -13,19 +12,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
-  args: {
-    newStr: `import { type RefObject, useEffect, useImperativeHandle, useRef } from "react";
-import { type CanvasTooltipActions, type TooltipProperties } from "./types";
-import { drawTooltip } from "./drawTooltip";
-import {
-  clearCanvas,
-  getMousePosition,
-  type HoverableElement,
-  hoveredElements,
-} from "@packages/canvas-utils";
-import { drawAnimatedTooltipFrame } from "./drawAnimatedTooltipFrame";`,
-    oldStr: `import {
+const from = `import {
   type RefObject,
   // useEffect,
   useImperativeHandle,
@@ -40,22 +27,63 @@ import {
   type HoverableElement,
   // hoveredElements,
 } from "@packages/canvas-utils";
-// import { drawAnimatedTooltipFrame } from "./drawAnimatedTooltipFrame";
-import { getTooltipAPI } from "./tooltipAPI";`,
-    highlightSubDifferences: false,
+import { drawAnimatedTooltipFrame } from "./drawAnimatedTooltipFrame";
+import { getTooltipAPI } from "./tooltipAPI";`;
+
+const to = `import { type RefObject, useEffect, useImperativeHandle, useRef } from "react";
+import { type CanvasTooltipActions, type TooltipProperties } from "./types";
+import { drawTooltip } from "./drawTooltip";
+import {
+  clearCanvas,
+  getMousePosition,
+  type HoverableElement,
+  hoveredElements,
+} from "@packages/canvas-utils";
+import { drawAnimatedTooltipFrame } from "./drawAnimatedTooltipFrame";`;
+
+export const Primary: Story = {
+  args: {
+    from,
+    to,
+    highlightSubDifferences: true,
   },
   render: (args) => {
-//     const test = charDiff({
-//       oldStr: `useRef } from "react";`,
-//       newStr: `
-//   useRef,
-// } from "react";`,
-//     });
-    // console.log(test);
-
     return <DiffDisplayer {...args} />;
   },
 };
 
+export const WithoutHighlight: Story = {
+  args: {
+    from,
+    to,
+    highlightSubDifferences: false,
+  },
+  render: (args) => {
+    return <DiffDisplayer {...args} />;
+  },
+};
 
-// console.log(vscodeDiff(oldStr, newStr));
+export const Replaced: Story = {
+  args: {
+    from: `const testing1 = () => {
+  return 12345;
+};
+
+const testing2 = () => {
+  return "a" + "b" + "c";
+};`,
+    to: `
+const testing2 = () => {
+  return "a" + "b" + "c";
+};
+
+const testing1 = () => {
+  return 12345;
+};
+
+`,
+  },
+  render: (args) => {
+    return <DiffDisplayer {...args} />;
+  },
+};

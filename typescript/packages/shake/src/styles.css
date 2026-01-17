@@ -1,0 +1,21 @@
+.shake {
+      animation: shake 0.3s forwards;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(var(--shake));
+  }
+
+  50% {
+    transform: translateX-(var(--shake));
+  }
+
+  75% {
+    transform: translateX(var(--shake));
+  }
+
+  100% {
+    transform: translateX-(var(--shake));
+  }
+}

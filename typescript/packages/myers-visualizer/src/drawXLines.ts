@@ -1,42 +1,42 @@
-import { progressiveAnimate } from "@packages/request-animation-frame";
-import type { Animation } from "./types";
 import { markAnimationDone } from "./markAnimationDone";
+import type { Animation } from "./types";
+import { progressiveAnimate } from "@packages/request-animation-frame";
 
-type DrawYLinesAndLabelsArgs = {
+type DrawXLinesArgs = {
   ctx: CanvasRenderingContext2D;
-  newStr: string;
+  oldStr: string;
   startX: number;
   startY: number;
-  distanceY: number;
-  endX: number;
+  distanceX: number;
+  endY: number;
   animation?: Animation;
 };
 
-export const drawYLinesAndLabels = ({
+export const drawXLines = ({
   ctx,
-  newStr,
+  oldStr,
   startX,
   startY,
-  distanceY,
-  endX,
+  distanceX,
+  endY,
   animation,
-}: DrawYLinesAndLabelsArgs) => {
-  const oldStrLength = newStr.length;
+}: DrawXLinesArgs) => {
+  const oldStrLength = oldStr.length;
 
   if (!animation) {
     for (let i = 1; i < oldStrLength; i++) {
-      const lineY = distanceY * i + startY;
+      const lineX = distanceX * i + startX;
 
       ctx.beginPath();
-      ctx.moveTo(startX, lineY);
-      ctx.lineTo(endX, lineY);
+      ctx.moveTo(lineX, startY);
+      ctx.lineTo(lineX, endY);
       ctx.stroke();
     }
   } else {
     const { staggered, borderDuration } = animation;
     const percentagePerPart = 1 / oldStrLength;
 
-    const addition = endX - startX;
+    const addition = endY - startY;
 
     const draw = ({ progress }: { progress: number }) => {
       if (staggered) {
@@ -47,24 +47,24 @@ export const drawYLinesAndLabels = ({
             break;
           }
 
-          const lineY = distanceY * i + startY;
+          const lineX = distanceX * i + startX;
 
           const difference = progress - threshold;
           const actualProgress =
             difference > percentagePerPart ? 1 : difference / percentagePerPart;
 
           ctx.beginPath();
-          ctx.moveTo(startX, lineY);
-          ctx.lineTo(startX + addition * actualProgress, lineY);
+          ctx.moveTo(lineX, startY);
+          ctx.lineTo(lineX, startY + addition * actualProgress);
           ctx.stroke();
         }
       } else {
         for (let i = 1; i < oldStrLength; i++) {
-          const lineY = distanceY * i + startY;
+          const lineX = distanceX * i + startX;
 
           ctx.beginPath();
-          ctx.moveTo(startX, lineY);
-          ctx.lineTo(startX + addition * progress, lineY);
+          ctx.moveTo(lineX, startY);
+          ctx.lineTo(lineX, startY + addition * progress);
           ctx.stroke();
         }
       }
@@ -80,17 +80,5 @@ export const drawYLinesAndLabels = ({
         onEnd: markAnimationDone,
       }),
     );
-  }
-
-  for (let i = 0; i < oldStrLength; i++) {
-    const current = newStr[i];
-    const num = i + 1;
-    const y = distanceY * num + startY;
-
-    ctx.fillText(current, startX - 20, y);
-
-    if (i < oldStrLength - 1) {
-      ctx.fillText(`${num}`, endX + 20, y);
-    }
   }
 };

@@ -42,6 +42,7 @@ export const drawHighlights = ({
       const {
         skipped,
         label,
+        endComment,
         color,
         highlightStartX,
         highlightStartY,
@@ -76,7 +77,11 @@ export const drawHighlights = ({
       drawHighlightEnd({ ctx, x: endX, y: endY, radius: 3 });
 
       if (label) {
-        drawLabel({ ctx, label, highlightStartX, highlightStartY });
+        drawLabel({ ctx, label, highlightStartX, highlightStartY, includeArc: true });
+      }
+
+      if (endComment) {
+        drawLabel({ ctx, label: endComment, highlightStartX: endX, highlightStartY: endY });
       }
 
       if (skipped) {

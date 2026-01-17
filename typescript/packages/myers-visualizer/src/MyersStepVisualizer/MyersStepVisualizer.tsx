@@ -6,7 +6,12 @@ import { drawLabels } from "./drawLabels";
 import { type DrawTextArgs, type ExternalRefProps, type Trace } from "./types";
 import { drawTraces } from "./drawTraces";
 import { calculateStepsAndDifference } from "./calculateStepsAndDifference";
-import { calculateAverage } from "@packages/math";
+import {
+  calculateAverage,
+  calculateSlope,
+  calculateSlopeBasedOffAngleAndAnotherSlopeBetweenLines,
+} from "@packages/math";
+import { drawSkippedX } from "../highlights/drawSkippedX";
 
 type MyersStepVisualizerProps = {
   className?: string;
@@ -62,6 +67,7 @@ export const MyersStepVisualizer = ({
   const ref = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const positions = useRef<DrawTextArgs>({ xPositions: {}, yPositions: {} });
+  const distance = useRef<{ distanceX: number; distanceY: number }>({ distanceX: 0, distanceY: 0 });
 
   useEffect(() => {
     const canvas = ref.current;
@@ -108,6 +114,8 @@ export const MyersStepVisualizer = ({
       endX,
       endY,
     });
+
+    distance.current = { distanceX, distanceY };
 
     const { xPositions, yPositions } = drawLabels({
       ctx,
@@ -156,12 +164,66 @@ export const MyersStepVisualizer = ({
 
         const { xFirst, xSecond, yFirst, ySecond, radius } = callback(positions.current);
 
-        const xAverage = calculateAverage({ data: [xSecond, xFirst] });
-        const yAverage = calculateAverage({ data: [ySecond, yFirst] });
+        const xAverage = xSecond ? calculateAverage({ data: [xSecond, xFirst] }) : xFirst;
+        const yAverage = ySecond ? calculateAverage({ data: [ySecond, yFirst] }) : yFirst;
 
         ctx.beginPath();
         ctx.arc(xAverage, yAverage, radius, 0, 360);
         ctx.stroke();
+      },
+      drawRectangle: ({ callback }) => {
+        if (!contextRef.current) {
+          return;
+        }
+
+        const ctx = contextRef.current;
+
+        const { x, y, width, height, color } = callback(positions.current);
+
+        if (color) {
+          ctx.strokeStyle = color;
+        }
+
+        ctx.beginPath();
+        ctx.rect(x, y, width, height);
+        ctx.stroke();
+
+        if (color) {
+          ctx.strokeStyle = "black";
+        }
+      },
+      drawX: ({ callback }) => {
+        if (!contextRef.current) {
+          return;
+        }
+
+        const ctx = contextRef.current;
+
+        const { from, to } = callback(positions.current);
+
+        const existingSlope = calculateSlope({ point1: from, point2: to });
+        const uncalculatableSlope = existingSlope === Infinity; // point1.x === point2.x
+
+        const { caseA, caseB } = calculateSlopeBasedOffAngleAndAnotherSlopeBetweenLines({
+          degree: 5,
+          existingSlope: uncalculatableSlope ? 0 : existingSlope,
+        });
+
+        const xAverage = calculateAverage({ data: [from.x, to.x] });
+        const yAverage = calculateAverage({ data: [from.y, to.y] });
+
+        const firstX = xAverage - 20;
+        const firstY = caseA * (firstX - xAverage) + yAverage;
+        const secondX = xAverage + 20;
+        const secondY = caseB * (secondX - xAverage) + yAverage;
+        const firstEnd = caseA * (secondX - xAverage) + yAverage;
+        const secondEnd = caseB * (firstX - xAverage) + yAverage;
+
+        ctx.strokeStyle = "red";
+
+        drawSkippedX({ ctx, firstX, firstY, secondX, secondY, firstEnd, secondEnd });
+
+        ctx.strokeStyle = "black";
       },
     };
   });

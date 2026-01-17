@@ -52,6 +52,11 @@ COPY ./packages/math/package.json ./packages/math/package.json
 COPY ./packages/request-animation-frame/package.json ./packages/request-animation-frame/package.json
 COPY ./packages/format-number/package.json ./packages/format-number/package.json
 COPY ./packages/locale/package.json ./packages/locale/package.json
+COPY ./packages/animated-underline/package.json ./packages/animated-underline/package.json
+COPY ./packages/comparison-table/package.json ./packages/comparison-table/package.json
+COPY ./packages/diff-displayer/package.json ./packages/diff-displayer/package.json
+COPY ./packages/diff/package.json ./packages/diff/package.json
+COPY ./packages/staggered/package.json ./packages/staggered/package.json
 COPY ./dev-packages/dynatic-css-vite-plugin/package.json ./dev-packages/dynatic-css-vite-plugin/package.json
 COPY ./dev-packages/dynatic-css-typescript-parser/package.json ./dev-packages/dynatic-css-typescript-parser/package.json
 COPY ./dev-packages/typescript-file-manipulation/package.json ./dev-packages/typescript-file-manipulation/package.json
@@ -118,6 +123,11 @@ COPY ./packages/math ./packages/math
 COPY ./packages/request-animation-frame ./packages/request-animation-frame
 COPY ./packages/format-number ./packages/format-number
 COPY ./packages/locale ./packages/locale
+COPY ./packages/animated-underline ./packages/animated-underline
+COPY ./packages/comparison-table ./packages/comparison-table
+COPY ./packages/diff-displayer ./packages/diff-displayer
+COPY ./packages/diff ./packages/diff
+COPY ./packages/staggered ./packages/staggered
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -185,6 +195,11 @@ COPY ./packages/math ./packages/math
 COPY ./packages/request-animation-frame ./packages/request-animation-frame
 COPY ./packages/format-number ./packages/format-number
 COPY ./packages/locale ./packages/locale
+COPY ./packages/animated-underline ./packages/animated-underline
+COPY ./packages/comparison-table ./packages/comparison-table
+COPY ./packages/diff-displayer ./packages/diff-displayer
+COPY ./packages/diff ./packages/diff
+COPY ./packages/staggered ./packages/staggered
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation
@@ -252,6 +267,11 @@ COPY ./packages/math ./packages/math
 COPY ./packages/request-animation-frame ./packages/request-animation-frame
 COPY ./packages/format-number ./packages/format-number
 COPY ./packages/locale ./packages/locale
+COPY ./packages/animated-underline ./packages/animated-underline
+COPY ./packages/comparison-table ./packages/comparison-table
+COPY ./packages/diff-displayer ./packages/diff-displayer
+COPY ./packages/diff ./packages/diff
+COPY ./packages/staggered ./packages/staggered
 COPY ./dev-packages/dynatic-css-vite-plugin ./dev-packages/dynatic-css-vite-plugin
 COPY ./dev-packages/dynatic-css-typescript-parser ./dev-packages/dynatic-css-typescript-parser
 COPY ./dev-packages/typescript-file-manipulation ./dev-packages/typescript-file-manipulation

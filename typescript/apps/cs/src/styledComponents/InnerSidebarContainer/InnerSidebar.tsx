@@ -1,7 +1,7 @@
 import { combineStringsWithSpaces } from "@packages/string-utils";
 import { dynatic } from "../../dynatic-css.config";
 import { Button } from "@packages/button";
-import { InnerSidebarProps } from "./types";
+import { type InnerSidebarProps } from "./types";
 
 export const InnerSidebar = <T extends string>({
   className,
@@ -39,6 +39,8 @@ export const InnerSidebar = <T extends string>({
                 color: #aaa;
                 border: none;
                 text-align: left;
+                letter-spacing: -0.05em;
+                font-weight: bold;
 
                 &:hover {
                   background: linear-gradient(135deg, #ff0033, #660012);
@@ -49,7 +51,7 @@ export const InnerSidebar = <T extends string>({
               isSelected &&
                 dynatic`
                     background: linear-gradient(135deg, #ff0033, #660012);
-                    color: #fff;
+                    color: #fff !important;
                     box-shadow: 0 0 0 1px rgba(255,0,50,0.4);
                 `,
             )}

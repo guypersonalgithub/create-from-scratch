@@ -1,8 +1,8 @@
 import { MathML, unicodes } from "@packages/mathml";
-import { Table } from "@packages/table";
 import { StyledLink } from "../../../../styledComponents/StyledLink";
 import { StyledMainTitle, StyledSubTitle } from "../../../../styledComponents/StyledMainTitle";
 import { dynatic } from "../../../../dynatic-css.config";
+import { StyledComparisonTable } from "../../../../styledComponents/StyledComparisonTable";
 
 export const GeometricDerivativeInterpretation = () => {
   return (
@@ -49,37 +49,7 @@ export const GeometricDerivativeInterpretation = () => {
         <div>= average rate of change of f(x) with respect to x.</div>
       </div>
       <div>The closer the points get, the closer the secant line becomes to the tangent line.</div>
-      <Table
-        containerClassName={dynatic`
-          width: fit-content;
-        `}
-        headerContainerClassName={dynatic`
-          background-color: #242424;
-          border-bottom: 1px solid #383232;
-          padding-left: 10px;
-          padding-right: 10px;
-        `}
-        rows={{
-          dataRow: {
-            size: 50,
-          },
-        }}
-        dataRowClassName={() => {
-          return dynatic`
-            padding-left: 10px;
-            padding-right: 10px;
-          `;
-        }}
-        columnClassName={(index) => {
-          if (index === 0) {
-            return;
-          }
-
-          return dynatic`
-            border-left: 1px solid #383232;
-            padding-left: 10px;
-          `;
-        }}
+      <StyledComparisonTable
         columns={[
           {
             header: "Interpretation",
@@ -144,7 +114,7 @@ export const GeometricDerivativeInterpretation = () => {
             tangent: <MathML input="f'(a)" isAnExpression />,
           },
           {
-            interpretation: "Phystical",
+            interpretation: "Physical",
             secant: "Average rate of change",
             tangent: "Instantenous rate of change",
           },

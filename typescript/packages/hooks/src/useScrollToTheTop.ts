@@ -30,6 +30,7 @@ export const useScrollToTheTopManual = () => {
     window.scrollTo(0, 0);
   };
 
+  // TODO: Fix like scrollToContainerTop
   const scrollParentToTop = ({ element }: ScrollParentToTopArgs) => {
     let parent: HTMLElement | null = element.parentElement;
 
@@ -46,19 +47,21 @@ export const useScrollToTheTopManual = () => {
     }
   };
 
-  const scrollFirstOverflowedParentToTop = ({ element }: ScrollParentToTopArgs) => {
+  const scrollToContainerTop = ({ element }: ScrollParentToTopArgs) => {
+    let current: HTMLElement | null = element;
     let parent: HTMLElement | null = element.parentElement;
-
+    
     while (parent) {
-      const isScrollable = elementIsScrollable({ element: parent });
+      const isScrollable = elementIsScrollable({ element: current });
       if (isScrollable) {
-        parent.scrollTo(0, 0);
+        current.scrollTo(0, 0);
         break;
       }
 
+      current = parent;
       parent = parent.parentElement;
     }
   };
 
-  return { scrollWindowToTheTop, scrollParentToTop, scrollFirstOverflowedParentToTop };
+  return { scrollWindowToTheTop, scrollParentToTop, scrollToContainerTop };
 };

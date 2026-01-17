@@ -133,7 +133,7 @@ const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: Forma
   }, [isAnExpression]);
 
   return (
-    <>
+    <div>
       {displayError ? <div>{error}</div> : null}
       <div
         ref={ref}
@@ -148,7 +148,7 @@ const HTMLFormat = ({ input, isAnExpression, displayError, consoleError }: Forma
         }
       />
       <div ref={cancelContainerRef} />
-    </>
+    </div>
   );
 };
 
